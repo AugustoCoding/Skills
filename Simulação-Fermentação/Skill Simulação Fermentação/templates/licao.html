@@ -1,0 +1,155 @@
+<!doctype html>
+<!--
+  ESQUELETO DE LIÇÃO — copie para ./lessons/000N-nome-em-kebab.html
+
+  Regras que este esqueleto já materializa (detalhes em LESSON-FORMAT.md):
+    · uma lição, um alvo. Se aparecerem dois, divida em duas lições.
+    · conhecimento primeiro (atrito baixo), habilidade depois (atrito alto).
+    · pelo menos um loop de feedback em que o aluno produz e recebe resposta.
+    · todo parâmetro com unidade; sem fonte, marcado como ilustrativo.
+    · autocontido: abre com duplo clique, sem servidor e sem internet.
+
+  Apague as seções que a lição não usar. Apague estes comentários.
+-->
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lição 000N — {título}</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+
+<header class="licao">
+  <span class="numero">Lição 000N</span>
+  <h1>{Título — o que o aluno vai saber fazer ao final}</h1>
+  <!-- O GANCHO: por que esta lição, por que agora, ligado à missão.
+       Se você não consegue escrever isto, escolheu o alvo errado. -->
+  <p class="gancho">{Uma ou duas frases amarrando à missão do aluno.}</p>
+</header>
+
+<!-- ============ RECUPERAÇÃO ============
+     Espaçamento embutido: cobra algo da lição anterior, de memória,
+     ANTES de ensinar qualquer coisa nova. Custa três linhas. -->
+<div class="recuperacao">
+  <span class="rotulo">Antes de começar, de memória</span>
+  <p>{Pergunta sobre a lição anterior. Sem consultar.}</p>
+</div>
+
+<!-- ============ CONHECIMENTO ============
+     O mínimo necessário para a habilidade do dia. Uma ideia.
+     Cada afirmação com citação para uma fonte de RESOURCES.md. -->
+<h2>{A ideia}</h2>
+
+<p>{Explicação. Curta. Cite as fontes: <a href="{url}">Doran (2013), cap. X</a>.}</p>
+
+<p class="lateral">{Nota lateral: a ressalva, a exceção, a intuição que não cabe no fluxo principal.}</p>
+
+<!-- ============ O MODELO À VISTA ============
+     A equação com cada termo anotado no que significa fisicamente.
+     É aqui que se cria o hábito de ler equação como processo. -->
+<h2>O modelo</h2>
+
+<div class="equacao">dX/dt = μ·X
+dS/dt = −(1/Yx/s)·μ·X</div>
+
+<ul class="termos">
+  <li><code>μ·X</code> — {o que este termo faz no processo}</li>
+  <li><code>−(1/Yx/s)</code> — {por que negativo, por que divide}</li>
+</ul>
+
+<table>
+<thead><tr><th>Parâmetro</th><th class="num">Valor</th><th>Unidade</th><th>Procedência</th></tr></thead>
+<tbody>
+<tr><td><code>μmax</code></td><td class="num">0,40</td><td class="un">1/h</td><td>{fonte ou "ilustrativo"}</td></tr>
+<tr><td><code>Ks</code></td><td class="num">1,0</td><td class="un">g/L</td><td>{fonte ou "ilustrativo"}</td></tr>
+</tbody>
+</table>
+
+<p class="ilustrativo">Valores ilustrativos, escolhidos para dar uma curva de forma reconhecível. Não representam nenhum organismo específico.</p>
+
+<!-- ============ PRÁTICA ============
+     O loop de feedback. Escolha UM padrão de LESSON-FORMAT.md:
+     preveja-e-rode · conserte-o-código · diagnostique-o-gráfico · das-unidades-ao-modelo -->
+<h2>Sua vez</h2>
+
+<!-- Padrão "preveja e depois rode".
+     data-prever mantém as curvas ocultas até o aluno clicar em Revelar. -->
+<div class="previsao">
+  <p><strong>Antes de revelar:</strong> {a pergunta de previsão. Onde S chega a zero?
+  X para de crescer antes ou depois? O que muda se μmax dobrar?}</p>
+  <textarea placeholder="Escreva sua previsão aqui antes de revelar as curvas."></textarea>
+</div>
+
+<div class="simulador"
+     data-modelo="batelada"
+     data-tempo="24"
+     data-params="mu_max=0.4, Ks=1.0, Yxs=0.5, Ypx=0.2, X0=0.1, S0=20"
+     data-controles="mu_max, Ks"
+     data-prever="1"></div>
+
+<p>{Depois do reveal: o que olhar. Aponte o que a previsão errada normalmente
+erra e por quê — o erro de previsão é o conteúdo da lição.}</p>
+
+<!-- ============ VERIFICAÇÃO ============
+     Duas a quatro perguntas. Recuperação, não reconhecimento.
+     Alternativas com o MESMO número de palavras e caracteres.
+     Distratores tirados do catálogo de concepções errôneas de rules.md. -->
+<h2>Verificação</h2>
+
+<div class="quiz">
+<script type="application/json">
+[
+  {
+    "pergunta": "{Pergunta de recuperação}",
+    "tipo": "escolha",
+    "opcoes": ["{quatro palavras aqui}", "{quatro palavras aqui}", "{quatro palavras aqui}"],
+    "correta": 0,
+    "feedbacks": [
+      "{por que esta está certa — explique o mecanismo}",
+      "{qual concepção errônea leva a esta — nomeie}",
+      "{idem}"
+    ]
+  },
+  {
+    "pergunta": "{Pergunta numérica}",
+    "tipo": "numerica",
+    "resposta": 0.2,
+    "tolerancia": 0.01,
+    "unidade": "1/h",
+    "feedback": "{o mecanismo, não só o número}"
+  }
+]
+</script>
+</div>
+
+<!-- ============ FONTE PRIMÁRIA ============
+     Uma por lição, tirada de RESOURCES.md, com o que procurar lá dentro. -->
+<div class="fonte">
+  <span class="rotulo">Leia isto</span>
+  <a href="{url}">{Autor, título, capítulo ou seção}</a> — {o que procurar
+  especificamente, e por que vale o tempo do aluno.}
+</div>
+
+<!-- ============ FECHO ============ -->
+<h2>O que fica</h2>
+
+<p>{Uma frase: a vitória tangível desta lição.} O que vale reconsultar está
+comprimido em <a href="../reference/equacoes.html">balanços e cinética</a>.</p>
+
+<div class="pergunte">
+  <strong>Ficou algo obscuro?</strong> Pergunte. Sou seu professor nisto —
+  posso reexplicar de outro jeito, abrir a derivação, ou montar um exercício
+  diferente sobre o mesmo ponto. Perguntar não atrasa a próxima lição; travar em
+  silêncio, sim.
+</div>
+
+<nav class="licoes">
+  <a href="./000M-anterior.html">← Lição anterior</a>
+  <a href="./000O-proxima.html">Próxima lição →</a>
+</nav>
+
+<script src="../assets/quiz.js" defer></script>
+<script src="../assets/simulador.js" defer></script>
+</body>
+</html>

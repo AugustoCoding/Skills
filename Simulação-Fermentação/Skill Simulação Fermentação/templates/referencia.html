@@ -1,0 +1,79 @@
+<!doctype html>
+<!--
+  ESQUELETO DE DOCUMENTO DE REFERÊNCIA — copie para ./reference/{assunto}.html
+
+  Lições raramente são revisitadas; referências são. Este documento é a
+  essência COMPRIMIDA de uma ou mais lições, em formato de consulta rápida.
+
+  Diferenças em relação a uma lição:
+    · sem gancho, sem narrativa, sem loop de feedback — é consulta, não ensino
+    · densidade alta: tabelas, fórmulas, listas; frases só quando necessário
+    · imprime bem e cabe em poucas páginas
+    · sobrevive à mudança de missão: registra o que continua verdade
+
+  Já existem: equacoes.html (balanços e cinética) e python-simulacao.html
+  (solve_ivp). Antes de criar um novo, verifique se o conteúdo não pertence
+  a um destes — referência fragmentada demais deixa de ser consultável.
+
+  Apague estes comentários.
+-->
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Referência — {assunto}</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+
+<header class="licao">
+  <span class="numero">Referência</span>
+  <h1>{Assunto}</h1>
+  <p class="gancho">{Uma frase: o que esta folha cobre e quando recorrer a ela.}</p>
+</header>
+
+<h2>{Agrupamento}</h2>
+
+<!-- Fórmula com os termos anotados. O padrão desta pasta. -->
+<div class="equacao">{equação}</div>
+
+<ul class="termos">
+  <li><code>{termo}</code> — {significado físico, não paráfrase da álgebra}</li>
+  <li><code>{termo}</code> — {caso-limite que vale memorizar}</li>
+</ul>
+
+<!-- Tabela: o formato mais consultável. Use sempre que houver mais de
+     três itens comparáveis. Unidade em coluna própria. -->
+<table>
+<thead><tr><th>{Símbolo}</th><th>{Grandeza}</th><th>{Unidade}</th></tr></thead>
+<tbody>
+<tr><td><code>{X}</code></td><td>{...}</td><td class="un">g/L</td></tr>
+</tbody>
+</table>
+
+<p class="lateral">{Nota lateral: a ressalva que evita o erro clássico deste assunto.}</p>
+
+<h2>Checagens rápidas</h2>
+
+<!-- A seção mais útil de qualquer referência deste domínio: o que conferir
+     antes de acreditar no resultado. -->
+<ul>
+  <li>{As unidades fecham dos dois lados?}</li>
+  <li>{O sinal está certo?}</li>
+  <li>{O caso-limite dá o resultado conhecido?}</li>
+</ul>
+
+<h2>Fonte primária</h2>
+
+<div class="fonte">
+  <span class="rotulo">Para aprofundar</span>
+  <a href="{url}">{Autor, título, seção}</a> — {quando vale abrir.}
+</div>
+
+<nav class="licoes">
+  <a href="./equacoes.html">← Balanços e cinética</a>
+  <a href="./python-simulacao.html">Simulação em Python →</a>
+</nav>
+
+</body>
+</html>

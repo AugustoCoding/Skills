@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Referência — Simulação de Fermentação em Python</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+
+<header class="licao">
+  <span class="numero">Referência</span>
+  <h1>Simulação em Python</h1>
+  <p class="gancho">Folha de consulta do <code>solve_ivp</code> aplicada a fermentação: assinatura, escolha de método, eventos, tolerâncias e as armadilhas que produzem gráficos convincentes e errados.</p>
+</header>
+
+<h2>O esqueleto que sempre funciona</h2>
+
+<pre><code>import numpy as np
+from scipy.integrate import solve_ivp
+import matplotlib.pyplot as plt
+
+# 1. Parâmetros — com unidade em comentário, sempre
+mu_max = 0.40   # 1/h
+Ks     = 1.0    # g/L
+Yxs    = 0.5    # gX/gS
+Ypx    = 0.2    # gP/gX
+
+# 2. Modelo. Assinatura obrigatória: f(t, y)
+def batelada(t, y, mu_max, Ks, Yxs, Ypx):
+    X, S, P = y
+    mu = mu_max * S / (Ks + S)          # Monod, 1/h
+    dXdt = mu * X                        # g/(L·h)
+    dSdt = -dXdt / Yxs                   # negativo: substrato é consumido
+    dPdt = Ypx * dXdt
+    return [dXdt, dSdt, dPdt]
+
+# 3. Condições iniciais e janela — na MESMA unidade de tempo dos parâmetros
+y0 = [0.1, 20.0, 0.0]                    # X, S, P em g/L
+t_span = (0.0, 24.0)                     # h
+t_eval = np.linspace(*t_span, 300)       # onde queremos a saída
+
+# 4. Integração
+sol = solve_ivp(
+    batelada, t_span, y0,
+    t_eval=t_eval,
+    args=(mu_max, Ks, Yxs, Ypx),
+    method="RK45",
+    rtol=1e-8, atol=1e-10,
+)
+
+# 5. Nunca confie sem checar
+assert sol.success, sol.message
+
+# 6. Gráfico com eixos rotulados e unidade
+plt.plot(sol.t, sol.y[0], label="Biomassa X")
+plt.plot(sol.t, sol.y[1], "--", label="Substrato S")
+plt.plot(sol.t, sol.y[2], ":", label="Produto P")
+plt.xlabel("Tempo (h)")
+plt.ylabel("Concentração (g/L)")
+plt.legend()
+plt.tight_layout()
+plt.show()</code></pre>
+
+<h2>Assinatura</h2>
+
+<div class="equacao">solve_ivp(fun, t_span, y0, method="RK45", t_eval=None,
+          dense_output=False, events=None, args=None, **options)</div>
+
+<ul class="termos">
+  <li><code>fun(t, y)</code> — <strong>tempo primeiro</strong>. O antigo <code>odeint</code> usa <code>f(y, t)</code>: inverter é erro silencioso, porque o código roda e devolve lixo.</li>
+  <li><code>t_span</code> — tupla <code>(t0, tf)</code>, não um vetor.</li>
+  <li><code>y0</code> — vetor de condições iniciais, na ordem em que você desempacota dentro de <code>fun</code>.</li>
+  <li><code>args</code> — parâmetros extras passados a <code>fun</code>. Preferível a variáveis globais.</li>
+  <li><code>t_eval</code> — <strong>onde a saída é interpolada</strong>, não o passo de integração.</li>
+</ul>
+
+<h3>O que volta</h3>
+
+<table>
+<thead><tr><th>Atributo</th><th>Conteúdo</th></tr></thead>
+<tbody>
+<tr><td><code>sol.t</code></td><td>vetor de tempos <span class="un">(n_t,)</span></td></tr>
+<tr><td><code>sol.y</code></td><td>matriz de estados <span class="un">(n_vars, n_t)</span> — <code>sol.y[0]</code> é X</td></tr>
+<tr><td><code>sol.success</code></td><td><code>True</code> se a integração terminou bem</td></tr>
+<tr><td><code>sol.message</code></td><td>por que parou</td></tr>
+<tr><td><code>sol.t_events</code></td><td>tempos em que cada evento disparou</td></tr>
+<tr><td><code>sol.sol(t)</code></td><td>interpolador contínuo, se <code>dense_output=True</code></td></tr>
+</tbody>
+</table>
+
+<h2>Escolha de método</h2>
+
+<table>
+<thead><tr><th>Método</th><th>Tipo</th><th>Quando usar</th></tr></thead>
+<tbody>
+<tr><td><code>RK45</code></td><td>explícito</td><td>Padrão. Resolve quase toda fermentação não rígida.</td></tr>
+<tr><td><code>DOP853</code></td><td>explícito</td><td>Quando precisa de precisão alta e o sistema não é rígido.</td></tr>
+<tr><td><code>Radau</code></td><td>implícito</td><td>Sistema rígido. Robusto.</td></tr>
+<tr><td><code>BDF</code></td><td>implícito</td><td>Sistema rígido, especialmente de ordem maior.</td></tr>
+<tr><td><code>LSODA</code></td><td>adaptativo</td><td>Alterna sozinho entre rígido e não rígido. Bom quando você não sabe.</td></tr>
+</tbody>
+</table>
+
+<p class="lateral"><strong>Rigidez</strong> aparece quando o sistema tem constantes de tempo muito diferentes — crescimento em horas e um passo metabólico em segundos. O sintoma é o integrador ficar lentíssimo, dar passos minúsculos ou falhar. A cura é método implícito, não tolerância mais frouxa.</p>
+
+<h2>Tolerâncias</h2>
+
+<div class="equacao">erro_aceito ≈ rtol · |y| + atol</div>
+
+<p>Padrões do SciPy: <code>rtol=1e-3</code>, <code>atol=1e-6</code>. São <strong>frouxos demais</strong> para fermentação, onde X começa em 0,1 g/L e S está em 20 g/L — a mesma tolerância absoluta é grosseira para um e fina para o outro. Use <code>rtol=1e-8, atol=1e-10</code> como ponto de partida.</p>
+
+<p>Teste de sanidade que vale o esforço: rode com tolerância apertada e com tolerância frouxa. Se as curvas diferem visivelmente, o resultado é do integrador, não do modelo.</p>
+
+<h2>Eventos</h2>
+
+<p>Para responder "quando o substrato acaba?" sem procurar no vetor.</p>
+
+<pre><code>def substrato_esgotado(t, y, *args):
+    return y[1] - 0.01        # cruza zero quando S = 0,01 g/L
+
+substrato_esgotado.terminal = True    # para a integração aqui
+substrato_esgotado.direction = -1     # só quando S está caindo
+
+sol = solve_ivp(batelada, t_span, y0, args=(...),
+                events=substrato_esgotado)
+
+print(sol.t_events[0])        # instante do cruzamento, em h</code></pre>
+
+<p>O evento é uma função escalar cujo <strong>zero</strong> é procurado. <code>terminal=True</code> encerra a integração; <code>direction=-1</code> só dispara em cruzamento descendente.</p>
+
+<h2>Armadilhas</h2>
+
+<ul>
+  <li><strong><code>t_eval</code> não é passo.</strong> O passo é adaptativo e interno. Uma transição abrupta pode ficar suavizada no gráfico se <code>t_eval</code> for esparso — a curva mente sem o integrador errar.</li>
+  <li><strong>Ordem trocada em <code>fun</code>.</strong> <code>f(y, t)</code> em vez de <code>f(t, y)</code>. Roda, não avisa, entrega curva errada.</li>
+  <li><strong>Unidades misturadas.</strong> Parâmetros em h e <code>t_span</code> em min: a simulação "não sai do lugar". Erro de unidade mais frequente em código.</li>
+  <li><strong>Condição inicial degenerada.</strong> <code>X0 = 0</code> dá reta plana — é ponto fixo, não bug. <code>S0 = 0</code> idem.</li>
+  <li><strong>Concentração negativa.</strong> S levemente abaixo de zero no fim da batelada é artefato. Aperte a tolerância ou proteja: <code>S = max(S, 0)</code> dentro do modelo.</li>
+  <li><strong>Divisão por zero em Monod</strong> quando <code>Ks = 0</code> e <code>S = 0</code>. Ks nunca deve ser zero.</li>
+  <li><strong><code>sol.success</code> ignorado.</strong> Plotar sem checar é plotar uma integração que pode ter abortado no meio.</li>
+  <li><strong><code>sol.y</code> transposto.</strong> É <code>(n_vars, n_t)</code>: <code>sol.y[0]</code> é a série de X, não o estado no instante 0.</li>
+</ul>
+
+<h2>Escalas muito diferentes no gráfico</h2>
+
+<p>Quando S está em 100 g/L e X em 1 g/L, a curva de X vira uma linha rente ao eixo. Duas saídas honestas:</p>
+
+<pre><code># Eixo secundário
+fig, ax1 = plt.subplots()
+ax1.plot(sol.t, sol.y[1], "--", color="tab:orange", label="S")
+ax1.set_xlabel("Tempo (h)")
+ax1.set_ylabel("Substrato S (g/L)")
+
+ax2 = ax1.twinx()
+ax2.plot(sol.t, sol.y[0], color="tab:blue", label="X")
+ax2.set_ylabel("Biomassa X (g/L)")</code></pre>
+
+<p>A outra é escala logarítmica no eixo y (<code>ax.set_yscale("log")</code>), que também deixa a fase exponencial virar reta — útil para estimar μ visualmente.</p>
+
+<h2>Fonte primária</h2>
+
+<div class="fonte">
+  <span class="rotulo">Documentação oficial</span>
+  <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html">scipy.integrate.solve_ivp</a> —
+  a referência completa de métodos, eventos e opções. Vá direto à seção de <em>events</em> e à tabela de métodos quando a integração falhar.
+</div>
+
+<nav class="licoes">
+  <a href="./equacoes.html">← Referência: balanços e cinética</a>
+</nav>
+
+</body>
+</html>
