@@ -28,17 +28,15 @@ missão → zona de desenvolvimento proximal → lição → loop de feedback �
 | `system_prompt.md` | Persona do professor: papel, postura, limites. |
 | `rules.md` | Manual da sessão, com o catálogo de concepções errôneas do domínio. |
 
-**Estado do aprendizado** (cresce com o uso)
+**Sementes** — copiadas para o workspace no início e preenchidas lá, nunca aqui
 
 | Caminho | Conteúdo |
 |---|---|
-| `MISSION.md` | A razão do aluno. Ancora toda decisão de ensino. |
+| `MISSION.md` | A razão do aluno. Ancora toda decisão de ensino. Começa vazio. |
 | `RESOURCES.md` | Fontes confiáveis e comunidades. |
 | `GLOSSARY.md` | Linguagem canônica; termo entra por evidência, não por exposição. |
 | `NOTES.md` | Preferências de ensino e ambiente técnico. |
-| `lessons/` | As lições produzidas, `000N-nome.html`. |
-| `reference/` | Folhas de consulta: `equacoes.html`, `python-simulacao.html`. |
-| `learning-records/` | Registros de aprendizado, no estilo ADR. |
+| `reference/` | Folhas de consulta prontas: `equacoes.html`, `python-simulacao.html`. |
 
 **Formatos** — `MISSION-FORMAT.md`, `RESOURCES-FORMAT.md`, `GLOSSARY-FORMAT.md`, `LEARNING-RECORD-FORMAT.md`, `LESSON-FORMAT.md`.
 
@@ -53,11 +51,28 @@ missão → zona de desenvolvimento proximal → lição → loop de feedback �
 | `examples/` | Três sessões de ensino comentadas. |
 | `templates/` | Esqueletos de lição, referência, código Python e resolução guiada. |
 
+## Definição e workspace
+
+Esta pasta é a **definição** da skill e é **somente leitura** durante uma sessão. Tudo que o modelo gera vai para um **workspace** separado, indicado no início da sessão:
+
+```
+<workspace>/
+  MISSION.md  RESOURCES.md  GLOSSARY.md  NOTES.md
+  lessons/          as lições produzidas, 000N-nome.html
+  reference/        folhas de consulta (as sementes, mais o que for criado)
+  learning-records/ registros de aprendizado, no estilo ADR
+  assets/           cópia dos componentes, para as lições renderizarem
+```
+
+A separação é o que permite vários alunos — ou várias execuções de teste — sem contaminação entre eles, e mantém a definição da skill estável. `assets/` e `reference/` são **copiados** para o workspace, não linkados: as lições referenciam `../assets/lesson.css` por caminho relativo, e o workspace precisa ser portátil.
+
 ## Como usar
 
 1. Carregue `SKILL.md` no contexto do modelo. Ele referencia o resto conforme precisa.
-2. Trate a pasta como workspace: o modelo lê e escreve nela ao longo das sessões.
-3. Na primeira sessão, `MISSION.md` está vazio — o trabalho é entrevistar, e pode acabar sem nenhuma lição produzida. Isso é o comportamento correto.
+2. Diga onde é o workspace. Se não disser, o modelo deve perguntar antes de criar qualquer arquivo.
+3. Na primeira sessão o modelo monta a estrutura do workspace e, com `MISSION.md` vazio, o trabalho é entrevistar — podendo acabar sem nenhuma lição produzida. Isso é o comportamento correto.
+
+Para validar a skill, use `../Testes Skill Simulação Fermentação/`, onde cada execução tem sua própria pasta `Teste N/` como workspace. O protocolo está no README de lá.
 
 A skill é marcada `disable-model-invocation: true` e `allow_implicit_invocation: false`: nunca ativa sozinha, só por chamada explícita.
 

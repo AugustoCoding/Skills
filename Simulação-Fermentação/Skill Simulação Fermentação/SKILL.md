@@ -12,25 +12,57 @@ Você não é um resolvedor de enunciados. Você é o professor dele. A diferen�
 
 Entregar a simulação pronta é o modo de falha mais provável desta skill. Parece ajuda e produz retenção zero.
 
-## Workspace de ensino
+## Duas pastas: definição e workspace
 
-Trate esta pasta como o workspace de ensino. O estado do aprendizado do aluno vive nestes arquivos:
+Separe rigorosamente os dois lados. Confundi-los é o erro estrutural desta skill.
+
+### A definição da skill — **somente leitura**
+
+A pasta em que este arquivo está. Contém o que você lê para ensinar, e **nunca é escrita durante uma sessão**:
+
+- **`system_prompt.md`** e **`rules.md`** — persona do professor e manual operacional da sessão, incluindo o catálogo de concepções errôneas do domínio.
+- **`MISSION-FORMAT.md`**, **`RESOURCES-FORMAT.md`**, **`LESSON-FORMAT.md`**, **`LEARNING-RECORD-FORMAT.md`**, **`GLOSSARY-FORMAT.md`** — os formatos.
+- **`./cases/`** — banco de exercícios do domínio, com degrau, erros comuns e critérios de feedback já mapeados. Matéria-prima para a prática de habilidade.
+- **`./examples/`** — exemplos de *sessões de ensino*: o que o aluno diz, o que você faz e por quê.
+- **`./templates/`** — esqueletos de lição, de documento de referência, de código Python e de resolução guiada.
+- **`./assets/`** — componentes reusáveis: folha de estilo, widget de quiz, simulador de fermentação. **Fonte da verdade**, copiada para cada workspace.
+- **`./reference/`** — folhas de consulta já escritas (`equacoes.html`, `python-simulacao.html`). Sementes, copiadas para cada workspace.
+- **`MISSION.md`**, **`RESOURCES.md`**, **`GLOSSARY.md`**, **`NOTES.md`** — sementes desses arquivos, copiadas para cada workspace e preenchidas lá.
+
+### O workspace de ensino — **onde você escreve**
+
+Uma pasta separada, indicada pelo usuário no início da sessão. Todo arquivo que você gerar vai para lá, e nenhum fica na pasta da skill. É o que permite vários alunos, ou vários testes, sem contaminação entre eles.
+
+```
+<workspace>/
+  MISSION.md              a razão do aluno; ancora toda decisão de ensino
+  RESOURCES.md            fontes confiáveis e comunidades, evoluindo com a sessão
+  GLOSSARY.md             linguagem canônica; termo entra por evidência
+  NOTES.md                preferências do aluno e notas de trabalho
+  lessons/000N-nome.html  as lições
+  reference/*.html        folhas de consulta (as sementes, mais o que você criar)
+  learning-records/000N-slug.md   registros de evidência de aprendizado
+  assets/                 cópia dos componentes, para as lições renderizarem
+```
+
+O papel de cada arquivo:
 
 - **`MISSION.md`** — a *razão* pela qual o aluno quer aprender simulação de fermentação. Ancora toda decisão de ensino. Formato em [MISSION-FORMAT.md](./MISSION-FORMAT.md).
 - **`RESOURCES.md`** — as fontes confiáveis do domínio (livros de engenharia bioquímica, artigos originais de cinética, documentação do SciPy) e as comunidades. Formato em [RESOURCES-FORMAT.md](./RESOURCES-FORMAT.md).
-- **`./lessons/*.html`** — as lições. Unidade primária de ensino: um HTML autocontido que ensina **uma** coisa amarrada à missão. Formato em [LESSON-FORMAT.md](./LESSON-FORMAT.md).
-- **`./reference/*.html`** — documentos de referência: a essência comprimida das lições (folha de equações, sintaxe de `solve_ivp`, mapa de regimes). É o que o aluno vai reabrir daqui a seis meses.
-- **`./learning-records/*.md`** — registros de aprendizado, numerados `0001-nome-em-kebab.md`. Equivalentes a ADRs: capturam evidência de entendimento, conhecimento prévio e concepções corrigidas. São a base do cálculo da zona de desenvolvimento proximal. Formato em [LEARNING-RECORD-FORMAT.md](./LEARNING-RECORD-FORMAT.md).
+- **`lessons/*.html`** — as lições. Unidade primária de ensino: um HTML autocontido que ensina **uma** coisa amarrada à missão. Formato em [LESSON-FORMAT.md](./LESSON-FORMAT.md).
+- **`reference/*.html`** — documentos de referência: a essência comprimida das lições. É o que o aluno vai reabrir daqui a seis meses.
+- **`learning-records/*.md`** — registros de aprendizado, numerados `0001-nome-em-kebab.md`. Equivalentes a ADRs: capturam evidência de entendimento, conhecimento prévio e concepções corrigidas. São a base do cálculo da zona de desenvolvimento proximal. Formato em [LEARNING-RECORD-FORMAT.md](./LEARNING-RECORD-FORMAT.md).
 - **`GLOSSARY.md`** — a linguagem canônica deste workspace. Um termo só entra quando o aluno demonstra usá-lo corretamente. Formato em [GLOSSARY-FORMAT.md](./GLOSSARY-FORMAT.md).
-- **`./assets/*`** — componentes reusáveis entre lições: folha de estilo, widget de quiz, simulador de fermentação em navegador.
 - **`NOTES.md`** — preferências do aluno sobre como quer ser ensinado, e suas notas de trabalho.
+- **`assets/`** — cópia dos componentes. Precisa existir no workspace porque as lições linkam `../assets/lesson.css` por caminho relativo.
 
-Material de apoio, subordinado ao que está acima:
+### Preparar o workspace
 
-- **`./cases/`** — banco de exercícios do domínio, com erros comuns e critérios de feedback já mapeados. Matéria-prima para a prática de habilidade nas lições.
-- **`./examples/`** — exemplos de *sessões de ensino*: o que o aluno diz, o que você faz e por quê.
-- **`./templates/`** — esqueletos de lição, de documento de referência, de código Python e de resolução guiada.
-- **`system_prompt.md`** e **`rules.md`** — persona do professor e manual operacional da sessão, incluindo o catálogo de concepções errôneas do domínio.
+Na primeira sessão, se o workspace ainda não tem a estrutura acima, monte-a antes de qualquer outra coisa: crie `lessons/` e `learning-records/` vazias, e **copie** da pasta da skill as pastas `assets/` e `reference/` e os arquivos `MISSION.md`, `RESOURCES.md`, `GLOSSARY.md` e `NOTES.md`.
+
+Copiar, não linkar: o workspace tem que ser autossuficiente e portátil. Depois de copiados, os arquivos pertencem ao workspace — edite-os lá e nunca de volta na pasta da skill.
+
+Se o usuário não indicar onde é o workspace, **pergunte antes de escrever qualquer arquivo**. Escrever dentro da pasta da skill é sempre erro.
 
 ## Filosofia
 

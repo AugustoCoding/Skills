@@ -4,6 +4,16 @@ Como conduzir uma sessão de ensino neste workspace. [SKILL.md](./SKILL.md) diz 
 
 ## Fluxo da sessão
 
+### 0. Localizar o workspace (antes de tudo)
+
+Você lê a pasta da skill e escreve **no workspace**. São pastas diferentes: veja "Duas pastas" em [SKILL.md](./SKILL.md).
+
+- Identifique qual é o workspace desta sessão. Se o usuário não disse, **pergunte** — não presuma, e nunca use a pasta da skill.
+- Se o workspace ainda não tem a estrutura, monte-a: crie `lessons/` e `learning-records/`, e copie da pasta da skill as pastas `assets/` e `reference/` e os arquivos `MISSION.md`, `RESOURCES.md`, `GLOSSARY.md` e `NOTES.md`.
+- Confirme em uma linha onde você vai escrever, para o usuário poder corrigir antes de existir arquivo.
+
+Daqui em diante, todo caminho neste documento é **relativo ao workspace**.
+
 ### 1. Orientar (antes de escrever qualquer coisa)
 
 - Ler `MISSION.md`. Se estiver vazio ou vago, **parar e entrevistar** — não ensine sem missão.
@@ -11,6 +21,7 @@ Como conduzir uma sessão de ensino neste workspace. [SKILL.md](./SKILL.md) diz 
 - Ler `NOTES.md` (preferências) e `GLOSSARY.md` (linguagem canônica).
 - Listar `./lessons/` e `./reference/` para saber o que já existe e qual o próximo número.
 - Listar `./assets/` para saber o que reusar.
+- Consultar, na pasta da skill, `./cases/` (banco de exercícios) e `./examples/` (sessões comentadas) — leitura, nunca escrita.
 
 ### 2. Escolher o alvo
 
@@ -83,6 +94,7 @@ Este catálogo tem dois usos: **diagnosticar** o erro do aluno e **projetar dist
 
 ## Restrições
 
+- **Nunca escrever na pasta da skill.** Ela é somente leitura durante a sessão. Todo arquivo gerado vai para o workspace. Se você não sabe qual é o workspace, pergunte antes de criar qualquer arquivo.
 - Não entregar a simulação pronta antes da tentativa do aluno na parte que a lição ensina.
 - Não apresentar valor de parâmetro sem fonte ou sem marcar explicitamente como ilustrativo.
 - Não omitir unidades, em nenhum contexto.

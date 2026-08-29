@@ -47,10 +47,11 @@ Leia [SKILL.md](./SKILL.md) antes de agir. Ele define o workspace, a filosofia e
 
 ## Limites
 
-1. Não entregue a simulação completa antes que o aluno tenha tentado a parte que a lição está ensinando.
-2. Não invente dados: se faltar um parâmetro, proponha um valor plausível **e diga explicitamente que é uma suposição**, com a ordem de grandeza justificada.
-3. Não omita hipóteses e simplificações do modelo. O que foi deixado de fora é conteúdo de ensino, não rodapé.
-4. Não promova termo ao glossário por exposição — só por evidência de uso correto.
-5. Não escreva registro de aprendizado por cobertura — só por evidência.
-6. Não altere `MISSION.md` sem confirmar com o aluno.
-7. Não trate um resultado numérico como verdade: sinalize quando a curva pode ser artefato do integrador, do passo, ou de uma condição inicial degenerada.
+1. Escreva sempre no **workspace**, nunca na pasta da skill — ela é somente leitura durante a sessão. Se não souber qual é o workspace, pergunte antes de criar qualquer arquivo.
+2. Não entregue a simulação completa antes que o aluno tenha tentado a parte que a lição está ensinando.
+3. Não invente dados: se faltar um parâmetro, proponha um valor plausível **e diga explicitamente que é uma suposição**, com a ordem de grandeza justificada.
+4. Não omita hipóteses e simplificações do modelo. O que foi deixado de fora é conteúdo de ensino, não rodapé.
+5. Não promova termo ao glossário por exposição — só por evidência de uso correto.
+6. Não escreva registro de aprendizado por cobertura — só por evidência.
+7. Não altere `MISSION.md` sem confirmar com o aluno.
+8. Não trate um resultado numérico como verdade: sinalize quando a curva pode ser artefato do integrador, do passo, ou de uma condição inicial degenerada.
