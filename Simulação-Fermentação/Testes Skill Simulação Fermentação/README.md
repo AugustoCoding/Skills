@@ -1,9 +1,11 @@
 # Testes da Skill Simulação Fermentação
 
-Cada execução de teste tem sua própria pasta aqui, e **essa pasta é o workspace** da sessão: todo arquivo que o modelo gerar ao usar a skill vai para dentro dela.
+Cada execução de teste tem sua própria pasta aqui, com a documentação do teste e a saída do modelo lado a lado. O objetivo não é só saber se funcionou: é conseguir **reproduzir** a execução meses depois e enxergar a evolução da skill entre uma versão e outra.
 
 ```
 Testes Skill Simulação Fermentação/
+  INDEX.md            histórico: uma linha por teste
+  TEMPLATE-SESSAO.md  o registro em branco, para copiar
   Teste 1/
   Teste 2/
   ...
@@ -15,30 +17,41 @@ A pasta da skill (`../Skill Simulação Fermentação/`) é somente leitura dura
 
 ```
 Teste N/
-  SESSAO.md         o que foi testado: exercício inicial, falas do "aluno", observações
-  MISSION.md        \
-  RESOURCES.md       |  gerados pelo modelo a partir das sementes da skill
-  GLOSSARY.md        |
-  NOTES.md          /
-  lessons/INDEX.md  o índice das lições
-  lessons/*.html    as lições produzidas, nomeadas pelo conteúdo
-  reference/        folhas de consulta
-  learning-records/ registros de aprendizado
-  assets/           cópia dos componentes, para as lições abrirem
+  SESSAO.md      o registro do teste: versão da skill, ambiente, prompt exato, avaliação
+  EXERCICIO.md   o enunciado usado como entrada, e o que ele testa de propósito
+  com-skill/     workspace do modelo COM a skill — tudo que ele gerar cai aqui
+  sem-skill/     opcional: a mesma entrada, sem a skill, para comparar
 ```
 
-`SESSAO.md` é o único arquivo escrito por você, não pelo modelo. Registre o mínimo para o teste ser reproduzível: o exercício que você mandou, o papel que fez de aluno (que dúvida levantou depois, onde errou de propósito) e o que chamou atenção no resultado.
+`SESSAO.md` e `EXERCICIO.md` são escritos por você; `com-skill/` é escrito pelo modelo. Manter os dois lados separados é o que permite apagar e refazer a execução sem perder a documentação.
+
+**`EXERCICIO.md` não vai para o modelo.** Ele contém o gabarito das armadilhas plantadas no enunciado. Para o modelo vai só o bloco de prompt de `SESSAO.md`.
+
+## Rastreabilidade
+
+Um teste só vale se der para responder, depois, "com o que exatamente isso foi rodado?". O `SESSAO.md` registra, no mínimo:
+
+- **commit da skill** e branch, mais se havia alteração não commitada;
+- **como a skill foi instalada** e com que nome de pasta;
+- **modelo exato**, cliente e versão, modo e permissões;
+- **se havia acesso à web** — muda o comportamento, porque `RESOURCES.md` vem todo `[a verificar]` e a skill proíbe citar fonte não conferida;
+- **o prompt literal**, e os turnos seguintes na ordem, com o que cada um testa;
+- **os achados** e o commit que os corrigiu.
+
+Depois de fechar o teste, acrescente a linha em [INDEX.md](./INDEX.md).
 
 ## Como rodar um teste
 
-1. Crie `Teste N/` vazia.
-2. Carregue `../Skill Simulação Fermentação/SKILL.md` no contexto do modelo.
-3. Diga que o workspace é `Teste N/` — indicação explícita vence o padrão. Para testar também a escolha automática de pasta, **não diga nada** e verifique se o modelo criou `./aula-fermentacao/` e avisou onde escreveu.
-4. Mande um exercício, e só. Não responda a entrevista nenhuma: se o modelo perguntar a missão, o nível ou até onde você chegou, o teste já falhou o critério principal.
-5. Depois da lição entregue, volte com **uma dúvida específica** sobre um trecho dela — é assim que se testa a nota de dúvida.
-6. Ao final, escreva `SESSAO.md` e abra as lições geradas no navegador para conferir que renderizam.
+1. Crie `Teste N/`, copie [TEMPLATE-SESSAO.md](./TEMPLATE-SESSAO.md) para `Teste N/SESSAO.md` e crie `Teste N/com-skill/`.
+2. Escreva `Teste N/EXERCICIO.md`: o enunciado e, em tabela, o que cada armadilha deve provocar. Enunciado sem armadilha declarada é difícil de avaliar depois.
+3. Preencha as seções 1 a 4 do `SESSAO.md` **antes** de rodar — inclusive o prompt exato. Prompt improvisado na hora não é reproduzível.
+4. Em outra sessão, carregue a skill e cole o prompt. Indique `Teste N/com-skill/` como workspace quando quiser a saída dentro do teste; **não indique nada** quando o que estiver sendo testado for a escolha automática de pasta.
+5. Faça o papel do aluno pelos turnos previstos. Não responda o que não foi perguntado: se o modelo entrevistar, o teste já falhou o critério principal — registre e siga.
+6. Volte com **uma dúvida específica** sobre um trecho da lição. É assim que se testa a nota de dúvida.
+7. Abra a lição no navegador e confira que renderiza, que o quiz responde e que o simulador desenha.
+8. Preencha as seções 5 a 9, acrescente a linha no `INDEX.md`, e abra os commits de correção que os achados exigirem.
 
-Para a comparação com e sem a skill, rode o mesmo exercício inicial nas duas condições e guarde as duas saídas — por exemplo em `Teste N/com-skill/` e `Teste N/sem-skill/`. A diferença que interessa não é a qualidade do código produzido: é se o modelo ensinou ou apenas resolveu.
+Para comparar com e sem a skill, rode o mesmo prompt nas duas condições e guarde a saída crua em `sem-skill/`. A diferença que interessa não é a qualidade do código produzido: é se o modelo ensinou ou apenas resolveu.
 
 ## O que olhar ao avaliar
 

@@ -21,6 +21,6 @@ A separação entre a pasta da skill e a pasta de testes é proposital: a pasta 
 Skill para simulação de processos de fermentação em Python, com foco didático: modelagem, código executável, explicação técnica e interpretação de resultados.
 
 - [`Simulação-Fermentação/Skill Simulação Fermentação/`](Simulação-Fermentação/Skill%20Simulação%20Fermentação/) — definição da skill (system prompt, regras, exemplos, casos guiados, templates e recursos).
-- [`Simulação-Fermentação/Testes Skill Simulação Fermentação/`](Simulação-Fermentação/Testes%20Skill%20Simulação%20Fermentação/) — testes da skill (ainda vazia).
+- [`Simulação-Fermentação/Testes Skill Simulação Fermentação/`](Simulação-Fermentação/Testes%20Skill%20Simulação%20Fermentação/) — testes da skill: uma pasta por execução, com o registro de reprodutibilidade e a saída do modelo.
 
 Ainda em desenvolvimento.
