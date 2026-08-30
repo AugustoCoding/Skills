@@ -11,7 +11,7 @@ Preencha os campos vazios durante e depois da sessão. Os campos já preenchidos
 | Teste | 2 |
 | Data | {AAAA-MM-DD — dia da execução} |
 | Quem rodou | Augusto |
-| Foco | A lição resolve a questão inteira num arquivo, com a estação de código maior que a teoria, duas previsões, equações em MathML e nenhum link interno? E, num workspace que já existe, ela continua de onde parou em vez de recomeçar? |
+| Foco | A lição resolve a questão inteira num arquivo, com a estação de código maior que a teoria, duas previsões, equações em MathML e nenhum link interno — a partir de um enunciado corrido, sem itens? |
 
 ## 2. Versão da skill
 
@@ -43,9 +43,9 @@ Para comparar com o Teste 1, rode com o **mesmo modelo e o mesmo modo** (Opus 5,
 
 ### O estado inicial do workspace
 
-`Teste 2/com-skill/` **já vem preenchido**, com a saída do Teste 1 dentro: missão inferida, dois registros de aprendizado, uma lição no índice. As pastas `assets/` e `reference/` foram atualizadas para a versão atual da skill, como manda o passo 0 do `rules.md`.
+`Teste 2/com-skill/` começa **vazio**. É a regra do protocolo: todo teste parte do zero, para que a saída seja inteiramente atribuível àquela execução e à versão da skill registrada acima.
 
-É de propósito: o Teste 1 verificou a primeira sessão, este verifica a **sessão de retorno** — recuperação, índice que cresce, missão revisada e a ponte de pré-requisito.
+Isso significa que o modelo tem de montar a estrutura do workspace, inferir a missão do nada e **não** produzir pergunta de recuperação — não há lição anterior — nem ponte de pré-requisito, porque não há lacuna registrada.
 
 ### Prompt exato (turno 1)
 
@@ -78,8 +78,9 @@ Só mande o próximo depois que ele terminar o anterior.
 
 ### O que este teste **não** cobre
 
-- **Escolha automática de pasta.** O workspace é indicado no prompt, porque a saída precisa cair dentro de `Teste 2/`. Fica para o Teste 3.
-- **Sessão de retorno sem exercício** (o fallback para `cases/`). Também Teste 3.
+- **Escolha automática de pasta.** O workspace é indicado no prompt, porque a saída precisa cair dentro de `Teste 2/`.
+- **Sessão de retorno** — recuperação, índice que cresce, missão revisada e ponte de pré-requisito só existem em workspace com histórico. Como todo teste parte do zero, esses comportamentos precisam de um teste com dois exercícios na mesma sessão. Fica anotado como próximo alvo.
+- **Retorno sem exercício** (o fallback para `cases/`).
 
 ## 5. Saída
 
@@ -104,11 +105,11 @@ Onde o modelo escreveu: `Teste 2/com-skill/`
 
 - [ ] Não entrevistou
 - [ ] Avisou onde escreveu, em uma linha, depois de escrever
-- [ ] **Continuou o workspace** em vez de recomeçar: leu os registros, atualizou `MISSION.md`, acrescentou linha ao `INDEX.md`
-- [ ] Pergunta de recuperação presente, cobrando algo da lição anterior
+- [ ] Montou a estrutura do workspace e inferiu `MISSION.md` do zero, marcando a inferência com data e procedência
+- [ ] **Sem pergunta de recuperação** (não há lição anterior) e **sem ponte** (não há lacuna registrada)
+- [ ] `lessons/INDEX.md` criado junto com a lição
 - [ ] Resolveu a questão inteira num arquivo, sem prometer continuação
 - [ ] Declarou em uma linha onde apostou que estava a dificuldade
-- [ ] **Ponte como estação zero**, já que o registro `0001` deixa o degrau 3 em aberto
 - [ ] Falou pouco no chat
 - [ ] Abriu o arquivo via CLI
 - [ ] Registro de aprendizado só por evidência
@@ -125,7 +126,6 @@ Onde o modelo escreveu: `Teste 2/com-skill/`
 - [ ] Equações em MathML, não em texto cru
 - [ ] Botão de claro/escuro presente e funcionando
 - [ ] Nenhum link interno, nenhuma promessa de continuação
-- [ ] **Não imitou o formato da lição antiga** que estava no workspace
 - [ ] Quiz com duas perguntas
 
 **Conteúdo específico deste exercício**

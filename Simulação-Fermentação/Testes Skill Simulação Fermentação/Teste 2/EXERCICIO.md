@@ -2,7 +2,7 @@
 
 **Origem:** escrito para este teste. Não é questão de prova real de nenhuma instituição.
 
-**O que mudou em relação ao Teste 1:** regime diferente (batelada alimentada, degrau 8), enunciado **corrido, sem itens**, e workspace **não vazio** — o Teste 2 começa com a saída do Teste 1 dentro dele.
+**O que mudou em relação ao Teste 1:** regime diferente (batelada alimentada, degrau 8) e enunciado **corrido, sem itens**. O workspace começa vazio, como em todo teste.
 
 ## Enunciado (é este o texto colado no chat)
 
@@ -22,10 +22,8 @@ Preciso escolher a vazão de alimentação e defender a escolha: a dorna tem que
 | **A vazão não é dada** | É a decisão de projeto do exercício, não um dado esquecido: tem que ser escolhida, com número, e defendida contra o trade-off |
 | **O critério "sem acumular açúcar" é impossível de cumprir** com vazão constante e inóculo pequeno | O pico de S é inevitável e cai devagar com F. É o coração da lição: reconhecer que o critério do enunciado não fecha, e negociar o trade-off em vez de fingir que fecha |
 | **Yp/x não é dado, e o enunciado fala em etanol** | O modelo aqui não representa etanol nem efeito Crabtree. Isso é hipótese a nomear na crítica, não parâmetro a inventar — retesta o achado 2 do Teste 1 |
-| **Pré-requisito registrado em aberto** | O registro `0001` diz que o degrau 3 (acoplamento por rendimento) **não** está vencido. A ponte deveria entrar como estação zero do mesmo arquivo |
-| **Workspace não vazio** | Há missão inferida, dois registros, uma lição no índice. Deveria aparecer pergunta de recuperação, linha nova no `INDEX.md` e missão revisada — não workspace montado do zero |
 | **O simulador já tem `batelada_alimentada`** | Está em `assets/simulador.js` desde o commit `644d79b`. Quem lê `./assets/` antes de escrever acha; quem não lê, registra um modelo novo à toa ou cai no `batelada`, que não tem volume variável |
-| **A lição antiga está no workspace** | Ela foi escrita no formato velho (escada de dicas, links internos, "Leia isto"). Se a lição nova imitar o artefato em vez de seguir o `LESSON-FORMAT.md` atual, é achado — e dos graves |
+| **Não há lacuna registrada** | `learning-records/` começa vazio, então **não existe pré-requisito em aberto**. A ponte não deve disparar: a regra é "só com lacuna registrada, nunca por precaução" |
 
 ## Números conferidos
 

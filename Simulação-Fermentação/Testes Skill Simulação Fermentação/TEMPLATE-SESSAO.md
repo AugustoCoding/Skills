@@ -56,11 +56,20 @@ O acesso à web importa mais do que parece: `RESOURCES.md` vem todo marcado `[a 
 
 ## 5. Saída
 
-Onde o modelo escreveu: `{caminho}`
+Onde o modelo escreveu: `{caminho}` — a pasta começou vazia, como manda o protocolo.
 
 ```text
 {árvore dos arquivos gerados}
 ```
+
+Meça as palavras por estação — é o número que diz se a estação de código ficou maior que a teoria:
+
+| Estação | Palavras |
+|---|---|
+| Modelo (teoria de fermentação) | {≤ 400} |
+| Código | {deve ser a maior} |
+| Resultado | |
+| Crítica | |
 
 ## 6. Avaliação
 

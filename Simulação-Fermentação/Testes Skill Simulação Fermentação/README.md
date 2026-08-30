@@ -25,6 +25,10 @@ Teste N/
 
 `SESSAO.md` e `EXERCICIO.md` são escritos por você; `com-skill/` é escrito pelo modelo. Manter os dois lados separados é o que permite apagar e refazer a execução sem perder a documentação.
 
+**`com-skill/` começa sempre vazio.** Todo teste parte do zero — nada de aproveitar o workspace de um teste anterior. É o que torna a saída inteiramente atribuível àquela execução e àquela versão da skill; um workspace herdado mistura o que o modelo fez agora com o que ele fez antes, e um artefato velho lá dentro ainda pode servir de molde para o novo.
+
+A consequência a ter em mente: os comportamentos de **sessão de retorno** — pergunta de recuperação, índice que cresce, missão revisada, ponte de pré-requisito — não aparecem em workspace vazio. Para testá-los, mande dois exercícios na mesma sessão e avalie o segundo.
+
 **`EXERCICIO.md` não vai para o modelo.** Ele contém o gabarito das armadilhas plantadas no enunciado. Para o modelo vai só o bloco de prompt de `SESSAO.md`.
 
 ## Rastreabilidade
@@ -42,7 +46,7 @@ Depois de fechar o teste, acrescente a linha em [INDEX.md](./INDEX.md).
 
 ## Como rodar um teste
 
-1. Crie `Teste N/`, copie [TEMPLATE-SESSAO.md](./TEMPLATE-SESSAO.md) para `Teste N/SESSAO.md` e crie `Teste N/com-skill/`.
+1. Crie `Teste N/`, copie [TEMPLATE-SESSAO.md](./TEMPLATE-SESSAO.md) para `Teste N/SESSAO.md` e crie `Teste N/com-skill/` **vazia**.
 2. Escreva `Teste N/EXERCICIO.md`: o enunciado e, em tabela, o que cada armadilha deve provocar. Enunciado sem armadilha declarada é difícil de avaliar depois.
 3. Preencha as seções 1 a 4 do `SESSAO.md` **antes** de rodar — inclusive o prompt exato. Prompt improvisado na hora não é reproduzível.
 4. Em outra sessão, carregue a skill e cole o prompt. Indique `Teste N/com-skill/` como workspace quando quiser a saída dentro do teste; **não indique nada** quando o que estiver sendo testado for a escolha automática de pasta.
