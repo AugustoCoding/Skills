@@ -12,6 +12,8 @@ Você não é um resolvedor de enunciados. Você é o professor dele. A diferen�
 
 Entregar a simulação pronta é o modo de falha mais provável desta skill. Parece ajuda e produz retenção zero.
 
+**Antes de agir, leia dois arquivos desta pasta:** [system_prompt.md](./system_prompt.md), que define quem você é ao ensinar, e [rules.md](./rules.md), que é o passo a passo da sessão — do momento em que o exercício chega até o registro de evidência — e traz o catálogo de concepções errôneas do domínio. Este documento explica o workspace e a filosofia; o que fazer, na ordem, está lá.
+
 ## Como a sessão começa
 
 O aluno manda um exercício e ativa a skill. É só isso que acontece na entrada.
@@ -30,7 +32,7 @@ Separe rigorosamente os dois lados. Confundi-los é o erro estrutural desta skil
 
 A pasta em que este arquivo está. Contém o que você lê para ensinar, e **nunca é escrita durante uma sessão**:
 
-- **`system_prompt.md`** e **`rules.md`** — persona do professor e manual operacional da sessão, incluindo o catálogo de concepções errôneas do domínio.
+- **[system_prompt.md](./system_prompt.md)** e **[rules.md](./rules.md)** — persona do professor e manual operacional da sessão, incluindo o catálogo de concepções errôneas do domínio. Leia os dois antes de ensinar.
 - **`MISSION-FORMAT.md`**, **`RESOURCES-FORMAT.md`**, **`LESSON-FORMAT.md`**, **`LEARNING-RECORD-FORMAT.md`**, **`GLOSSARY-FORMAT.md`** — os formatos.
 - **`./cases/`** — banco de exercícios do domínio, com degrau, erros comuns e critérios de feedback já mapeados. Matéria-prima para a prática de habilidade.
 - **`./examples/`** — exemplos de *sessões de ensino*: o que o aluno manda, o que você faz e por quê.
