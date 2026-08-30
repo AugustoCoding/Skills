@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Escolher a vazão da dorna de propagação — batelada alimentada em Python</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+
+<header class="licao">
+  <span class="etiqueta">Batelada alimentada · degrau 8</span>
+  <h1>Escolher a vazão da dorna — e defender a escolha com número</h1>
+  <p class="gancho">Sua dorna de 5 L tem 1,0 L de inóculo e uma bomba de mosto a 200 g/L de ART.
+  Ao final desta lição você tem o código que diz em quanto tempo ela enche, quanta levedura sai,
+  e — o que o enunciado realmente cobra — <em>quanto açúcar ficou boiando no meio no caminho</em>.</p>
+  <p class="lateral"><strong>Onde apostei que está a dificuldade:</strong> não é Monod, que o enunciado
+  já entregou pronto. É o termo de diluição que o volume variável cria em <code>dX/dt</code> — e a
+  descoberta, no meio do caminho, de que <em>nenhuma</em> vazão constante razoável evita o acúmulo de
+  açúcar. Se você já monta balanço com volume variável de olhos fechados, pule para “O código”.</p>
+</header>
+
+<!-- ============ ESTAÇÃO 1 — MODELO ============ -->
+<h2>O modelo</h2>
+
+<p>Três variáveis de estado: biomassa <code>X</code> (g/L), ART <code>S</code> (g/L) e volume
+<code>V</code> (L). A bomba entrega mosto a vazão constante <code>F</code> (L/h) com <code>Sin</code>
+= 200 g/L, e nada sai da dorna — por isso o volume só cresce.</p>
+
+<div class="equacao">
+  <math display="block">
+    <mfrac><mrow><mi>d</mi><mi>V</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+    <mo>=</mo><mi>F</mi>
+  </math>
+  <math display="block">
+    <mfrac><mrow><mi>d</mi><mi>X</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+    <mo>=</mo><mo>(</mo><mi>μ</mi><mo>−</mo>
+    <mfrac><mi>F</mi><mi>V</mi></mfrac><mo>)</mo><mo>⋅</mo><mi>X</mi>
+  </math>
+  <math display="block">
+    <mfrac><mrow><mi>d</mi><mi>S</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+    <mo>=</mo>
+    <mfrac><mi>F</mi><mi>V</mi></mfrac>
+    <mo>(</mo><msub><mi>S</mi><mi>in</mi></msub><mo>−</mo><mi>S</mi><mo>)</mo>
+    <mo>−</mo>
+    <mfrac><mn>1</mn><msub><mi>Y</mi><mrow><mi>x</mi><mo>/</mo><mi>s</mi></mrow></msub></mfrac>
+    <mo>⋅</mo><mi>μ</mi><mo>⋅</mo><mi>X</mi>
+  </math>
+  <math display="block">
+    <mi>μ</mi><mo>=</mo>
+    <mfrac>
+      <mrow><msub><mi>μ</mi><mi>max</mi></msub><mo>⋅</mo><mi>S</mi></mrow>
+      <mrow><msub><mi>K</mi><mi>s</mi></msub><mo>+</mo><mi>S</mi></mrow>
+    </mfrac>
+  </math>
+</div>
+
+<ul class="termos">
+  <li><code>μ·X</code> — crescimento, em g·L⁻¹·h⁻¹. <code>μ</code> é taxa <em>específica</em> (1/h),
+  por grama de célula; quem carrega o g/L é o <code>X</code> que multiplica.</li>
+  <li><code>−(F/V)·X</code> — o termo que quase todo mundo esquece. Nenhuma célula é retirada da dorna,
+  mas o volume cresce, então a <em>concentração</em> cai. <code>F/V</code> é a taxa de diluição
+  instantânea <code>D</code> (1/h) — e, ao contrário do quimiostato, aqui ela muda a cada instante,
+  porque <code>V</code> muda.</li>
+  <li><code>(F/V)·(Sin − S)</code> — entrada de açúcar já descontada da diluição do que havia.</li>
+  <li><code>−(1/Yx/s)·μ·X</code> — consumo. Negativo porque açúcar some, e <strong>dividido</strong>
+  por <code>Yx/s</code>: o rendimento é gX/gART, então para saber quanto ART sumiu você divide o ganho
+  de biomassa por 0,50 — ou seja, multiplica por 2.</li>
+</ul>
+
+<table>
+<thead><tr><th>Parâmetro</th><th class="num">Valor</th><th>Unidade</th><th>Procedência</th></tr></thead>
+<tbody>
+<tr><td><code>μmax</code></td><td class="num">0,40</td><td class="un">1/h</td><td>dado do enunciado</td></tr>
+<tr><td><code>Ks</code></td><td class="num">1,0</td><td class="un">g/L</td><td>dado do enunciado</td></tr>
+<tr><td><code>Yx/s</code></td><td class="num">0,50</td><td class="un">gX/gART</td><td>dado do enunciado</td></tr>
+<tr><td><code>Sin</code></td><td class="num">200</td><td class="un">g/L</td><td>dado do enunciado</td></tr>
+<tr><td><code>X0</code> · <code>S0</code> · <code>V0</code></td><td class="num">1,0 · 5 · 1,0</td><td class="un">g/L · g/L · L</td><td>dado do enunciado (inóculo)</td></tr>
+<tr><td><code>Vmax</code></td><td class="num">5,0</td><td class="un">L</td><td>dado do enunciado</td></tr>
+<tr><td><code>F</code></td><td class="num">?</td><td class="un">L/h</td><td><strong>é o que você tem que escolher</strong></td></tr>
+</tbody>
+</table>
+
+<p>Repare no que <em>não</em> está aqui: etanol. Numa propagação bem conduzida o ART vira levedura, e o
+modelo assume que isso vale sempre. Guarde isso — é a razão pela qual o modelo, sozinho, nunca vai
+condenar uma vazão ruim. A condenação é sua, olhando a curva de ART.</p>
+
+<h3>O número que decide tudo, antes de rodar qualquer código</h3>
+
+<p>Açúcar só deixa de acumular se a dorna consegue comer o que a bomba entrega. A entrega é
+<code>F·Sin</code> (g/h). O consumo máximo, com toda a levedura a <code>μmax</code>, é
+<code>μmax·X·V/Yx/s</code> (g/h). No instante zero há 1,0 g/L × 1,0 L = 1,0 g de levedura, e o consumo
+máximo vale 0,40 × 1,0 ÷ 0,50 = 0,80 g/h. Igualando:</p>
+
+<div class="equacao">
+  <math display="block">
+    <msup><mi>F</mi><mo>*</mo></msup><mo>=</mo>
+    <mfrac>
+      <mrow><msub><mi>μ</mi><mi>max</mi></msub><mo>⋅</mo><msub><mi>X</mi><mn>0</mn></msub><mo>⋅</mo><msub><mi>V</mi><mn>0</mn></msub></mrow>
+      <mrow><msub><mi>Y</mi><mrow><mi>x</mi><mo>/</mo><mi>s</mi></mrow></msub><mo>⋅</mo><msub><mi>S</mi><mi>in</mi></msub></mrow>
+    </mfrac>
+    <mo>=</mo><mn>0,004</mn><mtext> L/h</mtext>
+  </math>
+</div>
+
+<p>A 0,004 L/h a dorna leva 4,0 L ÷ 0,004 = <strong>1000 h</strong> para encher. Ou seja: a vazão que
+garante zero acúmulo é inoperável, e <em>qualquer</em> vazão utilizável vai acumular açúcar no começo.
+A pergunta do enunciado, portanto, não é “qual F evita o acúmulo?” — é “qual F torna o acúmulo curto e
+pequeno o bastante para eu defender?”. O código existe para responder isso.</p>
+
+<!-- ============ ESTAÇÃO 2 — CÓDIGO ============ -->
+<h2>O código</h2>
+
+<pre><code>import numpy as np
+import matplotlib.pyplot as plt
+from scipy.integrate import solve_ivp
+
+# ---- parâmetros do processo (todos do enunciado) ----
+MU_MAX = 0.40    # 1/h
+KS     = 1.0     # g/L
+YXS    = 0.50    # gX/gART
+SIN    = 200.0   # g/L   ART no mosto de alimentação
+VMAX   = 5.0     # L     capacidade da dorna
+X0, S0, V0 = 1.0, 5.0, 1.0   # g/L, g/L, L  (inóculo)
+
+F = 0.05         # L/h   &lt;-- A ESCOLHA. É o único número livre do problema.
+
+
+def derivadas(t, y, F):
+    """y = [X (g/L), S (g/L), V (L)]; retorna dy/dt em (g/L)/h e L/h."""
+    X, S, V = y
+    S = max(S, 0.0)                  # protege Monod de um S levemente negativo do passo
+
+    F_ef = F if V &lt; VMAX else 0.0    # a bomba desliga com a dorna cheia
+    D  = F_ef / V                    # 1/h — diluição instantânea, muda a cada passo
+    mu = MU_MAX * S / (KS + S)       # 1/h — Monod
+
+    dX = (mu - D) * X                        # cresce e é diluído ao mesmo tempo
+    dS = D * (SIN - S) - (mu * X) / YXS      # entra, dilui, e é consumido
+    dV = F_ef                                # a dorna só enche
+    return [dX, dS, dV]
+
+
+def dorna_cheia(t, y, F):
+    """Evento: zero quando V atinge VMAX. Dá o instante EXATO do enchimento."""
+    return y[2] - VMAX
+
+dorna_cheia.terminal  = True     # para a integração aqui
+dorna_cheia.direction = 1        # só conta a passagem de baixo para cima
+
+
+# ---- integração ----
+t_fim = 1.4 * (VMAX - V0) / F                 # h — folga sobre o enchimento ideal
+sol = solve_ivp(
+    derivadas, (0.0, t_fim), [X0, S0, V0], args=(F,),
+    events=dorna_cheia,
+    t_eval=np.linspace(0.0, t_fim, 2000),
+    rtol=1e-8, atol=1e-10,
+)
+
+t_cheia = sol.t_events[0][0]                  # h
+X, S, V = sol.y
+massa_levedura = X[-1] * V[-1]                # g
+pico_art = S.max()                            # g/L
+t_pico   = sol.t[S.argmax()]                  # h
+
+print(f"F = {F:.3f} L/h")
+print(f"dorna cheia em      {t_cheia:6.1f} h")
+print(f"X final             {X[-1]:6.2f} g/L")
+print(f"levedura produzida  {massa_levedura:6.1f} g")
+print(f"ART residual final  {S[-1]:6.3f} g/L")
+print(f"pico de ART         {pico_art:6.1f} g/L, em t = {t_pico:.1f} h")
+
+# ---- conferência de balanço: o que entrou tem que aparecer ----
+art_entrado  = S0 * V0 + F * t_cheia * SIN                     # g
+art_sobrando = S[-1] * V[-1]                                   # g
+x_esperado   = X0 * V0 + (art_entrado - art_sobrando) * YXS    # g
+print(f"balanço: {x_esperado:.1f} g esperados vs {massa_levedura:.1f} g integrados")
+
+# ---- gráfico ----
+fig, ax = plt.subplots(figsize=(7, 4))
+ax.plot(sol.t, X, label="Levedura X")
+ax.plot(sol.t, S, label="ART S", linestyle="--")
+ax.set_xlabel("Tempo (h)")
+ax.set_ylabel("Concentração (g/L)")
+ax2 = ax.twinx()                              # V está em L: merece eixo próprio
+ax2.plot(sol.t, V, color="gray", linestyle=":", label="Volume V")
+ax2.set_ylabel("Volume (L)")
+ax.axvline(t_cheia, color="gray", lw=0.8)
+ax.legend(loc="upper left"); ax2.legend(loc="lower right")
+fig.tight_layout(); plt.show()</code></pre>
+
+<h3>Por que cada escolha</h3>
+
+<p><strong><code>S = max(S, 0.0)</code>.</strong> No fim do enchimento o ART chega a centésimos de g/L,
+e o passo do integrador pode cruzar o zero. Um <code>S</code> negativo dentro de Monod devolve
+<code>μ</code> negativo e a biomassa começa a <em>encolher</em> — uma curva errada com aparência
+perfeitamente plausível. Sem essa linha, o defeito não aparece como erro; aparece como biologia falsa.</p>
+
+<p><strong><code>F_ef = F if V &lt; VMAX else 0.0</code>.</strong> O evento já para a integração ao encher,
+então esta linha parece redundante — e é, enquanto você usar o evento. Ela existe porque no momento em
+que você quiser ver o que acontece <em>depois</em> de encher (é a primeira variante do explorador
+abaixo), sem ela a dorna transborda em silêncio: o volume passa de 5 L e o modelo continua feliz,
+produzindo números que nenhuma dorna de 5 L produziria.</p>
+
+<p><strong><code>D = F_ef / V</code>, dentro da função de derivadas.</strong> Não é constante e não pode
+ser pré-calculado fora: <code>V</code> é estado. Aqui está a diferença estrutural entre este problema e
+um quimiostato — lá <code>D</code> é o botão que o operador gira, aqui <code>D</code> é uma consequência
+que decai sozinha conforme a dorna enche. No começo, com <code>V</code> = 1 L e <code>F</code> = 0,05
+L/h, <code>D</code> vale 0,05 1/h; no fim, com 5 L, vale 0,01 1/h.</p>
+
+<p><strong><code>dS = D * (SIN - S) - ...</code> e não <code>D * SIN - ...</code>.</strong> O mosto entra
+puro a 200 g/L, mas o meio que já estava lá também é diluído pelo volume que chega. Escrever
+<code>D·Sin</code> sozinho superestima a entrada líquida — pouco quando <code>S</code> é baixo, e muito
+justamente no pico, que é o momento que você quer medir direito.</p>
+
+<p><strong><code>events=dorna_cheia</code>, com <code>terminal</code> e <code>direction</code>.</strong>
+O instante de enchimento é uma das duas respostas que o enunciado pede. Você <em>poderia</em> lê-lo no
+gráfico, ou dividir 4,0 L por <code>F</code>. O evento é melhor por um motivo prático: ele continua certo
+quando a vazão deixar de ser constante — e o valor vem com a precisão do integrador, não com a do seu
+olho. <code>direction = 1</code> impede que uma oscilação numérica em torno de <code>VMAX</code>
+dispare a parada antes da hora.</p>
+
+<p><strong><code>t_fim = 1.4 * (VMAX - V0) / F</code>.</strong> A janela precisa ser maior que o
+enchimento ideal, senão a integração acaba antes do evento e <code>sol.t_events[0]</code> vem vazio —
+o erro que você veria seria um <code>IndexError</code> na linha seguinte, não um resultado errado.
+Amarrar a janela a <code>F</code> faz o código continuar válido quando você trocar a vazão, que é
+exatamente o que vamos fazer a seguir.</p>
+
+<p><strong><code>rtol=1e-8, atol=1e-10</code> e <code>t_eval</code> com 2000 pontos.</strong>
+<code>t_eval</code> <em>não</em> é o passo de integração: <code>solve_ivp</code> usa passo adaptativo e
+<code>t_eval</code> só escolhe onde interpolar a saída. Densidade importa aqui porque o pico de ART é
+estreito — com poucos pontos, <code>S.max()</code> lê um valor menor que o real e você defende a vazão
+errada. As tolerâncias apertadas são baratas neste problema e deixam o balanço de massa fechar dentro
+de 0,2 g em 403 g, que é o seu teste de sanidade.</p>
+
+<p><strong>A conferência de balanço.</strong> Todo ART que entrou ou virou levedura ou está sobrando.
+Se as duas linhas do último <code>print</code> não baterem, o defeito está num sinal ou num fator de
+rendimento — não no integrador. É o teste mais rápido que existe neste domínio, e ele não depende de
+você já saber a resposta.</p>
+
+<p>Troque as duas decisões abaixo e veja o que cada uma muda. As duas colunas são escolhas
+<em>corretas</em>: nenhuma delas é o jeito errado de escrever o programa.</p>
+
+<div class="variantes"
+     data-modelo="propagacao_dorna"
+     data-tempo="80"
+     data-params="F=0.05">
+<script type="application/json">
+{
+  "codigo": [
+    "sol = solve_ivp(",
+    "    derivadas, (0.0, §janela§), [X0, S0, V0], args=(F,),",
+    "    events=dorna_cheia,",
+    "    t_eval=§teval§,",
+    "    rtol=1e-8, atol=1e-10,",
+    ")"
+  ],
+  "escolhas": [
+    {
+      "chave": "janela",
+      "rotulo": "janela de tempo",
+      "opcoes": [
+        { "nome": "para ao encher", "codigo": "t_fim", "tempo": 80,
+          "nota": "A integração termina no evento, em 80,0 h: o gráfico mostra só o enchimento." },
+        { "nome": "segue 40 h além", "codigo": "t_fim + 40", "tempo": 120,
+          "nota": "Bomba desligada e ART já esgotado: X fica num platô. O trecho plano é a prova de que o F_ef zerado funciona — sem ele o volume passaria de 5 L e a levedura continuaria subindo." }
+      ]
+    },
+    {
+      "chave": "teval",
+      "rotulo": "densidade da saída",
+      "opcoes": [
+        { "nome": "2000 pontos", "codigo": "np.linspace(0.0, t_fim, 2000)", "amostras": 800,
+          "nota": "O pico de ART aparece com a forma que tem, e S.max() lê o valor certo." },
+        { "nome": "15 pontos", "codigo": "np.linspace(0.0, t_fim, 15)", "amostras": 15,
+          "nota": "Mesma integração e mesma precisão interna — mas o pico cai entre dois pontos de saída e S.max() subestima o acúmulo. A decisão de processo sairia errada a partir de um gráfico que parece bom." }
+      ]
+    }
+  ]
+}
+</script>
+</div>
+
+<!-- ============ ESTAÇÃO 3 — RESULTADO ============ -->
+<h2>O resultado</h2>
+
+<div class="previsao">
+  <p><strong>Antes de revelar:</strong> com <code>F</code> = 0,05 L/h a dorna enche em 80 h.
+  Quantos gramas de levedura saem no final — perto de 40 g, de 100 g, ou de 400 g? E o pico de ART
+  no caminho: fica abaixo de 5 g/L, ou passa de 30 g/L?</p>
+  <textarea placeholder="Sua previsão, antes de abrir."></textarea>
+</div>
+
+<div class="revelar">
+  <details>
+    <summary>Revelar os números-alvo</summary>
+    <p><strong>Com F = 0,05 L/h:</strong> dorna cheia em <strong>80,0 h</strong> ·
+    X final = <strong>80,7 g/L</strong> · levedura produzida = <strong>403 g</strong> ·
+    ART residual final = <strong>0,03 g/L</strong> · pico de ART = <strong>36,5 g/L em t = 6,2 h</strong>,
+    e o ART só volta abaixo de 1 g/L em <strong>10,6 h</strong>.</p>
+    <p>Balanço: entram 5 g/L × 1,0 L + 0,05 L/h × 80,0 h × 200 g/L = <strong>805 g</strong> de ART;
+    sobram 0,16 g; 804,8 g × 0,50 = 402,4 g de levedura nova, mais 1,0 g de inóculo = <strong>403,4 g</strong>.
+    Se o seu código der outra coisa, olhe nesta ordem: (1) o sinal e o divisor de
+    <code>dS/dt</code>; (2) o termo <code>−(F/V)·X</code>, que se estiver faltando infla o X final;
+    (3) a unidade da janela de tempo.</p>
+    <p class="ilustrativo">Atenção ao que <em>não</em> muda: entre F = 0,02 e F = 0,25 L/h a levedura
+    final é sempre ≈ 403 g. Neste modelo a vazão não altera o rendimento — ela altera <em>quando</em> a
+    levedura sai e <em>quanto açúcar ficou parado no meio</em>. É por isso que a defesa da escolha não
+    pode se apoiar no X final.</p>
+  </details>
+</div>
+
+<h3>A tabela que sustenta a defesa</h3>
+
+<p>Cada linha é uma integração completa do modelo acima, com o mesmo código, mudando só
+<code>F</code>. “% com ART &lt; 1 g/L” é a fração do enchimento em que o meio está limpo.</p>
+
+<table>
+<thead><tr><th class="num">F (L/h)</th><th class="num">Enche em (h)</th><th class="num">Pico de ART (g/L)</th><th class="num">t do pico (h)</th><th class="num">% com ART &lt; 1 g/L</th><th class="num">Levedura (g)</th></tr></thead>
+<tbody>
+<tr><td class="num">0,004</td><td class="num">1000</td><td class="num">5,0</td><td class="num">0</td><td class="num">~100%</td><td class="num">403</td></tr>
+<tr><td class="num">0,02</td><td class="num">200</td><td class="num">13,5</td><td class="num">4,4</td><td class="num">96%</td><td class="num">403</td></tr>
+<tr><td class="num">0,05</td><td class="num">80</td><td class="num">36,5</td><td class="num">6,2</td><td class="num">87%</td><td class="num">403</td></tr>
+<tr><td class="num">0,10</td><td class="num">40</td><td class="num">68,7</td><td class="num">7,2</td><td class="num">69%</td><td class="num">403</td></tr>
+<tr><td class="num">0,20</td><td class="num">20</td><td class="num">107,9</td><td class="num">8,0</td><td class="num">27%</td><td class="num">403</td></tr>
+<tr><td class="num">0,30</td><td class="num">13,3</td><td class="num">129,6</td><td class="num">8,3</td><td class="num">0%</td><td class="num">194</td></tr>
+</tbody>
+</table>
+
+<p>Três leituras que a tabela entrega e que valem como argumento:</p>
+
+<ul>
+  <li><strong>O pico sempre chega perto de 4–8 h, qualquer que seja F.</strong> Não é coincidência: a
+  demanda cresce exponencialmente e alcança a oferta constante quando <code>X·V</code> multiplicou por
+  <code>F/F*</code>, ou seja em <code>t ≈ ln(F/F*)/μmax</code>. Para F = 0,05 L/h:
+  ln(0,05/0,004)/0,40 = 6,3 h — contra 6,2 h que a integração dá. A janela ruim tem duração quase fixa;
+  o que muda com <code>F</code> é a <em>altura</em> do pico e o <em>peso</em> dessa janela no total.</li>
+  <li><strong>Acima de F ≈ 0,26 L/h o processo quebra de vez.</strong> A dorna enche antes de a levedura
+  conseguir limpar o mosto, e você termina com açúcar sobrando na dorna cheia — em F = 0,30 L/h sobram
+  83,7 g/L de ART e a levedura despenca para 194 g. Não é gradual: é um joelho.</li>
+  <li><strong>A escolha é um trade-off explícito</strong> entre tempo de dorna e altura do pico, e não
+  entre rendimentos.</li>
+</ul>
+
+<h3>A defesa, escrita</h3>
+
+<p>Escolho <strong>F = 0,05 L/h</strong>, com enchimento em 80 h e 403 g de levedura. O argumento tem
+três partes, e todas as três saem do modelo:</p>
+
+<ol>
+  <li>Zero acúmulo exigiria F* = 0,004 L/h e 1000 h de dorna. Como isso não é operável, a decisão passa
+  a ser sobre <em>quanto</em> acúmulo comprar, não sobre evitá-lo.</li>
+  <li>Em 0,05 L/h, <strong>87% do enchimento acontece com ART abaixo de 1 g/L</strong> — abaixo de
+  <code>Ks</code>, portanto com a levedura já limitada por substrato, que é o regime em que a
+  propagação quer operar. A janela suja dura 10,6 h e acontece toda no começo, quando há pouca massa
+  celular em risco.</li>
+  <li>Dobrar para 0,10 L/h corta a dorna pela metade (40 h) mas quase dobra o pico (68,7 g/L) e derruba
+  o tempo limpo para 69%. Como neste modelo a levedura final é a mesma, a metade do tempo é comprada
+  <em>só</em> com açúcar exposto — e açúcar exposto é exatamente o que o processo não quer.</li>
+</ol>
+
+<p>Se o supervisor exigir a dorna em menos de 40 h, a resposta honesta não é subir <code>F</code>:
+é aumentar o inóculo ou trocar o modo de alimentação. É o próximo parágrafo.</p>
+
+<!-- ============ ESTAÇÃO 4 — CRÍTICA ============ -->
+<h2>O que este modelo finge que não existe</h2>
+
+<ul>
+  <li><strong>Etanol.</strong> É a omissão que mais dói aqui: o enunciado escolhe a vazão justamente
+  porque açúcar sobrando vira etanol, e o modelo não tem esse caminho. Consequência prática: os 403 g
+  de levedura da tabela são um <em>teto</em>, igual para toda vazão. Um modelo com desvio fermentativo
+  puniria as linhas de pico alto e mostraria a levedura caindo conforme F sobe — que é o efeito que
+  você está defendendo e que o modelo, sozinho, não exibe.</li>
+  <li><strong>Oxigênio.</strong> “Aerada”, no enunciado, virou “O₂ nunca falta” no modelo. Em X = 80 g/L
+  a demanda de oxigênio é enorme e, num propagador real, seria o oxigênio — não o açúcar — a impor o
+  teto. Sem transferência de O₂ no modelo, o X final de 80,7 g/L deve ser lido como resultado do balanço
+  de carbono, não como previsão de bancada.</li>
+  <li><strong>Yx/s constante.</strong> Manutenção celular consome ART sem produzir biomassa, e o efeito
+  cresce com o tempo de processo. Ele penaliza mais a linha de 200 h do que a de 20 h — ou seja, empurra
+  a escolha ótima para vazões maiores que as que esta tabela sugere.</li>
+  <li><strong>Sem lag e sem morte celular.</strong> O inóculo começa crescendo a plena capacidade no
+  instante zero. Uma fase lag de poucas horas deslocaria o pico de ART para cima e para a direita,
+  porque a bomba não espera a levedura acordar.</li>
+  <li><strong>Vazão constante.</strong> É restrição do enunciado, não do processo. Uma alimentação
+  exponencial, <code>F(t) = F*·e^(μ·t)</code>, faz a oferta crescer no mesmo compasso da demanda e
+  elimina o pico inteiro. É a razão de o problema com vazão constante não ter solução boa — e trocar
+  uma linha do <code>dV/dt</code> deste mesmo código já te mostra isso.</li>
+</ul>
+
+<div class="previsao">
+  <p><strong>Antes de mexer:</strong> mantendo F = 0,05 L/h, o que acontece com o pico de ART se o
+  inóculo dobrar de concentração (X0 de 1,0 para 2,0 g/L)? O pico cai pela metade, cai um pouco, ou
+  praticamente não muda?</p>
+  <textarea placeholder="Sua previsão, antes de revelar as curvas."></textarea>
+</div>
+
+<div class="simulador"
+     data-modelo="propagacao_dorna"
+     data-tempo="100"
+     data-params="F=0.05"
+     data-controles="F, X0"
+     data-prever="1"></div>
+
+<p class="lateral">Monod publicou a equação em 1949 descrevendo-a como ajuste empírico a curvas de
+crescimento, não como lei — a semelhança com Michaelis–Menten é formal, e <code>Ks</code> não é
+constante de afinidade de enzima nenhuma.
+<a href="https://doi.org/10.1146/annurev.mi.03.100149.002103" rel="noopener">Monod, J. (1949),
+<em>Annual Review of Microbiology</em> 3, 371–394</a>.</p>
+
+<!-- ============ VERIFICAÇÃO ============ -->
+<h2>Verificação</h2>
+
+<div class="quiz">
+<script type="application/json">
+[
+  {
+    "pergunta": "Você dobra a vazão de 0,05 para 0,10 L/h. O que acontece com a massa de levedura no fim do enchimento, neste modelo?",
+    "tipo": "escolha",
+    "opcoes": [
+      "Fica igual, 403 g, porque o mesmo ART total entrou na dorna",
+      "Dobra para 806 g, porque entra o dobro de ART por hora nela",
+      "Cai pela metade, porque o pico de ART sobe muito no começo"
+    ],
+    "correta": 0,
+    "feedbacks": [
+      "Isso. O volume alimentado é o mesmo (4,0 L a 200 g/L), então o ART total é o mesmo: muda a hora em que ele entra, não a quantidade. Por isso a defesa da vazão nunca pode se apoiar no X final.",
+      "Essa é a confusão entre taxa e quantidade: dobrar F dobra os gramas por hora, mas encurta o enchimento pela metade. O total alimentado, e portanto a levedura, não muda.",
+      "O pico de ART realmente sobe para 68,7 g/L, mas neste modelo não existe caminho para etanol: todo açúcar acaba consumido e a levedura final continua 403 g. É exatamente essa cegueira do modelo que a estação de crítica aponta."
+    ]
+  },
+  {
+    "pergunta": "Qual a vazão F* (L/h) que igualaria a entrega de ART ao consumo máximo do inóculo no instante zero? Use μmax·X0·V0 / (Yx/s·Sin).",
+    "tipo": "numerica",
+    "resposta": 0.004,
+    "tolerancia": 0.0005,
+    "unidade": "L/h",
+    "feedback": "0,40 × 1,0 g ÷ 0,50 = 0,80 g/h de ART que a dorna come no instante zero; dividido por 200 g/L dá 0,004 L/h. É o único F sem acúmulo — e ele enche a dorna em 1000 h, que é o argumento inteiro desta lição."
+  }
+]
+</script>
+</div>
+
+<p>Você agora tem um programa que integra volume variável, para no instante exato do enchimento, fecha
+balanço de massa e produz a tabela com que se defende uma vazão numa reunião de processo.</p>
+
+<div class="pergunte">
+  <strong>Ficou algo obscuro?</strong> Pergunte. O que você perguntar entra aqui neste arquivo, no ponto
+  exato onde a dúvida apareceu.
+</div>
+
+<script src="../assets/tema.js" defer></script>
+<script src="../assets/quiz.js" defer></script>
+<script src="../assets/simulador.js" defer></script>
+<script src="../assets/modelo-propagacao.js" defer></script>
+<script src="../assets/variantes.js" defer></script>
+</body>
+</html>
