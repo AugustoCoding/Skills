@@ -1,0 +1,478 @@
+/* lesson.css — folha de estilo compartilhada das lições.
+   Toda lição linka este arquivo. É o que faz o conjunto parecer um curso.
+   Inspiração: Edward Tufte. Coluna estreita, tipografia serifada, margem larga
+   para notas laterais, régua horizontal escassa, cor usada com parcimônia. */
+
+:root {
+  --bg: #fffff8;
+  --fg: #1a1a18;
+  --muted: #6b6b63;
+  --rule: #d8d8cc;
+  --accent: #8a3324;
+  --code-bg: #f4f4ea;
+
+  /* Nota de dúvida: marca-texto suave onde uma pergunta do aluno foi respondida.
+     Amarelo dessaturado, para destacar sem gritar ao lado do texto serifado. */
+  --nota-bg: #fdf6d8;
+  --nota-borda: #c9a227;
+
+  /* Cores das variáveis de estado. Usadas nos gráficos e no texto.
+     Mantenha estáveis entre lições: a cor vira parte do vocabulário. */
+  --cor-x: #1f5c8b;   /* biomassa  */
+  --cor-s: #8a6d1f;   /* substrato */
+  --cor-p: #2e6b3f;   /* produto   */
+
+  --ok: #2e6b3f;
+  --err: #8a3324;
+
+  --serif: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Times New Roman", serif;
+  --mono: "SF Mono", "Cascadia Mono", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #16161a;
+    --fg: #e6e4dd;
+    --muted: #9a978d;
+    --rule: #34343c;
+    --accent: #e08b6f;
+    --code-bg: #1f1f26;
+
+    --nota-bg: #2b2718;
+    --nota-borda: #8a7526;
+
+    --cor-x: #6fb2e0;
+    --cor-s: #d9b45c;
+    --cor-p: #7fc394;
+
+    --ok: #7fc394;
+    --err: #e08b6f;
+  }
+}
+
+/* ---------- estrutura ---------- */
+
+html { font-size: 17px; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--serif);
+  line-height: 1.55;
+  margin: 0 auto;
+  padding: 4rem 1.5rem 6rem;
+  max-width: 46rem;
+  text-rendering: optimizeLegibility;
+}
+
+/* Cabeçalho da lição: etiqueta (tema · degrau), título, uma linha de gancho.
+   Sem numeração de lição: a ordem vive em lessons/INDEX.md, não no cabeçalho. */
+header.licao { margin-bottom: 3rem; }
+
+header.licao .etiqueta {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+h1 {
+  font-size: 2.1rem;
+  font-weight: 400;
+  line-height: 1.15;
+  margin: 0.4rem 0 0.8rem;
+}
+
+h2 {
+  font-size: 1.35rem;
+  font-weight: 400;
+  font-style: italic;
+  margin: 3rem 0 0.8rem;
+}
+
+h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 2rem 0 0.6rem;
+}
+
+p { margin: 0 0 1.1rem; }
+
+/* O gancho: por que esta lição, por que agora. */
+.gancho {
+  font-style: italic;
+  color: var(--muted);
+  border-left: 2px solid var(--rule);
+  padding-left: 1rem;
+  margin: 0 0 2rem;
+}
+
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
+
+/* ---------- nota lateral ---------- */
+/* Tufte: a nota fica ao lado do texto, não no rodapé. Vira nota de bloco
+   quando a tela é estreita demais para a margem. */
+
+.lateral {
+  float: right;
+  clear: right;
+  width: 14rem;
+  margin: 0.3rem -16rem 1rem 0;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+@media (max-width: 82rem) {
+  .lateral {
+    float: none;
+    width: auto;
+    margin: 1rem 0;
+    padding-left: 1rem;
+    border-left: 1px solid var(--rule);
+  }
+}
+
+/* ---------- equações e unidades ---------- */
+
+.equacao {
+  margin: 1.6rem 0;
+  padding: 1rem 1.2rem;
+  background: var(--code-bg);
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: 0.92rem;
+  overflow-x: auto;
+  /* Sistemas de EDOs são escritos em várias linhas: preserve as quebras.
+     pre-wrap, e não pre, para que a linha longa quebre em tela estreita. */
+  white-space: pre-wrap;
+  line-height: 1.7;
+}
+
+/* Anotação de termo: o que cada pedaço da equação significa fisicamente. */
+.termos {
+  list-style: none;
+  padding: 0;
+  margin: -0.6rem 0 1.6rem;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+.termos li { margin: 0.3rem 0; }
+.termos code { background: none; color: var(--fg); }
+
+/* Unidade. Nenhum parâmetro aparece sem uma. */
+.un {
+  font-family: var(--mono);
+  font-size: 0.85em;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.var-x { color: var(--cor-x); }
+.var-s { color: var(--cor-s); }
+.var-p { color: var(--cor-p); }
+
+/* Valor sem procedência. Obrigatório marcar. */
+.ilustrativo {
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-style: italic;
+}
+.ilustrativo::before { content: "⚠ "; font-style: normal; }
+
+/* ---------- código ---------- */
+
+code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  background: var(--code-bg);
+  padding: 0.1em 0.3em;
+  border-radius: 2px;
+}
+
+pre {
+  background: var(--code-bg);
+  padding: 1rem 1.2rem;
+  border-radius: 3px;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+pre code { background: none; padding: 0; }
+
+/* ---------- tabelas ---------- */
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.6rem 0;
+  font-size: 0.9rem;
+}
+th, td { text-align: left; padding: 0.45rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-weight: 600; border-bottom: 2px solid var(--rule); }
+td.num, th.num { text-align: right; font-family: var(--mono); }
+
+/* ---------- blocos pedagógicos ---------- */
+
+/* Recuperação: pergunta da lição anterior, respondida de memória. */
+.recuperacao {
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 1rem 1.2rem;
+  margin: 2rem 0;
+}
+.recuperacao > .rotulo {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* Previsão antes de rodar. O aluno escreve, depois confere. */
+.previsao { margin: 2rem 0; }
+.previsao textarea {
+  width: 100%;
+  min-height: 5rem;
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  padding: 0.7rem;
+  background: var(--bg);
+  color: var(--fg);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  resize: vertical;
+}
+
+/* Fonte primária recomendada. Uma por lição. */
+.fonte {
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 1.1rem 0;
+  margin: 2.5rem 0;
+}
+.fonte .rotulo {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+/* Lembrete de que o professor está disponível. Fecha toda lição. */
+.pergunte {
+  background: var(--code-bg);
+  border-radius: 3px;
+  padding: 1rem 1.2rem;
+  margin: 2.5rem 0 0;
+  font-size: 0.92rem;
+}
+
+/* Escada de dicas: o "menor passo de cada vez" dentro do arquivo, sem depender
+   do chat. Cada degrau é um <details>; o aluno só abre o seguinte se o anterior
+   não bastou. A resposta fechada fica no último degrau, e abrir custa um clique
+   consciente — que é exatamente o atrito que se quer preservar.
+
+   <div class="escada">
+     <details><summary>Empaquei em montar o balanço</summary> … </details>
+     <details><summary>Montei, mas o resultado está estranho</summary> … </details>
+   </div> */
+
+.escada { margin: 1.6rem 0; }
+
+.escada details {
+  border-left: 2px solid var(--rule);
+  padding: 0 0 0 1rem;
+  margin: 0.6rem 0;
+}
+
+.escada summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 0.92rem;
+  padding: 0.25rem 0;
+}
+
+.escada summary:hover { color: var(--fg); }
+.escada details[open] > summary { color: var(--fg); margin-bottom: 0.5rem; }
+.escada details > :last-child { margin-bottom: 0.6rem; }
+
+/* Nota de dúvida: a explicação escrita depois, no ponto exato do texto onde o
+   aluno travou. Marca-texto suave — o aluno tem que reconhecer, ao reabrir a
+   lição, que aquele trecho nasceu de uma pergunta dele.
+
+   Duas formas, mesma marca:
+     <p class="nota-duvida"> … </p>            bloco, para uma explicação inteira
+     <mark class="nota-duvida"> … </mark>      em linha, para uma frase enxertada
+
+   Convenção documentada em LESSON-FORMAT.md. Não invente outra classe para isto:
+   o valor está em ser o mesmo destaque em toda lição de todo aluno. */
+
+p.nota-duvida,
+div.nota-duvida {
+  background: var(--nota-bg);
+  border-left: 3px solid var(--nota-borda);
+  border-radius: 0 3px 3px 0;
+  padding: 0.9rem 1.1rem;
+  margin: 1.4rem 0;
+  font-size: 0.95rem;
+}
+
+/* Rótulo opcional, com a data da pergunta. Útil quando a lição já acumulou
+   várias notas: mostra a ordem em que as dúvidas apareceram. */
+.nota-duvida > .rotulo {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+mark.nota-duvida {
+  background: var(--nota-bg);
+  color: var(--fg);
+  box-shadow: 0 -0.35em 0 0 var(--nota-bg), 0 0.12em 0 0 var(--nota-borda);
+  padding: 0 0.15em;
+}
+
+/* ---------- botões ---------- */
+
+button {
+  font-family: var(--serif);
+  font-size: 0.9rem;
+  padding: 0.4rem 0.9rem;
+  background: var(--bg);
+  color: var(--fg);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  cursor: pointer;
+}
+button:hover { border-color: var(--muted); }
+button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- quiz (assets/quiz.js) ---------- */
+
+.quiz { margin: 2rem 0; }
+
+.quiz-item {
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 1rem 1.2rem;
+  margin: 1rem 0;
+}
+.quiz-pergunta { margin: 0 0 0.8rem; }
+
+.quiz-opcoes { display: flex; flex-direction: column; gap: 0.4rem; }
+
+/* Alternativas com a mesma largura: nenhuma pista de formatação. */
+.quiz-opcao {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  padding: 0.5rem 0.8rem;
+}
+.quiz-opcao.certa { border-color: var(--ok); color: var(--ok); }
+.quiz-opcao.errada { border-color: var(--err); color: var(--err); }
+.quiz-opcao[disabled] { cursor: default; opacity: 0.75; }
+
+.quiz-numerica { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+.quiz-numerica input {
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  padding: 0.4rem 0.6rem;
+  width: 8rem;
+  background: var(--bg);
+  color: var(--fg);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+}
+
+.quiz-feedback { margin-top: 0.8rem; font-size: 0.9rem; }
+.quiz-feedback.ok { color: var(--ok); }
+.quiz-feedback.nao { color: var(--err); }
+
+/* ---------- simulador (assets/simulador.js) ---------- */
+
+.simulador {
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 1.2rem;
+  margin: 2rem 0;
+}
+.simulador canvas { width: 100%; height: auto; display: block; }
+
+.sim-controles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 0.6rem 1.2rem;
+  margin-top: 1rem;
+  font-size: 0.85rem;
+}
+.sim-controle label { display: flex; justify-content: space-between; gap: 0.5rem; }
+.sim-controle .valor { font-family: var(--mono); color: var(--muted); }
+.sim-controle input[type="range"] { width: 100%; accent-color: var(--accent); }
+
+.sim-legenda {
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  font-size: 0.82rem;
+  margin-top: 0.6rem;
+}
+.sim-legenda span::before {
+  content: "—— ";
+  font-family: var(--mono);
+  font-weight: bold;
+}
+.sim-legenda .l-x { color: var(--cor-x); }
+.sim-legenda .l-s { color: var(--cor-s); }
+.sim-legenda .l-p { color: var(--cor-p); }
+
+.sim-acoes { display: flex; gap: 0.6rem; margin-top: 0.9rem; flex-wrap: wrap; }
+.sim-leitura { font-size: 0.85rem; color: var(--muted); margin-top: 0.6rem; }
+.sim-oculto { visibility: hidden; }
+
+/* ---------- navegação entre lições ---------- */
+
+nav.licoes {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 3rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.9rem;
+}
+
+/* ---------- impressão ---------- */
+/* O aluno pode querer estudar no papel. Controles somem, cor vira preto. */
+
+@media print {
+  :root {
+    --bg: #fff; --fg: #000; --muted: #444;
+    --rule: #bbb; --code-bg: #f3f3f3; --accent: #000;
+    --nota-bg: #f2f2f2; --nota-borda: #888;
+  }
+  html { font-size: 11pt; }
+  body { max-width: none; padding: 0; }
+  .lateral { float: none; width: auto; margin: 0.8rem 0; padding-left: 0.8rem; border-left: 1px solid var(--rule); }
+  button, .sim-controles, .sim-acoes, .previsao textarea { display: none; }
+  .quiz-item, .recuperacao, .simulador, .nota-duvida, pre, table, figure { break-inside: avoid; }
+  .escada details { break-inside: avoid; }
+  /* Degrau fechado continua fechado no papel: o atrito é o ponto. */
+  .nota-duvida { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  h1, h2, h3 { break-after: avoid; }
+  a::after { content: " (" attr(href) ")"; font-size: 0.75em; color: var(--muted); word-break: break-all; }
+  a[href^="#"]::after { content: ""; }
+}
