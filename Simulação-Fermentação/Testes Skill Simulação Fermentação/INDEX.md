@@ -4,7 +4,7 @@ Uma linha por execução. É daqui que se lê a evolução da skill: o que foi t
 
 | Teste | Data | Commit da skill | Modelo | Foco | Veredito | Correções que saíram |
 |---|---|---|---|---|---|---|
-| [1](./Teste%201/SESSAO.md) | 2026-08-30 | `a2285bd` | {a preencher} | Primeira execução do fluxo sem entrevista | Aprovado, 2 achados | {a preencher} |
+| [1](./Teste%201/SESSAO.md) | 2026-08-30 | `a2285bd` | {a preencher} | Primeira execução do fluxo sem entrevista | Aprovado, 2 achados | `a52f83f` — regra da lacuna, varredura de procedência, links fora do workspace |
 
 ## Como usar
 

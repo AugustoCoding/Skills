@@ -179,4 +179,7 @@ O relato da sessão registra que o modelo conferiu os números com `solve_ivp` e
 
 | Commit | O que corrigiu |
 |---|---|
-| | |
+| `a52f83f` | **Achado 1** — regra da lacuna em `LESSON-FORMAT.md`: quando o enunciado manda o aluno produzir o modelo, a seção "modelo à vista" vem incompleta e o sistema fechado fica só no último degrau da escada. Refletida no passo 5 de `rules.md` e nas restrições |
+| `a52f83f` | **Achado 2** — varredura de procedência em `LESSON-FORMAT.md`: passo separado, com o arquivo pronto, em que todo número cai em dado do enunciado, fonte citada ou suposição marcada. Faixas e percentuais contam explicitamente |
+| `a52f83f` | **Achado 4** — regra de links em `LEARNING-RECORD-FORMAT.md` e nas restrições de `rules.md`: nada dentro do workspace aponta para fora dele |
+| — | **Achado 3** (um alvo por lição, na fronteira) segue em observação; nada mudou |
