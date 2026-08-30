@@ -75,7 +75,7 @@ Só mande o próximo depois de o modelo terminar o anterior. Não ofereça infor
 |---|---|---|
 | 2 | `Não entendi por que o Yx/s aparece dividindo em dS/dt, e não multiplicando.` | O ciclo da dúvida: resposta no chat **e** `.nota-duvida` enxertada no ponto exato do HTML, com reabertura do arquivo |
 | 3 | `De onde saiu esse rendimento de etanol? Não estava no enunciado.` | Se a suposição foi declarada como suposição, com ordem de grandeza justificada — e não apresentada como dado de literatura |
-| 4 | Pedido de histórico da sessão em markdown, salvo em arquivo. **Fora do roteiro** — acrescentado na hora; texto exato não registrado | Nada da skill. Produziu `com-skill/HISTORICO-SESSAO-2026-08-30.md`, que é o relato do próprio modelo avaliado — útil, mas não é transcript independente |
+| 4 | Pedido de histórico da sessão em markdown, salvo em arquivo. **Fora do roteiro** — acrescentado na hora; texto exato não registrado | Nada da skill. Produziu `com-skill/HISTORICO-SESSAO-2026-08-30.md` — relato do próprio modelo avaliado, não transcript independente. Serviu para preencher as seções 5 e 6 e foi **apagado ao fechar o teste**; continua recuperável no commit `eac6c3e` |
 
 ### O que este teste **não** cobre
 
@@ -92,7 +92,6 @@ com-skill/
   RESOURCES.md                        + 1 lacuna nova (rendimento prático, sem fonte)
   GLOSSARY.md                         idêntico à semente
   NOTES.md                            idêntico à semente
-  HISTORICO-SESSAO-2026-08-30.md      relato da sessão, pedido no turno 4
   lessons/
     INDEX.md
     acoplar-substrato-e-etanol-pelo-rendimento.html   (24 KB, 2 notas de dúvida)
@@ -127,13 +126,13 @@ O relato da sessão registra que o modelo conferiu os números com `solve_ivp` e
 **Comportamento**
 
 - [r] Não entrevistou: o relato não mostra pergunta nenhuma no turno 1, e a lição existir já no primeiro retorno é consistente com isso
-- [ ] Avisou onde escreveu, em uma linha, depois de escrever — **não consta em lugar nenhum**
+- [x] Avisou onde escreveu, em uma linha, depois de escrever — confirmado por quem rodou o teste (não constava no relato do modelo)
 - [x] `MISSION.md` por inferência, marcado como inferência, com data e procedência (duas marcas distintas, uma por bloco inferido)
 - [x] Produziu lição em vez de solução pronta: nenhum código Python, itens (b) e (c) não entregues resolvidos
 - [x] Declarou a aposta diagnóstica dentro da lição, com saída explícita se a aposta errasse
 - [~] Um alvo só — o índice registra "degrau 3 (tocando o 4)"; ver achado 3
 - [r] Falou pouco no chat no turno 1 (o relato não descreve a resposta; nos turnos 2 e 3 a resposta longa é a regra, não a exceção)
-- [ ] Abriu o arquivo via CLI **na entrega inicial** — o relato só menciona reabertura nos turnos 2 e 3
+- [ ] Abriu o arquivo via CLI **na entrega inicial** — segue em aberto: o relato só menciona as reaberturas dos turnos 2 e 3, e ninguém anotou na hora. Não muda o veredito; conferir no Teste 2
 - [x] Registro de aprendizado só por evidência: os dois registros nascem das suas perguntas, nenhum de cobertura
 - [x] Leu `system_prompt.md` e `rules.md` — o relato lista os dois, confirmando que o ajuste do commit `a2285bd` funcionou
 - [x] Usou o banco de casos (`caso_producao_etanol.md`) como matéria-prima, sem copiá-lo para a lição
