@@ -29,11 +29,11 @@ Esta é a **primeira** execução depois da reescrita que tirou a entrevista da 
 
 | Campo | Valor |
 |---|---|
-| Cliente | {Claude Code CLI / desktop / web — e versão} |
-| Modelo | {id exato, ex: claude-opus-5} |
-| Modo | {padrão / fast} |
-| Acesso à web | {sim / não} |
-| Permissões | {ex: edições aceitas sem prompt} |
+| Cliente | Claude Code (versão não registrada) |
+| Modelo | Opus 5 — `claude-opus-5` |
+| Modo | Esforço médio |
+| Acesso à web | Não registrado. O comportamento observado é consistente com não ter havido busca: as fontes citadas seguem `[a verificar]`, e a falta de rendimento prático virou lacuna aberta em `RESOURCES.md` em vez de ser resolvida |
+| Permissões | Não registrado |
 | Sistema | Windows 11 |
 | Diretório de trabalho | raiz do repositório |
 
