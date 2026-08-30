@@ -20,8 +20,8 @@ Preencha os campos vazios **durante e depois** da sessão de teste. Os campos j�
 | Commit | `a2285bd` — "Mandar SKILL.md abrir rules.md e system_prompt.md" |
 | Branch | `main` |
 | Alterações locais não commitadas | não (na pasta da skill) |
-| Como a skill foi carregada | {ex: copiada para `~/.claude/skills/simulacao-fermentacao/`} |
-| Nome da pasta instalada | {a pasta precisa ser kebab-case e bater com o `name:` do frontmatter — `simulacao-fermentacao`} |
+| Como a skill foi carregada | *junction* `~/.claude/skills/simulacao-fermentacao` → `Simulação-Fermentação/Skill Simulação Fermentação/`. Aponta para o repositório, não é cópia: o que estiver no working tree é o que roda, e uma escrita indevida na pasta da skill apareceria no `git status` |
+| Nome da pasta instalada | `simulacao-fermentacao` — bate com o `name:` do frontmatter |
 
 Esta é a **primeira** execução depois da reescrita que tirou a entrevista da entrada (commit `ee19e71`). Nenhum teste anterior existe para comparar.
 
@@ -43,10 +43,10 @@ Se a sessão não começar na raiz do repositório, ajuste o caminho do workspac
 
 ### Prompt exato (turno 1)
 
-Copie deste bloco, sem editar:
+A skill é `disable-model-invocation: true`: ela **não** ativa quando o modelo quer, só quando você a chama. Por isso o prompt começa com a barra. Copie deste bloco, sem editar:
 
 ```text
-Use a skill simulacao-fermentacao.
+/simulacao-fermentacao
 
 O workspace desta sessão é "Simulação-Fermentação/Testes Skill Simulação Fermentação/Teste 1/com-skill/". Escreva ali tudo o que você gerar.
 
