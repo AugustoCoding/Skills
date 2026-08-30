@@ -27,7 +27,7 @@ Fontes confiáveis deste workspace. O conhecimento das lições sai daqui, não 
 
 ### Artigos originais de cinética
 
-Vale levar o aluno à fonte primária: ver o formato original da equação que ele está usando muda a relação dele com o modelo.
+Vale citar a fonte primária onde a lição traz número: ver a procedência do valor que ele está usando muda a relação dele com o modelo.
 
 - **Monod, J. (1949). "The Growth of Bacterial Cultures". _Annual Review of Microbiology_, 3, 371–394.** `[a verificar]`
   A origem de μ = μmax·S/(Ks+S). **Use para:** ensinar que Monod é ajuste empírico, não lei — ponto que corrige várias concepções errôneas de uma vez.

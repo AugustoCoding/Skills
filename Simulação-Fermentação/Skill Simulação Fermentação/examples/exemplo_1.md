@@ -69,46 +69,47 @@ Aposta declarada na lição, em uma linha:
 
 ### 5. Produzir a lição
 
-`lessons/sinal-e-rendimento-em-dsdt.html`, a partir de `templates/licao.html`:
+`lessons/batelada-com-monod-em-python.html`, a partir de `templates/licao.html`. O nome já diz o que a lição é: o exercício inteiro, terminando em código que roda.
 
-- **Gancho** — o item (a) do exercício dele, nomeado.
-- **Recuperação** — não há lição anterior: cobre um pré-requisito do próprio enunciado, de memória. "Qual é a unidade de μ, e por que ela não é g L⁻¹ h⁻¹?"
-- **Conhecimento** — só o acoplamento: o que Yx/s é (gX/gS) e por que aparece dividindo. Uma ideia.
-- **Modelo à vista** — o sistema com cada termo anotado, mais a seção "o que este modelo finge que não existe", com as cinco hipóteses.
-- **Prática** — "conserte o código quebrado", com **um** defeito: `dS/dt` multiplicando por Yx/s em vez de dividir. Forma certa, magnitude errada — o defeito que não se denuncia sozinho no gráfico.
-- **Escada** — três degraus: (1) "some as unidades dos dois lados de `dS/dt`, fecha?"; (2) "quanto S some para produzir 1 g/L de X, com Yx/s = 0,5?"; (3) o balanço fechado.
-- **Verificação** — duas perguntas, uma numérica (quanto S é consumido até X dobrar) e uma de escolha com distratores do catálogo.
-- **Fonte primária** — de `RESOURCES.md`, com o que procurar.
-- **Fecho** — link para `reference/equacoes.html` e o lembrete de perguntar.
+- **Gancho** — o exercício dele, nomeado, e o que ele vai ter no fim: o gráfico X/S rodando na máquina dele.
+- **Aposta declarada** — uma linha: "aposto que `dX/dt = μX` você escreve de olhos fechados e o problema é o `dS/dt`; se não for, pule para o código."
+- **Recuperação** — não há lição anterior, então esta seção não aparece.
+- **Estação 1, modelo** — as três equações em MathML, cada termo anotado com unidade. Yx/s dividindo, com o porquê em duas frases. Teoria dentro das 400 palavras: nada de derivar Monod da cinética enzimática.
+- **Estação 2, código** — a maior. O programa inteiro: `solve_ivp`, função de derivadas, evento para capturar o esgotamento, plotagem com eixos rotulados. Explicado na ordem em que executa — por que `solve_ivp` e não `odeint`, por que o evento em vez de ler o gráfico, o que `t_eval` faz e o que ele não faz.
+- **Explorador de variantes** — `t_eval` com 300 pontos contra 12: mesma integração, saída diferente, e a transição do substrato some entre dois pontos na versão esparsa. Escolha correta contra escolha correta.
+- **Estação 3, resultado** — previsão ("em quanto tempo o substrato acaba: perto de 25 h, de 15 h, ou muito antes?"), e atrás do clique os números conferidos: X final 10,1 g/L, esgotamento em ≈ 7,9 h.
+- **Estação 4, crítica** — as cinco hipóteses com a consequência de cada uma, previsão sobre o efeito de dobrar μmax, e o simulador com controles de μmax e Ks.
+- **Verificação** — duas perguntas: uma numérica (quanto S é consumido até X dobrar) e uma de escolha com distrator do catálogo.
+- **Fecho** — uma frase. Sem leitura recomendada, sem link interno, sem promessa de continuação.
 
 Registrar em `lessons/INDEX.md`:
 
 ```md
-| 2026-08-30 | [sinal-e-rendimento-em-dsdt.html](./sinal-e-rendimento-em-dsdt.html) | 3 | Acoplar dS/dt ao crescimento, com sinal e rendimento certos |
+| 2026-08-30 | [batelada-com-monod-em-python.html](./batelada-com-monod-em-python.html) | 3–5 | Montar a batelada com Monod e programá-la, do balanço ao gráfico |
 ```
 
 Abrir para ele:
 
 ```bash
-start "" "aula-fermentacao/lessons/sinal-e-rendimento-em-dsdt.html"
+start "" "aula-fermentacao/lessons/batelada-com-monod-em-python.html"
 ```
 
 ### 6. Falar pouco
 
 Três linhas no chat, e só:
 
-> "Abri sua primeira lição — ela cobre o item (a) do seu exercício, que é onde o resto trava.
+> "Abri sua primeira lição — ela resolve o exercício inteiro e termina com o código rodando.
 > Escrevi em `./aula-fermentacao/`; se preferir outro lugar, digo e eu movo.
 > Apostei que o seu problema é o `dS/dt`, não o `dX/dt`. Se eu errei o alvo, me fala que eu remonto."
 
-O item (b) e o (c) não foram entregues. Eles vêm depois que ele fechar o (a) — e boa parte deles ele já vai conseguir sozinho.
+Os quatro itens estão lá dentro, na ordem das estações. O que não está é a chance de ele ler tudo sem fazer nada: os números do item (c) só aparecem depois que ele registra a previsão.
 
 ## O que fica registrado
 
 | Arquivo | O que foi escrito |
 |---|---|
 | `MISSION.md` | missão inferida, marcada como inferência de confiança baixa |
-| `lessons/sinal-e-rendimento-em-dsdt.html` | a lição |
+| `lessons/batelada-com-monod-em-python.html` | a lição, com a questão inteira |
 | `lessons/INDEX.md` | a primeira linha da tabela |
 | `learning-records/` | **nada ainda** |
 

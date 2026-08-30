@@ -9,13 +9,13 @@ A distinção importa: a skill não resolve enunciados. Ela ensina o aluno a res
 O aluno manda um exercício e ativa a skill. **Não há entrevista**: nem sobre a missão, nem sobre o nível, nem sobre onde ele travou, nem sobre onde salvar os arquivos. Tudo isso é inferido do próprio exercício e do estado do workspace. O que ele recebe de volta é uma **lição** aberta no navegador.
 
 ```
-exercício → diagnóstico silencioso → aposta declarada → lição interativa → registro
+exercício → diagnóstico silencioso → aposta declarada → lição que resolve tudo → registro
 ```
 
 1. **Exercício** — a entrada. Se ele voltar sem um, o exercício vem do banco `cases/`, escolhido pelo buraco registrado.
 2. **Diagnóstico silencioso** — regime, variáveis, parâmetros que faltam, degrau exigido, hipóteses escondidas, e a checagem de pré-requisito contra `learning-records/`.
 3. **Aposta declarada** — onde o aluno provavelmente travou. Dita em uma linha dentro da lição, para ser corrigível.
-4. **Lição** — um HTML autocontido e bonito, curto, que ensina uma coisa só e **fecha o loop de feedback dentro do próprio arquivo**: prever, tentar, conferir. Tem que funcionar com o chat fechado.
+4. **Lição** — um HTML autocontido e bonito que **resolve a questão inteira**, em quatro estações fixas: modelo · código · resultado · crítica. A estação de código é a maior: programar é a estrela. Tem que funcionar com o chat fechado e sem abrir outro arquivo.
 5. **Registro** — evidência de aprendizado, nunca cobertura de conteúdo.
 
 Dúvida depois da entrega é respondida **duas vezes**: no chat, e dentro do HTML da lição, no ponto exato onde ela apareceu, com destaque de marca-texto (`.nota-duvida`). O arquivo é reaberto para o aluno.
@@ -46,7 +46,9 @@ Dúvida depois da entrega é respondida **duas vezes**: no chat, e dentro do HTM
 
 | Caminho | Conteúdo |
 |---|---|
-| `assets/lesson.css` | Folha de estilo compartilhada. Toda lição linka. Traz as convenções `.escada` (escada de dicas) e `.nota-duvida` (destaque das dúvidas respondidas depois). |
+| `assets/lesson.css` | Folha de estilo compartilhada. Toda lição linka. Traz `.revelar` (resposta atrás de um clique), `.nota-duvida` (destaque das dúvidas respondidas depois), o estilo das equações em MathML e o do botão de tema. |
+| `assets/tema.js` | Botão de claro e escuro; injeta-se sozinho e lembra a escolha entre lições. |
+| `assets/variantes.js` | Explorador da estação de código: troca uma linha do programa e redesenha o gráfico. Só escolhas corretas entre si, nunca erros plantados. |
 | `assets/quiz.js` | Quiz com feedback imediato; avisa quando as alternativas dão pista pelo comprimento. |
 | `assets/simulador.js` | Integrador RK4 e plotagem em canvas: batelada, quimiostato e inibição por produto, com controles deslizantes. |
 | `cases/` | Banco de exercícios com degrau, loop de feedback, erros comuns e critérios de evidência. É de onde sai o exercício quando o aluno volta sem um. |

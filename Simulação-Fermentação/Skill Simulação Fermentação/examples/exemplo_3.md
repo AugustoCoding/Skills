@@ -35,53 +35,48 @@ Na ordem de `rules.md`:
 
 ## 2. Achar o exercício no banco
 
-Sem enunciado do aluno, o exercício vem de `./cases/`, na pasta da skill. `0004` diz exatamente o que falta: estado estacionário, washout, produtividade. `cases/caso_continua_crescimento.md` cobre isso e já vem recortado em três lições — **A** (o balanço, já dada), **B** (μ = D em estado estacionário), **C** (washout e produtividade).
+Sem enunciado do aluno, o exercício vem de `./cases/`, na pasta da skill. O registro `0004` diz exatamente o que falta: estado estacionário, washout, produtividade. `cases/caso_continua_crescimento.md` cobre isso.
 
-Alvo: **lição B — μ = D**. O caso a chama de "a lição mais importante do caso", e é o próximo buraco registrado.
+O caso não vira lição inteiro — ele cobre três ou quatro degraus e a lição resolve **uma questão fechada**. Recorte dele um problema com enunciado próprio, do tamanho de uma questão de prova:
 
-Não pule para a C. Washout sem o estacionário é conta sem o conceito que a sustenta.
+> "Um quimiostato opera com Sin = 20 g/L e D ajustável. Determine o D que maximiza a produtividade de biomassa, e mostre o que acontece acima do D crítico."
 
-O mapa de progressão entra aqui só como **checagem**: a lição B exige os balanços do quimiostato (`0004`, com evidência) e o acoplamento de substrato (`0001`). Pré-requisitos de pé — pode ensinar o degrau direto, sem ponte.
+Isso dá as quatro estações sem sobra: modelo (estacionário, μ = D), código (varredura de D em Python), resultado (o D ótimo e o crítico, com números), crítica (por que produtividade não é concentração).
 
-## 3. Fundamentar
+O mapa de progressão entra só como **checagem**: a questão exige os balanços do quimiostato (`0004`, com evidência) e o acoplamento de substrato (`0001`). Pré-requisitos de pé — sem estação zero.
 
-Fonte primária de `RESOURCES.md`: Herbert, Elsworth & Telling (1956), teoria do quimiostato. Conferir o link antes de citar — a entrada ainda está marcada `[a verificar]`.
+## 3. Fundamentar e conferir
 
-Do banco: a seção "Loop de feedback" de `cases/caso_continua_crescimento.md`, que já traz a tabela de estado estacionário conferida. O caso é matéria-prima; o modelo esperado que está nele **não** vai para a lição.
+De `RESOURCES.md`: Herbert, Elsworth & Telling (1956), teoria do quimiostato — a entrada ainda está marcada `[a verificar]`, então ou se confere antes de citar, ou o número entra como suposição declarada.
+
+Do banco: a seção "Loop de feedback" de `cases/caso_continua_crescimento.md`, que já traz a tabela de estado estacionário conferida. O caso é matéria-prima sua; o modelo esperado que está nele não é copiado para a lição — a lição escreve o dela, com as unidades no lugar.
+
+E antes de escrever qualquer número na lição: rodar a varredura de D em Python, com tolerância apertada, e guardar D crítico, D ótimo e a produtividade máxima.
 
 ## 4. Produzir a lição
 
-`lessons/quimiostato-mu-igual-a-d.html`, a partir de `templates/licao.html`:
+`lessons/quimiostato-d-otimo-e-washout.html`:
 
-- **Gancho** — "na prova, 'quanto vale μ no estacionário' vale mais que a equação inteira; e a resposta é contraintuitiva."
-- **Aposta declarada** — "aposto que você vai responder μ = μmax, ou tentar calcular Monod. Quase todo mundo responde. Se você já sabe que não é isso, pule para *Sua vez*."
-
-  Note que a aposta aqui é uma **provocação de erro**: a concepção errônea do catálogo é tão universal que vale montar a lição em cima dela.
-- **Recuperação** — de memória, sem consultar: escreva `dX/dt` do quimiostato. Espaçamento sobre `0004`.
-- **Conhecimento** — uma ideia: no estacionário `dX/dt = 0` com X ≠ 0, e o que sobra é μ = D. A causalidade invertida — é a bomba que impõe a taxa de crescimento — nomeada explicitamente.
-- **Prática** — "preveja e depois rode", com D como único controle:
-
-```html
-<div class="simulador" data-modelo="quimiostato" data-tempo="120"
-     data-params="mu_max=0.4, Ks=1.0, Yxs=0.5, Ypx=0.2, D=0.2, Sin=20, X0=0.5"
-     data-controles="D" data-prever="1"></div>
-```
-
-  Previsão pedida por escrito antes do reveal: *se eu dobrar D, o que acontece com μ no estacionário — dobra, cai pela metade, ou não muda?*
-
-- **Escada** — três degraus: (1) "escreva `dX/dt = 0` e não divida por X ainda: o que a equação diz?"; (2) "X é zero? Se não é, o que pode ser zero no produto `(μ − D)·X`?"; (3) μ = D, com a leitura física.
-- **Concessão à régua** — como a prova é escrita, um item pede a **dedução** de `S* = Ks·D/(μmax − D)` no papel, a partir de μ = D. A missão manda.
-- **Verificação** — duas perguntas. Uma de escolha com o distrator "μ = μmax" (o erro que a lição inteira ataca), uma numérica: dado D = 0,2 h⁻¹, μmax e Ks, calcule S*.
-- **Fecho** — link para `reference/equacoes.html`, seção de estado estacionário, e a pergunta que abre a lição C: "e se D passar de μmax?"
+- **Gancho** — "na prova, 'qual D usar' vale mais que a equação; e a resposta é contraintuitiva."
+- **Aposta declarada** — "aposto que sua primeira resposta seria μ = μmax. Quase todo mundo responde isso. Se você já sabe que não é, pule para o código."
+- **Recuperação** — de memória: escreva o `dX/dt` do quimiostato. Espaçamento sobre `0004`.
+- **Estação 1, modelo** — em MathML: `dX/dt = 0` com X ≠ 0 obriga μ = D, e daí `S* = Ks·D/(μmax − D)`. A causalidade invertida, nomeada: é a bomba que impõe a taxa de crescimento. Dentro das 400 palavras.
+- **Estação 2, código** — a maior. A varredura de D: laço sobre valores de D, estado estacionário por integração longa, cálculo de `D·X*`, gráfico de produtividade contra D. Explicado passo a passo — por que integrar até o estacionário em vez de resolver o algébrico direto, e o que acontece com o integrador perto do washout.
+- **Explorador de variantes** — D abaixo, no ótimo e acima do crítico. Três operações corretas, com a curva mudando de figura em cada uma.
+- **Estação 3, resultado** — previsão ("se eu dobrar D, a produtividade dobra, cai pela metade, ou faz outra coisa?"), e atrás do clique os números conferidos: D crítico, D ótimo, produtividade máxima.
+- **Estação 4, crítica** — por que o D que maximiza concentração não é o que maximiza produtividade; o que reciclo celular mudaria; previsão antes do simulador, com D como controle.
+- **Concessão à régua** — como a prova é escrita, um item pede a dedução de `S*` no papel, a partir de μ = D. A missão manda.
+- **Verificação** — duas perguntas: uma numérica (calcule o D crítico) e uma de escolha com "D alto sempre dá mais produto", do catálogo.
+- **Fecho** — uma frase. Sem "na próxima lição": o washout está resolvido aqui.
 
 Índice e abertura:
 
 ```md
-| 2026-09-11 | [quimiostato-mu-igual-a-d.html](./quimiostato-mu-igual-a-d.html) | 6 | Deduzir μ = D no estado estacionário e ler a causalidade invertida |
+| 2026-09-11 | [quimiostato-d-otimo-e-washout.html](./quimiostato-d-otimo-e-washout.html) | 6–10 | Achar o D que maximiza produtividade e prever o washout, em Python |
 ```
 
 ```bash
-start "" "aula-fermentacao/lessons/quimiostato-mu-igual-a-d.html"
+start "" "aula-fermentacao/lessons/quimiostato-d-otimo-e-washout.html"
 ```
 
 ## 5. Falar pouco
@@ -96,7 +91,7 @@ Ele prevê que dobrar D dobra μ — acerta pelo motivo errado, achando que "mai
 
 > "Então se eu aumentar muito o D o μ acompanha sempre?"
 
-Resposta no chat, nota enxertada na lição logo depois do bloco de μ = D, arquivo reaberto — e a pergunta dele é exatamente a porta da lição C.
+Resposta no chat, nota enxertada na lição logo depois do bloco de μ = D, arquivo reaberto. A resposta já estava na estação de crítica — a nota traz para o ponto onde a dúvida nasceu o que ele leria três parágrafos adiante.
 
 `learning-records/0005-mu-imposto-por-d.md`
 
@@ -107,12 +102,12 @@ O aluno deduziu μ = D a partir de dX/dt = 0 com X ≠ 0, e calculou S* corretam
 a partir daí. Ainda lê a relação como "mais vazão faz crescer mais", em vez de
 "a vazão seleciona a taxa de crescimento possível".
 
-Evidência: dedução feita no degrau 2 da escada, sem abrir o degrau 3; item
-numérico de S* correto de primeira.
+Evidência: previsão registrada antes de revelar os números, e item numérico de
+S* correto de primeira.
 
-Implicações: degrau 6 quase completo. A leitura causal ainda invertida é
-justamente o que a lição C (washout) corrige — quando D passa de μmax, não há
-μ que acompanhe. Próximo alvo natural.
+Implicações: degrau 6 vencido no cálculo, não na leitura causal — ele ainda
+lê "mais vazão faz crescer mais". Cobrar isso num exercício de batelada
+alimentada, onde a mesma confusão reaparece com volume variável.
 ```
 
 Promover a `GLOSSARY.md`: **estado estacionário** e **taxa de diluição (D)**, ambos usados corretamente e com unidade.

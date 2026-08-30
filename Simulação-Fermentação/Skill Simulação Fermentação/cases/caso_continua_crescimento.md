@@ -35,7 +35,7 @@ D_ótimo   = μmax·(1 − √(Ks/(Ks + Sin)))     maximiza D·X*
 
 ## Loop de feedback
 
-**Padrão principal: preveja e depois rode**, com D como único controle deslizante. O aluno varre D e monta a tabela de estado estacionário.
+**Previsão antes de revelar**, e depois o simulador com D como único controle deslizante, na estação de crítica. O aluno varre D e monta a tabela de estado estacionário. Para a estação de código, as variantes naturais são D abaixo, no ótimo e acima do crítico — três operações corretas, com figuras diferentes.
 
 ```html
 <div class="simulador" data-modelo="quimiostato" data-tempo="120"

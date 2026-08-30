@@ -29,8 +29,16 @@
   --mono: "SF Mono", "Cascadia Mono", Consolas, "Liberation Mono", Menlo, monospace;
 }
 
+/* Tema escuro em dois caminhos, com a mesma paleta:
+
+     1. preferência do sistema, a menos que o aluno tenha escolhido claro;
+     2. escolha explícita do aluno no botão de tema (assets/tema.js).
+
+   A lista é duplicada de propósito: sem pré-processador, é o preço de o
+   botão vencer a preferência do sistema nos dois sentidos. */
+
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-tema="claro"]) {
     --bg: #16161a;
     --fg: #e6e4dd;
     --muted: #9a978d;
@@ -48,6 +56,25 @@
     --ok: #7fc394;
     --err: #e08b6f;
   }
+}
+
+:root[data-tema="escuro"] {
+  --bg: #16161a;
+  --fg: #e6e4dd;
+  --muted: #9a978d;
+  --rule: #34343c;
+  --accent: #e08b6f;
+  --code-bg: #1f1f26;
+
+  --nota-bg: #2b2718;
+  --nota-borda: #8a7526;
+
+  --cor-x: #6fb2e0;
+  --cor-s: #d9b45c;
+  --cor-p: #7fc394;
+
+  --ok: #7fc394;
+  --err: #e08b6f;
 }
 
 /* ---------- estrutura ---------- */
@@ -275,34 +302,151 @@ td.num, th.num { text-align: right; font-family: var(--mono); }
   font-size: 0.92rem;
 }
 
-/* Escada de dicas: o "menor passo de cada vez" dentro do arquivo, sem depender
-   do chat. Cada degrau é um <details>; o aluno só abre o seguinte se o anterior
-   não bastou. A resposta fechada fica no último degrau, e abrir custa um clique
-   consciente — que é exatamente o atrito que se quer preservar.
+/* Revelação de um passo: a resposta fica atrás de um clique, para a previsão
+   valer alguma coisa. Sem isso o olho lê o número antes de a mão escrever.
 
-   <div class="escada">
-     <details><summary>Empaquei em montar o balanço</summary> … </details>
-     <details><summary>Montei, mas o resultado está estranho</summary> … </details>
-   </div> */
+   <div class="revelar">
+     <details><summary>Revelar os números</summary> … </details>
+   </div>
 
-.escada { margin: 1.6rem 0; }
+   Um degrau só. Não é escada de dicas: a lição não esconde o conteúdo, esconde
+   o resultado até ele apostar. */
 
-.escada details {
+.revelar { margin: 1.4rem 0; }
+
+.revelar details {
   border-left: 2px solid var(--rule);
   padding: 0 0 0 1rem;
-  margin: 0.6rem 0;
 }
 
-.escada summary {
+.revelar summary {
   cursor: pointer;
-  color: var(--muted);
+  color: var(--accent);
   font-size: 0.92rem;
   padding: 0.25rem 0;
 }
 
-.escada summary:hover { color: var(--fg); }
-.escada details[open] > summary { color: var(--fg); margin-bottom: 0.5rem; }
-.escada details > :last-child { margin-bottom: 0.6rem; }
+.revelar details[open] > summary { color: var(--muted); margin-bottom: 0.5rem; }
+.revelar details > :last-child { margin-bottom: 0.6rem; }
+
+/* ---------- equações em MathML ---------- */
+/* O navegador renderiza MathML nativamente. Só ajustamos escala e respiro:
+   o padrão sai pequeno demais ao lado de uma serifada de 17px. */
+
+math { font-size: 1.12em; }
+
+/* Não sobrescreva o display do <math>: o navegador usa "block math", e trocar
+   por "block" comum faz o mfrac virar caixa CSS — a barra de fração estica
+   pela linha inteira. Só margem e rolagem horizontal. */
+math[display="block"] {
+  margin: 0.5rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.equacao math[display="block"] { margin: 0; }
+
+/* ---------- explorador de variantes ---------- */
+/* Estação de código: troca uma linha do programa e redesenha o gráfico ao lado.
+   As variantes são escolhas corretas entre si — método do integrador, evento,
+   densidade de t_eval —, nunca erros plantados. */
+
+.variantes {
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 1rem 1.2rem;
+  margin: 2rem 0;
+}
+
+.variantes-opcoes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.9rem;
+}
+
+.variantes-grupo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.variantes-rotulo {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  min-width: 6rem;
+}
+
+.variantes-opcao {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  background: var(--bg);
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.variantes-opcao[aria-pressed="true"] {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.variantes-codigo {
+  background: var(--code-bg);
+  padding: 0.8rem 1rem;
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  overflow-x: auto;
+  margin: 0 0 0.9rem;
+}
+
+.variantes-codigo .linha-troca {
+  background: var(--nota-bg);
+  color: var(--fg);
+  display: inline-block;
+  padding: 0 0.2em;
+  border-radius: 2px;
+}
+
+.variantes canvas { width: 100%; height: auto; display: block; }
+.variantes-nota { font-size: 0.85rem; color: var(--muted); margin: 0.6rem 0 0; }
+
+/* ---------- botão de tema ---------- */
+/* Dois estados, claro e escuro. Fica fora do fluxo do texto: é ferramenta,
+   não conteúdo. Some na impressão. */
+
+.tema {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.7rem;
+  background: var(--bg);
+  color: var(--muted);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  cursor: pointer;
+  opacity: 0.65;
+}
+
+.tema:hover { opacity: 1; color: var(--fg); }
+
+@media (max-width: 40rem) {
+  .tema { top: 0.5rem; right: 0.5rem; }
+}
+
 
 /* Nota de dúvida: a explicação escrita depois, no ponto exato do texto onde o
    aluno travou. Marca-texto suave — o aluno tem que reconhecer, ao reabrir a
@@ -468,9 +612,10 @@ nav.licoes {
   body { max-width: none; padding: 0; }
   .lateral { float: none; width: auto; margin: 0.8rem 0; padding-left: 0.8rem; border-left: 1px solid var(--rule); }
   button, .sim-controles, .sim-acoes, .previsao textarea { display: none; }
-  .quiz-item, .recuperacao, .simulador, .nota-duvida, pre, table, figure { break-inside: avoid; }
-  .escada details { break-inside: avoid; }
-  /* Degrau fechado continua fechado no papel: o atrito é o ponto. */
+  .quiz-item, .recuperacao, .simulador, .variantes, .nota-duvida, pre, table, figure { break-inside: avoid; }
+  .revelar details { break-inside: avoid; }
+  .tema, .variantes-opcoes { display: none; }
+  /* Revelação fechada continua fechada no papel: a previsão é o ponto. */
   .nota-duvida { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   h1, h2, h3 { break-after: avoid; }
   a::after { content: " (" attr(href) ")"; font-size: 0.75em; color: var(--muted); word-break: break-all; }

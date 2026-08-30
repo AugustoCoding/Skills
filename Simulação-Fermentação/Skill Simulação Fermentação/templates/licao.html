@@ -1,19 +1,20 @@
 <!doctype html>
 <!--
   ESQUELETO DE LIÇÃO — copie para ./lessons/{nome-pelo-conteudo}.html
-  Nome descreve o conteúdo, em kebab-case: quimiostato-washout-etanol.html.
-  Sem numeração. Registre a lição em lessons/INDEX.md na mesma ação.
+  Nome pelo conteúdo, em kebab-case. Sem numeração. Registre em lessons/INDEX.md.
 
-  Regras que este esqueleto já materializa (detalhes em LESSON-FORMAT.md):
-    · uma lição, um alvo. Se aparecerem dois, divida em duas lições.
-    · a lição é a experiência inteira: tem que funcionar com o chat fechado.
-    · a aposta diagnóstica é declarada, e a escada de dicas é a rede quando erra.
-    · conhecimento primeiro (atrito baixo), habilidade depois (atrito alto).
-    · pelo menos um loop de feedback em que o aluno produz e recebe resposta.
-    · todo parâmetro com unidade; sem fonte, marcado como ilustrativo.
-    · autocontido: abre com duplo clique, sem servidor e sem internet.
+  A lição resolve a QUESTÃO INTEIRA. Nada fica para um próximo arquivo, e nada
+  exige abrir outro arquivo para ser entendido. Detalhes em LESSON-FORMAT.md:
 
-  Apague as seções que a lição não usar. Apague estes comentários.
+    · quatro estações, sempre nesta ordem: modelo · código · resultado · crítica
+    · a estação de código é a MAIOR da lição — é a estrela da skill
+    · teoria de fermentação: máximo 400 palavras. Explicação do código: ~800
+    · duas previsões, cada uma atrás de um clique. Nem mais, nem menos
+    · equação exibida sempre em MathML. Código nunca é MathML
+    · nenhum link interno: nem RESOURCES.md, nem reference/, nem outra lição
+    · sem floreio: o que não muda o que o aluno faz, sai
+
+  Apague as estações que o exercício não pedir. Apague estes comentários.
 -->
 <html lang="pt-BR">
 <head>
@@ -25,117 +26,147 @@
 <body>
 
 <header class="licao">
-  <!-- Etiqueta: tema e degrau do mapa de progressão. Não é número de lição. -->
   <span class="etiqueta">{Tema} · degrau {N}</span>
-  <h1>{Título — o que o aluno vai saber fazer ao final}</h1>
-  <!-- O GANCHO: por que esta lição, por que agora, ligado ao exercício que ele
-       trouxe e à missão inferida. Se você não consegue escrever isto, escolheu
-       o alvo errado. -->
-  <p class="gancho">{Uma ou duas frases amarrando ao exercício e à missão.}</p>
+  <h1>{Título — o que ele vai saber programar ao final}</h1>
+  <!-- O GANCHO: uma ou duas frases ligando ao exercício que ele trouxe. -->
+  <p class="gancho">{Por que isto, por que agora.}</p>
 </header>
 
-<!-- ============ A APOSTA DECLARADA ============
-     Sem entrevista, o ponto de travamento é aposta sua. Declará-la em uma linha
-     é o que a torna corrigível: se você errou, o aluno pula e avisa. -->
-<p class="lateral">Aposto que o seu problema não é {X}, e sim {Y}. Se eu errei,
-vá direto para <a href="#pratica">Sua vez</a> — e me diga.</p>
-
 <!-- ============ RECUPERAÇÃO ============
-     Espaçamento embutido: cobra algo de uma lição anterior, de memória,
-     ANTES de ensinar qualquer coisa nova. Custa três linhas.
-     Na primeira lição do workspace, cobre um pré-requisito do próprio exercício. -->
+     Só quando existe lição anterior. Três linhas, de memória, sem consultar.
+     É o único espaçamento que restou. Na primeira lição do workspace, apague. -->
 <div class="recuperacao">
   <span class="rotulo">Antes de começar, de memória</span>
-  <p>{Pergunta sobre a lição anterior. Sem consultar.}</p>
+  <p>{Pergunta sobre a lição anterior.}</p>
 </div>
 
-<!-- ============ CONHECIMENTO ============
-     O mínimo necessário para a habilidade do dia. Uma ideia.
-     Cada afirmação com citação para uma fonte de RESOURCES.md. -->
-<h2>{A ideia}</h2>
+<!-- ============ ESTAÇÃO ZERO: A PONTE ============
+     SÓ quando learning-records/ mostra lacuna registrada que o exercício exige.
+     Curta. Não é lição separada, não é promessa. Apague se não for o caso. -->
 
-<p>{Explicação. Curta. Cite as fontes: <a href="{url}">Doran (2013), cap. X</a>.}</p>
-
-<p class="lateral">{Nota lateral: a ressalva, a exceção, a intuição que não cabe no fluxo principal.}</p>
-
-<!-- ============ O MODELO À VISTA ============
-     A equação com cada termo anotado no que significa fisicamente.
-     É aqui que se cria o hábito de ler equação como processo. -->
+<!-- ============ ESTAÇÃO 1 — MODELO ============
+     Equações expostas e explicadas, termo a termo. Máximo 400 palavras de
+     teoria de fermentação, contando o que a estação de crítica precisar. -->
 <h2>O modelo</h2>
 
-<div class="equacao">dX/dt = μ·X
-dS/dt = −(1/Yx/s)·μ·X</div>
+<p>{Uma ou duas frases: o que o sistema descreve.}</p>
+
+<div class="equacao">
+  <math display="block">
+    <mfrac><mrow><mi>d</mi><mi>X</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+    <mo>=</mo><mi>μ</mi><mo>⋅</mo><mi>X</mi>
+  </math>
+  <math display="block">
+    <mfrac><mrow><mi>d</mi><mi>S</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+    <mo>=</mo><mo>−</mo>
+    <mfrac><mn>1</mn><msub><mi>Y</mi><mrow><mi>x</mi><mo>/</mo><mi>s</mi></mrow></msub></mfrac>
+    <mo>⋅</mo><mi>μ</mi><mo>⋅</mo><mi>X</mi>
+  </math>
+</div>
 
 <ul class="termos">
-  <li><code>μ·X</code> — {o que este termo faz no processo}</li>
+  <li><code>μ·X</code> — {o que este termo faz no processo, com unidade}</li>
   <li><code>−(1/Yx/s)</code> — {por que negativo, por que divide}</li>
-</ul>
-
-<!-- As hipóteses do enunciado são conteúdo, não rodapé:
-     o que este modelo está fingindo que não existe? -->
-<h3>O que este modelo finge que não existe</h3>
-<ul>
-  <li>{rendimento constante — ignora manutenção celular}</li>
-  <li>{volume constante, um só substrato limitante, sem lag, sem morte celular}</li>
 </ul>
 
 <table>
 <thead><tr><th>Parâmetro</th><th class="num">Valor</th><th>Unidade</th><th>Procedência</th></tr></thead>
 <tbody>
-<tr><td><code>μmax</code></td><td class="num">0,40</td><td class="un">1/h</td><td>{fonte ou "ilustrativo"}</td></tr>
-<tr><td><code>Ks</code></td><td class="num">1,0</td><td class="un">g/L</td><td>{fonte ou "suposição: ordem de grandeza de …"}</td></tr>
+<tr><td><code>μmax</code></td><td class="num">0,35</td><td class="un">1/h</td><td>{dado do enunciado}</td></tr>
+<tr><td><code>Yp/x</code></td><td class="num">10</td><td class="un">gP/gX</td><td>{suposição: 88% do teto estequiométrico}</td></tr>
 </tbody>
 </table>
 
-<p class="ilustrativo">Valores ilustrativos, escolhidos para dar uma curva de forma reconhecível. Não representam nenhum organismo específico.</p>
+<!-- Nota lateral: UMA por lição, no máximo. É o único enfeite tolerado. -->
+<p class="lateral">{A curiosidade histórica, a ressalva boa.}</p>
 
-<!-- ============ PRÁTICA ============
-     O loop de feedback, DENTRO do arquivo. Escolha UM padrão de LESSON-FORMAT.md:
-     preveja-e-rode · conserte-o-código · diagnostique-o-gráfico · das-unidades-ao-modelo -->
-<h2 id="pratica">Sua vez</h2>
+<!-- ============ ESTAÇÃO 2 — CÓDIGO ============
+     A maior estação. Programa completo, executável, comentado, explicado na
+     ordem em que executa. Cerimônia (imports, rótulos de eixo) é comentada no
+     código e não ganha parágrafo. -->
+<h2>O código</h2>
 
-<!-- Padrão "preveja e depois rode".
-     data-prever mantém as curvas ocultas até o aluno clicar em Revelar. -->
+<pre><code>{programa completo, executável, com unidades em comentário}</code></pre>
+
+<p>{Para cada trecho que não é cerimônia: o que faz · por que este termo e não
+outro · o que quebraria sem ele. Uma frase cada.}</p>
+
+<!-- O INTERATIVO OBRIGATÓRIO: escolhas CORRETAS entre si, nunca erros plantados.
+     §chave§ no código marca o trecho que cada opção troca. -->
+<div class="variantes"
+     data-modelo="batelada"
+     data-tempo="30"
+     data-params="mu_max=0.35, Ks=1.5, Yxs=0.045, Ypx=10, X0=2, S0=150">
+<script type="application/json">
+{
+  "codigo": [
+    "sol = solve_ivp(",
+    "    derivadas, (0, 30), y0, args=(p,),",
+    "    t_eval=§teval§,",
+    ")"
+  ],
+  "escolhas": [
+    {
+      "chave": "teval",
+      "rotulo": "t_eval",
+      "opcoes": [
+        { "nome": "300 pontos", "codigo": "np.linspace(0, 30, 300)", "amostras": 300,
+          "nota": "{o que o aluno ganha com saída densa}" },
+        { "nome": "12 pontos", "codigo": "np.linspace(0, 30, 12)", "amostras": 12,
+          "nota": "{mesma integração, saída esparsa: o que some do gráfico}" }
+      ]
+    }
+  ]
+}
+</script>
+</div>
+
+<!-- ============ ESTAÇÃO 3 — RESULTADO ============
+     Previsão 1, e depois os números-alvo, atrás de um clique.
+     CONFIRA os números rodando o modelo antes de publicá-los. -->
+<h2>O resultado</h2>
+
 <div class="previsao">
-  <p><strong>Antes de revelar:</strong> {a pergunta de previsão. Onde S chega a zero?
-  X para de crescer antes ou depois? O que muda se μmax dobrar?}</p>
-  <textarea placeholder="Escreva sua previsão aqui antes de revelar as curvas."></textarea>
+  <p><strong>Antes de revelar:</strong> {pergunta curta e objetiva —
+  quanto dá X no final? em que instante o substrato acaba?}</p>
+  <textarea placeholder="Sua previsão, antes de abrir."></textarea>
+</div>
+
+<div class="revelar">
+  <details>
+    <summary>Revelar os números-alvo</summary>
+    <p>{X final = … g/L · substrato esgotado em ≈ … h · produto final = … g/L.}
+    Se o seu código der outra coisa, o defeito está {onde procurar primeiro}.</p>
+  </details>
+</div>
+
+<!-- ============ ESTAÇÃO 4 — CRÍTICA ============
+     O que o modelo finge que não existe, com a consequência de cada hipótese.
+     Depois, previsão 2 e o simulador de parâmetros. -->
+<h2>O que este modelo finge que não existe</h2>
+
+<ul>
+  <li>{hipótese — e o que ela custa na resposta}</li>
+  <li>{outra}</li>
+</ul>
+
+<div class="previsao">
+  <p><strong>Antes de mexer:</strong> {o que acontece com a curva se
+  {parâmetro} dobrar?}</p>
+  <textarea placeholder="Sua previsão, antes de revelar as curvas."></textarea>
 </div>
 
 <div class="simulador"
      data-modelo="batelada"
-     data-tempo="24"
-     data-params="mu_max=0.4, Ks=1.0, Yxs=0.5, Ypx=0.2, X0=0.1, S0=20"
+     data-tempo="30"
+     data-params="mu_max=0.35, Ks=1.5, Yxs=0.045, Ypx=10, X0=2, S0=150"
      data-controles="mu_max, Ks"
      data-prever="1"></div>
 
-<p>{Depois do reveal: o que olhar. Aponte o que a previsão errada normalmente
-erra e por quê — o erro de previsão é o conteúdo da lição.}</p>
-
-<!-- ============ ESCADA DE DICAS ============
-     O "menor passo de cada vez" sem depender do chat. Três ou quatro degraus,
-     do empurrão mínimo até a resposta. Cada <summary> nomeia um estado do aluno.
-     A resposta fechada fica no ÚLTIMO degrau, e só nele. -->
-<div class="escada">
-  <details>
-    <summary>{Não sei por onde começar}</summary>
-    <p>{Uma pergunta, nunca um pedaço da solução.}</p>
-  </details>
-  <details>
-    <summary>{Montei, mas não sei se está certo}</summary>
-    <p>{O teste que o aluno aplica sozinho — unidades, caso limite, sinal.}</p>
-  </details>
-  <details>
-    <summary>{Quero ver o resultado fechado}</summary>
-    <div class="equacao">{a resposta}</div>
-  </details>
-</div>
-
 <!-- ============ VERIFICAÇÃO ============
-     Duas a quatro perguntas. Recuperação, não reconhecimento.
-     Alternativas com o MESMO número de palavras e caracteres.
-     Distratores tirados do catálogo de concepções errôneas de rules.md.
-     O feedback é a correção que ele recebe na hora: explique o mecanismo. -->
+     DUAS perguntas, ligadas ao que ele acabou de fazer.
+     Alternativas do mesmo tamanho; distratores do catálogo de rules.md;
+     feedback explica o mecanismo. -->
 <h2>Verificação</h2>
 
 <div class="quiz">
@@ -147,7 +178,7 @@ erra e por quê — o erro de previsão é o conteúdo da lição.}</p>
     "opcoes": ["{quatro palavras aqui}", "{quatro palavras aqui}", "{quatro palavras aqui}"],
     "correta": 0,
     "feedbacks": [
-      "{por que esta está certa — explique o mecanismo}",
+      "{por que está certa — o mecanismo}",
       "{qual concepção errônea leva a esta — nomeie}",
       "{idem}"
     ]
@@ -164,31 +195,18 @@ erra e por quê — o erro de previsão é o conteúdo da lição.}</p>
 </script>
 </div>
 
-<!-- ============ FONTE PRIMÁRIA ============
-     Uma por lição, tirada de RESOURCES.md, com o que procurar lá dentro. -->
-<div class="fonte">
-  <span class="rotulo">Leia isto</span>
-  <a href="{url}">{Autor, título, capítulo ou seção}</a> — {o que procurar
-  especificamente, e por que vale o tempo do aluno.}
-</div>
-
-<!-- ============ FECHO ============ -->
-<h2>O que fica</h2>
-
-<p>{Uma frase: a vitória tangível desta lição.} O que vale reconsultar está
-comprimido em <a href="../reference/equacoes.html">balanços e cinética</a>.</p>
+<!-- ============ FECHO ============
+     Uma frase. Sem "na próxima lição", sem leitura recomendada, sem links. -->
+<p>{A vitória tangível desta lição, em uma frase.}</p>
 
 <div class="pergunte">
-  <strong>Ficou algo obscuro?</strong> Pergunte. Sou seu professor nisto —
-  posso reexplicar de outro jeito, abrir a derivação, ou montar um exercício
-  diferente sobre o mesmo ponto. E o que você perguntar entra aqui neste arquivo,
-  no ponto exato onde a dúvida apareceu, para você reencontrar depois.
+  <strong>Ficou algo obscuro?</strong> Pergunte. O que você perguntar entra
+  aqui neste arquivo, no ponto exato onde a dúvida apareceu.
 </div>
 
 <!-- ============ NOTA DE DÚVIDA ============
-     Não faz parte do esqueleto: entra depois, quando o aluno perguntar.
-     Enxerte no ponto EXATO do texto que gerou a dúvida, nunca no rodapé,
-     e não apague o trecho original. Formato em LESSON-FORMAT.md.
+     Não faz parte do esqueleto: entra depois, quando ele perguntar.
+     No ponto EXATO do texto que gerou a dúvida, sem apagar o original.
 
      <p class="nota-duvida">
        <span class="rotulo">Dúvida — 30/08</span>
@@ -196,13 +214,9 @@ comprimido em <a href="../reference/equacoes.html">balanços e cinética</a>.</p
      </p>
 -->
 
-<!-- Links entre lições usam o nome de conteúdo, não numeração. -->
-<nav class="licoes">
-  <a href="./{licao-anterior}.html">← {Lição anterior}</a>
-  <a href="./INDEX.md">Todas as lições</a>
-</nav>
-
+<script src="../assets/tema.js" defer></script>
 <script src="../assets/quiz.js" defer></script>
 <script src="../assets/simulador.js" defer></script>
+<script src="../assets/variantes.js" defer></script>
 </body>
 </html>

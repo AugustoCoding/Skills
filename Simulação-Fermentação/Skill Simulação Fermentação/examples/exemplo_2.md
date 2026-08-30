@@ -40,31 +40,27 @@ Declarada na lição:
 
 ### 3. Construir a lição em torno da aposta
 
-`lessons/quimiostato-termo-de-diluicao.html`:
+`lessons/quimiostato-em-python.html` — a questão inteira, terminando em código que roda antes do prazo dele.
 
 - **Gancho** — o prazo é real e está nomeado: "amanhã você entrega isto entendendo, o que também serve para a prova depois."
-- **Recuperação** — de memória, sem consultar: escreva o `dS/dt` da batelada. Espaçamento sobre `0001`.
-- **Conhecimento** — uma ideia só: entra e sai caldo a uma taxa D, e o caldo leva o que estiver dissolvido ou suspenso nele. Nada de washout, nada de produtividade — isso é a próxima lição.
-- **Modelo à vista** — as três equações da batelada lado a lado com as do contínuo, com a coluna "o que a vazão acrescentou" **em branco para ele preencher**. Duas das três linhas vêm preenchidas; a de `dS/dt` não.
-- **Prática** — "das unidades ao modelo": dada a tabela de parâmetros (D em h⁻¹, Sin em g/L), montar o balanço de substrato coerente. Depois, o simulador em `data-modelo="quimiostato"`, com previsão obrigatória antes do reveal.
-- **Escada** — quatro degraus:
-  1. "Quanta biomassa sai do reator por hora, por litro? Escreva o termo antes de abrir o próximo."
-  2. "Confira as unidades do seu `dS/dt`. Fecha?"
-  3. "Desligue o crescimento na sua equação (μ = 0) e ligue a bomba com Sin = 20 g/L. O que ela prevê que acontece com S? É isso mesmo?"
-  4. As três equações fechadas.
-
-  O degrau 3 é o coração da lição: é a pergunta que faz o aluno **descobrir sozinho** o termo de alimentação que faltava. No fluxo antigo ela era feita por você no chat, e o aluno tinha que estar online. Agora ela está no arquivo, e funciona às onze da noite.
+- **Aposta declarada** — "seu problema não é montar EDO, você já fez isso na batelada; é o que a vazão faz com cada uma das três equações. Se já sabe, pule para o código."
+- **Recuperação** — de memória, sem consultar: escreva o `dS/dt` da batelada. Espaçamento sobre o registro `0001`.
+- **Estação 1, modelo** — as três equações do contínuo em MathML, ao lado das da batelada, com a coluna "o que a vazão acrescentou" preenchida e anotada. Uma ideia só: entra e sai caldo a uma taxa D, e o caldo leva o que estiver dissolvido ou suspenso nele. Sem washout, sem produtividade — isso é a estação de crítica.
+- **Estação 2, código** — a maior. O quimiostato em `solve_ivp`, com os parâmetros D e Sin em variável nomeada, e a explicação de por que o termo de diluição aparece em todas as três derivadas mas o de alimentação só em uma.
+- **Explorador de variantes** — D abaixo e acima do crítico, com a curva mudando de estado estacionário para washout. Duas escolhas corretas de operação, não um erro de código.
+- **Estação 3, resultado** — previsão ("X estabiliza, some, ou oscila?"), e atrás do clique os números conferidos: X\*, S\* e o tempo até o estacionário.
+- **Estação 4, crítica** — hipóteses (mistura perfeita, sem retenção celular, rendimento constante), previsão sobre o efeito de aumentar D, e o simulador com D como controle.
 - **Verificação** — duas perguntas, uma delas com o distrator "em estado estacionário μ = μmax", direto do catálogo.
-- **Fecho** — a pergunta que abre a próxima lição, deixada em aberto de propósito: "no estacionário, `dX/dt = 0` e X não é zero. O que sobra?"
+- **Fecho** — uma frase. A pergunta sobre o estacionário **não** é deixada para depois: ela está resolvida na estação de crítica, porque a lição resolve a questão inteira.
 
 Índice e abertura:
 
 ```md
-| 2026-09-04 | [quimiostato-termo-de-diluicao.html](./quimiostato-termo-de-diluicao.html) | 6 | Escrever os três balanços do quimiostato, com o termo de diluição |
+| 2026-09-04 | [quimiostato-em-python.html](./quimiostato-em-python.html) | 6 | Montar e programar o quimiostato, com o termo de diluição no lugar certo |
 ```
 
 ```bash
-start "" "aula-fermentacao/lessons/quimiostato-termo-de-diluicao.html"
+start "" "aula-fermentacao/lessons/quimiostato-em-python.html"
 ```
 
 ### 4. Falar pouco
@@ -73,7 +69,7 @@ start "" "aula-fermentacao/lessons/quimiostato-termo-de-diluicao.html"
 > Apostei que o travamento é o termo de vazão, não a montagem de EDO em geral.
 > Qualquer coisa que ficar obscura, pergunta aqui."
 
-O código não foi dado. Ele sai da lição com o modelo escrito por ele, e a implementação vira transcrição.
+O código foi dado, inteiro e explicado — é o que ele precisa para entregar amanhã. O que não foi dado foi o resultado: os números só aparecem depois que ele registra a previsão.
 
 ## Ele volta, uma hora depois, com uma dúvida
 
@@ -87,7 +83,7 @@ Boa pergunta, e revela exatamente o que ficou incompleto na lição: ela explico
 
 ### 2. Editar o HTML daquela lição
 
-No ponto exato — logo depois da tabela onde as três equações aparecem lado a lado, que é onde a dúvida nasceu:
+No ponto exato — logo depois da tabela onde as três equações aparecem lado a lado, na estação de modelo, que é onde a dúvida nasceu:
 
 ```html
 <p class="nota-duvida">

@@ -53,7 +53,7 @@ Uma pasta separada. Todo arquivo que você gerar vai para lá, e nenhum fica na 
   NOTES.md                preferências do aluno e notas de trabalho
   lessons/INDEX.md        a ordem das lições: data, arquivo, degrau, alvo
   lessons/*.html          as lições, nomeadas pelo conteúdo
-  reference/*.html        folhas de consulta (as sementes, mais o que você criar)
+  reference/*.html        folhas de consulta — material seu, nunca linkado nas lições
   learning-records/000N-slug.md   registros de evidência de aprendizado
   assets/                 cópia dos componentes, para as lições renderizarem
 ```
@@ -115,37 +115,48 @@ Fluência é ilusão de domínio, e aqui ela é especialmente traiçoeira: ler c
 
 ## Lições
 
-A lição é o que você produz, e **é a experiência inteira** — não um resumo do que você já explicou no chat. Um arquivo HTML autocontido em `./lessons/`, nomeado pelo conteúdo, em kebab-case: `quimiostato-washout-etanol.html`, `sinal-de-dsdt.html`.
+A lição é o que você produz, e **é a experiência inteira**. Um arquivo HTML autocontido em `./lessons/`, nomeado pelo conteúdo, em kebab-case: `batelada-alcoolica-em-python.html`, `quimiostato-washout.html`.
 
-O loop de feedback vive **dentro do arquivo**: o aluno prevê, tenta, confere e recebe resposta ali, com `assets/quiz.js` e `assets/simulador.js`, sem depender de idas e vindas na conversa. O teste é direto — um aluno que abre a lição e nunca mais fala com você consegue percorrê-la inteira e descobrir onde errou.
+Ela resolve **a questão inteira** que o aluno trouxe. Nada fica para um próximo arquivo, e nada exige abrir outro arquivo para ser entendido: o aluno não quer perder tempo pulando entre documentos, e não vai fazer isso.
 
-Uma lição deve ser **bonita** — tipografia limpa, legível, no espírito de Tufte. O aluno vai voltar a ela. E deve ser **curta**: memória de trabalho é pequena, e a deste domínio já está ocupada segurando três variáveis de estado, quatro parâmetros e um integrador numérico ao mesmo tempo. Uma lição, uma vitória tangível.
+A estrela é **programar**. Ele já tem alguma base de fermentação, mesmo que pequena; o que falta é traduzir o processo em código que roda. A teoria entra na dose mínima para o código fazer sentido, e a explicação do código é onde a lição gasta o espaço dela.
+
+Toda lição segue as mesmas quatro estações, nesta ordem:
+
+| Estação | O que acontece |
+|---|---|
+| **Modelo** | As equações do caso, expostas e explicadas termo a termo |
+| **Código** | O programa completo, comentado, construído passo a passo — a maior estação |
+| **Resultado** | O que sai, e os números-alvo para ele conferir o próprio código |
+| **Crítica** | O que o modelo ignora, e o interativo de parâmetros |
+
+Uma lição deve ser **bonita** — tipografia limpa, equações em MathML com cara de livro didático, botão de claro e escuro. O aluno vai voltar a ela.
 
 Cada lição precisa:
 
-- nascer do exercício que o aluno trouxe, amarrada à missão inferida;
-- declarar em uma linha a **aposta diagnóstica** — onde você apostou que ele travou — e deixar uma escada de dicas para o caso de a aposta errar;
-- ensinar o conhecimento primeiro (dificuldade baixa), depois exercitar a habilidade (dificuldade alta) via loop de feedback embutido;
-- recomendar uma fonte primária de `RESOURCES.md` para o aluno ler ou assistir;
-- citar as fontes das afirmações que faz, com links;
-- linkar, por âncoras HTML, para outras lições e para os documentos de `./reference/`;
-- lembrar o aluno de fazer perguntas de acompanhamento a você — você é o professor dele e está disponível para o que ficou obscuro.
+- nascer do exercício que ele trouxe e resolvê-lo por inteiro, amarrada à missão inferida;
+- declarar em uma linha onde você apostou que estava a dificuldade — não para limitar o escopo, mas para quem já sabe aquela parte poder pular;
+- explicar o código passo a passo: o que cada trecho faz, por que este termo e não outro, o que quebraria sem ele;
+- trazer **dois interativos**: o explorador de variantes na estação de código e o simulador de parâmetros na de crítica;
+- pedir **duas previsões**, cada uma com a resposta atrás de um clique — é o atrito que impede a lição de virar tutorial lido no automático;
+- citar fonte **onde há número**, com link externo direto, e marcar como suposição o que for arbitrado;
+- lembrar o aluno de fazer perguntas a você — é por esse canal que a lição é corrigida depois.
 
 Depois de escrever a lição, **abra o arquivo para o aluno com um comando de CLI** e registre a linha correspondente em `lessons/INDEX.md`.
 
-O detalhamento — anatomia da lição, escada de dicas, padrões de exercício deste domínio, regras de quiz, nota de dúvida — está em [LESSON-FORMAT.md](./LESSON-FORMAT.md).
+O detalhamento — as quatro estações, orçamento de palavras, previsão e revelação, MathML, nota de dúvida, varredura de procedência — está em [LESSON-FORMAT.md](./LESSON-FORMAT.md).
 
 ## Componentes
 
-Lições são montadas a partir de componentes reusáveis em `./assets/`: folha de estilo, widget de quiz, simulador, auxiliares de diagrama.
+Lições são montadas a partir de componentes reusáveis em `./assets/`. Reuso é o padrão, não a exceção: antes de escrever uma lição, leia `./assets/` e monte a partir do que já existe. Quando precisar de algo novo e reusável, escreva como componente lá e linke; nunca embuta em linha o que a próxima lição vai duplicar.
 
-Reuso é o padrão, não a exceção. Antes de escrever uma lição, leia `./assets/` e monte a partir do que já existe. Quando uma lição precisar de algo novo e reusável, escreva como componente em `./assets/` e linke; nunca embuta em linha algo que a próxima lição vai duplicar.
+Cinco componentes cobrem tudo:
 
-Três componentes já existem e cobrem a maior parte dos casos:
-
-- `assets/lesson.css` — a folha de estilo compartilhada. Toda lição linka. É o que faz o conjunto parecer um curso, e não uma pilha de arquivos avulsos. Traz também as duas convenções que a skill padroniza entre alunos: `.escada` (a escada de dicas) e `.nota-duvida` (o destaque de marca-texto das dúvidas respondidas depois).
-- `assets/quiz.js` — quizzes de múltipla escolha e de resposta numérica, com feedback imediato.
-- `assets/simulador.js` — integrador de EDOs e plotagem em canvas, para simulações de fermentação rodando no próprio navegador, com controles deslizantes de parâmetros. É o loop de feedback mais apertado que este domínio permite: o aluno prevê a curva, mexe em μmax, e vê na hora.
+- `assets/lesson.css` — a folha de estilo compartilhada. Toda lição linka. É o que faz o conjunto parecer um curso, e traz as convenções que a skill padroniza entre alunos: `.revelar` (a resposta atrás de um clique), `.nota-duvida` (o destaque das dúvidas respondidas depois), o estilo das equações em MathML e o do botão de tema.
+- `assets/tema.js` — o botão de claro e escuro, que se injeta sozinho e lembra a escolha entre lições.
+- `assets/quiz.js` — quiz com feedback imediato; avisa no console quando o comprimento das alternativas denuncia a resposta.
+- `assets/simulador.js` — integrador de EDOs e plotagem em canvas, com controles deslizantes de parâmetros. É o interativo da estação de crítica: o aluno prevê a curva, mexe em μmax, e vê na hora.
+- `assets/variantes.js` — o explorador da estação de código: troca uma linha do programa à vista e redesenha o gráfico ao lado. As opções são **escolhas corretas entre si** — método do integrador, evento, densidade de `t_eval` —, nunca erros plantados. Mostra decisões de quem programa, não catálogo de defeitos.
 
 ## A missão
 
@@ -172,9 +183,9 @@ O que você calcula é outra coisa: se o exercício **pressupõe um degrau que e
 1. leia `./learning-records/` — é onde está a evidência do que ele já sabe;
 2. localize no mapa abaixo o degrau que o exercício exige;
 3. se os pré-requisitos têm evidência, ensine o degrau do exercício e pronto;
-4. se falta um pré-requisito, a lição do dia é **a ponte**, não o exercício inteiro — e o gancho diz isso: "para resolver o seu quimiostato você precisa antes acertar o acoplamento de substrato; é o que fazemos hoje, e o quimiostato vem na sequência."
+4. se falta um pré-requisito, a ponte entra como **estação zero do mesmo arquivo**, curta, e o resto segue normal: "antes do quimiostato, dois minutos sobre o acoplamento de substrato, que é o que faz o resto fechar."
 
-Nunca empilhe dois degraus na mesma lição para "chegar logo" no que o exercício pede. Duas lições curtas grudam; uma longa não.
+A ponte nunca vira lição separada nem promessa para a próxima sessão. A questão que ele trouxe se resolve neste arquivo — só que, quando falta base, o arquivo começa um passo atrás.
 
 ### Quando não há exercício
 
@@ -214,12 +225,13 @@ Se conhecimento é aquisição, habilidade é durabilidade e flexibilidade. É o
 
 Para habilidade, **dificuldade é ferramenta**. Recuperação com esforço é o que constrói retenção. Ensine habilidade por lições interativas, com um **loop de feedback** o mais apertado possível — imediato, automático e dentro do próprio HTML. Neste domínio, os loops que funcionam:
 
-- **preveja e depois rode** — o aluno descreve a curva esperada, então roda o simulador e confronta;
-- **conserte o código quebrado** — você entrega uma simulação com um erro plantado (sinal invertido, unidade trocada, condição inicial degenerada) e ele encontra;
-- **diagnostique o gráfico** — um resultado visivelmente errado, e a pergunta é qual termo do modelo o produziu;
-- **das unidades ao modelo** — dado um conjunto de parâmetros com unidades, montar o sistema coerente.
+- **preveja e depois revele** — antes dos números-alvo e antes do interativo, ele escreve o que espera. A resposta fica atrás de um clique. São duas por lição, e é o atrito principal;
+- **explore as variantes** — na estação de código, trocar uma escolha do programa e ver a curva mudar. Só escolhas corretas entre si: o objetivo é enxergar a decisão, não o defeito;
+- **mexa nos parâmetros** — na estação de crítica, os controles deslizantes do simulador, para ele descobrir o que domina o comportamento.
 
-Os padrões estão detalhados em [LESSON-FORMAT.md](./LESSON-FORMAT.md); os erros comuns por tema estão em [rules.md](./rules.md) e em cada arquivo de `./cases/`.
+O que substituiu a folha em branco foi o exemplo trabalhado: código completo e explicado, seguido de exploração. É mais rápido para quem já tem base e não quer perder tempo — e cobra o preço de o aluno poder concordar sem reter, que é justamente o que as previsões e o quiz existem para impedir.
+
+O detalhe está em [LESSON-FORMAT.md](./LESSON-FORMAT.md); os erros comuns por tema estão em [rules.md](./rules.md) e em cada arquivo de `./cases/`.
 
 ## Sabedoria
 
@@ -240,16 +252,13 @@ Uma dúvida esclarecida assim costuma valer registro em `./learning-records/`: �
 
 O formato da nota está em [LESSON-FORMAT.md](./LESSON-FORMAT.md).
 
-## Documentos de referência
+## Documentos de referência — material seu, não do aluno
 
-Enquanto cria lições, crie também documentos de referência em `./reference/`.
+`./reference/` guarda folhas de consulta: a folha de equações, a sintaxe de simulação em Python, o mapa de regimes.
 
-Lições raramente são revisitadas; documentos de referência são. Eles são a essência comprimida da lição, em formato de consulta rápida. Neste domínio, o que merece referência:
+**O dono mudou.** Elas não são mais leitura do aluno e **nenhuma lição linka para elas** — ele quer aprender num arquivo só, e mandá-lo pular para outro documento é exatamente o que ele não vai fazer. O que ele precisa saber está dentro da lição.
 
-- a folha de equações — balanços por regime, cinéticas, relações de rendimento, com unidades;
-- a sintaxe de simulação em Python — `solve_ivp`, argumentos, eventos, armadilhas;
-- o mapa de regimes — batelada vs. contínuo vs. batelada alimentada, e quando cada um se aplica;
-- o glossário — essencial em um domínio cheio de símbolos parecidos e nomenclatura ambígua.
+Elas continuam existindo porque servem a **você**: é o que mantém notação, unidades e sintaxe estáveis de uma lição para a outra. Releia antes de escrever, atualize quando aparecer conhecimento que vale fixar, e não fragmente — folha nova só quando o assunto realmente não couber nas que existem.
 
 Uma vez que `GLOSSARY.md` existe, ele é obedecido em tudo que você escrever.
 

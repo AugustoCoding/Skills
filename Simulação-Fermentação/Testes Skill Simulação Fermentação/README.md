@@ -55,19 +55,19 @@ Para comparar com e sem a skill, rode o mesmo prompt nas duas condições e guar
 
 ## O que olhar ao avaliar
 
-O modo de falha central da skill é escorregar para resolvedor. O segundo é a lição que só funciona com o chat aberto. O resto é secundário.
+Dois modos de falha centrais agora: a **teoria comendo o código** (a estrela da skill é programar) e o **tutorial que se lê no automático** (tudo explicado, nada previsto). O resto é secundário.
 
 **Comportamento**
 
 - [ ] **Não entrevistou.** Nenhuma pergunta sobre missão, nível, travamento ou pasta antes de produzir a lição.
 - [ ] Escolheu o workspace sozinho (ou usou o indicado), **avisou em uma linha depois de escrever**, e não tocou na pasta da skill?
 - [ ] Preencheu `MISSION.md` por inferência, marcando o que é inferência e de qual exercício veio?
-- [ ] Diante de um enunciado pronto, produziu lição em vez de solução completa?
-- [ ] **Declarou a aposta diagnóstica** em uma linha dentro da lição?
-- [ ] Escolheu **um** alvo, e checou o pré-requisito contra `learning-records/` antes?
+- [ ] **Resolveu a questão inteira num arquivo só**, sem prometer continuação e sem mandar abrir outro documento?
+- [ ] Declarou em uma linha onde apostou que estava a dificuldade?
+- [ ] Faltando pré-requisito registrado, a ponte entrou como estação zero **do mesmo arquivo**?
 - [ ] Falou pouco no chat — onde escreveu, qual foi a aposta, o convite a perguntar — sem repetir a lição ali?
 - [ ] Abriu o arquivo automaticamente via CLI?
-- [ ] Escreveu registro de aprendizado só onde houve evidência, não onde houve cobertura? (Na primeira sessão, o normal é **nenhum**.)
+- [ ] Escreveu registro de aprendizado só onde houve evidência, não onde houve cobertura?
 
 **A dúvida pós-entrega**
 
@@ -75,27 +75,36 @@ O modo de falha central da skill é escorregar para resolvedor. O segundo é a l
 - [ ] A explicação entrou no **ponto exato** onde a dúvida surgiu, não no rodapé?
 - [ ] Usou a classe `.nota-duvida`, sem inventar variante, e sem apagar o texto original?
 - [ ] Reabriu o arquivo e avisou que ele foi atualizado?
-- [ ] A dúvida gerou registro, se houve evidência de concepção corrigida ou lacuna revelada?
+
+**Estrutura da lição**
+
+- [ ] **Quatro estações** na ordem: modelo · código · resultado · crítica?
+- [ ] **A estação de código é a maior da lição?** (se a teoria for maior, é reprovação direta)
+- [ ] Teoria de fermentação dentro das 400 palavras?
+- [ ] O código está **completo, comentado e explicado passo a passo**, com as escolhas justificadas — por que `solve_ivp`, por que o evento, o que `t_eval` faz?
+- [ ] **Duas previsões**, cada uma com a resposta atrás de um clique — nem nenhuma, nem quatro?
+- [ ] **Explorador de variantes** na estação de código, com escolhas **corretas entre si** e nenhum erro plantado?
+- [ ] **Simulador de parâmetros** na estação de crítica?
+- [ ] **Nenhum link interno**: nem `RESOURCES.md`, nem `reference/`, nem outra lição?
+- [ ] Nenhuma promessa de continuação ("na próxima lição…")?
+- [ ] Sem floreio — no máximo uma curiosidade lateral, nada de recapitulação?
 
 **Artefatos**
 
-- [ ] A lição abre no navegador, com estilo, quiz e simulador funcionando?
-- [ ] **Funciona com o chat fechado**: dá para prever, tentar, errar e descobrir por que errou sem falar com o modelo?
-- [ ] Tem escada de dicas, com a resposta fechada só no último degrau?
-- [ ] **Regra da lacuna**: se o enunciado mandava o aluno produzir o modelo, a seção "modelo à vista" veio incompleta, com o sistema fechado só na escada?
-- [ ] **Varredura de procedência**: todo número — inclusive faixas e percentuais — é dado do enunciado, fonte citada ou suposição marcada?
-- [ ] Nenhum link de dentro do workspace para a pasta da skill ou para caminho absoluto?
+- [ ] A lição abre no navegador, com estilo, quiz, simulador e explorador funcionando?
+- [ ] **As equações estão em MathML**, com cara de livro, e não em texto cru?
+- [ ] O **botão de claro/escuro** aparece e alterna, e o gráfico repinta junto?
+- [ ] **Funciona com o chat fechado e sem abrir outro arquivo?**
 - [ ] O nome do arquivo descreve o conteúdo, sem numeração `000N`?
 - [ ] `lessons/INDEX.md` ganhou a linha correspondente, com data, degrau e alvo?
-- [ ] É curta, com um alvo só, e amarrada ao exercício que você mandou?
-- [ ] Todo parâmetro tem unidade, e os sem fonte estão marcados como ilustrativos ou como suposição?
-- [ ] As alternativas de quiz têm comprimentos parecidos? (o `quiz.js` avisa no console quando não)
+- [ ] Quiz com **duas** perguntas, alternativas de comprimento parecido? (o `quiz.js` avisa no console quando não)
 - [ ] O código exibido roda?
 
 **Correção técnica**
 
-- [ ] Sinais e rendimentos corretos nos balanços?
-- [ ] As unidades fecham?
-- [ ] Valores numéricos citados como literatura têm procedência — organismo e condição?
+- [ ] **Os números-alvo foram conferidos rodando o modelo?** Recalcule pelo menos um.
+- [ ] **Varredura de procedência**: todo número — inclusive faixas e percentuais — é dado do enunciado, fonte citada ou suposição marcada?
+- [ ] Sinais e rendimentos corretos nos balanços? As unidades fecham?
+- [ ] Nenhum link de dentro do workspace para a pasta da skill ou para caminho absoluto?
 
-Um teste que produz uma lição bonita e tecnicamente correta, mas em que o modelo entregou a resposta pronta — ou interrogou o aluno antes de ensinar —, é um teste **reprovado**.
+Um teste que produz uma lição bonita e correta, mas em que a teoria comeu o código, ou em que o aluno pôde ler tudo sem prever nada, é um teste **reprovado**.

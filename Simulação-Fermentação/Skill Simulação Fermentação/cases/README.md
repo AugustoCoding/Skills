@@ -12,7 +12,7 @@ Você os usa em dois momentos:
 - **Problema** — o enunciado bruto.
 - **Degrau** — onde cai no mapa de progressão de [SKILL.md](../SKILL.md). Determina se o caso está na zona do aluno.
 - **Modelo esperado** — as equações, para você conferir, não para copiar na lição.
-- **Loop de feedback** — qual dos quatro padrões de [LESSON-FORMAT.md](../LESSON-FORMAT.md) funciona melhor aqui, e como montá-lo.
+- **Loop de feedback** — o que funciona como interativo aqui: quais escolhas de código valem virar variantes na estação de código, e quais parâmetros valem controle deslizante na de crítica. Veja [LESSON-FORMAT.md](../LESSON-FORMAT.md).
 - **Erros comuns** — o que costuma dar errado e o que cada erro revela.
 - **Evidência de entendimento** — o que, se acontecer, merece registro em `./learning-records/`.
 - **Extensões** — para onde ir depois, e com o que intercalar.
@@ -20,7 +20,7 @@ Você os usa em dois momentos:
 ## Regras de uso
 
 - **Não entregue o caso pronto.** Ele contém o modelo esperado; entregá-lo é entregar a resposta. Use-o para construir a lição, não como conteúdo da lição.
-- **Um caso não é uma lição.** Um caso costuma cobrir três ou quatro degraus. Recorte só o degrau do dia.
+- **Um caso não é uma lição.** Um caso costuma cobrir três ou quatro degraus, e a lição resolve a questão que o aluno trouxe. Quando o caso vira a origem do exercício, recorte dele um problema fechado — não despeje o caso inteiro.
 - **Adapte à missão.** O mesmo caso vira exercícios diferentes conforme o aluno precise passar numa prova escrita ou entregar código rodando.
 - **Substitua o contexto pelo do aluno** sempre que possível. Se ele trabalha com fermentação lática, o caso de etanol vira um caso de lactato. O exercício ancorado no processo real dele vale mais que qualquer enunciado genérico.
 - **Acrescente casos.** Quando um problema real do aluno render um bom exercício, escreva-o aqui neste formato. O banco cresce com o workspace.

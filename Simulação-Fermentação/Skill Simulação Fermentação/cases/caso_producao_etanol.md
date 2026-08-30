@@ -45,7 +45,7 @@ Resultado da simulação com `S0 = 150 g/L`, `X0 = 0,5 g/L`, `Pmax = 90 g/L`, em
 
 ## Loop de feedback
 
-**Padrão principal: das unidades ao modelo.** Dê a tabela de parâmetros com unidades e o teto estequiométrico, e peça o sistema. Depois, o confronto: o Yp/s do modelo dele respeita os 0,511?
+**O teto estequiométrico como régua.** A tabela de parâmetros com unidades e o teto de 0,511 gP/gART aparecem na estação de modelo, e a pergunta que fecha a lição é o confronto: o Yp/s deste modelo respeita o teto? É a melhor previsão que este caso oferece.
 
 ```html
 <div class="simulador" data-modelo="inibicao_produto" data-tempo="48"
@@ -59,7 +59,7 @@ Perguntas de previsão:
 - O que acontece quando `Pmax` cai para 40 g/L?
 - Aumentar `Yp/x` sem mexer em `Yx/s` pode violar a estequiometria? A partir de qual valor?
 
-**Padrão alternativo: diagnostique o gráfico.** Mostre uma curva em que S sobra no fim, sem o código. Por que a fermentação parou com substrato disponível? A resposta — inibição por produto — é a intuição que todo operador de destilaria tem e que o modelo precisa reproduzir.
+**Para a estação de crítica.** Uma curva em que S sobra no fim: por que a fermentação parou com substrato disponível? A resposta — inibição por produto — é a intuição que todo operador de destilaria tem e que o modelo precisa reproduzir. Vale como previsão antes de o aluno mexer em Pmax no simulador.
 
 ## Erros comuns
 

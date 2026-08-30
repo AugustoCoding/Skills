@@ -70,13 +70,13 @@ Checklist condensado. O completo está no [README](../README.md) — este aqui �
 
 - [ ] Não entrevistou: nenhuma pergunta sobre missão, nível, travamento ou pasta
 - [ ] Escolheu/usou o workspace certo e avisou onde escreveu, em uma linha, **depois** de escrever
-- [ ] `MISSION.md` preenchido por inferência, marcado como inferência, com data e procedência
-- [ ] Produziu lição em vez de solução pronta
-- [ ] Declarou a aposta diagnóstica dentro da lição
-- [ ] Um alvo só, com pré-requisito checado contra `learning-records/`
+- [ ] `MISSION.md` por inferência, marcado como inferência, com data e procedência
+- [ ] Resolveu a questão inteira num arquivo só, sem prometer continuação
+- [ ] Declarou em uma linha onde apostou que estava a dificuldade
+- [ ] Ponte de pré-requisito, se necessária, entrou como estação zero do mesmo arquivo
 - [ ] Falou pouco no chat, sem repetir a lição ali
 - [ ] Abriu o arquivo via CLI
-- [ ] Registro de aprendizado só por evidência (na 1ª sessão, o normal é nenhum)
+- [ ] Registro de aprendizado só por evidência
 
 **Dúvida pós-entrega**
 
@@ -85,15 +85,29 @@ Checklist condensado. O completo está no [README](../README.md) — este aqui �
 - [ ] Usou `.nota-duvida`, sem variante inventada, sem apagar o original
 - [ ] Reabriu o arquivo e avisou
 
-**Artefatos**
+**Estrutura e artefatos**
 
-- [ ] A lição abre e renderiza: estilo, quiz e simulador funcionando
-- [ ] Funciona com o chat fechado
-- [ ] Escada de dicas, com a resposta só no último degrau
-- [ ] Nome pelo conteúdo, sem `000N`
-- [ ] `lessons/INDEX.md` com a linha da lição
-- [ ] Parâmetros com unidade; sem fonte, marcados como ilustrativos ou suposição
-- [ ] Código exibido roda
+- [ ] Quatro estações na ordem: modelo · código · resultado · crítica
+- [ ] **A estação de código é a maior da lição**
+- [ ] Teoria de fermentação dentro das 400 palavras
+- [ ] Código completo, comentado, explicado passo a passo, com as escolhas justificadas
+- [ ] Duas previsões, cada uma com a resposta atrás de um clique
+- [ ] Explorador de variantes com escolhas corretas entre si, sem erro plantado
+- [ ] Simulador de parâmetros na estação de crítica
+- [ ] Equações em MathML, não em texto cru
+- [ ] Botão de claro/escuro presente e funcionando
+- [ ] Nenhum link interno, nenhuma promessa de continuação
+- [ ] A lição abre e renderiza: estilo, quiz, simulador e explorador
+- [ ] Funciona com o chat fechado e sem abrir outro arquivo
+- [ ] Nome pelo conteúdo, sem `000N`; `lessons/INDEX.md` atualizado
+- [ ] Quiz com duas perguntas, alternativas de comprimento parecido
+
+**Correção técnica**
+
+- [ ] Números-alvo conferidos rodando o modelo — recalcule pelo menos um
+- [ ] Varredura de procedência: todo número é dado do enunciado, fonte citada ou suposição marcada
+- [ ] Sinais, rendimentos e unidades corretos
+- [ ] Nenhum link para fora do workspace
 
 ## 7. Achados
 

@@ -27,7 +27,7 @@ Hipóteses embutidas, que valem ser nomeadas com o aluno: rendimentos constantes
 
 ## Loop de feedback
 
-**Padrão principal: preveja e depois rode.** É o melhor caso do banco para isso, porque a curva tem três comportamentos previsíveis e o aluno erra pelo menos um.
+**Previsão antes de revelar.** É o melhor caso do banco para isso: a curva tem três comportamentos previsíveis e o aluno erra pelo menos um. Vale como a previsão da estação de resultado, e o simulador abaixo como o interativo da estação de crítica.
 
 Montagem com `assets/simulador.js`:
 
@@ -56,7 +56,7 @@ A pergunta do μmax é a melhor do caso, porque a resposta é **"depende, e a co
 
 Deixe o aluno descobrir o platô mexendo no controle deslizante. A pergunta que fecha a lição: *por que a tabela satura, e o que exatamente fixa o valor 10,1?*
 
-**Padrão alternativo: conserte o código quebrado.** Use `templates/codigo.py` com um defeito plantado. Para este caso, o mais produtivo é inverter o sinal de `dSdt` — o gráfico denuncia sozinho e o aluno aprende a ler a figura como verificação.
+**Variantes para a estação de código.** Escolhas corretas entre si, nunca erro plantado: `t_eval` denso contra esparso, para ver a transição sumir entre dois pontos; com evento e sem evento, para o instante de esgotamento sair exato em vez de lido no olho.
 
 ## Erros comuns
 

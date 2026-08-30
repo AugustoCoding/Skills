@@ -293,6 +293,12 @@
     return p;
   }
 
+  var REDESENHOS = [];
+
+  function redesenharTodos() {
+    REDESENHOS.forEach(function (f) { f(); });
+  }
+
   function montar(el) {
     var nome = el.dataset.modelo || "batelada";
     var modelo = MODELOS[nome];
@@ -394,6 +400,10 @@
 
     redesenhar();
 
+    // Guardado para o botão de tema poder repintar sem remontar o widget:
+    // remontar recriaria os controles e perderia o estado da previsão.
+    REDESENHOS.push(redesenhar);
+
     // O gráfico acompanha a largura da coluna e o tema do sistema.
     window.addEventListener("resize", redesenhar);
     if (window.matchMedia) {
@@ -416,6 +426,8 @@
     iniciar: iniciar,
     registrar: registrar,
     simular: simular,
+    desenhar: desenhar,          // exposto para o explorador de variantes reusar o traçado
+    redesenharTodos: redesenharTodos,   // usado pelo botão de tema
     modelos: MODELOS
   };
 })();

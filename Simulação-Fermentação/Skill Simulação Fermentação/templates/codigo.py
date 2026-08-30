@@ -1,20 +1,22 @@
 """Esqueleto de simulação de fermentação em Python.
 
-Uso pedagógico: este arquivo é o ponto de partida do aluno, não a resposta
-pronta. As três formas de usá-lo, em ordem crescente de dificuldade:
+Uso: é daqui que sai o programa da estação de código da lição. O aluno recebe
+o código COMPLETO, comentado e explicado passo a passo — ele não preenche
+lacunas nem caça defeito plantado.
 
-  1. COM LACUNAS — apague o corpo de `modelo_batelada` e entregue o resto.
-     O aluno escreve só as três derivadas. É o exercício certo para quem já
-     entende o balanço e está aprendendo a mecânica do `solve_ivp`.
+O que fazer com este arquivo:
 
-  2. QUEBRADO — plante UM defeito e peça para encontrar. Sugestões, da mais
-     evidente à mais sutil: sinal de `dSdt` invertido; `* Yxs` no lugar de
-     `/ Yxs`; `X0 = 0`; `t_span` em minutos com parâmetros em horas; `Ks` e
-     `mu_max` trocados na expressão de Monod. Plante um só — dois viram caça
-     ao tesouro e o loop de feedback perde a mira.
+  1. ADAPTE ao exercício que ele trouxe: parâmetros, regime, janela de tempo,
+     evento. O esqueleto existe para a cerimônia não ser reescrita a cada vez.
 
-  3. COMPLETO — como está aqui, para consolidar depois que o aluno chegou
-     ao resultado por conta própria.
+  2. RODE antes de publicar, com tolerância apertada, e guarde os números-alvo
+     (X final, instante de esgotamento, título final). São eles que o aluno usa
+     para saber se o código dele está certo — publicar número não conferido
+     manda ele caçar defeito onde não há.
+
+  3. ESCOLHA as variantes do explorador a partir daqui: método do integrador,
+     com evento e sem, `t_eval` denso e esparso. Escolhas corretas entre si,
+     nunca erro plantado.
 
 Convenções obrigatórias, que este arquivo materializa:
   · toda variável e todo parâmetro com unidade em comentário;

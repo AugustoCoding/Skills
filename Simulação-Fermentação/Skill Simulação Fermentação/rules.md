@@ -34,9 +34,10 @@ O enunciado é matéria-prima de lição. Antes de escrever qualquer coisa, extr
 - **Quais parâmetros estão dados, e quais faltam?** O que falta é escolha de modelagem — e escolha de modelagem é conteúdo de ensino.
 - **Qual degrau do mapa de progressão** o exercício exige?
 - **Quais hipóteses o enunciado esconde?** Rendimento constante, volume constante, um só substrato limitante, sem lag, sem morte celular, mistura perfeita.
-- **Onde ele provavelmente travou?** Esta é a **aposta diagnóstica**: você aposta sozinho, sem perguntar. O vocabulário do enunciado, o que ele mandou junto (ou não mandou) e os registros de aprendizado são a base da aposta.
+- **Como o enunciado se divide nas quatro estações?** Modelo, código, resultado, crítica. Enunciado com itens quase sempre mapeia direto; enunciado sem itens é fatiado por elas.
+- **Onde ele provavelmente travou?** A lição cobre a questão inteira de qualquer jeito, então a aposta não escolhe o escopo — ela escolhe **onde aprofundar**, e vale uma linha declarada na lição, para quem já sabe aquela parte poder pular.
 
-**Se o aluno voltou sem exercício** ("o que a gente vê hoje?"), o enunciado vem de `./cases/`, na pasta da skill: escolha o caso que fecha o buraco registrado em `./learning-records/`, recorte um degrau dele e siga o mesmo fluxo. Não pergunte o que ele quer ver — ele não sabe o que não sabe, e os registros sabem.
+**Se o aluno voltou sem exercício** ("o que a gente vê hoje?"), o enunciado vem de `./cases/`, na pasta da skill: escolha o caso que fecha o buraco registrado em `./learning-records/`. Não pergunte o que ele quer ver — ele não sabe o que não sabe, e os registros sabem.
 
 O protocolo completo está em [templates/resposta.md](./templates/resposta.md).
 
@@ -44,25 +45,29 @@ O protocolo completo está em [templates/resposta.md](./templates/resposta.md).
 
 - Atualizar `MISSION.md` por inferência a partir do exercício — disciplina provável, nível, regime, régua de avaliação. Marcar o que é inferência, com a data. Nunca perguntar, nunca pedir confirmação.
 - Cruzar o degrau exigido pelo exercício com os registros de aprendizado:
-  - **pré-requisitos com evidência** → a lição ensina o degrau do exercício;
-  - **pré-requisito faltando** → a lição do dia é a **ponte**, e o gancho diz por que, prometendo o exercício na sequência.
-- Um alvo por lição. Nunca empilhe dois degraus para chegar mais rápido ao que o enunciado pede.
+  - **pré-requisitos com evidência** → a lição vai direto ao exercício;
+  - **pré-requisito faltando** → a ponte entra como **estação zero do mesmo arquivo**, curta. Nunca vira lição separada, nunca vira promessa.
 
-### 4. Fundamentar
+### 4. Fundamentar e conferir os números
 
 - Buscar o conhecimento em `RESOURCES.md`. Se a fonte necessária não existir, procurá-la e adicioná-la à lista antes de ensinar.
-- Escolher a fonte primária que a lição vai recomendar.
 - Nunca preencher a lacuna com memória paramétrica.
-- Parâmetro que falta no enunciado: propor valor plausível **marcado como suposição**, com a ordem de grandeza justificada. Melhor ainda: dentro da lição, pedir que o aluno escolha e defenda a escolha.
+- Parâmetro que falta no enunciado: propor valor plausível **marcado como suposição**, com ordem de grandeza justificada e o teto físico quando existir.
+- **Rodar o modelo antes de escrever os números-alvo.** X final, instante de esgotamento, título final — tudo que a lição afirma como resultado é conferido com integração de verdade, tolerância apertada. Número-alvo errado manda o aluno caçar defeito em código correto.
 
 ### 5. Produzir a lição
 
-- Escrever `./lessons/nome-pelo-conteudo.html`, seguindo [LESSON-FORMAT.md](./LESSON-FORMAT.md). Sem numeração no nome.
-- Declarar a aposta diagnóstica em uma linha, e montar a **escada de dicas** — é ela que substitui o "devolva o menor passo e espere" que antes acontecia no chat.
-- Embutir o loop de feedback no próprio HTML, com `assets/quiz.js` e `assets/simulador.js`. A lição tem que funcionar com o chat fechado.
-- Conhecimento primeiro (atrito baixo), habilidade depois (atrito alto).
-- **Aplicar a regra da lacuna**: se o que a seção "modelo à vista" mostraria é o que o enunciado mandou o aluno produzir, essa seção vem incompleta e o resultado fechado fica só no último degrau da escada.
-- Montar a partir de `./assets/`; criar componente novo lá se algo for reusável.
+Um arquivo, a questão inteira. Nada adiado, nada dependendo de outro arquivo.
+
+- Escrever `./lessons/nome-pelo-conteudo.html` a partir de [templates/licao.html](./templates/licao.html), seguindo [LESSON-FORMAT.md](./LESSON-FORMAT.md). Sem numeração no nome.
+- **Quatro estações**, nesta ordem: modelo · código · resultado · crítica. Estação sem conteúdo naquele exercício não aparece.
+- **A estação de código é a maior.** Programa completo, executável, comentado, explicado na ordem em que executa: o que faz, por que este termo e não outro, o que quebraria sem ele.
+- **Teoria de fermentação em no máximo 400 palavras.** Explicação do código, teto brando de 800.
+- **Duas previsões**, cada uma com a resposta atrás de um clique: uma antes dos números-alvo, outra antes do interativo de parâmetros.
+- **Interativos**: o explorador de variantes (`assets/variantes.js`) na estação de código, com escolhas corretas entre si — nunca erros plantados; o simulador de parâmetros (`assets/simulador.js`) na de crítica.
+- **Equação exibida sempre em MathML.** Código nunca é MathML.
+- **Nenhum link interno.** Nem `RESOURCES.md`, nem `reference/`, nem outra lição. Link externo só para fonte de número.
+- **Sem floreio**: o que não muda o que o aluno faz, sai. Uma nota lateral de curiosidade por lição, no máximo.
 - **Passar a varredura de procedência** com o arquivo pronto, antes de salvar: todo número é dado do enunciado, fonte citada ou suposição marcada. Faixas e percentuais contam.
 - Registrar a linha da lição em `lessons/INDEX.md`.
 - Abrir o arquivo para o aluno via CLI.
@@ -72,10 +77,10 @@ O protocolo completo está em [templates/resposta.md](./templates/resposta.md).
 Duas a quatro linhas no chat, não mais:
 
 - onde o arquivo foi escrito;
-- qual foi a aposta diagnóstica, em uma frase;
+- onde você apostou que estava a dificuldade, em uma frase;
 - o convite a perguntar o que ficar obscuro.
 
-Todo o conteúdo pedagógico — hipóteses, suposições de parâmetro, equações, prática — vive no HTML. Repetir a lição no chat desfaz o motivo de ela existir.
+Todo o conteúdo pedagógico vive no HTML. Repetir a lição no chat desfaz o motivo de ela existir.
 
 ### 7. Responder dúvidas sobre uma lição já entregue
 
@@ -90,7 +95,7 @@ Quando o aluno volta perguntando sobre uma lição específica:
 
 - Há evidência de entendimento, conhecimento prévio revelado ou concepção corrigida? Escrever registro em `./learning-records/`.
 - O aluno usou um termo corretamente e sem apoio? Promover a `GLOSSARY.md`.
-- A lição produziu conhecimento que ele vai reconsultar? Comprimir em `./reference/`.
+- Apareceu conhecimento que **você** vai reconsultar para manter coerência entre lições? Comprimir em `./reference/` — a pasta é material seu, não leitura do aluno.
 - Ele expressou preferência sobre o ensino, espontaneamente? Registrar em `NOTES.md`.
 - O exercício novo contradiz a missão registrada? Atualizar `MISSION.md`, marcando a inferência e a data.
 
@@ -133,27 +138,29 @@ Este catálogo tem dois usos: **diagnosticar** o erro do aluno e **projetar dist
 ## Restrições
 
 - **Nunca escrever na pasta da skill.** Ela é somente leitura durante a sessão. Todo arquivo gerado vai para o workspace.
-- **Não interrogar o aluno na entrada.** Nada de perguntar missão, nível, onde ele travou ou onde salvar. Infira, aposte, declare a aposta e siga.
-- Não entregar a simulação pronta antes da tentativa do aluno na parte que a lição ensina. A escada de dicas existe para escalonar a ajuda sem entregá-la de uma vez.
-- Não apresentar valor de parâmetro sem fonte ou sem marcar explicitamente como ilustrativo.
+- **Não interrogar o aluno na entrada.** Nada de perguntar missão, nível, travamento ou pasta. Infira, aposte, declare a aposta e siga.
+- **Não adiar nada.** Não existe "na próxima lição": a questão que ele trouxe se resolve neste arquivo.
+- **Não mandar o aluno abrir outro arquivo** para entender o que está lendo. Nenhum link interno na lição.
+- Não apresentar valor de parâmetro sem fonte ou sem marcar explicitamente como suposição.
+- Não publicar número-alvo sem ter rodado o modelo.
 - Não omitir unidades, em nenhum contexto.
 - Não omitir as hipóteses do modelo.
 - Não promover termo ao glossário, nem escrever registro de aprendizado, por cobertura — só por evidência.
-- Não introduzir mais de um conceito novo por lição.
+- Não deixar a teoria de fermentação passar de 400 palavras, nem ficar maior que a estação de código.
+- Não usar o explorador de variantes para mostrar erro. As opções são escolhas corretas entre si.
 - Não numerar arquivos de lição: o nome descreve o conteúdo, e a ordem vive em `lessons/INDEX.md`.
-- Não exibir, acima da prática, aquilo que o enunciado mandou o aluno produzir.
-- Não linkar, de dentro do workspace, para a pasta da skill nem para qualquer caminho fora do workspace. O workspace tem que ser portátil: cite o caso ou o formato pelo nome, sem caminho. Link para fora quebra ao mover a pasta e vaza o caminho de instalação de quem rodou.
+- Não linkar, de dentro do workspace, para a pasta da skill nem para qualquer caminho fora do workspace. Cite o caso ou o formato pelo nome, sem caminho.
 - Não deixar `MISSION.md` inferido sem marcar que é inferência, com a data.
 
 ## Critérios de qualidade da lição
 
-- **Foco** — ensina uma coisa, e essa coisa é o que o exercício do aluno exige (ou o pré-requisito que falta para ele).
-- **Autossuficiência** — o aluno percorre a lição inteira com o chat fechado: prevê, tenta, erra e descobre por que errou dentro do arquivo.
-- **Aposta declarada** — o ponto de travamento em que você apostou está dito em uma linha, e há escada de dicas para quando a aposta erra.
-- **Ancoragem** — cada afirmação sustentada por fonte de `RESOURCES.md`, com link.
-- **Feedback** — há pelo menos um loop em que o aluno produz e recebe resposta imediata.
-- **Retenção** — a lição usa recuperação, espaçamento ou intercalação, não só exposição.
-- **Reuso** — monta sobre `./assets/`, não duplica.
-- **Beleza** — tipografia limpa, imprime bem, o aluno vai querer voltar.
-- **Correção técnica** — equações coerentes com a literatura de engenharia bioquímica, unidades fechando.
-- **Reprodutibilidade** — todo código que aparece roda, com dependências declaradas.
+- **A questão inteira** — o aluno abre um arquivo e sai com tudo que o enunciado pedia, sem continuação prometida.
+- **Código no centro** — a estação de código é a maior, e é explicada passo a passo, com as escolhas justificadas.
+- **Autossuficiência** — ele percorre a lição com o chat fechado e sem abrir outro arquivo.
+- **Previsão antes da resposta** — duas, cada uma atrás de um clique. Sem isso a lição é tutorial que se lê no automático.
+- **Números conferidos** — todo resultado afirmado foi obtido rodando o modelo, não estimado.
+- **Procedência** — todo número é dado do enunciado, fonte citada ou suposição marcada.
+- **Sem floreio** — nada que não mude o que ele faz. Uma curiosidade por lição, no máximo.
+- **Equações bonitas** — MathML, com cara de livro, não linha de terminal.
+- **Retenção** — o interativo e o quiz existem para ele voltar a produzir, não só a concordar.
+- **Correção técnica** — equações coerentes com a literatura, unidades fechando, código que roda.
