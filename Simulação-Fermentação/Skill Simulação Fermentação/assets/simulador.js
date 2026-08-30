@@ -84,6 +84,33 @@
     }
   });
 
+  registrar("batelada_alimentada", {
+    rotulo: "Batelada alimentada, volume variável",
+    vars: ["X", "S", "P"],   // V é integrado, mas não vai ao gráfico: está em litros
+    padroes: { mu_max: 0.4, Ks: 1.0, Yxs: 0.5, Ypx: 0.2, F: 0.1, Sin: 200, X0: 1, S0: 5, P0: 0, V0: 1 },
+    faixas: {
+      mu_max: [0.05, 1.2, 0.01], Ks: [0.05, 10, 0.05], Yxs: [0.1, 0.9, 0.01],
+      Ypx: [0, 2, 0.05], F: [0, 0.5, 0.005], Sin: [50, 400, 10],
+      X0: [0.1, 5, 0.1], S0: [0, 50, 1], V0: [0.5, 5, 0.1]
+    },
+    unidades: {
+      mu_max: "1/h", Ks: "g/L", Yxs: "gX/gS", Ypx: "gP/gX", F: "L/h",
+      Sin: "g/L", X0: "g/L", S0: "g/L", P0: "g/L", V0: "L"
+    },
+    inicial: function (p) { return [p.X0, p.S0, p.P0, p.V0]; },
+    deriv: function (t, y, p) {
+      var X = y[0], S = y[1], P = y[2], V = y[3];
+      var mu = monod(p.mu_max, S, p.Ks);
+      var D = p.F / V;   // diluição instantânea: o volume cresce e dilui tudo
+      return [
+        (mu - D) * X,
+        D * (p.Sin - S) - (mu * X) / p.Yxs,
+        p.Ypx * mu * X - D * P,
+        p.F
+      ];
+    }
+  });
+
   registrar("inibicao_produto", {
     rotulo: "Batelada com inibição por produto (forma linear)",
     vars: ["X", "S", "P"],
@@ -236,7 +263,11 @@
 
     // Curvas
     var cores = [cor("--cor-x"), cor("--cor-s"), cor("--cor-p")];
-    dados.y.forEach(function (serie, s) {
+    // Um modelo pode integrar estados que não vão ao gráfico — o volume da
+    // batelada alimentada, por exemplo, que está em litros e esmagaria a
+    // escala de g/L. opts.series diz quantas séries desenhar.
+    var quantas = (opts && opts.series) || dados.y.length;
+    dados.y.slice(0, quantas).forEach(function (serie, s) {
       ctx.beginPath();
       ctx.strokeStyle = cores[s] || corFg;
       ctx.lineWidth = 2;
@@ -321,10 +352,14 @@
 
     var legenda = document.createElement("div");
     legenda.className = "sim-legenda";
-    legenda.innerHTML =
-      '<span class="l-x">Biomassa X</span>' +
-      '<span class="l-s">Substrato S</span>' +
-      '<span class="l-p">Produto P</span>';
+    // A legenda vem dos vars do modelo: fixá-la em X/S/P mentiria em qualquer
+    // modelo que plote outra coisa.
+    var NOMES = { X: "Biomassa X", S: "Substrato S", P: "Produto P", V: "Volume V" };
+    legenda.innerHTML = (modelo.vars || ["X", "S", "P"])
+      .map(function (v) {
+        return '<span class="l-' + v.toLowerCase() + '">' + (NOMES[v] || v) + '</span>';
+      })
+      .join("");
     el.appendChild(legenda);
 
     var leitura = document.createElement("p");
@@ -337,7 +372,7 @@
 
     function redesenhar() {
       var dados = simular(modelo, params, T);
-      desenhar(canvas, dados, { oculto: oculto });
+      desenhar(canvas, dados, { oculto: oculto, series: (modelo.vars || []).length });
       leitura.textContent = oculto ? "Escreva sua previsão antes de revelar." : ler(modelo, dados, params, T);
       leitura.classList.toggle("sim-oculto", false);
     }

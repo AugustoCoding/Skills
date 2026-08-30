@@ -86,6 +86,8 @@ Escrever dentro da pasta da skill continua sendo sempre erro.
 
 Se o workspace ainda não tem a estrutura acima, monte-a antes de escrever a primeira lição: crie `lessons/` e `learning-records/`, e **copie** da pasta da skill as pastas `assets/` e `reference/` e os arquivos `MISSION.md`, `RESOURCES.md`, `GLOSSARY.md` e `NOTES.md`. O `lessons/INDEX.md` nasce junto com a primeira lição, não antes.
 
+Se o workspace já existe de sessões anteriores, **atualize as cópias de `assets/` e `reference/`** antes de escrever: componente novo criado na skill não chega sozinho ao workspace antigo, e a lição que o usa abriria quebrada.
+
 Copiar, não linkar: o workspace tem que ser autossuficiente e portátil. Depois de copiados, os arquivos pertencem ao workspace — edite-os lá e nunca de volta na pasta da skill.
 
 ## Filosofia

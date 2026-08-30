@@ -11,6 +11,7 @@ A sessão começa com um enunciado, não com uma conversa. Os passos 0 a 4 acont
 Você lê a pasta da skill e escreve **no workspace**. São pastas diferentes: veja "Duas pastas" em [SKILL.md](./SKILL.md).
 
 - Se o aluno indicou uma pasta, é essa. Se existe `./aula-fermentacao/` (ou outra pasta com `MISSION.md` e `lessons/`), reutilize-a em silêncio. Se não existe nenhuma, crie `./aula-fermentacao/` no diretório atual.
+- Se o workspace já existe, **atualize `assets/` e `reference/` a partir da pasta da skill** antes de escrever: componente novo não chega sozinho a workspace antigo, e uma lição que usa um componente ausente abre quebrada.
 - Se o workspace ainda não tem a estrutura, monte-a: crie `lessons/` e `learning-records/`, e copie da pasta da skill as pastas `assets/` e `reference/` e os arquivos `MISSION.md`, `RESOURCES.md`, `GLOSSARY.md` e `NOTES.md`.
 - Avise onde escreveu **depois de escrever**, em uma linha, para o aluno poder corrigir. Não pergunte antes.
 
