@@ -82,6 +82,9 @@ O modo de falha central da skill é escorregar para resolvedor. O segundo é a l
 - [ ] A lição abre no navegador, com estilo, quiz e simulador funcionando?
 - [ ] **Funciona com o chat fechado**: dá para prever, tentar, errar e descobrir por que errou sem falar com o modelo?
 - [ ] Tem escada de dicas, com a resposta fechada só no último degrau?
+- [ ] **Regra da lacuna**: se o enunciado mandava o aluno produzir o modelo, a seção "modelo à vista" veio incompleta, com o sistema fechado só na escada?
+- [ ] **Varredura de procedência**: todo número — inclusive faixas e percentuais — é dado do enunciado, fonte citada ou suposição marcada?
+- [ ] Nenhum link de dentro do workspace para a pasta da skill ou para caminho absoluto?
 - [ ] O nome do arquivo descreve o conteúdo, sem numeração `000N`?
 - [ ] `lessons/INDEX.md` ganhou a linha correspondente, com data, degrau e alvo?
 - [ ] É curta, com um alvo só, e amarrada ao exercício que você mandou?

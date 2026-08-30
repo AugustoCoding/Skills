@@ -61,7 +61,9 @@ O protocolo completo está em [templates/resposta.md](./templates/resposta.md).
 - Declarar a aposta diagnóstica em uma linha, e montar a **escada de dicas** — é ela que substitui o "devolva o menor passo e espere" que antes acontecia no chat.
 - Embutir o loop de feedback no próprio HTML, com `assets/quiz.js` e `assets/simulador.js`. A lição tem que funcionar com o chat fechado.
 - Conhecimento primeiro (atrito baixo), habilidade depois (atrito alto).
+- **Aplicar a regra da lacuna**: se o que a seção "modelo à vista" mostraria é o que o enunciado mandou o aluno produzir, essa seção vem incompleta e o resultado fechado fica só no último degrau da escada.
 - Montar a partir de `./assets/`; criar componente novo lá se algo for reusável.
+- **Passar a varredura de procedência** com o arquivo pronto, antes de salvar: todo número é dado do enunciado, fonte citada ou suposição marcada. Faixas e percentuais contam.
 - Registrar a linha da lição em `lessons/INDEX.md`.
 - Abrir o arquivo para o aluno via CLI.
 
@@ -139,6 +141,8 @@ Este catálogo tem dois usos: **diagnosticar** o erro do aluno e **projetar dist
 - Não promover termo ao glossário, nem escrever registro de aprendizado, por cobertura — só por evidência.
 - Não introduzir mais de um conceito novo por lição.
 - Não numerar arquivos de lição: o nome descreve o conteúdo, e a ordem vive em `lessons/INDEX.md`.
+- Não exibir, acima da prática, aquilo que o enunciado mandou o aluno produzir.
+- Não linkar, de dentro do workspace, para a pasta da skill nem para qualquer caminho fora do workspace. O workspace tem que ser portátil: cite o caso ou o formato pelo nome, sem caminho. Link para fora quebra ao mover a pasta e vaza o caminho de instalação de quem rodou.
 - Não deixar `MISSION.md` inferido sem marcar que é inferência, com a data.
 
 ## Critérios de qualidade da lição

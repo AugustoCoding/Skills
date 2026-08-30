@@ -59,6 +59,12 @@ Momentos concretos que costumam merecer registro:
 - Diário de atividade sessão a sessão. Registros não são log: são insights com valor de decisão.
 - "O aluno rodou o código e funcionou." Rodar não é entender. O que interessa é se ele saberia refazer, ou se saberia dizer por que o resultado é plausível.
 
+## Links
+
+Registros ficam dentro do workspace e não linkam para fora dele — nem para a pasta da skill, nem para caminho absoluto de máquina nenhuma. Um registro que aponta para `../../.claude/skills/…` quebra assim que o aluno move a pasta, e vaza o caminho de instalação de quem rodou a sessão.
+
+Para referenciar material da skill, **cite pelo nome**: "o critério de evidência do caso de produção de etanol", não um link para o arquivo do caso. O que o aluno precisa reencontrar mora no workspace — lição, referência, glossário —, e para esses o link relativo é bem-vindo.
+
 ## Substituição
 
 Quando um registro posterior contradiz um anterior (o entendimento do aluno aprofundou ou se corrigiu), marque o antigo como `Status: substituído por LR-NNNN` em vez de apagar. A história de como o entendimento evoluiu é sinal útil por si só — e neste domínio ela é comum: quase todo aluno passa por "rendimento é constante" antes de chegar em "rendimento observado varia porque existe manutenção".

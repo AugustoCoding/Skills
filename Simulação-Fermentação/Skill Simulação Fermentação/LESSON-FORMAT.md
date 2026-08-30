@@ -43,13 +43,27 @@ Não é camisa de força, mas a ordem importa: conhecimento com atrito baixo pri
 2. **A aposta declarada** — uma linha dizendo em que ponto você apostou que ele travou: *"Aposto que o seu problema não é o `solve_ivp`, é o sinal de `dS/dt`. Se eu errei, comece direto pela prática — e me diga."* Sem entrevista, a aposta é sua; declará-la é o que a torna corrigível.
 3. **A pergunta de recuperação** — antes de ensinar, cobre algo de uma lição anterior, de memória. É espaçamento embutido e custa três linhas. Na primeira lição do workspace, cobre um pré-requisito do próprio exercício.
 4. **O conhecimento** — o mínimo necessário para a habilidade do dia. Uma ideia. Fórmulas com todas as variáveis definidas e todas as unidades. Citações com link para `RESOURCES.md`.
-5. **O modelo à vista** — as equações do caso, com cada termo anotado no que significa fisicamente. É aqui que se cria o hábito de ler equação como processo. As **hipóteses escondidas no enunciado** entram aqui, nomeadas: o que este modelo está fingindo que não existe.
+5. **O modelo à vista** — as equações do caso, com cada termo anotado no que significa fisicamente. É aqui que se cria o hábito de ler equação como processo. As **hipóteses escondidas no enunciado** entram aqui, nomeadas: o que este modelo está fingindo que não existe. **Quando o exercício do aluno pede exatamente isto**, veja a regra da lacuna, logo abaixo.
 6. **A prática** — o loop de feedback, dentro do arquivo. Onde a dificuldade entra de propósito. Um exercício, dos padrões abaixo, mais a escada de dicas.
 7. **A verificação** — dois a quatro itens de quiz, curtos, de recuperação e não de reconhecimento.
 8. **A fonte primária** — uma leitura ou vídeo recomendado, de `RESOURCES.md`, com o que procurar lá dentro.
 9. **O fecho** — o que ficou comprimido em `./reference/`, link para lições vizinhas quando existirem, e o lembrete de que ele pode perguntar a você o que ficou obscuro. O lembrete não é decorativo: é o canal pelo qual a lição é corrigida depois (veja "Nota de dúvida").
 
 Curta. Se o aluno leva mais de quinze ou vinte minutos, a lição tem dois alvos escondidos dentro — divida.
+
+## A regra da lacuna
+
+Quando o que a seção "O modelo à vista" mostraria **é o que o enunciado mandou o aluno produzir** — "escreva o sistema de EDOs", "monte o balanço", "deduza a expressão" —, essa seção vem **incompleta**:
+
+- uma equação dada por inteiro, como modelo de leitura, com os termos anotados;
+- as outras com a **lacuna** que o aluno preenche, e a anotação de cada termo já no lugar, indicando o que tem que aparecer ali;
+- o sistema fechado **só no último degrau da escada**, em nenhum outro ponto do arquivo.
+
+O motivo é o modo de falha central da skill em versão discreta. Exibir o sistema completo e depois pedir "feche a página e reescreva as três equações" parece prática, mas não é: reconstruir o que se acabou de ler é reconhecimento com a resposta fresca na memória de trabalho, não produção. E o último degrau da escada fica sem função, porque a resposta já está no corpo do texto.
+
+A checagem é mecânica — leia o enunciado que o aluno mandou e pergunte: **o item (a) dele está respondido em algum lugar acima da prática?** Se estiver, mova para a escada.
+
+Não confunda com o caso normal. Quando o enunciado *dá* o modelo e pede outra coisa — simular, ajustar, escolher um regime —, a seção vem completa: aí as equações são insumo, não entrega.
 
 ## A escada de dicas
 
@@ -151,6 +165,22 @@ Regras:
 - **Reabra o arquivo** para o aluno depois de editar, e diga em uma linha que ele foi atualizado.
 - Uma dúvida esclarecida assim costuma valer **registro de aprendizado** — é evidência de primeira qualidade, de concepção corrigida ou de lacuna revelada. Vale a regra de sempre: por evidência, nunca por cobertura.
 
+## A varredura de procedência
+
+Antes de salvar o arquivo, passe uma vez por **todo número que aparece na lição** — texto, tabela, `data-params` do simulador, enunciado de quiz, feedback. Cada um tem que cair em uma destas três caixas, e não existe quarta:
+
+| Caixa | Como aparece na lição |
+|---|---|
+| **Dado do enunciado** | Sem marca nenhuma: veio com o exercício do aluno |
+| **Fonte citada** | Com link para a entrada de `RESOURCES.md`, e com organismo e condição junto — parâmetro cinético sem organismo não é dado, é folclore |
+| **Suposição sua** | Marcado como suposição, com a ordem de grandeza justificada e, quando existir, o teto físico que a limita |
+
+Faixas e percentuais contam como número. "Entre 85 e 92% do teórico", "tipicamente de 0,4 a 0,5", "da ordem de 10⁻³" — todos precisam de caixa, e é neles que o vazamento acontece: soam como conhecimento consolidado, passam pela revisão como se fossem prosa, e chegam ao aluno com a autoridade de dado publicado.
+
+Quando você não tiver a fonte e o número for necessário, a saída não é omitir nem inventar: é declarar como estimativa sua e **abrir uma lacuna em `RESOURCES.md`**, dizendo qual fonte falta. A lacuna registrada é o que faz a próxima sessão consertar o buraco em vez de repeti-lo.
+
+Esta varredura não é opcional nem é a mesma coisa que "lembrar da regra". A regra de procedência já está escrita em três lugares desta skill e ainda assim escapa, porque escrever a lição consome a atenção que a checagem exigiria. Por isso ela é um passo separado, feito no fim, com o arquivo pronto na frente.
+
 ## Requisitos técnicos
 
 - **HTML autocontido**, exceto pelos links relativos aos componentes de `./assets/`. Deve abrir com duplo clique, sem servidor e sem internet.
@@ -160,7 +190,7 @@ Regras:
 - **Âncoras HTML** para outras lições e para os documentos de `./reference/`, com caminho relativo (`../reference/equacoes.html`). Entre lições, use o nome de conteúdo (`./sinal-de-dsdt.html`).
 - **Imprime bem.** O aluno pode querer estudar no papel; `lesson.css` já traz as regras de impressão.
 - **Todo código exibido roda.** Se aparece na lição, é executável, com as dependências declaradas.
-- **Todo parâmetro tem unidade e procedência.** Valor sem fonte vem marcado como ilustrativo, explicitamente. Parâmetro que faltava no enunciado aparece como suposição declarada, com a ordem de grandeza justificada.
+- **Todo parâmetro tem unidade e procedência.** Valor sem fonte vem marcado como ilustrativo, explicitamente. Parâmetro que faltava no enunciado aparece como suposição declarada, com a ordem de grandeza justificada. A varredura acima é o que garante isso: faça-a com o arquivo pronto, antes de salvar.
 - **Todo gráfico tem eixos rotulados com unidade.** O gráfico é parte da explicação, não decoração.
 
 Comece a partir de [templates/licao.html](./templates/licao.html).
@@ -168,6 +198,8 @@ Comece a partir de [templates/licao.html](./templates/licao.html).
 ## Modos de falha
 
 - **A lição que resolve.** Ensina explicando a solução completa. O aluno acompanha, concorda e não retém nada. É o modo de falha padrão desta skill — e ele fica mais perto quando o exercício chega pronto, já pedindo a resposta.
+- **A lição que exibe o que o enunciado mandava produzir.** O aluno tinha que escrever o sistema de EDOs; a lição mostra o sistema e depois pede que ele o reescreva de memória. Parece prática e é reconhecimento — a resposta ainda está na memória de trabalho dele. Veja "A regra da lacuna".
+- **O número sem caixa.** Uma faixa plausível — "85 a 92% do teórico" — escrita com a autoridade de dado publicado, sem ser dado do enunciado, fonte citada nem suposição marcada. Passa despercebida porque soa como prosa, não como parâmetro.
 - **A lição que precisa do chat.** A prática diz "me mande sua previsão que eu confiro". O aluno fecha o arquivo e acabou. Se o loop não fecha dentro do HTML, não é loop.
 - **A lição que aposta e não avisa.** Você apostou no ponto de travamento — legítimo — mas não declarou a aposta nem deixou escada. Quando a aposta erra, o aluno não tem para onde ir.
 - **A lição com dois alvos.** Monod e `solve_ivp` na mesma lição. A memória de trabalho estoura e nenhum dos dois gruda.
