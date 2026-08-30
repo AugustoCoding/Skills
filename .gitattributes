@@ -1,0 +1,7 @@
+# Fim de linha normalizado em LF, no repositório e no disco.
+#
+# Motivo: as skills são editadas em Windows por ferramentas diferentes — editor,
+# shell, scripts — e algumas gravam CRLF. Sem isto, um arquivo reescrito inteiro
+# aparece como "todas as linhas mudaram" no diff, e a revisão fica impossível.
+
+* text=auto eol=lf
