@@ -1,49 +1,64 @@
 # Template de Resolução Guiada
 
-**Quando usar:** o aluno chega com um enunciado pronto — lista de exercícios, prova antiga, problema do orientador — e quer a resposta.
+**Quando usar:** sempre. O aluno chega com um enunciado — lista de exercícios, prova antiga, problema do orientador — e quer a resposta. É assim que toda sessão começa.
 
 Este é o momento de maior risco desta skill. Entregar o modelo, o código e o gráfico é o caminho de menor resistência e o pior resultado possível: o aluno sai com a tarefa feita e a habilidade intacta. Também é o momento em que ele mais está disposto a aprender, porque tem um problema concreto na mão.
 
 O enunciado não é uma tarefa a cumprir. É **matéria-prima de lição**, com a vantagem de já estar ancorado em algo que o aluno quer resolver.
 
+E você não vai perguntar nada antes de começar. O diagnóstico continua inteiro — só deixa de ser conversa e vira **aposta**, declarada dentro da lição.
+
+Quando o aluno volta sem enunciado, o exercício vem de `../cases/`, escolhido pelo buraco registrado em `./learning-records/`. O protocolo abaixo vale igual.
+
 ## Protocolo
 
 ### 1. Leia o enunciado como diagnóstico
 
-Antes de responder qualquer coisa, identifique:
+Antes de escrever qualquer coisa, identifique:
 
 - **Qual regime?** Batelada, batelada alimentada ou contínuo.
 - **Quais variáveis de estado?** Normalmente X, S, P; às vezes V.
 - **Quais parâmetros estão dados, e quais faltam?** O que falta é escolha de modelagem — e escolha de modelagem é conteúdo de ensino.
 - **Qual degrau do mapa de progressão** ([SKILL.md](../SKILL.md)) este exercício exige?
-- **O aluno tem esse degrau?** Consulte `./learning-records/`.
+- **O aluno tem esse degrau?** Consulte `./learning-records/`. Se falta pré-requisito, a lição do dia é a ponte, não o exercício.
+- **Quais hipóteses o enunciado esconde?** Elas são conteúdo, não rodapé.
 
-### 2. Localize o travamento
+### 2. Aposte no travamento
 
-Pergunte, antes de ensinar:
+Você não pergunta "até onde você chegou?". Você aposta — e a aposta é boa, porque o material do diagnóstico está quase todo no que ele mandou:
 
-> "Até onde você chegou? Me mostra o que você já escreveu — mesmo que esteja errado, principalmente se estiver."
-
-O ponto exato onde ele travou determina a lição. Um aluno que travou em montar o balanço precisa de coisa diferente do que travou em `solve_ivp` reclamando de erro.
-
-Se ele não tentou nada, peça o primeiro passo antes de dar qualquer coisa: **quais são as variáveis de estado e as unidades de cada uma?** É pequeno o bastante para não intimidar e diagnóstico o bastante para revelar o degrau.
-
-### 3. Devolva o menor passo, não a resposta
-
-Entregue **uma** coisa: o próximo passo, ou a pergunta que o destrava. Depois espere.
-
-| Onde travou | O que devolver |
+| Sinal no que ele mandou | Aposta razoável |
 |---|---|
-| Não sabe por onde começar | As variáveis de estado e a pergunta "o que faz cada uma crescer ou diminuir?" |
-| Não monta o balanço | Um termo pronto (`dX/dt = μX`) e o pedido de escrever os outros dois por analogia |
-| Erra o sinal ou o rendimento | Não corrija: peça a unidade dos dois lados de `dS/dt`. A unidade denuncia sozinha. |
-| Modelo pronto, trava no código | O esqueleto de [codigo.py](./codigo.py) com o corpo da função em branco |
-| Código roda, resultado estranho | O padrão "diagnostique o gráfico": qual termo produziria isso? |
-| Tudo pronto, quer conferir | A previsão: "o que você espera ver, e por quê?" antes de olhar o resultado |
+| Só o enunciado, nada mais | Não sabe por onde começar: variáveis de estado e unidades |
+| Enunciado + "não sei montar as equações" | O balanço, não o código |
+| Código colado, com traceback | Sintaxe/uso de `solve_ivp`, não o modelo |
+| Código que roda + "o gráfico está estranho" | Sinal, rendimento ou unidade — nessa ordem de probabilidade |
+| Modelo escrito corretamente + "está certo?" | Falta confiança, não habilidade: peça previsão antes de confirmar |
+| Enunciado de quimiostato, registros só de batelada | O termo de diluição, e a inversão de causalidade μ = D |
+| Vocabulário de prova ("determine", "calcule") | A régua é escrita: exigir reconstrução no papel, não só código |
+
+Cruze com o catálogo de concepções errôneas de [rules.md](../rules.md): para cada tipo de enunciado, há um erro que é o mais provável de todos. É nele que se aposta.
+
+**Declare a aposta dentro da lição**, em uma linha, logo depois do gancho. Aposta declarada é aposta corrigível: se ele já sabia aquilo, pula direto para a prática e te diz.
+
+### 3. Construa a lição em torno da aposta — não devolva a resposta
+
+A tabela abaixo era, antes, o que você devolveria no chat e esperaria. Agora é **como a lição é montada**: o que entra no corpo do texto e o que entra em cada degrau da escada de dicas.
+
+| Aposta | O corpo da lição entrega | Primeiro degrau da escada |
+|---|---|---|
+| Não sabe por onde começar | As variáveis de estado, com unidades | "O que faz cada uma crescer ou diminuir?" |
+| Não monta o balanço | Um termo pronto (`dX/dt = μX`) e o pedido de escrever os outros por analogia | "Confira a unidade dos dois lados" |
+| Erra o sinal ou o rendimento | O exercício "conserte o código quebrado", com o defeito plantado | "Some as unidades de `dS/dt`. Fecha?" |
+| Modelo pronto, trava no código | O esqueleto de [codigo.py](./codigo.py) com o corpo da função em branco | "O que a função tem que devolver, e em que ordem?" |
+| Código roda, resultado estranho | O padrão "diagnostique o gráfico" | "Qual termo produziria uma curva assim?" |
+| Tudo pronto, quer conferir | O padrão "preveja e depois rode", com `data-prever="1"` | "O que você espera ver, e por quê?" |
+
+A resposta fechada existe — no **último** degrau da escada, nunca no corpo. O aluno chega nela se precisar, e o clique é dele.
 
 ### 4. Explicite as hipóteses — e faça delas conteúdo
 
-Todo enunciado esconde simplificações. Nomeie-as com o aluno, não por ele:
+Todo enunciado esconde simplificações. Nomeie-as **na lição**, na seção do modelo:
 
 - rendimentos constantes (ignora manutenção celular);
 - volume constante (falso em batelada alimentada);
@@ -51,7 +66,7 @@ Todo enunciado esconde simplificações. Nomeie-as com o aluno, não por ele:
 - sem fase lag, sem morte celular;
 - mistura perfeita, temperatura e pH controlados.
 
-"O que este modelo está fingindo que não existe?" é uma das perguntas mais produtivas do domínio, e cabe em qualquer exercício.
+"O que este modelo está fingindo que não existe?" é uma das perguntas mais produtivas do domínio, cabe em qualquer exercício, e funciona bem como item de quiz.
 
 ### 5. Parâmetros que faltam
 
@@ -59,21 +74,23 @@ Se o enunciado não dá um valor:
 
 - Proponha um valor plausível **e diga explicitamente que é suposição**, com a ordem de grandeza justificada.
 - Nunca apresente um número inventado com aparência de dado de literatura.
-- Melhor ainda: peça ao aluno para escolher, e faça-o defender a escolha. Escolher parâmetro é habilidade, não detalhe.
+- Melhor ainda: dentro da lição, peça que o aluno escolha e defenda a escolha. Escolher parâmetro é habilidade, não detalhe.
 
 ### 6. Feche como lição
 
-Depois que o aluno chegou ao resultado — com você ao lado, não no lugar dele:
+A lição já é o fechamento — mas o ciclo só termina no workspace:
 
-- **Interprete junto.** "O que essa curva diz sobre o processo?" antes de você dizer.
-- **Ache o limite.** Onde este modelo deixaria de valer? Qual dado o derrubaria?
+- **Interprete dentro do arquivo.** "O que essa curva diz sobre o processo?" antes de a lição dizer.
+- **Ache o limite.** Onde este modelo deixaria de valer? Qual dado o derrubaria? Vale como último item de quiz.
 - **Registre.** Houve evidência de entendimento, conhecimento prévio ou concepção corrigida? Escreva em `./learning-records/`.
 - **Comprima.** Se apareceu conhecimento reconsultável, leve para `./reference/`.
-- **Ofereça a lição.** Se o exercício revelou uma lacuna, proponha a lição que a fecha — agora, com o aluno já motivado pelo problema dele.
+- **Indexe.** Uma linha em `lessons/INDEX.md`, com data, degrau e alvo.
+
+No chat ficam duas a quatro linhas: onde escreveu, qual foi a aposta, e o convite a perguntar.
 
 ## Estrutura da resposta escrita
 
-Quando o formato pedido for uma resolução completa — porque a missão exige entregar um relatório, por exemplo —, esta é a ordem. Mas ela vem **depois** do aluno ter feito o trabalho, como consolidação, não no lugar dele.
+Quando o formato pedido for uma resolução completa — porque a missão exige entregar um relatório, por exemplo —, esta é a ordem. Mas ela vem **depois** de o aluno ter feito o trabalho, como consolidação, e mora em `./reference/` ou no fecho da lição, não no lugar dele.
 
 1. **Enunciado reescrito** — o problema em termos objetivos; variáveis de estado e o que deve ser simulado.
 2. **Hipóteses** — o que o modelo assume e o que ignora, com a consequência de cada escolha.
@@ -85,8 +102,9 @@ Quando o formato pedido for uma resolução completa — porque a missão exige 
 
 ## Sinais de que você escorregou para o modo resolvedor
 
-- Você escreveu o sistema de EDOs completo antes de o aluno tentar.
-- Você entregou código que roda antes de ele ter escrito uma linha.
-- A resposta tem mais de uma tela e ele ainda não fez nada.
-- Você corrigiu um erro em vez de fazer a pergunta que o revelaria.
+- O corpo da lição traz o sistema de EDOs completo antes de qualquer coisa que o aluno tenha que produzir.
+- A escada de dicas tem um degrau só, e é a resposta.
+- Você escreveu a explicação inteira no chat, e o HTML virou resumo do que já foi dito.
+- A lição não tem nenhum momento em que o aluno escreve, prevê ou escolhe algo.
+- Você corrigiu um erro em vez de montar o exercício que o revelaria.
 - A sessão acabou sem nenhum registro de aprendizado — porque não houve evidência de aprendizado, só de entrega.

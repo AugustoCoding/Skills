@@ -1,63 +1,65 @@
-# Exemplo 3 — Sessão de retorno, calculando a zona de desenvolvimento proximal
+# Exemplo 3 — Sessão de retorno, sem exercício na mão
 
-O aluno volta sem pedir nada específico. É você quem escolhe o alvo — e a escolha é o trabalho.
+O aluno volta sem trazer enunciado nenhum. A entrada normal da skill é um exercício; quando ele não vem, você não entrevista e não improvisa um currículo — você **busca o exercício no banco de casos** e continua o mesmo fluxo.
 
 ## O que o aluno diz
 
 > "Voltei. O que a gente vê hoje?"
 
-## 1. Orientar
+## O que NÃO fazer
 
-Ler o workspace antes de escrever qualquer coisa, na ordem de `rules.md`:
+Perguntar o que ele quer ver, se prefere batelada ou contínuo, quanto tempo tem hoje. Isso é entrevista com outro nome, e a resposta já está no workspace.
 
-**`MISSION.md`** — passar em Engenharia Bioquímica II em novembro; a régua é prova escrita.
+Também não fazer: escolher o tópico mais interessante do domínio. O workspace registra um buraco específico; ele é que manda.
+
+## 1. Orientar, em silêncio
+
+Na ordem de `rules.md`:
+
+**`MISSION.md`** — disciplina de engenharia bioquímica, régua escrita, inferida na primeira sessão e reforçada desde então.
 
 **`./learning-records/`**, do mais recente para trás:
 
 | Registro | Conteúdo |
 |---|---|
-| `0001` | Conhecimento prévio: Python básico, EDO esquecida, Ks confuso |
-| `0002` | Entendeu Ks: sabe a unidade e que Ks alto é baixa afinidade |
-| `0003` | Monta `dS/dt` com sinal e rendimento corretos, sem consultar |
-| `0004` | Balanço do quimiostato e μ = D, deduzido por ele |
+| `0001` | Acertou sinal e rendimento em `dS/dt`, sem consultar |
+| `0002` | Entendeu Ks: unidade e significado |
+| `0003` | Rodou `solve_ivp` e leu a curva de batelada |
+| `0004` | Montou os três balanços do quimiostato; separou entrada de saída |
 
-**`NOTES.md`** — ~3 h por semana; prefere ver a matemática antes do código; prova escrita exige reconstrução no papel.
+**`lessons/INDEX.md`** — três lições, a última `quimiostato-termo-de-diluicao.html`, degrau 6.
 
-**`./lessons/`** — existem `0001` a `0004`. A próxima é `0005`.
+**`NOTES.md`** — ~3 h por semana; prefere ver a matemática antes do código; prova escrita é a régua.
 
 **`./assets/`** — `lesson.css`, `quiz.js`, `simulador.js`. Nada novo é necessário.
 
-## 2. Escolher o alvo
+## 2. Achar o exercício no banco
 
-Cruzando o mapa de progressão com os registros:
+Sem enunciado do aluno, o exercício vem de `./cases/`, na pasta da skill. `0004` diz exatamente o que falta: estado estacionário, washout, produtividade. `cases/caso_continua_crescimento.md` cobre isso e já vem recortado em três lições — **A** (o balanço, já dada), **B** (μ = D em estado estacionário), **C** (washout e produtividade).
 
-- degraus 1 a 3: vencidos, com evidência;
-- degrau 5 (integração): usado, mas nunca isolado — funciona porque ele copia o esqueleto;
-- degrau 6: **parcialmente** vencido. `0004` registra explicitamente que falta washout e produtividade;
-- degraus 4 e 7 (produto, inibição): não tocados.
+Alvo: **lição B — μ = D**. O caso a chama de "a lição mais importante do caso", e é o próximo buraco registrado.
 
-O degrau 6 está aberto, com registro dizendo exatamente o que falta, e cai na prova. É o alvo. Os degraus 4 e 7 seriam conceito novo com o 6 ainda pela metade — dois alvos, o modo de falha clássico.
+Não pule para a C. Washout sem o estacionário é conta sem o conceito que a sustenta.
 
-Alvo: **washout e o D que maximiza produtividade.**
-
-Enunciar antes de produzir:
-
-> "Você já sabe que μ = D no estacionário. Hoje você sai sabendo prever o que acontece quando D fica alto demais, e escolher o D que dá mais produto por hora — que não é o que dá mais produto por litro. Serve?"
+O mapa de progressão entra aqui só como **checagem**: a lição B exige os balanços do quimiostato (`0004`, com evidência) e o acoplamento de substrato (`0001`). Pré-requisitos de pé — pode ensinar o degrau direto, sem ponte.
 
 ## 3. Fundamentar
 
 Fonte primária de `RESOURCES.md`: Herbert, Elsworth & Telling (1956), teoria do quimiostato. Conferir o link antes de citar — a entrada ainda está marcada `[a verificar]`.
 
-Do banco de exercícios: `cases/caso_continua_crescimento.md`, seção "Loop de feedback", que já traz a tabela de estado estacionário conferida.
+Do banco: a seção "Loop de feedback" de `cases/caso_continua_crescimento.md`, que já traz a tabela de estado estacionário conferida. O caso é matéria-prima; o modelo esperado que está nele **não** vai para a lição.
 
 ## 4. Produzir a lição
 
-`lessons/0005-washout-e-produtividade.html`, a partir de `templates/licao.html`:
+`lessons/quimiostato-mu-igual-a-d.html`, a partir de `templates/licao.html`:
 
-- **Gancho** — "na prova, 'qual D usar' vale mais que 'qual é a equação'."
-- **Recuperação** — de memória, sem consultar: escreva `dX/dt` do quimiostato e diga quanto vale μ no estacionário. Espaçamento sobre `0004`.
-- **Conhecimento** — só o D crítico e a produtividade `D·X*`. Uma ideia. Nada de reciclo, nada de inibição.
-- **Prática** — preveja e depois rode, com D como único controle:
+- **Gancho** — "na prova, 'quanto vale μ no estacionário' vale mais que a equação inteira; e a resposta é contraintuitiva."
+- **Aposta declarada** — "aposto que você vai responder μ = μmax, ou tentar calcular Monod. Quase todo mundo responde. Se você já sabe que não é isso, pule para *Sua vez*."
+
+  Note que a aposta aqui é uma **provocação de erro**: a concepção errônea do catálogo é tão universal que vale montar a lição em cima dela.
+- **Recuperação** — de memória, sem consultar: escreva `dX/dt` do quimiostato. Espaçamento sobre `0004`.
+- **Conhecimento** — uma ideia: no estacionário `dX/dt = 0` com X ≠ 0, e o que sobra é μ = D. A causalidade invertida — é a bomba que impõe a taxa de crescimento — nomeada explicitamente.
+- **Prática** — "preveja e depois rode", com D como único controle:
 
 ```html
 <div class="simulador" data-modelo="quimiostato" data-tempo="120"
@@ -65,50 +67,60 @@ Do banco de exercícios: `cases/caso_continua_crescimento.md`, seção "Loop de 
      data-controles="D" data-prever="1"></div>
 ```
 
-  Previsão pedida por escrito antes do reveal: *a partir de qual D a biomassa some, e o que acontece com a produtividade um pouco antes disso?*
+  Previsão pedida por escrito antes do reveal: *se eu dobrar D, o que acontece com μ no estacionário — dobra, cai pela metade, ou não muda?*
 
-- **Verificação** — duas perguntas. Uma numérica (dado μmax e Sin, calcule o D crítico), uma de escolha com distratores tirados do catálogo de `rules.md`: "D alto sempre dá mais produto" e "o melhor D é o de maior concentração".
-- **Concessão à régua** — como a prova é escrita, um item pede a **dedução** de `S* = Ks·D/(μmax − D)` no papel, não no simulador. A missão manda.
-- **Fonte primária** — Herbert et al. (1956), indicando a seção sobre washout.
-- **Fecho** — link para `reference/equacoes.html`, seção de estado estacionário, e o lembrete de perguntar.
+- **Escada** — três degraus: (1) "escreva `dX/dt = 0` e não divida por X ainda: o que a equação diz?"; (2) "X é zero? Se não é, o que pode ser zero no produto `(μ − D)·X`?"; (3) μ = D, com a leitura física.
+- **Concessão à régua** — como a prova é escrita, um item pede a **dedução** de `S* = Ks·D/(μmax − D)` no papel, a partir de μ = D. A missão manda.
+- **Verificação** — duas perguntas. Uma de escolha com o distrator "μ = μmax" (o erro que a lição inteira ataca), uma numérica: dado D = 0,2 h⁻¹, μmax e Ks, calcule S*.
+- **Fecho** — link para `reference/equacoes.html`, seção de estado estacionário, e a pergunta que abre a lição C: "e se D passar de μmax?"
 
-Abrir para ele:
+Índice e abertura:
 
-```bash
-start "" "lessons/0005-washout-e-produtividade.html"
+```md
+| 2026-09-11 | [quimiostato-mu-igual-a-d.html](./quimiostato-mu-igual-a-d.html) | 6 | Deduzir μ = D no estado estacionário e ler a causalidade invertida |
 ```
 
-## 5. Fechar o loop
+```bash
+start "" "aula-fermentacao/lessons/quimiostato-mu-igual-a-d.html"
+```
 
-Ele prevê que a biomassa cai gradualmente até zero conforme D aumenta. Roda: X* cai devagar e depois **despenca** perto de 0,381 1/h. Previsão parcialmente errada — e o erro é o conteúdo.
+## 5. Falar pouco
 
-> "Você acertou a direção e errou a forma. Olha `S* = Ks·D/(μmax − D)`: o que acontece com o denominador quando D se aproxima de μmax?"
-
-Ele vê a assíntota. Entende que S* dispara, X* colapsa, e que o washout é uma transição abrupta, não um desvanecimento.
+> "Hoje: por que, num quimiostato em regime, quem manda na taxa de crescimento é a bomba. Abri a lição.
+> Apostei que sua primeira resposta seria μ = μmax — a lição foi montada em cima disso.
+> Vem com dúvida depois, que eu enxerto a resposta no próprio arquivo."
 
 ## 6. Consolidar
 
-`learning-records/0005-washout-e-a-assintota.md`
+Ele prevê que dobrar D dobra μ — acerta pelo motivo errado, achando que "mais vazão, mais crescimento". No quiz numérico, calcula S* corretamente. Volta perguntando:
+
+> "Então se eu aumentar muito o D o μ acompanha sempre?"
+
+Resposta no chat, nota enxertada na lição logo depois do bloco de μ = D, arquivo reaberto — e a pergunta dele é exatamente a porta da lição C.
+
+`learning-records/0005-mu-imposto-por-d.md`
 
 ```md
-# Washout é transição abrupta, não desvanecimento
+# Em quimiostato, μ é imposto por D
 
-O aluno previu queda gradual de X* com D crescente e, confrontado com a simulação,
-identificou a origem na assíntota de S* = Ks·D/(μmax − D) quando D → μmax.
+O aluno deduziu μ = D a partir de dX/dt = 0 com X ≠ 0, e calculou S* corretamente
+a partir daí. Ainda lê a relação como "mais vazão faz crescer mais", em vez de
+"a vazão seleciona a taxa de crescimento possível".
 
-Evidência: explicou a forma da curva pelo denominador da expressão, sem ajuda
-além de uma pergunta orientadora.
+Evidência: dedução feita no degrau 2 da escada, sem abrir o degrau 3; item
+numérico de S* correto de primeira.
 
-Implicações: degrau 6 completo. Próximo alvo natural é o degrau 4 (formação de
-produto) ou o 7 (inibição), com o caso de etanol.
+Implicações: degrau 6 quase completo. A leitura causal ainda invertida é
+justamente o que a lição C (washout) corrige — quando D passa de μmax, não há
+μ que acompanhe. Próximo alvo natural.
 ```
 
-Promover a `GLOSSARY.md`: **washout** e **produtividade volumétrica**, ambos usados corretamente e com unidade.
+Promover a `GLOSSARY.md`: **estado estacionário** e **taxa de diluição (D)**, ambos usados corretamente e com unidade.
 
 Atualizar `reference/equacoes.html`? Não é preciso: a seção de estado estacionário já cobre. Não fragmente a referência.
-
-`NOTES.md`: registrar que a previsão escrita antes do reveal funcionou bem com este aluno — vale repetir o padrão.
 
 ## O erro que quase se cometeu
 
 Ir para inibição por produto, porque é o tópico mais interessante do domínio. Estaria fora da zona: o degrau 6 tinha um buraco registrado, o aluno tem prova em novembro, e conceito novo sobre base incompleta não gruda. O registro `0004` existia justamente para impedir esse erro — é para isso que os registros servem.
+
+O segundo erro, mais fácil de cometer agora que não há entrevista: **perguntar** o que ele quer ver hoje. A pergunta parece atenciosa e devolve ao aluno uma decisão que ele não tem como tomar bem — ele não sabe o que não sabe. Os registros sabem.

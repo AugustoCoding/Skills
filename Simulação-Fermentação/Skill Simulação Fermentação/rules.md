@@ -1,64 +1,100 @@
 # Manual Operacional da Sessão
 
-Como conduzir uma sessão de ensino neste workspace. [SKILL.md](./SKILL.md) diz o que o workspace é; este documento diz o que fazer ao abrir a sessão.
+Como conduzir uma sessão de ensino neste workspace. [SKILL.md](./SKILL.md) diz o que o workspace é; este documento diz o que fazer quando o aluno manda um exercício.
+
+A sessão começa com um enunciado, não com uma conversa. Os passos 0 a 4 acontecem **em silêncio** — o aluno não vê perguntas, vê a lição pronta.
 
 ## Fluxo da sessão
 
-### 0. Localizar o workspace (antes de tudo)
+### 0. Localizar o workspace (sem perguntar)
 
 Você lê a pasta da skill e escreve **no workspace**. São pastas diferentes: veja "Duas pastas" em [SKILL.md](./SKILL.md).
 
-- Identifique qual é o workspace desta sessão. Se o usuário não disse, **pergunte** — não presuma, e nunca use a pasta da skill.
+- Se o aluno indicou uma pasta, é essa. Se existe `./aula-fermentacao/` (ou outra pasta com `MISSION.md` e `lessons/`), reutilize-a em silêncio. Se não existe nenhuma, crie `./aula-fermentacao/` no diretório atual.
 - Se o workspace ainda não tem a estrutura, monte-a: crie `lessons/` e `learning-records/`, e copie da pasta da skill as pastas `assets/` e `reference/` e os arquivos `MISSION.md`, `RESOURCES.md`, `GLOSSARY.md` e `NOTES.md`.
-- Confirme em uma linha onde você vai escrever, para o usuário poder corrigir antes de existir arquivo.
+- Avise onde escreveu **depois de escrever**, em uma linha, para o aluno poder corrigir. Não pergunte antes.
 
 Daqui em diante, todo caminho neste documento é **relativo ao workspace**.
 
-### 1. Orientar (antes de escrever qualquer coisa)
+### 1. Orientar (em silêncio, antes de escrever qualquer coisa)
 
-- Ler `MISSION.md`. Se estiver vazio ou vago, **parar e entrevistar** — não ensine sem missão.
+- Ler `MISSION.md`. Se estiver vazio, você vai preenchê-lo por inferência no passo 3 — **não pare, e não entreviste**.
 - Ler `./learning-records/` do mais recente para trás. É a evidência do que o aluno já sabe.
 - Ler `NOTES.md` (preferências) e `GLOSSARY.md` (linguagem canônica).
-- Listar `./lessons/` e `./reference/` para saber o que já existe e qual o próximo número.
+- Ler `lessons/INDEX.md` e listar `./reference/` para saber o que já existe.
 - Listar `./assets/` para saber o que reusar.
 - Consultar, na pasta da skill, `./cases/` (banco de exercícios) e `./examples/` (sessões comentadas) — leitura, nunca escrita.
 
-### 2. Escolher o alvo
+### 2. Diagnosticar o exercício (em silêncio)
 
-- Se o aluno pediu um tópico, é esse.
-- Se não pediu, cruzar o mapa de progressão de `SKILL.md` com os registros de aprendizado e a missão, e escolher **um** degrau.
-- Enunciar o alvo em uma frase para o aluno antes de produzir a lição: "hoje você vai sair sabendo acoplar o consumo de substrato ao crescimento, com o sinal certo." Se ele discordar, ajuste.
+O enunciado é matéria-prima de lição. Antes de escrever qualquer coisa, extraia dele:
 
-### 3. Fundamentar
+- **Qual regime?** Batelada, batelada alimentada ou contínuo.
+- **Quais variáveis de estado?** Normalmente X, S, P; às vezes V.
+- **Quais parâmetros estão dados, e quais faltam?** O que falta é escolha de modelagem — e escolha de modelagem é conteúdo de ensino.
+- **Qual degrau do mapa de progressão** o exercício exige?
+- **Quais hipóteses o enunciado esconde?** Rendimento constante, volume constante, um só substrato limitante, sem lag, sem morte celular, mistura perfeita.
+- **Onde ele provavelmente travou?** Esta é a **aposta diagnóstica**: você aposta sozinho, sem perguntar. O vocabulário do enunciado, o que ele mandou junto (ou não mandou) e os registros de aprendizado são a base da aposta.
+
+**Se o aluno voltou sem exercício** ("o que a gente vê hoje?"), o enunciado vem de `./cases/`, na pasta da skill: escolha o caso que fecha o buraco registrado em `./learning-records/`, recorte um degrau dele e siga o mesmo fluxo. Não pergunte o que ele quer ver — ele não sabe o que não sabe, e os registros sabem.
+
+O protocolo completo está em [templates/resposta.md](./templates/resposta.md).
+
+### 3. Inferir a missão e checar o pré-requisito
+
+- Atualizar `MISSION.md` por inferência a partir do exercício — disciplina provável, nível, regime, régua de avaliação. Marcar o que é inferência, com a data. Nunca perguntar, nunca pedir confirmação.
+- Cruzar o degrau exigido pelo exercício com os registros de aprendizado:
+  - **pré-requisitos com evidência** → a lição ensina o degrau do exercício;
+  - **pré-requisito faltando** → a lição do dia é a **ponte**, e o gancho diz por que, prometendo o exercício na sequência.
+- Um alvo por lição. Nunca empilhe dois degraus para chegar mais rápido ao que o enunciado pede.
+
+### 4. Fundamentar
 
 - Buscar o conhecimento em `RESOURCES.md`. Se a fonte necessária não existir, procurá-la e adicioná-la à lista antes de ensinar.
 - Escolher a fonte primária que a lição vai recomendar.
 - Nunca preencher a lacuna com memória paramétrica.
+- Parâmetro que falta no enunciado: propor valor plausível **marcado como suposição**, com a ordem de grandeza justificada. Melhor ainda: dentro da lição, pedir que o aluno escolha e defenda a escolha.
 
-### 4. Produzir a lição
+### 5. Produzir a lição
 
-- Escrever `./lessons/000N-nome-em-kebab.html`, seguindo [LESSON-FORMAT.md](./LESSON-FORMAT.md).
-- Montar a partir de `./assets/`; criar componente novo lá se algo for reusável.
+- Escrever `./lessons/nome-pelo-conteudo.html`, seguindo [LESSON-FORMAT.md](./LESSON-FORMAT.md). Sem numeração no nome.
+- Declarar a aposta diagnóstica em uma linha, e montar a **escada de dicas** — é ela que substitui o "devolva o menor passo e espere" que antes acontecia no chat.
+- Embutir o loop de feedback no próprio HTML, com `assets/quiz.js` e `assets/simulador.js`. A lição tem que funcionar com o chat fechado.
 - Conhecimento primeiro (atrito baixo), habilidade depois (atrito alto).
-- Abrir o arquivo para o aluno via CLI, se possível.
+- Montar a partir de `./assets/`; criar componente novo lá se algo for reusável.
+- Registrar a linha da lição em `lessons/INDEX.md`.
+- Abrir o arquivo para o aluno via CLI.
 
-### 5. Fechar o loop
+### 6. Falar com o aluno (pouco)
 
-- Acompanhar o aluno enquanto ele faz o exercício. Feedback imediato, específico ao termo do modelo ou à linha de código.
-- Provocar recuperação: peça o balanço de memória, peça a previsão antes de rodar.
-- Quando ele errar, diagnostique — consulte o catálogo de concepções errôneas abaixo antes de assumir descuido.
+Duas a quatro linhas no chat, não mais:
 
-### 6. Consolidar
+- onde o arquivo foi escrito;
+- qual foi a aposta diagnóstica, em uma frase;
+- o convite a perguntar o que ficar obscuro.
+
+Todo o conteúdo pedagógico — hipóteses, suposições de parâmetro, equações, prática — vive no HTML. Repetir a lição no chat desfaz o motivo de ela existir.
+
+### 7. Responder dúvidas sobre uma lição já entregue
+
+Quando o aluno volta perguntando sobre uma lição específica:
+
+- **Responda no chat**, direto.
+- **Edite o HTML daquela lição**, inserindo a explicação no ponto exato onde a dúvida surgiu, com a classe `.nota-duvida`. Não apague o texto original.
+- **Reabra o arquivo** via CLI e avise em uma linha que ele foi atualizado.
+- Avalie o registro: dúvida esclarecida costuma ser evidência de primeira qualidade — concepção corrigida ou lacuna revelada.
+
+### 8. Consolidar
 
 - Há evidência de entendimento, conhecimento prévio revelado ou concepção corrigida? Escrever registro em `./learning-records/`.
 - O aluno usou um termo corretamente e sem apoio? Promover a `GLOSSARY.md`.
 - A lição produziu conhecimento que ele vai reconsultar? Comprimir em `./reference/`.
-- Ele expressou preferência sobre o ensino? Registrar em `NOTES.md`.
-- A missão mudou? Confirmar com ele, atualizar `MISSION.md` e escrever o registro.
+- Ele expressou preferência sobre o ensino, espontaneamente? Registrar em `NOTES.md`.
+- O exercício novo contradiz a missão registrada? Atualizar `MISSION.md`, marcando a inferência e a data.
 
 ## Concepções errôneas frequentes do domínio
 
-Este catálogo tem dois usos: **diagnosticar** o erro do aluno e **projetar distratores** plausíveis nos quizzes. Uma concepção corrigida vale um registro de aprendizado — são as de maior valor preditivo.
+Este catálogo tem dois usos: **diagnosticar** o erro do aluno e **projetar distratores** plausíveis nos quizzes. Como não há entrevista, ele também alimenta a aposta diagnóstica: o erro mais provável para aquele enunciado costuma estar aqui. Uma concepção corrigida vale um registro de aprendizado — são as de maior valor preditivo.
 
 ### Cinética
 
@@ -94,18 +130,22 @@ Este catálogo tem dois usos: **diagnosticar** o erro do aluno e **projetar dist
 
 ## Restrições
 
-- **Nunca escrever na pasta da skill.** Ela é somente leitura durante a sessão. Todo arquivo gerado vai para o workspace. Se você não sabe qual é o workspace, pergunte antes de criar qualquer arquivo.
-- Não entregar a simulação pronta antes da tentativa do aluno na parte que a lição ensina.
+- **Nunca escrever na pasta da skill.** Ela é somente leitura durante a sessão. Todo arquivo gerado vai para o workspace.
+- **Não interrogar o aluno na entrada.** Nada de perguntar missão, nível, onde ele travou ou onde salvar. Infira, aposte, declare a aposta e siga.
+- Não entregar a simulação pronta antes da tentativa do aluno na parte que a lição ensina. A escada de dicas existe para escalonar a ajuda sem entregá-la de uma vez.
 - Não apresentar valor de parâmetro sem fonte ou sem marcar explicitamente como ilustrativo.
 - Não omitir unidades, em nenhum contexto.
 - Não omitir as hipóteses do modelo.
 - Não promover termo ao glossário, nem escrever registro de aprendizado, por cobertura — só por evidência.
 - Não introduzir mais de um conceito novo por lição.
-- Não alterar `MISSION.md` sem confirmação do aluno.
+- Não numerar arquivos de lição: o nome descreve o conteúdo, e a ordem vive em `lessons/INDEX.md`.
+- Não deixar `MISSION.md` inferido sem marcar que é inferência, com a data.
 
 ## Critérios de qualidade da lição
 
-- **Foco** — ensina uma coisa, e essa coisa está no mapa de progressão e na zona do aluno.
+- **Foco** — ensina uma coisa, e essa coisa é o que o exercício do aluno exige (ou o pré-requisito que falta para ele).
+- **Autossuficiência** — o aluno percorre a lição inteira com o chat fechado: prevê, tenta, erra e descobre por que errou dentro do arquivo.
+- **Aposta declarada** — o ponto de travamento em que você apostou está dito em uma linha, e há escada de dicas para quando a aposta erra.
 - **Ancoragem** — cada afirmação sustentada por fonte de `RESOURCES.md`, com link.
 - **Feedback** — há pelo menos um loop em que o aluno produz e recebe resposta imediata.
 - **Retenção** — a lição usa recuperação, espaçamento ou intercalação, não só exposição.

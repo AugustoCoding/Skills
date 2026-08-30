@@ -1,9 +1,13 @@
 <!doctype html>
 <!--
-  ESQUELETO DE LIÇÃO — copie para ./lessons/000N-nome-em-kebab.html
+  ESQUELETO DE LIÇÃO — copie para ./lessons/{nome-pelo-conteudo}.html
+  Nome descreve o conteúdo, em kebab-case: quimiostato-washout-etanol.html.
+  Sem numeração. Registre a lição em lessons/INDEX.md na mesma ação.
 
   Regras que este esqueleto já materializa (detalhes em LESSON-FORMAT.md):
     · uma lição, um alvo. Se aparecerem dois, divida em duas lições.
+    · a lição é a experiência inteira: tem que funcionar com o chat fechado.
+    · a aposta diagnóstica é declarada, e a escada de dicas é a rede quando erra.
     · conhecimento primeiro (atrito baixo), habilidade depois (atrito alto).
     · pelo menos um loop de feedback em que o aluno produz e recebe resposta.
     · todo parâmetro com unidade; sem fonte, marcado como ilustrativo.
@@ -15,22 +19,31 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lição 000N — {título}</title>
+<title>{Título — o que o aluno vai saber fazer}</title>
 <link rel="stylesheet" href="../assets/lesson.css">
 </head>
 <body>
 
 <header class="licao">
-  <span class="numero">Lição 000N</span>
+  <!-- Etiqueta: tema e degrau do mapa de progressão. Não é número de lição. -->
+  <span class="etiqueta">{Tema} · degrau {N}</span>
   <h1>{Título — o que o aluno vai saber fazer ao final}</h1>
-  <!-- O GANCHO: por que esta lição, por que agora, ligado à missão.
-       Se você não consegue escrever isto, escolheu o alvo errado. -->
-  <p class="gancho">{Uma ou duas frases amarrando à missão do aluno.}</p>
+  <!-- O GANCHO: por que esta lição, por que agora, ligado ao exercício que ele
+       trouxe e à missão inferida. Se você não consegue escrever isto, escolheu
+       o alvo errado. -->
+  <p class="gancho">{Uma ou duas frases amarrando ao exercício e à missão.}</p>
 </header>
 
+<!-- ============ A APOSTA DECLARADA ============
+     Sem entrevista, o ponto de travamento é aposta sua. Declará-la em uma linha
+     é o que a torna corrigível: se você errou, o aluno pula e avisa. -->
+<p class="lateral">Aposto que o seu problema não é {X}, e sim {Y}. Se eu errei,
+vá direto para <a href="#pratica">Sua vez</a> — e me diga.</p>
+
 <!-- ============ RECUPERAÇÃO ============
-     Espaçamento embutido: cobra algo da lição anterior, de memória,
-     ANTES de ensinar qualquer coisa nova. Custa três linhas. -->
+     Espaçamento embutido: cobra algo de uma lição anterior, de memória,
+     ANTES de ensinar qualquer coisa nova. Custa três linhas.
+     Na primeira lição do workspace, cobre um pré-requisito do próprio exercício. -->
 <div class="recuperacao">
   <span class="rotulo">Antes de começar, de memória</span>
   <p>{Pergunta sobre a lição anterior. Sem consultar.}</p>
@@ -58,20 +71,28 @@ dS/dt = −(1/Yx/s)·μ·X</div>
   <li><code>−(1/Yx/s)</code> — {por que negativo, por que divide}</li>
 </ul>
 
+<!-- As hipóteses do enunciado são conteúdo, não rodapé:
+     o que este modelo está fingindo que não existe? -->
+<h3>O que este modelo finge que não existe</h3>
+<ul>
+  <li>{rendimento constante — ignora manutenção celular}</li>
+  <li>{volume constante, um só substrato limitante, sem lag, sem morte celular}</li>
+</ul>
+
 <table>
 <thead><tr><th>Parâmetro</th><th class="num">Valor</th><th>Unidade</th><th>Procedência</th></tr></thead>
 <tbody>
 <tr><td><code>μmax</code></td><td class="num">0,40</td><td class="un">1/h</td><td>{fonte ou "ilustrativo"}</td></tr>
-<tr><td><code>Ks</code></td><td class="num">1,0</td><td class="un">g/L</td><td>{fonte ou "ilustrativo"}</td></tr>
+<tr><td><code>Ks</code></td><td class="num">1,0</td><td class="un">g/L</td><td>{fonte ou "suposição: ordem de grandeza de …"}</td></tr>
 </tbody>
 </table>
 
 <p class="ilustrativo">Valores ilustrativos, escolhidos para dar uma curva de forma reconhecível. Não representam nenhum organismo específico.</p>
 
 <!-- ============ PRÁTICA ============
-     O loop de feedback. Escolha UM padrão de LESSON-FORMAT.md:
+     O loop de feedback, DENTRO do arquivo. Escolha UM padrão de LESSON-FORMAT.md:
      preveja-e-rode · conserte-o-código · diagnostique-o-gráfico · das-unidades-ao-modelo -->
-<h2>Sua vez</h2>
+<h2 id="pratica">Sua vez</h2>
 
 <!-- Padrão "preveja e depois rode".
      data-prever mantém as curvas ocultas até o aluno clicar em Revelar. -->
@@ -91,10 +112,30 @@ dS/dt = −(1/Yx/s)·μ·X</div>
 <p>{Depois do reveal: o que olhar. Aponte o que a previsão errada normalmente
 erra e por quê — o erro de previsão é o conteúdo da lição.}</p>
 
+<!-- ============ ESCADA DE DICAS ============
+     O "menor passo de cada vez" sem depender do chat. Três ou quatro degraus,
+     do empurrão mínimo até a resposta. Cada <summary> nomeia um estado do aluno.
+     A resposta fechada fica no ÚLTIMO degrau, e só nele. -->
+<div class="escada">
+  <details>
+    <summary>{Não sei por onde começar}</summary>
+    <p>{Uma pergunta, nunca um pedaço da solução.}</p>
+  </details>
+  <details>
+    <summary>{Montei, mas não sei se está certo}</summary>
+    <p>{O teste que o aluno aplica sozinho — unidades, caso limite, sinal.}</p>
+  </details>
+  <details>
+    <summary>{Quero ver o resultado fechado}</summary>
+    <div class="equacao">{a resposta}</div>
+  </details>
+</div>
+
 <!-- ============ VERIFICAÇÃO ============
      Duas a quatro perguntas. Recuperação, não reconhecimento.
      Alternativas com o MESMO número de palavras e caracteres.
-     Distratores tirados do catálogo de concepções errôneas de rules.md. -->
+     Distratores tirados do catálogo de concepções errôneas de rules.md.
+     O feedback é a correção que ele recebe na hora: explique o mecanismo. -->
 <h2>Verificação</h2>
 
 <div class="quiz">
@@ -140,13 +181,25 @@ comprimido em <a href="../reference/equacoes.html">balanços e cinética</a>.</p
 <div class="pergunte">
   <strong>Ficou algo obscuro?</strong> Pergunte. Sou seu professor nisto —
   posso reexplicar de outro jeito, abrir a derivação, ou montar um exercício
-  diferente sobre o mesmo ponto. Perguntar não atrasa a próxima lição; travar em
-  silêncio, sim.
+  diferente sobre o mesmo ponto. E o que você perguntar entra aqui neste arquivo,
+  no ponto exato onde a dúvida apareceu, para você reencontrar depois.
 </div>
 
+<!-- ============ NOTA DE DÚVIDA ============
+     Não faz parte do esqueleto: entra depois, quando o aluno perguntar.
+     Enxerte no ponto EXATO do texto que gerou a dúvida, nunca no rodapé,
+     e não apague o trecho original. Formato em LESSON-FORMAT.md.
+
+     <p class="nota-duvida">
+       <span class="rotulo">Dúvida — 30/08</span>
+       {a explicação nova, no lugar onde ela faltava}
+     </p>
+-->
+
+<!-- Links entre lições usam o nome de conteúdo, não numeração. -->
 <nav class="licoes">
-  <a href="./000M-anterior.html">← Lição anterior</a>
-  <a href="./000O-proxima.html">Próxima lição →</a>
+  <a href="./{licao-anterior}.html">← {Lição anterior}</a>
+  <a href="./INDEX.md">Todas as lições</a>
 </nav>
 
 <script src="../assets/quiz.js" defer></script>
