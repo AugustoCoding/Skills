@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quimiostato: o D de máxima produtividade</title>
+<link rel="stylesheet" href="./assets/lesson.css">
+</head>
+<body>
+
+<header class="licao">
+  <span class="etiqueta">Contínuo · varredura de D · máximo de produtividade</span>
+  <h1>O D que rende mais etanol — e o que há logo depois dele</h1>
+  <p class="gancho">No fim você tem um script que varre a taxa de diluição, acha o ótimo e mostra o washout.</p>
+</header>
+
+<h2>O modelo</h2>
+
+<p>Dorna de volume constante: o que entra de mosto sai de vinho. A taxa de diluição
+<code>D = F/V</code> (1/h) é a única alavanca — e é ela que impõe a taxa de crescimento.</p>
+
+<div class="equacao">
+  <math display="block">
+    <mi>μ</mi><mo>=</mo>
+    <mfrac><mrow><msub><mi>μ</mi><mi>max</mi></msub><mo>⋅</mo><mi>S</mi></mrow>
+           <mrow><msub><mi>K</mi><mi>s</mi></msub><mo>+</mo><mi>S</mi></mrow></mfrac>
+  </math>
+  <math display="block">
+    <mfrac><mrow><mi>d</mi><mi>X</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+    <mo>=</mo><mo>(</mo><mi>μ</mi><mo>−</mo><mi>D</mi><mo>)</mo><mo>⋅</mo><mi>X</mi>
+  </math>
+  <math display="block">
+    <mfrac><mrow><mi>d</mi><mi>S</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+    <mo>=</mo><mi>D</mi><mo>⋅</mo><mo>(</mo><msub><mi>S</mi><mi>in</mi></msub><mo>−</mo><mi>S</mi><mo>)</mo>
+    <mo>−</mo><mfrac><mrow><mi>μ</mi><mo>⋅</mo><mi>X</mi></mrow><msub><mi>Y</mi><mrow><mi>x</mi><mo>/</mo><mi>s</mi></mrow></msub></mfrac>
+  </math>
+  <math display="block">
+    <mfrac><mrow><mi>d</mi><mi>P</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+    <mo>=</mo><msub><mi>Y</mi><mrow><mi>p</mi><mo>/</mo><mi>x</mi></mrow></msub>
+    <mo>⋅</mo><mi>μ</mi><mo>⋅</mo><mi>X</mi><mo>−</mo><mi>D</mi><mo>⋅</mo><mi>P</mi>
+  </math>
+</div>
+
+<ul class="termos">
+  <li><code>(μ − D)·X</code> — crescimento menos arraste, em g L⁻¹ h⁻¹. Zerar esse termo no permanente é o que força <strong>μ = D</strong>, não μ<sub>max</sub>.</li>
+  <li><code>D·(Sin − S)</code> — ART que entra menos o que sai pelo transbordo (g L⁻¹ h⁻¹).</li>
+  <li><code>μ·X / Yx/s</code> — consumo de ART. <code>Yx/s</code> é gX/gART, então <em>divide</em>: pouca levedura por grama de açúcar significa muito açúcar por grama de levedura.</li>
+  <li><code>D·P</code> — etanol arrastado para fora (g L⁻¹ h⁻¹). É essa mesma quantidade que, no permanente, é a produtividade da dorna.</li>
+</ul>
+
+<table>
+<thead><tr><th>Parâmetro</th><th class="num">Valor</th><th>Unidade</th><th>Procedência</th></tr></thead>
+<tbody>
+<tr><td><code>mu_max</code></td><td class="num">0,30</td><td class="un">1/h</td><td>enunciado</td></tr>
+<tr><td><code>Ks</code></td><td class="num">1,0</td><td class="un">g/L</td><td>enunciado</td></tr>
+<tr><td><code>Yxs</code></td><td class="num">0,05</td><td class="un">gX/gART</td><td>enunciado</td></tr>
+<tr><td><code>Ypx</code></td><td class="num">8,0</td><td class="un">gP/gX</td><td>enunciado</td></tr>
+<tr><td><code>Sin</code></td><td class="num">100</td><td class="un">g/L</td><td>enunciado</td></tr>
+<tr><td><code>V</code></td><td class="num">10 000</td><td class="un">L</td><td>enunciado (10 m³)</td></tr>
+<tr><td><code>X0</code></td><td class="num">1,0</td><td class="un">g/L</td><td>suposição: inóculo qualquer &gt; 0 leva ao mesmo permanente; <code>X0 = 0</code> é ponto fixo trivial e daria reta plana</td></tr>
+<tr><td><code>S0</code> · <code>P0</code></td><td class="num">100 · 0</td><td class="un">g/L</td><td>suposição: parte-se da dorna cheia de mosto, sem etanol</td></tr>
+<tr><td><code>T_MAX</code></td><td class="num">5 000</td><td class="un">h</td><td>suposição: teto folgado do transiente</td></tr>
+</tbody>
+</table>
+
+<h2>O código</h2>
+
+<section class="codigo">
+
+  <div class="passo">
+    <h3>Parâmetros e estado inicial</h3>
+<pre><code>mu_max = 0.30      # 1/h
+Ks     = 1.0       # g/L
+Yxs    = 0.05      # gX/gART
+Ypx    = 8.0       # gP/gX
+Sin    = 100.0     # g/L de ART na alimentacao
+V      = 10_000.0  # L  (10 m3)
+
+y0 = [1.0, Sin, 0.0]   # X0, S0, P0 em g/L</code></pre>
+    <p>O volume só reaparece no fim, para converter D em vazão (<code>F = D·V</code>). As equações
+    são todas em concentração, e concentração não sabe se a dorna tem 10 L ou 10 m³.</p>
+  </div>
+
+  <div class="passo">
+    <h3>As derivadas</h3>
+<pre><code>def derivadas(t, y, D):
+    X, S, P = y
+    mu = mu_max * max(S, 0.0) / (Ks + max(S, 0.0))
+    dX = (mu - D) * X                       # g L-1 h-1
+    dS = D * (Sin - S) - mu * X / Yxs
+    dP = -D * P + Ypx * mu * X
+    return [dX, dS, dP]</code></pre>
+    <p><code>D</code> entra por <code>args</code> em vez de global: é justamente o que a varredura vai
+    mexer, e assim uma função só serve aos 316 valores. O <code>max(S, 0.0)</code> está ali porque
+    perto do washout S resvala em −10⁻¹² — artefato numérico — e Monod devolveria μ negativo.</p>
+  </div>
+
+  <div class="passo">
+    <h3>Como saber que chegou ao permanente</h3>
+<pre><code>def parou(t, y, D):
+    return np.max(np.abs(derivadas(t, y, D))) - 1e-7
+parou.terminal  = True
+parou.direction = -1</code></pre>
+    <p>O enunciado pede regime permanente, e "integrei por 200 h" não é permanente, é um chute.
+    O evento mede a maior derivada e corta a integração quando ela cruza 10⁻⁷ g L⁻¹ h⁻¹.
+    Perto do ótimo isso acontece em ~130 h; perto do washout, nem em 5 000 h — e esse fato já
+    é parte da resposta.</p>
+  </div>
+
+  <div class="passo">
+    <h3>A varredura</h3>
+<pre><code>def estacionario(D):
+    sol = solve_ivp(derivadas, (0.0, T_MAX), y0, args=(D,),
+                    method="Radau", rtol=1e-9, atol=1e-11, events=parou)
+    return np.maximum(sol.y[:, -1], 0.0)
+
+Ds = np.linspace(0.005, 0.32, 316)
+X, S, P = np.array([estacionario(D) for D in Ds]).T
+Pr = Ds * P                      # g L-1 h-1 de etanol
+i  = int(np.argmax(Pr))</code></pre>
+    <p><code>Radau</code>, e não <code>RK45</code>: com Ks = 1 g/L contra Sin = 100 g/L, o ajuste do
+    açúcar é muito mais rápido que o da biomassa — sistema rígido, e um método explícito trava em
+    passos minúsculos. A varredura vai até 0,32 1/h de propósito, para incluir a região onde não
+    existe estado estacionário com levedura dentro.</p>
+  </div>
+
+  <div class="passo">
+    <h3>Onde está o limite</h3>
+<pre><code>D_c = mu_max * Sin / (Ks + Sin)     # 1/h — washout
+print(f"D otimo  = {Ds[i]:.4f} 1/h  ->  F = {Ds[i]*V/1000:.3f} m3/h")
+print(f"prod.    = {Pr[i]:.3f} g L-1 h-1 = {Pr[i]*V/1000:.1f} kg/h")
+print(f"washout  = {D_c:.4f} 1/h  ->  F = {D_c*V/1000:.3f} m3/h")</code></pre>
+    <p><code>D_c</code> é o μ que a levedura alcança quando S sobe até a própria alimentação: acima
+    disso nenhuma concentração de açúcar a salva, porque ela já está no teto. Calcule à parte para
+    <em>conferir</em> a varredura — não para substituí-la.</p>
+  </div>
+
+  <details class="programa">
+    <summary>Ver o programa completo</summary>
+<pre><code>"""Quimiostato de 10 m3: varredura da taxa de diluicao D.
+Requer: numpy, scipy, matplotlib."""
+import numpy as np
+from scipy.integrate import solve_ivp
+import matplotlib.pyplot as plt
+
+mu_max = 0.30      # 1/h
+Ks     = 1.0       # g/L
+Yxs    = 0.05      # gX/gART
+Ypx    = 8.0       # gP/gX
+Sin    = 100.0     # g/L de ART na alimentacao
+V      = 10_000.0  # L  (10 m3)
+
+y0    = [1.0, Sin, 0.0]  # X0, S0, P0 em g/L (suposicao: inoculo)
+T_MAX = 5000.0           # h - teto do transiente
+
+def derivadas(t, y, D):
+    X, S, P = y
+    mu = mu_max * max(S, 0.0) / (Ks + max(S, 0.0))
+    dX = (mu - D) * X                       # g L-1 h-1
+    dS = D * (Sin - S) - mu * X / Yxs
+    dP = -D * P + Ypx * mu * X
+    return [dX, dS, dP]
+
+def parou(t, y, D):
+    return np.max(np.abs(derivadas(t, y, D))) - 1e-7
+parou.terminal  = True
+parou.direction = -1
+
+def estacionario(D):
+    sol = solve_ivp(derivadas, (0.0, T_MAX), y0, args=(D,),
+                    method="Radau", rtol=1e-9, atol=1e-11, events=parou)
+    return np.maximum(sol.y[:, -1], 0.0)   # negativo = artefato numerico
+
+Ds = np.linspace(0.005, 0.32, 316)
+X, S, P = np.array([estacionario(D) for D in Ds]).T
+Pr = Ds * P                                 # g L-1 h-1 de etanol
+
+i   = int(np.argmax(Pr))
+D_c = mu_max * Sin / (Ks + Sin)             # 1/h - washout
+print(f"D otimo       = {Ds[i]:.4f} 1/h   ->  F = {Ds[i]*V/1000:.3f} m3/h")
+print(f"X, S, P       = {X[i]:.2f}, {S[i]:.2f}, {P[i]:.2f} g/L")
+print(f"produtividade = {Pr[i]:.3f} g L-1 h-1 = {Pr[i]*V/1000:.1f} kg/h")
+print(f"conversao ART = {100*(Sin-S[i])/Sin:.1f} %")
+print(f"D de washout  = {D_c:.4f} 1/h   ->  F = {D_c*V/1000:.3f} m3/h")
+
+fig, ax = plt.subplots(figsize=(7, 4.2))
+ax.plot(Ds, X,  label="X (g/L)")
+ax.plot(Ds, S,  label="S (g/L)")
+ax.plot(Ds, P,  label="P (g/L)")
+ax.plot(Ds, Pr, label="produtividade D·P (g L$^{-1}$ h$^{-1}$)")
+ax.axvline(Ds[i], color="k", lw=.8, ls="--")
+ax.axvline(D_c,   color="r", lw=.8, ls=":")
+ax.set_xlabel("D (1/h)")
+ax.set_ylabel("concentracao (g/L)  /  produtividade (g L$^{-1}$ h$^{-1}$)")
+ax.legend(); fig.tight_layout(); plt.show()</code></pre>
+  </details>
+
+  <details class="resposta">
+    <summary>Ver a resposta</summary>
+    <p><strong>D ótimo = 0,270 1/h</strong> — ou seja <strong>F = 2,70 m³/h</strong> de mosto.
+    No permanente: X = 4,55 g/L, S = 9,00 g/L, P = 36,40 g/L, com 91,0 % do ART convertido.</p>
+    <p><strong>Produtividade = 9,83 g L⁻¹ h⁻¹</strong>, que nos 10 m³ dá
+    <strong>98,3 kg de etanol por hora</strong>.</p>
+    <p><strong>Passando disso:</strong> o washout está em D<sub>c</sub> = 0,2970 1/h
+    (F = 2,97 m³/h), só 10 % acima do ótimo. No meio do caminho a queda já é forte —
+    em D = 0,290 1/h a produtividade cai a 8,24 g L⁻¹ h⁻¹ com 29 g/L de ART indo embora sem
+    fermentar, e em D = 0,296 1/h sobra 3,08 g L⁻¹ h⁻¹ com 74 g/L de açúcar perdido.
+    Acima de 0,2970 1/h a levedura sai mais rápido do que se reproduz: X → 0, P → 0 e a dorna
+    vira um cano de mosto.</p>
+  </details>
+
+</section>
+
+<h2>O que a curva diz</h2>
+
+<div class="simulador"
+     data-modelo="quimiostato"
+     data-tempo="300"
+     data-params="mu_max=0.30, Ks=1.0, Yxs=0.05, Ypx=8.0, D=0.27, Sin=100, X0=1, S0=100, P0=0"
+     data-controles="D:0.05:0.32:0.005, Ks:0.2:10:0.1, Sin:20:150:5"></div>
+
+<ul>
+  <li><strong>Suba o D de 0,27 para 0,29.</strong> O etanol cai de 36,4 para 28,4 g/L e o ART sobe
+  de 9,0 para 29,0 g/L — os dois trocam de lugar, porque o açúcar que a levedura não teve tempo de
+  comer é exatamente o etanol que deixou de existir. Mas a <em>produtividade</em> só recua de
+  9,83 para 8,24 g L⁻¹ h⁻¹: bombear mais compensa parte da perda de concentração.</li>
+
+  <li>O ótimo em 0,270 1/h opera a 91 % de conversão, não a 99 %. Rendimento máximo e produtividade
+  máxima são pontos diferentes: em D = 0,10 1/h sobram só 0,5 g/L de ART e o vinho chega a 39,8 g/L,
+  mas a produtividade é 3,98 g L⁻¹ h⁻¹ — 40 % do ótimo, porque a dorna passa o tempo com açúcar
+  de sobra e vazão de menos.</li>
+
+  <li><strong>Ponha D em 0,31 e olhe o eixo do tempo.</strong> X despenca, mas devagar: partindo do
+  ótimo, o etanol leva ~36 h para cair à metade e ainda há 1,9 g/L na hora 200. Perder a dorna é
+  questão de dias, e voltar exige reinocular — o preço de ultrapassar o washout não está na curva
+  de permanente, está no relógio.</li>
+
+  <li>Volte D a 0,27 e <strong>puxe o Ks para 5,0 g/L</strong>. Com o mesmo μ<sub>max</sub>, o S de
+  permanente vai a 45 g/L e o etanol cai a 22,0 g/L. Nesta faixa de D quem manda é a afinidade pelo
+  açúcar, não a velocidade máxima: é Ks = 1,0 g/L contra Sin = 100 g/L que permite operar a
+  0,270 1/h, tão colado em μ<sub>max</sub> = 0,30 1/h.</li>
+</ul>
+
+<div class="pergunte">
+  <strong>Ficou algo obscuro?</strong> Pergunte. O que você perguntar entra
+  aqui neste arquivo, no ponto exato onde a dúvida apareceu.
+</div>
+
+<script src="./assets/tema.js" defer></script>
+<script src="./assets/codigo.js" defer></script>
+<script src="./assets/simulador.js" defer></script>
+</body>
+</html>
