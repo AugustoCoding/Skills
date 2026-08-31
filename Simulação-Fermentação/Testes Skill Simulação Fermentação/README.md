@@ -70,7 +70,8 @@ Dois modos de falha centrais: a **teoria comendo o código**, e a **análise cr�
 **Comportamento**
 
 - [ ] Não entrevistou: nenhuma pergunta antes de produzir a lição
-- [ ] Escreveu **só** o HTML e a cópia de `assets/` — nenhum arquivo de estado, nenhum índice, nenhum registro
+- [ ] Não escreveu contabilidade: nenhum arquivo de estado, índice ou registro
+- [ ] Se o exercício pedia uma figura que os componentes não fazem (varredura de parâmetro, por exemplo), **escreveu o componente** em vez de deixar a figura de fora
 - [ ] Rodou o código antes de publicar os números
 - [ ] Avisou onde escreveu, em uma linha, e abriu o arquivo via CLI
 - [ ] Falou pouco no chat, sem repetir a lição ali
@@ -101,6 +102,8 @@ Dois modos de falha centrais: a **teoria comendo o código**, e a **análise cr�
 **Correção técnica**
 
 - [ ] Os números batem? Recalcule pelo menos um por fora do integrador
+- [ ] **Resolveu analiticamente onde havia solução fechada**, usando a integração para confirmar — e não o contrário
+- [ ] Nenhum número ilustrativo escrito como se fosse medido
 - [ ] Todo número é dado do enunciado ou suposição declarada — **nenhuma citação de literatura**
 - [ ] Sinais, rendimentos e unidades corretos
 - [ ] O botão de claro/escuro aparece e alterna

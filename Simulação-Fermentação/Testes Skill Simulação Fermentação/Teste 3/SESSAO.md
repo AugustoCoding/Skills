@@ -124,7 +124,7 @@ Onde o modelo escreveu: `Teste 3/com-skill/`
 - [ ] Cada passo com título, trecho e o **porquê** da decisão
 - [ ] Programa completo colapsado no fim, com botão de copiar funcionando
 - [ ] Resposta numérica atrás de um botão
-- [ ] Usou o `quimiostato` que já existe, sem escrever modelo novo
+- [ ] Usou o `quimiostato` que já existe em vez de reescrevê-lo
 
 **Divisão 3 — análise crítica**
 
@@ -139,7 +139,7 @@ Onde o modelo escreveu: `Teste 3/com-skill/`
 - [ ] D ótimo ≈ 0,270 1/h, com produtividade ≈ 9,8 g·L⁻¹·h⁻¹
 - [ ] D crítico ≈ 0,297 1/h
 - [ ] Distinguiu **concentração** de **produtividade** — o etanol é mais concentrado justamente onde a produtividade é pior
-- [ ] **Nenhuma suposição na lição**: o enunciado dá tudo, então nenhum número novo deveria aparecer
+- [ ] Nenhum parâmetro cinético inventado; condições iniciais e horizonte declarados como escolha
 - [ ] O volume de 10 m³ não entrou no código como se importasse
 - [ ] Nenhuma citação de literatura
 

@@ -4,7 +4,7 @@ Um arquivo HTML por exercício, em `./aula-fermentacao/`, nomeado pelo conteúdo
 
 Comece de [templates/licao.html](./templates/licao.html) — copiar a estrutura é mais rápido e mais fiel do que deduzi-la desta prosa.
 
-**Teto maleável: 1.000 palavras visíveis.** Se estourar, o que encolhe é a teoria. Código e análise crítica são o que o aluno veio buscar.
+**Teto maleável: 1.000 palavras visíveis.** Se estourar, o que encolhe é a teoria: código e análise crítica são o que o aluno veio buscar. **Conte antes de salvar** — mirar no teto sem medir não funcionou nas duas primeiras vezes que se tentou.
 
 ## Divisão 1 — Teoria
 
@@ -24,15 +24,15 @@ O centro da lição. O aluno recebe o programa **explicado passo a passo**, e ca
 <section class="codigo">
   <div class="passo">
     <h3>Os parâmetros e o estado inicial</h3>
-    <pre><code>mu_max = 0.40   # 1/h
+    <pre><code>mu_max = 0.30   # 1/h
 Ks     = 1.0    # g/L
-y0 = [X0, S0, V0]</code></pre>
-    <p>Tudo em uma tupla só porque <code>solve_ivp</code> integra vetor, não variáveis soltas.</p>
+y0 = [X0, S0, P0]</code></pre>
+    <p>Tudo em uma lista só porque <code>solve_ivp</code> integra vetor, não variáveis soltas.</p>
   </div>
 
   <div class="passo">
     <h3>A função de derivadas</h3>
-    <pre><code>def derivadas(t, y, F): ...</code></pre>
+    <pre><code>def derivadas(t, y, D): ...</code></pre>
     <p>Tempo primeiro, estado depois: é a ordem que o <code>solve_ivp</code> exige.</p>
   </div>
 
@@ -48,36 +48,43 @@ y0 = [X0, S0, V0]</code></pre>
 </section>
 ```
 
-`assets/codigo.js` cuida do resto sozinho: esconde os passos seguintes, põe o botão de revelar, anima a entrada, e injeta um botão de copiar em cada bloco de código. O programa completo e a resposta só aparecem depois do último passo.
+`assets/codigo.js` cuida do resto sozinho: esconde os passos seguintes, põe o botão de revelar, anima a entrada, e injeta um botão de copiar em cada bloco. O programa completo e a resposta só aparecem depois do último passo.
 
 Regras:
 
-- **Quantos passos você decidir**, conforme o tamanho do programa e as subseções naturais dele — parâmetros, derivadas, evento, integração, gráfico. **Não passe de seis.**
-- **Cada passo é um bloco lógico**, não uma linha solta: título curto, o trecho de código, e a explicação do **porquê daquilo**, não do que a linha faz.
-- **A explicação responde "por que assim"**: por que `solve_ivp` e não `odeint`; por que evento em vez de ler o instante no gráfico; por que `Radau` quando há rigidez. Comentário no código cobre o "o quê"; o parágrafo cobre a decisão.
+- **Quantos passos você decidir**, conforme as subseções naturais do programa — parâmetros, derivadas, evento, integração, gráfico. **Não passe de seis.**
+- **Cada passo é um bloco lógico**: título curto, o trecho, e a explicação do **porquê daquilo**. Comentário no código cobre o "o quê"; o parágrafo cobre a decisão.
+- **A explicação responde "por que assim"**: por que `solve_ivp` e não `odeint`; por que evento em vez de ler o instante no gráfico; por que `Radau` quando há rigidez.
 - **O programa completo é executável**, com dependências declaradas e unidades em comentário. É de lá que o aluno copia.
-- **A resposta numérica sai de integração conferida**, nunca de estimativa, e o botão só abre e mostra — sem pergunta, sem cerimônia.
+- **O botão da resposta só abre e mostra** — sem pergunta, sem cerimônia.
 
 ## Divisão 3 — Análise crítica
 
-O simulador, e a leitura do resultado **daquele** exercício.
+O gráfico interativo, e a leitura do resultado **daquele** exercício.
 
 ```html
 <div class="simulador"
-     data-modelo="batelada"
-     data-tempo="30"
-     data-params="mu_max=0.35, Ks=1.5, Yxs=0.045, X0=2, S0=150"
-     data-controles="mu_max, S0"></div>
+     data-modelo="quimiostato"
+     data-tempo="300"
+     data-params="mu_max=0.30, Ks=1.0, Yxs=0.05, Ypx=8, D=0.27, Sin=100"
+     data-controles="D:0.05:0.32:0.005"></div>
 ```
 
-- **No máximo quatro controles**, e só de parâmetros que a análise discute. Parâmetro que não aparece no texto não vira slider.
-- **Sem `data-prever`**: o aluno desliza e a curva responde na hora. Esconder a curva mata o que o componente tem de melhor.
+- **No máximo quatro controles**, e só de parâmetros que a análise discute. **Se nenhuma observação manda mexer nele, ele não vira slider** — controle decorativo é ruído.
+- **Declare faixa e passo** de cada controle quando os padrões do componente não servirem: perto de uma transição abrupta, passo grosso demais esconde justamente o que interessa.
+- **Sem esconder a curva**: o aluno desliza e ela responde na hora.
 - **Duas a quatro observações**, cada uma ancorada num ponto concreto das curvas daquele caso: por que um perfil cai quando o outro sobe; o que acontece onde eles se cruzam; por que a inflexão está ali e não dez horas depois.
-- **Pelo menos uma observação manda mexer** num controle e diz o que procurar: *"aumente F e veja o pico de ART subir junto — o enchimento acelera, mas o açúcar acumulado dobra."*
+- **Pelo menos uma observação manda mexer** num controle e diz o que procurar: *"aumente D até 0,30 e veja a produtividade despencar — o ótimo fica a 10% do washout."*
 
 **O teste que separa análise de enchimento de linguiça:** se a frase serviria para outro exercício, ela não é análise deste caso — corte.
 
 **Não fale do que o modelo ignora.** Nada de lista de hipóteses, nada de "este modelo não representa inibição". É genérico, é longo, e não é o que ele veio aprender.
+
+### Quando o gráfico certo não é contra o tempo
+
+Alguns exercícios — quase todos os de regime contínuo — respondem uma pergunta de **varredura**: qual D dá a maior produtividade, como o rendimento anda com a vazão. A figura que responde isso tem o parâmetro no eixo horizontal, não o tempo, e o `simulador.js` só desenha curso temporal.
+
+Nesse caso, **escreva o componente**. Um gráfico de varredura em `assets/` do workspace, no mesmo estilo dos que já existem, e use. A figura central do exercício não fica de fora da lição porque a peça não existia.
 
 ## Equações
 
@@ -86,9 +93,8 @@ O simulador, e a leitura do resultado **daquele** exercício.
 ```html
 <math display="block">
   <mfrac><mrow><mi>d</mi><mi>S</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
-  <mo>=</mo><mo>−</mo>
-  <mfrac><mn>1</mn><msub><mi>Y</mi><mrow><mi>x</mi><mo>/</mo><mi>s</mi></mrow></msub></mfrac>
-  <mo>⋅</mo><mi>μ</mi><mo>⋅</mo><mi>X</mi>
+  <mo>=</mo><mi>D</mi><mo>⋅</mo><mo>(</mo><msub><mi>S</mi><mi>in</mi></msub>
+  <mo>−</mo><mi>S</mi><mo>)</mo>
 </math>
 ```
 
@@ -96,22 +102,26 @@ O simulador, e a leitura do resultado **daquele** exercício.
 - **Código nunca é MathML** — código é `<pre><code>`.
 - Cada variável definida na primeira aparição, com unidade.
 
-## A varredura de procedência
+## A procedência dos números
 
 Antes de salvar, passe por **todo número do arquivo** — texto, tabela, `data-params`, resposta final. Cada um cai em uma de **duas** caixas:
 
 | Caixa | Como aparece |
 |---|---|
 | **Dado do enunciado** | Sem marca: veio com o exercício |
-| **Suposição sua** | Marcada como suposição, com ordem de grandeza justificada e o teto físico quando existir |
+| **Escolha sua** | Marcada como tal, com a justificativa em meia linha |
 
-Não há terceira caixa. **Não cite literatura**: uma citação lembrada de memória tem cara de dado verificado e não é. Faixas e percentuais contam como número — "entre 85 e 92% do teórico" soa como prosa e passa batido, e foi assim que já vazou antes.
+Não há terceira caixa. **Não cite literatura**: uma citação lembrada de memória tem cara de dado verificado e não é.
 
-Sem fonte e com o número necessário, declare como estimativa sua e siga.
+Contam como número, e é por aí que vaza:
+
+- **faixas e percentuais** — "entre 85 e 92% do teórico" soa como prosa e passa batido;
+- **ordens de grandeza ilustrativas** — se você escreve que o substrato "resvala em −10⁻¹²", ou você mediu, ou não escreve;
+- **condições iniciais e horizontes** que o enunciado não deu — X0, S0, T máximo. Um problema de valor inicial exige isso, e são escolhas suas: declare na tabela, com o motivo.
 
 ## Nota de dúvida
 
-Quando o aluno volta com uma pergunta sobre a lição, a resposta vai para o chat **e** para o HTML, no ponto exato onde a dúvida surgiu:
+Quando o aluno volta com uma pergunta, a resposta vai para o chat **e** para o HTML, no ponto exato onde a dúvida surgiu:
 
 ```html
 <p class="nota-duvida">
@@ -121,25 +131,23 @@ Quando o aluno volta com uma pergunta sobre a lição, a resposta vai para o cha
 </p>
 ```
 
-Existe também em linha: `<mark class="nota-duvida">…</mark>`.
-
-No ponto exato, nunca no rodapé. Sempre esta classe, sem variante. Sem apagar o original. Depois, reabra o arquivo e avise em uma linha.
+Existe também em linha: `<mark class="nota-duvida">…</mark>`. No ponto exato, nunca no rodapé; sempre esta classe, sem variante; sem apagar o original.
 
 ## Requisitos técnicos
 
 - **Autocontido**, exceto pelos componentes de `./assets/`, que ficam ao lado do arquivo. Abre com duplo clique, sem servidor e sem internet.
-- **Carrega quatro arquivos**: `lesson.css`, `tema.js`, `codigo.js`, `simulador.js`.
-- **Nenhum link interno.** Link externo, nunca — não há mais citação de fonte.
+- **Carrega, no mínimo**, `lesson.css`, `tema.js` e `codigo.js`, mais `simulador.js` quando houver gráfico. Componente novo que você escrever entra na lista.
+- **Nenhum link que tire o aluno da lição.** Link externo, nunca.
 - **Botão de tema** vem junto com `tema.js`, sem markup na lição.
 - **Todo código exibido roda.** **Todo parâmetro tem unidade.** **Todo gráfico tem eixos rotulados.**
 - Imprime bem: `lesson.css` já traz as regras.
 
 ## Modos de falha
 
-- **A aula de teoria com apêndice de código.** A divisão 1 cresce, o código vira resumo. É o modo de falha mais provável.
+- **A aula de teoria com apêndice de código.** A divisão 1 cresce, o código vira resumo.
 - **A análise crítica genérica.** "O modelo assume mistura perfeita." Serve para qualquer exercício, logo não serve para este.
-- **O passo que explica o óbvio.** "Aqui importamos o numpy." Se o comentário no código já diz, o parágrafo não repete.
-- **Sete passos, oito passos.** Vira clicar por clicar, e a revelação perde a graça.
-- **O número não conferido.** Manda o aluno caçar defeito em código correto e queima a confiança na lição inteira.
-- **O slider decorativo.** Controle de parâmetro que a análise não menciona.
+- **A figura que ficou de fora.** A resposta do exercício é uma curva de varredura, e ela só existe dentro do script — o aluno lê a lição e nunca a vê.
+- **O passo que explica o óbvio.** "Aqui importamos o numpy."
+- **O slider decorativo.** Controle de parâmetro que nenhuma observação manda mexer.
+- **O número não conferido**, ou o número ilustrativo escrito como se fosse medido.
 - **A lição que promete continuação.** Não existe próxima: a questão se resolve aqui.

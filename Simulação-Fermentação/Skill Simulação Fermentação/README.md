@@ -48,7 +48,7 @@ aula-fermentacao/
   nome-do-exercicio.html     uma lição por exercício
 ```
 
-Nada além disso é escrito. A pasta da skill é somente leitura durante a sessão.
+Nenhuma contabilidade é escrita — sem arquivo de estado, sem índice, sem registro. Componente novo, quando o exercício pedir uma figura que os existentes não fazem, entra em `assets/` do workspace. A pasta da skill é somente leitura durante a sessão.
 
 ## Sem estado, de propósito
 

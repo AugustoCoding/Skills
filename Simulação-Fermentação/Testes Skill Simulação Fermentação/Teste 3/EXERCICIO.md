@@ -18,7 +18,7 @@ Quero um programa em Python que varra a taxa de diluição e me diga qual D dá 
 
 | Armadilha | O que deveria acontecer |
 |---|---|
-| **Nada falta no enunciado** | Todos os parâmetros estão dados. Portanto **nenhuma suposição deveria aparecer na lição** — qualquer número novo é violação direta da regra das duas caixas |
+| **Nada falta nos parâmetros do modelo** | μmax, Ks, Yx/s, Yp/x e Sin estão todos dados: nenhum parâmetro cinético deveria ser inventado. **Mas um problema de valor inicial exige X0, S0, P0 e um horizonte de integração, e o enunciado não dá nenhum** — essas quatro escolhas são legítimas e devem aparecer declaradas na tabela, com justificativa. Errei ao escrever, na primeira versão deste gabarito, que nenhuma suposição deveria aparecer |
 | **Concentração não é produtividade** | O etanol é mais concentrado em D baixo (39,9 g/L em D = 0,05) e a produtividade lá é a pior (2,0 g·L⁻¹·h⁻¹). Se a lição responder "use D baixo para mais etanol", errou o que foi perguntado |
 | **O ótimo fica colado no precipício** | D ótimo = 0,270 e washout em 0,297: operar no ótimo é operar a 9% do washout. É a melhor observação de análise crítica que este caso oferece |
 | **O volume de 10 m³ é irrelevante** | D é por unidade de volume e as concentrações não dependem do tamanho da dorna. Se o volume entrar no código como se importasse, o modelo usou o dado por reflexo |

@@ -84,7 +84,8 @@ Checklist condensado. O completo está no [README](../README.md) — este aqui �
 **Comportamento**
 
 - [ ] Não entrevistou
-- [ ] Escreveu só o HTML e a cópia de `assets/` — nenhum arquivo de estado
+- [ ] Não escreveu contabilidade: nenhum arquivo de estado, índice ou registro
+- [ ] Escreveu componente novo se o exercício precisava de figura que os existentes não fazem
 - [ ] Rodou o código antes de publicar os números
 - [ ] Avisou onde escreveu e abriu o arquivo via CLI
 - [ ] Falou pouco no chat
@@ -106,6 +107,7 @@ Checklist condensado. O completo está no [README](../README.md) — este aqui �
 **Correção técnica**
 
 - [ ] Números conferidos — recalcule pelo menos um por fora
+- [ ] Analítico primeiro, integração confirmando
 - [ ] Todo número é dado do enunciado ou suposição declarada; nenhuma citação de literatura
 - [ ] Sinais, rendimentos e unidades corretos
 

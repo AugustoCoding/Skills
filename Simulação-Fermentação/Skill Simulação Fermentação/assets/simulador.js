@@ -28,10 +28,12 @@
   "use strict";
 
   /* ---------- modelos ----------
-     Todos são modelos não estruturados e não segregados, com volume
-     constante. Os valores padrão são ILUSTRATIVOS: servem para dar uma
+     Modelos não estruturados e não segregados. Volume constante, exceto o de
+     batelada alimentada. Os valores padrão são ILUSTRATIVOS: servem para dar uma
      curva com forma reconhecível, não representam nenhum organismo real.
-     Toda lição que exibir um valor precisa dizer isso ou citar a fonte. */
+     Toda lição que exibir um valor precisa declará-lo como escolha sua, com a
+     justificativa em meia linha. A skill não cita literatura: veja a seção de
+     procedência em LESSON-FORMAT.md. */
 
   var MODELOS = {};
 
