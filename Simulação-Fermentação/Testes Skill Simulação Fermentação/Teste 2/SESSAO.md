@@ -9,7 +9,7 @@ Preencha os campos vazios durante e depois da sessão. Os campos já preenchidos
 | Campo | Valor |
 |---|---|
 | Teste | 2 |
-| Data | {AAAA-MM-DD — dia da execução} |
+| Data | 2026-08-30 |
 | Quem rodou | Augusto |
 | Foco | A lição resolve a questão inteira num arquivo, com a estação de código maior que a teoria, duas previsões, equações em MathML e nenhum link interno — a partir de um enunciado corrido, sem itens? |
 
@@ -29,11 +29,11 @@ Diferença central para o Teste 1 (`a2285bd`): a lição deixou de ser "uma cois
 
 | Campo | Valor |
 |---|---|
-| Cliente | {Claude Code CLI / desktop / web — e versão} |
-| Modelo | {id exato} |
-| Modo | {padrão / fast / esforço} |
-| Acesso à web | {sim / não} |
-| Permissões | {ex: edições aceitas sem prompt} |
+| Cliente | Claude Code (versão não registrada) |
+| Modelo | Opus 5 — `claude-opus-5` |
+| Modo | Esforço médio |
+| Acesso à web | Não registrado |
+| Permissões | Não registrado |
 | Sistema | Windows 11 |
 | Diretório de trabalho | raiz do repositório |
 
@@ -84,79 +84,51 @@ Só mande o próximo depois que ele terminar o anterior.
 
 ## 5. Saída
 
-Onde o modelo escreveu: `Teste 2/com-skill/`
+**A sessão foi interrompida depois do turno 1.** Passou de 15 minutos para produzir uma lição, e o teste foi encerrado ali: os turnos 2 e 3 não foram executados, porque havia problema suficiente para corrigir antes de seguir.
 
 ```text
-{cole aqui a árvore do que foi gerado, marcando o que é novo}
+com-skill/
+  MISSION.md · NOTES.md · GLOSSARY.md · RESOURCES.md
+  lessons/INDEX.md
+  lessons/batelada-alimentada-vazao-da-dorna.html   25 KB
+  assets/  (+ modelo-propagacao.js, escrito pelo modelo)
+  reference/
 ```
 
-**Meça as palavras por estação.** Foi isso que revelou o problema do Teste 1, e é o número que diz se a inversão teoria/código pegou:
+Palavras por seção da lição:
 
-| Estação | Palavras |
+| Seção | Palavras |
 |---|---|
-| Modelo (teoria de fermentação) | {≤ 400} |
-| Código | {deve ser a maior} |
-| Resultado | |
-| Crítica | |
+| O modelo | 485 |
+| **O código** | **1.062** |
+| O resultado | 714 |
+| O que este modelo finge que não existe | 379 |
+| Verificação | 53 |
+| **Total visível** | **2.839** |
 
 ## 6. Avaliação
 
-**Comportamento**
+**O que funcionou** — a inversão pegou: a estação de código (1.062) ficou maior que a de modelo (485), contra 1.607 de teoria e 847 de prática no Teste 1. Cinco equações em MathML, botão de tema, duas previsões, explorador de variantes, simulador, quiz de duas perguntas, nenhum link interno, nenhuma promessa de continuação, nenhum registro de aprendizado inventado. E resolveu bem a armadilha central: calculou que a vazão sem acúmulo seria 0,004 L/h, o que levaria 1.000 h para encher, e usou isso para mostrar que o critério do enunciado não fecha.
 
-- [ ] Não entrevistou
-- [ ] Avisou onde escreveu, em uma linha, depois de escrever
-- [ ] Montou a estrutura do workspace e inferiu `MISSION.md` do zero, marcando a inferência com data e procedência
-- [ ] **Sem pergunta de recuperação** (não há lição anterior) e **sem ponte** (não há lacuna registrada)
-- [ ] `lessons/INDEX.md` criado junto com a lição
-- [ ] Resolveu a questão inteira num arquivo, sem prometer continuação
-- [ ] Declarou em uma linha onde apostou que estava a dificuldade
-- [ ] Falou pouco no chat
-- [ ] Abriu o arquivo via CLI
-- [ ] Registro de aprendizado só por evidência
-
-**Estrutura da lição**
-
-- [ ] Quatro estações na ordem: modelo · código · resultado · crítica
-- [ ] **A estação de código é a maior** (se a teoria for maior, é reprovação direta)
-- [ ] Teoria de fermentação dentro das 400 palavras
-- [ ] Código completo, comentado, explicado passo a passo, com as escolhas justificadas
-- [ ] Duas previsões, cada uma com a resposta atrás de um clique
-- [ ] Explorador de variantes com escolhas corretas entre si, sem erro plantado
-- [ ] Simulador de parâmetros na crítica, usando o modelo `batelada_alimentada` que já existe
-- [ ] Equações em MathML, não em texto cru
-- [ ] Botão de claro/escuro presente e funcionando
-- [ ] Nenhum link interno, nenhuma promessa de continuação
-- [ ] Quiz com duas perguntas
-
-**Conteúdo específico deste exercício**
-
-- [ ] Fatiou o enunciado corrido nas quatro estações sem inventar anatomia nova
-- [ ] **Escolheu a vazão com número e defendeu a escolha**, em vez de tratá-la como dado
-- [ ] Reconheceu que "sem acumular açúcar" **não fecha** com vazão constante e inóculo pequeno, e negociou o trade-off
-- [ ] Nomeou o etanol e o efeito Crabtree como o que o modelo ignora — sem inventar `Yp/x`
-- [ ] Tratou o processo como **aeróbio**; se falou em fermentação alcoólica com Yx/s = 0,5, é erro técnico
-
-**Correção técnica**
-
-- [ ] Levedura final ≈ 80,7 g/L (403 g), e **independente da vazão**
-- [ ] Tempo para encher = 4/F h, coerente com a vazão escolhida
-- [ ] O termo de diluição `F/V` aparece nas três equações, e `dV/dt = F`
-- [ ] Números-alvo conferidos rodando o modelo — recalcule pelo menos um
-- [ ] Varredura de procedência: todo número é dado do enunciado, fonte citada ou suposição marcada
-- [ ] Nenhum link de dentro do workspace para fora dele
+**O que estourou** — 2.839 palavras contra o teto brando de 1.800, e 485 de teoria contra o teto de 400. `NOTES.md` foi preenchido com notas de trabalho sem o aluno ter dito nada espontaneamente. E o modelo escreveu um componente novo (`modelo-propagacao.js`) em vez de usar o `batelada_alimentada` que existia — a justificativa dele é defensável, mas custou tempo.
 
 ## 7. Achados
 
 | # | Achado | Gravidade | Onde |
 |---|---|---|---|
-| | | | |
+| 1 | **Mais de 15 minutos** para produzir uma lição. A causa é estrutural: 9.088 palavras de leitura obrigatória, mais formatos, casos, exemplos e templates, para gerar nove arquivos por sessão — dos quais 25 KB só de lição | bloqueia | a skill inteira |
+| 2 | Os orçamentos de palavras não seguraram nada, porque eram prosa e não estrutura | atrapalha | `LESSON-FORMAT.md` |
+| 3 | `NOTES.md` preenchido sem preferência espontânea do aluno | cosmético | resolvido: o arquivo deixou de existir |
+| 4 | Componente novo escrito para um regime que o simulador já cobria | atrapalha | resolvido: o explorador morreu e a lista de modelos ficou visível |
 
 ## 8. Veredito
 
-{aprovado / reprovado} — {uma frase}
+**Interrompido.** O formato novo funcionou — a inversão teoria/código aconteceu, e a lição estava tecnicamente correta —, mas o custo de produzi-la inviabilizava o uso. Não faz sentido avaliar retenção numa lição que o aluno espera quinze minutos para receber.
 
 ## 9. O que mudou depois deste teste
 
 | Commit | O que corrigiu |
 |---|---|
-| | |
+| `f756788` | **Achado 1** — a skill perdeu o estado inteiro (missão, registros, glossário, notas, índice) e caiu de 30 arquivos para 9, de 9.088 para 2.146 palavras de leitura obrigatória. O workspace do aluno passou de nove itens para dois |
+| `f756788` | **Achado 2** — a lição virou três divisões com teto de 1.000 palavras, e morreram quiz, previsões, recuperação e aposta declarada. Menos itens obrigatórios, menos escrita |
+| `f756788` | **Achados 3 e 4** — `NOTES.md` deixou de existir; o explorador de variantes foi removido e a análise crítica passou a usar só o simulador |

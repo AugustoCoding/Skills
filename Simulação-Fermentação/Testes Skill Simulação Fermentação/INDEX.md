@@ -5,7 +5,8 @@ Uma linha por execução. É daqui que se lê a evolução da skill: o que foi t
 | Teste | Data | Commit da skill | Modelo | Foco | Veredito | Correções que saíram |
 |---|---|---|---|---|---|---|
 | [1](./Teste%201/SESSAO.md) | 2026-08-30 | `a2285bd` | Opus 5, esforço médio | Primeira execução do fluxo sem entrevista | Aprovado, 2 achados | `a52f83f` — regra da lacuna, varredura de procedência, links fora do workspace |
-| [2](./Teste%202/SESSAO.md) | {a rodar} | `644d79b` | {a preencher} | A lição reescrita em torno do código, com enunciado corrido | — | — |
+| [2](./Teste%202/SESSAO.md) | 2026-08-30 | `644d79b` | Opus 5, esforço médio | A lição reescrita em torno do código, com enunciado corrido | Interrompido: 15+ min | `f756788` — skill enxugada, sem estado, três divisões |
+| [3](./Teste%203/SESSAO.md) | {a rodar} | `f756788` | {a preencher} | A skill enxuta: sai em menos de 5 minutos? | — | — |
 
 ## Como usar
 
