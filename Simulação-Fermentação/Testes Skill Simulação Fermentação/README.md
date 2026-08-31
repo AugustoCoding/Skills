@@ -50,10 +50,11 @@ Depois de fechar o teste, acrescente a linha em [INDEX.md](./INDEX.md).
 2. Escreva `Teste N/EXERCICIO.md`: o enunciado e, em tabela, o que cada armadilha deve provocar. Enunciado sem armadilha declarada é difícil de avaliar depois.
 3. Preencha as seções 1 a 4 do `SESSAO.md` **antes** de rodar — inclusive o prompt exato. Prompt improvisado na hora não é reproduzível.
 4. Em outra sessão, carregue a skill e cole o prompt. Indique `Teste N/com-skill/` como workspace quando quiser a saída dentro do teste; **não indique nada** quando o que estiver sendo testado for a escolha automática de pasta.
-5. Faça o papel do aluno pelos turnos previstos. Não responda o que não foi perguntado: se o modelo entrevistar, o teste já falhou o critério principal — registre e siga.
-6. Volte com **uma dúvida específica** sobre um trecho da lição. É assim que se testa a nota de dúvida.
-7. Abra a lição no navegador e confira que renderiza: os passos revelam, o botão de copiar copia, o simulador desenha e o tema alterna.
-8. Preencha as seções 5 a 9, acrescente a linha no `INDEX.md`, e abra os commits de correção que os achados exigirem.
+5. **Cronometre.** Marque a hora ao enviar o prompt e ao aparecer a última linha. É a métrica que mais dói quando escapa.
+6. **Um turno só.** O teste avalia a produção da lição e para aí — nada de fazer o papel do aluno em turnos seguintes. Se o modelo entrevistar, o teste já falhou o critério principal: registre e encerre.
+7. Peça ao modelo um **relatório de execução** ao final, em `Teste N/RELATORIO-MODELO.md`, fora de `com-skill/`. Instrua-o a escrever "não sei" onde não tiver medição — ele não sabe contar os próprios tokens nem medir o próprio tempo, e estimativa dele entra no registro com cara de medida. No Teste 3 esse relatório rendeu mais achados que o artefato.
+8. Abra a lição no navegador e confira que renderiza: os passos revelam, o botão de copiar copia, o gráfico desenha e o tema alterna.
+9. Preencha as seções 5 a 9, acrescente a linha no `INDEX.md`, e abra os commits de correção que os achados exigirem.
 
 Para comparar com e sem a skill, rode o mesmo prompt nas duas condições e guarde a saída crua em `sem-skill/`. A diferença que interessa não é a qualidade do código produzido: é se o modelo ensinou ou apenas resolveu.
 

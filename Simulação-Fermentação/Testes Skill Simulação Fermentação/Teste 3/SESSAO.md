@@ -9,7 +9,7 @@ Preencha os campos vazios durante e depois da sessão.
 | Campo | Valor |
 |---|---|
 | Teste | 3 |
-| Data | {AAAA-MM-DD} |
+| Data | 2026-08-30 |
 | Quem rodou | Augusto |
 | Foco | **Sai em menos de cinco minutos?** E a lição tem as três divisões, com o código revelado passo a passo e uma análise crítica que fala deste caso e não do genérico? |
 
@@ -29,10 +29,10 @@ O que mudou desde o Teste 2 (`644d79b`): a skill perdeu o estado inteiro — mis
 
 | Campo | Valor |
 |---|---|
-| Cliente | {Claude Code CLI / desktop / web — e versão} |
-| Modelo | {id exato} |
-| Modo | {padrão / fast / esforço} |
-| Acesso à web | {sim / não} |
+| Cliente | Claude Code (versão não registrada) |
+| Modelo | Opus 5 — `claude-opus-5` (confirmado pelo próprio modelo) |
+| Modo | Esforço médio |
+| Acesso à web | Não registrado; nenhuma busca aparece no relatório |
 | Sistema | Windows 11 |
 | Diretório de trabalho | raiz do repositório |
 
@@ -74,87 +74,109 @@ O gabarito das armadilhas está em [EXERCICIO.md](./EXERCICIO.md). **Não mande 
 
 ### Turnos seguintes
 
-| # | O que o "aluno" diz | O que essa fala testa |
-|---|---|---|
-| 2 | `Por que você integrou até o estacionário em vez de resolver a equação direto?` | A nota de dúvida: resposta no chat **e** enxerto no ponto exato do HTML, com reabertura do arquivo — a única memória que a skill tem agora |
-| 3 | `Agora me ensina batelada alimentada.` | A saída de escopo: sem exercício, o modelo deve dizer em uma linha que a skill precisa de um enunciado e responder normalmente, **sem produzir lição nem pasta** |
+**Não executados, e retirados do protocolo.** Os testes passam a avaliar só o turno 1 — a produção da lição. A consequência a registrar: o ciclo da nota de dúvida e a saída de escopo deixam de ser exercitados nos testes, e passam a valer pelo que está escrito na skill.
 
 ## 5. Saída
 
-Onde o modelo escreveu: `Teste 3/com-skill/`
+Onde o modelo escreveu: `Teste 3/com-skill/aula-fermentacao/` — **uma pasta a mais do que o indicado** (ver achado 2).
 
 ```text
-{cole a árvore — deve ter só o HTML e a cópia de assets/}
+com-skill/aula-fermentacao/
+  assets/  codigo.js · lesson.css · simulador.js · tema.js   [cópias]
+  quimiostato-produtividade-etanol.html          12 272 bytes
 ```
+
+Nenhum arquivo de estado, índice ou registro. A pasta da skill ficou intacta — verificado por mtime pelo próprio modelo e pelo `git status` do repositório, que o junction tornaria visível.
 
 | Medida | Valor | Alvo |
 |---|---|---|
-| Palavras visíveis na lição | | ~1.000 |
-| Palavras da divisão de teoria | | a menor das três |
-| Palavras do código + análise crítica | | a maior parte |
-| Passos de código | | no máximo 6 |
-| Controles no simulador | | no máximo 4 |
+| **Duração** | **~8 minutos** (cronometrada por quem rodou) | < 5 min |
+| Duração medida por mtime, do 1º script à lição | 6 min 55 s | — |
+| Palavras visíveis na lição | **1.541** | ~1.000 |
+| Divisão 1 — teoria | 266 | a menor |
+| Divisão 2 — código | **933** | a maior |
+| Divisão 3 — análise crítica | 294 | |
+| Passos de código | 5 | ≤ 6 |
+| Controles no simulador | 3 | ≤ 4 |
+| Chamadas de ferramenta | 15 (3 de leitura, 8 de execução de Python, 1 de escrita) | — |
+
+O [relatório do próprio modelo](./RELATORIO-MODELO.md) traz a procedência de cada número da lição e a medição dos tempos de execução.
 
 ## 6. Avaliação
 
 **Tempo e tamanho**
 
-- [ ] Menos de 5 minutos do prompt à lição aberta
-- [ ] Lição perto de 1.000 palavras visíveis
-- [ ] Código + análise crítica pesam mais que a teoria
+- [ ] Menos de 5 minutos — **não**: ~8 min, contra 15+ do Teste 2
+- [ ] Lição perto de 1.000 palavras — **não**: 1.541, e ele admite não ter contado
+- [x] Código + análise crítica pesam mais que a teoria — 1.227 contra 266
 
 **Comportamento**
 
-- [ ] Não entrevistou
-- [ ] Escreveu **só** o HTML e a cópia de `assets/` — nenhum arquivo de estado, nenhum índice, nenhum registro
-- [ ] Rodou o código antes de publicar os números
-- [ ] Avisou onde escreveu, em uma linha, e abriu o arquivo via CLI
-- [ ] Falou pouco no chat
-- [ ] **Turno 3**: recusou a lição em uma linha e respondeu normalmente, sem criar arquivo
+- [x] Não entrevistou
+- [x] Não escreveu contabilidade: nenhum arquivo de estado, índice ou registro
+- [x] Rodou o código antes de publicar os números — 8 execuções
+- [x] Abriu o arquivo via CLI
+- [ ] Escreveu **na** pasta indicada — aninhou `aula-fermentacao/` dentro dela
+- [ ] Turno 3 (saída de escopo) — não executado
 
 **Divisão 1 — teoria**
 
-- [ ] Equações em MathML, não em texto cru
-- [ ] Tabela de parâmetros com símbolo, valor, unidade e procedência
-- [ ] Breve, sem derivação nem história
+- [x] Quatro equações em MathML
+- [x] Tabela de parâmetros com unidade e procedência, inclusive as quatro escolhas dele
+- [x] Breve: 266 palavras
 
 **Divisão 2 — código**
 
-- [ ] Passos revelados um a um, no máximo seis
-- [ ] Cada passo com título, trecho e o **porquê** da decisão
-- [ ] Programa completo colapsado no fim, com botão de copiar funcionando
-- [ ] Resposta numérica atrás de um botão
-- [ ] Usou o `quimiostato` que já existe em vez de reescrevê-lo
+- [x] Cinco passos, dentro do teto de seis, cada um com o porquê da decisão
+- [x] Programa completo colapsado, executável — ele rodou o texto exato antes de publicar
+- [x] Resposta atrás de um botão
+- [x] Usou o `quimiostato` que já existia, sem reescrevê-lo
 
 **Divisão 3 — análise crítica**
 
-- [ ] Simulador com no máximo quatro controles, curva respondendo na hora ao slider
-- [ ] Duas a quatro observações ancoradas nas curvas **deste** caso
-- [ ] Pelo menos uma manda mexer num controle e diz o que procurar
-- [ ] **Nenhuma frase genérica** — nada de "o modelo ignora inibição", nada de lista de hipóteses
-- [ ] Pegou que **o ótimo fica a 9% do washout** (0,270 contra 0,297)? É a observação mais forte disponível
+- [x] Três controles, com faixa e passo declarados porque os padrões não serviam
+- [x] Observações ancoradas neste caso; pegou o ótimo a 10% do washout
+- [x] Nenhuma frase genérica, nenhuma lista de hipóteses
+- [ ] Um controle decorativo: `Sin` aparece no texto mas nenhuma observação manda mexer nele
+- [ ] **A figura que responde o exercício ficou de fora** — a curva de produtividade contra D só existe dentro do script
 
 **Correção técnica**
 
-- [ ] D ótimo ≈ 0,270 1/h, com produtividade ≈ 9,8 g·L⁻¹·h⁻¹
-- [ ] D crítico ≈ 0,297 1/h
-- [ ] Distinguiu **concentração** de **produtividade** — o etanol é mais concentrado justamente onde a produtividade é pior
-- [ ] Nenhum parâmetro cinético inventado; condições iniciais e horizonte declarados como escolha
-- [ ] O volume de 10 m³ não entrou no código como se importasse
-- [ ] Nenhuma citação de literatura
+- [x] D ótimo 0,2700 1/h e produtividade 9,83 g·L⁻¹·h⁻¹
+- [x] D crítico 0,2970 1/h
+- [x] Distinguiu concentração de produtividade
+- [x] Nenhuma citação de literatura
+- [x] Nenhum parâmetro cinético inventado; as quatro escolhas de PVI declaradas
+- [ ] Um número ilustrativo escrito como se fosse medido: o "−10⁻¹²"
+- [x] O volume de 10 m³ **foi** usado, e bem: converteu D em vazão de 2,70 m³/h. A armadilha que eu plantei estava errada
 
 ## 7. Achados
 
 | # | Achado | Gravidade | Onde |
 |---|---|---|---|
-| | | | |
+| 1 | **A skill proibia o modelo de criar o componente que o exercício exigia.** "Nada mais é escrito" mais "carrega quatro arquivos" fechavam a porta; o exercício pedia curva de produtividade contra D e o `simulador.js` só desenha contra o tempo. A figura central da questão ficou fora da lição, e a análise crítica falou de transiente | bloqueia | `SKILL.md`, `LESSON-FORMAT.md` |
+| 2 | **"Números conferidos rodando o modelo" apontava para o lado errado.** Perto do washout a integração devolve valor plausível e falso — deu X cinco vezes maior que o real. Quem salvou o número foi a solução analítica, que a skill não mandava usar | bloqueia | `SKILL.md` |
+| 3 | **Mais da metade do tempo foi Python rodando**: timeout de 120 s, depois 40 s e 44 s, mais quatro execuções. Leitura da skill foram 3 chamadas; escrita, 1. Cortar prosa não encurta mais nada | atrapalha | regra de conferência |
+| 4 | **Contradição entre dois arquivos da skill**: o cabeçalho do `simulador.js` mandava citar a fonte, o `SKILL.md` proíbe citar literatura | atrapalha | `assets/simulador.js` |
+| 5 | **O teto de palavras não foi medido** — ele mirou e não contou. 1.541 contra 1.000 | atrapalha | `LESSON-FORMAT.md` |
+| 6 | Um número ilustrativo escrito como observado ("−10⁻¹²"), um slider decorativo (`Sin`), e a pasta indicada aninhada | cosmético | `SKILL.md`, `LESSON-FORMAT.md` |
+| 7 | **Erro meu no gabarito**: eu afirmei que nenhuma suposição deveria aparecer. Um problema de valor inicial exige X0, S0, P0 e horizonte, que o enunciado não dá — declará-los foi o certo | — | `Teste 3/EXERCICIO.md` |
 
 ## 8. Veredito
 
-{aprovado / reprovado} — {uma frase}
+**Aprovado com ressalvas.** O formato novo funcionou: três divisões, código como maior parte, cinco passos revelados, MathML, nenhum arquivo de contabilidade, análise crítica específica do caso. O tempo caiu pela metade, de 15+ para 8 minutos, mas ficou acima dos cinco.
+
+O achado que mais importa não é sobre o modelo: a skill o proibia de fazer o que o exercício exigia. A lição saiu boa apesar disso, com a figura mais importante do exercício de fora.
+
+O relatório de execução foi mais útil que o artefato — vale repetir a prática nos próximos testes.
 
 ## 9. O que mudou depois deste teste
 
 | Commit | O que corrigiu |
 |---|---|
-| | |
+| `94f0648` | **Achado 1** — a proibição de escrever componente novo saiu; agora está escrito o contrário, com o caso da varredura de parâmetro nomeado |
+| `94f0648` | **Achados 2 e 3** — analítico primeiro, integração confirmando, com teto de esforço explícito |
+| `94f0648` | **Achado 4** — cabeçalho do `simulador.js` corrigido |
+| `94f0648` | **Achado 5** — "conte antes de salvar" |
+| `94f0648` | **Achado 6** — procedência explicitando faixas, ordens de grandeza ilustrativas e condições iniciais; e a regra de escrever **na** pasta indicada |
+| `94f0648` | **Achado 7** — gabarito do exercício corrigido |

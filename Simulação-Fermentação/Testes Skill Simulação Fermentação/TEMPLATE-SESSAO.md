@@ -47,12 +47,15 @@ O acesso à web importa mais do que parece: `RESOURCES.md` vem todo marcado `[a 
 {cole aqui, literalmente, o que foi enviado — inclusive quebras de linha}
 ```
 
-### Turnos seguintes, na ordem
+### Cronômetro
 
-| # | O que o "aluno" disse | Por que |
-|---|---|---|
-| 2 | {fala} | {o que essa fala testa} |
-| 3 | {fala} | {…} |
+| | Horário |
+|---|---|
+| Prompt enviado | |
+| Lição aberta | |
+| **Duração** | |
+
+**Um turno só.** O teste avalia a produção da lição e encerra.
 
 ## 5. Saída
 
