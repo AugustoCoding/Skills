@@ -1,55 +1,32 @@
 <!doctype html>
 <!--
-  ESQUELETO DE LIÇÃO — copie para ./lessons/{nome-pelo-conteudo}.html
-  Nome pelo conteúdo, em kebab-case. Sem numeração. Registre em lessons/INDEX.md.
+  ESQUELETO DE LIÇÃO — copie para ../aula-fermentacao/{nome-do-exercicio}.html
 
-  A lição resolve a QUESTÃO INTEIRA. Nada fica para um próximo arquivo, e nada
-  exige abrir outro arquivo para ser entendido. Detalhes em LESSON-FORMAT.md:
-
-    · quatro estações, sempre nesta ordem: modelo · código · resultado · crítica
-    · a estação de código é a MAIOR da lição — é a estrela da skill
-    · teoria de fermentação: máximo 400 palavras. Explicação do código: ~800
-    · duas previsões, cada uma atrás de um clique. Nem mais, nem menos
-    · equação exibida sempre em MathML. Código nunca é MathML
-    · nenhum link interno: nem RESOURCES.md, nem reference/, nem outra lição
-    · sem floreio: o que não muda o que o aluno faz, sai
-
-  Apague as estações que o exercício não pedir. Apague estes comentários.
+  Três divisões, nesta ordem: teoria · código · análise crítica.
+  Teto maleável de 1.000 palavras visíveis; o que encolhe é a teoria.
+  Detalhes em LESSON-FORMAT.md. Apague estes comentários e o que não usar.
 -->
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{Título — o que o aluno vai saber fazer}</title>
-<link rel="stylesheet" href="../assets/lesson.css">
+<title>{Título — o que ele vai saber programar}</title>
+<link rel="stylesheet" href="./assets/lesson.css">
 </head>
 <body>
 
 <header class="licao">
-  <span class="etiqueta">{Tema} · degrau {N}</span>
-  <h1>{Título — o que ele vai saber programar ao final}</h1>
-  <!-- O GANCHO: uma ou duas frases ligando ao exercício que ele trouxe. -->
-  <p class="gancho">{Por que isto, por que agora.}</p>
+  <span class="etiqueta">{Regime · o que o exercício pede}</span>
+  <h1>{Título curto}</h1>
+  <p class="gancho">{Uma frase: o que ele vai ter rodando no fim.}</p>
 </header>
 
-<!-- ============ RECUPERAÇÃO ============
-     Só quando existe lição anterior. Três linhas, de memória, sem consultar.
-     É o único espaçamento que restou. Na primeira lição do workspace, apague. -->
-<div class="recuperacao">
-  <span class="rotulo">Antes de começar, de memória</span>
-  <p>{Pergunta sobre a lição anterior.}</p>
-</div>
-
-<!-- ============ ESTAÇÃO ZERO: A PONTE ============
-     SÓ quando learning-records/ mostra lacuna registrada que o exercício exige.
-     Curta. Não é lição separada, não é promessa. Apague se não for o caso. -->
-
-<!-- ============ ESTAÇÃO 1 — MODELO ============
-     Equações expostas e explicadas, termo a termo. Máximo 400 palavras de
-     teoria de fermentação, contando o que a estação de crítica precisar. -->
+<!-- ================= 1. TEORIA =================
+     Breve. As equações, a tabela de parâmetros, e para que serve.
+     Sem história, sem derivação, sem recapitulação. -->
 <h2>O modelo</h2>
 
-<p>{Uma ou duas frases: o que o sistema descreve.}</p>
+<p>{Uma ou duas frases: o que este sistema descreve.}</p>
 
 <div class="equacao">
   <math display="block">
@@ -65,158 +42,89 @@
 </div>
 
 <ul class="termos">
-  <li><code>μ·X</code> — {o que este termo faz no processo, com unidade}</li>
+  <li><code>μ·X</code> — {o que o termo faz, com unidade}</li>
   <li><code>−(1/Yx/s)</code> — {por que negativo, por que divide}</li>
 </ul>
 
 <table>
 <thead><tr><th>Parâmetro</th><th class="num">Valor</th><th>Unidade</th><th>Procedência</th></tr></thead>
 <tbody>
-<tr><td><code>μmax</code></td><td class="num">0,35</td><td class="un">1/h</td><td>{dado do enunciado}</td></tr>
-<tr><td><code>Yp/x</code></td><td class="num">10</td><td class="un">gP/gX</td><td>{suposição: 88% do teto estequiométrico}</td></tr>
+<tr><td><code>μmax</code></td><td class="num">0,40</td><td class="un">1/h</td><td>enunciado</td></tr>
+<tr><td><code>F</code></td><td class="num">0,05</td><td class="un">L/h</td><td>suposição: {a justificativa em meia linha}</td></tr>
 </tbody>
 </table>
 
-<!-- Nota lateral: UMA por lição, no máximo. É o único enfeite tolerado. -->
-<p class="lateral">{A curiosidade histórica, a ressalva boa.}</p>
+<!-- ================= 2. CÓDIGO =================
+     O centro da lição. Passos revelados um a um — codigo.js cuida de esconder,
+     revelar, animar e injetar o botão de copiar. Você só escreve a estrutura.
 
-<!-- ============ ESTAÇÃO 2 — CÓDIGO ============
-     A maior estação. Programa completo, executável, comentado, explicado na
-     ordem em que executa. Cerimônia (imports, rótulos de eixo) é comentada no
-     código e não ganha parágrafo. -->
+     Quantos passos você achar que o programa pede, SEM PASSAR DE SEIS.
+     Cada passo: título curto · o trecho · o PORQUÊ daquilo (não o que a linha faz). -->
 <h2>O código</h2>
 
-<pre><code>{programa completo, executável, com unidades em comentário}</code></pre>
+<section class="codigo">
 
-<p>{Para cada trecho que não é cerimônia: o que faz · por que este termo e não
-outro · o que quebraria sem ele. Uma frase cada.}</p>
+  <div class="passo">
+    <h3>{Parâmetros e estado inicial}</h3>
+<pre><code>{as linhas deste passo, com unidade em comentário}</code></pre>
+    <p>{Por que assim. Máximo três frases.}</p>
+  </div>
 
-<!-- O INTERATIVO OBRIGATÓRIO: escolhas CORRETAS entre si, nunca erros plantados.
-     §chave§ no código marca o trecho que cada opção troca. -->
-<div class="variantes"
-     data-modelo="batelada"
-     data-tempo="30"
-     data-params="mu_max=0.35, Ks=1.5, Yxs=0.045, Ypx=10, X0=2, S0=150">
-<script type="application/json">
-{
-  "codigo": [
-    "sol = solve_ivp(",
-    "    derivadas, (0, 30), y0, args=(p,),",
-    "    t_eval=§teval§,",
-    ")"
-  ],
-  "escolhas": [
-    {
-      "chave": "teval",
-      "rotulo": "t_eval",
-      "opcoes": [
-        { "nome": "300 pontos", "codigo": "np.linspace(0, 30, 300)", "amostras": 300,
-          "nota": "{o que o aluno ganha com saída densa}" },
-        { "nome": "12 pontos", "codigo": "np.linspace(0, 30, 12)", "amostras": 12,
-          "nota": "{mesma integração, saída esparsa: o que some do gráfico}" }
-      ]
-    }
-  ]
-}
-</script>
-</div>
+  <div class="passo">
+    <h3>{A função de derivadas}</h3>
+<pre><code>{as linhas deste passo}</code></pre>
+    <p>{Por que assim.}</p>
+  </div>
 
-<!-- ============ ESTAÇÃO 3 — RESULTADO ============
-     Previsão 1, e depois os números-alvo, atrás de um clique.
-     CONFIRA os números rodando o modelo antes de publicá-los. -->
-<h2>O resultado</h2>
+  <div class="passo">
+    <h3>{A integração}</h3>
+<pre><code>{as linhas deste passo}</code></pre>
+    <p>{Por que este método, por que este evento, por que este t_eval.}</p>
+  </div>
 
-<div class="previsao">
-  <p><strong>Antes de revelar:</strong> {pergunta curta e objetiva —
-  quanto dá X no final? em que instante o substrato acaba?}</p>
-  <textarea placeholder="Sua previsão, antes de abrir."></textarea>
-</div>
-
-<div class="revelar">
-  <details>
-    <summary>Revelar os números-alvo</summary>
-    <p>{X final = … g/L · substrato esgotado em ≈ … h · produto final = … g/L.}
-    Se o seu código der outra coisa, o defeito está {onde procurar primeiro}.</p>
+  <!-- Só aparecem depois do último passo revelado. -->
+  <details class="programa">
+    <summary>Ver o programa completo</summary>
+<pre><code>{o programa inteiro, executável, com dependências declaradas}</code></pre>
   </details>
-</div>
 
-<!-- ============ ESTAÇÃO 4 — CRÍTICA ============
-     O que o modelo finge que não existe, com a consequência de cada hipótese.
-     Depois, previsão 2 e o simulador de parâmetros. -->
-<h2>O que este modelo finge que não existe</h2>
+  <details class="resposta">
+    <summary>Ver a resposta</summary>
+    <p>{os números finais, conferidos rodando o modelo}</p>
+  </details>
 
-<ul>
-  <li>{hipótese — e o que ela custa na resposta}</li>
-  <li>{outra}</li>
-</ul>
+</section>
 
-<div class="previsao">
-  <p><strong>Antes de mexer:</strong> {o que acontece com a curva se
-  {parâmetro} dobrar?}</p>
-  <textarea placeholder="Sua previsão, antes de revelar as curvas."></textarea>
-</div>
+<!-- ================= 3. ANÁLISE CRÍTICA =================
+     O simulador e a leitura DESTE resultado. No máximo quatro controles, e só
+     de parâmetros que o texto discute. Duas a quatro observações, cada uma
+     ancorada num ponto concreto da curva.
+
+     TESTE: se a frase serviria para outro exercício, corte. -->
+<h2>O que a curva diz</h2>
 
 <div class="simulador"
      data-modelo="batelada"
      data-tempo="30"
-     data-params="mu_max=0.35, Ks=1.5, Yxs=0.045, Ypx=10, X0=2, S0=150"
-     data-controles="mu_max, Ks"
-     data-prever="1"></div>
+     data-params="mu_max=0.40, Ks=1.0, Yxs=0.5, X0=1, S0=150"
+     data-controles="mu_max, S0"></div>
 
-<!-- ============ VERIFICAÇÃO ============
-     DUAS perguntas, ligadas ao que ele acabou de fazer.
-     Alternativas do mesmo tamanho; distratores do catálogo de rules.md;
-     feedback explica o mecanismo. -->
-<h2>Verificação</h2>
-
-<div class="quiz">
-<script type="application/json">
-[
-  {
-    "pergunta": "{Pergunta de recuperação}",
-    "tipo": "escolha",
-    "opcoes": ["{quatro palavras aqui}", "{quatro palavras aqui}", "{quatro palavras aqui}"],
-    "correta": 0,
-    "feedbacks": [
-      "{por que está certa — o mecanismo}",
-      "{qual concepção errônea leva a esta — nomeie}",
-      "{idem}"
-    ]
-  },
-  {
-    "pergunta": "{Pergunta numérica}",
-    "tipo": "numerica",
-    "resposta": 0.2,
-    "tolerancia": 0.01,
-    "unidade": "1/h",
-    "feedback": "{o mecanismo, não só o número}"
-  }
-]
-</script>
-</div>
-
-<!-- ============ FECHO ============
-     Uma frase. Sem "na próxima lição", sem leitura recomendada, sem links. -->
-<p>{A vitória tangível desta lição, em uma frase.}</p>
+<ul>
+  <li>{Observação ancorada: por que um perfil cai quando o outro sobe.}</li>
+  <li>{Observação ancorada: o que acontece no ponto onde eles se cruzam.}</li>
+  <li>{Pelo menos uma manda mexer: "aumente {parâmetro} e veja {o quê} — {por quê}".}</li>
+</ul>
 
 <div class="pergunte">
   <strong>Ficou algo obscuro?</strong> Pergunte. O que você perguntar entra
   aqui neste arquivo, no ponto exato onde a dúvida apareceu.
 </div>
 
-<!-- ============ NOTA DE DÚVIDA ============
-     Não faz parte do esqueleto: entra depois, quando ele perguntar.
-     No ponto EXATO do texto que gerou a dúvida, sem apagar o original.
+<!-- NOTA DE DÚVIDA — entra depois, quando ele perguntar, no ponto EXATO:
+     <p class="nota-duvida"><span class="rotulo">Dúvida — 30/08</span> … </p> -->
 
-     <p class="nota-duvida">
-       <span class="rotulo">Dúvida — 30/08</span>
-       {a explicação nova, no lugar onde ela faltava}
-     </p>
--->
-
-<script src="../assets/tema.js" defer></script>
-<script src="../assets/quiz.js" defer></script>
-<script src="../assets/simulador.js" defer></script>
-<script src="../assets/variantes.js" defer></script>
+<script src="./assets/tema.js" defer></script>
+<script src="./assets/codigo.js" defer></script>
+<script src="./assets/simulador.js" defer></script>
 </body>
 </html>

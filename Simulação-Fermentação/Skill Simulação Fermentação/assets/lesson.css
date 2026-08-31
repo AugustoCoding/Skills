@@ -244,55 +244,6 @@ td.num, th.num { text-align: right; font-family: var(--mono); }
 
 /* ---------- blocos pedagógicos ---------- */
 
-/* Recuperação: pergunta da lição anterior, respondida de memória. */
-.recuperacao {
-  border: 1px solid var(--rule);
-  border-radius: 3px;
-  padding: 1rem 1.2rem;
-  margin: 2rem 0;
-}
-.recuperacao > .rotulo {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-  display: block;
-  margin-bottom: 0.5rem;
-}
-
-/* Previsão antes de rodar. O aluno escreve, depois confere. */
-.previsao { margin: 2rem 0; }
-.previsao textarea {
-  width: 100%;
-  min-height: 5rem;
-  font-family: var(--serif);
-  font-size: 0.95rem;
-  padding: 0.7rem;
-  background: var(--bg);
-  color: var(--fg);
-  border: 1px solid var(--rule);
-  border-radius: 3px;
-  resize: vertical;
-}
-
-/* Fonte primária recomendada. Uma por lição. */
-.fonte {
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
-  padding: 1.1rem 0;
-  margin: 2.5rem 0;
-}
-.fonte .rotulo {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-  display: block;
-  margin-bottom: 0.4rem;
-}
-
 /* Lembrete de que o professor está disponível. Fecha toda lição. */
 .pergunte {
   background: var(--code-bg);
@@ -301,33 +252,6 @@ td.num, th.num { text-align: right; font-family: var(--mono); }
   margin: 2.5rem 0 0;
   font-size: 0.92rem;
 }
-
-/* Revelação de um passo: a resposta fica atrás de um clique, para a previsão
-   valer alguma coisa. Sem isso o olho lê o número antes de a mão escrever.
-
-   <div class="revelar">
-     <details><summary>Revelar os números</summary> … </details>
-   </div>
-
-   Um degrau só. Não é escada de dicas: a lição não esconde o conteúdo, esconde
-   o resultado até ele apostar. */
-
-.revelar { margin: 1.4rem 0; }
-
-.revelar details {
-  border-left: 2px solid var(--rule);
-  padding: 0 0 0 1rem;
-}
-
-.revelar summary {
-  cursor: pointer;
-  color: var(--accent);
-  font-size: 0.92rem;
-  padding: 0.25rem 0;
-}
-
-.revelar details[open] > summary { color: var(--muted); margin-bottom: 0.5rem; }
-.revelar details > :last-child { margin-bottom: 0.6rem; }
 
 /* ---------- equações em MathML ---------- */
 /* O navegador renderiza MathML nativamente. Só ajustamos escala e respiro:
@@ -346,78 +270,117 @@ math[display="block"] {
 
 .equacao math[display="block"] { margin: 0; }
 
-/* ---------- explorador de variantes ---------- */
-/* Estação de código: troca uma linha do programa e redesenha o gráfico ao lado.
-   As variantes são escolhas corretas entre si — método do integrador, evento,
-   densidade de t_eval —, nunca erros plantados. */
+/* ---------- seção de código (assets/codigo.js) ---------- */
+/* O centro da lição. Passos revelados um a um: o aluno não vê quantos faltam,
+   e cada clique é uma expectativa pequena. */
 
-.variantes {
-  border: 1px solid var(--rule);
-  border-radius: 3px;
-  padding: 1rem 1.2rem;
-  margin: 2rem 0;
+section.codigo { margin: 2.5rem 0; }
+
+.passo {
+  border-left: 2px solid var(--rule);
+  padding: 0 0 0 1.2rem;
+  margin: 1.8rem 0;
 }
 
-.variantes-opcoes {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-bottom: 0.9rem;
+.passo h3 {
+  margin: 0 0 0.6rem;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
 }
 
-.variantes-grupo {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.4rem;
-}
+/* Numeração automática: o passo se conta sozinho, sem o autor escrever o número. */
+section.codigo { counter-reset: passo; }
 
-.variantes-rotulo {
+.passo h3::before {
+  counter-increment: passo;
+  content: counter(passo) " · ";
   font-family: var(--mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--muted);
-  min-width: 6rem;
-}
-
-.variantes-opcao {
-  font-family: var(--mono);
-  font-size: 0.82rem;
-  padding: 0.3rem 0.7rem;
-  border: 1px solid var(--rule);
-  border-radius: 3px;
-  background: var(--bg);
-  color: var(--muted);
-  cursor: pointer;
-}
-
-.variantes-opcao[aria-pressed="true"] {
-  border-color: var(--accent);
+  font-size: 0.8rem;
   color: var(--accent);
 }
 
-.variantes-codigo {
-  background: var(--code-bg);
-  padding: 0.8rem 1rem;
-  border-radius: 3px;
+.passo > p { margin: 0.7rem 0 0; font-size: 0.95rem; }
+
+.oculto { display: none; }
+
+/* A animação é curta de propósito: é para marcar que algo apareceu, não para
+   fazer o aluno esperar. */
+.revelado { animation: surgir 0.32s ease-out both; }
+
+@keyframes surgir {
+  from { opacity: 0; transform: translateY(0.5rem); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .revelado { animation: none; }
+}
+
+.revelar-passo {
+  display: block;
+  width: 100%;
+  margin: 1.5rem 0;
+  padding: 0.6rem 1rem;
   font-family: var(--mono);
-  font-size: 0.82rem;
-  line-height: 1.5;
-  overflow-x: auto;
-  margin: 0 0 0.9rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--bg);
+  border: 1px dashed var(--rule);
+  border-radius: 3px;
+  cursor: pointer;
 }
 
-.variantes-codigo .linha-troca {
-  background: var(--nota-bg);
-  color: var(--fg);
-  display: inline-block;
-  padding: 0 0.2em;
-  border-radius: 2px;
+.revelar-passo:hover { border-color: var(--accent); border-style: solid; }
+
+/* Programa completo e resposta: fechados, e só existem depois do último passo. */
+details.programa,
+details.resposta {
+  border-top: 1px solid var(--rule);
+  padding-top: 0.9rem;
+  margin: 1.4rem 0;
 }
 
-.variantes canvas { width: 100%; height: auto; display: block; }
-.variantes-nota { font-size: 0.85rem; color: var(--muted); margin: 0.6rem 0 0; }
+details.programa > summary,
+details.resposta > summary {
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  padding: 0.2rem 0;
+}
+
+details.programa[open] > summary,
+details.resposta[open] > summary { color: var(--muted); margin-bottom: 0.8rem; }
+
+details.resposta p { margin: 0 0 0.6rem; }
+
+/* Botão de copiar, no canto de cada bloco de código. */
+pre.com-copia { position: relative; }
+
+.copiar {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  padding: 0.2rem 0.5rem;
+  color: var(--muted);
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+pre.com-copia:hover .copiar { opacity: 1; }
+.copiar:hover { color: var(--fg); border-color: var(--accent); }
+.copiar.copiado { color: var(--ok); border-color: var(--ok); opacity: 1; }
 
 /* ---------- botão de tema ---------- */
 /* Dois estados, claro e escuro. Fica fora do fluxo do texto: é ferramenta,
@@ -503,49 +466,6 @@ button {
 button:hover { border-color: var(--muted); }
 button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-/* ---------- quiz (assets/quiz.js) ---------- */
-
-.quiz { margin: 2rem 0; }
-
-.quiz-item {
-  border: 1px solid var(--rule);
-  border-radius: 3px;
-  padding: 1rem 1.2rem;
-  margin: 1rem 0;
-}
-.quiz-pergunta { margin: 0 0 0.8rem; }
-
-.quiz-opcoes { display: flex; flex-direction: column; gap: 0.4rem; }
-
-/* Alternativas com a mesma largura: nenhuma pista de formatação. */
-.quiz-opcao {
-  display: block;
-  width: 100%;
-  text-align: left;
-  font-family: var(--mono);
-  font-size: 0.85rem;
-  padding: 0.5rem 0.8rem;
-}
-.quiz-opcao.certa { border-color: var(--ok); color: var(--ok); }
-.quiz-opcao.errada { border-color: var(--err); color: var(--err); }
-.quiz-opcao[disabled] { cursor: default; opacity: 0.75; }
-
-.quiz-numerica { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
-.quiz-numerica input {
-  font-family: var(--mono);
-  font-size: 0.9rem;
-  padding: 0.4rem 0.6rem;
-  width: 8rem;
-  background: var(--bg);
-  color: var(--fg);
-  border: 1px solid var(--rule);
-  border-radius: 3px;
-}
-
-.quiz-feedback { margin-top: 0.8rem; font-size: 0.9rem; }
-.quiz-feedback.ok { color: var(--ok); }
-.quiz-feedback.nao { color: var(--err); }
-
 /* ---------- simulador (assets/simulador.js) ---------- */
 
 .simulador {
@@ -585,19 +505,6 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 .sim-acoes { display: flex; gap: 0.6rem; margin-top: 0.9rem; flex-wrap: wrap; }
 .sim-leitura { font-size: 0.85rem; color: var(--muted); margin-top: 0.6rem; }
-.sim-oculto { visibility: hidden; }
-
-/* ---------- navegação entre lições ---------- */
-
-nav.licoes {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: 3rem;
-  padding-top: 1.2rem;
-  border-top: 1px solid var(--rule);
-  font-size: 0.9rem;
-}
 
 /* ---------- impressão ---------- */
 /* O aluno pode querer estudar no papel. Controles somem, cor vira preto. */
@@ -611,11 +518,11 @@ nav.licoes {
   html { font-size: 11pt; }
   body { max-width: none; padding: 0; }
   .lateral { float: none; width: auto; margin: 0.8rem 0; padding-left: 0.8rem; border-left: 1px solid var(--rule); }
-  button, .sim-controles, .sim-acoes, .previsao textarea { display: none; }
-  .quiz-item, .recuperacao, .simulador, .variantes, .nota-duvida, pre, table, figure { break-inside: avoid; }
-  .revelar details { break-inside: avoid; }
-  .tema, .variantes-opcoes { display: none; }
-  /* Revelação fechada continua fechada no papel: a previsão é o ponto. */
+  button, .sim-controles, .sim-acoes { display: none; }
+  .simulador, .passo, .nota-duvida, pre, table, figure { break-inside: avoid; }
+  .tema, .revelar-passo, .copiar { display: none; }
+  /* No papel não há clique: tudo que a tela esconde por etapas aparece. */
+  .oculto { display: revert; }
   .nota-duvida { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   h1, h2, h3 { break-after: avoid; }
   a::after { content: " (" attr(href) ")"; font-size: 0.75em; color: var(--muted); word-break: break-all; }

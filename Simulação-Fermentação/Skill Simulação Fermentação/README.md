@@ -1,96 +1,67 @@
 # Skill: Simulação de Fermentação em Python
 
-Skill de **ensino**, com estado, para levar um aluno a modelar e simular processos de fermentação em Python ao longo de várias sessões.
+Transforma um exercício de fermentação numa **lição HTML** que ensina o aluno a programar aquela simulação em Python.
 
-A distinção importa: a skill não resolve enunciados. Ela ensina o aluno a resolvê-los. Entregar o modelo, o código e o gráfico prontos é o modo de falha que ela existe para evitar — parece ajuda e produz retenção zero.
+A skill não resolve o enunciado por ele nem dá uma aula de bioprocessos: ela mostra o programa sendo construído, passo a passo, e depois deixa o aluno mexer no resultado.
 
 ## Como funciona
 
-O aluno manda um exercício e ativa a skill. **Não há entrevista**: nem sobre a missão, nem sobre o nível, nem sobre onde ele travou, nem sobre onde salvar os arquivos. Tudo isso é inferido do próprio exercício e do estado do workspace. O que ele recebe de volta é uma **lição** aberta no navegador.
+O aluno cola o exercício e chama a skill. Não há entrevista, não há estado guardado, não há continuação prometida. O que sai é um arquivo:
 
 ```
-exercício → diagnóstico silencioso → aposta declarada → lição que resolve tudo → registro
+exercício → diagnóstico silencioso → código rodado e conferido → lição aberta no navegador
 ```
 
-1. **Exercício** — a entrada. Se ele voltar sem um, o exercício vem do banco `cases/`, escolhido pelo buraco registrado.
-2. **Diagnóstico silencioso** — regime, variáveis, parâmetros que faltam, degrau exigido, hipóteses escondidas, e a checagem de pré-requisito contra `learning-records/`.
-3. **Aposta declarada** — onde o aluno provavelmente travou. Dita em uma linha dentro da lição, para ser corrigível.
-4. **Lição** — um HTML autocontido e bonito que **resolve a questão inteira**, em quatro estações fixas: modelo · código · resultado · crítica. A estação de código é a maior: programar é a estrela. Tem que funcionar com o chat fechado e sem abrir outro arquivo.
-5. **Registro** — evidência de aprendizado, nunca cobertura de conteúdo.
+A lição tem **três divisões**:
 
-Dúvida depois da entrega é respondida **duas vezes**: no chat, e dentro do HTML da lição, no ponto exato onde ela apareceu, com destaque de marca-texto (`.nota-duvida`). O arquivo é reaberto para o aluno.
+1. **Teoria** — breve. Equações em MathML, tabela de parâmetros com unidades, e para que servem.
+2. **Código** — o centro. Blocos revelados um a um pelo aluno, cada um com título, trecho de código e o porquê daquela decisão. No fim, o programa completo colapsado com botão de copiar, e a resposta numérica atrás de um botão.
+3. **Análise crítica** — o simulador de parâmetros, e a leitura do resultado daquele exercício: por que esta curva faz isto aqui, e o que muda quando você mexe naquilo.
+
+Teto maleável de mil palavras. O que encolhe é a teoria.
+
+**Precisa de um exercício.** Pedido genérico ("me ensina quimiostato") está fora do escopo: o modelo diz isso em uma linha e responde normalmente, sem produzir lição.
 
 ## Estrutura
 
-**Ponto de entrada**
+| Arquivo | Papel |
+|---|---|
+| `SKILL.md` | O que a skill é, como a sessão corre, as regras que não se negociam. Ponto de entrada. |
+| `LESSON-FORMAT.md` | Como a lição é montada, divisão por divisão. |
+| `templates/licao.html` | O esqueleto. Copiar sai mais rápido e mais fiel que deduzir da prosa. |
+| `examples/exemplo_1.md` | Uma sessão inteira, do enunciado ao arquivo aberto. |
+
+**Componentes** (`assets/`), copiados para o workspace do aluno:
 
 | Arquivo | Papel |
 |---|---|
-| `SKILL.md` | A skill. Filosofia, mapa de progressão do domínio, o que é cada peça. Comece por aqui. |
-| `system_prompt.md` | Persona do professor: papel, postura, limites. |
-| `rules.md` | Manual da sessão, com o catálogo de concepções errôneas do domínio. |
+| `lesson.css` | Folha de estilo. Tipografia limpa, equações, tema claro/escuro, impressão. |
+| `codigo.js` | A seção de código: revela os passos um a um, libera o programa completo no fim e injeta o botão de copiar. |
+| `simulador.js` | Integrador de EDOs e gráfico em canvas, com controles deslizantes. Batelada, quimiostato, batelada alimentada e inibição por produto. |
+| `tema.js` | Botão de claro/escuro, que se injeta sozinho e lembra a escolha. |
 
-**Sementes** — copiadas para o workspace no início e preenchidas lá, nunca aqui
-
-| Caminho | Conteúdo |
-|---|---|
-| `MISSION.md` | A razão do aluno, **inferida** dos exercícios. Ancora toda decisão de ensino. Começa vazia. |
-| `RESOURCES.md` | Fontes confiáveis e comunidades. |
-| `GLOSSARY.md` | Linguagem canônica; termo entra por evidência, não por exposição. |
-| `NOTES.md` | Preferências de ensino e ambiente técnico, só quando expressas espontaneamente. |
-| `reference/` | Folhas de consulta prontas: `equacoes.html`, `python-simulacao.html`. |
-
-**Formatos** — `MISSION-FORMAT.md`, `RESOURCES-FORMAT.md`, `GLOSSARY-FORMAT.md`, `LEARNING-RECORD-FORMAT.md`, `LESSON-FORMAT.md`.
-
-**Componentes e apoio**
-
-| Caminho | Conteúdo |
-|---|---|
-| `assets/lesson.css` | Folha de estilo compartilhada. Toda lição linka. Traz `.revelar` (resposta atrás de um clique), `.nota-duvida` (destaque das dúvidas respondidas depois), o estilo das equações em MathML e o do botão de tema. |
-| `assets/tema.js` | Botão de claro e escuro; injeta-se sozinho e lembra a escolha entre lições. |
-| `assets/variantes.js` | Explorador da estação de código: troca uma linha do programa e redesenha o gráfico. Só escolhas corretas entre si, nunca erros plantados. |
-| `assets/quiz.js` | Quiz com feedback imediato; avisa quando as alternativas dão pista pelo comprimento. |
-| `assets/simulador.js` | Integrador RK4 e plotagem em canvas: batelada, quimiostato e inibição por produto, com controles deslizantes. |
-| `cases/` | Banco de exercícios com degrau, loop de feedback, erros comuns e critérios de evidência. É de onde sai o exercício quando o aluno volta sem um. |
-| `examples/` | Três sessões de ensino comentadas. |
-| `templates/` | Esqueletos de lição, referência, código Python e resolução guiada. |
-
-## Definição e workspace
-
-Esta pasta é a **definição** da skill e é **somente leitura** durante uma sessão. Tudo que o modelo gera vai para um **workspace** separado:
+## O workspace do aluno
 
 ```
-<workspace>/
-  MISSION.md  RESOURCES.md  GLOSSARY.md  NOTES.md
-  lessons/INDEX.md  a ordem das lições: data, arquivo, degrau, alvo
-  lessons/*.html    as lições, nomeadas pelo conteúdo (sem numeração)
-  reference/        folhas de consulta (as sementes, mais o que for criado)
-  learning-records/ registros de aprendizado, no estilo ADR, numerados 000N
-  assets/           cópia dos componentes, para as lições renderizarem
+aula-fermentacao/
+  assets/                    cópia dos componentes
+  nome-do-exercicio.html     uma lição por exercício
 ```
 
-O modelo **não pergunta** onde é o workspace: usa a pasta indicada, ou uma pasta existente com `MISSION.md` e `lessons/`, ou cria `./aula-fermentacao/` no diretório atual — e avisa em uma linha, depois de escrever, para o aluno corrigir se quiser.
+Nada além disso é escrito. A pasta da skill é somente leitura durante a sessão.
 
-A separação é o que permite vários alunos — ou várias execuções de teste — sem contaminação entre eles, e mantém a definição da skill estável. `assets/` e `reference/` são **copiados** para o workspace, não linkados: as lições referenciam `../assets/lesson.css` por caminho relativo, e o workspace precisa ser portátil.
+## Sem estado, de propósito
 
-Os nomes de lição descrevem o conteúdo (`quimiostato-washout-etanol.html`), sem numeração sequencial; a ordem cronológica vive em `lessons/INDEX.md`. Os registros de aprendizado continuam numerados.
+Cada sessão trata de um exercício e termina nele. Não há missão, registro de aprendizado, glossário nem índice — a skill já teve tudo isso, e o custo de manter essa contabilidade aparecia como tempo de espera para o aluno.
+
+A única memória é a própria lição: quando ele volta com uma dúvida, a resposta vai para o chat **e** para o HTML, no ponto exato onde a dúvida surgiu, com destaque de marca-texto. O arquivo é reaberto.
 
 ## Como usar
 
-1. Carregue `SKILL.md` no contexto do modelo. Ele referencia o resto conforme precisa.
-2. Mande o exercício. Se quiser um workspace específico, diga junto — se não disser, o modelo escolhe e avisa.
-3. O modelo monta a estrutura do workspace se ela não existir, infere a missão, aposta no travamento e entrega a lição aberta no navegador. A primeira sessão termina com lição na tela e, normalmente, **nenhum** registro de aprendizado — ainda não houve evidência.
+1. Instale como skill pessoal, em pasta com o nome do frontmatter: `~/.claude/skills/simulacao-fermentacao/`.
+2. Abra uma sessão nova — skills são descobertas na abertura.
+3. Chame `/simulacao-fermentacao` e cole o exercício.
 
-Para validar a skill, use `../Testes Skill Simulação Fermentação/`, onde cada execução tem sua própria pasta `Teste N/` como workspace. O protocolo está no README de lá.
+A skill é `disable-model-invocation: true`: nunca ativa sozinha.
 
-A skill é marcada `disable-model-invocation: true` e `allow_implicit_invocation: false`: nunca ativa sozinha, só por chamada explícita.
-
-## Comece por aqui
-
-- Para entender a filosofia: `SKILL.md`.
-- Para ver como uma sessão acontece: `examples/exemplo_1.md` (primeira sessão, só um exercício na mão), `exemplo_2.md` (aluno quer a resposta pronta, e depois volta com uma dúvida), `exemplo_3.md` (retorno sem exercício, escolhendo no banco de casos).
-- Para escrever a primeira lição: `LESSON-FORMAT.md` e `templates/licao.html`.
-
-## Estado
-
-Em desenvolvimento. As lições e os registros começam vazios por definição — enchem-se com o uso. As entradas de `RESOURCES.md` são sementes marcadas `[a verificar]`: edição, DOI e link precisam ser conferidos antes de qualquer citação em lição.
+Para validar mudanças, use `../Testes Skill Simulação Fermentação/`, onde cada execução tem sua pasta e seu registro de reprodutibilidade.

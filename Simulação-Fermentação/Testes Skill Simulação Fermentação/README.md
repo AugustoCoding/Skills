@@ -52,63 +52,58 @@ Depois de fechar o teste, acrescente a linha em [INDEX.md](./INDEX.md).
 4. Em outra sessão, carregue a skill e cole o prompt. Indique `Teste N/com-skill/` como workspace quando quiser a saída dentro do teste; **não indique nada** quando o que estiver sendo testado for a escolha automática de pasta.
 5. Faça o papel do aluno pelos turnos previstos. Não responda o que não foi perguntado: se o modelo entrevistar, o teste já falhou o critério principal — registre e siga.
 6. Volte com **uma dúvida específica** sobre um trecho da lição. É assim que se testa a nota de dúvida.
-7. Abra a lição no navegador e confira que renderiza, que o quiz responde e que o simulador desenha.
+7. Abra a lição no navegador e confira que renderiza: os passos revelam, o botão de copiar copia, o simulador desenha e o tema alterna.
 8. Preencha as seções 5 a 9, acrescente a linha no `INDEX.md`, e abra os commits de correção que os achados exigirem.
 
 Para comparar com e sem a skill, rode o mesmo prompt nas duas condições e guarde a saída crua em `sem-skill/`. A diferença que interessa não é a qualidade do código produzido: é se o modelo ensinou ou apenas resolveu.
 
 ## O que olhar ao avaliar
 
-Dois modos de falha centrais agora: a **teoria comendo o código** (a estrela da skill é programar) e o **tutorial que se lê no automático** (tudo explicado, nada previsto). O resto é secundário.
+Dois modos de falha centrais: a **teoria comendo o código**, e a **análise crítica genérica** — aquela que fala do que o modelo ignora em vez de ler a curva daquele exercício. E, acima dos dois, o **tempo**: a lição precisa sair em minutos, não em um quarto de hora.
+
+**Tempo e tamanho**
+
+- [ ] A sessão inteira levou menos de 5 minutos?
+- [ ] A lição ficou perto de 1.000 palavras visíveis? (meça — foi o número que revelou o problema nos dois primeiros testes)
+- [ ] Código e análise crítica juntos pesam mais que a teoria?
 
 **Comportamento**
 
-- [ ] **Não entrevistou.** Nenhuma pergunta sobre missão, nível, travamento ou pasta antes de produzir a lição.
-- [ ] Escolheu o workspace sozinho (ou usou o indicado), **avisou em uma linha depois de escrever**, e não tocou na pasta da skill?
-- [ ] Preencheu `MISSION.md` por inferência, marcando o que é inferência e de qual exercício veio?
-- [ ] **Resolveu a questão inteira num arquivo só**, sem prometer continuação e sem mandar abrir outro documento?
-- [ ] Declarou em uma linha onde apostou que estava a dificuldade?
-- [ ] Faltando pré-requisito registrado, a ponte entrou como estação zero **do mesmo arquivo**?
-- [ ] Falou pouco no chat — onde escreveu, qual foi a aposta, o convite a perguntar — sem repetir a lição ali?
-- [ ] Abriu o arquivo automaticamente via CLI?
-- [ ] Escreveu registro de aprendizado só onde houve evidência, não onde houve cobertura?
+- [ ] Não entrevistou: nenhuma pergunta antes de produzir a lição
+- [ ] Escreveu **só** o HTML e a cópia de `assets/` — nenhum arquivo de estado, nenhum índice, nenhum registro
+- [ ] Rodou o código antes de publicar os números
+- [ ] Avisou onde escreveu, em uma linha, e abriu o arquivo via CLI
+- [ ] Falou pouco no chat, sem repetir a lição ali
+- [ ] Pedido genérico, sem exercício: recusou a lição em uma linha e respondeu normalmente
 
-**A dúvida pós-entrega**
+**Divisão 1 — teoria**
 
-- [ ] Respondeu no chat **e** editou o HTML da lição?
-- [ ] A explicação entrou no **ponto exato** onde a dúvida surgiu, não no rodapé?
-- [ ] Usou a classe `.nota-duvida`, sem inventar variante, e sem apagar o texto original?
-- [ ] Reabriu o arquivo e avisou que ele foi atualizado?
+- [ ] Equações em **MathML**, com cara de livro, não em texto cru
+- [ ] Tabela de parâmetros com símbolo, valor, unidade e procedência
+- [ ] Breve: sem história, sem derivação, sem recapitulação
 
-**Estrutura da lição**
+**Divisão 2 — código**
 
-- [ ] **Quatro estações** na ordem: modelo · código · resultado · crítica?
-- [ ] **A estação de código é a maior da lição?** (se a teoria for maior, é reprovação direta)
-- [ ] Teoria de fermentação dentro das 400 palavras?
-- [ ] O código está **completo, comentado e explicado passo a passo**, com as escolhas justificadas — por que `solve_ivp`, por que o evento, o que `t_eval` faz?
-- [ ] **Duas previsões**, cada uma com a resposta atrás de um clique — nem nenhuma, nem quatro?
-- [ ] **Explorador de variantes** na estação de código, com escolhas **corretas entre si** e nenhum erro plantado?
-- [ ] **Simulador de parâmetros** na estação de crítica?
-- [ ] **Nenhum link interno**: nem `RESOURCES.md`, nem `reference/`, nem outra lição?
-- [ ] Nenhuma promessa de continuação ("na próxima lição…")?
-- [ ] Sem floreio — no máximo uma curiosidade lateral, nada de recapitulação?
+- [ ] Passos revelados um a um, **no máximo seis**
+- [ ] Cada passo com título, trecho de código e o **porquê** da decisão (não o que a linha faz)
+- [ ] Programa completo colapsado no fim, executável, com botão de copiar
+- [ ] Resposta numérica atrás de um botão que só abre e mostra
+- [ ] Botão de copiar funcionando em cada bloco
 
-**Artefatos**
+**Divisão 3 — análise crítica**
 
-- [ ] A lição abre no navegador, com estilo, quiz, simulador e explorador funcionando?
-- [ ] **As equações estão em MathML**, com cara de livro, e não em texto cru?
-- [ ] O **botão de claro/escuro** aparece e alterna, e o gráfico repinta junto?
-- [ ] **Funciona com o chat fechado e sem abrir outro arquivo?**
-- [ ] O nome do arquivo descreve o conteúdo, sem numeração `000N`?
-- [ ] `lessons/INDEX.md` ganhou a linha correspondente, com data, degrau e alvo?
-- [ ] Quiz com **duas** perguntas, alternativas de comprimento parecido? (o `quiz.js` avisa no console quando não)
-- [ ] O código exibido roda?
+- [ ] Simulador com **no máximo quatro controles**, só de parâmetros que o texto discute
+- [ ] A curva responde **na hora** ao slider (sem esconder atrás de clique)
+- [ ] Duas a quatro observações, cada uma ancorada num ponto concreto da curva **deste** exercício
+- [ ] Pelo menos uma manda mexer num controle e diz o que procurar
+- [ ] **Nenhuma frase que serviria para outro exercício** — nada de lista de hipóteses ou "o modelo ignora X"
 
 **Correção técnica**
 
-- [ ] **Os números-alvo foram conferidos rodando o modelo?** Recalcule pelo menos um.
-- [ ] **Varredura de procedência**: todo número — inclusive faixas e percentuais — é dado do enunciado, fonte citada ou suposição marcada?
-- [ ] Sinais e rendimentos corretos nos balanços? As unidades fecham?
-- [ ] Nenhum link de dentro do workspace para a pasta da skill ou para caminho absoluto?
+- [ ] Os números batem? Recalcule pelo menos um por fora do integrador
+- [ ] Todo número é dado do enunciado ou suposição declarada — **nenhuma citação de literatura**
+- [ ] Sinais, rendimentos e unidades corretos
+- [ ] O botão de claro/escuro aparece e alterna
+- [ ] Nenhum link interno, nenhuma promessa de continuação
 
-Um teste que produz uma lição bonita e correta, mas em que a teoria comeu o código, ou em que o aluno pôde ler tudo sem prever nada, é um teste **reprovado**.
+Lição bonita e correta em que a teoria comeu o código, ou em que a análise crítica é genérica, é teste **reprovado**.

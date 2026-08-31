@@ -10,16 +10,14 @@
  *        data-modelo="batelada"
  *        data-tempo="24"
  *        data-params="mu_max=0.4, Ks=1.0, Yxs=0.5, Ypx=0.2, X0=0.1, S0=20"
- *        data-controles="mu_max, Ks"
- *        data-prever="1"></div>
+ *        data-controles="mu_max, Ks"></div>
  *
  *   data-modelo     nome do modelo registrado (batelada | quimiostato | inibicao_produto)
  *   data-tempo      horizonte de simulação, em h
  *   data-params     sobrescreve os padrões do modelo
- *   data-controles  quais parâmetros ganham controle deslizante.
+ *   data-controles  quais parâmetros ganham controle deslizante (no máximo
+ *                   quatro, e só os que a análise crítica discute).
  *                   Faixa opcional: "mu_max:0.05:1.2:0.01"
- *   data-prever     se presente, as curvas ficam ocultas até o aluno clicar
- *                   em "Revelar" — force a previsão antes do resultado
  *
  * Lições futuras registram modelos novos sem editar este arquivo:
  *
@@ -259,7 +257,6 @@
     ctx.fillText("Concentração (g/L)", 0, 0);
     ctx.restore();
 
-    if (opts && opts.oculto) return;
 
     // Curvas
     var cores = [cor("--cor-x"), cor("--cor-s"), cor("--cor-p")];
@@ -340,7 +337,6 @@
 
     var T = parseFloat(el.dataset.tempo || "24");
     var params = Object.assign({}, modelo.padroes, parsePares(el.dataset.params));
-    var oculto = el.hasAttribute("data-prever");
 
     var canvas = document.createElement("canvas");
     canvas.setAttribute("role", "img");
@@ -372,9 +368,8 @@
 
     function redesenhar() {
       var dados = simular(modelo, params, T);
-      desenhar(canvas, dados, { oculto: oculto, series: (modelo.vars || []).length });
-      leitura.textContent = oculto ? "Escreva sua previsão antes de revelar." : ler(modelo, dados, params, T);
-      leitura.classList.toggle("sim-oculto", false);
+      desenhar(canvas, dados, { series: (modelo.vars || []).length });
+      leitura.textContent = ler(modelo, dados, params, T);
     }
 
     // Controles deslizantes
@@ -418,20 +413,6 @@
     });
 
     // Ação de revelar, no modo "preveja e depois rode"
-    if (oculto) {
-      var acoes = document.createElement("div");
-      acoes.className = "sim-acoes";
-      var btn = document.createElement("button");
-      btn.type = "button";
-      btn.textContent = "Revelar as curvas";
-      btn.addEventListener("click", function () {
-        oculto = false;
-        btn.remove();
-        redesenhar();
-      });
-      acoes.appendChild(btn);
-      el.appendChild(acoes);
-    }
 
     redesenhar();
 

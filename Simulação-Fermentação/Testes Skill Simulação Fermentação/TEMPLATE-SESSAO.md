@@ -75,48 +75,39 @@ Meça as palavras por estação — é o número que diz se a estação de códi
 
 Checklist condensado. O completo está no [README](../README.md) — este aqui é a versão que fica **congelada com o teste**, registrando o que era exigido na época.
 
+**Tempo e tamanho**
+
+- [ ] Sessão inteira em menos de 5 minutos
+- [ ] Lição perto de 1.000 palavras visíveis
+- [ ] Código + análise crítica pesam mais que a teoria
+
 **Comportamento**
 
-- [ ] Não entrevistou: nenhuma pergunta sobre missão, nível, travamento ou pasta
-- [ ] Escolheu/usou o workspace certo e avisou onde escreveu, em uma linha, **depois** de escrever
-- [ ] `MISSION.md` por inferência, marcado como inferência, com data e procedência
-- [ ] Resolveu a questão inteira num arquivo só, sem prometer continuação
-- [ ] Declarou em uma linha onde apostou que estava a dificuldade
-- [ ] Ponte de pré-requisito, se necessária, entrou como estação zero do mesmo arquivo
-- [ ] Falou pouco no chat, sem repetir a lição ali
-- [ ] Abriu o arquivo via CLI
-- [ ] Registro de aprendizado só por evidência
+- [ ] Não entrevistou
+- [ ] Escreveu só o HTML e a cópia de `assets/` — nenhum arquivo de estado
+- [ ] Rodou o código antes de publicar os números
+- [ ] Avisou onde escreveu e abriu o arquivo via CLI
+- [ ] Falou pouco no chat
 
-**Dúvida pós-entrega**
+**Estrutura da lição**
 
-- [ ] Respondeu no chat **e** editou o HTML
-- [ ] A explicação entrou no ponto exato, não no rodapé
-- [ ] Usou `.nota-duvida`, sem variante inventada, sem apagar o original
-- [ ] Reabriu o arquivo e avisou
-
-**Estrutura e artefatos**
-
-- [ ] Quatro estações na ordem: modelo · código · resultado · crítica
-- [ ] **A estação de código é a maior da lição**
-- [ ] Teoria de fermentação dentro das 400 palavras
-- [ ] Código completo, comentado, explicado passo a passo, com as escolhas justificadas
-- [ ] Duas previsões, cada uma com a resposta atrás de um clique
-- [ ] Explorador de variantes com escolhas corretas entre si, sem erro plantado
-- [ ] Simulador de parâmetros na estação de crítica
-- [ ] Equações em MathML, não em texto cru
-- [ ] Botão de claro/escuro presente e funcionando
+- [ ] Três divisões: teoria · código · análise crítica
+- [ ] Equações em MathML
+- [ ] Tabela de parâmetros com unidade e procedência
+- [ ] Passos de código revelados um a um, no máximo seis, cada um com o porquê
+- [ ] Programa completo colapsado, com botão de copiar funcionando
+- [ ] Resposta numérica atrás de um botão
+- [ ] Simulador com no máximo quatro controles, curva respondendo na hora
+- [ ] Duas a quatro observações ancoradas nas curvas **deste** exercício
+- [ ] Nenhuma frase genérica, nenhuma lista de hipóteses
+- [ ] Botão de claro/escuro funcionando
 - [ ] Nenhum link interno, nenhuma promessa de continuação
-- [ ] A lição abre e renderiza: estilo, quiz, simulador e explorador
-- [ ] Funciona com o chat fechado e sem abrir outro arquivo
-- [ ] Nome pelo conteúdo, sem `000N`; `lessons/INDEX.md` atualizado
-- [ ] Quiz com duas perguntas, alternativas de comprimento parecido
 
 **Correção técnica**
 
-- [ ] Números-alvo conferidos rodando o modelo — recalcule pelo menos um
-- [ ] Varredura de procedência: todo número é dado do enunciado, fonte citada ou suposição marcada
+- [ ] Números conferidos — recalcule pelo menos um por fora
+- [ ] Todo número é dado do enunciado ou suposição declarada; nenhuma citação de literatura
 - [ ] Sinais, rendimentos e unidades corretos
-- [ ] Nenhum link para fora do workspace
 
 ## 7. Achados
 

@@ -1,135 +1,87 @@
 # Formato da Lição
 
-A lição é a unidade primária de ensino deste workspace, e **é a experiência inteira**. Um arquivo HTML autocontido em `./lessons/` que resolve **a questão inteira** que o aluno trouxe: ele abre, percorre e sai sabendo programar aquilo. Nada fica para um próximo arquivo, e nada exige abrir outro arquivo para ser entendido.
+Um arquivo HTML por exercício, em `./aula-fermentacao/`, nomeado pelo conteúdo em kebab-case: `batelada-alcoolica.html`, `quimiostato-washout.html`. Ele resolve a questão inteira e não depende de nenhum outro arquivo.
 
-[SKILL.md](./SKILL.md) diz o que a lição precisa ser. Este documento diz como montá-la.
+Comece de [templates/licao.html](./templates/licao.html) — copiar a estrutura é mais rápido e mais fiel do que deduzi-la desta prosa.
 
-## O que o aluno quer
+**Teto maleável: 1.000 palavras visíveis.** Se estourar, o que encolhe é a teoria. Código e análise crítica são o que o aluno veio buscar.
 
-Ele não quer perder tempo. Isso não é preferência de estilo, é a restrição de projeto que decide o resto:
+## Divisão 1 — Teoria
 
-- **A estrela é programar.** Ele já tem alguma base de fermentação, mesmo que pequena. A teoria entra na dose mínima para o código fazer sentido; a explicação do código é onde a lição gasta o espaço dela.
-- **Sem floreio.** Nada que não mude o que ele faz. Se uma frase pode sair sem que o aluno erre mais, ela sai.
-- **Um lugar só.** Tudo que ele precisa ler ou manipular está no arquivo. Nenhum link interno, nenhuma consulta a outro documento, nenhuma continuação prometida.
+Curta. O que o aluno precisa para o código fazer sentido, e nada além.
 
-## Nome do arquivo
+- **As equações do caso**, em MathML, cada termo anotado no que significa fisicamente.
+- **A tabela de parâmetros**: símbolo, valor, unidade, procedência. Definir bem as variáveis é o que sustenta o resto.
+- **Uma ou duas frases** dizendo para que o sistema serve.
 
-O nome descreve **o conteúdo**, em kebab-case, curto o bastante para ele reconhecer a lição na lista seis meses depois:
+Sem história, sem derivação, sem recapitulação. Se o aluno já sabe aquilo, ele passa os olhos em quinze segundos — e é para isso que a divisão é curta.
 
-```
-lessons/quimiostato-washout-etanol.html
-lessons/batelada-alcoolica-em-python.html
-```
+## Divisão 2 — Código
 
-Sem numeração sequencial: a ordem vive em `lessons/INDEX.md`. Se o nome que você quer já existe, torne-o mais específico — nunca desambigue com sufixo numérico.
-
-## O índice
-
-`lessons/INDEX.md` é a ordem que o nome do arquivo não carrega. **Atualize na mesma ação em que cria a lição:**
-
-```md
-# Lições
-
-| Data | Arquivo | Degrau | Alvo |
-|---|---|---|---|
-| 2026-08-30 | [batelada-alcoolica-em-python.html](./batelada-alcoolica-em-python.html) | 3–5 | Montar e programar a batelada com Monod, do balanço ao gráfico |
-```
-
-É arquivo de trabalho seu: serve para saber o que já existe e para a checagem de pré-requisito. O aluno não é mandado até ele.
-
-## As quatro estações
-
-Toda lição segue a mesma espinha, sempre nesta ordem:
-
-| Estação | O que acontece |
-|---|---|
-| **Modelo** | As equações do caso, expostas e explicadas termo a termo |
-| **Código** | O programa completo, comentado, construído passo a passo — a maior estação |
-| **Resultado** | O que sai, os números-alvo para ele conferir o próprio código |
-| **Crítica** | O que o modelo ignora, o que mudaria a resposta, e o interativo de parâmetros |
-
-Enunciado com itens (a), (b), (c) mapeia neles quase sempre direto. **Enunciado sem itens é fatiado por elas** — a espinha não muda porque o professor da disciplina não numerou. Estação sem conteúdo naquele exercício simplesmente não aparece: um exercício que só pede interpretação de curva não tem estação de código.
-
-A previsibilidade é o ponto. O aluno aprende onde as coisas ficam e para de procurar.
-
-### Estação zero: a ponte
-
-Quando `./learning-records/` mostra que falta um pré-requisito que o exercício exige, a ponte entra **como primeira seção do mesmo arquivo**, curta, e o resto segue normal. Nunca vira lição separada, nunca vira promessa.
-
-Só dispara com lacuna registrada. Não por precaução.
-
-## Orçamento
-
-| Parte | Orçamento |
-|---|---|
-| Teoria de fermentação (estação de modelo, mais o que a de crítica precisar) | **máximo 400 palavras** |
-| Explicação do código | **teto brando de 800 palavras** — passa se o exercício for mesmo complicado |
-| Arquivo inteiro | ~1800 palavras acende a luz amarela: releia procurando floreio |
-
-Acima dos números, vale a proporção: **a estação de código é sempre a maior da lição**. Se a teoria estiver competindo com ela, a teoria está errada, não o código.
-
-Para calibrar: a lição do Teste 1 tinha 1607 palavras de exposição contra 847 de prática. É exatamente o inverso do que se quer.
-
-## A estação de código
-
-É por isso que a lição existe. Aqui você não economiza.
-
-**O que vem pronto:** o programa inteiro, executável, comentado. Imports, parâmetros com unidade, função de derivadas, chamada do integrador, evento, plotagem com eixos rotulados. Ele copia, roda, e vê o resultado.
-
-**Como explicar:** passo a passo, na ordem em que o programa executa. Para cada trecho que não é cerimônia:
-
-- **o que faz** — uma frase;
-- **por que este termo e não outro** — a escolha, nomeada. `solve_ivp` e não `odeint`; `Radau` e não `RK45` quando há rigidez; `t_eval` para a saída e não para o passo; evento para capturar o instante exato em vez de ler no gráfico;
-- **o que quebraria** se aquilo faltasse — uma frase, sem virar catálogo de erros.
-
-O que é cerimônia repetida a cada exercício — `import numpy as np`, `plt.xlabel(...)` — é comentado no código e não ganha parágrafo.
-
-**O interativo obrigatório:** pelo menos um explorador de variantes (`assets/variantes.js`), que troca uma linha do código à vista e redesenha o gráfico ao lado. As variantes são **escolhas corretas e relevantes**, nunca erros plantados: método de integração, presença de evento, densidade de `t_eval`, tolerância. O aluno vê o que muda quando ele decide diferente — não vê como se erra.
-
-## A estação de resultado
-
-Os números-alvo, impressos: *"se o seu código estiver certo, X final = 8,75 g/L e o ART esgota em ≈ 4,5 h."* É o teste objetivo que ele aplica sozinho — curva parecida engana, `8,75` não.
-
-**Confira os números antes de escrevê-los.** Rode o modelo de verdade, com tolerância apertada, e só então publique. Número-alvo errado é pior que número-alvo nenhum: ele manda o aluno caçar defeito em código correto.
-
-Aqui entra a **primeira previsão** (veja abaixo).
-
-## A estação de crítica
-
-O que o modelo finge que não existe, e o que isso custa na resposta. Rendimento constante, volume constante, um substrato limitante, sem lag, sem morte celular, sem inibição. Cada hipótese com a consequência, não só o nome — é item de prova, não rodapé.
-
-Aqui entra o **simulador de parâmetros** (`assets/simulador.js`) com controles deslizantes, e a **segunda previsão** antes dele.
-
-## Previsão e revelação
-
-O atrito da lição são **duas previsões**, e só:
-
-1. antes dos números-alvo da estação de resultado;
-2. antes do interativo da estação de crítica.
-
-Cada uma é uma pergunta curta com um campo, e a resposta fica **atrás de um clique**. Sem isso a previsão vira ritual: o olho lê o número antes de a mão escrever.
+O centro da lição. O aluno recebe o programa **explicado passo a passo**, e cada passo é uma revelação: ele clica, o próximo aparece.
 
 ```html
-<div class="previsao">
-  <p><strong>Antes de revelar:</strong> em quanto tempo o ART acaba — perto de 25 h, de 15 h, ou muito antes?</p>
-  <textarea placeholder="Sua previsão, antes de abrir."></textarea>
-</div>
+<section class="codigo">
+  <div class="passo">
+    <h3>Os parâmetros e o estado inicial</h3>
+    <pre><code>mu_max = 0.40   # 1/h
+Ks     = 1.0    # g/L
+y0 = [X0, S0, V0]</code></pre>
+    <p>Tudo em uma tupla só porque <code>solve_ivp</code> integra vetor, não variáveis soltas.</p>
+  </div>
 
-<div class="revelar">
-  <details>
-    <summary>Revelar os números</summary>
-    <p>X final = 8,75 g/L · ART esgotado em ≈ 4,5 h · etanol final = 67,5 g/L.</p>
+  <div class="passo">
+    <h3>A função de derivadas</h3>
+    <pre><code>def derivadas(t, y, F): ...</code></pre>
+    <p>Tempo primeiro, estado depois: é a ordem que o <code>solve_ivp</code> exige.</p>
+  </div>
+
+  <details class="programa">
+    <summary>Ver o programa completo</summary>
+    <pre><code>{o programa inteiro, executável}</code></pre>
   </details>
-</div>
+
+  <details class="resposta">
+    <summary>Ver a resposta</summary>
+    <p>{os números finais}</p>
+  </details>
+</section>
 ```
 
-No simulador, `data-prever="1"` já faz esse papel: mantém as curvas ocultas até o clique.
+`assets/codigo.js` cuida do resto sozinho: esconde os passos seguintes, põe o botão de revelar, anima a entrada, e injeta um botão de copiar em cada bloco de código. O programa completo e a resposta só aparecem depois do último passo.
 
-Duas previsões, não quatro. Cada uma custa tempo dele e só se paga onde há algo objetivo para conferir depois.
+Regras:
+
+- **Quantos passos você decidir**, conforme o tamanho do programa e as subseções naturais dele — parâmetros, derivadas, evento, integração, gráfico. **Não passe de seis.**
+- **Cada passo é um bloco lógico**, não uma linha solta: título curto, o trecho de código, e a explicação do **porquê daquilo**, não do que a linha faz.
+- **A explicação responde "por que assim"**: por que `solve_ivp` e não `odeint`; por que evento em vez de ler o instante no gráfico; por que `Radau` quando há rigidez. Comentário no código cobre o "o quê"; o parágrafo cobre a decisão.
+- **O programa completo é executável**, com dependências declaradas e unidades em comentário. É de lá que o aluno copia.
+- **A resposta numérica sai de integração conferida**, nunca de estimativa, e o botão só abre e mostra — sem pergunta, sem cerimônia.
+
+## Divisão 3 — Análise crítica
+
+O simulador, e a leitura do resultado **daquele** exercício.
+
+```html
+<div class="simulador"
+     data-modelo="batelada"
+     data-tempo="30"
+     data-params="mu_max=0.35, Ks=1.5, Yxs=0.045, X0=2, S0=150"
+     data-controles="mu_max, S0"></div>
+```
+
+- **No máximo quatro controles**, e só de parâmetros que a análise discute. Parâmetro que não aparece no texto não vira slider.
+- **Sem `data-prever`**: o aluno desliza e a curva responde na hora. Esconder a curva mata o que o componente tem de melhor.
+- **Duas a quatro observações**, cada uma ancorada num ponto concreto das curvas daquele caso: por que um perfil cai quando o outro sobe; o que acontece onde eles se cruzam; por que a inflexão está ali e não dez horas depois.
+- **Pelo menos uma observação manda mexer** num controle e diz o que procurar: *"aumente F e veja o pico de ART subir junto — o enchimento acelera, mas o açúcar acumulado dobra."*
+
+**O teste que separa análise de enchimento de linguiça:** se a frase serviria para outro exercício, ela não é análise deste caso — corte.
+
+**Não fale do que o modelo ignora.** Nada de lista de hipóteses, nada de "este modelo não representa inibição". É genérico, é longo, e não é o que ele veio aprender.
 
 ## Equações
 
-**Sempre MathML nativo** para equação exibida. Renderiza fração de verdade, subscrito de verdade, itálico matemático — sem biblioteca, sem fonte externa, e imprime bem:
+**Sempre MathML** para equação exibida — fração de verdade, sem biblioteca, sem fonte externa, e imprime bem:
 
 ```html
 <math display="block">
@@ -140,50 +92,26 @@ Duas previsões, não quatro. Cada uma custa tempo dele e só se paga onde há a
 </math>
 ```
 
-É verboso de escrever. É o custo de a equação sair com cara de livro didático em vez de linha de terminal, e ele é seu, não do aluno.
+- Símbolo solto no meio da frase pode ser texto: `μ`, `Y<sub>x/s</sub>`. Não vale marcar uma letra.
+- **Código nunca é MathML** — código é `<pre><code>`.
+- Cada variável definida na primeira aparição, com unidade.
 
-Regras:
+## A varredura de procedência
 
-- **Equação exibida** — sempre `<math display="block">`, dentro de `.equacao`.
-- **Símbolo solto no meio da frase** — pode ser texto: `μ`, `Y<sub>x/s</sub>`, `dS/dt`. Não vale a pena marcar em MathML o que é uma letra.
-- **Código Python nunca é MathML.** Código é `<pre><code>`, com a formatação de código.
-- **Cada variável definida na primeira aparição**, com unidade.
+Antes de salvar, passe por **todo número do arquivo** — texto, tabela, `data-params`, resposta final. Cada um cai em uma de **duas** caixas:
 
-## Exposição: o que fica e o que sai
+| Caixa | Como aparece |
+|---|---|
+| **Dado do enunciado** | Sem marca: veio com o exercício |
+| **Suposição sua** | Marcada como suposição, com ordem de grandeza justificada e o teto físico quando existir |
 
-**Fica:**
+Não há terceira caixa. **Não cite literatura**: uma citação lembrada de memória tem cara de dado verificado e não é. Faixas e percentuais contam como número — "entre 85 e 92% do teórico" soa como prosa e passa batido, e foi assim que já vazou antes.
 
-- as hipóteses do modelo, com a consequência de cada uma — é o que cai na prova;
-- a nota lateral de curiosidade, **uma por lição no máximo**: a origem histórica, a ressalva boa. É o único enfeite tolerado, e existe porque uma lição sem nenhuma respiração vira manual;
-- a pergunta de recuperação da lição anterior, **quando existir lição anterior** — três linhas, e é o único espaçamento que restou;
-- a citação de fonte **onde há número**: parâmetro de literatura vem com organismo e condição, e link externo direto para a fonte.
-
-**Sai:**
-
-- o bloco "Leia isto" com leitura recomendada;
-- link para `RESOURCES.md`, para `reference/`, para outras lições — **nenhum link interno**;
-- citação em afirmação sem número;
-- recapitulação do que já foi dito na própria lição;
-- promessa de continuação: "na próxima lição veremos…" não existe mais.
-
-## Quiz
-
-**Duas perguntas**, ao final, ligadas ao que ele acabou de fazer. Use `assets/quiz.js`.
-
-- **Recuperação, não reconhecimento.** Resposta numérica ou aberta vale mais que múltipla escolha.
-- **Alternativas do mesmo tamanho.** Nenhuma pista de formatação — o `quiz.js` avisa no console quando os comprimentos denunciam.
-- **Distratores vêm do catálogo** de concepções errôneas de [rules.md](./rules.md). Distrator que ninguém escolheria não mede nada.
-- **Feedback explica o mecanismo**, não só corrige: "1/h, porque μ é taxa por unidade de biomassa — o X que multiplica é quem carrega g/L".
-
-Duas, não quatro: a previsão já mediu se ele antecipou; o quiz mede se ficou.
-
-## Tema claro e escuro
-
-Toda lição carrega o botão de tema (`assets/tema.js`), que alterna claro e escuro e lembra a escolha entre lições. Dois estados apenas. Se o navegador bloquear o armazenamento — acontece abrindo por `file://` —, o botão continua funcionando naquela página.
+Sem fonte e com o número necessário, declare como estimativa sua e siga.
 
 ## Nota de dúvida
 
-Quando o aluno volta com uma pergunta sobre uma lição já entregue, a resposta vai para **dois lugares**: o chat, agora, e o **HTML daquela lição**, no ponto exato onde a dúvida surgiu.
+Quando o aluno volta com uma pergunta sobre a lição, a resposta vai para o chat **e** para o HTML, no ponto exato onde a dúvida surgiu:
 
 ```html
 <p class="nota-duvida">
@@ -193,51 +121,25 @@ Quando o aluno volta com uma pergunta sobre uma lição já entregue, a resposta
 </p>
 ```
 
-Também existe em linha: `<mark class="nota-duvida">…</mark>`.
+Existe também em linha: `<mark class="nota-duvida">…</mark>`.
 
-- **No ponto exato**, não no rodapé.
-- **Sempre a mesma classe**, sem variante inventada — é o que faz o aluno reconhecer que aquele trecho nasceu de uma pergunta dele.
-- **Não apague o texto original.** Se ele estava errado, corrija e explique a correção na nota.
-- **Reabra o arquivo** e diga em uma linha que ele foi atualizado.
-- Costuma valer **registro de aprendizado**: é evidência de concepção corrigida ou lacuna revelada.
-
-## A varredura de procedência
-
-Antes de salvar, passe por **todo número do arquivo** — texto, tabela, `data-params`, quiz, números-alvo. Cada um cai em uma destas três caixas, e não existe quarta:
-
-| Caixa | Como aparece |
-|---|---|
-| **Dado do enunciado** | Sem marca: veio com o exercício |
-| **Fonte citada** | Link externo direto, com organismo e condição |
-| **Suposição sua** | Marcada como suposição, com ordem de grandeza justificada e o teto físico quando existir |
-
-Faixas e percentuais contam. "Entre 85 e 92% do teórico" soa como prosa, passa pela revisão, e chega ao aluno com autoridade de dado publicado — foi assim que vazou no Teste 1.
-
-Sem fonte e com o número necessário: declare como estimativa sua e **abra uma lacuna em `RESOURCES.md`**, dizendo qual fonte falta.
-
-Esta varredura é passo separado, feito no fim, com o arquivo pronto na frente. A regra de procedência já está escrita em três lugares desta skill e ainda assim escapou, porque escrever consome a atenção que a checagem exigiria.
+No ponto exato, nunca no rodapé. Sempre esta classe, sem variante. Sem apagar o original. Depois, reabra o arquivo e avise em uma linha.
 
 ## Requisitos técnicos
 
-- **HTML autocontido**, exceto pelos componentes de `./assets/`. Abre com duplo clique, sem servidor e sem internet.
-- **A lição funciona com o chat fechado e sem abrir outro arquivo.** É o teste: um aluno que abre a lição e nunca mais fala com você chega ao fim sabendo rodar aquele código.
-- **Linka `assets/lesson.css`** e carrega `assets/tema.js`. Sempre.
-- **Reusa `assets/quiz.js`, `assets/simulador.js` e `assets/variantes.js`** em vez de reimplementar.
-- **Nenhum link para dentro do workspace.** Link externo, só para fonte de número.
-- **Imprime bem** — `lesson.css` já traz as regras.
-- **Todo código exibido roda**, com dependências declaradas.
-- **Todo parâmetro tem unidade e procedência.**
-- **Todo gráfico tem eixos rotulados com unidade.**
-
-Comece a partir de [templates/licao.html](./templates/licao.html).
+- **Autocontido**, exceto pelos componentes de `./assets/`, que ficam ao lado do arquivo. Abre com duplo clique, sem servidor e sem internet.
+- **Carrega quatro arquivos**: `lesson.css`, `tema.js`, `codigo.js`, `simulador.js`.
+- **Nenhum link interno.** Link externo, nunca — não há mais citação de fonte.
+- **Botão de tema** vem junto com `tema.js`, sem markup na lição.
+- **Todo código exibido roda.** **Todo parâmetro tem unidade.** **Todo gráfico tem eixos rotulados.**
+- Imprime bem: `lesson.css` já traz as regras.
 
 ## Modos de falha
 
-- **A aula de fermentação com um apêndice de código.** A teoria toma a lição, o código aparece no fim como resumo. Inverte a estrela da skill e é o modo de falha mais provável agora.
-- **O tutorial que se lê no automático.** Tudo explicado, nada previsto, nenhum clique: o aluno acompanha, concorda e não retém. As duas previsões existem exatamente contra isso.
-- **A lição que promete continuação.** "Na próxima veremos `solve_ivp`" — não existe próxima. A questão se resolve aqui.
-- **A lição que manda abrir outro arquivo** para entender o que está lendo.
-- **O explorador que ensina o erro.** Variantes são escolhas corretas entre si. Mostrar o sinal trocado produzindo curva errada é catálogo de defeito, não exploração.
-- **O número sem caixa.** Faixa plausível escrita com autoridade de dado publicado.
-- **O número-alvo errado.** Manda o aluno caçar defeito em código correto, e queima a confiança dele na lição inteira.
-- **O quiz de reconhecimento.** Alternativas em que a certa é obviamente a certa.
+- **A aula de teoria com apêndice de código.** A divisão 1 cresce, o código vira resumo. É o modo de falha mais provável.
+- **A análise crítica genérica.** "O modelo assume mistura perfeita." Serve para qualquer exercício, logo não serve para este.
+- **O passo que explica o óbvio.** "Aqui importamos o numpy." Se o comentário no código já diz, o parágrafo não repete.
+- **Sete passos, oito passos.** Vira clicar por clicar, e a revelação perde a graça.
+- **O número não conferido.** Manda o aluno caçar defeito em código correto e queima a confiança na lição inteira.
+- **O slider decorativo.** Controle de parâmetro que a análise não menciona.
+- **A lição que promete continuação.** Não existe próxima: a questão se resolve aqui.
