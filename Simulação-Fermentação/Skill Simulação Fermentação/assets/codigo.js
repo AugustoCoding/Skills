@@ -1,4 +1,5 @@
-/* codigo.js — a seção de código da lição.
+/* codigo.js — a seção de código da lição: revela os passos, libera o programa
+ * e a resposta no fim, injeta o botão de copiar. Não formata nem valida código.
  *
  * Faz três coisas, e a lição não precisa de marcação nenhuma além da estrutura:
  *

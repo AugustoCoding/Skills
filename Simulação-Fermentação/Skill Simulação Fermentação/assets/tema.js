@@ -1,4 +1,4 @@
-/* tema.js — botão de claro/escuro em toda lição.
+/* tema.js — botão de claro/escuro, injetado sozinho em toda lição.
  *
  * Dois estados, só. "Seguir o sistema" seria um terceiro e complicaria a
  * explicação sem mudar nada para o aluno: enquanto ele não clicar, a página

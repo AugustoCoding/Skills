@@ -1,4 +1,10 @@
-/* simulador.js — integrador de EDOs e plotagem, rodando no navegador.
+/* simulador.js — curso temporal: X, S, P (e V) contra o TEMPO.
+ *
+ * NÃO faz varredura de parâmetro. Se a pergunta do exercício for "qual D dá
+ * a maior produtividade", a figura tem o parâmetro no eixo horizontal e este
+ * componente não serve — escreva o componente de varredura. Não gaste leitura
+ * descobrindo isso: a tabela de componentes está em LESSON-FORMAT.md.
+ *
  *
  * Existe para um propósito: o padrão "preveja e depois rode". O aluno
  * escreve a curva que espera, mexe em μmax, e vê na hora. É o loop de

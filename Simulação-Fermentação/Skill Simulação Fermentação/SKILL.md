@@ -40,7 +40,7 @@ O aluno manda o exercício e ativa a skill. É só isso que acontece na entrada.
 
 Isso não é preciosismo: perto de uma bifurcação — um quimiostato operando junto do washout, por exemplo — a convergência é lenta e o integrador devolve um valor estabilizado que **não é** o estado estacionário. Já aconteceu de a integração dar biomassa cinco vezes maior que a verdadeira, com aparência perfeitamente plausível.
 
-**Gaste pouco nisso.** Uma dúzia de pontos basta para sustentar uma lição; varredura de trezentos pontos é para artigo, e o aluno está esperando. Se um script passar de meio minuto, o problema é o script, não o computador.
+**Gaste pouco nisso.** O teto é de **integrações**: uma dúzia de pontos integrados basta para sustentar uma lição, e varrer trezentos é para artigo. Avaliação de fórmula fechada é grátis — pode ter milhares, e um gráfico feito de solução analítica não precisa de moderação. Se um script passar de meio minuto, o problema é o script, não o computador.
 
 Quando não houver solução analítica, integre com tolerância apertada e **diga na lição que o número é numérico**, com o critério que você usou para dizer que convergiu.
 
@@ -54,7 +54,7 @@ aula-fermentacao/
   nome-do-exercicio.html     uma lição por exercício
 ```
 
-Copie `assets/` da pasta da skill na primeira vez, e atualize a cópia quando a skill tiver componente mais novo — lição que usa componente ausente abre quebrada.
+Copie da pasta da skill **os componentes que a lição carrega** — não a pasta inteira: cópia que ninguém usa só confunde. Atualize a cópia quando a skill tiver componente mais novo, porque lição que usa componente ausente abre quebrada.
 
 **Se o exercício pedir algo que os componentes não fazem, escreva o componente.** Um exercício de contínuo que pede a curva de produtividade contra D precisa de um gráfico de varredura, e o `simulador.js` só desenha contra o tempo; um regime que não está registrado precisa do modelo dele. Nesses casos, escreva o arquivo novo em `assets/` do workspace, com o mesmo cuidado dos que já estão lá, e use. **Não deixe a figura central do exercício de fora da lição porque a peça não existia** — é a lição que manda, não o inventário.
 

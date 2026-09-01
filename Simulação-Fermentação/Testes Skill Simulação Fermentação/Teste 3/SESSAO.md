@@ -107,7 +107,7 @@ O [relatório do próprio modelo](./RELATORIO-MODELO.md) traz a procedência de 
 **Tempo e tamanho**
 
 - [ ] Menos de 5 minutos — **não**: ~8 min, contra 15+ do Teste 2
-- [ ] Lição perto de 1.000 palavras — **não**: 1.541, e ele admite não ter contado
+- [~] Lição perto de 1.000 palavras — **1.024 de prosa**, dentro do teto; as 1.541 que registrei incluíam os blocos de código, com uma régua que a skill nunca definiu. Corrigido em 94f0648+
 - [x] Código + análise crítica pesam mais que a teoria — 1.227 contra 266
 
 **Comportamento**

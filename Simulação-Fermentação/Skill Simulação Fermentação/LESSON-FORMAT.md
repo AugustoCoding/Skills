@@ -4,7 +4,14 @@ Um arquivo HTML por exercício, em `./aula-fermentacao/`, nomeado pelo conteúdo
 
 Comece de [templates/licao.html](./templates/licao.html) — copiar a estrutura é mais rápido e mais fiel do que deduzi-la desta prosa.
 
-**Teto maleável: 1.000 palavras visíveis.** Se estourar, o que encolhe é a teoria: código e análise crítica são o que o aluno veio buscar. **Conte antes de salvar** — mirar no teto sem medir não funcionou nas duas primeiras vezes que se tentou.
+**Teto maleável: 1.000 palavras de prosa.** Conte antes de salvar, e conte assim:
+
+- **entra** todo o texto que o aluno lê — títulos, parágrafos, itens de lista, células de tabela, rótulos, o conteúdo dos `<details>`;
+- **não entra** o que está dentro de `<pre>`, `<script>` ou `<math>`.
+
+O código não tem teto: ele é o que o aluno veio buscar, e capá-lo brigaria com a regra de que a divisão 2 é o centro da lição. As equações também não contam — MathML vira uma enxurrada de tokens de uma letra que inflaria a conta sem que ninguém tivesse escrito mais nada.
+
+Se a prosa estourar, o que encolhe é a teoria.
 
 ## Divisão 1 — Teoria
 
@@ -70,15 +77,28 @@ O gráfico interativo, e a leitura do resultado **daquele** exercício.
      data-controles="D:0.05:0.32:0.005"></div>
 ```
 
-- **No máximo quatro controles**, e só de parâmetros que a análise discute. **Se nenhuma observação manda mexer nele, ele não vira slider** — controle decorativo é ruído.
+- **No máximo quatro controles**, e **cada um precisa da sua própria observação** mandando mexer nele. Não é "pelo menos uma observação no conjunto": controle sem frase que o convoque é ruído, e some.
 - **Declare faixa e passo** de cada controle quando os padrões do componente não servirem: perto de uma transição abrupta, passo grosso demais esconde justamente o que interessa.
 - **Sem esconder a curva**: o aluno desliza e ela responde na hora.
 - **Duas a quatro observações**, cada uma ancorada num ponto concreto das curvas daquele caso: por que um perfil cai quando o outro sobe; o que acontece onde eles se cruzam; por que a inflexão está ali e não dez horas depois.
-- **Pelo menos uma observação manda mexer** num controle e diz o que procurar: *"aumente D até 0,30 e veja a produtividade despencar — o ótimo fica a 10% do washout."*
+- **A observação de cada controle diz o que procurar**, não só que existe: *"aumente D até 0,30 e veja a produtividade despencar — o ótimo fica a 10% do washout."*
 
 **O teste que separa análise de enchimento de linguiça:** se a frase serviria para outro exercício, ela não é análise deste caso — corte.
 
 **Não fale do que o modelo ignora.** Nada de lista de hipóteses, nada de "este modelo não representa inibição". É genérico, é longo, e não é o que ele veio aprender.
+
+### Os componentes, e o que cada um não faz
+
+Leia esta tabela em vez de abrir o código dos componentes — ela existe para você não gastar leitura descobrindo que a peça não serve:
+
+| Componente | Faz | **Não** faz |
+|---|---|---|
+| `simulador.js` | curso temporal: X, S, P (e V) contra **t**, com controles deslizantes de parâmetro. Modelos registrados: `batelada`, `quimiostato`, `batelada_alimentada`, `inibicao_produto` | não desenha nada contra um parâmetro; não faz varredura; não plota dados experimentais |
+| `codigo.js` | a seção de código inteira: esconde os passos, revela um a um, libera o programa e a resposta no fim, injeta o botão de copiar | não formata código, não valida nada |
+| `tema.js` | botão de claro/escuro, injetado sozinho, com memória | — |
+| `lesson.css` | tipografia, tabelas, equações, `.passo`, `.nota-duvida`, impressão | — |
+
+Precisa de um modelo que não está na lista? `Simulador.registrar(nome, {vars, padroes, faixas, unidades, inicial, deriv})` registra um novo sem tocar no arquivo do componente.
 
 ### Quando o gráfico certo não é contra o tempo
 
@@ -113,6 +133,8 @@ Antes de salvar, passe por **todo número do arquivo** — texto, tabela, `data-
 
 Não há terceira caixa. **Não cite literatura**: uma citação lembrada de memória tem cara de dado verificado e não é.
 
+**Faça a varredura procurando dígitos, não lendo.** Passe um `grep` por todo algarismo do arquivo e confira um a um: é o único jeito de pegar o número escondido no meio de uma frase, que é onde ele vaza. Em dois testes seguidos o vazamento foi exatamente esse — um número dentro de prosa explicativa, enquanto a tabela e os `data-params` estavam impecáveis.
+
 Contam como número, e é por aí que vaza:
 
 - **faixas e percentuais** — "entre 85 e 92% do teórico" soa como prosa e passa batido;
@@ -136,7 +158,8 @@ Existe também em linha: `<mark class="nota-duvida">…</mark>`. No ponto exato,
 ## Requisitos técnicos
 
 - **Autocontido**, exceto pelos componentes de `./assets/`, que ficam ao lado do arquivo. Abre com duplo clique, sem servidor e sem internet.
-- **Carrega, no mínimo**, `lesson.css`, `tema.js` e `codigo.js`, mais `simulador.js` quando houver gráfico. Componente novo que você escrever entra na lista.
+- **Carrega, no mínimo**, `lesson.css`, `tema.js` e `codigo.js`, mais o componente de gráfico que a lição usar. Componente novo que você escrever entra na lista.
+- **Copie para o workspace só os componentes que a lição carrega.** Cópia que ninguém usa confunde quem for olhar a pasta depois.
 - **Nenhum link que tire o aluno da lição.** Link externo, nunca.
 - **Botão de tema** vem junto com `tema.js`, sem markup na lição.
 - **Todo código exibido roda.** **Todo parâmetro tem unidade.** **Todo gráfico tem eixos rotulados.**

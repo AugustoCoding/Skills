@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quimiostato: o D de produtividade máxima</title>
+<link rel="stylesheet" href="./assets/lesson.css">
+</head>
+<body>
+
+<header class="licao">
+  <span class="etiqueta">Contínuo · varredura de D</span>
+  <h1>O D de produtividade máxima</h1>
+  <p class="gancho">No fim você tem um programa que varre a taxa de diluição, acha o D de maior produtividade de etanol e mostra o precipício que existe logo depois dele.</p>
+</header>
+
+<h2>O modelo</h2>
+
+<p>Dorna contínua de volume constante: entra mosto a S<sub>in</sub>, sai caldo na mesma vazão. A taxa de diluição <code>D = F/V</code> (1/h) é o único botão, e em regime permanente as três derivadas são zero.</p>
+
+<div class="equacao">
+  <math display="block">
+    <mfrac><mrow><mi>d</mi><mi>X</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+    <mo>=</mo><mo>(</mo><mi>μ</mi><mo>−</mo><mi>D</mi><mo>)</mo><mo>⋅</mo><mi>X</mi>
+  </math>
+  <math display="block">
+    <mfrac><mrow><mi>d</mi><mi>S</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+    <mo>=</mo><mi>D</mi><mo>⋅</mo><mo>(</mo><msub><mi>S</mi><mi>in</mi></msub><mo>−</mo><mi>S</mi><mo>)</mo>
+    <mo>−</mo><mfrac><mrow><mi>μ</mi><mo>⋅</mo><mi>X</mi></mrow><msub><mi>Y</mi><mrow><mi>x</mi><mo>/</mo><mi>s</mi></mrow></msub></mfrac>
+  </math>
+  <math display="block">
+    <mfrac><mrow><mi>d</mi><mi>P</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+    <mo>=</mo><msub><mi>Y</mi><mrow><mi>p</mi><mo>/</mo><mi>x</mi></mrow></msub><mo>⋅</mo><mi>μ</mi><mo>⋅</mo><mi>X</mi>
+    <mo>−</mo><mi>D</mi><mo>⋅</mo><mi>P</mi>
+    <mtext>,</mtext><mspace width="1em"/>
+    <mi>μ</mi><mo>=</mo><mfrac><mrow><msub><mi>μ</mi><mi>max</mi></msub><mo>⋅</mo><mi>S</mi></mrow><mrow><msub><mi>K</mi><mi>s</mi></msub><mo>+</mo><mi>S</mi></mrow></mfrac>
+  </math>
+</div>
+
+<ul class="termos">
+  <li><code>(μ − D)·X</code> — crescimento menos arraste. Zerá-lo com X &gt; 0 exige <strong>μ = D</strong>: quem fixa a taxa específica de crescimento é a bomba, não a levedura.</li>
+  <li><code>D·(S<sub>in</sub> − S)</code> — o que entra de ART menos o que escapa sem reagir, em g·L⁻¹·h⁻¹.</li>
+  <li><code>−D·P</code> — o etanol também é arrastado; é por isso que a produtividade é <code>D·P</code>, e não P.</li>
+</ul>
+
+<p>Com μ = D, inverter Monod dá o estacionário inteiro, sem integrar nada:</p>
+
+<div class="equacao">
+  <math display="block">
+    <mi>S</mi><mo>=</mo><mfrac><mrow><msub><mi>K</mi><mi>s</mi></msub><mo>⋅</mo><mi>D</mi></mrow><mrow><msub><mi>μ</mi><mi>max</mi></msub><mo>−</mo><mi>D</mi></mrow></mfrac>
+    <mtext>,</mtext><mspace width="1em"/>
+    <mi>X</mi><mo>=</mo><msub><mi>Y</mi><mrow><mi>x</mi><mo>/</mo><mi>s</mi></mrow></msub><mo>⋅</mo><mo>(</mo><msub><mi>S</mi><mi>in</mi></msub><mo>−</mo><mi>S</mi><mo>)</mo>
+    <mtext>,</mtext><mspace width="1em"/>
+    <mi>P</mi><mo>=</mo><msub><mi>Y</mi><mrow><mi>p</mi><mo>/</mo><mi>x</mi></mrow></msub><mo>⋅</mo><mi>X</mi>
+  </math>
+</div>
+
+<table>
+<thead><tr><th>Parâmetro</th><th class="num">Valor</th><th>Unidade</th><th>Procedência</th></tr></thead>
+<tbody>
+<tr><td><code>μmax</code></td><td class="num">0,30</td><td class="un">1/h</td><td>enunciado</td></tr>
+<tr><td><code>Ks</code></td><td class="num">1,0</td><td class="un">g/L</td><td>enunciado</td></tr>
+<tr><td><code>Yx/s</code></td><td class="num">0,05</td><td class="un">gX/gART</td><td>enunciado</td></tr>
+<tr><td><code>Yp/x</code></td><td class="num">8,0</td><td class="un">gP/gX</td><td>enunciado</td></tr>
+<tr><td><code>Sin</code></td><td class="num">100</td><td class="un">g/L</td><td>enunciado</td></tr>
+<tr><td><code>V</code></td><td class="num">10</td><td class="un">m³</td><td>enunciado — entra só para converter D em vazão</td></tr>
+<tr><td><code>X0, S0</code></td><td class="num">1,0 · 0</td><td class="un">g/L</td><td>escolha sua: partida com inóculo, dorna cheia de mosto já consumido — só afeta a conferência transiente, não o estacionário</td></tr>
+<tr><td><code>T</code></td><td class="num">4000</td><td class="un">h</td><td>escolha sua: horizonte longo para a integração de conferência assentar</td></tr>
+</tbody>
+</table>
+
+<h2>O código</h2>
+
+<section class="codigo">
+
+  <div class="passo">
+    <h3>Os parâmetros e os dois D que importam</h3>
+<pre><code>mu_max = 0.30    # 1/h
+Ks     = 1.0     # g/L
+Yxs    = 0.05    # gX/gART
+Ypx    = 8.0     # gP/gX
+Sin    = 100.0   # g/L
+V      = 10.0    # m3
+
+D_crit = mu_max * Sin / (Ks + Sin)                # 1/h  — washout
+D_opt  = mu_max * (1 - np.sqrt(Ks / (Ks + Sin)))  # 1/h  — produtividade máxima</code></pre>
+    <p><code>D_crit</code> é μ avaliado no mosto de entrada: acima disso nem a célula em contato com S<sub>in</sub> cresce rápido o bastante para se manter. <code>D_opt</code> sai de <code>dPr/dD = 0</code> e tem raiz fechada — calcule-a antes da varredura para ter contra o que conferir o argmax.</p>
+  </div>
+
+  <div class="passo">
+    <h3>O estacionário, resolvido na álgebra</h3>
+<pre><code>def estacionario(D):
+    """X, S, P, produtividade. Zero acima do washout."""
+    if D &lt;= 0 or D &gt;= D_crit:
+        return 0.0, Sin, 0.0, 0.0
+    S = Ks * D / (mu_max - D)     # de mu = D, invertendo Monod
+    X = Yxs * (Sin - S)
+    P = Ypx * X
+    return X, S, P, D * P</code></pre>
+    <p>Não há <code>solve_ivp</code> aqui de propósito. Existindo solução fechada, integrar é mais lento e menos confiável — e o guarda em <code>D &gt;= D_crit</code> não é decoração: sem ele, <code>Ks·D/(mu_max − D)</code> devolve S &gt; S<sub>in</sub> e X negativo, um estado sem sentido físico que o gráfico exibiria sem reclamar.</p>
+  </div>
+
+  <div class="passo">
+    <h3>A varredura e o máximo</h3>
+<pre><code>D  = np.linspace(1e-4, mu_max, 3000)          # 1/h
+Pr = np.array([estacionario(d)[3] for d in D])  # g/L/h
+i  = int(np.argmax(Pr))
+print("varredura: D = %.4f, Pr = %.4f" % (D[i], Pr[i]))
+print("formula  : D = %.4f, Pr = %.4f" % (D_opt, estacionario(D_opt)[3]))</code></pre>
+    <p>Varrer até <code>mu_max</code>, e não até <code>D_crit</code>, é o que faz o washout aparecer <em>dentro</em> do gráfico em vez de ficar na borda. A malha precisa ser fina perto do pico: com 100 pontos o argmax erra o D na terceira casa, e é justamente ali que a curva decide entre 9,8 e 8,2 g·L⁻¹·h⁻¹.</p>
+  </div>
+
+  <div class="passo">
+    <h3>A conferência por integração</h3>
+<pre><code>def derivadas(t, y, D):
+    X, S, P = y
+    mu = mu_max * max(S, 0.0) / (Ks + max(S, 0.0))
+    return [(mu - D) * X,
+            D * (Sin - S) - mu * X / Yxs,
+            -D * P + Ypx * mu * X]
+
+def por_integracao(D, T=4000.0):
+    s = solve_ivp(derivadas, [0, T], [1.0, 0.0, 0.0], args=(D,),
+                  method="Radau", rtol=1e-10, atol=1e-12)
+    X, S, P = s.y[:, -1]
+    return X, S, P, D * P</code></pre>
+    <p>A integração serve para <strong>confirmar</strong> a álgebra, não para descobrir o número. <code>Radau</code> porque perto do washout a biomassa e o substrato andam em escalas de tempo muito diferentes. E o resultado tem uma armadilha embutida: em <code>D = 0,2970</code>, a 10⁻⁴ do crítico, mesmo 4000 h não bastam — o integrador devolve <code>Pr = 0,70</code> contra os <code>0,12</code> verdadeiros. Discordando os dois, o errado é a integração.</p>
+  </div>
+
+  <div class="passo">
+    <h3>Os dois painéis</h3>
+<pre><code>fig, (a1, a2) = plt.subplots(2, 1, sharex=True, figsize=(7, 6))
+a1.plot(D, Pr); a1.axvline(D_opt, color="k", lw=1)
+a1.axvline(D_crit, color="k", lw=1, ls=":")
+a1.set_ylabel("Produtividade (g/L/h)")
+E = np.array([estacionario(d)[:3] for d in D])
+a2.plot(D, E[:, 0], label="X (g/L)")
+a2.plot(D, E[:, 1], "--", label="S (g/L)")
+a2.plot(D, E[:, 2], ":", label="P (g/L)")
+a2.set_xlabel("Taxa de diluição D (1/h)"); a2.legend()</code></pre>
+    <p>Dois painéis com <code>sharex</code>, e não um só: produtividade está em g·L⁻¹·h⁻¹ e as concentrações em g/L. Empilhá-las num eixo só daria um rótulo mentiroso — separadas, o D onde P começa a desabar fica alinhado verticalmente com o joelho da produtividade.</p>
+  </div>
+
+  <details class="programa">
+    <summary>Ver o programa completo</summary>
+<pre><code>"""Quimiostato de etanol: qual D dá a maior produtividade.
+
+Requer: numpy, scipy, matplotlib.
+"""
+import numpy as np
+from scipy.integrate import solve_ivp
+import matplotlib.pyplot as plt
+
+mu_max = 0.30    # 1/h
+Ks     = 1.0     # g/L
+Yxs    = 0.05    # gX/gART
+Ypx    = 8.0     # gP/gX
+Sin    = 100.0   # g/L
+V      = 10.0    # m3
+
+D_crit = mu_max * Sin / (Ks + Sin)                # 1/h
+D_opt  = mu_max * (1 - np.sqrt(Ks / (Ks + Sin)))  # 1/h
+
+
+def estacionario(D):
+    """X, S, P, produtividade no estado estacionario. Zero acima do washout."""
+    if D &lt;= 0 or D &gt;= D_crit:
+        return 0.0, Sin, 0.0, 0.0
+    S = Ks * D / (mu_max - D)          # de mu = D, invertendo Monod
+    X = Yxs * (Sin - S)
+    P = Ypx * X
+    return X, S, P, D * P
+
+
+D  = np.linspace(1e-4, mu_max, 3000)             # 1/h
+Pr = np.array([estacionario(d)[3] for d in D])   # g/L/h
+i  = int(np.argmax(Pr))
+print("varredura : D = %.4f 1/h, Pr = %.4f g/L/h" % (D[i], Pr[i]))
+print("formula   : D = %.4f 1/h, Pr = %.4f g/L/h" % (D_opt, estacionario(D_opt)[3]))
+print("washout   : D_crit = %.4f 1/h  (F = %.3f m3/h)" % (D_crit, D_crit * V))
+
+Xo, So, Po, Pro = estacionario(D_opt)
+print("no otimo  : X=%.3f  S=%.3f  P=%.2f g/L  F=%.3f m3/h  %.1f kg etanol/h"
+      % (Xo, So, Po, D_opt * V, Pro * V))
+
+
+def derivadas(t, y, D):
+    X, S, P = y
+    mu = mu_max * max(S, 0.0) / (Ks + max(S, 0.0))
+    return [(mu - D) * X,
+            D * (Sin - S) - mu * X / Yxs,
+            -D * P + Ypx * mu * X]
+
+
+def por_integracao(D, T=4000.0):
+    s = solve_ivp(derivadas, [0, T], [1.0, 0.0, 0.0], args=(D,),
+                  method="Radau", rtol=1e-10, atol=1e-12)
+    X, S, P = s.y[:, -1]
+    return X, S, P, D * P
+
+
+print("\n   D      Pr analitico   Pr integrado")
+for d in (0.10, D_opt, 0.29, 0.2970, 0.31):
+    print("%.4f      %8.4f       %8.4f" % (d, estacionario(d)[3], por_integracao(d)[3]))
+
+fig, (a1, a2) = plt.subplots(2, 1, sharex=True, figsize=(7, 6))
+a1.plot(D, Pr)
+a1.axvline(D_opt, color="k", lw=1)
+a1.axvline(D_crit, color="k", lw=1, ls=":")
+a1.set_ylabel("Produtividade (g/L/h)")
+E = np.array([estacionario(d)[:3] for d in D])
+a2.plot(D, E[:, 0], label="X (g/L)")
+a2.plot(D, E[:, 1], "--", label="S (g/L)")
+a2.plot(D, E[:, 2], ":", label="P (g/L)")
+a2.axvline(D_crit, color="k", lw=1, ls=":")
+a2.set_xlabel("Taxa de diluição D (1/h)")
+a2.set_ylabel("Concentração (g/L)")
+a2.legend()
+plt.tight_layout()
+plt.savefig("quimiostato.png", dpi=140)</code></pre>
+  </details>
+
+  <details class="resposta">
+    <summary>Ver a resposta</summary>
+    <p><strong>D ótimo = 0,2701 h⁻¹</strong>, o que significa <strong>F = 2,701 m³/h</strong> na dorna de 10 m³. Ali o estacionário é X = 4,548 g/L, S = 9,050 g/L, P = 36,38 g/L, e a <strong>produtividade máxima é 9,828 g·L⁻¹·h⁻¹</strong> — 98,3 kg de etanol por hora no volume inteiro.</p>
+    <p><strong>Passando disso:</strong> o washout está em D<sub>crit</sub> = 0,2970 h⁻¹ (F = 2,970 m³/h), só 10% acima. A queda começa antes dele: em D = 0,29 a produtividade já caiu para 8,236, e em D = 0,295 para 4,838. Cruzado o crítico, X → 0, S → 100 g/L e a dorna passa a devolver mosto: a levedura é arrastada mais rápido do que consegue crescer. Não há recuperação por si — é preciso baixar D e reinocular.</p>
+    <p>Os valores acima vêm da solução fechada e foram conferidos por integração (<code>Radau</code>, rtol 10⁻¹⁰) em D = 0,10 · 0,2701 · 0,29 · 0,31, com coincidência em todas as casas impressas. A exceção é D = 0,2970, discutida no passo da conferência.</p>
+  </details>
+
+</section>
+
+<h2>O que a curva diz</h2>
+
+<div class="varredura"
+     data-params="mu_max=0.30, Ks=1.0, Yxs=0.05, Ypx=8.0, Sin=100"
+     data-controles="Sin:20:200:5, Ks:0.1:10:0.1"></div>
+
+<ul>
+  <li>A produtividade sobe quase reta até 0,25 h⁻¹ porque P mal se move nesse trecho — em D = 0,10 o etanol é 39,8 g/L e em D = 0,2701 ainda é 36,38. Quem cresce é o multiplicador D. O pico em 0,2701 é onde a perda de P finalmente supera o ganho de vazão.</li>
+  <li>O ótimo está a <strong>91% do washout</strong>: entre operar no máximo e perder a dorna há 0,027 h⁻¹, ou 0,27 m³/h de vazão. Errar a bomba 10% para cima não custa 10% da produção — custa toda ela.</li>
+  <li>Produtividade máxima não é conversão máxima. Em D = 0,2701 sobram S = 9,05 g/L, ou 9% do ART indo embora sem fermentar; em D = 0,10 sobram 0,5 g/L (99,5% convertido), mas a produtividade cai a 3,98 g·L⁻¹·h⁻¹, 40% do máximo. Qual dos dois vale mais depende do preço do mosto contra o do tanque.</li>
+  <li><strong>Arraste Ks de 1,0 até 10 g/L</strong> e veja o pico recuar para 0,2095 h⁻¹ enquanto o washout só desce para 0,2727: o ótimo cai de 91% para 77% do crítico, e a operação ganha margem. Afinidade alta pelo açúcar (Ks baixo) rende mais, e aproxima o ponto de operação do precipício.</li>
+</ul>
+
+<div class="pergunte">
+  <strong>Ficou algo obscuro?</strong> Pergunte. O que você perguntar entra
+  aqui neste arquivo, no ponto exato onde a dúvida apareceu.
+</div>
+
+<script src="./assets/tema.js" defer></script>
+<script src="./assets/codigo.js" defer></script>
+<script src="./assets/varredura.js" defer></script>
+</body>
+</html>
