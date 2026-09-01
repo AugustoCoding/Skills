@@ -113,6 +113,7 @@ O gráfico interativo, e a leitura do resultado **daquele** exercício.
 - **Duas a quatro observações**, cada uma ancorada num ponto concreto das curvas daquele caso: por que um perfil cai quando o outro sobe; o que acontece onde eles se cruzam; por que a inflexão está ali e não dez horas depois.
 - **Um insight distinto por item.** Se duas observações explicam o mesmo fenômeno com palavras diferentes, são uma só — funda ou corte. A lista não é para encher.
 - **O vocabulário é o da legenda do gráfico, sem tradução.** Se a legenda diz "etanol", a observação diz "etanol" — não "produto", não "P". Cada troca de nome obriga o aluno a fazer a ponte de cabeça, e ele lê mais devagar por causa disso. Vale para eixo, legenda, tabela e texto: um nome por grandeza, na lição inteira.
+- **Batize as curvas com os nomes do exercício**, via `data-rotulos="Levedura X, ART S, Etanol P"`. Sem isso a legenda sai genérica — "Produto P" —, e aí ou o texto fica genérico junto, ou os dois discordam.
 - **A observação de cada controle diz o que procurar**, não só que existe: *"aumente D até 0,30 e veja a produtividade despencar — o ótimo fica a 10% do washout."*
 
 **O teste que separa análise de enchimento de linguiça:** se a frase serviria para outro exercício, ela não é análise deste caso — corte.
@@ -125,7 +126,7 @@ Leia esta tabela em vez de abrir o código dos componentes — ela existe para v
 
 | Componente | Faz | **Não** faz |
 |---|---|---|
-| `simulador.js` | curso temporal: X, S, P (e V) contra **t**, com controles deslizantes de parâmetro. Modelos registrados: `batelada`, `quimiostato`, `batelada_alimentada`, `inibicao_produto` | não desenha nada contra um parâmetro; não faz varredura; não plota dados experimentais |
+| `simulador.js` | curso temporal: X, S, P (e V) contra **t**, com controles deslizantes e legenda batizável (`data-rotulos`). Modelos registrados: `batelada`, `quimiostato`, `batelada_alimentada`, `inibicao_produto` | não desenha nada contra um parâmetro; não faz varredura; não plota dados experimentais |
 | `codigo.js` | a seção de código inteira: esconde os passos, revela um a um, libera o programa e a resposta no fim, injeta o botão de copiar | não formata código, não valida nada |
 | `tema.js` | botão de claro/escuro, injetado sozinho, com memória | — |
 | `lesson.css` | tipografia, tabelas, equações, `.passo`, `.nota-duvida`, impressão | — |

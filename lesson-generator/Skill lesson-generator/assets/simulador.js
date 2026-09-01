@@ -24,6 +24,10 @@
  *   data-controles  quais parâmetros ganham controle deslizante (no máximo
  *                   quatro, e só os que a análise crítica discute).
  *                   Faixa opcional: "mu_max:0.05:1.2:0.01"
+ *   data-rotulos    nomes das curvas na legenda, na ordem dos vars do modelo:
+ *                   "Levedura X, ART S, Etanol P". Use os mesmos nomes do
+ *                   texto da lição — sem isso a legenda diz "Produto P" e a
+ *                   prosa diz "etanol", e o aluno faz a ponte de cabeça
  *
  * Lições futuras registram modelos novos sem editar este arquivo:
  *
@@ -356,12 +360,22 @@
 
     var legenda = document.createElement("div");
     legenda.className = "sim-legenda";
-    // A legenda vem dos vars do modelo: fixá-la em X/S/P mentiria em qualquer
-    // modelo que plote outra coisa.
+    // A legenda vem dos vars do modelo. E o nome de cada curva pode vir do
+    // exercício: numa lição de etanol, "Produto P" obriga o texto a dizer
+    // "produto" — e trocar de nome entre a legenda e a prosa faz o aluno
+    // montar a ponte de cabeça.
+    //
+    //   data-rotulos="Levedura X, ART S, Etanol P"
+    //
+    // Sem o atributo, valem os genéricos.
     var NOMES = { X: "Biomassa X", S: "Substrato S", P: "Produto P", V: "Volume V" };
+    var rotulos = (el.dataset.rotulos || "").split(",")
+      .map(function (r) { return r.trim(); })
+      .filter(Boolean);
+
     legenda.innerHTML = (modelo.vars || ["X", "S", "P"])
-      .map(function (v) {
-        return '<span class="l-' + v.toLowerCase() + '">' + (NOMES[v] || v) + '</span>';
+      .map(function (v, i) {
+        return '<span class="l-' + v.toLowerCase() + '">' + (rotulos[i] || NOMES[v] || v) + '</span>';
       })
       .join("");
     el.appendChild(legenda);

@@ -8,6 +8,7 @@ Uma linha por execução. É daqui que se lê a evolução da skill: o que foi t
 | [2](./Teste%202/SESSAO.md) | 2026-08-30 | `644d79b` | Opus 5, esforço médio | A lição reescrita em torno do código, com enunciado corrido | Interrompido: 15+ min | `f756788` — skill enxugada, sem estado, três divisões |
 | [3](./Teste%203/SESSAO.md) | 2026-08-30 | `f756788` | Opus 5, esforço médio | A skill enxuta: sai em menos de 5 minutos? | Aprovado com ressalvas: 8 min | `94f0648` — analítico primeiro, contar palavras, e a permissão de criar componente |
 | [4](./Teste%204/SESSAO.md) | 2026-08-31 | `94f0648` | Opus 5, esforço médio | Repetição controlada do Teste 3: as correções pegaram? | Aprovado: 6 min, componente escrito | `a4ea8ea` — régua do teto, tabela de componentes, procedência por grep, e o gráfico de painel único |
+| [5](./Teste%205/SESSAO.md) | {a rodar} | `{HEAD do dia}` | {a preencher} | Teoria por equação, e a disciplina do gráfico | — | — |
 
 ## Como usar
 
