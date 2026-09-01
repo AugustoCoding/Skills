@@ -3,8 +3,11 @@
   ESQUELETO DE LIÇÃO — copie para ../aula-fermentacao/{nome-do-exercicio}.html
 
   Três divisões, nesta ordem: teoria · código · análise crítica.
-  Teto maleável de 1.000 palavras visíveis; o que encolhe é a teoria.
+  NÃO há teto de palavras: corte o que não ensina, nunca abrevie o que ensina.
   Detalhes em LESSON-FORMAT.md. Apague estes comentários e o que não usar.
+
+  A marcação de cada peca esta AQUI, nao no LESSON-FORMAT: copiar daqui sai
+  mais rapido e mais fiel do que deduzir da prosa.
 -->
 <html lang="pt-BR">
 <head>
@@ -142,8 +145,16 @@
      data-modelo="batelada"
      data-tempo="30"
      data-params="mu_max=0.40, Ks=1.0, Yxs=0.5, X0=1, S0=150"
-     data-controles="mu_max, S0"
+     data-controles="mu_max, S0:100:320:2"
      data-rotulos="{Levedura X, ART S, Etanol P — os mesmos nomes do texto}"></div>
+
+<!-- data-controles aceita duas formas: só o nome, e aí valem a faixa e o passo
+     padrão do componente; ou "nome:min:max:passo", quando os padrões não servem.
+
+     CONFIRA: a faixa tem de CONTER o valor que a sua observação manda procurar,
+     e o passo tem de cair exatamente nele. "Desca S0 ate 222" com passo 5 nao
+     alcanca 222 — o slider para em 220 e em 225. Perto de uma transição
+     abrupta, passo grosso esconde justamente o que interessa. -->
 
 <!-- Um insight DISTINTO por item — se dois explicam a mesma coisa, vire um só.
      E o nome de cada grandeza é o mesmo da legenda do gráfico: se lá diz

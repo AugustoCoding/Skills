@@ -18,7 +18,7 @@ A lição tem **três divisões**:
 2. **Código** — o centro. Blocos revelados um a um pelo aluno, cada um com título, trecho de código e o porquê daquela decisão. No fim, o programa completo colapsado com botão de copiar, e a resposta numérica atrás de um botão.
 3. **Análise crítica** — o simulador de parâmetros, e a leitura do resultado daquele exercício: por que esta curva faz isto aqui, e o que muda quando você mexe naquilo.
 
-Teto maleável de mil palavras. O que encolhe é a teoria.
+**Não há teto de palavras.** A lição é tão longa quanto precisa para explicar direito: corta-se o que não ensina, nunca se abrevia o que ensina.
 
 **Precisa de um exercício.** Pedido genérico ("me ensina quimiostato") está fora do escopo: o modelo diz isso em uma linha e responde normalmente, sem produzir lição.
 
@@ -28,8 +28,8 @@ Teto maleável de mil palavras. O que encolhe é a teoria.
 |---|---|
 | `SKILL.md` | O que a skill é, como a sessão corre, as regras que não se negociam. Ponto de entrada. |
 | `LESSON-FORMAT.md` | Como a lição é montada, divisão por divisão. |
-| `templates/licao.html` | O esqueleto. Copiar sai mais rápido e mais fiel que deduzir da prosa. |
-| `examples/exemplo_1.md` | Uma sessão inteira, do enunciado ao arquivo aberto. |
+| `templates/licao.html` | O esqueleto da lição, com a marcação de cada peça. Copiar sai mais rápido e mais fiel que deduzir da prosa — e por isso a marcação mora **só aqui**. |
+| `templates/componente.js` | Esqueleto de componente de gráfico, para quando o exercício pedir uma figura que o `simulador.js` não faz. Roda como está; troca-se identidade, cálculo e leitura. |
 
 **Componentes** (`assets/`), copiados para o workspace do aluno:
 

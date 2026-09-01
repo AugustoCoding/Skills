@@ -27,25 +27,7 @@ O que o aluno precisa para o código fazer sentido, e nada além — mas **expli
 
 **Uma equação por bloco, e cada bloco se explica sozinho.** Nunca despeje as equações em sequência e deixe as definições para depois: quem lê a terceira equação já esqueceu o que era o símbolo da primeira.
 
-A ordem dentro do bloco é sempre esta — equação, símbolos daquela equação, o que ela diz:
-
-```html
-<div class="eq-bloco">
-  <div class="equacao">
-    <math display="block">…</math>
-  </div>
-
-  <ul class="termos">
-    <li><code>μ</code> — taxa específica de crescimento, 1/h</li>
-    <li><code>X</code> — concentração de biomassa, g/L</li>
-  </ul>
-
-  <p>Quanto mais célula existe, mais célula nasce por hora: é daí que vem a forma
-  exponencial enquanto sobra açúcar.</p>
-</div>
-```
-
-O "onde" antes da lista sai do CSS — não escreva à mão.
+A ordem dentro do bloco é sempre esta — **equação, símbolos daquela equação, o que ela diz**. A marcação está montada em [templates/licao.html](./templates/licao.html), com dois blocos prontos para copiar: `.eq-bloco` → `.equacao` → `.termos` → parágrafo. O "onde" antes da lista sai do CSS — não escreva à mão.
 
 Regras do bloco:
 
@@ -64,33 +46,7 @@ Sem história, sem derivação, sem recapitulação. Se o aluno já sabe aquilo,
 
 O centro da lição. O aluno recebe o programa **explicado passo a passo**, e cada passo é uma revelação: ele clica, o próximo aparece.
 
-```html
-<section class="codigo">
-  <div class="passo">
-    <h3>Os parâmetros e o estado inicial</h3>
-    <pre><code>mu_max = 0.30   # 1/h
-Ks     = 1.0    # g/L
-y0 = [X0, S0, P0]</code></pre>
-    <p>Tudo em uma lista só porque <code>solve_ivp</code> integra vetor, não variáveis soltas.</p>
-  </div>
-
-  <div class="passo">
-    <h3>A função de derivadas</h3>
-    <pre><code>def derivadas(t, y, D): ...</code></pre>
-    <p>Tempo primeiro, estado depois: é a ordem que o <code>solve_ivp</code> exige.</p>
-  </div>
-
-  <details class="programa">
-    <summary>Ver o programa completo</summary>
-    <pre><code>{o programa inteiro, executável}</code></pre>
-  </details>
-
-  <details class="resposta">
-    <summary>Ver a resposta</summary>
-    <p>{os números finais}</p>
-  </details>
-</section>
-```
+A marcação — `section.codigo` com os `.passo`, mais os dois `details` do programa completo e da resposta — está em [templates/licao.html](./templates/licao.html).
 
 `assets/codigo.js` cuida do resto sozinho: esconde os passos seguintes, põe o botão de revelar, anima a entrada, e injeta um botão de copiar em cada bloco. O programa completo e a resposta só aparecem depois do último passo.
 
@@ -104,15 +60,7 @@ Regras:
 
 ## Divisão 3 — Análise crítica
 
-O gráfico interativo, e a leitura do resultado **daquele** exercício.
-
-```html
-<div class="simulador"
-     data-modelo="quimiostato"
-     data-tempo="300"
-     data-params="mu_max=0.30, Ks=1.0, Yxs=0.05, Ypx=8, D=0.27, Sin=100"
-     data-controles="D:0.05:0.32:0.005"></div>
-```
+O gráfico interativo, e a leitura do resultado **daquele** exercício. A tag, com todos os `data-*` e as duas formas de `data-controles`, está em [templates/licao.html](./templates/licao.html).
 
 - **Um painel por canvas, sempre.** Cada gráfico ocupa a largura inteira da coluna e tem **entre 320 e 420 px de altura**. Empilhar dois painéis de 150 px dentro do mesmo canvas dá dois gráficos ruins em vez de um bom — isso não se faz nunca.
 - **Um gráfico basta quase sempre.** Se duas grandezas não cabem no mesmo eixo por causa das unidades, a saída padrão é escolher a que responde a pergunta e pôr a outra como número no texto.
@@ -147,29 +95,15 @@ Precisa de um modelo que não está na lista? `Simulador.registrar(nome, {vars, 
 
 Alguns exercícios — quase todos os de regime contínuo — respondem uma pergunta de **varredura**: qual D dá a maior produtividade, como o rendimento anda com a vazão. A figura que responde isso tem o parâmetro no eixo horizontal, não o tempo, e o `simulador.js` só desenha curso temporal.
 
-Nesse caso, **escreva o componente**. Um gráfico de varredura em `assets/` do workspace, no mesmo estilo dos que já existem, e use. A figura central do exercício não fica de fora da lição porque a peça não existia.
+Nesse caso, **escreva o componente** — e não do zero: **copie [templates/componente.js](./templates/componente.js) para `assets/` do workspace.** É um esqueleto que já roda, e traz as convenções prontas em vez de descritas: canvas com DPR, cores lidas das variáveis do CSS, os três eventos de redesenho, os controles com as classes que o `lesson.css` já estiliza, e os eixos rotulados com unidade. Você troca três partes marcadas — a identidade, o cálculo e a linha de leitura — e a figura do seu exercício está de pé.
 
-**As convenções, para você não precisar abrir o código dos outros componentes:**
-
-- **Canvas com DPR**: `canvas.width = w * dpr; canvas.height = h * dpr; canvas.style.height = h + "px"`, e `ctx.setTransform(dpr,0,0,dpr,0,0)`. Sem isso a curva sai borrada em tela de alta densidade.
-- **Cores vêm do CSS**, nunca fixas no JS: `getComputedStyle(document.documentElement).getPropertyValue("--cor-x")`. As disponíveis são `--cor-x`, `--cor-s`, `--cor-p`, `--fg`, `--muted`, `--rule`, `--accent`.
-- **Redesenhe em três eventos**: `resize` da janela, troca de `prefers-color-scheme`, e o botão de tema — este último chamando o seu `redesenharTodos()`, exposto em `window.SeuComponente`, como fazem `Simulador` e `Variantes`.
-- **Marcação**: leia a configuração de `data-*` no elemento, e monte controles com as classes `sim-controles`, `sim-controle`, `sim-legenda` — o CSS já as estiliza.
-- **Eixos rotulados com unidade**, sempre.
+**Não abra o `simulador.js` para aprender o estilo.** Foi o maior custo de tempo já medido numa sessão: três leituras de 470 linhas para escrever um componente de 240. Tudo o que aquele arquivo ensinaria está no esqueleto.
 
 **E ele fica no workspace, não vira peça da skill.** Não empacotamos componente por tipo de exercício: cada tipo empacotado vira o formato que o próximo caso tende a imitar, mesmo quando a pergunta pedia outra figura. Escreva o que o caso pede — a skill guarda o motor de simulação e as convenções, não um catálogo de gráficos.
 
 ## Equações
 
-**Sempre MathML** para equação exibida — fração de verdade, sem biblioteca, sem fonte externa, e imprime bem:
-
-```html
-<math display="block">
-  <mfrac><mrow><mi>d</mi><mi>S</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
-  <mo>=</mo><mi>D</mi><mo>⋅</mo><mo>(</mo><msub><mi>S</mi><mi>in</mi></msub>
-  <mo>−</mo><mi>S</mi><mo>)</mo>
-</math>
-```
+**Sempre MathML** para equação exibida — fração de verdade, sem biblioteca, sem fonte externa, e imprime bem. O [template](./templates/licao.html) traz duas equações escritas por inteiro, uma com fração e uma com subíndice: copie a que se parecer com a sua em vez de montar do zero.
 
 - Símbolo solto no meio da frase pode ser texto: `μ`, `Y<sub>x/s</sub>`. Não vale marcar uma letra.
 - **Código nunca é MathML** — código é `<pre><code>`.
@@ -197,15 +131,7 @@ Contam como número, e é por aí que vaza:
 
 ## Nota de dúvida
 
-Quando o aluno volta com uma pergunta, a resposta vai para o chat **e** para o HTML, no ponto exato onde a dúvida surgiu:
-
-```html
-<p class="nota-duvida">
-  <span class="rotulo">Dúvida — 30/08</span>
-  Yx/s é gX/gS: divide-se o ganho de biomassa pelo rendimento para saber quanto
-  substrato sumiu.
-</p>
-```
+Quando o aluno volta com uma pergunta, a resposta vai para o chat **e** para o HTML, no ponto exato onde a dúvida surgiu. A marcação está no rodapé do [template](./templates/licao.html): `p.nota-duvida` com um `span.rotulo` datado na frente.
 
 Existe também em linha: `<mark class="nota-duvida">…</mark>`. No ponto exato, nunca no rodapé; sempre esta classe, sem variante; sem apagar o original.
 

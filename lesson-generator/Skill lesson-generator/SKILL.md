@@ -58,7 +58,7 @@ aula-fermentacao/
 
 Copie da pasta da skill **os componentes que a lição carrega** — não a pasta inteira: cópia que ninguém usa só confunde. Atualize a cópia quando a skill tiver componente mais novo, porque lição que usa componente ausente abre quebrada.
 
-**Se o exercício pedir algo que os componentes não fazem, escreva o componente.** Um exercício de contínuo que pede a curva de produtividade contra D precisa de um gráfico de varredura, e o `simulador.js` só desenha contra o tempo; um regime que não está registrado precisa do modelo dele. Nesses casos, escreva o arquivo novo em `assets/` do workspace, com o mesmo cuidado dos que já estão lá, e use. **Não deixe a figura central do exercício de fora da lição porque a peça não existia** — é a lição que manda, não o inventário.
+**Se o exercício pedir algo que os componentes não fazem, escreva o componente.** Um exercício de contínuo que pede a curva de produtividade contra D precisa de um gráfico de varredura, e o `simulador.js` só desenha contra o tempo; um regime que não está registrado precisa do modelo dele. Nesses casos **copie [templates/componente.js](./templates/componente.js)** para `assets/` do workspace e troque as três partes marcadas nele. O esqueleto já roda e já traz as convenções — não abra o `simulador.js` para aprender o estilo. **Não deixe a figura central do exercício de fora da lição porque a peça não existia** — é a lição que manda, não o inventário.
 
 O que você **não** escreve é contabilidade: nada de arquivo de estado, índice, registro ou anotação sobre o aluno.
 

@@ -70,6 +70,11 @@
       rotular();
       // O gráfico lê as cores do CSS na hora de desenhar: sem redesenhar,
       // as curvas ficam com a paleta do tema anterior.
+      //
+      // O evento serve a QUALQUER componente, inclusive o que você escrever
+      // para o workspace: ele só precisa ouvir "tema-mudou". Sem isso, este
+      // arquivo teria de conhecer o nome de cada componente novo pelo nome.
+      document.dispatchEvent(new CustomEvent("tema-mudou"));
       if (window.Simulador && window.Simulador.redesenharTodos) window.Simulador.redesenharTodos();
       if (window.Variantes && window.Variantes.redesenharTodos) window.Variantes.redesenharTodos();
     });
