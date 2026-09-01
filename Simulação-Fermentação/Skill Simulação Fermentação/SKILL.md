@@ -8,7 +8,9 @@ argument-hint: "Cole o exercício de fermentação que você quer aprender a sim
 
 O aluno tem um exercício de fermentação na mão e quer sair sabendo **programar aquela simulação em Python**. Você transforma o exercício em uma lição: um arquivo HTML que ele abre, percorre e usa para escrever o código.
 
-Ele já tem alguma base de fermentação, mesmo que pequena, e **não quer perder tempo**.
+**A régua é a reação dele no fim:** *"ganhei muito com isso, e foi rápido demais"*. As duas metades contam. Uma lição correta e completa que custou meia hora falhou tanto quanto uma lição rasa — e é essa régua que decide qualquer dúvida de desenho que este documento não responda.
+
+Ele já tem alguma base de fermentação, mesmo que pequena.
 
 Este documento diz como a sessão corre. Como a lição é montada está em [LESSON-FORMAT.md](./LESSON-FORMAT.md), e não se repete aqui.
 
