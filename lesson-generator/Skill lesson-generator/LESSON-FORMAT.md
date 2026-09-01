@@ -4,18 +4,26 @@ Um arquivo HTML por exercício, em `./aula-fermentacao/`, nomeado pelo conteúdo
 
 Comece de [templates/licao.html](./templates/licao.html) — copiar a estrutura é mais rápido e mais fiel do que deduzi-la desta prosa.
 
-**Teto maleável: 1.000 palavras de prosa.** Conte antes de salvar, e conte assim:
+**Não há teto de palavras.** A lição é tão longa quanto precisa para explicar direito, e tão curta quanto der **sem cortar explicação**.
 
-- **entra** todo o texto que o aluno lê — títulos, parágrafos, itens de lista, células de tabela, rótulos, o conteúdo dos `<details>`;
-- **não entra** o que está dentro de `<pre>`, `<script>` ou `<math>`.
+Isso já foi um número, e o número fez mal: para caber nele, as definições viraram telegrama — "P — etanol, g/L" — e as frases de fecho perderam o contexto. Sobrou uma lição rápida de ler e difícil de entender, que é o pior dos dois mundos.
 
-O código não tem teto: ele é o que o aluno veio buscar, e capá-lo brigaria com a regra de que a divisão 2 é o centro da lição. As equações também não contam — MathML vira uma enxurrada de tokens de uma letra que inflaria a conta sem que ninguém tivesse escrito mais nada.
+A régua continua sendo o tempo do aluno, mas ele se ganha **cortando o que não ensina**, não abreviando o que ensina:
 
-Se a prosa estourar, o que encolhe é a teoria.
+- repetição, recapitulação, história, ressalva que não muda o que ele faz — cortar;
+- definição de símbolo, contexto de equação, o porquê de uma decisão de código — **nunca cortar**.
+
+Se passar de umas 1.800 palavras de prosa, releia procurando a primeira lista. Se não achar nada dela, a lição é longa porque o exercício é grande, e está tudo bem.
+
+## A abertura
+
+Antes da primeira divisão, **um parágrafo situando o problema**: que processo é esse, o que o enunciado está pedindo, e o que o aluno vai ter no fim. Escrito para quem acabou de ler o enunciado e ainda não sabe por onde pegar — não para quem já entendeu tudo.
+
+Três a cinco frases. É o único lugar da lição em que se pode gastar texto explicando o contexto, e ele paga: sem ele, a primeira equação chega antes de o aluno saber do que se trata.
 
 ## Divisão 1 — Teoria
 
-Curta. O que o aluno precisa para o código fazer sentido, e nada além.
+O que o aluno precisa para o código fazer sentido, e nada além — mas **explicado por inteiro**, não abreviado.
 
 **Uma equação por bloco, e cada bloco se explica sozinho.** Nunca despeje as equações em sequência e deixe as definições para depois: quem lê a terceira equação já esqueceu o que era o símbolo da primeira.
 
@@ -42,8 +50,9 @@ O "onde" antes da lista sai do CSS — não escreva à mão.
 Regras do bloco:
 
 - **Só os símbolos daquela equação**, todos eles, com unidade. Símbolo que aparece em duas equações é definido na primeira e não se repete.
-- **A frase de fecho diz o que a equação significa no processo**, não o que ela é em matemática. "O sinal negativo é porque o substrato some" ensina; "esta é uma EDO de primeira ordem" não.
-- **Uma frase, duas no máximo.** É onde a teoria estoura.
+- **A definição é uma frase completa, não uma etiqueta.** "P — concentração de etanol no mosto, g/L", nunca "P — etanol, g/L". "μ — taxa específica de crescimento **da levedura**, em gramas de célula nova por grama de célula existente por hora", nunca "μ — taxa específica de crescimento, 1/h". Taxa de quê, de quem, por quê: se a frase deixa a pergunta no ar, ela não definiu nada — só nomeou.
+- **A frase de fecho contextualiza antes de concluir.** Diga o que a equação está descrevendo no processo, e só então o que ela implica. "Dois freios multiplicando: falta de açúcar e excesso de etanol" presume que o aluno já montou a cena; "a velocidade de crescimento da levedura é o produto de dois fatores — um que cai quando o açúcar acaba, outro que cai quando o etanol se acumula — e basta um deles zerar para a dorna parar" constrói a cena e depois conclui.
+- **Duas a quatro frases** por bloco. Menos que isso vira telegrama.
 
 Depois dos blocos, **a tabela de parâmetros**: símbolo, valor, unidade, procedência. Ela guarda os **números**; os blocos guardam os **significados**. Não repita a descrição do símbolo na tabela.
 
@@ -105,8 +114,9 @@ O gráfico interativo, e a leitura do resultado **daquele** exercício.
      data-controles="D:0.05:0.32:0.005"></div>
 ```
 
-- **Um gráfico, um painel.** Ele ocupa a largura inteira da coluna e tem **entre 320 e 420 px de altura**. Nada de empilhar painéis: dois painéis de 150 px dentro do mesmo canvas são dois gráficos ruins, apertados e ilegíveis, em vez de um bom.
-- **Se duas grandezas não cabem no mesmo eixo** por causa das unidades, escolha a que responde a pergunta do exercício. A outra vira número no texto ou na linha de leitura embaixo do gráfico — não vira segundo painel.
+- **Um painel por canvas, sempre.** Cada gráfico ocupa a largura inteira da coluna e tem **entre 320 e 420 px de altura**. Empilhar dois painéis de 150 px dentro do mesmo canvas dá dois gráficos ruins em vez de um bom — isso não se faz nunca.
+- **Um gráfico basta quase sempre.** Se duas grandezas não cabem no mesmo eixo por causa das unidades, a saída padrão é escolher a que responde a pergunta e pôr a outra como número no texto.
+- **Um segundo gráfico é permitido** quando o enunciado pergunta duas coisas em unidades diferentes e a segunda só se enxerga em curva — como "quanto etanol sai" e "como μ se comporta ao longo do tempo". Nesse caso são dois canvas separados, cada um do tamanho cheio, nunca dois painéis num só. Mais de dois, não.
 - **No máximo quatro controles**, e **cada um precisa da sua própria observação** mandando mexer nele. Não é "pelo menos uma observação no conjunto": controle sem frase que o convoque é ruído, e some.
 - **Declare faixa e passo** de cada controle quando os padrões do componente não servirem: perto de uma transição abrupta, passo grosso demais esconde justamente o que interessa.
 - **Sem esconder a curva**: o aluno desliza e ela responde na hora.
@@ -139,6 +149,14 @@ Alguns exercícios — quase todos os de regime contínuo — respondem uma perg
 
 Nesse caso, **escreva o componente**. Um gráfico de varredura em `assets/` do workspace, no mesmo estilo dos que já existem, e use. A figura central do exercício não fica de fora da lição porque a peça não existia.
 
+**As convenções, para você não precisar abrir o código dos outros componentes:**
+
+- **Canvas com DPR**: `canvas.width = w * dpr; canvas.height = h * dpr; canvas.style.height = h + "px"`, e `ctx.setTransform(dpr,0,0,dpr,0,0)`. Sem isso a curva sai borrada em tela de alta densidade.
+- **Cores vêm do CSS**, nunca fixas no JS: `getComputedStyle(document.documentElement).getPropertyValue("--cor-x")`. As disponíveis são `--cor-x`, `--cor-s`, `--cor-p`, `--fg`, `--muted`, `--rule`, `--accent`.
+- **Redesenhe em três eventos**: `resize` da janela, troca de `prefers-color-scheme`, e o botão de tema — este último chamando o seu `redesenharTodos()`, exposto em `window.SeuComponente`, como fazem `Simulador` e `Variantes`.
+- **Marcação**: leia a configuração de `data-*` no elemento, e monte controles com as classes `sim-controles`, `sim-controle`, `sim-legenda` — o CSS já as estiliza.
+- **Eixos rotulados com unidade**, sempre.
+
 **E ele fica no workspace, não vira peça da skill.** Não empacotamos componente por tipo de exercício: cada tipo empacotado vira o formato que o próximo caso tende a imitar, mesmo quando a pergunta pedia outra figura. Escreva o que o caso pede — a skill guarda o motor de simulação e as convenções, não um catálogo de gráficos.
 
 ## Equações
@@ -164,9 +182,10 @@ Antes de salvar, passe por **todo número do arquivo** — texto, tabela, `data-
 | Caixa | Como aparece |
 |---|---|
 | **Dado do enunciado** | Sem marca: veio com o exercício |
+| **Derivado do enunciado** | Sem marca também, mas a conta tem de estar visível na lição ou no código. "22 g de ART por grama de levedura" é 1/0,045 — mostre de onde veio |
 | **Escolha sua** | Marcada como tal, com a justificativa em meia linha |
 
-Não há terceira caixa. **Não cite literatura**: uma citação lembrada de memória tem cara de dado verificado e não é.
+Não há quarta caixa. **Faixa de slider é configuração, não afirmação**: não precisa de procedência, mas precisa fazer sentido físico — faixa que leva a curva para uma região impossível confunde mais do que ensina. **Não cite literatura**: uma citação lembrada de memória tem cara de dado verificado e não é.
 
 **Faça a varredura procurando dígitos, não lendo.** Passe um `grep` por todo algarismo do arquivo e confira um a um: é o único jeito de pegar o número escondido no meio de uma frase, que é onde ele vaza. Em dois testes seguidos o vazamento foi exatamente esse — um número dentro de prosa explicativa, enquanto a tabela e os `data-params` estavam impecáveis.
 
@@ -202,6 +221,9 @@ Existe também em linha: `<mark class="nota-duvida">…</mark>`. No ponto exato,
 
 ## Modos de falha
 
+- **A definição-etiqueta.** "P — etanol, g/L" nomeia o símbolo e não define nada. Taxa de quê, concentração de quê, medida onde.
+- **A explicação com pressa.** Frase de fecho que conclui sem ter montado a cena, porque o autor estava economizando palavra. Economia de palavra não é objetivo desta skill; economia de **tempo do aluno** é, e ele perde mais tempo relendo uma frase apertada do que lendo duas frases claras.
+- **A lição que começa na equação.** Sem o parágrafo de abertura, a primeira fórmula chega antes de o aluno saber de que processo se trata.
 - **A aula de teoria com apêndice de código.** A divisão 1 cresce, o código vira resumo.
 - **A análise crítica genérica.** "O modelo assume mistura perfeita." Serve para qualquer exercício, logo não serve para este.
 - **A figura que ficou de fora.** A resposta do exercício é uma curva de varredura, e ela só existe dentro do script — o aluno lê a lição e nunca a vê.

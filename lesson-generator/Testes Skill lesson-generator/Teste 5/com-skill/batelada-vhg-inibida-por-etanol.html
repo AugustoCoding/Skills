@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Batelada VHG travada pelo etanol</title>
+<link rel="stylesheet" href="./assets/lesson.css">
+</head>
+<body>
+
+<header class="licao">
+  <span class="etiqueta">Batelada anaeróbia · VHG com inibição por etanol</span>
+  <h1>A dorna que para antes do açúcar acabar</h1>
+  <p class="gancho">No fim você tem um script que integra 72 h de batelada, imprime o
+  etanol e o ART residual, e desenha como a taxa específica de crescimento colapsa.</p>
+</header>
+
+<h2>O modelo</h2>
+
+<p>Três estados — levedura, ART e etanol — movidos por uma única taxa. A física do
+exercício está em como ela encolhe.</p>
+
+<div class="eq-bloco">
+  <div class="equacao">
+    <math display="block">
+      <mi>μ</mi><mo>=</mo>
+      <msub><mi>μ</mi><mi>max</mi></msub>
+      <mo>⋅</mo>
+      <mfrac><mi>S</mi><mrow><msub><mi>K</mi><mi>s</mi></msub><mo>+</mo><mi>S</mi></mrow></mfrac>
+      <mo>⋅</mo>
+      <mrow><mo>(</mo><mn>1</mn><mo>−</mo>
+      <mfrac><mi>P</mi><msub><mi>P</mi><mi>max</mi></msub></mfrac><mo>)</mo></mrow>
+    </math>
+  </div>
+
+  <ul class="termos">
+    <li><code>μ</code> — taxa específica de crescimento, 1/h</li>
+    <li><code>μmax</code> — taxa específica máxima, 1/h</li>
+    <li><code>S</code> — ART no mosto, g/L</li>
+    <li><code>Ks</code> — ART em que μ vale metade de μmax, g/L</li>
+    <li><code>P</code> — etanol, g/L</li>
+    <li><code>Pmax</code> — etanol em que o crescimento cessa, g/L</li>
+  </ul>
+
+  <p>Dois freios multiplicando: falta de açúcar e excesso de etanol. Basta um zerar para
+  a levedura parar — e qual chega primeiro é a pergunta do exercício.</p>
+</div>
+
+<div class="eq-bloco">
+  <div class="equacao">
+    <math display="block">
+      <mfrac><mrow><mi>d</mi><mi>X</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+      <mo>=</mo><mi>μ</mi><mo>⋅</mo><mi>X</mi>
+    </math>
+  </div>
+
+  <ul class="termos">
+    <li><code>X</code> — levedura, g/L</li>
+  </ul>
+
+  <p>μ é por grama de célula e por hora; <code>μ·X</code> é o que a dorna produz por litro
+  e por hora. Trocar um pelo outro estraga a simulação inteira.</p>
+</div>
+
+<div class="eq-bloco">
+  <div class="equacao">
+    <math display="block">
+      <mfrac><mrow><mi>d</mi><mi>S</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+      <mo>=</mo><mo>−</mo>
+      <mfrac><mn>1</mn><msub><mi>Y</mi><mrow><mi>x</mi><mo>/</mo><mi>s</mi></mrow></msub></mfrac>
+      <mo>⋅</mo><mi>μ</mi><mo>⋅</mo><mi>X</mi>
+    </math>
+  </div>
+
+  <ul class="termos">
+    <li><code>Yx/s</code> — levedura formada por ART consumido, gX/gART</li>
+  </ul>
+
+  <p>O açúcar some, daí o sinal negativo; e o rendimento <strong>divide</strong>, porque
+  está em gX/gART e aqui queremos ART. Cada grama de levedura custa 22 g de açúcar.</p>
+</div>
+
+<div class="eq-bloco">
+  <div class="equacao">
+    <math display="block">
+      <mfrac><mrow><mi>d</mi><mi>P</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+      <mo>=</mo>
+      <msub><mi>Y</mi><mrow><mi>p</mi><mo>/</mo><mi>x</mi></mrow></msub>
+      <mo>⋅</mo><mi>μ</mi><mo>⋅</mo><mi>X</mi>
+    </math>
+  </div>
+
+  <ul class="termos">
+    <li><code>Yp/x</code> — etanol formado por levedura formada, gP/gX</li>
+  </ul>
+
+  <p>O etanol está amarrado ao crescimento: quem para de crescer para de produzir — e é o
+  próprio etanol que manda parar.</p>
+</div>
+
+<table>
+<thead><tr><th>Parâmetro</th><th class="num">Valor</th><th>Unidade</th><th>Procedência</th></tr></thead>
+<tbody>
+<tr><td><code>μmax</code></td><td class="num">0,35</td><td class="un">1/h</td><td>enunciado</td></tr>
+<tr><td><code>Ks</code></td><td class="num">1,5</td><td class="un">g/L</td><td>enunciado</td></tr>
+<tr><td><code>Yx/s</code></td><td class="num">0,045</td><td class="un">gX/gART</td><td>enunciado</td></tr>
+<tr><td><code>Yp/x</code></td><td class="num">9,0</td><td class="un">gP/gX</td><td>enunciado</td></tr>
+<tr><td><code>Pmax</code></td><td class="num">90</td><td class="un">g/L</td><td>enunciado: onde o crescimento cessa</td></tr>
+<tr><td><code>X0</code></td><td class="num">1,0</td><td class="un">g/L</td><td>enunciado</td></tr>
+<tr><td><code>S0</code></td><td class="num">260</td><td class="un">g/L</td><td>enunciado</td></tr>
+<tr><td><code>P0</code></td><td class="num">0</td><td class="un">g/L</td><td>suposição: mosto novo, inóculo sem etanol de arraste</td></tr>
+<tr><td><code>T</code></td><td class="num">72</td><td class="un">h</td><td>enunciado</td></tr>
+<tr><td><code>V</code></td><td class="num">50</td><td class="un">m³</td><td>enunciado: só converte g/L em kg de etanol</td></tr>
+</tbody>
+</table>
+
+<p>O sistema responde onde a batelada trava — no açúcar ou no etanol — e quanto de ART
+fica no vinho por causa disso.</p>
+
+<h2>O código</h2>
+
+<section class="codigo">
+
+  <div class="passo">
+    <h3>Parâmetros e estado inicial</h3>
+<pre><code>mu_max = 0.35    # 1/h
+Ks     = 1.5     # g/L de ART
+Yxs    = 0.045   # gX/gART
+Ypx    = 9.0     # gP/gX
+Pmax   = 90.0    # g/L de etanol: onde o crescimento cessa
+
+X0, S0, P0 = 1.0, 260.0, 0.0   # g/L
+T = 72.0                       # h
+V = 50_000.0                   # L (a dorna de 50 m3)</code></pre>
+    <p>Estado inicial numa tupla porque <code>solve_ivp</code> integra um vetor, não
+    variáveis avulsas — e a ordem escolhida aqui é a que a função de derivadas terá de
+    respeitar.</p>
+  </div>
+
+  <div class="passo">
+    <h3>A taxa específica, isolada numa função</h3>
+<pre><code>def mu(S, P):
+    """Monod em ART, multiplicado pela inibicao linear em etanol. 1/h."""
+    S = max(S, 0.0)
+    return mu_max * S / (Ks + S) * max(0.0, 1.0 - P / Pmax)</code></pre>
+    <p>Separada porque você vai plotá-la depois. Os dois <code>max</code> defendem do
+    integrador resvalar em valores levemente negativos: sem eles μ fica negativo e a
+    levedura decresce sem motivo biológico.</p>
+  </div>
+
+  <div class="passo">
+    <h3>A função de derivadas</h3>
+<pre><code>def derivadas(t, y):
+    X, S, P = y
+    rX = mu(S, P) * X          # g L-1 h-1
+    return [rX, -rX / Yxs, Ypx * rX]</code></pre>
+    <p>Tempo primeiro, estado depois: é a assinatura que <code>solve_ivp</code> exige.
+    <code>rX</code> sai uma vez só — as três equações são a mesma taxa volumétrica
+    repartida, e assim fica difícil errar o sinal de <code>dS/dt</code> ou multiplicar
+    por <code>Yxs</code> em vez de dividir.</p>
+  </div>
+
+  <div class="passo">
+    <h3>Integrar, e marcar o fim com um evento</h3>
+<pre><code>def quase_parado(t, y):
+    return y[2] - 0.99 * Pmax   # etanol a 99% do teto
+quase_parado.terminal = False
+quase_parado.direction = 1
+
+sol = solve_ivp(derivadas, [0.0, T], [X0, S0, P0],
+                method="Radau", rtol=1e-10, atol=1e-12,
+                t_eval=np.linspace(0.0, T, 721), events=quase_parado)</code></pre>
+    <p>O evento devolve o instante em que o etanol chega a 99% do teto, interpolado pelo
+    integrador em vez de lido a olho no gráfico; <code>terminal=False</code> porque o
+    exercício pede as 72 h inteiras. <code>t_eval</code> só escolhe onde a saída é
+    amostrada — o passo real é adaptativo. E <code>Radau</code> porque μ despenca de
+    0,35 a quase zero em poucas horas e depois nada acontece: duas escalas de tempo tão
+    diferentes pedem método implícito.</p>
+  </div>
+
+  <div class="passo">
+    <h3>Ler as respostas</h3>
+<pre><code>X, S, P = sol.y
+mu_t = np.array([mu(s, p) for s, p in zip(S, P)])
+teto = mu_max * S / (Ks + S)          # Monod sozinho, sem inibicao
+
+print(f"etanol final     {P[-1]:6.2f} g/L  ({P[-1]*V/1000:.0f} kg na dorna)")
+print(f"ART residual     {S[-1]:6.2f} g/L  (conversao {100*(S0-S[-1])/S0:.1f} %)")
+print(f"99% do teto em   {sol.t_events[0][0]:.1f} h")
+
+X_inf = X0 + Pmax / Ypx               # balanco fechado, so vale se sobrar ART
+print(f"analitico        X={X_inf:.2f}  S={S0-(X_inf-X0)/Yxs:.2f}  P={Pmax:.2f} g/L")</code></pre>
+    <p>A curva <code>teto</code> é o que μ seria sem etanol: a distância até
+    <code>mu_t</code> é o preço da inibição. As duas últimas linhas conferem a integração
+    contra a álgebra — com <code>dP/dX = Yp/x</code> constante, o fim é previsível sem
+    integrar, e os dois batendo é o que autoriza acreditar no número.</p>
+  </div>
+
+  <details class="programa">
+    <summary>Ver o programa completo</summary>
+<pre><code>"""Batelada VHG com inibicao linear por etanol - 72 h.
+Requer: numpy, scipy, matplotlib.
+"""
+import numpy as np
+from scipy.integrate import solve_ivp
+import matplotlib.pyplot as plt
+
+mu_max = 0.35    # 1/h
+Ks     = 1.5     # g/L de ART
+Yxs    = 0.045   # gX/gART
+Ypx    = 9.0     # gP/gX
+Pmax   = 90.0    # g/L de etanol: onde o crescimento cessa
+
+X0, S0, P0 = 1.0, 260.0, 0.0   # g/L
+T = 72.0                       # h
+V = 50_000.0                   # L (dorna de 50 m3)
+
+
+def mu(S, P):
+    """Monod em ART, multiplicado pela inibicao linear em etanol. 1/h."""
+    S = max(S, 0.0)
+    return mu_max * S / (Ks + S) * max(0.0, 1.0 - P / Pmax)
+
+
+def derivadas(t, y):
+    X, S, P = y
+    rX = mu(S, P) * X          # g L-1 h-1
+    return [rX, -rX / Yxs, Ypx * rX]
+
+
+def quase_parado(t, y):
+    return y[2] - 0.99 * Pmax   # etanol a 99% do teto
+quase_parado.terminal = False
+quase_parado.direction = 1
+
+sol = solve_ivp(derivadas, [0.0, T], [X0, S0, P0],
+                method="Radau", rtol=1e-10, atol=1e-12,
+                t_eval=np.linspace(0.0, T, 721), events=quase_parado)
+
+X, S, P = sol.y
+mu_t = np.array([mu(s, p) for s, p in zip(S, P)])
+teto = mu_max * S / (Ks + S)
+
+print(f"etanol final     {P[-1]:6.2f} g/L  ({P[-1]*V/1000:.0f} kg na dorna)")
+print(f"ART residual     {S[-1]:6.2f} g/L  (conversao {100*(S0-S[-1])/S0:.1f} %)")
+print(f"levedura final   {X[-1]:6.2f} g/L")
+print(f"mu final         {mu_t[-1]:.2e} 1/h")
+print(f"99% do teto em   {sol.t_events[0][0]:.1f} h")
+
+X_inf = X0 + Pmax / Ypx               # balanco fechado, so vale se sobrar ART
+print(f"analitico        X={X_inf:.2f}  S={S0-(X_inf-X0)/Yxs:.2f}  P={Pmax:.2f} g/L")
+
+fig, (a1, a2) = plt.subplots(2, 1, figsize=(8, 8), sharex=True)
+a1.plot(sol.t, X, label="Levedura X")
+a1.plot(sol.t, S, "--", label="ART S")
+a1.plot(sol.t, P, ":", label="Etanol P")
+a1.set_ylabel("Concentracao (g/L)"); a1.legend(); a1.grid(alpha=.3)
+a2.plot(sol.t, mu_t, label="mu")
+a2.plot(sol.t, teto, "--", label="teto de Monod")
+a2.set_xlabel("Tempo (h)"); a2.set_ylabel("Taxa especifica (1/h)")
+a2.legend(); a2.grid(alpha=.3)
+plt.tight_layout(); plt.show()</code></pre>
+  </details>
+
+  <details class="resposta">
+    <summary>Ver a resposta</summary>
+    <p><strong>Etanol final: 90,0 g/L</strong> — o teto, cravado; 4.500 kg na dorna de
+    50 m³. <strong>ART residual: 37,8 g/L</strong>, isto é, 85,5% de conversão. A levedura
+    chega a 11,0 g/L, e o etanol passa de 99% do teto em <strong>18,5 h</strong>: as 72 h
+    do enunciado são folga.</p>
+    <p>A álgebra confirma a integração até o último dígito impresso: a levedura só pode
+    crescer <code>Pmax/Ypx</code> = 10,0 g/L antes de o etanol chegar a 90, logo
+    X∞ = 11,0 g/L e S∞ = 260 − 10,0/0,045 = 37,8 g/L.</p>
+  </details>
+
+</section>
+
+<h2>O que a curva diz</h2>
+
+<div class="simulador"
+     data-modelo="inibicao_produto"
+     data-tempo="72"
+     data-params="mu_max=0.35, Ks=1.5, Yxs=0.045, Ypx=9.0, Pmax=90, X0=1, S0=260"
+     data-controles="S0:150:320:5, Yxs:0.02:0.09:0.001"
+     data-rotulos="Levedura X, ART S, Etanol P"></div>
+
+<ul>
+  <li>O ART para de cair em 37,8 g/L no mesmo instante em que o etanol congela em
+  90 g/L, por volta da 20ª hora. Quem trava a dorna é o etanol, não a falta de açúcar:
+  os 37,8 g/L restantes vão inteiros para o vinho.</li>
+
+  <li>Desça <code>S0</code> até 222 g/L e o etanol final continua 90 g/L — só o resíduo
+  encolhe. Abaixo disso a limitação troca de lado: com 200 g/L o ART acaba primeiro e o
+  etanol cai para 81 g/L. Açúcar acima de 222 g/L é ART comprado que não vira etanol.</li>
+
+  <li>Suba <code>Yxs</code> para 0,060 e o etanol final segue 90 g/L: o teto é a
+  inibição, não o rendimento. Muda a conta do açúcar — o etanol só permite 10 g/L de
+  levedura nova, e <code>Yxs</code> decide se fabricá-la custa 222 ou 167 g/L de ART.
+  O resíduo salta de 37,8 para 93 g/L.</li>
+</ul>
+
+<div class="grafico-mu"
+     data-tempo="24"
+     data-params="mu_max=0.35, Ks=1.5, Yxs=0.045, Ypx=9.0, Pmax=90, X0=1, S0=260"
+     data-controles="X0:0.5:8:0.5, Ks:0.5:10:0.5"></div>
+
+<ul>
+  <li>μ da levedura parte de 0,348 1/h e cai à metade em 6,5 h, enquanto o teto de Monod
+  fica preso em 0,34 1/h o processo inteiro: μ não cai por falta de açúcar, cai porque o
+  fator (1 − P/90) desaba. O painel vai só até 24 h — dali em diante μ está abaixo de
+  10⁻³ 1/h.</li>
+
+  <li>Suba <code>X0</code> de 1,0 para 5,0 g/L: μ da levedura desaba muito antes — cai à
+  metade em 2,6 h em vez de 6,5 h — e mesmo assim o etanol final continua 90 g/L. Um
+  inóculo maior compra tempo de dorna, não rendimento.</li>
+
+  <li>Arraste <code>Ks</code> de 1,5 até 10 g/L e o teto de Monod mal desce: com 260 g/L
+  de ART, a fração S/(Ks+S) cai só de 0,994 para 0,963. Em mosto VHG o termo de Monod é
+  decoração — ele só começaria a morder perto dos 37,8 g/L do fim, e a essa altura o
+  etanol já zerou μ.</li>
+</ul>
+
+<div class="pergunte">
+  <strong>Ficou algo obscuro?</strong> Pergunte. O que você perguntar entra
+  aqui neste arquivo, no ponto exato onde a dúvida apareceu.
+</div>
+
+<script src="./assets/tema.js" defer></script>
+<script src="./assets/codigo.js" defer></script>
+<script src="./assets/simulador.js" defer></script>
+<script src="./assets/perfil-mu.js" defer></script>
+</body>
+</html>

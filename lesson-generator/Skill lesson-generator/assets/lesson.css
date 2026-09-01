@@ -16,6 +16,9 @@
   --nota-bg: #fdf6d8;
   --nota-borda: #c9a227;
 
+  /* Termo destacado no meio do texto: contraste sem gritar. */
+  --acento-termo: #1f5c8b;
+
   /* Cores das variáveis de estado. Usadas nos gráficos e no texto.
      Mantenha estáveis entre lições: a cor vira parte do vocabulário. */
   --cor-x: #1f5c8b;   /* biomassa  */
@@ -24,6 +27,10 @@
 
   --ok: #2e6b3f;
   --err: #8a3324;
+
+  /* Raio único para todo bloco: caixa quadrada deixa a página dura. */
+  --raio: 10px;
+  --raio-p: 6px;
 
   --serif: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Times New Roman", serif;
   --mono: "SF Mono", "Cascadia Mono", Consolas, "Liberation Mono", Menlo, monospace;
@@ -49,6 +56,8 @@
     --nota-bg: #2b2718;
     --nota-borda: #8a7526;
 
+    --acento-termo: #7fb2dd;
+
     --cor-x: #6fb2e0;
     --cor-s: #d9b45c;
     --cor-p: #7fc394;
@@ -69,6 +78,8 @@
   --nota-bg: #2b2718;
   --nota-borda: #8a7526;
 
+  --acento-termo: #7fb2dd;
+
   --cor-x: #6fb2e0;
   --cor-s: #d9b45c;
   --cor-p: #7fc394;
@@ -79,7 +90,9 @@
 
 /* ---------- estrutura ---------- */
 
-html { font-size: 17px; }
+/* Escala do texto. 19px porque a lição é lida de perto, no navegador, e o
+   padrão de 16-17px obrigava zoom. */
+html { font-size: 19px; }
 
 body {
   background: var(--bg);
@@ -87,8 +100,8 @@ body {
   font-family: var(--serif);
   line-height: 1.55;
   margin: 0 auto;
-  padding: 4rem 1.5rem 6rem;
-  max-width: 46rem;
+  padding: 3.5rem 1.8rem 6rem;
+  max-width: 54rem;
   text-rendering: optimizeLegibility;
 }
 
@@ -169,7 +182,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
   margin: 1.6rem 0;
   padding: 1rem 1.2rem;
   background: var(--code-bg);
-  border-radius: 3px;
+  border-radius: var(--raio);
   font-family: var(--mono);
   font-size: 0.92rem;
   overflow-x: auto;
@@ -196,8 +209,23 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
   font-size: 0.88rem;
   color: var(--muted);
 }
-.termos li { margin: 0.3rem 0; }
-.termos code { background: none; color: var(--fg); }
+.termos li { margin: 0.45rem 0; }
+
+/* O símbolo definido é o que o olho procura ao voltar para conferir: ele fica
+   em destaque, e o resto da linha é prosa normal. */
+.termos code {
+  background: none;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 1.02em;
+}
+
+/* Termo importante no meio da explicação. Sem caixa nem fundo: só peso e cor,
+   para destacar sem quebrar a linha de leitura. */
+.termo {
+  font-weight: 600;
+  color: var(--acento-termo);
+}
 
 /* Unidade. Nenhum parâmetro aparece sem uma. */
 .un {
@@ -226,13 +254,13 @@ code {
   font-size: 0.88em;
   background: var(--code-bg);
   padding: 0.1em 0.3em;
-  border-radius: 2px;
+  border-radius: var(--raio-p);
 }
 
 pre {
   background: var(--code-bg);
   padding: 1rem 1.2rem;
-  border-radius: 3px;
+  border-radius: var(--raio);
   overflow-x: auto;
   font-size: 0.85rem;
   line-height: 1.5;
@@ -256,7 +284,7 @@ td.num, th.num { text-align: right; font-family: var(--mono); }
 /* Lembrete de que o professor está disponível. Fecha toda lição. */
 .pergunte {
   background: var(--code-bg);
-  border-radius: 3px;
+  border-radius: var(--raio);
   padding: 1rem 1.2rem;
   margin: 2.5rem 0 0;
   font-size: 0.92rem;
@@ -362,7 +390,7 @@ section.codigo { counter-reset: passo; }
   color: var(--accent);
   background: var(--bg);
   border: 1px dashed var(--rule);
-  border-radius: 3px;
+  border-radius: var(--raio);
   cursor: pointer;
 }
 
@@ -406,7 +434,7 @@ pre.com-copia { position: relative; }
   color: var(--muted);
   background: var(--bg);
   border: 1px solid var(--rule);
-  border-radius: 3px;
+  border-radius: var(--raio-p);
   cursor: pointer;
   opacity: 0.5;
 }
@@ -432,7 +460,7 @@ pre.com-copia:hover .copiar { opacity: 1; }
   background: var(--bg);
   color: var(--muted);
   border: 1px solid var(--rule);
-  border-radius: 3px;
+  border-radius: var(--raio);
   cursor: pointer;
   opacity: 0.65;
 }
@@ -459,7 +487,7 @@ p.nota-duvida,
 div.nota-duvida {
   background: var(--nota-bg);
   border-left: 3px solid var(--nota-borda);
-  border-radius: 0 3px 3px 0;
+  border-radius: 0 var(--raio) var(--raio) 0;
   padding: 0.9rem 1.1rem;
   margin: 1.4rem 0;
   font-size: 0.95rem;
@@ -493,7 +521,7 @@ button {
   background: var(--bg);
   color: var(--fg);
   border: 1px solid var(--rule);
-  border-radius: 3px;
+  border-radius: var(--raio);
   cursor: pointer;
 }
 button:hover { border-color: var(--muted); }
@@ -503,7 +531,7 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 .simulador {
   border: 1px solid var(--rule);
-  border-radius: 3px;
+  border-radius: var(--raio);
   padding: 1.2rem;
   margin: 2rem 0;
 }

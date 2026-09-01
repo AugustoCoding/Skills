@@ -21,9 +21,16 @@
   <p class="gancho">{Uma frase: o que ele vai ter rodando no fim.}</p>
 </header>
 
+<!-- ================= ABERTURA =================
+     Três a cinco frases situando o problema: que processo é este, o que o
+     enunciado pede, e o que ele vai ter no fim. Escrito para quem acabou de
+     ler o enunciado e ainda não sabe por onde pegar. -->
+<p>{O contexto do exercício, em três a cinco frases.}</p>
+
 <!-- ================= 1. TEORIA =================
-     Breve. As equações, a tabela de parâmetros, e para que serve.
-     Sem história, sem derivação, sem recapitulação. -->
+     As equações, uma por bloco, e a tabela de parâmetros.
+     Sem história, sem derivação, sem recapitulação — mas explicado por
+     inteiro: definição é frase completa, não etiqueta. -->
 <h2>O modelo</h2>
 
 <p>{Uma ou duas frases: o que este sistema descreve.}</p>
@@ -41,12 +48,13 @@
   </div>
 
   <ul class="termos">
-    <li><code>X</code> — {concentração de biomassa, g/L}</li>
-    <li><code>μ</code> — {taxa específica de crescimento, 1/h}</li>
+    <li><code>X</code> — {concentração de levedura no mosto, g/L}</li>
+    <li><code>μ</code> — {taxa específica de crescimento da levedura: gramas de
+    célula nova por grama de célula existente, por hora, 1/h}</li>
   </ul>
 
-  <p>{O que a equação diz do processo — não o que ela é em matemática.
-  Uma frase, duas no máximo.}</p>
+  <p>{Monte a cena e depois conclua — duas a quatro frases. O que esta equação
+  está descrevendo no processo, e só então o que isso implica.}</p>
 </div>
 
 <div class="eq-bloco">
@@ -60,11 +68,13 @@
   </div>
 
   <ul class="termos">
-    <li><code>S</code> — {concentração de substrato, g/L}</li>
-    <li><code>Yx/s</code> — {rendimento de biomassa em substrato, gX/gS}</li>
+    <li><code>S</code> — {concentração de açúcar disponível no mosto, g/L}</li>
+    <li><code>Yx/s</code> — {quanta levedura se forma por grama de açúcar
+    consumido, gX/gS}</li>
   </ul>
 
-  <p>{Por que o sinal é negativo e por que o rendimento divide.}</p>
+  <p>{Por que o sinal é negativo e por que o rendimento divide — com a cena
+  montada antes da conclusão.}</p>
 </div>
 
 <!-- A tabela guarda os NÚMEROS. O significado de cada símbolo já está no bloco
@@ -124,6 +134,8 @@
      ancorada num ponto concreto da curva.
 
      TESTE: se a frase serviria para outro exercício, corte. -->
+<!-- Termo importante no meio da prosa: <span class="termo">washout</span>.
+     Use com parcimônia — um ou dois por divisão. -->
 <h2>O que a curva diz</h2>
 
 <div class="simulador"
