@@ -64,4 +64,4 @@ A única memória é a própria lição: quando ele volta com uma dúvida, a res
 
 A skill é `disable-model-invocation: true`: nunca ativa sozinha.
 
-Para validar mudanças, use `../Testes Skill Simulação Fermentação/`, onde cada execução tem sua pasta e seu registro de reprodutibilidade.
+Para validar mudanças, use `../Testes Skill lesson-generator/`, onde cada execução tem sua pasta e seu registro de reprodutibilidade.

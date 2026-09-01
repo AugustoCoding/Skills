@@ -16,11 +16,11 @@ A separação entre a pasta da skill e a pasta de testes é proposital: a pasta 
 
 ## Skills disponíveis
 
-### Simulação-Fermentação
+### lesson-generator
 
-Transforma um exercício de fermentação numa lição HTML que ensina o aluno a programar aquela simulação em Python: teoria breve, o código explicado passo a passo, e um simulador para ler o resultado.
+Transforma um exercício de fermentação numa lição HTML que ensina o aluno a programar aquela simulação em Python: teoria breve, o código explicado passo a passo, e um gráfico interativo para ler o resultado.
 
-- [`Simulação-Fermentação/Skill Simulação Fermentação/`](Simulação-Fermentação/Skill%20Simulação%20Fermentação/) — definição da skill (system prompt, regras, exemplos, casos guiados, templates e recursos).
-- [`Simulação-Fermentação/Testes Skill Simulação Fermentação/`](Simulação-Fermentação/Testes%20Skill%20Simulação%20Fermentação/) — testes da skill: uma pasta por execução, com o registro de reprodutibilidade e a saída do modelo.
+- [`lesson-generator/Skill lesson-generator/`](lesson-generator/Skill%20lesson-generator/) — definição da skill (system prompt, regras, exemplos, casos guiados, templates e recursos).
+- [`lesson-generator/Testes Skill lesson-generator/`](lesson-generator/Testes%20Skill%20lesson-generator/) — testes da skill: uma pasta por execução, com o registro de reprodutibilidade e a saída do modelo.
 
-Ainda em desenvolvimento.
+Em desenvolvimento, com quatro execuções de teste documentadas.

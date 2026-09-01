@@ -1,9 +1,14 @@
-# Testes da Skill Simulação Fermentação
+# Testes da skill lesson-generator
+
+> **Nota de 2026-09-01.** A skill se chamava `simulacao-fermentacao` e as pastas tinham
+> os nomes antigos. Os registros dos testes 1 a 4 preservam o nome e os caminhos da
+> época — eles documentam o que foi rodado, e reescrevê-los falsificaria o histórico.
+> Para repetir um teste antigo, troque o caminho pelo atual.
 
 Cada execução de teste tem sua própria pasta aqui, com a documentação do teste e a saída do modelo lado a lado. O objetivo não é só saber se funcionou: é conseguir **reproduzir** a execução meses depois e enxergar a evolução da skill entre uma versão e outra.
 
 ```
-Testes Skill Simulação Fermentação/
+Testes Skill lesson-generator/
   INDEX.md            histórico: uma linha por teste
   TEMPLATE-SESSAO.md  o registro em branco, para copiar
   Teste 1/
@@ -11,7 +16,7 @@ Testes Skill Simulação Fermentação/
   ...
 ```
 
-A pasta da skill (`../Skill Simulação Fermentação/`) é somente leitura durante o teste. Se aparecer arquivo novo lá depois de uma execução, o teste falhou numa regra estrutural da skill — vale registrar como achado.
+A pasta da skill (`../Skill lesson-generator/`) é somente leitura durante o teste. Se aparecer arquivo novo lá depois de uma execução, o teste falhou numa regra estrutural da skill — vale registrar como achado.
 
 ## O que fica em cada `Teste N/`
 
