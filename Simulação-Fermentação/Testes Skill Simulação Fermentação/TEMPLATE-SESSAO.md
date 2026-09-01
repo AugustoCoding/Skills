@@ -22,8 +22,8 @@ Sem isto o teste não é rastreável: a mesma entrada em duas versões da skill 
 | Commit | `{hash curto}` — `{assunto do commit}` |
 | Branch | {branch} |
 | Alterações locais não commitadas | {não / sim — quais} |
-| Como a skill foi carregada | {ex: copiada para `~/.claude/skills/simulacao-fermentacao/`} |
-| Nome da pasta instalada | {ex: `simulacao-fermentacao`} |
+| Como a skill foi carregada | {ex: copiada para `~/.claude/skills/lesson-generator/`} |
+| Nome da pasta instalada | {ex: `lesson-generator`} |
 
 ## 3. Ambiente
 

@@ -17,9 +17,37 @@ Se a prosa estourar, o que encolhe é a teoria.
 
 Curta. O que o aluno precisa para o código fazer sentido, e nada além.
 
-- **As equações do caso**, em MathML, cada termo anotado no que significa fisicamente.
-- **A tabela de parâmetros**: símbolo, valor, unidade, procedência. Definir bem as variáveis é o que sustenta o resto.
-- **Uma ou duas frases** dizendo para que o sistema serve.
+**Uma equação por bloco, e cada bloco se explica sozinho.** Nunca despeje as equações em sequência e deixe as definições para depois: quem lê a terceira equação já esqueceu o que era o símbolo da primeira.
+
+A ordem dentro do bloco é sempre esta — equação, símbolos daquela equação, o que ela diz:
+
+```html
+<div class="eq-bloco">
+  <div class="equacao">
+    <math display="block">…</math>
+  </div>
+
+  <ul class="termos">
+    <li><code>μ</code> — taxa específica de crescimento, 1/h</li>
+    <li><code>X</code> — concentração de biomassa, g/L</li>
+  </ul>
+
+  <p>Quanto mais célula existe, mais célula nasce por hora: é daí que vem a forma
+  exponencial enquanto sobra açúcar.</p>
+</div>
+```
+
+O "onde" antes da lista sai do CSS — não escreva à mão.
+
+Regras do bloco:
+
+- **Só os símbolos daquela equação**, todos eles, com unidade. Símbolo que aparece em duas equações é definido na primeira e não se repete.
+- **A frase de fecho diz o que a equação significa no processo**, não o que ela é em matemática. "O sinal negativo é porque o substrato some" ensina; "esta é uma EDO de primeira ordem" não.
+- **Uma frase, duas no máximo.** É onde a teoria estoura.
+
+Depois dos blocos, **a tabela de parâmetros**: símbolo, valor, unidade, procedência. Ela guarda os **números**; os blocos guardam os **significados**. Não repita a descrição do símbolo na tabela.
+
+Fecha com **uma ou duas frases** dizendo para que o sistema todo serve.
 
 Sem história, sem derivação, sem recapitulação. Se o aluno já sabe aquilo, ele passa os olhos em quinze segundos — e é para isso que a divisão é curta.
 
@@ -83,6 +111,8 @@ O gráfico interativo, e a leitura do resultado **daquele** exercício.
 - **Declare faixa e passo** de cada controle quando os padrões do componente não servirem: perto de uma transição abrupta, passo grosso demais esconde justamente o que interessa.
 - **Sem esconder a curva**: o aluno desliza e ela responde na hora.
 - **Duas a quatro observações**, cada uma ancorada num ponto concreto das curvas daquele caso: por que um perfil cai quando o outro sobe; o que acontece onde eles se cruzam; por que a inflexão está ali e não dez horas depois.
+- **Um insight distinto por item.** Se duas observações explicam o mesmo fenômeno com palavras diferentes, são uma só — funda ou corte. A lista não é para encher.
+- **O vocabulário é o da legenda do gráfico, sem tradução.** Se a legenda diz "etanol", a observação diz "etanol" — não "produto", não "P". Cada troca de nome obriga o aluno a fazer a ponte de cabeça, e ele lê mais devagar por causa disso. Vale para eixo, legenda, tabela e texto: um nome por grandeza, na lição inteira.
 - **A observação de cada controle diz o que procurar**, não só que existe: *"aumente D até 0,30 e veja a produtividade despencar — o ótimo fica a 10% do washout."*
 
 **O teste que separa análise de enchimento de linguiça:** se a frase serviria para outro exercício, ela não é análise deste caso — corte.

@@ -1,4 +1,4 @@
-# Skill: Simulação de Fermentação em Python
+# lesson-generator — lições de simulação de fermentação
 
 Transforma um exercício de fermentação numa **lição HTML** que ensina o aluno a programar aquela simulação em Python.
 
@@ -58,9 +58,9 @@ A única memória é a própria lição: quando ele volta com uma dúvida, a res
 
 ## Como usar
 
-1. Instale como skill pessoal, em pasta com o nome do frontmatter: `~/.claude/skills/simulacao-fermentacao/`.
+1. Instale como skill pessoal, em pasta com o nome do frontmatter: `~/.claude/skills/lesson-generator/`.
 2. Abra uma sessão nova — skills são descobertas na abertura.
-3. Chame `/simulacao-fermentacao` e cole o exercício.
+3. Chame `/lesson-generator` e cole o exercício.
 
 A skill é `disable-model-invocation: true`: nunca ativa sozinha.
 

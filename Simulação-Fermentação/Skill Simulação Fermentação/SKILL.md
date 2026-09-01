@@ -1,5 +1,5 @@
 ---
-name: simulacao-fermentacao
+name: lesson-generator
 description: Transforma um exercício de fermentação numa lição HTML interativa que ensina o aluno a programar aquela simulação em Python.
 disable-model-invocation: true
 allow_implicit_invocation: false

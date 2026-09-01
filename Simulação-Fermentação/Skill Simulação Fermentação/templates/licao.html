@@ -28,24 +28,47 @@
 
 <p>{Uma ou duas frases: o que este sistema descreve.}</p>
 
-<div class="equacao">
-  <math display="block">
-    <mfrac><mrow><mi>d</mi><mi>X</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
-    <mo>=</mo><mi>μ</mi><mo>⋅</mo><mi>X</mi>
-  </math>
-  <math display="block">
-    <mfrac><mrow><mi>d</mi><mi>S</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
-    <mo>=</mo><mo>−</mo>
-    <mfrac><mn>1</mn><msub><mi>Y</mi><mrow><mi>x</mi><mo>/</mo><mi>s</mi></mrow></msub></mfrac>
-    <mo>⋅</mo><mi>μ</mi><mo>⋅</mo><mi>X</mi>
-  </math>
+<!-- UM BLOCO POR EQUAÇÃO, sempre nesta ordem: equação · símbolos dela · o que ela diz.
+     O "onde" antes da lista vem do CSS — não escreva à mão.
+     Símbolo repetido em outra equação é definido só na primeira vez. -->
+
+<div class="eq-bloco">
+  <div class="equacao">
+    <math display="block">
+      <mfrac><mrow><mi>d</mi><mi>X</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+      <mo>=</mo><mi>μ</mi><mo>⋅</mo><mi>X</mi>
+    </math>
+  </div>
+
+  <ul class="termos">
+    <li><code>X</code> — {concentração de biomassa, g/L}</li>
+    <li><code>μ</code> — {taxa específica de crescimento, 1/h}</li>
+  </ul>
+
+  <p>{O que a equação diz do processo — não o que ela é em matemática.
+  Uma frase, duas no máximo.}</p>
 </div>
 
-<ul class="termos">
-  <li><code>μ·X</code> — {o que o termo faz, com unidade}</li>
-  <li><code>−(1/Yx/s)</code> — {por que negativo, por que divide}</li>
-</ul>
+<div class="eq-bloco">
+  <div class="equacao">
+    <math display="block">
+      <mfrac><mrow><mi>d</mi><mi>S</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+      <mo>=</mo><mo>−</mo>
+      <mfrac><mn>1</mn><msub><mi>Y</mi><mrow><mi>x</mi><mo>/</mo><mi>s</mi></mrow></msub></mfrac>
+      <mo>⋅</mo><mi>μ</mi><mo>⋅</mo><mi>X</mi>
+    </math>
+  </div>
 
+  <ul class="termos">
+    <li><code>S</code> — {concentração de substrato, g/L}</li>
+    <li><code>Yx/s</code> — {rendimento de biomassa em substrato, gX/gS}</li>
+  </ul>
+
+  <p>{Por que o sinal é negativo e por que o rendimento divide.}</p>
+</div>
+
+<!-- A tabela guarda os NÚMEROS. O significado de cada símbolo já está no bloco
+     da equação — não repita a descrição aqui. -->
 <table>
 <thead><tr><th>Parâmetro</th><th class="num">Valor</th><th>Unidade</th><th>Procedência</th></tr></thead>
 <tbody>
@@ -109,10 +132,13 @@
      data-params="mu_max=0.40, Ks=1.0, Yxs=0.5, X0=1, S0=150"
      data-controles="mu_max, S0"></div>
 
+<!-- Um insight DISTINTO por item — se dois explicam a mesma coisa, vire um só.
+     E o nome de cada grandeza é o mesmo da legenda do gráfico: se lá diz
+     "etanol", aqui diz "etanol", nunca "produto" nem "P". -->
 <ul>
   <li>{Observação ancorada: por que um perfil cai quando o outro sobe.}</li>
   <li>{Observação ancorada: o que acontece no ponto onde eles se cruzam.}</li>
-  <li>{Pelo menos uma manda mexer: "aumente {parâmetro} e veja {o quê} — {por quê}".}</li>
+  <li>{Cada controle tem a sua: "aumente {parâmetro} e veja {o quê} — {por quê}".}</li>
 </ul>
 
 <div class="pergunte">

@@ -179,6 +179,15 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
   line-height: 1.7;
 }
 
+/* Com MathML dentro, o pre-wrap acima transformaria a indentação do HTML em
+   linhas em branco — uma equação de uma linha ficava com 280 px de caixa.
+   O pre-wrap existe para equação escrita como texto, não para marcação. */
+.equacao:has(math),
+.eq-bloco .equacao {
+  white-space: normal;
+  line-height: 1.4;
+}
+
 /* Anotação de termo: o que cada pedaço da equação significa fisicamente. */
 .termos {
   list-style: none;
@@ -269,6 +278,30 @@ math[display="block"] {
 }
 
 .equacao math[display="block"] { margin: 0; }
+
+/* ---------- bloco de equação ---------- */
+/* Uma equação, os símbolos dela, e o que ela diz. Nessa ordem, sempre:
+   despejar as fórmulas em sequência e definir os símbolos depois faz o aluno
+   voltar para cima toda vez. */
+
+.eq-bloco { margin: 2rem 0; }
+
+.eq-bloco .equacao { margin-bottom: 0.5rem; }
+
+/* O "onde" sai daqui para o autor não ter de escrevê-lo — e para sair igual
+   em toda lição. */
+.eq-bloco .termos::before {
+  content: "onde";
+  display: block;
+  font-style: italic;
+  color: var(--muted);
+  margin-bottom: 0.35rem;
+}
+
+.eq-bloco > p {
+  margin: 0.7rem 0 0;
+  font-size: 0.95rem;
+}
 
 /* ---------- seção de código (assets/codigo.js) ---------- */
 /* O centro da lição. Passos revelados um a um: o aluno não vê quantos faltam,
