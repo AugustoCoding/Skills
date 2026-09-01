@@ -158,7 +158,7 @@ O [relatório do próprio modelo](./RELATORIO-MODELO.md) traz a procedência de 
 | 2 | **"Números conferidos rodando o modelo" apontava para o lado errado.** Perto do washout a integração devolve valor plausível e falso — deu X cinco vezes maior que o real. Quem salvou o número foi a solução analítica, que a skill não mandava usar | bloqueia | `SKILL.md` |
 | 3 | **Mais da metade do tempo foi Python rodando**: timeout de 120 s, depois 40 s e 44 s, mais quatro execuções. Leitura da skill foram 3 chamadas; escrita, 1. Cortar prosa não encurta mais nada | atrapalha | regra de conferência |
 | 4 | **Contradição entre dois arquivos da skill**: o cabeçalho do `simulador.js` mandava citar a fonte, o `SKILL.md` proíbe citar literatura | atrapalha | `assets/simulador.js` |
-| 5 | **O teto de palavras não foi medido** — ele mirou e não contou. 1.541 contra 1.000 | atrapalha | `LESSON-FORMAT.md` |
+| 5 | **O teto de palavras não tinha régua.** Ele não contou, e eu contei incluindo os blocos de código: 1.541. Só a prosa dá 1.024, dentro do teto. A falha era da regra, que não dizia o que entra na conta — corrigida depois do Teste 4 | atrapalha | `LESSON-FORMAT.md` |
 | 6 | Um número ilustrativo escrito como observado ("−10⁻¹²"), um slider decorativo (`Sin`), e a pasta indicada aninhada | cosmético | `SKILL.md`, `LESSON-FORMAT.md` |
 | 7 | **Erro meu no gabarito**: eu afirmei que nenhuma suposição deveria aparecer. Um problema de valor inicial exige X0, S0, P0 e horizonte, que o enunciado não dá — declará-los foi o certo | — | `Teste 3/EXERCICIO.md` |
 
