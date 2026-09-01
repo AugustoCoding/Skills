@@ -9,7 +9,7 @@ Mesmo enunciado do Teste 3, skill corrigida. Preencha os campos vazios durante e
 | Campo | Valor |
 |---|---|
 | Teste | 4 |
-| Data | {AAAA-MM-DD} |
+| Data | 2026-08-31 |
 | Quem rodou | Augusto |
 | Foco | As correções do Teste 3 pegaram? Especificamente: o tempo cai abaixo de 5 minutos, a figura da varredura entra na lição, e a lição fica perto de 1.000 palavras? |
 
@@ -35,10 +35,10 @@ Mesmo enunciado do Teste 3, skill corrigida. Preencha os campos vazios durante e
 
 | Campo | Valor |
 |---|---|
-| Cliente | {Claude Code CLI / desktop / web — e versão} |
-| Modelo | {id exato} |
-| Modo | {padrão / fast / esforço} |
-| Acesso à web | {sim / não} |
+| Cliente | Claude Code (versão não registrada) |
+| Modelo | Opus 5 — `claude-opus-5` (confirmado pelo próprio modelo) |
+| Modo | Esforço médio; "auto mode" ativo (trabalho pelo Bash sempre que possível) |
+| Acesso à web | Não usado: nenhuma busca aparece no relatório |
 | Sistema | Windows 11 |
 | Diretório de trabalho | raiz do repositório |
 
@@ -110,62 +110,92 @@ Não altere nada em com-skill/ ao escrever este relatório.
 
 ## 5. Saída
 
-Onde o modelo escreveu: `Teste 4/com-skill/`
+Onde o modelo escreveu: `Teste 4/com-skill/` — **na pasta indicada**, sem aninhar.
 
 ```text
-{cole a árvore}
+com-skill/
+  quimiostato-produtividade-maxima.html   13 849 B
+  assets/
+    varredura.js    10 987 B   ← escrito por ele
+    simulador.js    15 830 B   ← cópia, nunca carregada pela lição
+    lesson.css · codigo.js · tema.js      cópias
 ```
 
-| Medida | Teste 3 | Teste 4 | Alvo |
+| Medida | Teste 3 | **Teste 4** | Alvo |
 |---|---|---|---|
-| Duração | 8 min | | < 5 min |
-| Palavras visíveis | 1.541 | | ~1.000 |
-| Teoria | 266 | | a menor |
-| Código | 933 | | a maior |
-| Análise crítica | 294 | | |
-| Passos de código | 5 | | ≤ 6 |
-| Execuções de Python | 8 | | menos |
-| Componente novo escrito | não (proibido) | | sim, se a figura pedir |
+| Duração | 8 min | **~6 min** (estimada) | < 5 min |
+| Palavras de prosa | 1.024 | **1.036** | ~1.000 |
+| Palavras na tela (com código) | 1.541 | 1.700 | — |
+| Teoria | 266 | 288 | a menor |
+| Código | 933 | 1.141 | a maior |
+| Análise crítica | 294 | 226 | |
+| Passos de código | 5 | 5 | ≤ 6 |
+| Controles no gráfico | 3 | 2 | ≤ 4 |
+| Execuções de código | 8 | 11 | menos peso, não menos número |
+| Componente novo | não (proibido) | **`varredura.js`** | sim, se a figura pedir |
+
+As 11 execuções contra 8 não são piora: no Teste 3 havia um timeout de 120 s e duas de ~40 s; aqui todas são baratas, porque os números saem de fórmula fechada. O peso migrou para escrever o componente — que ele chama de metade da sessão.
+
+O [relatório do próprio modelo](./RELATORIO-MODELO.md) traz a procedência de cada número e o inventário de leituras e chamadas.
 
 ## 6. Avaliação
 
 **As três perguntas deste teste**
 
-- [ ] **Menos de 5 minutos?**
-- [ ] **A figura da varredura está na lição** — produtividade contra D, visível para quem não roda nada?
-- [ ] **Perto de 1.000 palavras**, com a contagem feita antes de salvar?
+- [~] **Menos de 5 minutos?** Não: ~6, contra 8 no Teste 3 e 15+ no Teste 2
+- [x] **A figura da varredura está na lição** — ele escreveu o componente citando a regra nova como motivo
+- [x] **Perto de 1.000 palavras** — 1.036 de prosa, e desta vez ele contou: 1.047, cortou, recontou 1.030
 
 **Não repetiu o que o Teste 3 confessou**
 
-- [ ] Escreveu **na** pasta indicada, sem aninhar outra dentro
-- [ ] Nenhum número ilustrativo escrito como se fosse medido
-- [ ] Nenhum controle decorativo: todo slider tem observação que manda mexer nele
+- [x] Escreveu na pasta indicada, sem aninhar
+- [ ] Nenhum número ilustrativo sem lastro — **repetiu**, em outro formato (ver achado 1)
+- [ ] Todo slider com observação própria — `Sin` de novo sem frase que o convoque
 
-**O que já estava certo e precisa continuar**
+**O que já estava certo e continuou**
 
-- [ ] Três divisões, com código + análise crítica pesando mais que a teoria
-- [ ] Passos revelados um a um, no máximo seis, cada um com o porquê da decisão
-- [ ] Programa completo colapsado e executável, com botão de copiar
-- [ ] Resposta atrás de um botão
-- [ ] Equações em MathML
-- [ ] Observações ancoradas neste caso; nada genérico, nada de lista de hipóteses
-- [ ] Nenhum arquivo de contabilidade — estado, índice, registro
-- [ ] Nenhuma citação de literatura
-- [ ] D ótimo ≈ 0,270 1/h · produtividade ≈ 9,83 g·L⁻¹·h⁻¹ · D crítico ≈ 0,297 1/h
-- [ ] Distinguiu concentração de produtividade
+- [x] Três divisões, código como maior parte
+- [x] Cinco passos, cada um com o porquê da decisão
+- [x] Programa completo executável, colapsado, com botão de copiar
+- [x] Quatro equações em MathML
+- [x] Observações ancoradas neste caso, nenhuma genérica
+- [x] Nenhum arquivo de contabilidade, nenhuma citação de literatura
+- [x] D ótimo 0,2701 · Pr 9,828 · D crítico 0,2970, conferidos em Python **e** de novo em JavaScript dentro do componente
+
+**Correção técnica**
+
+- [x] Analítico primeiro, integração confirmando — e a divergência em D = 0,2970 (0,70 integrado contra 0,12 analítico) virou o passo 4 da lição
+- [x] Escolhas de PVI, método e tolerância declaradas na tabela
+- [ ] Faixa dos controles não declarada como escolha dele
 
 ## 7. Achados
 
 | # | Achado | Gravidade | Onde |
 |---|---|---|---|
-| | | | |
+| 1 | **A varredura de procedência falhou pelo mesmo buraco do Teste 3**: número dentro de frase de prosa. Ele escreveu que a malha grosseira faria a produtividade cair "de 9,8 para 8,2" — a diferença real é de 10⁻⁴. E chamou de "10⁻⁴ do crítico" uma distância que é 3×10⁻⁵. Tabela e `data-params` impecáveis; a prosa, não | atrapalha | `LESSON-FORMAT.md` |
+| 2 | **"Palavra visível" não tinha régua** — ele contou 1.030 (prosa), eu contei 1.700 (com código). A mesma lição, dois vereditos | atrapalha | `LESSON-FORMAT.md` |
+| 3 | **Leu as ~450 linhas do `simulador.js` para descobrir que não servia** — o maior gasto de esforço da sessão, por informação que cabia em uma linha | atrapalha | `assets/simulador.js` |
+| 4 | **Cópia cega de assets**: copiou o `simulador.js`, que nenhuma lição carrega | cosmético | `SKILL.md` |
+| 5 | **"Pelo menos uma observação manda mexer" era ambíguo** — por controle ou no conjunto? Ele embarcou `Sin` sabendo que a observação era fraca | cosmético | `LESSON-FORMAT.md` |
+| 6 | **"Uma dúzia de pontos" colidia com a varredura de 3.000** — ele deduziu certo que a dúzia fala de integrações, mas era dedução | cosmético | `SKILL.md` |
+| 7 | **O gráfico ficou pior que o do Teste 3**: dois painéis empilhados de 150 px dentro de um canvas de 420, contra o painel único de 320 px do `simulador.js`. Apertado e mal formatado | atrapalha | `LESSON-FORMAT.md` |
 
 ## 8. Veredito
 
-{aprovado / reprovado} — {uma frase}
+**Aprovado.** As três correções do Teste 3 pegaram: o componente foi escrito, a figura entrou na lição, a pasta indicada foi respeitada, e a conferência analítica rendeu duas vezes — barateou os números e transformou a divergência perto do washout em conteúdo.
+
+O tempo ficou em ~6 minutos contra a meta de 5, mas a natureza do custo mudou: não é mais espera de integrador, é escrita de componente novo. Isso é trabalho, não desperdício.
+
+O que sobra são acabamentos: um gráfico apertado, um número em prosa sem conferência, um slider sem observação.
 
 ## 9. O que mudou depois deste teste
 
 | Commit | O que corrigiu |
 |---|---|
-| | |
+| `a4ea8ea` | **Achado 2** — o teto ganhou régua: 1.000 palavras de prosa, sem `<pre>`, `<script>` nem `<math>`; código sem teto |
+| `a4ea8ea` | **Achado 3** — tabela de componentes com coluna "não faz", e cabeçalho novo no `simulador.js` |
+| `a4ea8ea` | **Achado 4** — copiar só os componentes que a lição carrega |
+| `a4ea8ea` | **Achado 5** — cada controle precisa da própria observação |
+| `a4ea8ea` | **Achado 6** — a dúzia de pontos fala de integrações |
+| `a4ea8ea` | **Achado 1** — varredura de procedência mecânica: procurar dígitos com `grep`, não ler |
+| (este commit) | **Achado 7** — um gráfico, um painel, 320 a 420 px de altura; grandezas de unidades diferentes não viram segundo painel |

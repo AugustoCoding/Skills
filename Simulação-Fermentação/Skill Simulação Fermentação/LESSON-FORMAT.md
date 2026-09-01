@@ -77,6 +77,8 @@ O gráfico interativo, e a leitura do resultado **daquele** exercício.
      data-controles="D:0.05:0.32:0.005"></div>
 ```
 
+- **Um gráfico, um painel.** Ele ocupa a largura inteira da coluna e tem **entre 320 e 420 px de altura**. Nada de empilhar painéis: dois painéis de 150 px dentro do mesmo canvas são dois gráficos ruins, apertados e ilegíveis, em vez de um bom.
+- **Se duas grandezas não cabem no mesmo eixo** por causa das unidades, escolha a que responde a pergunta do exercício. A outra vira número no texto ou na linha de leitura embaixo do gráfico — não vira segundo painel.
 - **No máximo quatro controles**, e **cada um precisa da sua própria observação** mandando mexer nele. Não é "pelo menos uma observação no conjunto": controle sem frase que o convoque é ruído, e some.
 - **Declare faixa e passo** de cada controle quando os padrões do componente não servirem: perto de uma transição abrupta, passo grosso demais esconde justamente o que interessa.
 - **Sem esconder a curva**: o aluno desliza e ela responde na hora.
@@ -105,6 +107,8 @@ Precisa de um modelo que não está na lista? `Simulador.registrar(nome, {vars, 
 Alguns exercícios — quase todos os de regime contínuo — respondem uma pergunta de **varredura**: qual D dá a maior produtividade, como o rendimento anda com a vazão. A figura que responde isso tem o parâmetro no eixo horizontal, não o tempo, e o `simulador.js` só desenha curso temporal.
 
 Nesse caso, **escreva o componente**. Um gráfico de varredura em `assets/` do workspace, no mesmo estilo dos que já existem, e use. A figura central do exercício não fica de fora da lição porque a peça não existia.
+
+**E ele fica no workspace, não vira peça da skill.** Não empacotamos componente por tipo de exercício: cada tipo empacotado vira o formato que o próximo caso tende a imitar, mesmo quando a pergunta pedia outra figura. Escreva o que o caso pede — a skill guarda o motor de simulação e as convenções, não um catálogo de gráficos.
 
 ## Equações
 
