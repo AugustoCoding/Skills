@@ -17,14 +17,16 @@ Repetição controlada do [Teste 5](../Teste%205/SESSAO.md), com o mesmo enuncia
 
 | Campo | Valor |
 |---|---|
-| Commit da skill | `0af04c2` — Tirar o teto de palavras, completar as definições e engordar o design |
-| HEAD do dia | `{preencher}` — só registros de teste depois de `0af04c2`; os arquivos da skill não mudaram |
+| Commit da skill | `12da50f` — Mover a forma para os arquivos que se copiam, e tirar o teto esquecido |
+| HEAD do dia | `{preencher}` — se houver commit depois de `12da50f`, diga se ele tocou a skill |
 | Branch | `main` |
 | Alterações locais não commitadas | {não / sim — quais} |
 | Como a skill foi carregada | *junction* `~/.claude/skills/lesson-generator` → `lesson-generator/Skill lesson-generator/` |
 | Nome da pasta instalada | `lesson-generator` |
 
-O que mudou desde o Teste 5 (`bfff006`) — **tudo em `0af04c2`, e nada disso foi exercitado ainda**:
+O que mudou desde o Teste 5 (`bfff006`), em dois commits, **nada disso exercitado ainda**.
+
+### `0af04c2` — as regras
 
 - **O teto de 1.000 palavras saiu.** No lugar, a régua de cortar o que não ensina e nunca abreviar o que ensina. Sobrou só um sinal frouxo em ~1.800 palavras de prosa.
 - **Parágrafo de abertura** obrigatório: três a cinco frases situando o processo, antes da primeira divisão.
@@ -34,6 +36,17 @@ O que mudou desde o Teste 5 (`bfff006`) — **tudo em `0af04c2`, e nada disso fo
 - **Terceira caixa de procedência** (número derivado do enunciado) e **faixa de slider declarada como configuração**, não afirmação.
 - Três modos de falha novos: a definição-etiqueta, a explicação com pressa, a lição que começa na equação.
 - **Design**: texto de 17 para 19 px, coluna de 46 para 54 rem, cantos de 3 para 10 px, símbolo definido em cor e negrito, e a classe `.termo`.
+
+### `12da50f` — a forma saiu da prosa e foi para os arquivos que se copiam
+
+O pente passado antes deste teste. A hipótese: instrução que **descreve** forma custa raciocínio; forma que **já está escrita** se copia. O próprio Teste 5 demonstrou isso sem que ninguém notasse — o `codigo.js`, único componente com contrato escrito, foi o único que ele não abriu.
+
+- **O teto de palavras tinha ficado em dois lugares.** `0af04c2` tirou do `LESSON-FORMAT.md` e esqueceu no `templates/licao.html` e no `README.md`. O template é lido inteiro em toda sessão: **o Teste 6 rodado antes deste commit teria medido uma remoção pela metade.**
+- **`templates/componente.js`**, novo: esqueleto de gráfico que já roda, no lugar dos cinco tópicos de convenções em prosa.
+- **Os cinco blocos de HTML saíram do `LESSON-FORMAT.md`** — quatro repetiam marcação que já estava no template. Ficam as regras; a forma mora só no template. O arquivo caiu de 17.020 para 15.542 B.
+- **O template mostra `data-controles` com faixa e passo**, e manda conferir que a faixa alcança o valor citado na observação — é o mecanismo do achado 7.
+- **`tema.js` dispara `tema-mudou`**, para componente novo repintar sem que o `tema.js` conheça o nome dele.
+- **`examples/exemplo_1.md` apagado**: nada apontava para ele e o modelo nunca o abriu em cinco testes.
 
 **Os achados 7 e 8 do Teste 5 não foram corrigidos de propósito.** As duas regras já existiam e estavam claras; mexer nelas agora misturaria duas variáveis no mesmo teste. O Teste 6 responde se foi acaso ou se a regra não pega.
 
@@ -146,8 +159,9 @@ Contagem pela convenção da série: MathML **conta** como prosa; `<pre>`, `<scr
 | Canvas · painéis por canvas | 1 · 2 | 2 · 1 | | 1 painel por canvas, ≤ 2 canvas |
 | Passos de código | 5 | 5 | | ≤ 6 |
 | Controles | 2 | 4 | | ≤ 4, cada um com observação |
-| Leituras do `simulador.js` | — | **3** | | **0 ou 1** |
-| Componente novo | `varredura.js` | `perfil-mu.js` | | — |
+| Leituras do `simulador.js` | — | **3** | | **0** |
+| Componente novo | `varredura.js` | `perfil-mu.js` | | partindo do esqueleto |
+| Leu `templates/componente.js`? | — | não existia | | sim, se escrever componente |
 
 ## 6. Avaliação
 
@@ -163,6 +177,13 @@ Contagem pela convenção da série: MathML **conta** como prosa; `<pre>`, `<scr
 - [ ] **Um painel por canvas**, 320 a 420 px, no máximo dois canvas
 - [ ] **Design novo copiado**: 19 px, coluna de 54 rem, cantos de 10 px, símbolo em cor e negrito
 - [ ] `<span class="termo">` usado com parcimônia, ou não usado — mas nunca em profusão
+
+**O pente de `12da50f`** — a forma mudou de lugar, o tempo tem de responder
+
+- [ ] **Não abriu o `simulador.js`** — e, se escreveu componente, **partiu de `templates/componente.js`**. Confira na seção 3 do relatório dele
+- [ ] O componente novo, se houver, escuta `tema-mudou` — nada de `MutationObserver` reinventado
+- [ ] **Nenhuma menção a teto de palavras** em nada que ele escreveu ou disse: o teto não existe mais em lugar nenhum da skill
+- [ ] A marcação saiu igual à do template, sem invencão — agora que a forma mora num só lugar
 
 **Os dois achados em aberto do Teste 5**
 

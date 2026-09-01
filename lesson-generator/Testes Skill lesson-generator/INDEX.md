@@ -9,7 +9,7 @@ Uma linha por execução. É daqui que se lê a evolução da skill: o que foi t
 | [3](./Teste%203/SESSAO.md) | 2026-08-30 | `f756788` | Opus 5, esforço médio | A skill enxuta: sai em menos de 5 minutos? | Aprovado com ressalvas: 8 min | `94f0648` — analítico primeiro, contar palavras, e a permissão de criar componente |
 | [4](./Teste%204/SESSAO.md) | 2026-08-31 | `94f0648` | Opus 5, esforço médio | Repetição controlada do Teste 3: as correções pegaram? | Aprovado: 6 min, componente escrito | `a4ea8ea` — régua do teto, tabela de componentes, procedência por grep, e o gráfico de painel único |
 | [5](./Teste%205/SESSAO.md) | 2026-09-01 | `bfff006` | Opus 5, esforço médio | Teoria por equação, e a disciplina do gráfico | Aprovado com ressalvas: > 10 min | `0af04c2` — teto de palavras removido, parágrafo de abertura, definição por extenso, convenções de componente e o design novo |
-| [6](./Teste%206/SESSAO.md) | {a rodar} | `0af04c2` | {a preencher} | Sem teto de palavras: mais completa e mais rápida? | — | — |
+| [6](./Teste%206/SESSAO.md) | {a rodar} | `12da50f` | {a preencher} | Sem teto de palavras: mais completa e mais rápida? | — | — |
 
 ## Como usar
 
