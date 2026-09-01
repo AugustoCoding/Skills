@@ -9,7 +9,7 @@ Repetição controlada do [Teste 5](../Teste%205/SESSAO.md), com o mesmo enuncia
 | Campo | Valor |
 |---|---|
 | Teste | 6 |
-| Data | {AAAA-MM-DD} |
+| Data | 2026-09-01 |
 | Quem rodou | Augusto |
 | Foco | Tirar o teto de palavras devolveu tempo? E a lição ficou **mais completa** — abertura, definição por extenso, frase de fecho com cena montada — em vez de mais curta? |
 
@@ -18,9 +18,9 @@ Repetição controlada do [Teste 5](../Teste%205/SESSAO.md), com o mesmo enuncia
 | Campo | Valor |
 |---|---|
 | Commit da skill | `12da50f` — Mover a forma para os arquivos que se copiam, e tirar o teto esquecido |
-| HEAD do dia | `{preencher}` — se houver commit depois de `12da50f`, diga se ele tocou a skill |
+| HEAD do dia | `5d8ed1a` — só repontou o registro do Teste 6; não tocou a skill |
 | Branch | `main` |
-| Alterações locais não commitadas | {não / sim — quais} |
+| Alterações locais não commitadas | não |
 | Como a skill foi carregada | *junction* `~/.claude/skills/lesson-generator` → `lesson-generator/Skill lesson-generator/` |
 | Nome da pasta instalada | `lesson-generator` |
 
@@ -54,10 +54,10 @@ O pente passado antes deste teste. A hipótese: instrução que **descreve** for
 
 | Campo | Valor |
 |---|---|
-| Cliente | {Claude Code — desktop / CLI / web, e versão se souber} |
-| Modelo | {id exato, ex: `claude-opus-5`} |
-| Modo | {padrão / fast; e se "auto mode" está ativo} |
-| Acesso à web | {sim / não} |
+| Cliente | Claude Code (versão não registrada) |
+| Modelo | Opus 5 — `claude-opus-5` (confirmado pelo próprio modelo) |
+| Modo | Esforço médio; "auto mode" ativo (trabalho pelo Bash sempre que possível) |
+| Acesso à web | Não usado: nenhuma busca aparece no relatório |
 | Sistema | Windows 11 |
 | Diretório de trabalho | raiz do repositório |
 
@@ -71,9 +71,13 @@ O pente passado antes deste teste. A hipótese: instrução que **descreve** for
 
 | | Horário |
 |---|---|
-| Prompt enviado | |
-| Lição aberta | |
-| **Duração** | |
+| Prompt enviado | ~18:41 |
+| Lição aberta | ~18:50 |
+| **Duração** | **6 a 8 min**, cronometrado no olho pelo usuário |
+
+Os mtimes delimitam a janela de escrita: 18:42 (primeiro script de conferência) a
+18:50:08 (gravação final do HTML). Não cobrem a leitura da skill antes nem a
+conferência depois — por isso a medida do usuário é a que vale.
 
 Referências: 15+ min no Teste 2, 8 no Teste 3, **6 no Teste 4**, > 10 no Teste 5.
 
@@ -139,101 +143,132 @@ Não altere nada em com-skill/ ao escrever este relatório.
 
 ## 5. Saída
 
-Onde o modelo escreveu: `Teste 6/com-skill/`
+Onde o modelo escreveu: `Teste 6/com-skill/` — **na pasta indicada**, sem aninhar. A pasta da skill não foi tocada.
 
 ```text
-{cole a árvore}
+com-skill/
+  batelada-vhg-inibicao-etanol.html   19 445 B
+  assets/
+    mu-tempo.js     11 909 B   ← escrito, a partir de templates/componente.js
+    simulador.js    16 854 B   cópia
+    lesson.css      15 650 B   cópia
+    codigo.js        4 276 B   cópia
+    tema.js          3 085 B   cópia
 ```
 
 Contagem pela convenção da série: MathML **conta** como prosa; `<pre>`, `<script>` e `<style>` ficam fora.
 
-| Medida | Teste 4 | Teste 5 | **Teste 6** | O que se espera |
+| Medida | Teste 4 | Teste 5 | **Teste 6** | O que se esperava |
 |---|---|---|---|---|
-| Duração | ~6 min | > 10 min | | < 6 min |
-| Palavras de prosa | 1.036 | 1.061 | | **maior**, sem ficar lenta |
-| Abertura | 39 | 44 | | parágrafo de 3 a 5 frases |
-| Teoria | 288 | 334 | | maior, e por extenso |
-| Código | 1.141 | 865 | | a maior |
-| Análise crítica | 226 | 334 | | |
-| Blocos de equação | — | 4 | | 4 |
-| Canvas · painéis por canvas | 1 · 2 | 2 · 1 | | 1 painel por canvas, ≤ 2 canvas |
-| Passos de código | 5 | 5 | | ≤ 6 |
-| Controles | 2 | 4 | | ≤ 4, cada um com observação |
-| Leituras do `simulador.js` | — | **3** | | **0** |
-| Componente novo | `varredura.js` | `perfil-mu.js` | | partindo do esqueleto |
-| Leu `templates/componente.js`? | — | não existia | | sim, se escrever componente |
+| Duração | ~6 min | > 10 min | **6 a 8 min** | < 6 min |
+| Palavras de prosa | 1.036 | 1.061 | **1.991** | maior, sem ficar lenta |
+| Abertura | 39 | 44 | **177** | parágrafo de 3 a 5 frases |
+| Teoria | 288 | 334 | **794** | maior, e por extenso |
+| Código (com código) | 1.141 | 865 | **1.265** | a maior |
+| Análise crítica | 226 | 334 | **346** | |
+| Blocos de equação | — | 4 | **4** | 4 |
+| Canvas · painéis por canvas | 1 · 2 | 2 · 1 | **2 · 1** (320 e 340 px) | 1 painel por canvas, ≤ 2 canvas |
+| Passos de código | 5 | 5 | **6** | ≤ 6 |
+| Controles | 2 | 4 | **2** | ≤ 4, cada um com observação |
+| Chamadas de ferramenta | — | 37 | **23** | menos |
+| Execuções de código | 11 | 10 | **9** (7 Python, 2 Node) | — |
+| Leituras do `simulador.js` | — | **3 inteiras** (~1.410 linhas) | **1 `grep`** (~140 linhas) | 0 |
+| Componente novo | `varredura.js` | `perfil-mu.js` | **`mu-tempo.js`** | partindo do esqueleto |
+| Leu `templates/componente.js`? | — | não existia | **sim, integral, e usou** | sim |
+
+**O reaproveitamento do esqueleto, medido linha a linha:** o `mu-tempo.js` tem 321 linhas, das quais **259 são idênticas** ao `templates/componente.js` — **81%**. Ele descreve o trabalho como "três substituições, e funcionou de primeira".
+
+**A leitura que sobrou do `simulador.js` não foi de estilo.** Foi um `grep -n "registrar\|inibicao_produto" -A 22` para descobrir as chaves de parâmetro do modelo registrado e as faixas padrão dos sliders — que a tabela de componentes não lista. Ver achado 2.
+
+**Integrações:** 21 distintas, contra as 13 do Teste 5. Acima da "dúzia" que o formato pede, mas todas baratas: 17 delas são a varredura de `Pmax`/`S0`/`X0` que sustenta as observações dos sliders. O peso migrou de ler componente para ancorar frase, que é a troca certa.
+
+O [relatório do modelo](./RELATORIO-MODELO.md) é o mais útil da série. A seção 6 traz a procedência número a número, e a seção 9 traz um diagnóstico de causa que ele mesmo levantou — ver achado 1.
 
 ## 6. Avaliação
 
-**As perguntas deste teste** — todas sobre o que `0af04c2` mudou
+**As perguntas deste teste**
 
-- [ ] **Mais rápido que os > 10 min do Teste 5**, com o mesmo enunciado
-- [ ] **A lição ficou maior**, não menor: tirar o teto tinha de engordar a explicação
-- [ ] **Parágrafo de abertura** de três a cinco frases, entre o cabeçalho e o primeiro `<h2>` — o `gancho` não conta
-- [ ] **Definição é frase completa**: diz taxa de quê, de quem, concentração de quê e onde. Nenhuma etiqueta do tipo "P — etanol, g/L"
-- [ ] **A frase de fecho monta a cena antes de concluir**, duas a quatro frases por bloco
-- [ ] **Não precisou ler o `simulador.js` inteiro** — as convenções escritas bastaram
-- [ ] **Caixa do número derivado usada**: a conta de 22 g/g, de 85,5 % e de 4.500 kg está visível na lição ou no código
-- [ ] **Um painel por canvas**, 320 a 420 px, no máximo dois canvas
-- [ ] **Design novo copiado**: 19 px, coluna de 54 rem, cantos de 10 px, símbolo em cor e negrito
-- [ ] `<span class="termo">` usado com parcimônia, ou não usado — mas nunca em profusão
-
-**O pente de `12da50f`** — a forma mudou de lugar, o tempo tem de responder
-
-- [ ] **Não abriu o `simulador.js`** — e, se escreveu componente, **partiu de `templates/componente.js`**. Confira na seção 3 do relatório dele
-- [ ] O componente novo, se houver, escuta `tema-mudou` — nada de `MutationObserver` reinventado
-- [ ] **Nenhuma menção a teto de palavras** em nada que ele escreveu ou disse: o teto não existe mais em lugar nenhum da skill
-- [ ] A marcação saiu igual à do template, sem invencão — agora que a forma mora num só lugar
+- [~] **Mais rápido que os > 10 min do Teste 5**: sim, 6 a 8 min — mas não bateu os 6 min do Teste 4, e o alvo de 5 continua longe
+- [x] **A lição ficou maior**: 1.991 contra 1.061 palavras, +88%. E ele **não cortou uma palavra por tamanho** — os dois cortes que fez foram de honestidade (tirou um número implícito sem procedência e trocou "nona casa decimal" por o desvio que tinha medido)
+- [x] **Parágrafo de abertura** de 177 palavras entre o cabeçalho e o primeiro `<h2>`, dizendo que processo é, o que o enunciado pede e o que sai no fim
+- [x] **Definição é frase completa.** "μ — taxa específica de crescimento da levedura: gramas de célula nova formados por hora, por grama de célula já presente na dorna, em 1/h". O `Ks` corrige o erro clássico dentro da própria definição: "mede a afinidade da levedura pelo açúcar, e não o ponto em que ela para de crescer"
+- [x] **A frase de fecho monta a cena antes de concluir**, nos quatro blocos, com duas a quatro frases
+- [x] **Não leu o `simulador.js` para aprender estilo** — uma leitura dirigida de ~140 linhas, por outro motivo
+- [~] **Caixa do número derivado**: a conta aparece para 22,2 g/g, 0,405 g/g, 222 g/L e o trio final. **Não aparece** para 85,5 % de conversão nem para os fatores de Monod 0,994 e 0,962. Ver achado 1
+- [x] **Um painel por canvas**, 320 e 340 px, dois canvas — conferido no navegador
+- [x] **Design novo copiado**: 19 px, coluna de 54 rem, cantos de 10 px, símbolo em cor
+- [x] `<span class="termo">` não usado — zero é aceitável, e melhor que usar por usar
 
 **Os dois achados em aberto do Teste 5**
 
-- [ ] **Achado 7** — todo valor citado numa observação é alcançável pelo slider: dentro da faixa **e** múltiplo do passo
-- [ ] **Achado 8** — os números que só existem por integração estão declarados como numéricos
+- [x] **Achado 7 fechado.** `S0:180:300:2`, e ele escreve o porquê: *"com passo 5 o slider pararia em 220 e 225 e nunca em 222, que é justamente o ponto de empate entre os dois freios"*. Conferi ao vivo: arrastando para 222, o ART toca zero no mesmo instante em que o etanol chega a 90. Os quatro valores citados nas observações caem na grade
+- [ ] **Achado 8 repetido.** Seis números saem só de integração e nenhum vem declarado como numérico. Ver achado 1
 
 **Comportamento**
 
-- [ ] Não entrevistou
-- [ ] Escreveu na pasta indicada, sem aninhar
-- [ ] Copiou só os componentes que a lição carrega
-- [ ] Não escreveu contabilidade: nenhum arquivo de estado, índice ou registro
-- [ ] Não tocou na pasta da skill
-- [ ] Avisou onde escreveu e abriu o arquivo via CLI
-- [ ] Falou pouco no chat
+- [x] Não entrevistou
+- [x] Escreveu na pasta indicada, sem aninhar
+- [x] Copiou só os componentes que a lição carrega — cinco em `assets/`, os cinco chamados pelo HTML
+- [x] Não escreveu contabilidade
+- [x] Não tocou na pasta da skill — conferido por mtime e por `git status`
+- [x] Avisou onde escreveu e abriu o arquivo via CLI
+- [ ] **Não verificou a lição renderizada** — e avisou. O painel do navegador abre arquivo de fora do projeto como snapshot estático. Ver achado 5
 
-**Estrutura, que já estava certa no Teste 5 e não pode regredir**
+**Estrutura**
 
-- [ ] Três divisões: teoria · código · análise crítica, com o código pesando mais
-- [ ] Um bloco por equação, com os símbolos daquela equação e nada mais
-- [ ] Símbolo repetido definido só na primeira aparição
-- [ ] Equações em MathML
-- [ ] Tabela de parâmetros com unidade e procedência
-- [ ] Passos revelados um a um, no máximo seis, cada um com o porquê
-- [ ] Programa completo colapsado e executável, com botão de copiar
-- [ ] Resposta numérica atrás de um botão
-- [ ] `data-rotulos` batizando as curvas, e o texto usando os mesmos nomes
-- [ ] Duas a quatro observações por gráfico, cada uma com insight próprio
-- [ ] Cada controle com a sua observação
-- [ ] Botão de claro/escuro funcionando, nenhum link, nenhuma promessa de continuação
+- [x] Três divisões, com o código pesando mais (1.265 contra 794 de teoria; código + crítica = 1.611)
+- [x] Um bloco por equação, com os símbolos daquela equação; símbolo repetido definido só na primeira
+- [x] Quatro equações em MathML
+- [x] Tabela de parâmetros com unidade e procedência, inclusive `V` marcado como "não entra na integração"
+- [x] Seis passos, o teto, cada um com o porquê. O quinto existe por causa da regra do número derivado, e ele diz isso
+- [x] Programa completo colapsado — **extraí e rodei: executa e imprime os números da resposta**
+- [x] Resposta atrás de um botão
+- [x] `data-rotulos="Levedura X, ART S, Etanol P"`, e o texto usa os mesmos nomes
+- [x] Quatro observações, quatro fenômenos distintos. Ele descartou um slider de `Pmax` porque a observação repetiria a de `S0`
+- [x] Cada um dos dois controles com a sua observação; o segundo canvas não tem controle, e por isso não devia ter mesmo
+- [x] Botão de tema, nenhum link, nenhuma promessa de continuação
 
-**Correção técnica** — os números estão em [EXERCICIO.md](./EXERCICIO.md), conferidos duas vezes
+**Renderização — conferida por mim, servida por HTTP, já que ele não conseguiu**
 
-- [ ] **ART sobrando ≈ 37,8 g/L** — a fermentação para por inibição, não por falta de açúcar
-- [ ] Etanol final 90,0 g/L; levedura final 11,0 g/L
-- [ ] Chegou ao número por **álgebra**, com a integração confirmando
-- [ ] Inibição **linear**, coerente com o componente
-- [ ] Nenhum número sem procedência — inclusive os embutidos em prosa
+- [x] Os dois canvas desenham; 320 e 340 px; zero erro de console
+- [x] **A troca de tema repinta os dois**, inclusive o `mu-tempo.js`, que o `tema.js` não conhece pelo nome — o contrato `tema-mudou` de `12da50f` funciona ponta a ponta
+- [x] Seis passos, só o primeiro visível; cinco cliques revelam tudo e liberam os dois `details`
+- [x] Sete botões de copiar, sliders respeitando `min:max:passo`, linhas de leitura conferindo com o Python
+
+**Correção técnica — treze números recalculados por fora**
+
+- [x] ART 37,8 · etanol 90,0 · levedura 11,0, por álgebra e integração
+- [x] μ inicial 0,3480 · μ(6 h) 0,1915 · X(6 h) 5,476
+- [x] **dX/dt máxima 1,0489 em t = 6,004 h com μ = 0,1914** — a lição diz "1,05 às 6,0 h, μ 0,19"
+- [x] 99 % do etanol em 18,507 h; com `X0` = 4,0, em 12,189 h
+- [x] `S0` = 222 dá o empate; `S0` = 200 dá 81,0 g/L; Monod 0,9943 e 0,9618
+- [x] Analítico primeiro, integração confirmando — o programa imprime os dois e o desvio, 5,6×10⁻⁹ g/L
+- [x] Inibição linear, coerente com o componente
+
+Nenhum número errado.
 
 ## 7. Achados
 
 | # | Achado | Gravidade | Onde |
 |---|---|---|---|
-| | | | |
+| 1 | **Número só numérico não declarado — repetido do Teste 5, e agora com a causa mapeada.** Seis números da lição saem só de integração (18,5 h, 12,2 h, 5,5 g/L, 89,9 g/L, o pico de dX/dt, "por volta de 20 h") e nenhum vem marcado. Pior: **o programa publicado não tem evento nem busca de raiz**, então quatro deles o aluno não consegue reproduzir com o código que recebeu — confirmado extraindo e rodando o programa. O diagnóstico é dele: a ênfase do documento no par analítico/integração treina a atenção para o resultado **final** e deixa no escuro os números de meio de curva, que são justamente os que vão para as observações. Mesma família: 85,5 % e os fatores de Monod aparecem em prosa sem a conta ao lado | atrapalha | `LESSON-FORMAT.md` |
+| 2 | **A tabela de componentes não basta para *usar* o `simulador.js`.** Lista os modelos registrados, mas não as chaves de parâmetro de cada um nem as faixas padrão dos sliders — e sem isso o `data-params` é adivinhação. Foi a única leitura de componente que sobrou. Quatro linhas na tabela a eliminam | atrapalha | `LESSON-FORMAT.md` |
+| 3 | **"Duas a quatro observações" colide com "cada controle precisa da sua própria observação".** A partir de três controles as observações acabam e não sobra nenhuma para a leitura da curva, que é o que o formato chama de análise de verdade. Ele resolveu cortando para dois controles — e resolveu bem —, mas o documento não diz qual das duas regras cede | atrapalha | `LESSON-FORMAT.md` |
+| 4 | **Redundância introduzida por `12da50f`.** "Não abra o `simulador.js` para aprender o estilo" aparece três vezes, com a mesma anedota; e três assuntos estão inteiros no `SKILL.md` e no `LESSON-FORMAT.md` (copiar só o que a lição carrega, partir do esqueleto, o componente ficar no workspace). Ele leu cada um duas vezes. Foi o pente que criou isto: pus o ponteiro novo sem tirar a prosa antiga | cosmético | `SKILL.md` |
+| 5 | **A skill não tem caminho de autoverificação de renderização.** O painel de navegador da sessão abre arquivo de fora do projeto como snapshot estático, sem executar JS nem carregar `./assets/`. Ele compensou rodando o componente em Node, mas o `simulador.js` com os `data-params` dele **nunca foi visto funcionando** por quem escreveu a lição. Estava certo desta vez — eu conferi —, mas foi sorte, não método | atrapalha | `SKILL.md` |
+| 6 | **A teoria em prosa passou o código em prosa**: 794 contra 674. Com o código contado a regra passa folgada (1.265, e 1.611 somando a crítica), então não é falha — é sinal. Reli os quatro blocos procurando repetição, história ou ressalva inútil, como o formato manda acima de 1.800 palavras, e não achei: a lição é longa porque foi explicada por inteiro | cosmético | vigiar |
 
 ## 8. Veredito
 
-{aprovado / reprovado} — {uma frase}
+**Aprovado com ressalva no tempo** — as duas mudanças pegaram e nenhum número está errado, mas 6 a 8 minutos ainda não é o alvo de 5.
 
-Lembrete da régua: *"ganhei muito com isso, e foi rápido demais"*. As duas metades contam.
+O que este teste veio perguntar deu sim nas duas metades, o que não acontecia desde o Teste 4:
+
+- **A lição ficou mais completa e mais rápida ao mesmo tempo.** De 1.061 para 1.991 palavras, e de mais de 10 minutos para 6 a 8. Ele não cortou nada por tamanho, e as definições que o teto tinha transformado em etiqueta voltaram a ser frases que definem.
+- **O esqueleto de componente pagou.** 81 % das linhas vieram dele, a leitura do `simulador.js` caiu 90 %, e as chamadas de ferramenta caíram de 37 para 23. A hipótese do pente — instrução que **descreve** forma custa raciocínio, forma **já escrita** se copia — está medida.
+- **O achado 7 fechou por mecanismo, não por sorte.** Ele cita a regra do passo e explica a escolha. O comentário no template fez o trabalho que a prosa não tinha feito.
+
+O que segura o veredito é o achado 1, que é o mesmo do Teste 5 e agora tem uma agravante: quatro números da lição não podem ser reproduzidos com o programa que ela entrega. Uma lição que publica um instante e não dá ao aluno como chegar nele quebra a promessa central da skill, que é ensinar a programar a simulação — não entregar resultados.
 
 ## 9. O que mudou depois deste teste
 

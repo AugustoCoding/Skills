@@ -1,0 +1,591 @@
+/* lesson.css — folha de estilo compartilhada das lições.
+   Toda lição linka este arquivo. É o que faz o conjunto parecer um curso.
+   Inspiração: Edward Tufte. Coluna estreita, tipografia serifada, margem larga
+   para notas laterais, régua horizontal escassa, cor usada com parcimônia. */
+
+:root {
+  --bg: #fffff8;
+  --fg: #1a1a18;
+  --muted: #6b6b63;
+  --rule: #d8d8cc;
+  --accent: #8a3324;
+  --code-bg: #f4f4ea;
+
+  /* Nota de dúvida: marca-texto suave onde uma pergunta do aluno foi respondida.
+     Amarelo dessaturado, para destacar sem gritar ao lado do texto serifado. */
+  --nota-bg: #fdf6d8;
+  --nota-borda: #c9a227;
+
+  /* Termo destacado no meio do texto: contraste sem gritar. */
+  --acento-termo: #1f5c8b;
+
+  /* Cores das variáveis de estado. Usadas nos gráficos e no texto.
+     Mantenha estáveis entre lições: a cor vira parte do vocabulário. */
+  --cor-x: #1f5c8b;   /* biomassa  */
+  --cor-s: #8a6d1f;   /* substrato */
+  --cor-p: #2e6b3f;   /* produto   */
+
+  --ok: #2e6b3f;
+  --err: #8a3324;
+
+  /* Raio único para todo bloco: caixa quadrada deixa a página dura. */
+  --raio: 10px;
+  --raio-p: 6px;
+
+  --serif: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Times New Roman", serif;
+  --mono: "SF Mono", "Cascadia Mono", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+/* Tema escuro em dois caminhos, com a mesma paleta:
+
+     1. preferência do sistema, a menos que o aluno tenha escolhido claro;
+     2. escolha explícita do aluno no botão de tema (assets/tema.js).
+
+   A lista é duplicada de propósito: sem pré-processador, é o preço de o
+   botão vencer a preferência do sistema nos dois sentidos. */
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="claro"]) {
+    --bg: #16161a;
+    --fg: #e6e4dd;
+    --muted: #9a978d;
+    --rule: #34343c;
+    --accent: #e08b6f;
+    --code-bg: #1f1f26;
+
+    --nota-bg: #2b2718;
+    --nota-borda: #8a7526;
+
+    --acento-termo: #7fb2dd;
+
+    --cor-x: #6fb2e0;
+    --cor-s: #d9b45c;
+    --cor-p: #7fc394;
+
+    --ok: #7fc394;
+    --err: #e08b6f;
+  }
+}
+
+:root[data-tema="escuro"] {
+  --bg: #16161a;
+  --fg: #e6e4dd;
+  --muted: #9a978d;
+  --rule: #34343c;
+  --accent: #e08b6f;
+  --code-bg: #1f1f26;
+
+  --nota-bg: #2b2718;
+  --nota-borda: #8a7526;
+
+  --acento-termo: #7fb2dd;
+
+  --cor-x: #6fb2e0;
+  --cor-s: #d9b45c;
+  --cor-p: #7fc394;
+
+  --ok: #7fc394;
+  --err: #e08b6f;
+}
+
+/* ---------- estrutura ---------- */
+
+/* Escala do texto. 19px porque a lição é lida de perto, no navegador, e o
+   padrão de 16-17px obrigava zoom. */
+html { font-size: 19px; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--serif);
+  line-height: 1.55;
+  margin: 0 auto;
+  padding: 3.5rem 1.8rem 6rem;
+  max-width: 54rem;
+  text-rendering: optimizeLegibility;
+}
+
+/* Cabeçalho da lição: etiqueta (tema · degrau), título, uma linha de gancho.
+   Sem numeração de lição: a ordem vive em lessons/INDEX.md, não no cabeçalho. */
+header.licao { margin-bottom: 3rem; }
+
+header.licao .etiqueta {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+h1 {
+  font-size: 2.1rem;
+  font-weight: 400;
+  line-height: 1.15;
+  margin: 0.4rem 0 0.8rem;
+}
+
+h2 {
+  font-size: 1.35rem;
+  font-weight: 400;
+  font-style: italic;
+  margin: 3rem 0 0.8rem;
+}
+
+h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 2rem 0 0.6rem;
+}
+
+p { margin: 0 0 1.1rem; }
+
+/* O gancho: por que esta lição, por que agora. */
+.gancho {
+  font-style: italic;
+  color: var(--muted);
+  border-left: 2px solid var(--rule);
+  padding-left: 1rem;
+  margin: 0 0 2rem;
+}
+
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
+
+/* ---------- nota lateral ---------- */
+/* Tufte: a nota fica ao lado do texto, não no rodapé. Vira nota de bloco
+   quando a tela é estreita demais para a margem. */
+
+.lateral {
+  float: right;
+  clear: right;
+  width: 14rem;
+  margin: 0.3rem -16rem 1rem 0;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+@media (max-width: 82rem) {
+  .lateral {
+    float: none;
+    width: auto;
+    margin: 1rem 0;
+    padding-left: 1rem;
+    border-left: 1px solid var(--rule);
+  }
+}
+
+/* ---------- equações e unidades ---------- */
+
+.equacao {
+  margin: 1.6rem 0;
+  padding: 1rem 1.2rem;
+  background: var(--code-bg);
+  border-radius: var(--raio);
+  font-family: var(--mono);
+  font-size: 0.92rem;
+  overflow-x: auto;
+  /* Sistemas de EDOs são escritos em várias linhas: preserve as quebras.
+     pre-wrap, e não pre, para que a linha longa quebre em tela estreita. */
+  white-space: pre-wrap;
+  line-height: 1.7;
+}
+
+/* Com MathML dentro, o pre-wrap acima transformaria a indentação do HTML em
+   linhas em branco — uma equação de uma linha ficava com 280 px de caixa.
+   O pre-wrap existe para equação escrita como texto, não para marcação. */
+.equacao:has(math),
+.eq-bloco .equacao {
+  white-space: normal;
+  line-height: 1.4;
+}
+
+/* Anotação de termo: o que cada pedaço da equação significa fisicamente. */
+.termos {
+  list-style: none;
+  padding: 0;
+  margin: -0.6rem 0 1.6rem;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+.termos li { margin: 0.45rem 0; }
+
+/* O símbolo definido é o que o olho procura ao voltar para conferir: ele fica
+   em destaque, e o resto da linha é prosa normal. */
+.termos code {
+  background: none;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 1.02em;
+}
+
+/* Termo importante no meio da explicação. Sem caixa nem fundo: só peso e cor,
+   para destacar sem quebrar a linha de leitura. */
+.termo {
+  font-weight: 600;
+  color: var(--acento-termo);
+}
+
+/* Unidade. Nenhum parâmetro aparece sem uma. */
+.un {
+  font-family: var(--mono);
+  font-size: 0.85em;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.var-x { color: var(--cor-x); }
+.var-s { color: var(--cor-s); }
+.var-p { color: var(--cor-p); }
+
+/* Valor sem procedência. Obrigatório marcar. */
+.ilustrativo {
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-style: italic;
+}
+.ilustrativo::before { content: "⚠ "; font-style: normal; }
+
+/* ---------- código ---------- */
+
+code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  background: var(--code-bg);
+  padding: 0.1em 0.3em;
+  border-radius: var(--raio-p);
+}
+
+pre {
+  background: var(--code-bg);
+  padding: 1rem 1.2rem;
+  border-radius: var(--raio);
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+pre code { background: none; padding: 0; }
+
+/* ---------- tabelas ---------- */
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.6rem 0;
+  font-size: 0.9rem;
+}
+th, td { text-align: left; padding: 0.45rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-weight: 600; border-bottom: 2px solid var(--rule); }
+td.num, th.num { text-align: right; font-family: var(--mono); }
+
+/* ---------- blocos pedagógicos ---------- */
+
+/* Lembrete de que o professor está disponível. Fecha toda lição. */
+.pergunte {
+  background: var(--code-bg);
+  border-radius: var(--raio);
+  padding: 1rem 1.2rem;
+  margin: 2.5rem 0 0;
+  font-size: 0.92rem;
+}
+
+/* ---------- equações em MathML ---------- */
+/* O navegador renderiza MathML nativamente. Só ajustamos escala e respiro:
+   o padrão sai pequeno demais ao lado de uma serifada de 17px. */
+
+math { font-size: 1.12em; }
+
+/* Não sobrescreva o display do <math>: o navegador usa "block math", e trocar
+   por "block" comum faz o mfrac virar caixa CSS — a barra de fração estica
+   pela linha inteira. Só margem e rolagem horizontal. */
+math[display="block"] {
+  margin: 0.5rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.equacao math[display="block"] { margin: 0; }
+
+/* ---------- bloco de equação ---------- */
+/* Uma equação, os símbolos dela, e o que ela diz. Nessa ordem, sempre:
+   despejar as fórmulas em sequência e definir os símbolos depois faz o aluno
+   voltar para cima toda vez. */
+
+.eq-bloco { margin: 2rem 0; }
+
+.eq-bloco .equacao { margin-bottom: 0.5rem; }
+
+/* O "onde" sai daqui para o autor não ter de escrevê-lo — e para sair igual
+   em toda lição. */
+.eq-bloco .termos::before {
+  content: "onde";
+  display: block;
+  font-style: italic;
+  color: var(--muted);
+  margin-bottom: 0.35rem;
+}
+
+.eq-bloco > p {
+  margin: 0.7rem 0 0;
+  font-size: 0.95rem;
+}
+
+/* ---------- seção de código (assets/codigo.js) ---------- */
+/* O centro da lição. Passos revelados um a um: o aluno não vê quantos faltam,
+   e cada clique é uma expectativa pequena. */
+
+section.codigo { margin: 2.5rem 0; }
+
+.passo {
+  border-left: 2px solid var(--rule);
+  padding: 0 0 0 1.2rem;
+  margin: 1.8rem 0;
+}
+
+.passo h3 {
+  margin: 0 0 0.6rem;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* Numeração automática: o passo se conta sozinho, sem o autor escrever o número. */
+section.codigo { counter-reset: passo; }
+
+.passo h3::before {
+  counter-increment: passo;
+  content: counter(passo) " · ";
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--accent);
+}
+
+.passo > p { margin: 0.7rem 0 0; font-size: 0.95rem; }
+
+.oculto { display: none; }
+
+/* A animação é curta de propósito: é para marcar que algo apareceu, não para
+   fazer o aluno esperar. */
+.revelado { animation: surgir 0.32s ease-out both; }
+
+@keyframes surgir {
+  from { opacity: 0; transform: translateY(0.5rem); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .revelado { animation: none; }
+}
+
+.revelar-passo {
+  display: block;
+  width: 100%;
+  margin: 1.5rem 0;
+  padding: 0.6rem 1rem;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--bg);
+  border: 1px dashed var(--rule);
+  border-radius: var(--raio);
+  cursor: pointer;
+}
+
+.revelar-passo:hover { border-color: var(--accent); border-style: solid; }
+
+/* Programa completo e resposta: fechados, e só existem depois do último passo. */
+details.programa,
+details.resposta {
+  border-top: 1px solid var(--rule);
+  padding-top: 0.9rem;
+  margin: 1.4rem 0;
+}
+
+details.programa > summary,
+details.resposta > summary {
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  padding: 0.2rem 0;
+}
+
+details.programa[open] > summary,
+details.resposta[open] > summary { color: var(--muted); margin-bottom: 0.8rem; }
+
+details.resposta p { margin: 0 0 0.6rem; }
+
+/* Botão de copiar, no canto de cada bloco de código. */
+pre.com-copia { position: relative; }
+
+.copiar {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  padding: 0.2rem 0.5rem;
+  color: var(--muted);
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: var(--raio-p);
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+pre.com-copia:hover .copiar { opacity: 1; }
+.copiar:hover { color: var(--fg); border-color: var(--accent); }
+.copiar.copiado { color: var(--ok); border-color: var(--ok); opacity: 1; }
+
+/* ---------- botão de tema ---------- */
+/* Dois estados, claro e escuro. Fica fora do fluxo do texto: é ferramenta,
+   não conteúdo. Some na impressão. */
+
+.tema {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.7rem;
+  background: var(--bg);
+  color: var(--muted);
+  border: 1px solid var(--rule);
+  border-radius: var(--raio);
+  cursor: pointer;
+  opacity: 0.65;
+}
+
+.tema:hover { opacity: 1; color: var(--fg); }
+
+@media (max-width: 40rem) {
+  .tema { top: 0.5rem; right: 0.5rem; }
+}
+
+
+/* Nota de dúvida: a explicação escrita depois, no ponto exato do texto onde o
+   aluno travou. Marca-texto suave — o aluno tem que reconhecer, ao reabrir a
+   lição, que aquele trecho nasceu de uma pergunta dele.
+
+   Duas formas, mesma marca:
+     <p class="nota-duvida"> … </p>            bloco, para uma explicação inteira
+     <mark class="nota-duvida"> … </mark>      em linha, para uma frase enxertada
+
+   Convenção documentada em LESSON-FORMAT.md. Não invente outra classe para isto:
+   o valor está em ser o mesmo destaque em toda lição de todo aluno. */
+
+p.nota-duvida,
+div.nota-duvida {
+  background: var(--nota-bg);
+  border-left: 3px solid var(--nota-borda);
+  border-radius: 0 var(--raio) var(--raio) 0;
+  padding: 0.9rem 1.1rem;
+  margin: 1.4rem 0;
+  font-size: 0.95rem;
+}
+
+/* Rótulo opcional, com a data da pergunta. Útil quando a lição já acumulou
+   várias notas: mostra a ordem em que as dúvidas apareceram. */
+.nota-duvida > .rotulo {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+mark.nota-duvida {
+  background: var(--nota-bg);
+  color: var(--fg);
+  box-shadow: 0 -0.35em 0 0 var(--nota-bg), 0 0.12em 0 0 var(--nota-borda);
+  padding: 0 0.15em;
+}
+
+/* ---------- botões ---------- */
+
+button {
+  font-family: var(--serif);
+  font-size: 0.9rem;
+  padding: 0.4rem 0.9rem;
+  background: var(--bg);
+  color: var(--fg);
+  border: 1px solid var(--rule);
+  border-radius: var(--raio);
+  cursor: pointer;
+}
+button:hover { border-color: var(--muted); }
+button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- simulador (assets/simulador.js) ---------- */
+
+.simulador {
+  border: 1px solid var(--rule);
+  border-radius: var(--raio);
+  padding: 1.2rem;
+  margin: 2rem 0;
+}
+.simulador canvas { width: 100%; height: auto; display: block; }
+
+.sim-controles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 0.6rem 1.2rem;
+  margin-top: 1rem;
+  font-size: 0.85rem;
+}
+.sim-controle label { display: flex; justify-content: space-between; gap: 0.5rem; }
+.sim-controle .valor { font-family: var(--mono); color: var(--muted); }
+.sim-controle input[type="range"] { width: 100%; accent-color: var(--accent); }
+
+.sim-legenda {
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  font-size: 0.82rem;
+  margin-top: 0.6rem;
+}
+.sim-legenda span::before {
+  content: "—— ";
+  font-family: var(--mono);
+  font-weight: bold;
+}
+.sim-legenda .l-x { color: var(--cor-x); }
+.sim-legenda .l-s { color: var(--cor-s); }
+.sim-legenda .l-p { color: var(--cor-p); }
+
+.sim-acoes { display: flex; gap: 0.6rem; margin-top: 0.9rem; flex-wrap: wrap; }
+.sim-leitura { font-size: 0.85rem; color: var(--muted); margin-top: 0.6rem; }
+
+/* ---------- impressão ---------- */
+/* O aluno pode querer estudar no papel. Controles somem, cor vira preto. */
+
+@media print {
+  :root {
+    --bg: #fff; --fg: #000; --muted: #444;
+    --rule: #bbb; --code-bg: #f3f3f3; --accent: #000;
+    --nota-bg: #f2f2f2; --nota-borda: #888;
+  }
+  html { font-size: 11pt; }
+  body { max-width: none; padding: 0; }
+  .lateral { float: none; width: auto; margin: 0.8rem 0; padding-left: 0.8rem; border-left: 1px solid var(--rule); }
+  button, .sim-controles, .sim-acoes { display: none; }
+  .simulador, .passo, .nota-duvida, pre, table, figure { break-inside: avoid; }
+  .tema, .revelar-passo, .copiar { display: none; }
+  /* No papel não há clique: tudo que a tela esconde por etapas aparece. */
+  .oculto { display: revert; }
+  .nota-duvida { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  h1, h2, h3 { break-after: avoid; }
+  a::after { content: " (" attr(href) ")"; font-size: 0.75em; color: var(--muted); word-break: break-all; }
+  a[href^="#"]::after { content: ""; }
+}
