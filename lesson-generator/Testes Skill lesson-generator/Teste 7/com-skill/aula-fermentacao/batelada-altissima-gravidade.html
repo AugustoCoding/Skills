@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Batelada de altíssima gravidade com inibição por etanol</title>
+<link rel="stylesheet" href="./assets/lesson.css">
+</head>
+<body>
+
+<header class="licao">
+  <span class="etiqueta">Batelada anaeróbia · 72 h · Monod com inibição linear</span>
+  <h1>A dorna que para antes de acabar o açúcar</h1>
+  <p class="gancho">No fim você tem um script que integra as 72 h, devolve o etanol e o ART residual, e acha sozinho o instante em que a fermentação morre.</p>
+</header>
+
+<p>Uma dorna de 50 m³ recebe mosto com 260 g/L de ART — muito acima de um mosto comum de destilaria, e é isso que "altíssima gravidade" quer dizer. O inóculo entra a 1,0 g/L, a dorna é fechada, não entra nem sai nada durante as 72 h, e a temperatura está controlada, de modo que nenhum parâmetro cinético muda ao longo do processo. A levedura cresce segundo Monod, mas o etanol que ela mesma produz a envenena: o crescimento cai proporcionalmente conforme o etanol sobe, e cessa por completo em 90 g/L. O exercício pergunta quanto etanol sai, quanto açúcar sobra e como a taxa específica de crescimento se comporta no caminho — e a resposta interessante é que a dorna para com açúcar ainda no tanque.</p>
+
+<h2>O modelo</h2>
+
+<p>São três variáveis de estado — levedura, ART e etanol — amarradas por uma única velocidade, μ. Tudo o que acontece na dorna passa por ela, então é por ela que começamos.</p>
+
+<div class="eq-bloco">
+  <div class="equacao">
+    <math display="block">
+      <mi>μ</mi><mo>=</mo>
+      <msub><mi>μ</mi><mi>max</mi></msub>
+      <mo>⋅</mo>
+      <mfrac><mi>S</mi><mrow><msub><mi>K</mi><mi>s</mi></msub><mo>+</mo><mi>S</mi></mrow></mfrac>
+      <mo>⋅</mo>
+      <mrow><mo>(</mo><mn>1</mn><mo>−</mo>
+      <mfrac><mi>P</mi><msub><mi>P</mi><mi>max</mi></msub></mfrac>
+      <mo>)</mo></mrow>
+    </math>
+  </div>
+
+  <ul class="termos">
+    <li><code>μ</code> — taxa específica de crescimento da levedura: quantos gramas de célula nova aparecem por hora, por grama de célula já presente na dorna, em 1/h</li>
+    <li><code>μmax</code> — o valor que μ atingiria se a levedura estivesse nadando em açúcar e sem nenhum etanol por perto, em 1/h</li>
+    <li><code>S</code> — concentração de ART ainda disponível no mosto, em g/L</li>
+    <li><code>Ks</code> — concentração de ART em que a levedura já cresce à metade da velocidade que teria com açúcar sobrando, em g/L</li>
+    <li><code>P</code> — concentração de etanol acumulado no mosto, em g/L</li>
+    <li><code>Pmax</code> — concentração de etanol em que a levedura para de crescer por completo, em g/L</li>
+  </ul>
+
+  <p>A velocidade de crescimento da levedura é o produto de dois freios independentes. O primeiro é a fome: quando o ART cai para perto de Ks, a célula deixa de encontrar substrato e desacelera. O segundo é a intoxicação: cada grama de etanol que ela produz reduz proporcionalmente a própria capacidade de crescer, e em Pmax o parêntese zera. Basta um dos dois fatores chegar a zero para a dorna parar — e neste exercício, com 260 g/L de ART e Ks de apenas 1,5 g/L, é o segundo que vai chegar primeiro.</p>
+</div>
+
+<div class="eq-bloco">
+  <div class="equacao">
+    <math display="block">
+      <mfrac><mrow><mi>d</mi><mi>X</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+      <mo>=</mo><mi>μ</mi><mo>⋅</mo><mi>X</mi>
+    </math>
+  </div>
+
+  <ul class="termos">
+    <li><code>X</code> — concentração de levedura em suspensão no mosto, em g/L de massa seca</li>
+    <li><code>t</code> — tempo decorrido desde a inoculação da dorna, em h</li>
+  </ul>
+
+  <p>Toda célula viva na dorna gera célula nova na mesma taxa específica, então a população cresce proporcionalmente ao que já existe. Enquanto μ ainda vale quase μmax isso é crescimento exponencial e X dispara; conforme o etanol se acumula e μ despenca, a mesma equação vira um platô. Como a dorna é fechada e o modelo não tem morte celular, X nunca desce.</p>
+</div>
+
+<div class="eq-bloco">
+  <div class="equacao">
+    <math display="block">
+      <mfrac><mrow><mi>d</mi><mi>S</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+      <mo>=</mo><mo>−</mo>
+      <mfrac><mn>1</mn><msub><mi>Y</mi><mrow><mi>x</mi><mo>/</mo><mi>s</mi></mrow></msub></mfrac>
+      <mo>⋅</mo><mi>μ</mi><mo>⋅</mo><mi>X</mi>
+    </math>
+  </div>
+
+  <ul class="termos">
+    <li><code>Yx/s</code> — quantos gramas de levedura se formam por grama de ART que desaparece do mosto, em gX/gART</li>
+  </ul>
+
+  <p>O açúcar é a única fonte de carbono e energia da dorna, e some na proporção fixa dada pelo rendimento. O sinal é negativo porque numa batelada S só pode cair, e o rendimento aparece dividindo porque ele foi definido como célula por açúcar: para obter o açúcar gasto a partir do crescimento é preciso inverter. Com Yx/s de 0,045, cada grama de levedura nova custa 1/0,045 ≈ 22,2 g de ART — quase tudo o que a levedura consome vai para etanol e CO₂ e quase nada vira célula, que é exatamente o que se espera de uma fermentação anaeróbia.</p>
+</div>
+
+<div class="eq-bloco">
+  <div class="equacao">
+    <math display="block">
+      <mfrac><mrow><mi>d</mi><mi>P</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+      <mo>=</mo>
+      <msub><mi>Y</mi><mrow><mi>p</mi><mo>/</mo><mi>x</mi></mrow></msub>
+      <mo>⋅</mo><mi>μ</mi><mo>⋅</mo><mi>X</mi>
+    </math>
+  </div>
+
+  <ul class="termos">
+    <li><code>Yp/x</code> — quantos gramas de etanol a levedura excreta por grama de célula nova formada, em gP/gX</li>
+  </ul>
+
+  <p>O etanol aqui é produto <em>associado ao crescimento</em>: ele sai na mesma proporção da célula nova, e não por uma via independente. Essa escolha de modelo é o que fecha o laço do problema — o etanol vem do crescimento e o etanol freia o crescimento. Vale notar que Yp/x e Yx/s combinados dão o rendimento de etanol sobre açúcar: 9,0 × 0,045 = 0,405 grama de etanol por grama de ART consumido, um número que o enunciado não deu mas que já estava lá dentro.</p>
+</div>
+
+<table>
+<thead><tr><th>Parâmetro</th><th class="num">Valor</th><th>Unidade</th><th>Procedência</th></tr></thead>
+<tbody>
+<tr><td><code>μmax</code></td><td class="num">0,35</td><td class="un">1/h</td><td>enunciado</td></tr>
+<tr><td><code>Ks</code></td><td class="num">1,5</td><td class="un">g/L</td><td>enunciado</td></tr>
+<tr><td><code>Yx/s</code></td><td class="num">0,045</td><td class="un">gX/gART</td><td>enunciado</td></tr>
+<tr><td><code>Yp/x</code></td><td class="num">9,0</td><td class="un">gP/gX</td><td>enunciado</td></tr>
+<tr><td><code>Pmax</code></td><td class="num">90</td><td class="un">g/L</td><td>enunciado: o etanol em que o crescimento cessa</td></tr>
+<tr><td><code>S₀</code></td><td class="num">260</td><td class="un">g/L</td><td>enunciado</td></tr>
+<tr><td><code>X₀</code></td><td class="num">1,0</td><td class="un">g/L</td><td>enunciado</td></tr>
+<tr><td><code>P₀</code></td><td class="num">0</td><td class="un">g/L</td><td>escolha: o enunciado não cita etanol no inóculo, e mosto fresco não tem</td></tr>
+<tr><td><code>t</code> final</td><td class="num">72</td><td class="un">h</td><td>enunciado</td></tr>
+<tr><td><code>V</code></td><td class="num">50</td><td class="un">m³</td><td>enunciado: entra só na conversão para massa, não nas equações</td></tr>
+</tbody>
+</table>
+
+<p>Repare que o volume não aparece em nenhuma derivada: numa batelada de volume constante todas as equações são em concentração, e V só serve no fim para transformar g/L em quilos de etanol dentro da dorna.</p>
+
+<h2>O código</h2>
+
+<section class="codigo">
+
+  <div class="passo">
+    <h3>Parâmetros e estado inicial</h3>
+<pre><code>import numpy as np
+from scipy.integrate import solve_ivp
+
+mu_max = 0.35     # 1/h
+Ks     = 1.5      # g/L de ART
+Yxs    = 0.045    # gX/gART
+Ypx    = 9.0      # gP/gX
+Pmax   = 90.0     # g/L de etanol em que o crescimento cessa
+
+X0, S0, P0 = 1.0, 260.0, 0.0   # g/L
+V = 50_000.0                   # L (50 m3), so para converter no fim
+t_final = 72.0                 # h</code></pre>
+    <p>Os parâmetros ficam em nomes soltos no topo, e não espalhados dentro da função de derivadas: é o que permite trocar um valor e rodar de novo sem caçar número no meio do código. O volume já entra em litros, e não em m³, porque as concentrações estão em g/L — converter uma vez, na entrada, evita o erro de fator mil lá no fim.</p>
+  </div>
+
+  <div class="passo">
+    <h3>A função de derivadas</h3>
+<pre><code>def mu(S, P):
+    """Taxa especifica de crescimento, 1/h."""
+    S = max(S, 0.0)                        # protege contra o passo que passa do zero
+    inib = max(1.0 - P / Pmax, 0.0)        # nao deixa a inibicao virar negativa
+    return mu_max * S / (Ks + S) * inib
+
+def derivadas(t, y):
+    X, S, P = y
+    r = mu(S, P) * X                       # g de celula nova por L por h
+    return [r, -r / Yxs, Ypx * r]</code></pre>
+    <p>As três derivadas compartilham o mesmo termo <code>r = μ·X</code>, então ele é calculado uma vez e reaproveitado — além de ser mais rápido, isso garante que os três balanços continuem consistentes entre si mesmo depois que você mexer em μ. Os dois <code>max</code> existem porque o integrador testa passos experimentais que podem levar S a um valor levemente negativo ou P um fio acima de Pmax; sem eles μ ficaria negativa nesse passo e a levedura "descresceria", o que não tem sentido físico e ainda atrapalha o controle de passo.</p>
+  </div>
+
+  <div class="passo">
+    <h3>Um evento para achar o fim da fermentação</h3>
+<pre><code>def quase_parada(t, y):
+    """Cruza zero quando o etanol chega a 99% do maximo alcancavel."""
+    P_inf = Ypx * Yxs * S0                 # teto se o acucar for o limitante
+    alvo = 0.99 * min(Pmax, P_inf)
+    return y[2] - alvo
+
+quase_parada.terminal = False              # so marca o instante, nao para a integracao
+quase_parada.direction = 1                 # so na subida</code></pre>
+    <p>O instante em que a dorna deixa de trabalhar é um dos números que esta lição cita, e ele precisa sair do programa — ler "por volta de 18 h" no gráfico não é resposta. Um evento do <code>solve_ivp</code> resolve isso de graça: o integrador já sabe onde a solução passa entre dois passos e faz a busca de raiz sozinho, com a mesma precisão da integração. Ele fica com <code>terminal = False</code> porque o exercício pede as 72 h inteiras, não só até o evento. O alvo é o menor entre os dois tetos possíveis, para o mesmo evento continuar funcionando quando você baixar S₀ e o açúcar virar o limitante.</p>
+  </div>
+
+  <div class="passo">
+    <h3>A integração</h3>
+<pre><code>sol = solve_ivp(derivadas, [0.0, t_final], [X0, S0, P0],
+                method="Radau", rtol=1e-9, atol=1e-12,
+                events=quase_parada, dense_output=True,
+                t_eval=np.linspace(0.0, t_final, 1441))   # 1 ponto a cada 3 min</code></pre>
+    <p><code>solve_ivp</code> em vez de <code>odeint</code> porque só ele oferece eventos e saída densa, que é o que permite perguntar o valor da solução em qualquer instante depois. <code>Radau</code>, que é implícito, porque o sistema fica rígido no fim: μ cai várias ordens de grandeza enquanto as concentrações ficam praticamente paradas, e um método explícito passa a gastar passos minúsculos à toa nas últimas 50 h. As tolerâncias apertadas custam quase nada num sistema de três equações e tiram qualquer dúvida sobre o número final.</p>
+  </div>
+
+  <div class="passo">
+    <h3>Ler os resultados</h3>
+<pre><code>X_f, S_f, P_f = sol.y[:, -1]
+t_99 = sol.t_events[0][0] if len(sol.t_events[0]) else float("nan")
+
+mu_t = np.array([mu(S, P) for S, P in zip(sol.y[1], sol.y[2])])
+
+print(f"em 72 h:  X = {X_f:.2f} g/L   S = {S_f:.2f} g/L   P = {P_f:.2f} g/L")
+print(f"ART consumido: {S0 - S_f:.1f} g/L ({(S0 - S_f) / S0 * 100:.1f}% do inicial)")
+print(f"etanol na dorna: {P_f * V / 1000:.0f} kg")
+print(f"mu inicial: {mu_t[0]:.4f} 1/h | 99% do etanol em t = {t_99:.2f} h")
+
+# conferencia analitica: o crescimento cessa quando P = Pmax, e como
+# P = Ypx * (X - X0), a levedura para em X0 + Pmax/Ypx.
+X_inf = X0 + Pmax / Ypx
+S_inf = S0 - (X_inf - X0) / Yxs
+print(f"analitico: X = {X_inf:.3f}  S = {S_inf:.3f}  P = {Pmax:.1f}  (g/L)")</code></pre>
+    <p>μ não é variável de estado, então não sai da integração pronta: ela é reconstruída a partir de S e P nos instantes salvos, com a mesma função que o integrador usou. Reconstruir em vez de ir acumulando dentro de <code>derivadas</code> é o que evita capturar as avaliações intermediárias do método, que não correspondem a instante nenhum da solução. As três linhas finais são a conferência analítica: o modelo tem solução fechada para o estado final, e é ela que autoriza confiar na integração.</p>
+  </div>
+
+  <details class="programa">
+    <summary>Ver o programa completo</summary>
+<pre><code># Batelada anaerobia de altissima gravidade, Monod com inibicao linear por etanol.
+# Requer: numpy, scipy, matplotlib
+import numpy as np
+from scipy.integrate import solve_ivp
+import matplotlib.pyplot as plt
+
+mu_max = 0.35     # 1/h
+Ks     = 1.5      # g/L de ART
+Yxs    = 0.045    # gX/gART
+Ypx    = 9.0      # gP/gX
+Pmax   = 90.0     # g/L
+
+X0, S0, P0 = 1.0, 260.0, 0.0   # g/L
+V = 50_000.0                   # L
+t_final = 72.0                 # h
+
+def mu(S, P):
+    S = max(S, 0.0)
+    inib = max(1.0 - P / Pmax, 0.0)
+    return mu_max * S / (Ks + S) * inib
+
+def derivadas(t, y):
+    X, S, P = y
+    r = mu(S, P) * X
+    return [r, -r / Yxs, Ypx * r]
+
+def quase_parada(t, y):
+    alvo = 0.99 * min(Pmax, Ypx * Yxs * S0)
+    return y[2] - alvo
+quase_parada.terminal = False
+quase_parada.direction = 1
+
+sol = solve_ivp(derivadas, [0.0, t_final], [X0, S0, P0],
+                method="Radau", rtol=1e-9, atol=1e-12,
+                events=quase_parada, dense_output=True,
+                t_eval=np.linspace(0.0, t_final, 1441))
+
+X_f, S_f, P_f = sol.y[:, -1]
+t_99 = sol.t_events[0][0] if len(sol.t_events[0]) else float("nan")
+mu_t = np.array([mu(S, P) for S, P in zip(sol.y[1], sol.y[2])])
+
+print(f"em 72 h:  X = {X_f:.2f} g/L   S = {S_f:.2f} g/L   P = {P_f:.2f} g/L")
+print(f"ART consumido: {S0 - S_f:.1f} g/L ({(S0 - S_f) / S0 * 100:.1f}% do inicial)")
+print(f"etanol na dorna: {P_f * V / 1000:.0f} kg")
+print(f"mu inicial: {mu_t[0]:.4f} 1/h | 99% do etanol em t = {t_99:.2f} h")
+
+X_inf = X0 + Pmax / Ypx
+S_inf = S0 - (X_inf - X0) / Yxs
+print(f"analitico: X = {X_inf:.3f}  S = {S_inf:.3f}  P = {Pmax:.1f}  (g/L)")
+
+fig, (a1, a2) = plt.subplots(2, 1, figsize=(8, 8), sharex=True)
+a1.plot(sol.t, sol.y[0], label="levedura X")
+a1.plot(sol.t, sol.y[1], label="ART S")
+a1.plot(sol.t, sol.y[2], label="etanol P")
+a1.set_ylabel("concentracao (g/L)"); a1.legend(); a1.grid(alpha=.3)
+a2.plot(sol.t, mu_t)
+a2.axvline(t_99, ls="--", color="gray")
+a2.set_xlabel("tempo (h)"); a2.set_ylabel("mu (1/h)"); a2.grid(alpha=.3)
+plt.tight_layout(); plt.show()</code></pre>
+  </details>
+
+  <details class="resposta">
+    <summary>Ver a resposta</summary>
+    <p>Em 72 h: <strong>etanol = 90,0 g/L</strong> e <strong>ART residual = 37,8 g/L</strong>, com a levedura em 11,00 g/L. Foram consumidos 222,2 g/L de ART, ou 85,5% do que entrou — o resto fica no tanque sem fermentar. Nos 50 m³ isso dá <strong>4 500 kg de etanol</strong>.</p>
+    <p>Os três números têm forma fechada, e a integração confere com eles até a sexta casa decimal. O crescimento cessa quando P = 90 g/L; como P = Yp/x·(X − X₀), a levedura para em X = 1,0 + 90/9,0 = 11,0 g/L. O açúcar que isso custou é (11,0 − 1,0)/0,045 = 222,2 g/L, deixando 260 − 222,2 = 37,8 g/L de ART.</p>
+    <p>A taxa específica de crescimento começa em <strong>0,3480 1/h</strong> — abaixo de μmax porque o termo de Monod já vale 260/(1,5 + 260) = 0,994 — e cai monotonicamente daí em diante, sem nenhum máximo intermediário. O etanol chega a 99% do valor final, 89,1 g/L, em <strong>18,51 h</strong>, número que sai do evento do programa. As 53 h seguintes de dorna ocupada não produzem praticamente nada.</p>
+  </details>
+
+</section>
+
+<h2>O que a curva diz</h2>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  Simulador.registrar("hg-inibida", {
+    rotulo:   "batelada de altíssima gravidade",
+    vars:     ["X", "S", "P"],
+    padroes:  { mu_max: 0.35, Ks: 1.5, Yxs: 0.045, Ypx: 9.0, Pmax: 90, X0: 1.0, S0: 260 },
+    faixas:   { S0: [100, 320, 1], Pmax: [40, 140, 1] },
+    unidades: { mu_max: "1/h", Ks: "g/L", Yxs: "gX/gART", Ypx: "gP/gX",
+                Pmax: "g/L", X0: "g/L", S0: "g/L" },
+    inicial: function (p) { return [p.X0, p.S0, 0]; },
+    deriv: function (t, y, p) {
+      var X = y[0], S = Math.max(y[1], 0), P = y[2];
+      var mu = p.mu_max * (S / (p.Ks + S)) * Math.max(1 - P / p.Pmax, 0);
+      var r = mu * X;
+      return [r, -r / p.Yxs, p.Ypx * r];
+    }
+  });
+});
+</script>
+
+<div class="simulador"
+     data-modelo="hg-inibida"
+     data-tempo="72"
+     data-controles="S0:100:320:1, Pmax:40:140:1"
+     data-rotulos="levedura X, ART S, etanol P"></div>
+
+<div class="grafico-mu"
+     data-params="mu_max=0.35, Ks=1.5, Yxs=0.045, Ypx=9.0, Pmax=90, X0=1.0, S0=260"
+     data-varre="t:0:72"
+     data-controles="mu_max:0.05:0.8:0.01, Ks:0.5:60:0.5"
+     data-rotulos="μ efetivo, μ só com o freio do ART"></div>
+
+<ul>
+  <li>As três curvas do primeiro gráfico ficam horizontais bem antes das 72 h — por volta de 20 h nada mais se mexe. E a batelada não termina porque o ART acabou: ele estaciona em 37,8 g/L, visivelmente acima do zero. Ela termina porque o etanol encostou em 90 g/L e zerou o parêntese de inibição. Açúcar comprado e não fermentado é o preço do mosto de altíssima gravidade.</li>
+  <li>ART e etanol se cruzam perto das 10,5 h, os dois em torno de 75 g/L, e é o único instante em que as duas curvas têm inclinações de mesmo módulo e sinais opostos. Não é coincidência: as duas derivadas são a mesma taxa μ·X multiplicada por constantes diferentes — 9,0 para cima e −22,2 para baixo —, de modo que a curva de ART cai sempre cerca de 2,5 vezes mais rápido do que a de etanol sobe, e as duas dobram no mesmo instante.</li>
+  <li>No segundo gráfico o μ efetivo já parte abaixo de μmax e cai desde o primeiro instante, sem pico nenhum: com 260 g/L de ART e Ks de 1,5, o freio da fome nunca chega a atuar, e o único freio que trabalha é o etanol. Por isso a curva tracejada, que é só o termo de Monod, fica praticamente colada no topo enquanto a sólida despenca — a distância entre as duas <em>é</em> a inibição.</li>
+  <li>No primeiro gráfico, desça <code>S0</code> até 222 e veja o ART chegar a zero exatamente quando o etanol chega a 90: é o mosto que casa os dois freios, sem açúcar desperdiçado e sem etanol sacrificado. Abaixo disso quem manda passa a ser a fome, e o etanol final cai na proporção do açúcar carregado.</li>
+  <li>Ainda no primeiro gráfico, volte <code>S0</code> para 260 e suba <code>Pmax</code> até 105: o ART residual encosta no zero de novo. É o mesmo casamento pelo outro lado — uma levedura que tolerasse 105 g/L de etanol fermentaria este mosto por inteiro. Acima de 105 a curva de etanol para de subir, porque aí o açúcar acabou e o teto de tolerância deixou de importar.</li>
+  <li>No gráfico de μ, suba <code>Ks</code> até uns 40 g/L e veja a curva tracejada finalmente descolar do topo e afundar no fim: aí o ART residual de 37,8 g/L passa a ser comparável a Ks e a fome vira um freio de verdade. Note que a curva sólida quase não muda de forma — os dois freios se multiplicam, e o etanol já tinha derrubado μ muito antes de a fome ter chance.</li>
+  <li>Ainda no gráfico de μ, baixe <code>mu_max</code> para 0,10 e acompanhe a linha de leitura embaixo: a curva inteira se achata e o instante em que μ cai a 1% do inicial vai muito para a direita, mas o formato é idêntico. É a distinção entre um parâmetro de velocidade e um de capacidade — μmax decide <em>quando</em> a dorna termina, nunca <em>onde</em>. A 0,10 as 72 h deixam de ser folga: o etanol ainda está subindo no fim da janela, em 89,6 g/L em vez dos 90,0.</li>
+</ul>
+
+<div class="pergunte">
+  <strong>Ficou algo obscuro?</strong> Pergunte. O que você perguntar entra
+  aqui neste arquivo, no ponto exato onde a dúvida apareceu.
+</div>
+
+<script src="./assets/tema.js" defer></script>
+<script src="./assets/codigo.js" defer></script>
+<script src="./assets/simulador.js" defer></script>
+<script src="./assets/mu.js" defer></script>
+</body>
+</html>

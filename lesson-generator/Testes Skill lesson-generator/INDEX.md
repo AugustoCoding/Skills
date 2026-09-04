@@ -10,7 +10,7 @@ Uma linha por execução. É daqui que se lê a evolução da skill: o que foi t
 | [4](./Teste%204/SESSAO.md) | 2026-08-31 | `94f0648` | Opus 5, esforço médio | Repetição controlada do Teste 3: as correções pegaram? | Aprovado: 6 min, componente escrito | `a4ea8ea` — régua do teto, tabela de componentes, procedência por grep, e o gráfico de painel único |
 | [5](./Teste%205/SESSAO.md) | 2026-09-01 | `bfff006` | Opus 5, esforço médio | Teoria por equação, e a disciplina do gráfico | Aprovado com ressalvas: > 10 min | `0af04c2` — teto de palavras removido, parágrafo de abertura, definição por extenso, convenções de componente e o design novo |
 | [6](./Teste%206/SESSAO.md) | 2026-09-01 | `12da50f` | Opus 5, esforço médio | Sem teto de palavras: mais completa e mais rápida? | Aprovado com ressalva: 6 a 8 min, lição 88% maior | {a preencher} |
-| [7](./Teste%207/SESSAO.md) | {a rodar} | `ca361b9` | {a preencher} | A skill sem domínio: forma da skill, teoria do modelo | — | — |
+| [7](./Teste%207/SESSAO.md) | 2026-09-04 | `ca361b9` | Opus 5, esforço médio | A skill sem domínio: forma da skill, teoria do modelo | Aprovado com ressalva: 0 leituras do simulador, gráficos corrigidos, tempo não medido | {a preencher} |
 
 ## Como usar
 
