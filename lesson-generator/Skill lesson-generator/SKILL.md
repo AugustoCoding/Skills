@@ -31,20 +31,28 @@ O aluno manda o exercício e ativa a skill. É só isso que acontece na entrada.
 1. **Leia o enunciado como diagnóstico** — regime, variáveis de estado, parâmetros dados e o que falta, e o que ele pede de fato.
 2. **Ache os números** (regra abaixo).
 3. **Escreva a lição** seguindo [LESSON-FORMAT.md](./LESSON-FORMAT.md), a partir de [templates/licao.html](./templates/licao.html).
-4. **Abra o arquivo** com um comando de CLI.
+4. **Veja a lição rodando antes de entregar.** `file://` abre sem executar JS e sem carregar `./assets/` — os gráficos não desenham e você não vê. Suba um servidor na pasta e abra por `http://`:
+
+   ```
+   python -m http.server 8730 --bind 127.0.0.1
+   ```
+
+   Confira que os dois gráficos desenham, que os passos revelam e que o tema alterna. Depois derrube o servidor e **abra o arquivo** para o aluno com um comando de CLI.
 5. **Fale pouco**: onde escreveu, e o convite a perguntar. Duas linhas. Repetir a lição no chat desfaz o motivo de ela existir.
 
 ## Como achar os números
 
-**Resolva analiticamente primeiro, sempre que existir solução fechada.** Estado estacionário de quimiostato, balanço de massa em batelada, tempo de enchimento — tudo isso sai de uma linha de álgebra, na hora, e é mais confiável que integrar.
+**Resolva analiticamente primeiro, sempre que existir solução fechada.** Sai de uma linha de álgebra, na hora, e é mais confiável que integrar. Você sabe reconhecer quando existe.
 
 **Use a integração para confirmar, não para descobrir.** Os dois batendo é o que autoriza publicar o número. Discordando, o errado é quase sempre a integração.
 
-Isso não é preciosismo: perto de uma bifurcação — um quimiostato operando junto do washout, por exemplo — a convergência é lenta e o integrador devolve um valor estabilizado que **não é** o estado estacionário. Já aconteceu de a integração dar biomassa cinco vezes maior que a verdadeira, com aparência perfeitamente plausível.
+Isso não é preciosismo: perto de uma bifurcação a convergência é lenta, e o integrador devolve um valor estabilizado que **não é** o estado estacionário. Já aconteceu de a integração devolver um valor cinco vezes maior que o verdadeiro, com aparência perfeitamente plausível.
 
 **Gaste pouco nisso.** O teto é de **integrações**: uma dúzia de pontos integrados basta para sustentar uma lição, e varrer trezentos é para artigo. Avaliação de fórmula fechada é grátis — pode ter milhares, e um gráfico feito de solução analítica não precisa de moderação. Se um script passar de meio minuto, o problema é o script, não o computador.
 
-Quando não houver solução analítica, integre com tolerância apertada e **diga na lição que o número é numérico**, com o critério que você usou para dizer que convergiu.
+Quando não houver solução analítica, integre com tolerância apertada e **diga na lição que o número é numérico**, com o critério que você usou para dizer que convergiu. Isso vale também — e sobretudo — para os **instantes e picos citados nas observações**, que é onde a regra costuma escapar: o valor final tem forma fechada e chama atenção, os números de meio de curva não têm e passam batidos.
+
+**Todo número que a lição cita tem de ser calculado pelo programa que ela entrega.** Se você escreve "o etanol chega a 99% às 18,5 h", o programa acha esse instante — com um evento, uma busca de raiz, o que for. Número que só existiu no seu script de rascunho é resultado entregue pronto, e o aluno veio aprender a programá-lo.
 
 ## Onde escrever
 
@@ -58,7 +66,7 @@ aula-fermentacao/
 
 Copie da pasta da skill **os componentes que a lição carrega** — não a pasta inteira: cópia que ninguém usa só confunde. Atualize a cópia quando a skill tiver componente mais novo, porque lição que usa componente ausente abre quebrada.
 
-**Se o exercício pedir algo que os componentes não fazem, escreva o componente.** Um exercício de contínuo que pede a curva de produtividade contra D precisa de um gráfico de varredura, e o `simulador.js` só desenha contra o tempo; um regime que não está registrado precisa do modelo dele. Nesses casos **copie [templates/componente.js](./templates/componente.js)** para `assets/` do workspace e troque as três partes marcadas nele. O esqueleto já roda e já traz as convenções — não abra o `simulador.js` para aprender o estilo. **Não deixe a figura central do exercício de fora da lição porque a peça não existia** — é a lição que manda, não o inventário.
+**Se o exercício pedir uma figura que os componentes não fazem, escreva o componente**, a partir de [templates/componente.js](./templates/componente.js). **Não deixe a figura central do exercício de fora da lição porque a peça não existia** — é a lição que manda, não o inventário.
 
 O que você **não** escreve é contabilidade: nada de arquivo de estado, índice, registro ou anotação sobre o aluno.
 
@@ -69,18 +77,3 @@ A pasta da skill é **somente leitura**: se aparecer arquivo novo lá, algo saiu
 Responda em **dois lugares**: no chat, direto, e **dentro do HTML daquela lição**, no ponto exato onde a dúvida surgiu. Depois reabra o arquivo e diga em uma linha que ele foi atualizado.
 
 Não apague o texto original: a nota acrescenta. Se o trecho estava errado, corrija e explique a correção na nota. É a única memória que a skill tem. O formato da nota está em [LESSON-FORMAT.md](./LESSON-FORMAT.md).
-
-## Erros do domínio que corrompem a simulação
-
-Use para conferir o próprio código e para escrever a análise crítica:
-
-- **μ não é dX/dt.** μ é taxa específica (1/h); dX/dt é volumétrica (g·L⁻¹·h⁻¹).
-- **Ks não é onde o crescimento para.** É onde μ = μmax/2. Ks alto é baixa afinidade.
-- **`dS/dt` é negativo em batelada**, e `Yx/s` **divide**, não multiplica: Yx/s é gX/gS.
-- **Em quimiostato, μ = D no estacionário**, não μmax. É a vazão que impõe a taxa de crescimento.
-- **Em volume variável, o termo de diluição `F/V` entra em todas as equações de concentração**, e `dV/dt = F`.
-- **`X0 = 0` é ponto fixo trivial** — a reta plana não é bug do integrador.
-- **`t_eval` não é o passo de integração**, só onde a saída é interpolada.
-- **Constantes de tempo muito diferentes pedem método implícito** (`Radau`, `BDF`).
-- **Concentração levemente negativa é artefato numérico**, não biologia.
-- **Confundir hora com minuto** entre parâmetros e janela é o erro de unidade mais frequente.

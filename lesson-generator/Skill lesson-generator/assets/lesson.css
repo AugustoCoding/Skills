@@ -101,7 +101,7 @@ body {
   line-height: 1.55;
   margin: 0 auto;
   padding: 3.5rem 1.8rem 6rem;
-  max-width: 54rem;
+  max-width: 46rem;
   text-rendering: optimizeLegibility;
 }
 
@@ -529,13 +529,20 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* ---------- simulador (assets/simulador.js) ---------- */
 
-.simulador {
+/* A moldura de qualquer gráfico. O .sim-moldura o componente se põe sozinho, para
+   que dois gráficos da mesma lição tenham a MESMA largura — um com moldura e outro
+   sem sai desalinhado, e o olho lê isso como gráfico torto. */
+.simulador,
+.sim-moldura {
   border: 1px solid var(--rule);
   border-radius: var(--raio);
   padding: 1.2rem;
   margin: 2rem 0;
 }
-.simulador canvas { width: 100%; height: auto; display: block; }
+/* Vale para QUALQUER gráfico, não só para o .simulador. Componente novo usa
+   outra classe, e um <canvas> sem largura em CSS cai na largura intrínseca dele,
+   que é 300px — gráfico minúsculo no meio da coluna. Já aconteceu duas vezes. */
+canvas { width: 100%; height: auto; display: block; }
 
 .sim-controles {
   display: grid;

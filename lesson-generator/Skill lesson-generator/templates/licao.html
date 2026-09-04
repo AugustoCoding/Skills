@@ -132,37 +132,90 @@
 </section>
 
 <!-- ================= 3. ANÁLISE CRÍTICA =================
-     O simulador e a leitura DESTE resultado. No máximo quatro controles, e só
-     de parâmetros que o texto discute. Duas a quatro observações, cada uma
-     ancorada num ponto concreto da curva.
+     O gráfico e a leitura DESTE resultado.
+
+     DUAS FORMAS DE FIGURA, abaixo, prontas para copiar. Nenhuma outra vem
+     empacotada de propósito: se o seu exercício pede outra coisa, parta do
+     templates/componente.js e escreva. NÃO deixe a figura central de fora
+     porque a peça não existia.
+
+     Duas figuras no máximo, um painel por canvas, 320 a 420 px de altura.
+     No máximo quatro controles.
 
      TESTE: se a frase serviria para outro exercício, corte. -->
 <!-- Termo importante no meio da prosa: <span class="termo">washout</span>.
      Use com parcimônia — um ou dois por divisão. -->
 <h2>O que a curva diz</h2>
 
+<!-- ===== FORMA 1 — curso temporal: as variáveis de estado contra t =====
+
+     Registre AQUI o sistema do seu exercício: as mesmas equações que você acabou
+     de escrever em Python, traduzidas para JS. Nenhum modelo vem pronto — assim a
+     curva na tela é a mesma equação do código, e não um sistema parecido escrito
+     por outra pessoa.
+
+     O DOMContentLoaded não é decoração: o simulador.js carrega com defer, e sem
+     ele o Simulador ainda não existe quando esta linha roda. -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  Simulador.registrar("meu-caso", {
+    rotulo:   "{o regime, em três palavras}",
+    vars:     ["X", "S", "P"],                     // a ordem do vetor de estado
+    padroes:  { mu_max: 0.40, Ks: 1.0, Yxs: 0.5, Ypx: 2.0, X0: 1, S0: 150 },
+    faixas:   { mu_max: [0.05, 1.2, 0.01], S0: [100, 320, 2] },   // [min, max, passo]
+    unidades: { mu_max: "1/h", Ks: "g/L", Yxs: "gX/gS", Ypx: "gP/gX", X0: "g/L", S0: "g/L" },
+    inicial: function (p) { return [p.X0, p.S0, 0]; },
+    deriv: function (t, y, p) {                    // {as SUAS derivadas}
+      var X = y[0], S = y[1];
+      var mu = p.mu_max * Math.max(S, 0) / (p.Ks + Math.max(S, 0));
+      var dX = mu * X;
+      return [dX, -dX / p.Yxs, p.Ypx * dX];
+    }
+    // ler: opcional. Sem ela, a linha embaixo do gráfico mostra o valor final de
+    // cada variável. Passe uma se a sua lição precisa de outro número ali.
+  });
+});
+</script>
+
 <div class="simulador"
-     data-modelo="batelada"
+     data-modelo="meu-caso"
      data-tempo="30"
-     data-params="mu_max=0.40, Ks=1.0, Yxs=0.5, X0=1, S0=150"
      data-controles="mu_max, S0:100:320:2"
      data-rotulos="{Levedura X, ART S, Etanol P — os mesmos nomes do texto}"></div>
 
-<!-- data-controles aceita duas formas: só o nome, e aí valem a faixa e o passo
-     padrão do componente; ou "nome:min:max:passo", quando os padrões não servem.
+<!-- data-controles aceita duas formas: só o nome, e aí vale a faixa que você
+     declarou em `faixas`; ou "nome:min:max:passo", para sobrescrever ali.
 
      CONFIRA: a faixa tem de CONTER o valor que a sua observação manda procurar,
      e o passo tem de cair exatamente nele. "Desca S0 ate 222" com passo 5 nao
      alcanca 222 — o slider para em 220 e em 225. Perto de uma transição
      abrupta, passo grosso esconde justamente o que interessa. -->
 
-<!-- Um insight DISTINTO por item — se dois explicam a mesma coisa, vire um só.
+<!-- ===== FORMA 2 — varredura: uma grandeza contra um PARÂMETRO, não contra t =====
+
+     O simulador só desenha contra o tempo. Quando a figura que responde o
+     exercício tem um parâmetro no eixo horizontal, ou quando a segunda grandeza
+     está em outra unidade e não cabe no mesmo eixo:
+
+       copie templates/componente.js para assets/{nome}.js
+       troque as três partes marcadas nele (identidade, calcular, ler)
+       carregue o arquivo junto dos outros, e use a tag:
+
+<div class="{sua-classe}"
+     data-params="mu_max=0.40, Ks=1.0, Yxs=0.5, S0=150"
+     data-varre="D:0:0.5:0.002"
+     data-controles="S0:100:320:2"
+     data-rotulos="{Produtividade, Levedura X}"></div>
+-->
+
+<!-- AS OBSERVAÇÕES: duas a quatro de leitura da curva, MAIS uma por controle.
+     Um insight DISTINTO por item — se dois explicam a mesma coisa, vire um só.
      E o nome de cada grandeza é o mesmo da legenda do gráfico: se lá diz
      "etanol", aqui diz "etanol", nunca "produto" nem "P". -->
 <ul>
   <li>{Observação ancorada: por que um perfil cai quando o outro sobe.}</li>
   <li>{Observação ancorada: o que acontece no ponto onde eles se cruzam.}</li>
-  <li>{Cada controle tem a sua: "aumente {parâmetro} e veja {o quê} — {por quê}".}</li>
+  <li>{Uma por controle: "aumente {parâmetro} até {valor} e veja {o quê} — {por quê}".}</li>
 </ul>
 
 <div class="pergunte">

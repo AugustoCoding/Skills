@@ -37,7 +37,7 @@ A lição tem **três divisões**:
 |---|---|
 | `lesson.css` | Folha de estilo. Tipografia limpa, equações, tema claro/escuro, impressão. |
 | `codigo.js` | A seção de código: revela os passos um a um, libera o programa completo no fim e injeta o botão de copiar. |
-| `simulador.js` | Integrador de EDOs e gráfico em canvas, com controles deslizantes. Batelada, quimiostato, batelada alimentada e inibição por produto. |
+| `simulador.js` | O motor: integra o sistema de EDOs que a lição registra e desenha as variáveis de estado contra o tempo, com controles deslizantes. **Nenhum modelo vem pronto** — cada lição registra o do exercício dela, e por isso o gráfico não pode discordar do código ensinado. |
 | `tema.js` | Botão de claro/escuro, que se injeta sozinho e lembra a escolha. |
 
 ## O workspace do aluno

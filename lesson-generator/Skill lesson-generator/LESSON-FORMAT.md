@@ -68,11 +68,11 @@ O gráfico interativo, e a leitura do resultado **daquele** exercício. A tag, c
 - **No máximo quatro controles**, e **cada um precisa da sua própria observação** mandando mexer nele. Não é "pelo menos uma observação no conjunto": controle sem frase que o convoque é ruído, e some.
 - **Declare faixa e passo** de cada controle quando os padrões do componente não servirem: perto de uma transição abrupta, passo grosso demais esconde justamente o que interessa.
 - **Sem esconder a curva**: o aluno desliza e ela responde na hora.
-- **Duas a quatro observações**, cada uma ancorada num ponto concreto das curvas daquele caso: por que um perfil cai quando o outro sobe; o que acontece onde eles se cruzam; por que a inflexão está ali e não dez horas depois.
+- **Duas a quatro observações de leitura da curva, mais uma por controle.** As duas contagens são separadas: quatro controles não consomem as quatro observações de leitura, que são a análise propriamente dita. Cada uma ancorada num ponto concreto das curvas daquele caso: por que um perfil cai quando o outro sobe; o que acontece onde eles se cruzam; por que a inflexão está ali e não dez horas depois.
 - **Um insight distinto por item.** Se duas observações explicam o mesmo fenômeno com palavras diferentes, são uma só — funda ou corte. A lista não é para encher.
 - **O vocabulário é o da legenda do gráfico, sem tradução.** Se a legenda diz "etanol", a observação diz "etanol" — não "produto", não "P". Cada troca de nome obriga o aluno a fazer a ponte de cabeça, e ele lê mais devagar por causa disso. Vale para eixo, legenda, tabela e texto: um nome por grandeza, na lição inteira.
 - **Batize as curvas com os nomes do exercício**, via `data-rotulos="Levedura X, ART S, Etanol P"`. Sem isso a legenda sai genérica — "Produto P" —, e aí ou o texto fica genérico junto, ou os dois discordam.
-- **A observação de cada controle diz o que procurar**, não só que existe: *"aumente D até 0,30 e veja a produtividade despencar — o ótimo fica a 10% do washout."*
+- **A observação de cada controle diz o que procurar**, não só que existe: o parâmetro, o valor até onde ir, o que vai acontecer com a curva, e por quê. O molde está no template.
 
 **O teste que separa análise de enchimento de linguiça:** se a frase serviria para outro exercício, ela não é análise deste caso — corte.
 
@@ -84,20 +84,18 @@ Leia esta tabela em vez de abrir o código dos componentes — ela existe para v
 
 | Componente | Faz | **Não** faz |
 |---|---|---|
-| `simulador.js` | curso temporal: X, S, P (e V) contra **t**, com controles deslizantes e legenda batizável (`data-rotulos`). Modelos registrados: `batelada`, `quimiostato`, `batelada_alimentada`, `inibicao_produto` | não desenha nada contra um parâmetro; não faz varredura; não plota dados experimentais |
+| `simulador.js` | o motor de curso temporal: integra o sistema que **você** registra e desenha as variáveis de estado contra **t**, com controles deslizantes e legenda batizável (`data-rotulos`) | **não traz nenhum modelo pronto** — a lição registra o dela; não desenha nada contra um parâmetro; não faz varredura; não plota dados experimentais |
 | `codigo.js` | a seção de código inteira: esconde os passos, revela um a um, libera o programa e a resposta no fim, injeta o botão de copiar | não formata código, não valida nada |
 | `tema.js` | botão de claro/escuro, injetado sozinho, com memória | — |
 | `lesson.css` | tipografia, tabelas, equações, `.passo`, `.nota-duvida`, impressão | — |
 
-Precisa de um modelo que não está na lista? `Simulador.registrar(nome, {vars, padroes, faixas, unidades, inicial, deriv})` registra um novo sem tocar no arquivo do componente.
+**Nenhum modelo vem empacotado, de propósito.** Toda lição registra o sistema do exercício dela — as mesmas equações que ela já escreveu em Python — e assim a curva na tela não pode discordar do código que a lição ensina. O `Simulador.registrar(...)` preenchido está no [template](./templates/licao.html); copie de lá.
 
 ### Quando o gráfico certo não é contra o tempo
 
-Alguns exercícios — quase todos os de regime contínuo — respondem uma pergunta de **varredura**: qual D dá a maior produtividade, como o rendimento anda com a vazão. A figura que responde isso tem o parâmetro no eixo horizontal, não o tempo, e o `simulador.js` só desenha curso temporal.
+Quando a figura que responde o exercício tem um **parâmetro** no eixo horizontal em vez do tempo, ou quando a segunda grandeza está em outra unidade e não cabe no mesmo eixo, o `simulador.js` não serve — ele só desenha curso temporal.
 
-Nesse caso, **escreva o componente** — e não do zero: **copie [templates/componente.js](./templates/componente.js) para `assets/` do workspace.** É um esqueleto que já roda, e traz as convenções prontas em vez de descritas: canvas com DPR, cores lidas das variáveis do CSS, os três eventos de redesenho, os controles com as classes que o `lesson.css` já estiliza, e os eixos rotulados com unidade. Você troca três partes marcadas — a identidade, o cálculo e a linha de leitura — e a figura do seu exercício está de pé.
-
-**Não abra o `simulador.js` para aprender o estilo.** Foi o maior custo de tempo já medido numa sessão: três leituras de 470 linhas para escrever um componente de 240. Tudo o que aquele arquivo ensinaria está no esqueleto.
+Nesse caso, **copie [templates/componente.js](./templates/componente.js) para `assets/` do workspace** e troque as três partes marcadas: a identidade, o cálculo e a linha de leitura. É um esqueleto que já roda e já traz as convenções — canvas com DPR, cores do CSS, os eventos de redesenho, as classes de controle, eixos com unidade. **Não abra o `simulador.js` para aprender o estilo**: tudo o que ele ensinaria está no esqueleto.
 
 **E ele fica no workspace, não vira peça da skill.** Não empacotamos componente por tipo de exercício: cada tipo empacotado vira o formato que o próximo caso tende a imitar, mesmo quando a pergunta pedia outra figura. Escreva o que o caso pede — a skill guarda o motor de simulação e as convenções, não um catálogo de gráficos.
 

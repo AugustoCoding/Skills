@@ -122,7 +122,10 @@
     /* Canvas com DPR, sempre — sem isto a curva sai borrada em tela de alta
        densidade. Altura entre 320 e 420 px, e UM painel por canvas: dois
        painéis empilhados num canvas só dão dois gráficos ruins. */
-    var w = canvas.clientWidth || 600;
+    /* clientWidth de um canvas sem CSS devolve 300, a largura intrínseca — truthy,
+       e por isso um "|| 600" nunca dispara. Quem sabe a largura é o container. */
+    var pai = canvas.parentElement;
+    var w = canvas.clientWidth || (pai && pai.clientWidth) || 600;
     var h = 340;
     var dpr = window.devicePixelRatio || 1;
     canvas.width = w * dpr;
@@ -213,6 +216,7 @@
   function redesenharTodos() { REDESENHOS.forEach(function (f) { f(); }); }
 
   function montar(el) {
+    el.classList.add("sim-moldura");   // mesma moldura do .simulador: larguras iguais
     var p = pares(el.dataset.params);
     var varre = faixa(el.dataset.varre || "x:0:1:0.01", [0, 1, 0.01]);
 

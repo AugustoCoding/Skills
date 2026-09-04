@@ -13,12 +13,12 @@
  * Uso na lição:
  *
  *   <div class="simulador"
- *        data-modelo="batelada"
+ *        data-modelo="{o nome que voce deu no registrar}"
  *        data-tempo="24"
  *        data-params="mu_max=0.4, Ks=1.0, Yxs=0.5, Ypx=0.2, X0=0.1, S0=20"
  *        data-controles="mu_max, Ks"></div>
  *
- *   data-modelo     nome do modelo registrado (batelada | quimiostato | inibicao_produto)
+ *   data-modelo     nome que você deu no Simulador.registrar() desta lição
  *   data-tempo      horizonte de simulação, em h
  *   data-params     sobrescreve os padrões do modelo
  *   data-controles  quais parâmetros ganham controle deslizante (no máximo
@@ -29,117 +29,38 @@
  *                   texto da lição — sem isso a legenda diz "Produto P" e a
  *                   prosa diz "etanol", e o aluno faz a ponte de cabeça
  *
- * Lições futuras registram modelos novos sem editar este arquivo:
+ * NENHUM modelo vem pronto. Toda lição registra o sistema dela, sem editar este
+ * arquivo, e a ordem das tags não importa — registrar() monta o que faltar:
  *
- *   Simulador.registrar("meu_modelo", { vars, padroes, faixas, unidades, deriv });
+ *   Simulador.registrar("meu_modelo", {
+ *     rotulo, vars, padroes, faixas, unidades, inicial, deriv
+ *   });
+ *
+ * O esqueleto preenchido está em templates/licao.html. Copie de lá.
  */
 
 (function () {
   "use strict";
 
   /* ---------- modelos ----------
-     Modelos não estruturados e não segregados. Volume constante, exceto o de
-     batelada alimentada. Os valores padrão são ILUSTRATIVOS: servem para dar uma
-     curva com forma reconhecível, não representam nenhum organismo real.
-     Toda lição que exibir um valor precisa declará-lo como escolha sua, com a
-     justificativa em meia linha. A skill não cita literatura: veja a seção de
-     procedência em LESSON-FORMAT.md. */
+     NENHUM modelo vem empacotado, de propósito. A lição registra o sistema DO
+     EXERCÍCIO dela, copiando as mesmas equações que já escreveu em Python — assim
+     a curva na tela é a mesma equação do código, e não um sistema parecido escrito
+     por outra pessoa. O esqueleto do registrar está em templates/licao.html. */
 
   var MODELOS = {};
 
   function registrar(nome, def) {
     MODELOS[nome] = def;
+    // Re-varre. Script com defer roda quando readyState ja e "interactive", entao
+    // iniciar() ja passou quando o registrar da licao chega -- sem isto o grafico
+    // morreria com "modelo desconhecido", e a ordem das tags viraria armadilha.
+    if (document.body) iniciar();
   }
 
   function monod(mu_max, S, Ks) {
     return (mu_max * Math.max(S, 0)) / (Ks + Math.max(S, 0));
   }
-
-  registrar("batelada", {
-    rotulo: "Batelada com cinética de Monod",
-    vars: ["X", "S", "P"],
-    padroes: { mu_max: 0.4, Ks: 1.0, Yxs: 0.5, Ypx: 0.2, X0: 0.1, S0: 20, P0: 0 },
-    faixas: {
-      mu_max: [0.05, 1.2, 0.01], Ks: [0.05, 10, 0.05], Yxs: [0.1, 0.9, 0.01],
-      Ypx: [0, 2, 0.05], X0: [0.01, 2, 0.01], S0: [1, 100, 1]
-    },
-    unidades: { mu_max: "1/h", Ks: "g/L", Yxs: "gX/gS", Ypx: "gP/gX", X0: "g/L", S0: "g/L", P0: "g/L" },
-    inicial: function (p) { return [p.X0, p.S0, p.P0]; },
-    deriv: function (t, y, p) {
-      var X = y[0], S = y[1];
-      var mu = monod(p.mu_max, S, p.Ks);
-      var dX = mu * X;
-      return [dX, -dX / p.Yxs, p.Ypx * dX];
-    }
-  });
-
-  registrar("quimiostato", {
-    rotulo: "Contínuo (quimiostato), volume constante",
-    vars: ["X", "S", "P"],
-    padroes: { mu_max: 0.4, Ks: 1.0, Yxs: 0.5, Ypx: 0.2, D: 0.2, Sin: 20, X0: 0.5, S0: 20, P0: 0 },
-    faixas: {
-      mu_max: [0.05, 1.2, 0.01], Ks: [0.05, 10, 0.05], Yxs: [0.1, 0.9, 0.01],
-      Ypx: [0, 2, 0.05], D: [0, 1.0, 0.01], Sin: [1, 100, 1], X0: [0.01, 5, 0.01]
-    },
-    unidades: { mu_max: "1/h", Ks: "g/L", Yxs: "gX/gS", Ypx: "gP/gX", D: "1/h", Sin: "g/L", X0: "g/L", S0: "g/L", P0: "g/L" },
-    inicial: function (p) { return [p.X0, p.S0, p.P0]; },
-    deriv: function (t, y, p) {
-      var X = y[0], S = y[1], P = y[2];
-      var mu = monod(p.mu_max, S, p.Ks);
-      return [
-        (mu - p.D) * X,
-        p.D * (p.Sin - S) - (mu * X) / p.Yxs,
-        -p.D * P + p.Ypx * mu * X
-      ];
-    }
-  });
-
-  registrar("batelada_alimentada", {
-    rotulo: "Batelada alimentada, volume variável",
-    vars: ["X", "S", "P"],   // V é integrado, mas não vai ao gráfico: está em litros
-    padroes: { mu_max: 0.4, Ks: 1.0, Yxs: 0.5, Ypx: 0.2, F: 0.1, Sin: 200, X0: 1, S0: 5, P0: 0, V0: 1 },
-    faixas: {
-      mu_max: [0.05, 1.2, 0.01], Ks: [0.05, 10, 0.05], Yxs: [0.1, 0.9, 0.01],
-      Ypx: [0, 2, 0.05], F: [0, 0.5, 0.005], Sin: [50, 400, 10],
-      X0: [0.1, 5, 0.1], S0: [0, 50, 1], V0: [0.5, 5, 0.1]
-    },
-    unidades: {
-      mu_max: "1/h", Ks: "g/L", Yxs: "gX/gS", Ypx: "gP/gX", F: "L/h",
-      Sin: "g/L", X0: "g/L", S0: "g/L", P0: "g/L", V0: "L"
-    },
-    inicial: function (p) { return [p.X0, p.S0, p.P0, p.V0]; },
-    deriv: function (t, y, p) {
-      var X = y[0], S = y[1], P = y[2], V = y[3];
-      var mu = monod(p.mu_max, S, p.Ks);
-      var D = p.F / V;   // diluição instantânea: o volume cresce e dilui tudo
-      return [
-        (mu - D) * X,
-        D * (p.Sin - S) - (mu * X) / p.Yxs,
-        p.Ypx * mu * X - D * P,
-        p.F
-      ];
-    }
-  });
-
-  registrar("inibicao_produto", {
-    rotulo: "Batelada com inibição por produto (forma linear)",
-    vars: ["X", "S", "P"],
-    padroes: { mu_max: 0.4, Ks: 1.0, Yxs: 0.1, Ypx: 4.0, Pmax: 90, X0: 0.5, S0: 150, P0: 0 },
-    faixas: {
-      mu_max: [0.05, 1.2, 0.01], Ks: [0.05, 10, 0.05], Yxs: [0.02, 0.5, 0.01],
-      Ypx: [0.5, 8, 0.1], Pmax: [10, 150, 1], X0: [0.05, 5, 0.05], S0: [10, 250, 5]
-    },
-    unidades: { mu_max: "1/h", Ks: "g/L", Yxs: "gX/gS", Ypx: "gP/gX", Pmax: "g/L", X0: "g/L", S0: "g/L", P0: "g/L" },
-    inicial: function (p) { return [p.X0, p.S0, p.P0]; },
-    deriv: function (t, y, p) {
-      var X = y[0], S = y[1], P = y[2];
-      // Fator de inibição linear: μ vai a zero quando P alcança Pmax.
-      var inib = Math.max(0, 1 - P / p.Pmax);
-      var mu = monod(p.mu_max, S, p.Ks) * inib;
-      var dX = mu * X;
-      return [dX, -dX / p.Yxs, p.Ypx * dX];
-    }
-  });
 
   /* ---------- integração ----------
      Runge-Kutta clássico de 4ª ordem, passo fixo. Suficiente para os
@@ -184,6 +105,13 @@
 
   /* ---------- desenho ---------- */
 
+  /* clientWidth de um canvas sem CSS devolve 300, a largura intrínseca — truthy,
+     e por isso um "|| 600" nunca dispara. Quem sabe a largura é o container. */
+  function largura(canvas) {
+    var el = canvas.parentElement;
+    return canvas.clientWidth || (el && el.clientWidth) || 600;
+  }
+
   function cor(nome) {
     return getComputedStyle(document.documentElement).getPropertyValue(nome).trim() || "#888";
   }
@@ -191,7 +119,7 @@
   var TRACOS = [[], [6, 4], [2, 3]]; // X sólido, S tracejado, P pontilhado
 
   function desenhar(canvas, dados, opts) {
-    var css = { w: canvas.clientWidth || 600, h: 320 };
+    var css = { w: largura(canvas), h: 320 };
     var dpr = window.devicePixelRatio || 1;
     canvas.width = css.w * dpr;
     canvas.height = css.h * dpr;
@@ -266,9 +194,8 @@
     ctx.save();
     ctx.translate(13, m.topo + lh / 2);
     ctx.rotate(-Math.PI / 2);
-    ctx.fillText("Concentração (g/L)", 0, 0);
+    ctx.fillText((opts && opts.eixoY) || "Concentração (g/L)", 0, 0);
     ctx.restore();
-
 
     // Curvas
     var cores = [cor("--cor-x"), cor("--cor-s"), cor("--cor-p")];
@@ -291,34 +218,18 @@
   }
 
   /* ---------- leitura do resultado ----------
-     Números que o aluno deve conferir contra a previsão dele. */
+     O valor final de cada variável, para o aluno conferir contra a previsão dele.
 
-  function ler(modelo, dados, params, T) {
-    var X = dados.y[0], S = dados.y[1], P = dados.y[2];
-    var n = X.length - 1;
-    var partes = [];
+     Deliberadamente burra: não sabe que regime é este nem o que seria interessante
+     nele. Se a sua lição precisa de outro número — um instante, um ótimo, uma
+     produtividade —, passe uma função `ler` no registrar e ela substitui esta. */
 
-    partes.push("X final " + X[n].toFixed(2) + " g/L");
-    partes.push("S final " + S[n].toFixed(2) + " g/L");
-    partes.push("P final " + P[n].toFixed(2) + " g/L");
-
-    if (modelo.padroes.D !== undefined) {
-      if (X[n] < 1e-2) {
-        partes.push("washout: D acima do crítico");
-      } else {
-        partes.push("produtividade " + (params.D * P[n]).toFixed(2) + " g·L⁻¹·h⁻¹");
-      }
-    } else {
-      // Momento em que o substrato praticamente acaba.
-      for (var i = 0; i <= n; i++) {
-        if (S[i] < 0.01 * (params.S0 || 1)) {
-          partes.push("S esgota em ~" + dados.t[i].toFixed(1) + " h");
-          break;
-        }
-      }
-      partes.push("produtividade " + (P[n] / T).toFixed(3) + " g·L⁻¹·h⁻¹");
-    }
-    return partes.join(" · ");
+  function ler(modelo, dados, rotulos) {
+    if (typeof modelo.ler === "function") return modelo.ler(dados);
+    var n = dados.t.length - 1;
+    return dados.y.slice(0, (modelo.vars || []).length).map(function (serie, i) {
+      return (rotulos[i] || (modelo.vars || [])[i]) + " final " + serie[n].toFixed(2);
+    }).join(" · ");
   }
 
   /* ---------- montagem ---------- */
@@ -352,10 +263,7 @@
 
     var canvas = document.createElement("canvas");
     canvas.setAttribute("role", "img");
-    canvas.setAttribute(
-      "aria-label",
-      "Perfis de biomassa, substrato e produto ao longo do tempo — " + modelo.rotulo
-    );
+    canvas.setAttribute("aria-label", (modelo.rotulo || "Simulação") + " ao longo do tempo");
     el.appendChild(canvas);
 
     var legenda = document.createElement("div");
@@ -373,9 +281,12 @@
       .map(function (r) { return r.trim(); })
       .filter(Boolean);
 
+    var nomes = (modelo.vars || ["X", "S", "P"]).map(function (v, i) {
+      return rotulos[i] || NOMES[v] || v;
+    });
     legenda.innerHTML = (modelo.vars || ["X", "S", "P"])
       .map(function (v, i) {
-        return '<span class="l-' + v.toLowerCase() + '">' + (rotulos[i] || NOMES[v] || v) + '</span>';
+        return '<span class="l-' + v.toLowerCase() + '">' + nomes[i] + '</span>';
       })
       .join("");
     el.appendChild(legenda);
@@ -390,8 +301,11 @@
 
     function redesenhar() {
       var dados = simular(modelo, params, T);
-      desenhar(canvas, dados, { series: (modelo.vars || []).length });
-      leitura.textContent = ler(modelo, dados, params, T);
+      desenhar(canvas, dados, {
+        series: (modelo.vars || []).length,
+        eixoY: el.dataset.eixoY          // data-eixo-y="Taxa (1/h)", se não for g/L
+      });
+      leitura.textContent = ler(modelo, dados, nomes);
     }
 
     // Controles deslizantes
@@ -444,6 +358,7 @@
 
     // O gráfico acompanha a largura da coluna e o tema do sistema.
     window.addEventListener("resize", redesenhar);
+    document.addEventListener("tema-mudou", redesenhar);
     if (window.matchMedia) {
       var mq = window.matchMedia("(prefers-color-scheme: dark)");
       if (mq.addEventListener) mq.addEventListener("change", redesenhar);
@@ -451,7 +366,12 @@
   }
 
   function iniciar() {
-    document.querySelectorAll(".simulador").forEach(montar);
+    document.querySelectorAll(".simulador").forEach(function (el) {
+      if (el.dataset.montado) return;          // idempotente: registrar() re-chama
+      if (!MODELOS[el.dataset.modelo || "batelada"]) return;   // ainda nao registrado
+      el.dataset.montado = "1";
+      montar(el);
+    });
   }
 
   if (document.readyState === "loading") {
