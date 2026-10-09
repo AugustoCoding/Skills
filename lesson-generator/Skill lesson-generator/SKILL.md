@@ -16,15 +16,16 @@ O aluno tem um exercício de engenharia química e quer sair sabendo **programar
 
 Se o pedido não traz um exercício concreto ("me ensina reator tubular"), diga em uma linha que a skill precisa de um enunciado e responda normalmente, sem lição.
 
-Não entreviste o aluno nem guarde estado: o que precisaria ser perguntado, você infere do enunciado, e o que dura é o HTML.
+Não entreviste o aluno nem guarde estado: o que precisaria ser perguntado, você infere do enunciado. A lição é entregue pronta, num arquivo único, e não é editada depois.
 
 1. **Leia o enunciado como diagnóstico**: o que ele pede, que dados dá e quais faltam, e que tipo de problema matemático ele é.
 2. **Ache os números** ([Os números](#os-números)).
-3. **Monte a pasta** com `python <pasta desta skill>/scripts/nova_licao.py "<nome do exercício>" [pasta]`: passe a pasta só se o aluno indicou uma. O script cria a lição a partir do template, copia os componentes e não escreve onde não deve.
-4. **Escreva a lição** trocando o conteúdo do template.
-5. **Confira** com `python <pasta desta skill>/scripts/conferir.py <lição.html>` e corrija todo ERRO; os AVISOS, confira. Ele roda os passos colados em ordem (o programa que o aluno monta no editor), compara a resposta com o que o programa imprime e lista os números do texto para a revisão de procedência.
-6. **Veja-a rodando**: por `file://` os `assets/` não carregam, então sirva a pasta (`python -m http.server 8730 --bind 127.0.0.1`) e abra por `http://`. Confira que as figuras desenham e os passos abrem, e **leia o console**: o `grafico.js` avisa ali sobre curva achatada, controle sem faixa e valor não finito. Depois derrube o servidor e abra o arquivo para o aluno.
-7. **Fale pouco**: onde escreveu e o convite a perguntar, em duas linhas.
+3. **Monte o rascunho** com `python <pasta desta skill>/scripts/nova_licao.py "<nome do exercício>" [pasta]`, passando a pasta só se o aluno indicou uma. O script diz onde está o rascunho e para onde a lição vai.
+4. **Escreva a lição** no rascunho, trocando o conteúdo do template.
+5. **Confira** com `python <pasta desta skill>/scripts/conferir.py <rascunho.html>` e corrija todo ERRO; os AVISOS, confira. Ele roda os passos colados em ordem (o programa que o aluno monta no editor), compara a resposta com o que o programa imprime e lista os números do texto para a revisão de procedência.
+6. **Entregue** com `python <pasta desta skill>/scripts/empacotar.py <rascunho.html>`: ele junta tudo num arquivo único, grava na pasta do aluno e apaga o rascunho.
+7. **Se você tiver um navegador, veja a lição rodando**: sirva a pasta da entrega (`python -m http.server 8730 --bind 127.0.0.1`), abra por `http://` e confira que as figuras desenham e os passos abrem. **Leia o console**: o `grafico.js` avisa ali sobre curva achatada, controle sem faixa e valor não finito. Sem navegador, o `conferir.py` basta.
+8. **Fale pouco**: onde está a lição e o convite a perguntar, em duas linhas.
 
 Nada de arquivo de estado ou anotação sobre o aluno.
 
@@ -98,6 +99,6 @@ Use quando pagar o tempo que custa: **pense antes** (num ou dois passos em que p
 - Todo código roda; todo parâmetro e todo eixo têm unidade. Bloco de código que não é Python leva `sem-realce`.
 - Nenhum link para fora e nenhuma promessa de continuação.
 
-## Quando ele volta com uma dúvida
+## Depois da entrega
 
-Responda no chat **e** dentro do HTML, no ponto exato onde a dúvida surgiu, com a nota de dúvida do template. Nunca apague o original: se estava errado, corrija e explique na nota. Depois reabra o arquivo.
+A lição não é editada. Dúvida se responde no chat. Se o aluno pedir explicitamente uma lição com algo a mais, é uma lição nova, com outro nome.

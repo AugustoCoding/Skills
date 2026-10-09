@@ -43,7 +43,8 @@ A pasta da skill tem só o que vai para o contexto do modelo. Este README, o mod
 |---|---|
 | `SKILL.md` | Tudo o que o modelo segue: como a sessão corre, onde escrever, a lição momento a momento, a cor, o editor, os números e os requisitos. |
 | `templates/licao.html` | O esqueleto da lição, com a marcação de cada peça. A marcação mora **só aqui**. |
-| `scripts/nova_licao.py` | Monta a pasta da lição: cria a lição a partir do template e copia os componentes, sempre no lugar certo. |
+| `scripts/nova_licao.py` | Monta o rascunho da lição (o template e a cópia dos componentes) e anota para onde ela vai, sempre no lugar certo. |
+| `scripts/empacotar.py` | Junta o rascunho e os componentes num **arquivo HTML único**, grava na pasta do aluno e apaga o rascunho. |
 | `scripts/conferir.py` | Confere a lição pronta e diz o que corrigir: roda os passos colados em ordem, compara a resposta com o que o programa imprime, checa a estrutura e lista os números do texto para a revisão de procedência. |
 
 **Regra do projeto:** o que pode ser garantido por script, componente ou template não fica como texto no `SKILL.md`. E toda mudança na estrutura da lição atualiza o `conferir.py` no mesmo commit; a lição modelo tem de passar nele sem erro.
@@ -58,9 +59,11 @@ A pasta da skill tem só o que vai para o contexto do modelo. Este README, o mod
 | `editor.js` | Um editor de Python ao lado da lição, que roda ali mesmo (Pyodide, baixado no primeiro uso). Começa vazio: cada bloco de código ganha um "→ editor" que o acrescenta ao fim, e o aluno monta o programa ele mesmo. Embaixo, a saída com texto, erros e figuras. As divisões se arrastam. |
 | `tema.js` | Botão de claro/escuro, injetado sozinho. |
 
-## Sem estado, de propósito
+## Um arquivo, entregue pronto
 
-Cada sessão trata de um exercício e termina nele. A única memória é a própria lição: quando o aluno volta com uma dúvida, a resposta vai para o chat **e** para o HTML, no ponto exato onde a dúvida surgiu.
+O aluno recebe **um único arquivo HTML**, com os componentes embutidos: abre com dois cliques, em qualquer lugar, sem pasta ao lado e sem nada para extrair. É a mesma entrega no Claude Code e no chat do navegador. Só o editor usa a internet, para baixar o Python na primeira vez.
+
+A lição não é editada depois de pronta, e a skill não guarda estado. Dúvida se responde no chat; uma lição com algo a mais, se o aluno pedir, é uma lição nova.
 
 ## Como usar
 

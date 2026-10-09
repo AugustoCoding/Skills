@@ -11,10 +11,6 @@
   --accent: #8a3324;
   --code-bg: #f4f4ea;
 
-  /* Nota de dúvida: marca-texto suave onde uma pergunta do aluno foi respondida.
-     Amarelo dessaturado, para destacar sem gritar ao lado do texto serifado. */
-  --nota-bg: #fdf6d8;
-  --nota-borda: #c9a227;
 
   /* CADA COR TEM UM SÓ PAPEL.
        · As cores de MOMENTO (azul, roxo, verde) são da estrutura: títulos,
@@ -85,8 +81,6 @@
     --accent: #e08b6f;
     --code-bg: #1f1f26;
 
-    --nota-bg: #2b2718;
-    --nota-borda: #8a7526;
 
 
     --serie-1: #e6b450;
@@ -120,8 +114,6 @@
   --accent: #e08b6f;
   --code-bg: #1f1f26;
 
-  --nota-bg: #2b2718;
-  --nota-borda: #8a7526;
 
 
   --serie-1: #e6b450;
@@ -922,45 +914,6 @@ pre.com-copia:hover .para-editor { opacity: 1; }
 }
 
 
-/* Nota de dúvida: a explicação escrita depois, no ponto exato do texto onde o
-   aluno travou. Marca-texto suave — o aluno tem que reconhecer, ao reabrir a
-   lição, que aquele trecho nasceu de uma pergunta dele.
-
-   Duas formas, mesma marca:
-     <p class="nota-duvida"> … </p>            bloco, para uma explicação inteira
-     <mark class="nota-duvida"> … </mark>      em linha, para uma frase enxertada
-
-   Convenção documentada no SKILL.md. Não invente outra classe para isto:
-   o valor está em ser o mesmo destaque em toda lição de todo aluno. */
-
-p.nota-duvida,
-div.nota-duvida {
-  background: var(--nota-bg);
-  border-left: 3px solid var(--nota-borda);
-  border-radius: 0 var(--raio) var(--raio) 0;
-  padding: 0.9rem 1.1rem;
-  margin: 1.4rem 0;
-  font-size: 0.95rem;
-}
-
-/* Rótulo opcional, com a data da pergunta. Útil quando a lição já acumulou
-   várias notas: mostra a ordem em que as dúvidas apareceram. */
-.nota-duvida > .rotulo {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-  display: block;
-  margin-bottom: 0.4rem;
-}
-
-mark.nota-duvida {
-  background: var(--nota-bg);
-  color: var(--fg);
-  box-shadow: 0 -0.35em 0 0 var(--nota-bg), 0 0.12em 0 0 var(--nota-borda);
-  padding: 0 0.15em;
-}
 
 /* ---------- ícones desenhados ---------- */
 /* Todo ícone ao lado de texto é desenhado por CSS, e não um caractere (▶ ✕ →
@@ -1459,13 +1412,12 @@ body.redimensionando { user-select: none; }
   :root {
     --bg: #fff; --fg: #000; --muted: #444;
     --rule: #bbb; --code-bg: #f3f3f3; --accent: #000;
-    --nota-bg: #f2f2f2; --nota-borda: #888;
   }
   html { font-size: 11pt; }
   body { max-width: none; padding: 0; }
   .lateral { float: none; width: auto; margin: 0.8rem 0; padding-left: 0.8rem; border-left: 1px solid var(--rule); }
   button, .controles { display: none; }
-  .moldura, .passo, .nota-duvida, pre, table, figure, ol.deducao > li, ol.observacoes > li { break-inside: avoid; }
+  .moldura, .passo, pre, table, figure, ol.deducao > li, ol.observacoes > li { break-inside: avoid; }
   .tema, .copiar, .para-editor, .editor-abrir, .editor-painel { display: none; }
   body.com-editor { margin: 0; }
   /* No papel não há clique: tudo que a tela esconde por etapas aparece. */
@@ -1473,7 +1425,7 @@ body.redimensionando { user-select: none; }
   .item-corpo, .secao-corpo { grid-template-rows: 1fr !important; opacity: 1 !important; }
   .item-cabeca { display: none !important; }
   .secao-titulo::after { display: none; }
-  .nota-duvida, mrow.chave-sob, mrow.chave-sobre { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  mrow.chave-sob, mrow.chave-sobre { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   h1, h2, h3 { break-after: avoid; }
   a::after { content: " (" attr(href) ")"; font-size: 0.75em; color: var(--muted); word-break: break-all; }
   a[href^="#"]::after { content: ""; }
