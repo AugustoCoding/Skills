@@ -6,183 +6,96 @@ allow_implicit_invocation: false
 argument-hint: "Cole o exercício que você quer aprender a resolver programando"
 ---
 
-O aluno tem um exercício de engenharia química na mão e quer sair sabendo **programar a solução em Python**. Você transforma o exercício numa lição: um arquivo HTML que ele abre, percorre e usa para escrever o código.
+O aluno tem um exercício de engenharia química e quer sair sabendo **programar a solução em Python**. Você transforma o exercício numa lição: um arquivo HTML que ele abre, percorre e usa para escrever o código.
 
-**A régua é a reação dele no fim:** *"ganhei muito com isso, e foi rápido demais"*. As duas metades contam. Uma lição correta e completa que custou meia hora falhou tanto quanto uma lição rasa, e é essa régua que decide qualquer dúvida de desenho que este documento não responda.
+**A régua é a reação dele no fim:** *"ganhei muito com isso, e foi rápido demais"*. As duas metades contam: uma lição correta que custou meia hora falhou tanto quanto uma rasa. É essa régua que decide o que este documento não responder.
 
-**A engenharia e a programação são suas.** Você sabe resolver o exercício, de qualquer área, e sabe escolher a técnica: integrar, achar raiz, ajustar, otimizar, discretizar. A skill não traz teoria nem catálogo de técnicas, de propósito: uma lista de métodos viraria o formato que todo exercício tenta imitar. **A forma pedagógica é da skill**: este documento, o esqueleto em [templates/licao.html](./templates/licao.html) e os componentes em `assets/`.
+**A engenharia e a programação são suas**: você resolve o exercício e escolhe a técnica. A skill não traz teoria nem catálogo de métodos, de propósito. **A forma é da skill**: este documento, o esqueleto em [templates/licao.html](./templates/licao.html) (toda a marcação mora lá) e os componentes em `assets/`, que cuidam sozinhos do comportamento da página.
 
-## Precisa de um exercício
+## A sessão
 
-A skill só funciona em cima de um problema concreto: uma questão de lista, uma prova antiga, um caso de planta. Se o pedido for genérico ("me ensina reator tubular"), **diga em uma linha que a skill precisa de um enunciado e responda normalmente**, como assistente comum, sem produzir lição:
+Se o pedido não traz um exercício concreto ("me ensina reator tubular"), diga em uma linha que a skill precisa de um enunciado e responda normalmente, sem lição.
 
-> "Essa skill monta a lição em cima de um exercício seu. Sem um, te explico direto aqui."
+Não entreviste o aluno nem guarde estado: o que precisaria ser perguntado, você infere do enunciado, e o que dura é o HTML.
 
-## Como a sessão corre
+1. **Leia o enunciado como diagnóstico**: o que ele pede, que dados dá e quais faltam, e que tipo de problema matemático ele é.
+2. **Ache os números** ([Os números](#os-números)) e rode **os passos da lição colados em ordem**: é o programa que o aluno monta no editor, e ele tem de rodar e imprimir os mesmos números.
+3. **Escreva a lição** copiando o template e trocando o conteúdo.
+4. **Veja-a rodando**: por `file://` os `assets/` não carregam, então sirva a pasta (`python -m http.server 8730 --bind 127.0.0.1`) e abra por `http://`. Confira que as figuras desenham e os passos abrem, e **leia o console**: o `grafico.js` avisa ali sobre curva achatada, controle sem faixa e valor não finito. Depois derrube o servidor e abra o arquivo para o aluno.
+5. **Fale pouco**: onde escreveu e o convite a perguntar, em duas linhas.
 
-O aluno manda o exercício e ativa a skill. É só isso que acontece na entrada.
-
-**Você não o entrevista.** Não pergunta o nível dele, até onde ele chegou nem onde salvar. O que precisaria ser perguntado, você infere do enunciado. **Você não guarda estado**: cada sessão trata de um exercício e termina nele, e o que dura é o HTML.
-
-1. **Leia o enunciado como diagnóstico**: o que ele pede de fato, que dados dá e quais faltam, e **que tipo de problema matemático** ele é. A lição vai dizer isso ao aluno.
-2. **Ache os números** ([Os números](#os-números)). Rode também **os passos da lição colados em ordem**: é exatamente o programa que o aluno vai montar no editor, e ele tem de rodar e imprimir os mesmos números.
-3. **Escreva a lição** a partir de [templates/licao.html](./templates/licao.html), seguindo [A lição](#a-lição). A marcação de cada peça mora no template: copiar é mais rápido e mais fiel do que deduzir desta prosa.
-4. **Veja a lição rodando antes de entregar.** Por `file://` o JS não carrega os `./assets/`, então suba um servidor na pasta da lição e abra por `http://`:
-
-   ```
-   python -m http.server 8730 --bind 127.0.0.1
-   ```
-
-   Confira que as figuras desenham, que os passos abrem, que o tema alterna e que cada bloco de código tem o seu "→ editor". (O editor em si precisa de internet para baixar o Python; não dependa dele para conferir a lição.) **Leia o console**: o `grafico.js` avisa ali sobre curva achatada, controle sem faixa e valor não finito, coisas que você não enxergaria de outro jeito. Depois derrube o servidor e **abra o arquivo** para o aluno com um comando de CLI.
-5. **Fale pouco**: diga onde escreveu e convide a perguntar, em duas linhas. Repetir a lição no chat desfaz o motivo de ela existir.
-
-## Onde escrever
-
-Esta é a decisão em que a skill mais erra, então siga à risca:
-
-- **O aluno indicou uma pasta?** Escreva **diretamente nela**. Não crie subpasta dentro.
-- **Não indicou?** Use `./licoes/` no diretório atual, criando-a se preciso.
-
-```
-licoes/
-  assets/                    os componentes que a lição carrega, copiados da skill
-  nome-do-exercicio.html     uma lição por exercício, em kebab-case: cstr-partida.html
-```
-
-Copie da skill **só os componentes que a lição carrega**, e atualize a cópia se a da skill for mais nova. Componente que você escrever fica nesse `assets/`, não na skill.
-
-Nada de contabilidade: nenhum arquivo de estado, índice, registro ou anotação sobre o aluno. A pasta da skill é **somente leitura**.
+**Onde escrever**, à risca, porque é onde a skill mais erra: se o aluno indicou uma pasta, escreva **diretamente nela**, sem subpasta; se não, use `./licoes/`. Lá vão a lição (`nome-do-exercicio.html`, em kebab-case) e um `assets/` com a cópia dos componentes da skill. Nada de arquivo de estado ou anotação sobre o aluno, e nada escrito na pasta da skill.
 
 ## A lição
 
-Um arquivo HTML por exercício, que resolve a questão inteira. Ela tem **quatro momentos, sempre nesta ordem**: abertura, modelo, código e resultado. Os três últimos têm títulos fixos, os mesmos em toda lição: "O modelo", "O código" e "O resultado". A ordem segue o caminho de quem aprende: saber do que se trata, entender as equações, ver o programa nascer e ler o resultado. Não há exercício extra no fim: o aluno veio resolver o problema dele, e a lição termina nele.
+Quatro momentos, nesta ordem: **abertura**, **modelo**, **código** e **resultado**. O conteúdo de cada um é o exercício que decide. Não há exercício extra no fim.
 
-O que vai **dentro** de cada momento é decisão sua, e é o exercício que manda: quantas equações, quantos passos, que figura, que verificação. Abaixo está para que serve cada momento e o que ele não pode deixar de fazer.
+**Não há teto de palavras**: o tempo do aluno se ganha cortando o que não ensina (repetição, história, ressalva que não muda nada), nunca abreviando o que ensina (definição de símbolo, contexto de equação, o porquê de uma decisão).
 
-A dedução de cada balanço, os passos do código e as observações são **linhas do tempo**: o próximo item aparece fechado e abre com um clique, e todo item já aberto se recolhe com um clique na bolinha ou no título. Fechado ou recolhido, o item mostra só a bolinha e a cabeça: o título, ou na dedução as etiquetas de tipo. O título de cada momento (`h2`) recolhe a seção inteira. O `codigo.js` cuida de tudo isso, com a altura deslizando; a lição só escreve os itens.
+**A cor marca grandeza.** Cada grandeza que aparece no gráfico leva a cor da sua série em todo lugar: equação, lista de símbolos, tabela, texto (o nome também: "o reagente A"). Parâmetros e todo o resto ficam sem cor. O template mostra a marcação.
 
-**Não há teto de palavras.** A régua é o tempo do aluno, e ele se ganha **cortando o que não ensina**, não abreviando o que ensina:
+### Abertura
 
-- repetição, recapitulação, história e ressalva que não muda o que ele faz: cortar;
-- definição de símbolo, contexto de equação e o porquê de uma decisão de código: **nunca cortar**.
+Três a cinco frases: que processo é esse, o que o enunciado pede e o que o aluno vai ter no fim.
 
-### A cor ensina
+### Modelo
 
-A lição é **colorida de propósito**, porque cor bem usada é informação que o aluno lê sem esforço. Nenhuma cor é enfeite: cada uma marca uma categoria, e a categoria tem sempre a mesma cor na lição inteira.
+**Todo balanço é deduzido**, do princípio de conservação até a forma que o código usa, um passo por item. Mostrar de onde a equação vem ensina a montar o balanço do próximo exercício.
 
-- **Cada grandeza que aparece no gráfico tem a cor da sua série** em todo lugar: na equação, na lista de símbolos, na tabela, no texto e na legenda. A primeira série é `var-1`, a segunda `var-2`, na ordem de `series` do `registrar`. Quando o aluno vê C<sub>A</sub> em azul na equação, já sabe qual é a curva dela. O nome no texto também leva a cor: "o <span class="var-1">reagente A</span>".
-- **Parâmetros ficam sem cor**, em negrito (`param`): tudo o que é dado fixo da conta, como constantes, vazões, volumes e concentrações de alimentação. Na equação, só as grandezas que variam aparecem coloridas, e isso já é informação.
-- **Grandeza que não está no gráfico nem é parâmetro** também fica sem cor. Se ela importa a ponto de pedir cor, provavelmente pede uma curva.
+- O título diz a natureza: massa ou energia, global ou de qual componente, e em que unidade ("Balanço de massa do componente A, em mols").
+- O primeiro passo é o **princípio** em palavras, com o volume de controle. O segundo é a **tradução** de cada palavra em símbolos, com uma chave sob cada termo dizendo qual palavra ele é.
+- Cada passo seguinte faz **uma coisa só** e diz qual: princípio, tradução, cinética, hipótese, álgebra ou definição. **A hipótese diz o que aconteceria se não valesse**: é ela que muda de um exercício para outro.
+- O último passo é a equação do modelo, com as chaves e, dentro dele, o parágrafo que a explica: primeiro a cena, depois a conclusão.
+- Um segundo balanço parecido mostra o princípio e a tradução e junta o resto numa linha.
 
-A marcação é a classe no elemento (`<msub class="var-1">` no MathML, `<code class="var-1">` na lista e na tabela, `<span class="var-1">` no texto). O resto da cor sai sozinho, e cada cor tem um só papel: azul, roxo e verde são da estrutura de cada seção (títulos, bolinhas, etiquetas, caixas); as cores das grandezas não aparecem em mais nada; vermelho é só de erro.
+Equação que não é balanço (lei de velocidade dada, correlação) não se deduz: entra num bloco próprio.
 
-### 1. Abertura
+- **Defina cada símbolo onde ele aparece pela primeira vez, com unidade, numa frase completa**: "concentração do reagente A dentro do reator, mol/L", nunca "concentração, mol/L".
+- **Chave** em cada termo com significado físico próprio, com duas a cinco palavras; não em passo de pura álgebra.
+- Equação exibida é MathML; código nunca é.
 
-Antes de tudo, **um parágrafo situando o problema**: que processo é esse, o que o enunciado pede e o que o aluno vai ter no fim. Três a cinco frases, para quem acabou de ler o enunciado e ainda não sabe por onde pegar. Sem ele, a primeira equação chega antes de o aluno saber do que se trata.
+Depois, **a tabela de parâmetros** (valor, unidade, procedência) e **o tipo de problema**: duas ou três frases sobre que problema matemático é este e por que isso decide a ferramenta. Fora da dedução, o modelo não cresce.
 
-### 2. Modelo
+### Código
 
-As equações que o código vai resolver: diferenciais, algébricas, um balanço, uma correlação, um modelo a ajustar.
+O programa explicado **em até seis passos, mais o programa completo como o último**.
 
-**Todo balanço (de massa, de componente, de energia, de quantidade de movimento) é deduzido**, do princípio de conservação até a forma que o código usa, um passo por linha. Mostrar só a equação final ensina a resolver **este** exercício; mostrar de onde ela vem ensina a montar o balanço do próximo.
+- **O título do passo** é o que o aluno vê antes de abrir: diz o que vem sem entregar a resposta.
+- **Cada passo tem o trecho e o porquê**: o comentário cobre o "o quê", o parágrafo cobre a decisão (por que este método, esta tolerância, este evento). Nada de explicar o óbvio.
+- **A verificação é obrigatória**: uma conta independente que confere o resultado (caso analítico, balanço que fecha, caso-limite).
+- **O critério de um número numérico** vai no passo onde o método é escolhido.
+- **Os passos, colados em ordem, são o programa completo e rodam**: nenhuma linha de código fica fora deles.
 
-- **O título diz a natureza do balanço**: massa ou energia (ou quantidade de movimento), global ou de qual componente, e em que unidade. "Balanço de massa do componente A, em mols". A classe `balanco-massa`, `balanco-energia` ou `balanco-movimento` põe a etiqueta colorida antes do título.
-- **O primeiro passo é o princípio em palavras** ("acúmulo = entrada − saída + geração − consumo"), com o volume de controle e a unidade ditos na frase.
-- **O segundo traduz cada palavra em símbolos**, com uma chave sob cada termo dizendo qual palavra ele é. É o passo que o aluno mais erra sozinho.
-- **Cada passo seguinte faz uma coisa só, e diz qual** com uma etiqueta de tipo: `princípio` (a conservação em palavras), `tradução` (palavras viram vazões e concentrações), `cinética` (a lei de velocidade ou outra relação constitutiva), `hipótese` (volume constante, mistura perfeita, regime permanente, adiabático), `álgebra` (rearranjo, substituição) ou `definição` (um grupo ganha nome, como τ = V/F).
-- **A hipótese diz o que aconteceria se ela não valesse**: "se o tanque estivesse enchendo, o volume precisaria de um balanço próprio". É a hipótese que muda de um exercício para outro.
-- **O último passo é a equação do modelo** (`final`). Ele leva as chaves e, **dentro dele**, o parágrafo que explica o que ela diz: monte a cena (o que a equação descreve no processo) antes de concluir o que ela implica.
-- **A dedução abre um passo de cada vez**, e o passo fechado mostra só a etiqueta do próximo ("próximo: hipótese"). Por isso tudo o que pertence a um passo fica dentro do `<li>` dele.
-- **Dois balanços parecidos não repetem a dedução inteira**: o segundo mostra o princípio e a tradução, e junta numa linha os passos iguais aos do primeiro, com todas as etiquetas.
+### Resultado
 
-**Equação que não é balanço** (lei de velocidade dada, correlação, equação de estado) não se deduz: entra num bloco próprio, ou como passo de `cinética`.
+Abre com **a resposta**: os números que o exercício pede, como o programa os imprime. Depois, **a figura que a pergunta pede** (no tempo, ao longo do reator, contra um parâmetro, dados contra modelo), registrando no `grafico.js` a mesma conta do programa. Duas figuras no máximo.
 
-**Símbolos e chaves:**
+- **Até quatro controles**, cada um convocado pela sua própria observação, com faixa e passo que alcançam o valor que ela manda procurar.
+- **Duas a quatro observações de leitura da curva, mais uma por controle**, cada uma ancorada num ponto concreto deste resultado e com um insight próprio. O título de cada uma é uma pergunta ou, nas de controle, a ação; nunca a conclusão.
+- **Cada observação de controle diz a mesma mudança no código** e o que o programa deve imprimir.
+- **Um nome por grandeza** na lição inteira, o mesmo da legenda.
 
-- **Defina cada símbolo onde ele aparece pela primeira vez**, com unidade, e não o defina de novo.
-- **A definição é uma frase completa, não uma etiqueta.** "C<sub>A</sub> — concentração do reagente A dentro do reator, mol/L", nunca "C<sub>A</sub> — concentração, mol/L". Concentração de quê, taxa de quem, medida onde: se a frase deixa a pergunta no ar, ela só nomeou o símbolo.
-- **Cada termo com significado físico próprio ganha uma chave**, com o que ele é em duas a cinco palavras: "acúmulo", "entra menos sai", "consumo pela reação". Sem chave em equação de um termo, em passo de pura álgebra ou em termo de um símbolo só, **exceto na tradução**, onde todo termo leva a sua palavra, até um "0".
-- **Equação exibida é sempre MathML**, sem biblioteca. Símbolo solto no meio da frase pode ser texto: `k`, `C<sub>A</sub>`. Código nunca é MathML.
+Se a frase serviria para outro exercício, não é análise deste: corte. E não liste o que o modelo ignora.
 
-Depois das deduções vem **a tabela de parâmetros** (símbolo, valor, unidade, procedência). Ela guarda os números; as deduções guardam os significados. A procedência começa por uma etiqueta (`proc-enunciado`, `proc-derivado` ou `proc-escolha`), seguida da conta ou da justificativa.
+### Opcionais
 
-O momento fecha com **o tipo de problema**: duas ou três frases dizendo que problema matemático é este (valor inicial, sistema algébrico, contorno, ajuste, otimização) e por que isso decide a ferramenta. É a parte que o aluno leva para o próximo exercício.
-
-A dedução é a única parte longa do modelo. Fora dela, ele não cresce: sem história e sem recapitulação, ou a lição vira uma aula de teoria com um apêndice de código.
-
-### 3. Código
-
-O centro da lição: o programa **explicado passo a passo**, numa linha do tempo. O próximo passo aparece fechado (a bolinha e o título) até o aluno clicar nele; o `codigo.js` cuida disso, e a lição só escreve os `.passo`.
-
-- **Até seis passos**, seguindo as divisões naturais do programa, **mais o programa completo como o último**: um passo "O programa completo" com o programa inteiro, executável, com dependências declaradas e unidades em comentário.
-- **O título do passo é o que o aluno vê antes de abrir**: diz o que vem sem entregar a resposta. "Os balanços de A e de B", não "O balanço de B tem dois termos".
-- **Cada passo tem o trecho e o porquê.** O comentário no código cobre o "o quê"; o parágrafo cobre a decisão: por que este método, esta tolerância, um evento em vez de ler o instante no gráfico. Sem explicar o óbvio ("aqui importamos o numpy").
-- **A verificação é obrigatória**: pelo menos uma conta independente que confere o resultado, como a solução analítica de um caso particular, um balanço que fecha ou um caso-limite. Num passo próprio ou num `.confira`. Saber desconfiar do número que o programa imprime é metade de saber programar uma simulação.
-- **O critério de um número numérico vai no passo onde o método é escolhido**: ali ele é o porquê de uma decisão, não uma ressalva.
-- **Os passos que vêm antes do programa completo, colados em ordem, são o programa completo, e rodam.** O aluno monta o programa no editor trazendo passo por passo; se um passo depende de uma linha que nenhum passo mostrou, ou repete um import, o programa dele quebra. Só os comentários de seção podem existir apenas no programa completo.
-
-### 4. Resultado
-
-A seção abre com **a resposta** (`div.resposta`): os números que o exercício pede, como o programa os imprime, antes de qualquer figura. Depois vêm a figura que responde o exercício e a leitura **daquele** resultado.
-
-**A figura é a que a pergunta pede**: uma grandeza contra o tempo, um perfil ao longo do reator, uma varredura de parâmetro, uma curva de equilíbrio, dados contra o modelo ajustado. O `grafico.js` desenha qualquer x contra y: a lição registra a conta (a mesma do programa, em JS) e ele cuida de eixos, legenda, controles e tema. O contrato está no cabeçalho do arquivo; o essencial, no template.
-
-- **Um painel por canvas**, com 320 a 420 px de altura. Duas figuras no máximo.
-- **Segundo eixo quando a escala pedir**: duas grandezas de ordens de grandeza diferentes no mesmo eixo viram, a menor, uma reta rente ao fundo. O `grafico.js` avisa no console.
-- **Até quatro controles, cada um convocado pela sua própria observação**, com faixa e passo que alcançam o que ela manda procurar: se a observação diz "leve até 222" e o passo é 5, o slider para em 220 e em 225.
-- **As observações são uma linha do tempo** (`ol.observacoes`), abertas uma de cada vez, com a figura sempre à vista. O título de cada uma é o que se vê com ela fechada: uma pergunta ("Por que B demora mais que A?") ou, nas de controle, a ação ("Leve k até 0,30 1/min"). Nunca a conclusão.
-- **Duas a quatro observações de leitura da curva, mais uma por controle**, cada uma ancorada num ponto concreto **deste** resultado e com um insight próprio: se duas explicam a mesma coisa, junte.
-- **A observação de controle tem o seu `.no-seu-codigo`**: a mesma mudança no programa que o aluno montou no editor, e o que ele deve imprimir. O slider mostra a resposta, mas é mexendo no código que ele aprende.
-- **Um nome por grandeza na lição inteira**: se a legenda diz "reagente A", o texto nunca diz "o reagente" num lugar e "C<sub>A</sub>" em outro.
-
-**O teste da análise:** se a frase serviria para outro exercício, ela não é análise deste caso. Corte. E não fale do que o modelo ignora: uma lista de hipóteses não é o que o aluno veio aprender.
-
-### O editor
-
-Toda lição tem, ao lado, **um editor de Python que roda ali mesmo**. Ele vem sozinho com o `editor.js`, e a lição não escreve nada para ele: uma bolinha na borda direita abre o painel, o editor começa vazio, cada bloco de código ganha um "→ editor" que acrescenta o trecho ao fim do programa, e embaixo fica a saída, com o `print`, os erros e as figuras do matplotlib. É por causa dele que os passos colados precisam formar o programa, e que o `.no-seu-codigo` fala do programa montado.
-
-### A caixa de ferramentas
-
-Opcionais: use cada uma quando ela pagar o tempo que custa. A lista não é exaustiva.
-
-| Elemento | Quando paga | Marcação |
-|---|---|---|
-| **Pense antes** | No passo em que prever ensina mais que ler: o sinal de um termo, a condição de parada, o chute inicial. Uma ou duas vezes por lição | `<p class="pense">` no `.passo` |
-| **O erro que parece certo** | Um erro plausível (unidade trocada, sinal invertido, chute na raiz errada), dito **com o sintoma** pelo qual ele aparece na saída | `<div class="armadilha">` |
-| **Conferência extra** | Uma segunda verificação que pega outra classe de erro | `<div class="confira">` |
-| **Segundo eixo** | Duas grandezas de escalas muito diferentes na mesma figura | `{ nome, eixo: 2 }` e `eixoY2` |
-| **Dados contra modelo** | Exercício de ajuste: pontos medidos e curva ajustada | `{ nome, tipo: "pontos" }` |
-| **Tabela de resultados** | A resposta é um punhado de valores discretos | `<table>` |
-| **Diagrama** | Geometria ou fluxos importam para o balanço: correntes, reciclo, volume de controle | SVG em linha, cores do CSS |
-| **Nota lateral** | Um comentário que enriquece sem interromper | `<aside class="lateral">` |
-| **Termo destacado** | Um ou dois por momento, para o conceito que volta | `<span class="termo">` |
-
-Componente novo só para o que não é x contra y, como um diagrama interativo. Ele fica no `assets/` da lição e segue as convenções do cabeçalho do `grafico.js`.
+Use quando pagar o tempo que custa: **pense antes** (num ou dois passos em que prever ensina mais que ler), **o erro que parece certo** (com o sintoma pelo qual ele aparece na saída), **conferência extra**, **segundo eixo**, **dados contra modelo**, **tabela de resultados**, **diagrama**, **nota lateral**, **termo destacado**. A marcação de cada um está no template. Componente novo só para o que não é x contra y, e ele fica no `assets/` da lição.
 
 ## Os números
 
-**Resolva analiticamente primeiro**, sempre que existir solução fechada: sai de uma linha de álgebra e é mais confiável que o método numérico. **Use o numérico para confirmar, não para descobrir.** Os dois batendo é o que autoriza publicar o número; quando discordam, o errado é quase sempre o numérico, que perto de uma bifurcação ou de uma raiz múltipla devolve com toda a calma um valor plausível e errado.
+**Resolva analiticamente primeiro** e use o numérico para confirmar, não para descobrir; quando discordam, o errado é quase sempre o numérico. Gaste pouco: uma dúzia de pontos integrados basta, e script de mais de meio minuto é script errado.
 
-**Gaste pouco nisso.** Uma dúzia de pontos resolvidos numericamente sustenta uma lição; avaliar fórmula fechada é grátis. Se um script passar de meio minuto, o problema é o script. Sem solução analítica, use tolerância apertada, e o critério vai para o passo do código onde o método é escolhido. Isso vale sobretudo para instantes, picos e cruzamentos citados nas observações: o valor final chama atenção, os números de meio de curva passam batidos.
+**Todo número que a lição cita é impresso pelo programa que ela entrega**, sobretudo os instantes, picos e cruzamentos das observações, que passam batidos. Se calcular um número exigiria mais um passo, não o cite.
 
-**Todo número que a lição cita é impresso pelo programa que ela entrega.** Se você escreve "a conversão chega a 90% em 18,5 min", o programa acha esse instante. Se calcular um número exigiria um passo a mais do que a lição comporta, **não cite o número**. Número que só existiu no seu rascunho é resultado entregue pronto.
+**Antes de salvar, passe um `grep` pelos algarismos do arquivo** e confira cada um, inclusive faixas e percentuais no meio de frases. Cada número é **dado do enunciado**, **derivado** (com a conta visível) ou **escolha sua** (marcada na tabela, com o motivo em meia linha: condições iniciais, horizontes, tolerâncias). Faixa de slider não precisa de procedência, mas precisa fazer sentido físico. Não cite literatura.
 
-**Antes de salvar, passe um `grep` por todos os algarismos do arquivo** (texto, tabela, `padroes`, resposta) e confira um a um. O número escondido no meio de uma frase é onde a procedência vaza, e contam também faixas, percentuais e ordens de grandeza "ilustrativas". Cada um cai numa caixa:
+## Requisitos
 
-- **Dado do enunciado**: sem marca.
-- **Derivado do enunciado**: sem marca, mas com a conta visível na lição ou no código.
-- **Escolha sua**: marcada na tabela, com a justificativa em meia linha. Contam aqui condições iniciais, horizontes, chutes e tolerâncias que o enunciado não deu.
-
-A faixa de um slider é configuração, não afirmação: não precisa de procedência, mas precisa fazer sentido físico. **Não cite literatura**: uma citação lembrada de memória tem cara de dado verificado e não é.
-
-## Requisitos técnicos
-
-- **Autocontida**, exceto pelos componentes de `./assets/`. Abre e funciona sem internet, com uma exceção: o editor baixa o Python (Pyodide) no primeiro "Rodar".
-- **Carrega** `lesson.css`, `tema.js`, `codigo.js` e `editor.js` (depois do `codigo.js`, de quem usa o realce), mais `grafico.js` se houver figura e qualquer componente que você escrever.
-- **Só bibliotecas que o Pyodide tem**: numpy, scipy, matplotlib, pandas, sympy. Se o exercício pedir outra (CoolProp, Cantera…), use-a, mas diga no passo que a importa que aquele trecho só roda no Python do computador.
-- **Todo código exibido roda. Todo parâmetro tem unidade. Todo eixo tem rótulo com unidade.** O código sai colorido como numa IDE sem nada a fazer; um bloco que não seja Python leva `class="sem-realce"`.
-- **Nenhum link que tire o aluno da lição**, e nenhuma promessa de continuação: a questão se resolve ali.
+- Abre sem internet, exceto o editor, que baixa o Python na primeira vez.
+- Só bibliotecas que o Pyodide tem (numpy, scipy, matplotlib, pandas, sympy). Se precisar de outra, diga no passo que a importa que aquele trecho só roda no computador.
+- Todo código roda; todo parâmetro e todo eixo têm unidade. Bloco de código que não é Python leva `sem-realce`.
+- Nenhum link para fora e nenhuma promessa de continuação.
 
 ## Quando ele volta com uma dúvida
 
-Responda em **dois lugares**: no chat, direto, e **dentro do HTML daquela lição**, no ponto exato onde a dúvida surgiu: `<p class="nota-duvida">` com um `span.rotulo` datado, ou `<mark class="nota-duvida">` em linha. Use sempre esta classe e nunca apague o original; se o trecho estava errado, corrija e explique a correção na nota. Depois reabra o arquivo e diga em uma linha que ele foi atualizado.
+Responda no chat **e** dentro do HTML, no ponto exato onde a dúvida surgiu, com a nota de dúvida do template. Nunca apague o original: se estava errado, corrija e explique na nota. Depois reabra o arquivo.
