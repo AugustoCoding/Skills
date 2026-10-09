@@ -6,7 +6,9 @@ Comece de [templates/licao.html](./templates/licao.html). A marcação de cada p
 
 ## A forma: momentos fixos, conteúdo livre
 
-A lição tem **cinco momentos, sempre nesta ordem**: abertura, modelo, código, resultado e sua vez. A ordem é fixa porque segue o caminho de quem aprende: saber do que se trata, entender as equações, ver o programa nascer, ler o resultado e programar sozinho.
+A lição tem **quatro momentos, sempre nesta ordem**: abertura, modelo, código e resultado. A ordem é fixa porque segue o caminho de quem aprende: saber do que se trata, entender as equações, ver o programa nascer e ler o resultado.
+
+Não há exercício extra no fim. O aluno veio resolver o problema dele, e a lição termina nele.
 
 O que vai **dentro** de cada momento é decisão sua, e é o exercício que manda: quantas equações, quantos passos, que tipo de figura, que verificação. Este documento diz para que serve cada momento e o que ele não pode deixar de fazer. Não diz como o problema se resolve, porque isso você já sabe.
 
@@ -111,14 +113,6 @@ A figura que responde o exercício, e a leitura **daquele** resultado.
 
 Também não fale do que o modelo ignora. Uma lista de hipóteses não é o que o aluno veio aprender.
 
-## 5. Sua vez
-
-Uma variação do exercício para o aluno programar sozinho, partindo do programa da lição. É o único momento em que ele produz em vez de ler, e é ele que transforma "entendi" em "sei fazer".
-
-- **Mude uma coisa que obrigue a mexer no código**, não só num número: outro regime de operação, um termo novo na equação, um evento diferente, outra grandeza a encontrar. Trocar só um parâmetro o slider já faz.
-- **A variação cabe em poucas linhas de mudança.** O objetivo é aplicar o que acabou de ver, não começar outro projeto.
-- **Dê uma dica**, que aponta onde no programa a mudança acontece sem escrever o código.
-- **Dê a resposta**: o número que ele deve achar e só as linhas que mudam. Você chega nesse número **rodando** a variação, como qualquer outro número da lição.
 
 ## A caixa de ferramentas
 
@@ -140,7 +134,7 @@ Componente novo só para o que não é x contra y, como um diagrama interativo o
 
 ## Os números
 
-Antes de salvar, passe por **todo número do arquivo**: texto, tabela, `padroes`, resposta e sua vez. Cada um cai numa destas caixas:
+Antes de salvar, passe por **todo número do arquivo**: texto, tabela, `padroes` e resposta. Cada um cai numa destas caixas:
 
 | Caixa | Como aparece |
 |---|---|
@@ -185,5 +179,4 @@ Quando o aluno volta com uma pergunta, a resposta vai para o chat **e** para o H
 - **A figura que não comunica**: a curva que o texto discute é uma reta rente ao fundo.
 - **O slider decorativo**, que nenhuma observação manda mexer.
 - **A análise genérica**, que serviria para qualquer exercício.
-- **A "sua vez" que é só trocar um número**, e por isso não exige programar nada.
 - **O número citado que o programa não imprime.**

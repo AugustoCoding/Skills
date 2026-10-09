@@ -2,7 +2,7 @@
 
 Transforma um exercício de engenharia química numa **lição HTML** que ensina o aluno a programar a solução em Python.
 
-A skill não resolve o enunciado por ele nem dá aula de teoria: mostra o programa sendo construído, passo a passo, deixa o aluno mexer no resultado e, no fim, o faz programar uma variação sozinho.
+A skill não resolve o enunciado por ele nem dá aula de teoria: mostra o programa sendo construído, passo a passo, e deixa o aluno mexer no resultado.
 
 ## A ideia
 
@@ -14,13 +14,12 @@ Isso saiu dos testes. No Teste 7, a seção de domínio que a skill carregava fo
 
 ## A lição
 
-Cinco momentos, sempre nesta ordem. O conteúdo de cada um é o exercício que decide.
+Quatro momentos, sempre nesta ordem. O conteúdo de cada um é o exercício que decide.
 
 1. **Abertura**: que processo é este e o que ele pede.
 2. **Modelo**: cada balanço **deduzido** do princípio de conservação até a equação final, com cada passo etiquetado (princípio, tradução, cinética, hipótese, álgebra, definição), e o **tipo de problema matemático**. É o que o aluno leva para o próximo exercício.
 3. **Código**: passos revelados um a um, cada um com o porquê, mais uma verificação independente do resultado.
 4. **Resultado**: a figura que responde a pergunta, com controles, e observações ancoradas **neste** caso, cada controle com a mesma mudança mostrada no código Python.
-5. **Sua vez**: uma variação que o aluno programa sozinho, com dica e resposta escondidas.
 
 Por cima disso, uma **caixa de ferramentas** opcional: pense antes, o erro que parece certo, segundo eixo, dados contra modelo, diagrama. O modelo usa cada uma quando ela paga o tempo que custa.
 
@@ -29,7 +28,7 @@ Por cima disso, uma **caixa de ferramentas** opcional: pense antes, o erro que p
 | Arquivo | Papel |
 |---|---|
 | `SKILL.md` | O que é da skill e o que é do modelo, como a sessão corre, como achar os números, onde escrever. Ponto de entrada. |
-| `LESSON-FORMAT.md` | Os cinco momentos (com a dedução dos balanços no modelo), a caixa de ferramentas, a cor, a procedência dos números. |
+| `LESSON-FORMAT.md` | Os quatro momentos (com a dedução dos balanços no modelo), a caixa de ferramentas, a cor, a procedência dos números. |
 | `templates/licao.html` | O esqueleto da lição, com a marcação de cada peça. A marcação mora **só aqui**. |
 
 **Componentes** (`assets/`), copiados para a pasta da lição:

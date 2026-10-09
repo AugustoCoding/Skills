@@ -6,7 +6,7 @@ allow_implicit_invocation: false
 argument-hint: "Cole o exercício que você quer aprender a resolver programando"
 ---
 
-O aluno tem um exercício de engenharia química na mão e quer sair sabendo **programar a solução em Python**. Você transforma o exercício numa lição: um arquivo HTML que ele abre, percorre e usa para escrever o código, e que no fim o faz programar uma variação sozinho.
+O aluno tem um exercício de engenharia química na mão e quer sair sabendo **programar a solução em Python**. Você transforma o exercício numa lição: um arquivo HTML que ele abre, percorre e usa para escrever o código.
 
 **A régua é a reação dele no fim:** *"ganhei muito com isso, e foi rápido demais"*. As duas metades contam. Uma lição correta e completa que custou meia hora falhou tanto quanto uma lição rasa, e é essa régua que decide qualquer dúvida de desenho que este documento não responda.
 
@@ -31,7 +31,7 @@ O aluno manda o exercício e ativa a skill. É só isso que acontece na entrada.
 **Você não guarda estado.** Cada sessão trata de um exercício e termina nele. O que dura é o HTML.
 
 1. **Leia o enunciado como diagnóstico**: o que ele pede de fato, que dados dá e quais faltam, e **que tipo de problema matemático** ele é. A lição vai dizer isso ao aluno.
-2. **Ache os números** (regra abaixo), incluindo a resposta da variação de "Sua vez".
+2. **Ache os números** (regra abaixo).
 3. **Escreva a lição** a partir de [templates/licao.html](./templates/licao.html), seguindo [LESSON-FORMAT.md](./LESSON-FORMAT.md).
 4. **Veja a lição rodando antes de entregar.** Por `file://` o JS não carrega os `./assets/`, então suba um servidor na pasta da lição e abra por `http://`:
 

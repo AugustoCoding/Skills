@@ -188,13 +188,11 @@ h2 {
 }
 
 /* Cada momento tem a sua cor, no título: o aluno sabe onde está pela cor.
-   A ordem dos h2 da lição é fixa — modelo, código, resultado —, e o "Sua vez"
-   tem caixa própria. */
+   A ordem dos h2 da lição é fixa: modelo, código, resultado. */
 body > h2 { padding-left: 0.7rem; border-left: 4px solid var(--rule); }
 body > h2:nth-of-type(1) { color: var(--mom-modelo);    border-left-color: var(--mom-modelo); }
 body > h2:nth-of-type(2) { color: var(--mom-codigo);    border-left-color: var(--mom-codigo); }
 body > h2:nth-of-type(3) { color: var(--mom-resultado); border-left-color: var(--mom-resultado); }
-section.sua-vez > h2 { color: var(--accent); }
 
 h3 {
   font-size: 1.05rem;
@@ -954,23 +952,6 @@ li .no-seu-codigo::before { display: inline; margin-right: 0.5rem; }
   margin-top: 0.6rem;
 }
 
-/* Sua vez: a variação que o aluno programa sozinho. */
-section.sua-vez {
-  border: 1px dashed var(--accent);
-  border-radius: var(--raio);
-  padding: 1.2rem 1.4rem;
-  margin: 2.5rem 0;
-}
-section.sua-vez > h2 { margin-top: 0; }
-section.sua-vez details { margin: 0.8rem 0; }
-section.sua-vez summary {
-  cursor: pointer;
-  font-family: var(--mono);
-  font-size: 0.8rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
 
 /* ---------- impressão ---------- */
 /* O aluno pode querer estudar no papel. Controles somem, cor vira preto. */
@@ -992,7 +973,6 @@ section.sua-vez summary {
   .fechado > * { display: revert !important; }
   .fechado h3::after, .fechado .porque::after, .fechado .porque::before { content: none !important; }
   ol.deducao > li.fechado .porque { font-size: 0.92rem; }
-  section.sua-vez details > *:not(summary) { display: block; }
   .nota-duvida, mrow.chave-sob, mrow.chave-sobre { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   h1, h2, h3 { break-after: avoid; }
   a::after { content: " (" attr(href) ")"; font-size: 0.75em; color: var(--muted); word-break: break-all; }

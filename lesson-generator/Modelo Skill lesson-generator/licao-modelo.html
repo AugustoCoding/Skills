@@ -360,22 +360,6 @@ document.addEventListener("DOMContentLoaded", function () {
   </li>
 </ol>
 
-<section class="sua-vez">
-  <h2>Sua vez</h2>
-  <p>Agora a reação é de segunda ordem: a velocidade vale k·<span class="var-1">C<sub>A</sub></span>², com k = 0,1 L/(mol·min) e todo o resto igual. Adapte o programa e encontre a concentração de A no estacionário e o instante em que o reator chega a 95% dela.</p>
-  <details>
-    <summary>Uma dica</summary>
-    <p>A velocidade da reação muda numa linha só, mas o estacionário também muda: zerar a derivada de A agora dá uma equação do segundo grau em <span class="var-1">C<sub>A</sub></span>, e só uma das raízes é positiva. E a solução exata da conferência deixou de valer; o que ainda dá para conferir é a derivada de A perto de zero no fim.</p>
-  </details>
-  <details>
-    <summary>A resposta</summary>
-    <p>C<sub>A</sub> no estacionário = 0,781 mol/L, e 95% dele em t = 16,75 min.</p>
-<pre><code>r = k * CA**2                                                  # em derivadas
-CA_ss = (-1 + np.sqrt(1 + 4 * k * tau * CA0)) / (2 * k * tau)  # raiz positiva
-CB_ss = CA0 - CA_ss                                            # todo A que falta virou B</code></pre>
-  </details>
-</section>
-
 <div class="pergunte">
   <strong>Ficou algo obscuro?</strong> Pergunte. O que você perguntar entra
   aqui neste arquivo, no ponto exato onde a dúvida apareceu.

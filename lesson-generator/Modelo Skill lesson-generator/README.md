@@ -30,6 +30,5 @@ A partida de um CSTR isotérmico com reação A → B de primeira ordem, saindo 
 - uma solução exata, para a conferência;
 - um evento, para o instante de 95%;
 - dois controles com efeitos opostos;
-- uma variação (segunda ordem) que obriga a mexer no código.
 
 Os números da lição saem do programa publicado nela, conferidos rodando.
