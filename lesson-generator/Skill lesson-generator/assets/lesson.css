@@ -1041,7 +1041,9 @@ body.com-editor {
   height: 0.42rem;
   border-left: 2px solid currentColor;
   border-bottom: 2px solid currentColor;
-  transform: translateX(0.08rem) rotate(45deg);     /* aponta para a esquerda: ‹ */
+  /* Aponta para a esquerda: ‹. A mesma lista de funções nos dois estados faz a
+     transição só mexer no scaleX: a seta se espelha em vez de girar. */
+  transform: scaleX(1) translateX(0.08rem) rotate(45deg);
   transition: transform 0.22s ease;
 }
 .editor-abrir:hover,
@@ -1049,7 +1051,7 @@ body.com-editor {
 .editor-abrir:hover .editor-abrir-texto,
 .editor-abrir:focus-visible .editor-abrir-texto { max-width: 12rem; opacity: 1; margin-right: 0.3rem; }
 .editor-abrir:hover .editor-abrir-seta::before,
-.editor-abrir:focus-visible .editor-abrir-seta::before { transform: translateX(-0.08rem) rotate(-135deg); }   /* › */
+.editor-abrir:focus-visible .editor-abrir-seta::before { transform: scaleX(-1) translateX(0.08rem) rotate(45deg); }   /* › */
 /* A bolinha não cobre o texto: a coluna deixa, dos dois lados, a largura dela. */
 body:not(.com-editor) { max-width: min(46rem, calc(100vw - 3.6rem - 2 * 2.4rem)); }
 body.com-editor .editor-abrir { display: none; }
