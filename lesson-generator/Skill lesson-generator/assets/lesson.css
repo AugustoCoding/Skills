@@ -24,7 +24,31 @@
   --serie-1: #1f5c8b;
   --serie-2: #8a6d1f;
   --serie-3: #2e6b3f;
-  --serie-4: #7a3d82;
+  --serie-4: #1f7a7a;
+
+  /* Parâmetro: a cor de tudo o que é dado fixo da conta (k, τ, C_A0…),
+     separada das cores de série, que são das grandezas que o gráfico mostra. */
+  --param: #8a3324;
+
+  /* Etiquetas de procedência na tabela de parâmetros. */
+  --proc-enunciado: #1f5c8b;
+  --proc-derivado: #2e6b3f;
+  --proc-escolha: #9a6a00;
+
+  /* Cor de cada momento da lição, no título. */
+  --mom-modelo: #1f5c8b;
+  --mom-codigo: #7a3d82;
+  --mom-resultado: #2e6b3f;
+
+  /* Realce de sintaxe do Python, no tom do VS Code claro. */
+  --hl-kw: #af00db;
+  --hl-def: #0000ff;
+  --hl-str: #a31515;
+  --hl-com: #008000;
+  --hl-num: #098658;
+  --hl-fn: #795e26;
+  --hl-builtin: #267f99;
+  --hl-op: #4a4a44;
 
   --ok: #2e6b3f;
   --err: #8a3324;
@@ -62,7 +86,22 @@
     --serie-1: #6fb2e0;
     --serie-2: #d9b45c;
     --serie-3: #7fc394;
-    --serie-4: #c99bd2;
+    --serie-4: #6cc4c4;
+    --param: #e08b6f;
+    --proc-enunciado: #6fb2e0;
+    --proc-derivado: #7fc394;
+    --proc-escolha: #e0b45c;
+    --mom-modelo: #6fb2e0;
+    --mom-codigo: #c99bd2;
+    --mom-resultado: #7fc394;
+    --hl-kw: #c586c0;
+    --hl-def: #569cd6;
+    --hl-str: #ce9178;
+    --hl-com: #6a9955;
+    --hl-num: #b5cea8;
+    --hl-fn: #dcdcaa;
+    --hl-builtin: #4ec9b0;
+    --hl-op: #d4d4d4;
 
     --ok: #7fc394;
     --err: #e08b6f;
@@ -85,7 +124,22 @@
   --serie-1: #6fb2e0;
   --serie-2: #d9b45c;
   --serie-3: #7fc394;
-  --serie-4: #c99bd2;
+  --serie-4: #6cc4c4;
+  --param: #e08b6f;
+  --proc-enunciado: #6fb2e0;
+  --proc-derivado: #7fc394;
+  --proc-escolha: #e0b45c;
+  --mom-modelo: #6fb2e0;
+  --mom-codigo: #c99bd2;
+  --mom-resultado: #7fc394;
+  --hl-kw: #c586c0;
+  --hl-def: #569cd6;
+  --hl-str: #ce9178;
+  --hl-com: #6a9955;
+  --hl-num: #b5cea8;
+  --hl-fn: #dcdcaa;
+  --hl-builtin: #4ec9b0;
+  --hl-op: #d4d4d4;
 
   --ok: #7fc394;
   --err: #e08b6f;
@@ -132,6 +186,15 @@ h2 {
   font-style: italic;
   margin: 3rem 0 0.8rem;
 }
+
+/* Cada momento tem a sua cor, no título: o aluno sabe onde está pela cor.
+   A ordem dos h2 da lição é fixa — modelo, código, resultado —, e o "Sua vez"
+   tem caixa própria. */
+body > h2 { padding-left: 0.7rem; border-left: 4px solid var(--rule); }
+body > h2:nth-of-type(1) { color: var(--mom-modelo);    border-left-color: var(--mom-modelo); }
+body > h2:nth-of-type(2) { color: var(--mom-codigo);    border-left-color: var(--mom-codigo); }
+body > h2:nth-of-type(3) { color: var(--mom-resultado); border-left-color: var(--mom-resultado); }
+section.sua-vez > h2 { color: var(--accent); }
 
 h3 {
   font-size: 1.05rem;
@@ -241,6 +304,16 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
 .var-2 { color: var(--serie-2); }
 .var-3 { color: var(--serie-3); }
 .var-4 { color: var(--serie-4); }
+.param { color: var(--param); }
+
+/* A cor da grandeza vale em toda a lição: equação, lista de símbolos, tabela,
+   texto. Dentro da lista e da tabela, o <code> do símbolo herda a cor dela. */
+code.var-1, code.var-2, code.var-3, code.var-4, code.param { font-weight: 700; }
+.termos code.var-1, td code.var-1 { color: var(--serie-1); }
+.termos code.var-2, td code.var-2 { color: var(--serie-2); }
+.termos code.var-3, td code.var-3 { color: var(--serie-3); }
+.termos code.var-4, td code.var-4 { color: var(--serie-4); }
+.termos code.param, td code.param { color: var(--param); }
 
 /* Valor sem procedência. Obrigatório marcar. */
 .ilustrativo {
@@ -312,6 +385,16 @@ pre {
 }
 pre code { background: none; padding: 0; }
 
+/* Realce de sintaxe — o codigo.js marca os tokens; as cores vêm daqui. */
+.hl-kw  { color: var(--hl-kw); }
+.hl-def { color: var(--hl-def); }
+.hl-str { color: var(--hl-str); }
+.hl-com { color: var(--hl-com); font-style: italic; }
+.hl-num { color: var(--hl-num); }
+.hl-fn  { color: var(--hl-fn); }
+.hl-bi  { color: var(--hl-builtin); }
+.hl-op  { color: var(--hl-op); }
+
 /* ---------- tabelas ---------- */
 
 table {
@@ -320,8 +403,32 @@ table {
   margin: 1.6rem 0;
   font-size: 0.9rem;
 }
-th, td { text-align: left; padding: 0.45rem 0.7rem; border-bottom: 1px solid var(--rule); }
-th { font-weight: 600; border-bottom: 2px solid var(--rule); }
+th, td { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--rule); }
+th {
+  font-weight: 600;
+  background: color-mix(in srgb, var(--mom-modelo) 14%, transparent);
+  border-bottom: 2px solid var(--mom-modelo);
+}
+thead th:first-child { border-top-left-radius: var(--raio-p); }
+thead th:last-child  { border-top-right-radius: var(--raio-p); }
+tbody tr:nth-child(even) { background: color-mix(in srgb, var(--code-bg) 75%, transparent); }
+td code { background: none; padding: 0; }
+
+/* Procedência como etiqueta: de onde veio o número se lê pela cor. */
+.proc {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.12rem 0.5rem;
+  margin-right: 0.45rem;
+  border-radius: 999px;
+  vertical-align: 0.08em;
+}
+.proc-enunciado { color: var(--proc-enunciado); background: color-mix(in srgb, var(--proc-enunciado) 16%, transparent); }
+.proc-derivado  { color: var(--proc-derivado);  background: color-mix(in srgb, var(--proc-derivado) 16%, transparent); }
+.proc-escolha   { color: var(--proc-escolha);   background: color-mix(in srgb, var(--proc-escolha) 18%, transparent); }
 td.num, th.num { text-align: right; font-family: var(--mono); }
 
 /* ---------- blocos pedagógicos ---------- */

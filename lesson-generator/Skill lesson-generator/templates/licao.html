@@ -37,7 +37,10 @@
      parâmetros. Fecha com o parágrafo que nomeia o TIPO de problema. -->
 <h2>O modelo</h2>
 
-<!-- UM BLOCO POR EQUAÇÃO: equação · símbolos dela · o que ela diz.
+<!-- COR: grandeza do gráfico = classe da sua série (var-1, var-2… na ordem de
+     `series`); parâmetro = param. Vale no MathML, na lista, na tabela e no texto.
+
+     UM BLOCO POR EQUAÇÃO: equação · símbolos dela · o que ela diz.
      O "onde" antes da lista sai do CSS. Símbolo já definido não se repete.
 
      CHAVES: equação com dois ou mais termos de significado físico próprio
@@ -48,24 +51,24 @@
   <div class="equacao">
     <math display="block">
       <munder><mrow class="chave-sob">
-        <mfrac><mrow><mi>d</mi><msub><mi>C</mi><mi>A</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+        <mfrac><mrow><mi>d</mi><msub class="var-1"><mi>C</mi><mi>A</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
       </mrow><mtext class="chave">{acúmulo}</mtext></munder>
       <mo>=</mo>
       <munder><mrow class="chave-sob">
-        <mfrac><mi>F</mi><mi>V</mi></mfrac><mo>(</mo><msub><mi>C</mi><mrow><mi>A</mi><mn>0</mn></mrow></msub><mo>−</mo><msub><mi>C</mi><mi>A</mi></msub><mo>)</mo>
+        <mfrac><mi class="param">F</mi><mi class="param">V</mi></mfrac><mo>(</mo><msub class="param"><mi>C</mi><mrow><mi>A</mi><mn>0</mn></mrow></msub><mo>−</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub><mo>)</mo>
       </mrow><mtext class="chave">{entra menos sai, por volume}</mtext></munder>
       <mo>−</mo>
       <munder><mrow class="chave-sob">
-        <mi>k</mi><mo>⋅</mo><msub><mi>C</mi><mi>A</mi></msub>
+        <mi class="param">k</mi><mo>⋅</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub>
       </mrow><mtext class="chave">{consumo pela reação}</mtext></munder>
     </math>
   </div>
   <ul class="termos">
-    <li><code>C<sub>A</sub></code> — {frase completa: concentração de quê, onde, em que unidade}</li>
-    <li><code>F</code> — {…}</li>
-    <li><code>V</code> — {…}</li>
-    <li><code>C<sub>A0</sub></code> — {…}</li>
-    <li><code>k</code> — {frase completa: taxa de quê, de quem, em que unidade}</li>
+    <li><code class="var-1">C<sub>A</sub></code> — {frase completa: concentração de quê, onde, em que unidade}</li>
+    <li><code class="param">F</code> — {…}</li>
+    <li><code class="param">V</code> — {…}</li>
+    <li><code class="param">C<sub>A0</sub></code> — {…}</li>
+    <li><code class="param">k</code> — {frase completa: taxa de quê, de quem, em que unidade}</li>
   </ul>
   <p>{Duas a quatro frases. Monte a cena — o que esta equação descreve no
   processo — e só então conclua o que ela implica.}</p>
@@ -74,25 +77,28 @@
 <div class="eq-bloco">
   <div class="equacao">
     <math display="block">
-      <mi>k</mi><mo>=</mo><msub><mi>k</mi><mn>0</mn></msub><mo>⋅</mo>
+      <mi class="param">k</mi><mo>=</mo><msub><mi class="param">k</mi><mn>0</mn></msub><mo>⋅</mo>
       <mi>exp</mi><mo>(</mo><mo>−</mo>
-      <mfrac><msub><mi>E</mi><mi>a</mi></msub><mrow><mi>R</mi><mo>⋅</mo><mi>T</mi></mrow></mfrac>
+      <mfrac><msub class="param"><mi>E</mi><mi>a</mi></msub><mrow><mi class="param">R</mi><mo>⋅</mo><mi>T</mi></mrow></mfrac>
       <mo>)</mo>
     </math>
   </div>
   <ul class="termos">
-    <li><code>k<sub>0</sub></code> — {…}</li>
-    <li><code>E<sub>a</sub></code> — {…}</li>
+    <li><code class="param">k<sub>0</sub></code> — {…}</li>
+    <li><code class="param">E<sub>a</sub></code> — {…}</li>
   </ul>
   <p>{…}</p>
 </div>
 
-<!-- A tabela guarda os NÚMEROS; o significado já está nos blocos. -->
+<!-- A tabela guarda os NÚMEROS; o significado já está nos blocos.
+     Procedência: etiqueta proc-enunciado, proc-derivado ou proc-escolha, e depois
+     dela a conta ou a justificativa. -->
 <table>
 <thead><tr><th>Parâmetro</th><th class="num">Valor</th><th>Unidade</th><th>Procedência</th></tr></thead>
 <tbody>
-<tr><td><code>k<sub>0</sub></code></td><td class="num">1,2·10⁶</td><td class="un">1/min</td><td>enunciado</td></tr>
-<tr><td><code>t<sub>f</sub></code></td><td class="num">60</td><td class="un">min</td><td>escolha: {a justificativa em meia linha}</td></tr>
+<tr><td><code class="param">k<sub>0</sub></code></td><td class="num">1,2·10⁶</td><td class="un">1/min</td><td><span class="proc proc-enunciado">enunciado</span></td></tr>
+<tr><td><code class="param">τ</code></td><td class="num">20</td><td class="un">min</td><td><span class="proc proc-derivado">derivado</span>V/F = 100/5</td></tr>
+<tr><td><code class="param">t<sub>f</sub></code></td><td class="num">60</td><td class="un">min</td><td><span class="proc proc-escolha">escolha</span>{a justificativa em meia linha}</td></tr>
 </tbody>
 </table>
 
@@ -200,7 +206,8 @@ document.addEventListener("DOMContentLoaded", function () {
 <!-- AS OBSERVAÇÕES: duas a quatro de leitura da curva, MAIS uma por controle.
      Um insight distinto por item; o nome de cada grandeza é o da legenda. -->
 <ul>
-  <li>{Observação ancorada num ponto concreto desta curva, e o porquê.}</li>
+  <li>{Observação ancorada num ponto concreto desta curva, e o porquê — com o nome
+  da curva na cor dela: <span class="var-1">reagente A</span>.}</li>
   <li>{Outra, com outro insight.}</li>
   <li>{Uma por controle: "leve {parâmetro} até {valor} e veja {o quê} — {por quê}".}
     <span class="no-seu-codigo">{A mesma mudança no programa: "troque k = 0.08 por 0.20 e confira que o programa imprime …"}</span></li>

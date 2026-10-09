@@ -15,6 +15,19 @@ O que vai **dentro** de cada momento é decisão sua, e é o exercício que mand
 - repetição, recapitulação, história e ressalva que não muda o que ele faz: cortar;
 - definição de símbolo, contexto de equação e o porquê de uma decisão de código: **nunca cortar**.
 
+## A cor ensina
+
+A lição é **colorida de propósito**, porque cor bem usada é informação que o aluno lê sem esforço. Nenhuma cor é enfeite: cada uma marca uma categoria, e a categoria tem sempre a mesma cor na lição inteira.
+
+- **Cada grandeza que aparece no gráfico tem a cor da sua série** em todo lugar onde aparece: na equação, na lista de símbolos, na tabela, no texto e na legenda. A primeira série é `var-1`, a segunda `var-2`, e assim por diante, na ordem de `series` do `registrar`. Quando o aluno vê C<sub>A</sub> em azul na equação, ele já sabe qual é a curva dela.
+- **Parâmetros têm a cor de parâmetro** (`param`): tudo o que é dado fixo da conta, como constantes, vazões, volumes e concentrações de alimentação.
+- **Grandeza que não está no gráfico nem é parâmetro** fica sem cor. Se ela importa a ponto de pedir cor, provavelmente pede uma curva.
+- O nome da grandeza no texto também leva a cor: "o <span class="var-1">reagente A</span>" liga a frase à curva.
+
+A marcação é a classe no elemento: `<msub class="var-1">` ou `<mi class="param">` no MathML, `<code class="var-1">` na lista e na tabela, `<span class="var-1">` no texto. O template mostra cada caso.
+
+O resto da cor sai sozinho do CSS e dos componentes: o título de cada momento tem a sua cor, a procedência na tabela vira etiqueta colorida, e o código Python é pintado como numa IDE.
+
 ## 1. Abertura
 
 Antes de tudo, **um parágrafo situando o problema**: que processo é esse, o que o enunciado pede e o que o aluno vai ter no fim. Três a cinco frases, para quem acabou de ler o enunciado e ainda não sabe por onde pegar. Sem ele, a primeira equação chega antes de o aluno saber do que se trata.
@@ -30,7 +43,7 @@ As equações que o código vai resolver, e nada além delas. Podem ser diferenc
 - **Cada termo com significado físico próprio ganha uma chave.** Numa equação de dois ou mais termos (um balanço, uma taxa com dois fatores), ponha uma chave horizontal sob cada termo, com o que ele é em duas a cinco palavras: "acúmulo", "entra menos sai", "consumo pela reação". A chave mostra a **estrutura** da equação de relance; a lista de símbolos continua dizendo o que cada letra é. Não ponha chave em termo de um símbolo só, nem em equação de um termo. A marcação está no template.
 - **A frase de fecho monta a cena antes de concluir.** Diga o que a equação descreve no processo, e só então o que ela implica. Use duas a quatro frases por bloco; menos que isso vira telegrama.
 
-Depois dos blocos vem **a tabela de parâmetros**, com símbolo, valor, unidade e procedência. Ela guarda os números; os blocos guardam os significados.
+Depois dos blocos vem **a tabela de parâmetros**, com símbolo, valor, unidade e procedência. Ela guarda os números; os blocos guardam os significados. A procedência começa por uma etiqueta (`proc-enunciado`, `proc-derivado` ou `proc-escolha`), e o que vem depois dela é a conta ou a justificativa.
 
 O momento fecha com **o tipo de problema**: duas ou três frases dizendo que problema matemático é este (valor inicial, sistema algébrico, problema de contorno, ajuste, otimização, o que for) e por que isso decide a ferramenta. É a parte que o aluno leva para o próximo exercício, que nunca vai ser igual a este.
 
@@ -46,6 +59,7 @@ O centro da lição. O aluno recebe o programa **explicado passo a passo**, e ca
 - **A verificação é obrigatória.** A lição mostra pelo menos uma conta independente que confere o resultado: a solução analítica de um caso particular, um balanço que fecha, um caso-limite que dá o valor conhecido. Pode ser um passo próprio ou um `.confira` dentro de um passo. Saber desconfiar do número que o programa imprime é metade de saber programar uma simulação.
 - **Um número que sai de método numérico tem o critério dito no passo onde o método é escolhido.** Ali o critério é o porquê de uma decisão de código, não uma ressalva.
 - **O programa completo é executável**, com dependências declaradas e unidades em comentário. É dele que o aluno copia.
+- **O código sai colorido como numa IDE**, sem nada a fazer: o `codigo.js` pinta todo `<pre><code>` da lição como Python. Um bloco que não seja Python leva `class="sem-realce"`.
 - **A resposta fica atrás de um botão** que só abre e mostra.
 
 ## 4. Resultado
@@ -91,7 +105,6 @@ Os elementos abaixo são opcionais. Use cada um quando ele pagar o tempo que cus
 | **Diagrama** | Quando a geometria ou os fluxos importam para escrever o balanço, como correntes, reciclo ou volume de controle | SVG em linha, com as cores do CSS |
 | **Nota lateral** | Para um comentário que enriquece mas não pode interromper a leitura | `<aside class="lateral">` |
 | **Termo destacado** | Um ou dois por momento, para o conceito que o aluno vai reencontrar | `<span class="termo">` |
-| **Cor da grandeza no texto** | Quando o texto cita muito uma curva, a cor liga a frase à figura | `<span class="var-1">` … `var-4`, na ordem das séries |
 
 Componente novo só para o que não é x contra y, como um diagrama interativo ou um mapa de cores. Ele fica em `assets/` da pasta da lição e segue as convenções descritas no cabeçalho do `grafico.js`.
 

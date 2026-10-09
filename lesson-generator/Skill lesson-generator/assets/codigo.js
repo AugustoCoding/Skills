@@ -1,7 +1,7 @@
 /* codigo.js — a seção de código da lição: revela os passos, libera o programa
  * e a resposta no fim, injeta o botão de copiar. Não formata nem valida código.
  *
- * Faz quatro coisas, e a lição não precisa de marcação nenhuma além da estrutura:
+ * Faz cinco coisas, e a lição não precisa de marcação nenhuma além da estrutura:
  *
  *   1. esconde os passos seguintes e revela um por clique, com uma animação
  *      curta. O aluno não vê quantos faltam: o próximo passo é surpresa, e é
@@ -9,7 +9,9 @@
  *   2. num passo que tem <p class="pense">, mostra primeiro o título e a pergunta,
  *      e o código só depois que o aluno clica — é a previsão antes da revelação;
  *   3. só libera o programa completo e a resposta depois do último passo;
- *   4. injeta um botão de copiar em cada bloco de código.
+ *   4. injeta um botão de copiar em cada bloco de código;
+ *   5. pinta o Python de todo <pre><code> da lição com cores de IDE. Um bloco que
+ *      não seja Python leva class="sem-realce".
  *
  * Estrutura esperada na lição:
  *
@@ -60,6 +62,44 @@
       console.warn("[codigo] não consegui copiar:", e);
     }
     ta.remove();
+  }
+
+  /* Realce de sintaxe do Python, como numa IDE: cada cor é uma categoria que
+     o aluno aprende a reconhecer. Escrito aqui, e não com biblioteca, porque a
+     lição abre sem internet. Só pinta: o texto do bloco não muda, e o botão
+     de copiar continua copiando o código puro. */
+
+  var PALAVRAS = /^(if|elif|else|for|while|return|import|from|as|in|not|and|or|is|with|try|except|finally|raise|break|continue|pass|lambda|yield|global|nonlocal|del|assert|async|await)$/;
+  var DEFINE = /^(def|class|None|True|False)$/;
+  var EMBUTIDAS = /^(print|range|len|abs|min|max|sum|float|int|str|bool|list|dict|tuple|set|zip|enumerate|round|sorted|reversed|map|filter|open|isinstance|type|any|all)$/;
+  var TOKEN = /(#[^\n]*)|((?:[rRbBfFuU]{1,2})?(?:"""[\s\S]*?"""|'''[\s\S]*?'''|"(?:\.|[^"\\n])*"|'(?:\.|[^'\\n])*'))|(\b\d+\.?\d*(?:[eE][+-]?\d+)?\b|\.\d+(?:[eE][+-]?\d+)?\b)|([A-Za-z_\u00C0-\u024F]\w*)|(\*\*=?|\/\/=?|[-+*\/%=<>!@&|^~]=?)/g;
+
+  function esc(t) {
+    return t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  function realcar(code) {
+    if (code.dataset.realcado || code.classList.contains("sem-realce")) return;
+    code.dataset.realcado = "1";
+    var txt = code.textContent, out = "", fim = 0, anterior = "", m;
+    TOKEN.lastIndex = 0;
+    while ((m = TOKEN.exec(txt))) {
+      out += esc(txt.slice(fim, m.index));
+      fim = TOKEN.lastIndex;
+      var t = m[0], cls = "";
+      if (m[1]) cls = "hl-com";
+      else if (m[2]) cls = "hl-str";
+      else if (m[3]) cls = "hl-num";
+      else if (m[4]) {
+        if (anterior === "def" || anterior === "class") cls = "hl-fn";
+        else if (DEFINE.test(t)) cls = "hl-def";
+        else if (PALAVRAS.test(t)) cls = "hl-kw";
+        else if (/^\s*\(/.test(txt.slice(fim))) cls = EMBUTIDAS.test(t) ? "hl-bi" : "hl-fn";
+        anterior = t;
+      } else if (m[5]) cls = "hl-op";
+      out += cls ? '<span class="' + cls + '">' + esc(t) + "</span>" : esc(t);
+    }
+    code.innerHTML = out + esc(txt.slice(fim));
   }
 
   function botaoCopiar(pre) {
@@ -147,6 +187,9 @@
   }
 
   function iniciar() {
+    // Todo bloco de código da lição é Python: realça antes de montar a seção,
+    // para o botão de copiar entrar depois do texto já pintado.
+    document.querySelectorAll("pre > code").forEach(realcar);
     document.querySelectorAll("section.codigo").forEach(montar);
   }
 

@@ -36,8 +36,8 @@ Por cima disso, uma **caixa de ferramentas** opcional: pense antes, o erro que p
 
 | Arquivo | Papel |
 |---|---|
-| `lesson.css` | Tipografia, equações, blocos pedagógicos, tema claro/escuro, impressão. |
-| `codigo.js` | A seção de código: revela os passos, separa a pergunta do código no "pense antes", libera o programa e a resposta no fim, põe o botão de copiar. |
+| `lesson.css` | Tipografia, equações, blocos pedagógicos, tema claro/escuro, impressão — e as cores que ensinam: uma por grandeza do gráfico, uma para parâmetros, uma por momento, a procedência como etiqueta e o realce do código. |
+| `codigo.js` | A seção de código: revela os passos, separa a pergunta do código no "pense antes", libera o programa e a resposta no fim, põe o botão de copiar e pinta o Python com cores de IDE. |
 | `grafico.js` | Qualquer figura x contra y: a lição registra a conta, ele desenha, com controles, segundo eixo, pontos e leitura sob o cursor. Traz `integrar`, `raiz` e `linspace` para a conta não reinventar nada, e **avisa no console** o que o autor não enxerga, como uma curva achatada. |
 | `tema.js` | Botão de claro/escuro, injetado sozinho. |
 
