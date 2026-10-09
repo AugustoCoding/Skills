@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Partida de um CSTR — programar o transiente em Python</title>
+<!-- O modelo aponta para os assets DA SKILL: o que mudar lá aparece aqui. -->
+<link rel="stylesheet" href="../Skill%20lesson-generator/assets/lesson.css">
+</head>
+<body>
+
+<header class="licao">
+  <span class="etiqueta">Reatores · sistema de EDOs de valor inicial</span>
+  <h1>A partida de um CSTR</h1>
+  <p class="gancho">No fim você terá um programa que simula o reator enchendo de produto e diz em quanto tempo ele estabiliza.</p>
+</header>
+
+<p>Um reator de tanque agitado contínuo (CSTR) de 100 L começa cheio de solvente puro e passa a receber, a 5 L/min, uma alimentação com 2,0 mol/L do reagente A, que se converte em B por uma reação de primeira ordem com k = 0,1 min⁻¹. Logo depois da partida não há reagente nenhum lá dentro; aos poucos A entra, parte dele reage, e as concentrações caminham para um estado estacionário. O exercício pede duas coisas: a concentração de A nesse estacionário e quanto tempo o reator leva para chegar a 95% dela. Você vai sair com um programa que integra os balanços de A e de B, encontra esse instante sozinho e confere o próprio resultado contra a solução exata.</p>
+
+<h2>O modelo</h2>
+
+<div class="eq-bloco">
+  <div class="equacao">
+    <math display="block">
+      <munder><mrow class="chave-sob">
+        <mfrac><mrow><mi>d</mi><msub><mi>C</mi><mi>A</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+      </mrow><mtext class="chave">acúmulo de A</mtext></munder>
+      <mo>=</mo>
+      <munder><mrow class="chave-sob">
+        <mfrac><mn>1</mn><mi>τ</mi></mfrac><mo>(</mo><msub><mi>C</mi><mrow><mi>A</mi><mn>0</mn></mrow></msub><mo>−</mo><msub><mi>C</mi><mi>A</mi></msub><mo>)</mo>
+      </mrow><mtext class="chave">entra menos sai</mtext></munder>
+      <mo>−</mo>
+      <munder><mrow class="chave-sob">
+        <mi>k</mi><mo>⋅</mo><msub><mi>C</mi><mi>A</mi></msub>
+      </mrow><mtext class="chave">consumo pela reação</mtext></munder>
+    </math>
+  </div>
+  <ul class="termos">
+    <li><code>C<sub>A</sub></code> — concentração do reagente A dentro do reator, que é também a da corrente de saída, porque a agitação deixa o tanque uniforme, mol/L</li>
+    <li><code>C<sub>A0</sub></code> — concentração de A na corrente de alimentação, mol/L</li>
+    <li><code>τ</code> — tempo de residência: quanto tempo, em média, uma porção de líquido fica no reator antes de sair, igual a V/F, min</li>
+    <li><code>k</code> — constante de velocidade da reação A → B: a fração do A presente que reage a cada minuto, 1/min</li>
+  </ul>
+  <p>O balanço diz que a concentração de A dentro do tanque muda por dois motivos. A corrente traz A a C<sub>A0</sub> e leva embora a C<sub>A</sub>, e essa troca, dividida pelo tempo de residência, empurra o tanque na direção da alimentação; ao mesmo tempo a reação consome A numa velocidade proporcional ao que já está lá. O estacionário é o ponto em que os dois efeitos se anulam.</p>
+</div>
+
+<div class="eq-bloco">
+  <div class="equacao">
+    <math display="block">
+      <munder><mrow class="chave-sob">
+        <mfrac><mrow><mi>d</mi><msub><mi>C</mi><mi>B</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+      </mrow><mtext class="chave">acúmulo de B</mtext></munder>
+      <mo>=</mo>
+      <munder><mrow class="chave-sob">
+        <mo>−</mo><mfrac><msub><mi>C</mi><mi>B</mi></msub><mi>τ</mi></mfrac>
+      </mrow><mtext class="chave">sai com a corrente</mtext></munder>
+      <mo>+</mo>
+      <munder><mrow class="chave-sob">
+        <mi>k</mi><mo>⋅</mo><msub><mi>C</mi><mi>A</mi></msub>
+      </mrow><mtext class="chave">formação pela reação</mtext></munder>
+    </math>
+  </div>
+  <ul class="termos">
+    <li><code>C<sub>B</sub></code> — concentração do produto B dentro do reator e na saída, mol/L</li>
+  </ul>
+  <p>B não vem na alimentação, então o balanço dele não tem termo de entrada: B só nasce da reação e só vai embora com a corrente de saída. Cada mol de A consumido vira um mol de B, e por isso o termo de formação é o mesmo k·C<sub>A</sub> que aparece com sinal trocado na equação de A.</p>
+</div>
+
+<table>
+<thead><tr><th>Parâmetro</th><th class="num">Valor</th><th>Unidade</th><th>Procedência</th></tr></thead>
+<tbody>
+<tr><td><code>V</code></td><td class="num">100</td><td class="un">L</td><td>enunciado</td></tr>
+<tr><td><code>F</code></td><td class="num">5,0</td><td class="un">L/min</td><td>enunciado</td></tr>
+<tr><td><code>C<sub>A0</sub></code></td><td class="num">2,0</td><td class="un">mol/L</td><td>enunciado</td></tr>
+<tr><td><code>k</code></td><td class="num">0,1</td><td class="un">1/min</td><td>enunciado</td></tr>
+<tr><td><code>τ</code></td><td class="num">20</td><td class="un">min</td><td>derivado: V/F = 100/5</td></tr>
+<tr><td><code>C<sub>A</sub>(0), C<sub>B</sub>(0)</code></td><td class="num">0</td><td class="un">mol/L</td><td>enunciado: o reator começa só com solvente</td></tr>
+<tr><td><code>t<sub>fim</sub></code></td><td class="num">60</td><td class="un">min</td><td>enunciado</td></tr>
+</tbody>
+</table>
+
+<p>Matematicamente, isto é um <span class="termo">sistema de equações diferenciais ordinárias de valor inicial</span>: duas derivadas no tempo, com as concentrações conhecidas em t = 0. É isso que decide a ferramenta: problema de valor inicial se resolve com um integrador, que parte do estado conhecido e avança no tempo. Este sistema em particular é linear e tem solução exata, e a lição vai usá-la para conferir o integrador, não para substituí-lo, porque basta a reação deixar de ser de primeira ordem para a solução exata desaparecer e o integrador continuar funcionando.</p>
+
+<h2>O código</h2>
+
+<section class="codigo">
+
+  <div class="passo">
+    <h3>Parâmetros</h3>
+<pre><code>import numpy as np
+from scipy.integrate import solve_ivp
+import matplotlib.pyplot as plt
+
+V = 100.0      # volume de líquido no reator, L
+F = 5.0        # vazão de alimentação (igual à de saída), L/min
+CA0 = 2.0      # concentração de A na alimentação, mol/L
+k = 0.1        # constante de velocidade de A -> B, 1/min
+tau = V / F    # tempo de residência, min
+t_fim = 60.0   # horizonte da simulação, min</code></pre>
+    <p>O tempo de residência é calculado, não digitado: se você mudar o volume ou a vazão, ele acompanha sozinho, e as equações ficam escritas com o grupo que tem sentido físico em vez de V e F soltos.</p>
+  </div>
+
+  <div class="passo">
+    <h3>Os balanços de A e de B</h3>
+    <p class="pense">B não entra com a alimentação. Quantos termos o balanço de B deve ter, e com que sinais?</p>
+<pre><code>def derivadas(t, C):
+    CA, CB = C
+    r = k * CA                   # velocidade da reação, mol/(L·min)
+    dCA = (CA0 - CA) / tau - r   # entra - sai - consumo
+    dCB = (0.0 - CB) / tau + r   # não entra B - sai B + formação
+    return [dCA, dCB]</code></pre>
+    <p>Dois termos: B sai com a corrente e se forma pela reação. O <code>0.0</code> na linha de B está ali de propósito, para o balanço de B ter a mesma forma "entra menos sai" do balanço de A; quem ler a função vê que a entrada de B é zero, em vez de concluir que ela foi esquecida. A velocidade <code>r</code> é calculada uma vez e usada nas duas linhas, o que garante que todo A consumido aparece como B.</p>
+  </div>
+
+  <div class="passo">
+    <h3>O alvo: 95% do estacionário</h3>
+<pre><code>CA_ss = CA0 / (1 + k * tau)      # dCA/dt = 0 resolvido para CA
+CB_ss = k * tau * CA_ss          # dCB/dt = 0 resolvido para CB
+
+def chega_95(t, C):
+    return C[0] - 0.95 * CA_ss</code></pre>
+    <p>O estacionário sai de uma linha de álgebra: zere a derivada de A e isole C<sub>A</sub>. A função <code>chega_95</code> é um <span class="termo">evento</span>: o integrador a observa a cada passo e, quando ela troca de sinal, localiza o instante exato do cruzamento, em vez de você procurar o tempo olhando o gráfico.</p>
+    <div class="armadilha"><p>Mirar em 95% de C<sub>A0</sub> em vez de 95% de C<sub>A</sub> no estacionário. O alvo seria 1,9 mol/L, que o reator nunca alcança porque a reação consome parte do A: o evento não dispara, <code>sol.t_events[0]</code> volta vazio, e a linha seguinte quebra com <code>IndexError</code>.</p></div>
+  </div>
+
+  <div class="passo">
+    <h3>A integração</h3>
+<pre><code>sol = solve_ivp(derivadas, (0, t_fim), [0.0, 0.0],
+                rtol=1e-8, atol=1e-10,
+                events=chega_95, dense_output=True)
+t95 = sol.t_events[0][0]
+CA_fim, CB_fim = sol.y[:, -1]</code></pre>
+    <p>As tolerâncias apertadas são o critério que autoriza o número: com <code>rtol=1e-8</code>, o instante do evento sai certo muito além das duas casas que a lição cita, e o próximo passo mede isso. O <code>dense_output=True</code> guarda uma interpolação da solução, para você avaliá-la em qualquer instante sem integrar de novo.</p>
+  </div>
+
+  <div class="passo">
+    <h3>Conferir contra a solução exata</h3>
+<pre><code>t = np.linspace(0, t_fim, 601)
+CA_exata = CA_ss * (1 - np.exp(-(1 / tau + k) * t))
+desvio = np.max(np.abs(sol.sol(t)[0] - CA_exata))</code></pre>
+    <div class="confira"><p>Como a equação de A é linear e não depende de B, ela tem solução fechada: uma exponencial que sobe até C<sub>A</sub> no estacionário com velocidade 1/τ + k. O integrador não sabe disso. Se os dois concordam em 601 pontos, até a nona casa, o código dos balanços e a integração estão certos, e não só "plausíveis".</p></div>
+  </div>
+
+  <div class="passo">
+    <h3>Imprimir e desenhar</h3>
+<pre><code>print(f"CA no estacionário: {CA_ss:.3f} mol/L")
+print(f"A chega a 95% do estacionário em t = {t95:.2f} min")
+print(f"Em {t_fim:.0f} min: CA = {CA_fim:.3f} mol/L, CB = {CB_fim:.3f} mol/L "
+      f"({CB_fim / CB_ss:.0%} do estacionário de B, {CB_ss:.3f} mol/L)")
+print(f"Maior desvio da solução exata: {desvio:.1e} mol/L")
+
+CA, CB = sol.sol(t)
+plt.plot(t, CA, label="Reagente A")
+plt.plot(t, CB, "--", label="Produto B")
+plt.xlabel("Tempo (min)")
+plt.ylabel("Concentração (mol/L)")
+plt.legend()
+plt.show()</code></pre>
+    <p>O gráfico usa a interpolação em 601 pontos, e não os pontos que o integrador escolheu, que são poucos e espaçados de forma desigual: com eles a curva sairia quebrada justamente no começo, onde tudo muda depressa.</p>
+  </div>
+
+  <details class="programa">
+    <summary>Ver o programa completo</summary>
+<pre><code>import numpy as np
+from scipy.integrate import solve_ivp
+import matplotlib.pyplot as plt
+
+# --- parâmetros ---
+V = 100.0      # volume de líquido no reator, L
+F = 5.0        # vazão de alimentação (igual à de saída), L/min
+CA0 = 2.0      # concentração de A na alimentação, mol/L
+k = 0.1        # constante de velocidade de A -> B, 1/min
+tau = V / F    # tempo de residência, min
+t_fim = 60.0   # horizonte da simulação, min
+
+# --- balanços de A e de B ---
+def derivadas(t, C):
+    CA, CB = C
+    r = k * CA                   # velocidade da reação, mol/(L·min)
+    dCA = (CA0 - CA) / tau - r   # entra - sai - consumo
+    dCB = (0.0 - CB) / tau + r   # não entra B - sai B + formação
+    return [dCA, dCB]
+
+# --- o alvo: 95% do estacionário de A ---
+CA_ss = CA0 / (1 + k * tau)      # dCA/dt = 0 resolvido para CA
+CB_ss = k * tau * CA_ss          # dCB/dt = 0 resolvido para CB
+
+def chega_95(t, C):
+    return C[0] - 0.95 * CA_ss
+
+# --- integração ---
+sol = solve_ivp(derivadas, (0, t_fim), [0.0, 0.0],
+                rtol=1e-8, atol=1e-10,
+                events=chega_95, dense_output=True)
+t95 = sol.t_events[0][0]
+CA_fim, CB_fim = sol.y[:, -1]
+
+# --- conferência contra a solução exata de A ---
+t = np.linspace(0, t_fim, 601)
+CA_exata = CA_ss * (1 - np.exp(-(1 / tau + k) * t))
+desvio = np.max(np.abs(sol.sol(t)[0] - CA_exata))
+
+# --- resultados ---
+print(f"CA no estacionário: {CA_ss:.3f} mol/L")
+print(f"A chega a 95% do estacionário em t = {t95:.2f} min")
+print(f"Em {t_fim:.0f} min: CA = {CA_fim:.3f} mol/L, CB = {CB_fim:.3f} mol/L "
+      f"({CB_fim / CB_ss:.0%} do estacionário de B, {CB_ss:.3f} mol/L)")
+print(f"Maior desvio da solução exata: {desvio:.1e} mol/L")
+
+CA, CB = sol.sol(t)
+plt.plot(t, CA, label="Reagente A")
+plt.plot(t, CB, "--", label="Produto B")
+plt.xlabel("Tempo (min)")
+plt.ylabel("Concentração (mol/L)")
+plt.legend()
+plt.show()</code></pre>
+  </details>
+
+  <details class="resposta">
+    <summary>Ver a resposta</summary>
+    <p>No estacionário, C<sub>A</sub> = 0,667 mol/L: dois terços do A que entra são convertidos.</p>
+    <p>O reator chega a 95% desse valor em t = 19,97 min.</p>
+    <p>O programa também imprime C<sub>B</sub> = 1,234 mol/L aos 60 min (93% dos 1,333 mol/L do estacionário de B) e um desvio máximo de 1,7·10⁻⁹ mol/L em relação à solução exata.</p>
+  </details>
+
+</section>
+
+<h2>O que a curva diz</h2>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  Grafico.registrar("partida", {
+    eixoX: "Tempo (min)",
+    eixoY: "Concentração (mol/L)",
+    series: ["Reagente A", "Produto B"],
+    padroes:  { k: 0.1, F: 5, V: 100, CA0: 2.0, tf: 60 },
+    faixas:   { k: [0.02, 0.40, 0.01], F: [1, 20, 1] },
+    unidades: { k: "1/min", F: "L/min" },
+    calcular: function (p) {
+      var tau = p.V / p.F;
+      var r = Grafico.integrar(function (t, C) {
+        var rr = p.k * C[0];
+        return [(p.CA0 - C[0]) / tau - rr, -C[1] / tau + rr];
+      }, [0, 0], 0, p.tf, p);
+      return { x: r.t, y: r.y };
+    },
+    ler: function (s, p) {
+      var tau = p.V / p.F, CAss = p.CA0 / (1 + p.k * tau);
+      var t95 = -Math.log(0.05) / (1 / tau + p.k);
+      return "A no estacionário: " + Grafico.fmt(CAss, 3) + " mol/L · 95% em " +
+        Grafico.fmt(t95, 1) + " min · τ = " + Grafico.fmt(tau, 0) + " min";
+    }
+  });
+});
+</script>
+
+<div class="grafico" data-grafico="partida" data-controles="k, F"></div>
+
+<ul>
+  <li>O reagente A sobe e estaciona perto dos 20 min, enquanto o produto B continua subindo: aos 60 min ainda está em 93% do seu estacionário. A diferença está nos balanços. A se ajusta pela troca com a corrente e pela reação ao mesmo tempo, com velocidade 1/τ + k = 0,15 por minuto. B só é removido pela corrente, a 1/τ = 0,05 por minuto, três vezes mais devagar.</li>
+  <li>O tempo de partida de A não depende de C<sub>A0</sub>. Dobrar a concentração da alimentação dobra o estacionário, mas a curva inteira escala junto, e os 95% continuam caindo no mesmo instante, porque esse instante só depende de 1/τ + k.</li>
+  <li>Leve <code>k</code> até 0,30 1/min. O reagente A estaciona bem mais baixo e mais cedo: a reação mais rápida consome mais A antes que ele saia, e a mesma reação acelera a chegada ao equilíbrio entre entrada e consumo.
+    <span class="no-seu-codigo">Troque <code>k = 0.1</code> por <code>k = 0.3</code> e rode: o programa imprime 0,286 mol/L e 95% em 8,56 min.</span></li>
+  <li>Leve <code>F</code> até 2 L/min. O tempo de residência vai a 50 min, e o reagente A estaciona mais baixo, porque fica mais tempo lá dentro para reagir. Em compensação, a partida demora mais. É a troca de todo CSTR: mais conversão custa uma resposta mais lenta.
+    <span class="no-seu-codigo">Troque <code>F = 5.0</code> por <code>F = 2.0</code>: o programa imprime 0,333 mol/L e 95% em 24,96 min.</span></li>
+</ul>
+
+<section class="sua-vez">
+  <h2>Sua vez</h2>
+  <p>Agora a reação é de segunda ordem: a velocidade vale k·C<sub>A</sub>², com k = 0,1 L/(mol·min) e todo o resto igual. Adapte o programa e encontre a concentração de A no estacionário e o instante em que o reator chega a 95% dela.</p>
+  <details>
+    <summary>Uma dica</summary>
+    <p>A velocidade da reação muda numa linha só, mas o estacionário também muda: zerar a derivada de A agora dá uma equação do segundo grau em C<sub>A</sub>, e só uma das raízes é positiva. E a solução exata da conferência deixou de valer; o que ainda dá para conferir é a derivada de A perto de zero no fim.</p>
+  </details>
+  <details>
+    <summary>A resposta</summary>
+    <p>C<sub>A</sub> no estacionário = 0,781 mol/L, e 95% dele em t = 16,75 min.</p>
+<pre><code>r = k * CA**2                                                  # em derivadas
+CA_ss = (-1 + np.sqrt(1 + 4 * k * tau * CA0)) / (2 * k * tau)  # raiz positiva
+CB_ss = CA0 - CA_ss                                            # todo A que falta virou B</code></pre>
+  </details>
+</section>
+
+<div class="pergunte">
+  <strong>Ficou algo obscuro?</strong> Pergunte. O que você perguntar entra
+  aqui neste arquivo, no ponto exato onde a dúvida apareceu.
+</div>
+
+<script src="../Skill%20lesson-generator/assets/tema.js" defer></script>
+<script src="../Skill%20lesson-generator/assets/codigo.js" defer></script>
+<script src="../Skill%20lesson-generator/assets/grafico.js" defer></script>
+</body>
+</html>
