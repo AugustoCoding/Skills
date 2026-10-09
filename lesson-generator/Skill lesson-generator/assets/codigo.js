@@ -189,15 +189,47 @@
       p.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
 
+    // RECOLHER — um item já aberto volta a mostrar só a bolinha e o título, e
+    // abre de novo com um clique. Só a bolinha (a calha à esquerda) e o título
+    // recolhem: clicar no texto, no código ou num botão de dentro não mexe.
+    function alternar(p) {
+      var recolher = !p.classList.contains("recolhido");
+      p.classList.toggle("recolhido", recolher);
+      if (recolher) {
+        p.setAttribute("tabindex", "0");
+        p.setAttribute("role", "button");
+        p.setAttribute("aria-expanded", "false");
+      } else {
+        p.removeAttribute("tabindex");
+        p.removeAttribute("role");
+        p.removeAttribute("aria-expanded");
+        p.classList.remove("revelado");
+        void p.offsetWidth;
+        p.classList.add("revelado");
+      }
+    }
+
+    function naAlca(p, ev) {
+      var r = p.getBoundingClientRect();
+      var calha = parseFloat(getComputedStyle(p).paddingLeft) || 0;
+      if (ev.clientX - r.left < calha) return true;
+      var h3 = ev.target.closest && ev.target.closest("h3");
+      return !!h3 && h3.parentElement === p;
+    }
+
     itens.forEach(function (p, i) {
       if (i > 0) p.classList.add("oculto");
       prepararPense(p, atualizar);
-      p.addEventListener("click", function () { abrir(p); });
+      var h3 = p.querySelector(":scope > h3");
+      if (h3) h3.title = "Clique para recolher ou expandir";
+      p.addEventListener("click", function (ev) {
+        if (p.classList.contains("fechado")) { abrir(p); return; }
+        if (p.classList.contains("recolhido") || naAlca(p, ev)) alternar(p);
+      });
       p.addEventListener("keydown", function (ev) {
-        if ((ev.key === "Enter" || ev.key === " ") && p.classList.contains("fechado")) {
-          ev.preventDefault();
-          abrir(p);
-        }
+        if (ev.key !== "Enter" && ev.key !== " ") return;
+        if (p.classList.contains("fechado")) { ev.preventDefault(); abrir(p); }
+        else if (p.classList.contains("recolhido")) { ev.preventDefault(); alternar(p); }
       });
     });
     atualizar();

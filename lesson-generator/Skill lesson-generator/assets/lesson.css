@@ -730,6 +730,39 @@ ol.deducao > li.fechado .porque::before {
 }
 ol.deducao > li.fechado .porque .tipo { font-size: 0.66rem; }
 
+/* RECOLHIDO — um item já aberto que o aluno recolheu: mostra o mesmo que o
+   fechado, mas com a bolinha cheia (já foi lido) e "clique para expandir".
+   A bolinha e o título de todo item aberto são a alça que recolhe. */
+.passo::before,
+ol.deducao > li::before,
+ol.observacoes > li::before,
+.passo > h3,
+ol.observacoes > li > h3 { cursor: pointer; }
+
+.recolhido { cursor: pointer; }
+.recolhido:focus-visible { outline: none; }
+.recolhido:focus-visible h3, .recolhido:focus-visible .porque { text-decoration: underline; }
+.passo.recolhido, ol.observacoes > li.recolhido { margin-bottom: 1.2rem; }
+.passo.recolhido > :not(h3),
+ol.observacoes > li.recolhido > :not(h3) { display: none; }
+.passo.recolhido h3,
+ol.observacoes > li.recolhido > h3 { color: var(--muted); font-weight: 400; }
+.recolhido:hover h3 { color: var(--fg); }
+.passo.recolhido h3::after,
+ol.observacoes > li.recolhido > h3::after,
+ol.deducao > li.recolhido .porque::after {
+  content: "  ·  clique para expandir";
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--cor-linha);
+}
+ol.deducao > li.recolhido::before { top: 0; }
+ol.deducao > li.recolhido > :not(.porque) { display: none; }
+ol.deducao > li.recolhido .porque { font-size: 0; margin: 0.25rem 0 1.2rem; }
+ol.deducao > li.recolhido .porque .tipo { font-size: 0.66rem; }
+ol.deducao > li.final.recolhido::after { top: 0.83rem; }
+
 @keyframes chamar {
   0%, 100% { box-shadow: inset 0 0 0 2px var(--cor-linha), 0 0 0 0 color-mix(in srgb, var(--cor-linha) 45%, transparent); }
   50%      { box-shadow: inset 0 0 0 2px var(--cor-linha), 0 0 0 6px color-mix(in srgb, var(--cor-linha) 0%, transparent); }
@@ -1423,9 +1456,10 @@ body.redimensionando { user-select: none; }
   body.com-editor { margin: 0; }
   /* No papel não há clique: tudo que a tela esconde por etapas aparece. */
   .oculto { display: revert; }
-  .fechado > * { display: revert !important; }
-  .fechado h3::after, .fechado .porque::after, .fechado .porque::before { content: none !important; }
-  ol.deducao > li.fechado .porque { font-size: 0.92rem; }
+  .fechado > *, .recolhido > * { display: revert !important; }
+  .fechado h3::after, .fechado .porque::after, .fechado .porque::before,
+  .recolhido h3::after, .recolhido .porque::after { content: none !important; }
+  ol.deducao > li.fechado .porque, ol.deducao > li.recolhido .porque { font-size: 0.92rem; }
   .nota-duvida, mrow.chave-sob, mrow.chave-sobre { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   h1, h2, h3 { break-after: avoid; }
   a::after { content: " (" attr(href) ")"; font-size: 0.75em; color: var(--muted); word-break: break-all; }

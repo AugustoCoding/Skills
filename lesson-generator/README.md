@@ -49,7 +49,7 @@ A pasta da skill tem só o que vai para o contexto do modelo. Este README, o mod
 | Arquivo | Papel |
 |---|---|
 | `lesson.css` | Tipografia, equações, blocos pedagógicos, tema claro/escuro, impressão — e as cores que ensinam: uma por grandeza do gráfico, uma para parâmetros, uma por momento, a procedência como etiqueta e o realce do código. |
-| `codigo.js` | As linhas do tempo (dedução, código, observações), com o próximo item fechado até um clique; o "pense antes"; o programa e a resposta no fim; o botão de copiar; o realce do Python. |
+| `codigo.js` | As linhas do tempo (dedução, código, observações), com o próximo item fechado até um clique e os já abertos recolhíveis pela bolinha ou pelo título; o "pense antes"; o programa e a resposta no fim; o botão de copiar; o realce do Python. |
 | `grafico.js` | Qualquer figura x contra y: a lição registra a conta, ele desenha, com controles, segundo eixo, pontos e leitura sob o cursor. Traz `integrar`, `raiz` e `linspace` para a conta não reinventar nada, e **avisa no console** o que o autor não enxerga, como uma curva achatada. |
 | `editor.js` | Um editor de Python ao lado da lição, que roda ali mesmo (Pyodide, baixado no primeiro uso). Começa vazio: cada bloco de código ganha um "→ editor" que o acrescenta ao fim, e o aluno monta o programa ele mesmo. Embaixo, a saída com texto, erros e figuras. As divisões se arrastam. |
 | `tema.js` | Botão de claro/escuro, injetado sozinho. |
