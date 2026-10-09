@@ -94,10 +94,9 @@
       <li><code class="param">τ</code> — tempo de residência: quanto tempo, em média, uma porção de líquido fica no reator antes de sair, igual a V/F, min</li>
     </ul>
     <p class="porque"><span class="tipo tipo-algebra">álgebra</span><span class="tipo tipo-definicao">definição</span>Dividindo tudo por V e chamando V/F de τ, chega-se à equação do modelo para A.</p>
+    <p>A concentração de A dentro do tanque muda por dois motivos. A corrente traz A a <span class="param">C<sub>A0</sub></span> e leva embora a <span class="var-1">C<sub>A</sub></span>, e essa troca, dividida pelo tempo de residência, empurra o tanque na direção da alimentação. Ao mesmo tempo, a reação consome A numa velocidade proporcional ao que já está lá. O estacionário é o ponto em que os dois efeitos se anulam.</p>
   </li>
 </ol>
-
-<p>A concentração de A dentro do tanque muda por dois motivos. A corrente traz A a <span class="param">C<sub>A0</sub></span> e leva embora a <span class="var-1">C<sub>A</sub></span>, e essa troca, dividida pelo tempo de residência, empurra o tanque na direção da alimentação. Ao mesmo tempo, a reação consome A numa velocidade proporcional ao que já está lá. O estacionário é o ponto em que os dois efeitos se anulam.</p>
 
 <h3 class="balanco balanco-massa">Balanço de massa do componente B, em mols</h3>
 
@@ -146,10 +145,9 @@
       </math>
     </div>
     <p class="porque"><span class="tipo tipo-cinetica">cinética</span><span class="tipo tipo-hipotese">hipótese</span><span class="tipo tipo-algebra">álgebra</span>Os mesmos três passos do balanço de A, de uma vez: r<sub>A</sub> = k·<span class="var-1">C<sub>A</sub></span>, volume constante, e tudo dividido por V.</p>
+    <p>B só nasce da reação e só vai embora com a corrente de saída. O termo de formação é o mesmo k·<span class="var-1">C<sub>A</sub></span> que aparece com sinal trocado na equação de A: é ele que amarra os dois balanços.</p>
   </li>
 </ol>
-
-<p>B só nasce da reação e só vai embora com a corrente de saída. O termo de formação é o mesmo k·<span class="var-1">C<sub>A</sub></span> que aparece com sinal trocado na equação de A: é ele que amarra os dois balanços.</p>
 
 <table>
 <thead><tr><th>Parâmetro</th><th class="num">Valor</th><th>Unidade</th><th>Procedência</th></tr></thead>
@@ -341,14 +339,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <div class="grafico" data-grafico="partida" data-controles="k, F"></div>
 
-<ul>
-  <li>O <span class="var-1">reagente A</span> sobe e estaciona perto dos 20 min, enquanto o <span class="var-2">produto B</span> continua subindo: aos 60 min ainda está em 93% do seu estacionário. A diferença está nos balanços. A se ajusta pela troca com a corrente e pela reação ao mesmo tempo, com velocidade 1/τ + k = 0,15 por minuto. B só é removido pela corrente, a 1/τ = 0,05 por minuto, três vezes mais devagar.</li>
-  <li>O tempo de partida de A não depende de <span class="param">C<sub>A0</sub></span>. Dobrar a concentração da alimentação dobra o estacionário, mas a curva inteira escala junto, e os 95% continuam caindo no mesmo instante, porque esse instante só depende de 1/τ + k.</li>
-  <li>Leve <code class="param">k</code> até 0,30 1/min. O <span class="var-1">reagente A</span> estaciona bem mais baixo e mais cedo: a reação mais rápida consome mais A antes que ele saia, e a mesma reação acelera a chegada ao equilíbrio entre entrada e consumo.
-    <span class="no-seu-codigo">Troque <code>k = 0.1</code> por <code>k = 0.3</code> e rode: o programa imprime 0,286 mol/L e 95% em 8,56 min.</span></li>
-  <li>Leve <code class="param">F</code> até 2 L/min. O tempo de residência vai a 50 min, e o <span class="var-1">reagente A</span> estaciona mais baixo, porque fica mais tempo lá dentro para reagir. Em compensação, a partida demora mais. É a troca de todo CSTR: mais conversão custa uma resposta mais lenta.
-    <span class="no-seu-codigo">Troque <code>F = 5.0</code> por <code>F = 2.0</code>: o programa imprime 0,333 mol/L e 95% em 24,96 min.</span></li>
-</ul>
+<ol class="observacoes">
+  <li>
+    <h3>Por que o <span class="var-2">produto B</span> demora mais que o <span class="var-1">reagente A</span>?</h3>
+    <p>O <span class="var-1">reagente A</span> sobe e estaciona perto dos 20 min, enquanto o <span class="var-2">produto B</span> continua subindo: aos 60 min ainda está em 93% do seu estacionário. A diferença está nos balanços. A se ajusta pela troca com a corrente e pela reação ao mesmo tempo, com velocidade 1/τ + k = 0,15 por minuto. B só é removido pela corrente, a 1/τ = 0,05 por minuto, três vezes mais devagar.</p>
+  </li>
+  <li>
+    <h3>O que <span class="param">C<sub>A0</sub></span> muda no tempo de partida?</h3>
+    <p>Nada. Dobrar a concentração da alimentação dobra o estacionário, mas a curva inteira escala junto, e os 95% continuam caindo no mesmo instante, porque esse instante só depende de 1/τ + k.</p>
+  </li>
+  <li>
+    <h3>Leve <code class="param">k</code> até 0,30 1/min</h3>
+    <p>O <span class="var-1">reagente A</span> estaciona bem mais baixo e mais cedo: a reação mais rápida consome mais A antes que ele saia, e a mesma reação acelera a chegada ao equilíbrio entre entrada e consumo.</p>
+    <p class="no-seu-codigo">Troque <code>k = 0.1</code> por <code>k = 0.3</code> e rode: o programa imprime 0,286 mol/L e 95% em 8,56 min.</p>
+  </li>
+  <li>
+    <h3>Leve <code class="param">F</code> até 2 L/min</h3>
+    <p>O tempo de residência vai a 50 min, e o <span class="var-1">reagente A</span> estaciona mais baixo, porque fica mais tempo lá dentro para reagir. Em compensação, a partida demora mais. É a troca de todo CSTR: mais conversão custa uma resposta mais lenta.</p>
+    <p class="no-seu-codigo">Troque <code>F = 5.0</code> por <code>F = 2.0</code>: o programa imprime 0,333 mol/L e 95% em 24,96 min.</p>
+  </li>
+</ol>
 
 <section class="sua-vez">
   <h2>Sua vez</h2>

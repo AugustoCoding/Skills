@@ -360,31 +360,40 @@ h3.balanco-massa::before      { content: "massa";      color: var(--mom-modelo);
 h3.balanco-energia::before    { content: "energia";    color: var(--err);        background: color-mix(in srgb, var(--err) 16%, transparent); }
 h3.balanco-movimento::before  { content: "movimento";  color: var(--mom-codigo); background: color-mix(in srgb, var(--mom-codigo) 16%, transparent); }
 
-ol.deducao {
+/* Dedução e observações são a mesma linha do tempo, cada uma na cor do seu
+   momento: --cor-linha. */
+ol.deducao     { --cor-linha: var(--mom-modelo); }
+ol.observacoes { --cor-linha: var(--mom-resultado); }
+
+ol.deducao,
+ol.observacoes {
   list-style: none;
-  counter-reset: deducao;
+  counter-reset: item;
   padding: 0;
   margin: 1rem 0 2rem;
   position: relative;
 }
-/* O fio que liga os passos: a dedução se lê de cima para baixo. */
-ol.deducao::before {
+/* O fio que liga os passos: a sequência se lê de cima para baixo. */
+ol.deducao::before,
+ol.observacoes::before {
   content: "";
   position: absolute;
   left: 0.85rem;
   top: 0.9rem;
   bottom: 0.9rem;
   width: 2px;
-  background: color-mix(in srgb, var(--mom-modelo) 35%, transparent);
+  background: color-mix(in srgb, var(--cor-linha) 35%, transparent);
 }
-ol.deducao > li {
-  counter-increment: deducao;
+ol.deducao > li,
+ol.observacoes > li {
+  counter-increment: item;
   position: relative;
   padding-left: 2.6rem;
   margin: 0 0 1rem;
 }
-ol.deducao > li::before {
-  content: counter(deducao);
+ol.deducao > li::before,
+ol.observacoes > li::before {
+  content: counter(item);
   position: absolute;
   left: 0;
   top: 0.75rem;
@@ -396,18 +405,26 @@ ol.deducao > li::before {
   font-family: var(--mono);
   font-size: 0.78rem;
   color: var(--bg);
-  background: var(--mom-modelo);
+  background: var(--cor-linha);
+  z-index: 1;
 }
+ol.observacoes > li::before { top: 0; }
+ol.observacoes > li > h3 { margin: 0.1rem 0 0.4rem; font-size: 1rem; }
+ol.observacoes > li > p { margin: 0 0 0.4rem; }
+
 ol.deducao .equacao { margin: 0 0 0.4rem; }
 ol.deducao .termos { margin: 0.6rem 0 0.4rem; }
 ol.deducao p.porque { font-size: 0.92rem; margin: 0 0 0.3rem; color: var(--fg); }
 
 /* O último passo é a equação do modelo: caixa com a cor do momento. */
 ol.deducao > li.final .equacao {
-  background: color-mix(in srgb, var(--mom-modelo) 10%, var(--code-bg));
-  border: 2px solid var(--mom-modelo);
+  background: color-mix(in srgb, var(--cor-linha) 10%, var(--code-bg));
+  border: 2px solid var(--cor-linha);
 }
 ol.deducao > li.final::before { content: "✓"; }
+/* O parágrafo que explica a equação do modelo vive dentro do passo final:
+   aparece junto com ela, não antes. */
+ol.deducao > li.final > p:not(.porque) { margin: 0.9rem 0 0.3rem; }
 
 /* O tipo do passo, como etiqueta. */
 .tipo {
@@ -605,6 +622,7 @@ section.codigo { margin: 2.5rem 0; counter-reset: passo; }
    numerada, e um fio descendo até a próxima. O próximo passo aparece FECHADO —
    só a bolinha e o título apagado —, e abre com um clique nele. */
 .passo {
+  --cor-linha: var(--mom-codigo);
   position: relative;
   counter-increment: passo;
   padding: 0 0 0 2.8rem;
@@ -645,34 +663,58 @@ section.codigo { margin: 2.5rem 0; counter-reset: passo; }
   letter-spacing: 0.01em;
 }
 
-/* O passo fechado: a bolinha vazada, pulsando de leve, e só o título. */
-.passo.fechado { cursor: pointer; margin-bottom: 1.2rem; }
-.passo.fechado > :not(h3) { display: none; }
-.passo.fechado h3 { color: var(--muted); font-weight: 400; }
-.passo.fechado h3::after {
+/* FECHADO — o próximo item de qualquer linha do tempo (passo do código, passo
+   da dedução, observação): a bolinha vazada, pulsando de leve, e só o que diz
+   o que vem. Abre com um clique nele (codigo.js). */
+.fechado { cursor: pointer; }
+.fechado::before {
+  color: var(--cor-linha) !important;
+  background: var(--bg) !important;
+  box-shadow: inset 0 0 0 2px var(--cor-linha);
+  animation: chamar 1.8s ease-in-out infinite;
+}
+.fechado:hover::before,
+.fechado:focus-visible::before { color: var(--bg) !important; background: var(--cor-linha) !important; animation: none; }
+.fechado:focus-visible { outline: none; }
+
+/* Passo do código e observação fechados: só o título. */
+.passo.fechado, ol.observacoes > li.fechado { margin-bottom: 1.2rem; }
+.passo.fechado > :not(h3),
+ol.observacoes > li.fechado > :not(h3) { display: none; }
+.passo.fechado h3,
+ol.observacoes > li.fechado > h3 { color: var(--muted); font-weight: 400; }
+.passo.fechado h3::after,
+ol.observacoes > li.fechado > h3::after,
+ol.deducao > li.fechado .porque::after {
   content: "  ·  clique para abrir";
   font-family: var(--mono);
   font-size: 0.72rem;
-  color: var(--mom-codigo);
+  font-weight: 400;
+  color: var(--cor-linha);
 }
-.passo.fechado::before {
-  color: var(--mom-codigo);
-  background: var(--bg);
-  box-shadow: inset 0 0 0 2px var(--mom-codigo);
-  animation: chamar 1.8s ease-in-out infinite;
+.fechado:hover h3 { color: var(--fg); }
+.fechado:focus-visible h3, .fechado:focus-visible .porque { text-decoration: underline; }
+
+/* Passo da dedução fechado: só a etiqueta do TIPO do próximo passo — o aluno
+   sabe que vem uma hipótese, mas não qual. */
+ol.deducao > li.fechado::before { top: 0; }
+ol.deducao > li.fechado > :not(.porque) { display: none; }
+ol.deducao > li.fechado .porque { font-size: 0; margin: 0.25rem 0 1.2rem; }
+ol.deducao > li.fechado .porque::before {
+  content: "próximo:";
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-right: 0.5rem;
 }
-.passo.fechado:hover::before,
-.passo.fechado:focus-visible::before { color: var(--bg); background: var(--mom-codigo); animation: none; }
-.passo.fechado:hover h3 { color: var(--fg); }
-.passo.fechado:focus-visible { outline: none; }
-.passo.fechado:focus-visible h3 { text-decoration: underline; }
+ol.deducao > li.fechado .porque .tipo { font-size: 0.66rem; }
 
 @keyframes chamar {
-  0%, 100% { box-shadow: inset 0 0 0 2px var(--mom-codigo), 0 0 0 0 color-mix(in srgb, var(--mom-codigo) 45%, transparent); }
-  50%      { box-shadow: inset 0 0 0 2px var(--mom-codigo), 0 0 0 6px color-mix(in srgb, var(--mom-codigo) 0%, transparent); }
+  0%, 100% { box-shadow: inset 0 0 0 2px var(--cor-linha), 0 0 0 0 color-mix(in srgb, var(--cor-linha) 45%, transparent); }
+  50%      { box-shadow: inset 0 0 0 2px var(--cor-linha), 0 0 0 6px color-mix(in srgb, var(--cor-linha) 0%, transparent); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .passo.fechado::before { animation: none; }
+  .fechado::before { animation: none; }
 }
 
 .passo > p { margin: 0.7rem 0 0; font-size: 0.95rem; }
@@ -943,12 +985,13 @@ section.sua-vez summary {
   body { max-width: none; padding: 0; }
   .lateral { float: none; width: auto; margin: 0.8rem 0; padding-left: 0.8rem; border-left: 1px solid var(--rule); }
   button, .controles { display: none; }
-  .moldura, .passo, .nota-duvida, pre, table, figure, ol.deducao > li { break-inside: avoid; }
+  .moldura, .passo, .nota-duvida, pre, table, figure, ol.deducao > li, ol.observacoes > li { break-inside: avoid; }
   .tema, .copiar { display: none; }
   /* No papel não há clique: tudo que a tela esconde por etapas aparece. */
   .oculto { display: revert; }
-  .passo.fechado > :not(h3) { display: revert; }
-  .passo.fechado h3::after { content: none; }
+  .fechado > * { display: revert !important; }
+  .fechado h3::after, .fechado .porque::after, .fechado .porque::before { content: none !important; }
+  ol.deducao > li.fechado .porque { font-size: 0.92rem; }
   section.sua-vez details > *:not(summary) { display: block; }
   .nota-duvida, mrow.chave-sob, mrow.chave-sobre { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   h1, h2, h3 { break-after: avoid; }

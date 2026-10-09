@@ -55,7 +55,8 @@ As equações que o código vai resolver. Podem ser diferenciais, algébricas, u
 | `definição` | Um grupo ganha nome próprio, como τ = V/F |
 
 - **A hipótese diz o que aconteceria se ela não valesse.** "Se o tanque estivesse enchendo, o volume precisaria de um balanço próprio." É a hipótese que muda de um exercício para outro, e é por ela que o aluno reconhece o próximo caso.
-- **O último passo é a equação do modelo**, marcado como `final`. Ele leva as chaves e é seguido do parágrafo que explica o que ela diz.
+- **O último passo é a equação do modelo**, marcado como `final`. Ele leva as chaves e, **dentro dele**, o parágrafo que explica o que ela diz.
+- **A dedução abre um passo de cada vez**, como os passos do código: o passo fechado mostra só a etiqueta do tipo do próximo ("próximo: hipótese"), e o aluno clica para ver qual é. Por isso tudo o que pertence a um passo fica dentro do `<li>` dele.
 - **Dois balanços parecidos não repetem a dedução inteira.** O segundo mostra o princípio e a tradução, que mudam, e junta numa linha os passos iguais aos do primeiro, com as etiquetas de todos eles.
 
 **Equação que não é balanço** (uma lei de velocidade dada, uma correlação, uma equação de estado) não se deduz: ela entra num bloco próprio, ou como passo de `cinética` dentro da dedução.
@@ -100,6 +101,7 @@ A figura que responde o exercício, e a leitura **daquele** resultado.
 - **Use um segundo eixo quando a escala pedir.** Duas grandezas na mesma unidade, mas com ordens de grandeza diferentes, não cabem no mesmo eixo: a menor vira uma reta rente ao fundo. O `grafico.js` avisa no console quando isso acontece.
 - **Até quatro controles, cada um convocado pela sua própria observação.** Controle que nenhuma frase manda mexer é ruído.
 - **A faixa e o passo de cada controle precisam alcançar o que a observação manda procurar.** Se a observação diz "leve até 222" e o passo é 5, o slider para em 220 e em 225.
+- **As observações são uma linha do tempo** (`ol.observacoes`), abertas uma de cada vez, e a figura fica sempre à vista. Cada observação tem um título (`h3`), que é o que o aluno vê com ela fechada: uma pergunta ("Por que B demora mais que A?") ou, nas de controle, a ação ("Leve k até 0,30 1/min"). Nunca a conclusão.
 - **Escreva duas a quatro observações de leitura da curva, mais uma por controle.** Cada uma fica ancorada num ponto concreto **deste** resultado: por que uma curva cai quando a outra sobe, o que acontece onde elas se cruzam, por que a inflexão está ali.
 - **Cada observação traz um insight diferente.** Se duas explicam a mesma coisa com palavras diferentes, junte numa só.
 - **A observação de controle tem o seu `.no-seu-codigo`**: a mesma mudança feita no programa Python, e o que ele deve imprimir. O slider mostra a resposta, mas é no terminal que o aluno aprende.

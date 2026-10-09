@@ -1,12 +1,14 @@
-/* codigo.js — a seção de código da lição: revela os passos, libera o programa
- * e a resposta no fim, injeta o botão de copiar. Não formata nem valida código.
+/* codigo.js — as linhas do tempo da lição (código, dedução, observações) e o
+ * resto da seção de código: libera o programa e a resposta no fim, injeta o
+ * botão de copiar e realça o Python. Não formata nem valida código.
  *
  * Faz cinco coisas, e a lição não precisa de marcação nenhuma além da estrutura:
  *
- *   1. monta os passos como linha do tempo: o próximo aparece fechado — a
- *      bolinha numerada e o título — e abre com um clique nele. Os demais
- *      ficam escondidos: o aluno não vê quantos faltam, e é isso que o mantém
- *      lendo em vez de rolar até o fim;
+ *   1. monta como linha do tempo os passos do código (.passo), os da dedução de
+ *      cada balanço (ol.deducao) e as observações (ol.observacoes): o próximo
+ *      item aparece fechado e abre com um clique nele. Os demais ficam
+ *      escondidos: o aluno não vê quantos faltam, e é isso que o mantém lendo
+ *      em vez de rolar até o fim;
  *   2. num passo que tem <p class="pense">, mostra primeiro o título e a pergunta,
  *      e o código só depois que o aluno clica — é a previsão antes da revelação;
  *   3. só libera o programa completo e a resposta depois do último passo;
@@ -138,41 +140,33 @@
     pense.insertAdjacentElement("afterend", b);
   }
 
-  function montar(sec) {
-    Array.prototype.forEach.call(sec.querySelectorAll("pre"), function (pre) {
-      pre.classList.add("com-copia");
-      botaoCopiar(pre);
-    });
+  /* A LINHA DO TEMPO — o mesmo mecanismo para os passos do código, os passos
+     da dedução de um balanço e as observações do resultado. O primeiro item
+     abre; o seguinte aparece FECHADO (a bolinha e o que diz o que vem) e abre
+     com um clique nele, ou com Enter; os demais ficam escondidos, e o aluno não
+     sabe quantos faltam. Um "pense" pendente segura o próximo. aoFim roda
+     quando o último abre. */
+  function sequencia(itens, aoFim) {
+    if (!itens.length) { if (aoFim) aoFim(); return; }
+    var abertos = 1;
 
-    var passos = Array.prototype.slice.call(sec.querySelectorAll(".passo"));
-    var finais = Array.prototype.slice.call(sec.querySelectorAll("details.programa, details.resposta"));
-    var abertos = Math.min(1, passos.length);
-
-    // O passo seguinte aparece FECHADO — bolinha e título — e abre com um
-    // clique nele. Só o próximo: os outros continuam escondidos, e o aluno não
-    // sabe quantos faltam. Com um "pense" pendente, nem o próximo aparece.
     function atualizar() {
-      var atual = passos[abertos - 1];
+      var atual = itens[abertos - 1];
       var pendente = atual && atual.dataset.pendente;
-      var proximo = passos[abertos];
+      var proximo = itens[abertos];
       if (proximo && !pendente && proximo.classList.contains("oculto")) {
         proximo.classList.remove("oculto");
         proximo.classList.add("fechado", "revelado");
         proximo.setAttribute("tabindex", "0");
         proximo.setAttribute("role", "button");
-        proximo.setAttribute("aria-label", "Abrir o passo " + (abertos + 1) + ": " +
-          (proximo.querySelector("h3") ? proximo.querySelector("h3").textContent : ""));
+        var titulo = proximo.querySelector("h3");
+        proximo.setAttribute("aria-label", "Abrir o próximo item" + (titulo ? ": " + titulo.textContent : ""));
       }
-      if (!proximo && !pendente) {
-        finais.forEach(function (d) {
-          if (!d.classList.contains("oculto")) return;
-          d.classList.remove("oculto");
-          d.classList.add("revelado");
-        });
-      }
-      // O fio desce de cada passo até o seguinte, se o seguinte estiver à vista.
-      passos.forEach(function (p, i) {
-        var seguinte = passos[i + 1];
+      if (!proximo && !pendente && aoFim) { aoFim(); aoFim = null; }
+      // O fio desce de cada passo do código até o seguinte, se ele estiver à
+      // vista. (Na dedução e nas observações, o fio é da lista inteira.)
+      itens.forEach(function (p, i) {
+        var seguinte = itens[i + 1];
         p.classList.toggle("sem-fio", !seguinte || seguinte.classList.contains("oculto") || p.classList.contains("fechado"));
       });
     }
@@ -190,7 +184,7 @@
       p.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
 
-    passos.forEach(function (p, i) {
+    itens.forEach(function (p, i) {
       if (i > 0) p.classList.add("oculto");
       prepararPense(p, atualizar);
       p.addEventListener("click", function () { abrir(p); });
@@ -201,9 +195,26 @@
         }
       });
     });
+    atualizar();
+  }
+
+  function montar(sec) {
+    Array.prototype.forEach.call(sec.querySelectorAll("pre"), function (pre) {
+      pre.classList.add("com-copia");
+      botaoCopiar(pre);
+    });
+
+    var passos = Array.prototype.slice.call(sec.querySelectorAll(".passo"));
+    var finais = Array.prototype.slice.call(sec.querySelectorAll("details.programa, details.resposta"));
     finais.forEach(function (d) { d.classList.add("oculto"); });
 
-    atualizar();
+    sequencia(passos, function () {
+      finais.forEach(function (d) {
+        if (!d.classList.contains("oculto")) return;
+        d.classList.remove("oculto");
+        d.classList.add("revelado");
+      });
+    });
   }
 
   function iniciar() {
@@ -211,6 +222,9 @@
     // para o botão de copiar entrar depois do texto já pintado.
     document.querySelectorAll("pre > code").forEach(realcar);
     document.querySelectorAll("section.codigo").forEach(montar);
+    document.querySelectorAll("ol.deducao, ol.observacoes").forEach(function (ol) {
+      sequencia(Array.prototype.slice.call(ol.children));
+    });
   }
 
   if (document.readyState === "loading") {

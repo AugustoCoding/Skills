@@ -121,11 +121,10 @@
       <li><code class="param">τ</code> — {…}</li>
     </ul>
     <p class="porque"><span class="tipo tipo-algebra">álgebra</span><span class="tipo tipo-definicao">definição</span>{O rearranjo final, e o nome do grupo novo.}</p>
+    <p>{Dentro do passo final, depois da equação: monte a cena — o que ela
+    descreve no processo — e só então conclua o que ela implica.}</p>
   </li>
 </ol>
-
-<p>{Depois da equação final: monte a cena — o que ela descreve no processo —
-e só então conclua o que ela implica.}</p>
 
 <!-- EQUAÇÃO QUE NÃO É BALANÇO (lei de velocidade, correlação, equação de
      estado): não se deduz. Bloco próprio: equação · símbolos · o que ela diz.
@@ -259,15 +258,27 @@ document.addEventListener("DOMContentLoaded", function () {
      CONFIRA a faixa: ela tem de conter o valor que a observação manda procurar,
      e o passo tem de cair exatamente nele. -->
 
-<!-- AS OBSERVAÇÕES: duas a quatro de leitura da curva, MAIS uma por controle.
-     Um insight distinto por item; o nome de cada grandeza é o da legenda. -->
-<ul>
-  <li>{Observação ancorada num ponto concreto desta curva, e o porquê — com o nome
-  da curva na cor dela: <span class="var-1">reagente A</span>.}</li>
-  <li>{Outra, com outro insight.}</li>
-  <li>{Uma por controle: "leve {parâmetro} até {valor} e veja {o quê} — {por quê}".}
-    <span class="no-seu-codigo">{A mesma mudança no programa: "troque k = 0.08 por 0.20 e confira que o programa imprime …"}</span></li>
-</ul>
+<!-- AS OBSERVAÇÕES: linha do tempo (ol.observacoes), uma por <li>, cada uma com
+     um <h3> — o título é o que o aluno vê com ela fechada, então é uma pergunta
+     ou uma ação, nunca a conclusão. Duas a quatro de leitura da curva, MAIS uma
+     por controle. Um insight distinto por item; o nome de cada grandeza é o da
+     legenda, na cor dela. -->
+<ol class="observacoes">
+  <li>
+    <h3>{Uma pergunta sobre a curva: "Por que B demora mais que A?"}</h3>
+    <p>{A resposta, ancorada num ponto concreto desta curva, com o nome da curva
+    na cor dela: <span class="var-1">reagente A</span>.}</p>
+  </li>
+  <li>
+    <h3>{Outra pergunta, outro insight}</h3>
+    <p>{…}</p>
+  </li>
+  <li>
+    <h3>{Uma por controle, como ação: "Leve k até 0,30 1/min"}</h3>
+    <p>{O que acontece com a curva, e por quê.}</p>
+    <p class="no-seu-codigo">{A mesma mudança no programa: "troque k = 0.08 por 0.20 e confira que o programa imprime …"}</p>
+  </li>
+</ol>
 
 <!-- ================= SUA VEZ =================
      Uma variação do exercício que o aluno programa sozinho, partindo do
