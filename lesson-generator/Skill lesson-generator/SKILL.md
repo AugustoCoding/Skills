@@ -19,12 +19,14 @@ Se o pedido não traz um exercício concreto ("me ensina reator tubular"), diga 
 Não entreviste o aluno nem guarde estado: o que precisaria ser perguntado, você infere do enunciado, e o que dura é o HTML.
 
 1. **Leia o enunciado como diagnóstico**: o que ele pede, que dados dá e quais faltam, e que tipo de problema matemático ele é.
-2. **Ache os números** ([Os números](#os-números)) e rode **os passos da lição colados em ordem**: é o programa que o aluno monta no editor, e ele tem de rodar e imprimir os mesmos números.
-3. **Escreva a lição** copiando o template e trocando o conteúdo.
-4. **Veja-a rodando**: por `file://` os `assets/` não carregam, então sirva a pasta (`python -m http.server 8730 --bind 127.0.0.1`) e abra por `http://`. Confira que as figuras desenham e os passos abrem, e **leia o console**: o `grafico.js` avisa ali sobre curva achatada, controle sem faixa e valor não finito. Depois derrube o servidor e abra o arquivo para o aluno.
-5. **Fale pouco**: onde escreveu e o convite a perguntar, em duas linhas.
+2. **Ache os números** ([Os números](#os-números)).
+3. **Monte a pasta** com `python <pasta desta skill>/scripts/nova_licao.py "<nome do exercício>" [pasta]`: passe a pasta só se o aluno indicou uma. O script cria a lição a partir do template, copia os componentes e não escreve onde não deve.
+4. **Escreva a lição** trocando o conteúdo do template.
+5. **Confira** com `python <pasta desta skill>/scripts/conferir.py <lição.html>` e corrija todo ERRO; os AVISOS, confira. Ele roda os passos colados em ordem (o programa que o aluno monta no editor), compara a resposta com o que o programa imprime e lista os números do texto para a revisão de procedência.
+6. **Veja-a rodando**: por `file://` os `assets/` não carregam, então sirva a pasta (`python -m http.server 8730 --bind 127.0.0.1`) e abra por `http://`. Confira que as figuras desenham e os passos abrem, e **leia o console**: o `grafico.js` avisa ali sobre curva achatada, controle sem faixa e valor não finito. Depois derrube o servidor e abra o arquivo para o aluno.
+7. **Fale pouco**: onde escreveu e o convite a perguntar, em duas linhas.
 
-**Onde escrever**, à risca, porque é onde a skill mais erra: se o aluno indicou uma pasta, escreva **diretamente nela**, sem subpasta; se não, use `./licoes/`. Lá vão a lição (`nome-do-exercicio.html`, em kebab-case) e um `assets/` com a cópia dos componentes da skill. Nada de arquivo de estado ou anotação sobre o aluno, e nada escrito na pasta da skill.
+Nada de arquivo de estado ou anotação sobre o aluno.
 
 ## A lição
 
@@ -87,7 +89,7 @@ Use quando pagar o tempo que custa: **pense antes** (num ou dois passos em que p
 
 **Todo número que a lição cita é impresso pelo programa que ela entrega**, sobretudo os instantes, picos e cruzamentos das observações, que passam batidos. Se calcular um número exigiria mais um passo, não o cite.
 
-**Antes de salvar, passe um `grep` pelos algarismos do arquivo** e confira cada um, inclusive faixas e percentuais no meio de frases. Cada número é **dado do enunciado**, **derivado** (com a conta visível) ou **escolha sua** (marcada na tabela, com o motivo em meia linha: condições iniciais, horizontes, tolerâncias). Faixa de slider não precisa de procedência, mas precisa fazer sentido físico. Não cite literatura.
+**Revise cada número da lista que o `conferir.py` imprime**, inclusive faixas e percentuais no meio de frases. Cada número é **dado do enunciado**, **derivado** (com a conta visível) ou **escolha sua** (marcada na tabela, com o motivo em meia linha: condições iniciais, horizontes, tolerâncias). Faixa de slider não precisa de procedência, mas precisa fazer sentido físico. Não cite literatura.
 
 ## Requisitos
 

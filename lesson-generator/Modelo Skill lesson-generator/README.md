@@ -6,7 +6,13 @@ O fluxo:
 
 1. Altera-se a estrutura aqui, em `licao-modelo.html`, olhando a página ao vivo.
 2. O que se firmar como preferência é registrado na skill: a regra no `SKILL.md`, a marcação em `templates/licao.html` e o estilo ou o comportamento em `assets/`.
-3. Só então a mudança vai a um teste.
+3. Se a mudança é de estrutura (classes, ordem das seções, passos, resposta, observações), o `scripts/conferir.py` da skill muda junto, e a lição modelo tem de passar nele sem erro:
+
+   ```
+   python "../Skill lesson-generator/scripts/conferir.py" licao-modelo.html
+   ```
+
+4. Só então a mudança vai a um teste.
 
 **A lição aponta para os `assets/` da própria skill** (`../Skill lesson-generator/assets/`), e não para uma cópia. Uma mudança de CSS ou de JS aparece aqui na hora, e o modelo nunca fica com componente desatualizado.
 

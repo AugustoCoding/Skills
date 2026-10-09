@@ -43,6 +43,10 @@ A pasta da skill tem só o que vai para o contexto do modelo. Este README, o mod
 |---|---|
 | `SKILL.md` | Tudo o que o modelo segue: como a sessão corre, onde escrever, a lição momento a momento, a cor, o editor, os números e os requisitos. |
 | `templates/licao.html` | O esqueleto da lição, com a marcação de cada peça. A marcação mora **só aqui**. |
+| `scripts/nova_licao.py` | Monta a pasta da lição: cria a lição a partir do template e copia os componentes, sempre no lugar certo. |
+| `scripts/conferir.py` | Confere a lição pronta e diz o que corrigir: roda os passos colados em ordem, compara a resposta com o que o programa imprime, checa a estrutura e lista os números do texto para a revisão de procedência. |
+
+**Regra do projeto:** o que pode ser garantido por script, componente ou template não fica como texto no `SKILL.md`. E toda mudança na estrutura da lição atualiza o `conferir.py` no mesmo commit; a lição modelo tem de passar nele sem erro.
 
 **Componentes** (`Skill lesson-generator/assets/`), copiados para a pasta da lição:
 
