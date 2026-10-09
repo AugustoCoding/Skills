@@ -1,13 +1,15 @@
 <!doctype html>
 <!--
-  ESQUELETO DE LIÇÃO — copie para ../aula-fermentacao/{nome-do-exercicio}.html
+  ESQUELETO DE LIÇÃO — copie para a pasta da lição como {nome-do-exercicio}.html
 
-  Três divisões, nesta ordem: teoria · código · análise crítica.
-  NÃO há teto de palavras: corte o que não ensina, nunca abrevie o que ensina.
-  Detalhes em LESSON-FORMAT.md. Apague estes comentários e o que não usar.
+  A ordem dos momentos é fixa: abertura · modelo · código · resultado · sua vez.
+  O conteúdo de cada um é seu: o exercício decide quantas equações, quantos
+  passos, que figura. A marcação de cada peça está AQUI, e só aqui — copie em vez
+  de deduzir da prosa do LESSON-FORMAT.md.
 
-  A marcação de cada peca esta AQUI, nao no LESSON-FORMAT: copiar daqui sai
-  mais rapido e mais fiel do que deduzir da prosa.
+  As equações e o modelo do gráfico abaixo são EXEMPLOS DE MARCAÇÃO, não um
+  ponto de partida: troque tudo pelo que o seu exercício pede.
+  Apague estes comentários e as peças opcionais que não usar.
 -->
 <html lang="pt-BR">
 <head>
@@ -19,204 +21,191 @@
 <body>
 
 <header class="licao">
-  <span class="etiqueta">{Regime · o que o exercício pede}</span>
+  <span class="etiqueta">{Área · tipo de problema matemático}</span>
   <h1>{Título curto}</h1>
   <p class="gancho">{Uma frase: o que ele vai ter rodando no fim.}</p>
 </header>
 
 <!-- ================= ABERTURA =================
-     Três a cinco frases situando o problema: que processo é este, o que o
-     enunciado pede, e o que ele vai ter no fim. Escrito para quem acabou de
-     ler o enunciado e ainda não sabe por onde pegar. -->
-<p>{O contexto do exercício, em três a cinco frases.}</p>
+     Três a cinco frases: que processo é este, o que o enunciado pede, e o que
+     ele vai ter no fim. Para quem acabou de ler o enunciado e não sabe por
+     onde pegar. -->
+<p>{O contexto do exercício.}</p>
 
-<!-- ================= 1. TEORIA =================
-     As equações, uma por bloco, e a tabela de parâmetros.
-     Sem história, sem derivação, sem recapitulação — mas explicado por
-     inteiro: definição é frase completa, não etiqueta. -->
+<!-- ================= MODELO =================
+     As equações que o código vai resolver, uma por bloco, e a tabela de
+     parâmetros. Fecha com o parágrafo que nomeia o TIPO de problema. -->
 <h2>O modelo</h2>
 
-<p>{Uma ou duas frases: o que este sistema descreve.}</p>
-
-<!-- UM BLOCO POR EQUAÇÃO, sempre nesta ordem: equação · símbolos dela · o que ela diz.
-     O "onde" antes da lista vem do CSS — não escreva à mão.
-     Símbolo repetido em outra equação é definido só na primeira vez. -->
-
+<!-- UM BLOCO POR EQUAÇÃO: equação · símbolos dela · o que ela diz.
+     O "onde" antes da lista sai do CSS. Símbolo já definido não se repete. -->
 <div class="eq-bloco">
   <div class="equacao">
     <math display="block">
-      <mfrac><mrow><mi>d</mi><mi>X</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
-      <mo>=</mo><mi>μ</mi><mo>⋅</mo><mi>X</mi>
+      <mfrac><mrow><mi>d</mi><msub><mi>C</mi><mi>A</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+      <mo>=</mo><mo>−</mo><mi>k</mi><mo>⋅</mo><msub><mi>C</mi><mi>A</mi></msub>
     </math>
   </div>
-
   <ul class="termos">
-    <li><code>X</code> — {concentração de levedura no mosto, g/L}</li>
-    <li><code>μ</code> — {taxa específica de crescimento da levedura: gramas de
-    célula nova por grama de célula existente, por hora, 1/h}</li>
+    <li><code>C<sub>A</sub></code> — {frase completa: concentração de quê, onde, em que unidade}</li>
+    <li><code>k</code> — {frase completa: taxa de quê, de quem, em que unidade}</li>
   </ul>
-
-  <p>{Monte a cena e depois conclua — duas a quatro frases. O que esta equação
-  está descrevendo no processo, e só então o que isso implica.}</p>
+  <p>{Duas a quatro frases. Monte a cena — o que esta equação descreve no
+  processo — e só então conclua o que ela implica.}</p>
 </div>
 
 <div class="eq-bloco">
   <div class="equacao">
     <math display="block">
-      <mfrac><mrow><mi>d</mi><mi>S</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
-      <mo>=</mo><mo>−</mo>
-      <mfrac><mn>1</mn><msub><mi>Y</mi><mrow><mi>x</mi><mo>/</mo><mi>s</mi></mrow></msub></mfrac>
-      <mo>⋅</mo><mi>μ</mi><mo>⋅</mo><mi>X</mi>
+      <mi>k</mi><mo>=</mo><msub><mi>k</mi><mn>0</mn></msub><mo>⋅</mo>
+      <mi>exp</mi><mo>(</mo><mo>−</mo>
+      <mfrac><msub><mi>E</mi><mi>a</mi></msub><mrow><mi>R</mi><mo>⋅</mo><mi>T</mi></mrow></mfrac>
+      <mo>)</mo>
     </math>
   </div>
-
   <ul class="termos">
-    <li><code>S</code> — {concentração de açúcar disponível no mosto, g/L}</li>
-    <li><code>Yx/s</code> — {quanta levedura se forma por grama de açúcar
-    consumido, gX/gS}</li>
+    <li><code>k<sub>0</sub></code> — {…}</li>
+    <li><code>E<sub>a</sub></code> — {…}</li>
   </ul>
-
-  <p>{Por que o sinal é negativo e por que o rendimento divide — com a cena
-  montada antes da conclusão.}</p>
+  <p>{…}</p>
 </div>
 
-<!-- A tabela guarda os NÚMEROS. O significado de cada símbolo já está no bloco
-     da equação — não repita a descrição aqui. -->
+<!-- A tabela guarda os NÚMEROS; o significado já está nos blocos. -->
 <table>
 <thead><tr><th>Parâmetro</th><th class="num">Valor</th><th>Unidade</th><th>Procedência</th></tr></thead>
 <tbody>
-<tr><td><code>μmax</code></td><td class="num">0,40</td><td class="un">1/h</td><td>enunciado</td></tr>
-<tr><td><code>F</code></td><td class="num">0,05</td><td class="un">L/h</td><td>suposição: {a justificativa em meia linha}</td></tr>
+<tr><td><code>k<sub>0</sub></code></td><td class="num">1,2·10⁶</td><td class="un">1/min</td><td>enunciado</td></tr>
+<tr><td><code>t<sub>f</sub></code></td><td class="num">60</td><td class="un">min</td><td>escolha: {a justificativa em meia linha}</td></tr>
 </tbody>
 </table>
 
-<!-- ================= 2. CÓDIGO =================
-     O centro da lição. Passos revelados um a um — codigo.js cuida de esconder,
-     revelar, animar e injetar o botão de copiar. Você só escreve a estrutura.
+<!-- O TIPO DE PROBLEMA. Duas ou três frases: que problema matemático é este
+     (valor inicial, sistema algébrico, contorno, ajuste, otimização…), e por que
+     isso decide a ferramenta. É a parte que o aluno leva para o próximo exercício. -->
+<p>{Que problema é este, e por que isso decide como o código o resolve.}</p>
 
-     Quantos passos você achar que o programa pede, SEM PASSAR DE SEIS.
-     Cada passo: título curto · o trecho · o PORQUÊ daquilo (não o que a linha faz). -->
+<!-- ================= CÓDIGO =================
+     O centro da lição. codigo.js esconde, revela, anima e põe o botão de copiar.
+     No máximo seis passos. Cada um: título · trecho · o PORQUÊ da decisão. -->
 <h2>O código</h2>
 
 <section class="codigo">
 
   <div class="passo">
-    <h3>{Parâmetros e estado inicial}</h3>
+    <h3>{Parâmetros}</h3>
 <pre><code>{as linhas deste passo, com unidade em comentário}</code></pre>
-    <p>{Por que assim. Máximo três frases.}</p>
-  </div>
-
-  <div class="passo">
-    <h3>{A função de derivadas}</h3>
-<pre><code>{as linhas deste passo}</code></pre>
     <p>{Por que assim.}</p>
   </div>
 
+  <!-- OPCIONAL — .pense: a pergunta aparece antes do código, e o código só
+       depois do clique. Use no passo em que prever ensina mais que ler. -->
   <div class="passo">
-    <h3>{A integração}</h3>
+    <h3>{O passo central}</h3>
+    <p class="pense">{A pergunta curta: "que sinal tem o termo de consumo, e por quê?"}</p>
 <pre><code>{as linhas deste passo}</code></pre>
-    <p>{Por que este método, por que este evento, por que este t_eval.}</p>
+    <p>{Por que assim — e a resposta da pergunta, se o código não a deixar óbvia.}</p>
   </div>
 
-  <!-- Só aparecem depois do último passo revelado. -->
+  <!-- OPCIONAL — .armadilha: o erro plausível, e o SINTOMA pelo qual ele se denuncia. -->
+  <div class="passo">
+    <h3>{A resolução}</h3>
+<pre><code>{as linhas deste passo}</code></pre>
+    <p>{Por que este método, esta tolerância, este evento. Se o número sai de
+    método numérico, É AQUI que se diz o critério de convergência.}</p>
+    <div class="armadilha"><p>{O erro que parece certo, e como ele aparece na saída.}</p></div>
+  </div>
+
+  <!-- A VERIFICAÇÃO: um passo, ou um .confira dentro de um passo. Uma conta
+       independente que o aluno pode refazer: solução analítica, balanço que
+       fecha, caso-limite. -->
+  <div class="passo">
+    <h3>{Conferir o resultado}</h3>
+<pre><code>{as linhas da verificação}</code></pre>
+    <div class="confira"><p>{O que tem de bater com o quê, e por que bater prova alguma coisa.}</p></div>
+  </div>
+
   <details class="programa">
     <summary>Ver o programa completo</summary>
-<pre><code>{o programa inteiro, executável, com dependências declaradas}</code></pre>
+<pre><code>{o programa inteiro, executável, com dependências declaradas — e que imprime TODO número que a lição cita}</code></pre>
   </details>
 
   <details class="resposta">
     <summary>Ver a resposta</summary>
-    <p>{os números finais, conferidos rodando o modelo}</p>
+    <p>{os números finais, como o programa os imprime}</p>
   </details>
 
 </section>
 
-<!-- ================= 3. ANÁLISE CRÍTICA =================
-     O gráfico e a leitura DESTE resultado.
-
-     DUAS FORMAS DE FIGURA, abaixo, prontas para copiar. Nenhuma outra vem
-     empacotada de propósito: se o seu exercício pede outra coisa, parta do
-     templates/componente.js e escreva. NÃO deixe a figura central de fora
-     porque a peça não existia.
-
-     Duas figuras no máximo, um painel por canvas, 320 a 420 px de altura.
-     No máximo quatro controles.
-
+<!-- ================= RESULTADO =================
+     A figura que responde o exercício, e a leitura DESTE resultado.
+     No máximo duas figuras; uma por canvas; no máximo quatro controles.
      TESTE: se a frase serviria para outro exercício, corte. -->
-<!-- Termo importante no meio da prosa: <span class="termo">washout</span>.
-     Use com parcimônia — um ou dois por divisão. -->
-<h2>O que a curva diz</h2>
+<h2>{O que o resultado diz}</h2>
 
-<!-- ===== FORMA 1 — curso temporal: as variáveis de estado contra t =====
+<!-- A FIGURA. grafico.js desenha qualquer x contra y: tempo, posição, um
+     parâmetro varrido, dados contra modelo. A lição registra a conta — a MESMA
+     do Python — e o arquivo cuida do resto. Contrato completo no cabeçalho de
+     assets/grafico.js; o essencial está neste exemplo.
 
-     Registre AQUI o sistema do seu exercício: as mesmas equações que você acabou
-     de escrever em Python, traduzidas para JS. Nenhum modelo vem pronto — assim a
-     curva na tela é a mesma equação do código, e não um sistema parecido escrito
-     por outra pessoa.
-
-     O DOMContentLoaded não é decoração: o simulador.js carrega com defer, e sem
-     ele o Simulador ainda não existe quando esta linha roda. -->
+     O DOMContentLoaded não é decoração: grafico.js carrega com defer. -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  Simulador.registrar("meu-caso", {
-    rotulo:   "{o regime, em três palavras}",
-    vars:     ["X", "S", "P"],                     // a ordem do vetor de estado
-    padroes:  { mu_max: 0.40, Ks: 1.0, Yxs: 0.5, Ypx: 2.0, X0: 1, S0: 150 },
-    faixas:   { mu_max: [0.05, 1.2, 0.01], S0: [100, 320, 2] },   // [min, max, passo]
-    unidades: { mu_max: "1/h", Ks: "g/L", Yxs: "gX/gS", Ypx: "gP/gX", X0: "g/L", S0: "g/L" },
-    inicial: function (p) { return [p.X0, p.S0, 0]; },
-    deriv: function (t, y, p) {                    // {as SUAS derivadas}
-      var X = y[0], S = y[1];
-      var mu = p.mu_max * Math.max(S, 0) / (p.Ks + Math.max(S, 0));
-      var dX = mu * X;
-      return [dX, -dX / p.Yxs, p.Ypx * dX];
+  Grafico.registrar("principal", {
+    eixoX: "{Tempo (min)}",
+    eixoY: "{Concentração de A (mol/L)}",
+    series: ["{Reagente A}"],              // os mesmos nomes do texto
+    padroes:  { k: 0.08, CA0: 2.0, tf: 60 },
+    faixas:   { k: [0.01, 0.30, 0.01] },   // [min, max, passo]
+    unidades: { k: "1/min", CA0: "mol/L" },
+    calcular: function (p) {               // {a SUA conta}
+      var r = Grafico.integrar(function (t, y, p) { return [-p.k * y[0]]; },
+                               [p.CA0], 0, p.tf, p);
+      return { x: r.t, y: r.y };
+    },
+    ler: function (s, p) {                 // opcional: a linha embaixo do gráfico
+      var A = s[0].y;
+      return "A no fim: " + Grafico.fmt(A[A.length - 1], 3) + " mol/L";
     }
-    // ler: opcional. Sem ela, a linha embaixo do gráfico mostra o valor final de
-    // cada variável. Passe uma se a sua lição precisa de outro número ali.
   });
 });
 </script>
 
-<div class="simulador"
-     data-modelo="meu-caso"
-     data-tempo="30"
-     data-controles="mu_max, S0:100:320:2"
-     data-rotulos="{Levedura X, ART S, Etanol P — os mesmos nomes do texto}"></div>
+<div class="grafico" data-grafico="principal" data-controles="k"></div>
 
-<!-- data-controles aceita duas formas: só o nome, e aí vale a faixa que você
-     declarou em `faixas`; ou "nome:min:max:passo", para sobrescrever ali.
+<!-- Varredura de parâmetro ou equação algébrica: calcular() monta o x com
+     Grafico.linspace e resolve cada ponto com Grafico.raiz ou com a fórmula
+     fechada. Grandeza de escala muito diferente: { nome, eixo: 2 } e eixoY2.
+     Dados medidos: { nome, tipo: "pontos" }, com o seu próprio x.
 
-     CONFIRA: a faixa tem de CONTER o valor que a sua observação manda procurar,
-     e o passo tem de cair exatamente nele. "Desca S0 ate 222" com passo 5 nao
-     alcanca 222 — o slider para em 220 e em 225. Perto de uma transição
-     abrupta, passo grosso esconde justamente o que interessa. -->
-
-<!-- ===== FORMA 2 — varredura: uma grandeza contra um PARÂMETRO, não contra t =====
-
-     O simulador só desenha contra o tempo. Quando a figura que responde o
-     exercício tem um parâmetro no eixo horizontal, ou quando a segunda grandeza
-     está em outra unidade e não cabe no mesmo eixo:
-
-       copie templates/componente.js para assets/{nome}.js
-       troque as três partes marcadas nele (identidade, calcular, ler)
-       carregue o arquivo junto dos outros, e use a tag:
-
-<div class="{sua-classe}"
-     data-params="mu_max=0.40, Ks=1.0, Yxs=0.5, S0=150"
-     data-varre="D:0:0.5:0.002"
-     data-controles="S0:100:320:2"
-     data-rotulos="{Produtividade, Levedura X}"></div>
--->
+     CONFIRA a faixa: ela tem de conter o valor que a observação manda procurar,
+     e o passo tem de cair exatamente nele. -->
 
 <!-- AS OBSERVAÇÕES: duas a quatro de leitura da curva, MAIS uma por controle.
-     Um insight DISTINTO por item — se dois explicam a mesma coisa, vire um só.
-     E o nome de cada grandeza é o mesmo da legenda do gráfico: se lá diz
-     "etanol", aqui diz "etanol", nunca "produto" nem "P". -->
+     Um insight distinto por item; o nome de cada grandeza é o da legenda. -->
 <ul>
-  <li>{Observação ancorada: por que um perfil cai quando o outro sobe.}</li>
-  <li>{Observação ancorada: o que acontece no ponto onde eles se cruzam.}</li>
-  <li>{Uma por controle: "aumente {parâmetro} até {valor} e veja {o quê} — {por quê}".}</li>
+  <li>{Observação ancorada num ponto concreto desta curva, e o porquê.}</li>
+  <li>{Outra, com outro insight.}</li>
+  <li>{Uma por controle: "leve {parâmetro} até {valor} e veja {o quê} — {por quê}".}
+    <span class="no-seu-codigo">{A mesma mudança no programa: "troque k = 0.08 por 0.20 e confira que o programa imprime …"}</span></li>
 </ul>
+
+<!-- ================= SUA VEZ =================
+     Uma variação do exercício que o aluno programa sozinho, partindo do
+     programa da lição. Muda UMA coisa que obrigue a mexer no código, não só
+     num número. A resposta foi calculada por você, rodando a variação. -->
+<section class="sua-vez">
+  <h2>Sua vez</h2>
+  <p>{O enunciado da variação, em duas ou três frases, e o que ele deve encontrar.}</p>
+  <details>
+    <summary>Uma dica</summary>
+    <p>{Onde no programa está a mudança — sem escrever o código.}</p>
+  </details>
+  <details>
+    <summary>A resposta</summary>
+    <p>{O número que ele deve achar.}</p>
+<pre><code>{só as linhas que mudam}</code></pre>
+  </details>
+</section>
 
 <div class="pergunte">
   <strong>Ficou algo obscuro?</strong> Pergunte. O que você perguntar entra
@@ -224,10 +213,11 @@ document.addEventListener("DOMContentLoaded", function () {
 </div>
 
 <!-- NOTA DE DÚVIDA — entra depois, quando ele perguntar, no ponto EXATO:
-     <p class="nota-duvida"><span class="rotulo">Dúvida — 30/08</span> … </p> -->
+     <p class="nota-duvida"><span class="rotulo">Dúvida — 30/08</span> … </p>
+     ou, em linha: <mark class="nota-duvida">…</mark> -->
 
 <script src="./assets/tema.js" defer></script>
 <script src="./assets/codigo.js" defer></script>
-<script src="./assets/simulador.js" defer></script>
+<script src="./assets/grafico.js" defer></script>
 </body>
 </html>

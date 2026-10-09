@@ -19,11 +19,12 @@
   /* Termo destacado no meio do texto: contraste sem gritar. */
   --acento-termo: #1f5c8b;
 
-  /* Cores das variáveis de estado. Usadas nos gráficos e no texto.
-     Mantenha estáveis entre lições: a cor vira parte do vocabulário. */
-  --cor-x: #1f5c8b;   /* biomassa  */
-  --cor-s: #8a6d1f;   /* substrato */
-  --cor-p: #2e6b3f;   /* produto   */
+  /* Cores das séries do gráfico, na ordem em que a lição as declara. A mesma
+     cor marca a grandeza no texto (.var-1 … .var-4): a cor vira vocabulário. */
+  --serie-1: #1f5c8b;
+  --serie-2: #8a6d1f;
+  --serie-3: #2e6b3f;
+  --serie-4: #7a3d82;
 
   --ok: #2e6b3f;
   --err: #8a3324;
@@ -58,9 +59,10 @@
 
     --acento-termo: #7fb2dd;
 
-    --cor-x: #6fb2e0;
-    --cor-s: #d9b45c;
-    --cor-p: #7fc394;
+    --serie-1: #6fb2e0;
+    --serie-2: #d9b45c;
+    --serie-3: #7fc394;
+    --serie-4: #c99bd2;
 
     --ok: #7fc394;
     --err: #e08b6f;
@@ -80,9 +82,10 @@
 
   --acento-termo: #7fb2dd;
 
-  --cor-x: #6fb2e0;
-  --cor-s: #d9b45c;
-  --cor-p: #7fc394;
+  --serie-1: #6fb2e0;
+  --serie-2: #d9b45c;
+  --serie-3: #7fc394;
+  --serie-4: #c99bd2;
 
   --ok: #7fc394;
   --err: #e08b6f;
@@ -105,8 +108,7 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Cabeçalho da lição: etiqueta (tema · degrau), título, uma linha de gancho.
-   Sem numeração de lição: a ordem vive em lessons/INDEX.md, não no cabeçalho. */
+/* Cabeçalho da lição: etiqueta (área · tipo de problema), título, uma linha de gancho. */
 header.licao { margin-bottom: 3rem; }
 
 header.licao .etiqueta {
@@ -186,7 +188,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
   font-family: var(--mono);
   font-size: 0.92rem;
   overflow-x: auto;
-  /* Sistemas de EDOs são escritos em várias linhas: preserve as quebras.
+  /* Sistemas de equações são escritos em várias linhas: preserve as quebras.
      pre-wrap, e não pre, para que a linha longa quebre em tela estreita. */
   white-space: pre-wrap;
   line-height: 1.7;
@@ -235,9 +237,10 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
   white-space: nowrap;
 }
 
-.var-x { color: var(--cor-x); }
-.var-s { color: var(--cor-s); }
-.var-p { color: var(--cor-p); }
+.var-1 { color: var(--serie-1); }
+.var-2 { color: var(--serie-2); }
+.var-3 { color: var(--serie-3); }
+.var-4 { color: var(--serie-4); }
 
 /* Valor sem procedência. Obrigatório marcar. */
 .ilustrativo {
@@ -527,52 +530,111 @@ button {
 button:hover { border-color: var(--muted); }
 button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-/* ---------- simulador (assets/simulador.js) ---------- */
+/* ---------- gráfico (assets/grafico.js) ---------- */
 
-/* A moldura de qualquer gráfico. O .sim-moldura o componente se põe sozinho, para
-   que dois gráficos da mesma lição tenham a MESMA largura — um com moldura e outro
-   sem sai desalinhado, e o olho lê isso como gráfico torto. */
-.simulador,
-.sim-moldura {
+/* A moldura de toda figura. O grafico.js a põe sozinho; componente que você
+   escrever usa a mesma classe, para duas figuras da lição terem a MESMA largura. */
+.moldura {
   border: 1px solid var(--rule);
   border-radius: var(--raio);
   padding: 1.2rem;
   margin: 2rem 0;
 }
-/* Vale para QUALQUER gráfico, não só para o .simulador. Componente novo usa
-   outra classe, e um <canvas> sem largura em CSS cai na largura intrínseca dele,
-   que é 300px — gráfico minúsculo no meio da coluna. Já aconteceu duas vezes. */
-canvas { width: 100%; height: auto; display: block; }
+/* Canvas sem largura em CSS cai nos 300 px intrínsecos: gráfico minúsculo no
+   meio da coluna. Vale para qualquer canvas, inclusive o de componente novo. */
+canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
 
-.sim-controles {
+.controles {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
   gap: 0.6rem 1.2rem;
   margin-top: 1rem;
   font-size: 0.85rem;
 }
-.sim-controle label { display: flex; justify-content: space-between; gap: 0.5rem; }
-.sim-controle .valor { font-family: var(--mono); color: var(--muted); }
-.sim-controle input[type="range"] { width: 100%; accent-color: var(--accent); }
+.controle label { display: flex; justify-content: space-between; gap: 0.5rem; }
+.controle .valor { font-family: var(--mono); color: var(--muted); }
+.controle input[type="range"] { width: 100%; accent-color: var(--accent); }
 
-.sim-legenda {
+.legenda {
   display: flex;
   gap: 1.2rem;
   flex-wrap: wrap;
   font-size: 0.82rem;
   margin-top: 0.6rem;
 }
-.sim-legenda span::before {
+.legenda span::before {
   content: "—— ";
   font-family: var(--mono);
   font-weight: bold;
 }
-.sim-legenda .l-x { color: var(--cor-x); }
-.sim-legenda .l-s { color: var(--cor-s); }
-.sim-legenda .l-p { color: var(--cor-p); }
+.legenda span.l-pontos::before { content: "● "; }
+.legenda small { color: var(--muted); font-size: 0.9em; }
+.legenda .l-1 { color: var(--serie-1); }
+.legenda .l-2 { color: var(--serie-2); }
+.legenda .l-3 { color: var(--serie-3); }
+.legenda .l-4 { color: var(--serie-4); }
 
-.sim-acoes { display: flex; gap: 0.6rem; margin-top: 0.9rem; flex-wrap: wrap; }
-.sim-leitura { font-size: 0.85rem; color: var(--muted); margin-top: 0.6rem; }
+.leitura { font-size: 0.85rem; color: var(--muted); margin: 0.6rem 0 0; }
+.leitura:empty { display: none; }
+
+/* ---------- blocos pedagógicos opcionais ---------- */
+/* Todos com a mesma forma — fundo de código, rótulo em versalete — para que o
+   aluno reconheça a função pelo rótulo, não pela cor. O rótulo sai do CSS. */
+
+.pense, .armadilha, .confira, .no-seu-codigo {
+  background: var(--code-bg);
+  border-radius: var(--raio);
+  padding: 0.9rem 1.1rem;
+  margin: 1.2rem 0;
+  font-size: 0.95rem;
+}
+.pense::before, .armadilha::before, .confira::before, .no-seu-codigo::before {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+  color: var(--muted);
+}
+.pense::before        { content: "Antes de ver — pense"; color: var(--accent); }
+.armadilha::before    { content: "O erro que parece certo"; color: var(--err); }
+.confira::before      { content: "Como saber que está certo"; color: var(--ok); }
+.no-seu-codigo::before { content: "No seu código"; }
+.pense > :last-child, .armadilha > :last-child,
+.confira > :last-child, .no-seu-codigo > :last-child { margin-bottom: 0; }
+
+/* Dentro da lista de observações, o "no seu código" é uma linha, não uma caixa. */
+li .no-seu-codigo { display: block; margin: 0.4rem 0 0; padding: 0.4rem 0.8rem; font-size: 0.88rem; }
+li .no-seu-codigo::before { display: inline; margin-right: 0.5rem; }
+
+/* O botão que separa a pergunta do passo da resposta dele. */
+.ver-passo {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-top: 0.6rem;
+}
+
+/* Sua vez: a variação que o aluno programa sozinho. */
+section.sua-vez {
+  border: 1px dashed var(--accent);
+  border-radius: var(--raio);
+  padding: 1.2rem 1.4rem;
+  margin: 2.5rem 0;
+}
+section.sua-vez > h2 { margin-top: 0; }
+section.sua-vez details { margin: 0.8rem 0; }
+section.sua-vez summary {
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
 
 /* ---------- impressão ---------- */
 /* O aluno pode querer estudar no papel. Controles somem, cor vira preto. */
@@ -586,11 +648,12 @@ canvas { width: 100%; height: auto; display: block; }
   html { font-size: 11pt; }
   body { max-width: none; padding: 0; }
   .lateral { float: none; width: auto; margin: 0.8rem 0; padding-left: 0.8rem; border-left: 1px solid var(--rule); }
-  button, .sim-controles, .sim-acoes { display: none; }
-  .simulador, .passo, .nota-duvida, pre, table, figure { break-inside: avoid; }
+  button, .controles { display: none; }
+  .moldura, .passo, .nota-duvida, pre, table, figure { break-inside: avoid; }
   .tema, .revelar-passo, .copiar { display: none; }
   /* No papel não há clique: tudo que a tela esconde por etapas aparece. */
   .oculto { display: revert; }
+  section.sua-vez details > *:not(summary) { display: block; }
   .nota-duvida { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   h1, h2, h3 { break-after: avoid; }
   a::after { content: " (" attr(href) ")"; font-size: 0.75em; color: var(--muted); word-break: break-all; }

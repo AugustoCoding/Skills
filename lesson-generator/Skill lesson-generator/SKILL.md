@@ -1,79 +1,74 @@
 ---
 name: lesson-generator
-description: Transforma um exercício de fermentação numa lição HTML interativa que ensina o aluno a programar aquela simulação em Python.
+description: Transforma um exercício de engenharia química numa lição HTML interativa que ensina o aluno a programar a solução em Python.
 disable-model-invocation: true
 allow_implicit_invocation: false
-argument-hint: "Cole o exercício de fermentação que você quer aprender a simular"
+argument-hint: "Cole o exercício que você quer aprender a resolver programando"
 ---
 
-O aluno tem um exercício de fermentação na mão e quer sair sabendo **programar aquela simulação em Python**. Você transforma o exercício em uma lição: um arquivo HTML que ele abre, percorre e usa para escrever o código.
+O aluno tem um exercício de engenharia química na mão e quer sair sabendo **programar a solução em Python**. Você transforma o exercício numa lição: um arquivo HTML que ele abre, percorre e usa para escrever o código, e que no fim o faz programar uma variação sozinho.
 
-**A régua é a reação dele no fim:** *"ganhei muito com isso, e foi rápido demais"*. As duas metades contam. Uma lição correta e completa que custou meia hora falhou tanto quanto uma lição rasa — e é essa régua que decide qualquer dúvida de desenho que este documento não responda.
+**A régua é a reação dele no fim:** *"ganhei muito com isso, e foi rápido demais"*. As duas metades contam. Uma lição correta e completa que custou meia hora falhou tanto quanto uma lição rasa, e é essa régua que decide qualquer dúvida de desenho que este documento não responda.
 
-Ele já tem alguma base de fermentação, mesmo que pequena.
+## O que é seu e o que é da skill
 
-Este documento diz como a sessão corre. Como a lição é montada está em [LESSON-FORMAT.md](./LESSON-FORMAT.md), e não se repete aqui.
+**A engenharia e a programação são suas.** Você sabe resolver o exercício, de qualquer área, e sabe escolher a técnica: integrar, achar raiz, ajustar, otimizar, discretizar. A skill não traz teoria nem catálogo de técnicas, de propósito. Uma lista de métodos viraria o formato que todo exercício tenta imitar.
+
+**A forma pedagógica é da skill.** Como a lição se compõe, o que cada momento precisa fazer e a disciplina com os números estão em [LESSON-FORMAT.md](./LESSON-FORMAT.md). Os componentes que a lição usa ficam em `assets/`.
 
 ## Precisa de um exercício
 
-Esta skill só funciona em cima de um problema concreto — uma questão de lista, uma prova antiga, um caso da planta. Se o pedido for genérico ("me ensina quimiostato"), **diga em uma linha que a skill precisa de um enunciado e responda normalmente**, como assistente comum, sem produzir lição nem pasta:
+A skill só funciona em cima de um problema concreto: uma questão de lista, uma prova antiga, um caso de planta. Se o pedido for genérico ("me ensina reator tubular"), **diga em uma linha que a skill precisa de um enunciado e responda normalmente**, como assistente comum, sem produzir lição:
 
-> "Essa skill monta a lição em cima de um exercício seu — sem um, te explico direto aqui."
+> "Essa skill monta a lição em cima de um exercício seu. Sem um, te explico direto aqui."
 
 ## Como a sessão corre
 
 O aluno manda o exercício e ativa a skill. É só isso que acontece na entrada.
 
-**Você não o entrevista.** Não pergunta o nível dele, não pergunta até onde ele chegou, não pergunta onde salvar. O que precisaria ser perguntado, você infere do enunciado.
+**Você não o entrevista.** Não pergunta o nível dele, até onde ele chegou nem onde salvar. O que precisaria ser perguntado, você infere do enunciado.
 
-**Você não guarda estado.** Não há missão, registro de aprendizado, glossário nem índice. Cada sessão trata de um exercício e termina nele. O que dura é o HTML.
+**Você não guarda estado.** Cada sessão trata de um exercício e termina nele. O que dura é o HTML.
 
-1. **Leia o enunciado como diagnóstico** — regime, variáveis de estado, parâmetros dados e o que falta, e o que ele pede de fato.
-2. **Ache os números** (regra abaixo).
-3. **Escreva a lição** seguindo [LESSON-FORMAT.md](./LESSON-FORMAT.md), a partir de [templates/licao.html](./templates/licao.html).
-4. **Veja a lição rodando antes de entregar.** `file://` abre sem executar JS e sem carregar `./assets/` — os gráficos não desenham e você não vê. Suba um servidor na pasta e abra por `http://`:
+1. **Leia o enunciado como diagnóstico**: o que ele pede de fato, que dados dá e quais faltam, e **que tipo de problema matemático** ele é. A lição vai dizer isso ao aluno.
+2. **Ache os números** (regra abaixo), incluindo a resposta da variação de "Sua vez".
+3. **Escreva a lição** a partir de [templates/licao.html](./templates/licao.html), seguindo [LESSON-FORMAT.md](./LESSON-FORMAT.md).
+4. **Veja a lição rodando antes de entregar.** Por `file://` o JS não carrega os `./assets/`, então suba um servidor na pasta da lição e abra por `http://`:
 
    ```
    python -m http.server 8730 --bind 127.0.0.1
    ```
 
-   Confira que os dois gráficos desenham, que os passos revelam e que o tema alterna. Depois derrube o servidor e **abra o arquivo** para o aluno com um comando de CLI.
-5. **Fale pouco**: onde escreveu, e o convite a perguntar. Duas linhas. Repetir a lição no chat desfaz o motivo de ela existir.
+   Confira que as figuras desenham, que os passos revelam e que o tema alterna. **Leia o console**: o `grafico.js` avisa ali sobre curva achatada, controle sem faixa e valor não finito, coisas que você não enxergaria de outro jeito. Depois derrube o servidor e **abra o arquivo** para o aluno com um comando de CLI.
+5. **Fale pouco**: diga onde escreveu e convide a perguntar, em duas linhas. Repetir a lição no chat desfaz o motivo de ela existir.
 
 ## Como achar os números
 
-**Resolva analiticamente primeiro, sempre que existir solução fechada.** Sai de uma linha de álgebra, na hora, e é mais confiável que integrar. Você sabe reconhecer quando existe.
+**Resolva analiticamente primeiro, sempre que existir solução fechada.** Ela sai de uma linha de álgebra e é mais confiável que o método numérico.
 
-**Use a integração para confirmar, não para descobrir.** Os dois batendo é o que autoriza publicar o número. Discordando, o errado é quase sempre a integração.
+**Use o método numérico para confirmar, não para descobrir.** Os dois batendo é o que autoriza publicar o número. Quando discordam, o errado é quase sempre o numérico: perto de uma bifurcação ou de uma raiz múltipla, ele devolve com toda a calma um valor plausível e errado.
 
-Isso não é preciosismo: perto de uma bifurcação a convergência é lenta, e o integrador devolve um valor estabilizado que **não é** o estado estacionário. Já aconteceu de a integração devolver um valor cinco vezes maior que o verdadeiro, com aparência perfeitamente plausível.
+**Gaste pouco nisso.** O que custa caro são as soluções numéricas: uma dúzia de pontos resolvidos basta para sustentar uma lição. Avaliar uma fórmula fechada é grátis. Se um script passar de meio minuto, o problema é o script.
 
-**Gaste pouco nisso.** O teto é de **integrações**: uma dúzia de pontos integrados basta para sustentar uma lição, e varrer trezentos é para artigo. Avaliação de fórmula fechada é grátis — pode ter milhares, e um gráfico feito de solução analítica não precisa de moderação. Se um script passar de meio minuto, o problema é o script, não o computador.
-
-Quando não houver solução analítica, integre com tolerância apertada e **diga na lição que o número é numérico**, com o critério que você usou para dizer que convergiu. Isso vale também — e sobretudo — para os **instantes e picos citados nas observações**, que é onde a regra costuma escapar: o valor final tem forma fechada e chama atenção, os números de meio de curva não têm e passam batidos.
-
-**Todo número que a lição cita tem de ser calculado pelo programa que ela entrega.** Se você escreve "o etanol chega a 99% às 18,5 h", o programa acha esse instante — com um evento, uma busca de raiz, o que for. Número que só existiu no seu script de rascunho é resultado entregue pronto, e o aluno veio aprender a programá-lo.
+Quando não houver solução analítica, use tolerância apertada e **diga na lição, no passo onde o método é escolhido, que critério autoriza o número**. Isso vale sobretudo para os instantes, picos e cruzamentos citados nas observações. O valor final chama atenção; os números de meio de curva passam batidos.
 
 ## Onde escrever
 
-**Não pergunte.** Use a pasta que o aluno indicar; se ele não indicar, use `./aula-fermentacao/` no diretório atual, criando-a se preciso. Se ele indicar uma pasta, escreva **nela** — não crie outra dentro.
+Esta é a decisão em que a skill mais erra, então siga à risca:
+
+- **O aluno indicou uma pasta?** Escreva **diretamente nela**. Não crie subpasta dentro.
+- **Não indicou?** Use `./licoes/` no diretório atual, criando-a se preciso.
 
 ```
-aula-fermentacao/
-  assets/                    componentes, copiados da skill
+licoes/
+  assets/                    os componentes que a lição carrega, copiados da skill
   nome-do-exercicio.html     uma lição por exercício
 ```
 
-Copie da pasta da skill **os componentes que a lição carrega** — não a pasta inteira: cópia que ninguém usa só confunde. Atualize a cópia quando a skill tiver componente mais novo, porque lição que usa componente ausente abre quebrada.
+Copie da skill **só os componentes que a lição carrega**, e atualize a cópia se a da skill for mais nova. Componente que você escrever fica nesse `assets/`, não na skill.
 
-**Se o exercício pedir uma figura que os componentes não fazem, escreva o componente**, a partir de [templates/componente.js](./templates/componente.js). **Não deixe a figura central do exercício de fora da lição porque a peça não existia** — é a lição que manda, não o inventário.
-
-O que você **não** escreve é contabilidade: nada de arquivo de estado, índice, registro ou anotação sobre o aluno.
-
-A pasta da skill é **somente leitura**: se aparecer arquivo novo lá, algo saiu errado.
+Nada de contabilidade: nenhum arquivo de estado, índice, registro ou anotação sobre o aluno. A pasta da skill é **somente leitura**.
 
 ## Quando ele volta com uma dúvida
 
-Responda em **dois lugares**: no chat, direto, e **dentro do HTML daquela lição**, no ponto exato onde a dúvida surgiu. Depois reabra o arquivo e diga em uma linha que ele foi atualizado.
-
-Não apague o texto original: a nota acrescenta. Se o trecho estava errado, corrija e explique a correção na nota. É a única memória que a skill tem. O formato da nota está em [LESSON-FORMAT.md](./LESSON-FORMAT.md).
+Responda em **dois lugares**: no chat, direto, e **dentro do HTML daquela lição**, no ponto exato onde a dúvida surgiu, no formato de nota descrito em [LESSON-FORMAT.md](./LESSON-FORMAT.md). Depois reabra o arquivo e diga em uma linha que ele foi atualizado.
