@@ -599,30 +599,80 @@ math[display="block"] {
 /* O centro da lição. Passos revelados um a um: o aluno não vê quantos faltam,
    e cada clique é uma expectativa pequena. */
 
-section.codigo { margin: 2.5rem 0; }
+section.codigo { margin: 2.5rem 0; counter-reset: passo; }
 
+/* Os passos são uma linha do tempo, como a dedução do modelo: bolinha
+   numerada, e um fio descendo até a próxima. O próximo passo aparece FECHADO —
+   só a bolinha e o título apagado —, e abre com um clique nele. */
 .passo {
-  border-left: 2px solid var(--rule);
-  padding: 0 0 0 1.2rem;
-  margin: 1.8rem 0;
+  position: relative;
+  counter-increment: passo;
+  padding: 0 0 0 2.8rem;
+  margin: 0 0 1.6rem;
 }
+.passo::before {
+  content: counter(passo);
+  position: absolute;
+  left: 0;
+  top: -0.05rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  line-height: 1.75rem;
+  text-align: center;
+  border-radius: 50%;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--bg);
+  background: var(--mom-codigo);
+  z-index: 1;
+}
+/* O fio: do centro da bolinha até a bolinha do passo seguinte. */
+.passo::after {
+  content: "";
+  position: absolute;
+  left: 0.85rem;
+  top: 1.7rem;
+  bottom: -1.6rem;
+  width: 2px;
+  background: color-mix(in srgb, var(--mom-codigo) 35%, transparent);
+}
+.passo.sem-fio::after { display: none; }
 
 .passo h3 {
-  margin: 0 0 0.6rem;
+  margin: 0.1rem 0 0.6rem;
   font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.01em;
 }
 
-/* Numeração automática: o passo se conta sozinho, sem o autor escrever o número. */
-section.codigo { counter-reset: passo; }
-
-.passo h3::before {
-  counter-increment: passo;
-  content: counter(passo) " · ";
+/* O passo fechado: a bolinha vazada, pulsando de leve, e só o título. */
+.passo.fechado { cursor: pointer; margin-bottom: 1.2rem; }
+.passo.fechado > :not(h3) { display: none; }
+.passo.fechado h3 { color: var(--muted); font-weight: 400; }
+.passo.fechado h3::after {
+  content: "  ·  clique para abrir";
   font-family: var(--mono);
-  font-size: 0.8rem;
-  color: var(--accent);
+  font-size: 0.72rem;
+  color: var(--mom-codigo);
+}
+.passo.fechado::before {
+  color: var(--mom-codigo);
+  background: var(--bg);
+  box-shadow: inset 0 0 0 2px var(--mom-codigo);
+  animation: chamar 1.8s ease-in-out infinite;
+}
+.passo.fechado:hover::before,
+.passo.fechado:focus-visible::before { color: var(--bg); background: var(--mom-codigo); animation: none; }
+.passo.fechado:hover h3 { color: var(--fg); }
+.passo.fechado:focus-visible { outline: none; }
+.passo.fechado:focus-visible h3 { text-decoration: underline; }
+
+@keyframes chamar {
+  0%, 100% { box-shadow: inset 0 0 0 2px var(--mom-codigo), 0 0 0 0 color-mix(in srgb, var(--mom-codigo) 45%, transparent); }
+  50%      { box-shadow: inset 0 0 0 2px var(--mom-codigo), 0 0 0 6px color-mix(in srgb, var(--mom-codigo) 0%, transparent); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .passo.fechado::before { animation: none; }
 }
 
 .passo > p { margin: 0.7rem 0 0; font-size: 0.95rem; }
@@ -642,23 +692,6 @@ section.codigo { counter-reset: passo; }
   .revelado { animation: none; }
 }
 
-.revelar-passo {
-  display: block;
-  width: 100%;
-  margin: 1.5rem 0;
-  padding: 0.6rem 1rem;
-  font-family: var(--mono);
-  font-size: 0.8rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
-  background: var(--bg);
-  border: 1px dashed var(--rule);
-  border-radius: var(--raio);
-  cursor: pointer;
-}
-
-.revelar-passo:hover { border-color: var(--accent); border-style: solid; }
 
 /* Programa completo e resposta: fechados, e só existem depois do último passo. */
 details.programa,
@@ -911,9 +944,11 @@ section.sua-vez summary {
   .lateral { float: none; width: auto; margin: 0.8rem 0; padding-left: 0.8rem; border-left: 1px solid var(--rule); }
   button, .controles { display: none; }
   .moldura, .passo, .nota-duvida, pre, table, figure, ol.deducao > li { break-inside: avoid; }
-  .tema, .revelar-passo, .copiar { display: none; }
+  .tema, .copiar { display: none; }
   /* No papel não há clique: tudo que a tela esconde por etapas aparece. */
   .oculto { display: revert; }
+  .passo.fechado > :not(h3) { display: revert; }
+  .passo.fechado h3::after { content: none; }
   section.sua-vez details > *:not(summary) { display: block; }
   .nota-duvida, mrow.chave-sob, mrow.chave-sobre { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   h1, h2, h3 { break-after: avoid; }

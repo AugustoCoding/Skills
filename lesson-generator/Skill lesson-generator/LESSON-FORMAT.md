@@ -77,7 +77,9 @@ Sem história e sem recapitulação. A dedução é a única parte longa do mode
 
 ## 3. Código
 
-O centro da lição. O aluno recebe o programa **explicado passo a passo**, e cada passo é uma revelação: ele clica e o próximo aparece. O `assets/codigo.js` cuida do mecanismo.
+O centro da lição. O aluno recebe o programa **explicado passo a passo**, numa linha do tempo como a da dedução: cada passo tem a sua bolinha numerada, e o próximo aparece fechado (a bolinha e o título) até o aluno clicar nele. O `assets/codigo.js` cuida do mecanismo; a lição só escreve os `.passo`.
+
+- **O título do passo é o que o aluno vê antes de abrir**, então ele precisa dizer o que vem sem entregar a resposta: "Os balanços de A e de B", não "O balanço de B tem dois termos".
 
 - **Use quantos passos o programa pedir, até seis**, seguindo as divisões naturais dele.
 - **Cada passo tem um título curto, o trecho e o porquê.** O comentário no código cobre o "o quê"; o parágrafo cobre a decisão. Por que este método e não outro, por que esta tolerância, por que um evento em vez de ler o instante no gráfico.

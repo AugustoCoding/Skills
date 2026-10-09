@@ -3,9 +3,10 @@
  *
  * Faz cinco coisas, e a lição não precisa de marcação nenhuma além da estrutura:
  *
- *   1. esconde os passos seguintes e revela um por clique, com uma animação
- *      curta. O aluno não vê quantos faltam: o próximo passo é surpresa, e é
- *      isso que o mantém lendo em vez de rolar até o fim;
+ *   1. monta os passos como linha do tempo: o próximo aparece fechado — a
+ *      bolinha numerada e o título — e abre com um clique nele. Os demais
+ *      ficam escondidos: o aluno não vê quantos faltam, e é isso que o mantém
+ *      lendo em vez de rolar até o fim;
  *   2. num passo que tem <p class="pense">, mostra primeiro o título e a pergunta,
  *      e o código só depois que o aluno clica — é a previsão antes da revelação;
  *   3. só libera o programa completo e a resposta depois do último passo;
@@ -145,44 +146,63 @@
 
     var passos = Array.prototype.slice.call(sec.querySelectorAll(".passo"));
     var finais = Array.prototype.slice.call(sec.querySelectorAll("details.programa, details.resposta"));
-    var visiveis = Math.min(1, passos.length);
+    var abertos = Math.min(1, passos.length);
 
-    var btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "revelar-passo";
-    btn.textContent = "Revelar o próximo passo";
-
+    // O passo seguinte aparece FECHADO — bolinha e título — e abre com um
+    // clique nele. Só o próximo: os outros continuam escondidos, e o aluno não
+    // sabe quantos faltam. Com um "pense" pendente, nem o próximo aparece.
     function atualizar() {
-      var atual = passos[visiveis - 1];
+      var atual = passos[abertos - 1];
       var pendente = atual && atual.dataset.pendente;
-      var acabou = visiveis >= passos.length;
-      btn.style.display = pendente || acabou ? "none" : "";
-      if (acabou && !pendente) {
+      var proximo = passos[abertos];
+      if (proximo && !pendente && proximo.classList.contains("oculto")) {
+        proximo.classList.remove("oculto");
+        proximo.classList.add("fechado", "revelado");
+        proximo.setAttribute("tabindex", "0");
+        proximo.setAttribute("role", "button");
+        proximo.setAttribute("aria-label", "Abrir o passo " + (abertos + 1) + ": " +
+          (proximo.querySelector("h3") ? proximo.querySelector("h3").textContent : ""));
+      }
+      if (!proximo && !pendente) {
         finais.forEach(function (d) {
           if (!d.classList.contains("oculto")) return;
           d.classList.remove("oculto");
           d.classList.add("revelado");
         });
       }
+      // O fio desce de cada passo até o seguinte, se o seguinte estiver à vista.
+      passos.forEach(function (p, i) {
+        var seguinte = passos[i + 1];
+        p.classList.toggle("sem-fio", !seguinte || seguinte.classList.contains("oculto") || p.classList.contains("fechado"));
+      });
+    }
+
+    function abrir(p) {
+      if (!p.classList.contains("fechado")) return;
+      p.classList.remove("fechado", "revelado");
+      void p.offsetWidth;                      // reinicia a animação de entrada
+      p.classList.add("revelado");
+      p.removeAttribute("tabindex");
+      p.removeAttribute("role");
+      p.removeAttribute("aria-label");
+      abertos++;
+      atualizar();
+      p.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
 
     passos.forEach(function (p, i) {
       if (i > 0) p.classList.add("oculto");
       prepararPense(p, atualizar);
+      p.addEventListener("click", function () { abrir(p); });
+      p.addEventListener("keydown", function (ev) {
+        if ((ev.key === "Enter" || ev.key === " ") && p.classList.contains("fechado")) {
+          ev.preventDefault();
+          abrir(p);
+        }
+      });
     });
     finais.forEach(function (d) { d.classList.add("oculto"); });
 
-    btn.addEventListener("click", function () {
-      var p = passos[visiveis];
-      p.classList.remove("oculto");
-      p.classList.add("revelado");
-      visiveis++;
-      atualizar();
-      // Leva o passo novo para a vista sem pular por cima do anterior.
-      p.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    });
-
-    sec.insertBefore(btn, finais[0] || null);
     atualizar();
   }
 
