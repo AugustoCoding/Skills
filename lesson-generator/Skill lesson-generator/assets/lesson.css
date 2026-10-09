@@ -415,7 +415,7 @@ ol.observacoes > li::before {
 }
 ol.observacoes > li::before { top: 0; }
 ol.observacoes > li > h3 { margin: 0.1rem 0 0.4rem; font-size: 1rem; }
-ol.observacoes > li > p { margin: 0 0 0.4rem; }
+ol.observacoes .item-dentro > p { margin: 0 0 0.4rem; }
 
 ol.deducao .equacao { margin: 0 0 0.4rem; }
 ol.deducao .termos { margin: 0.6rem 0 0.4rem; }
@@ -426,24 +426,9 @@ ol.deducao > li.final .equacao {
   background: color-mix(in srgb, var(--cor-linha) 10%, var(--code-bg));
   border: 2px solid var(--cor-linha);
 }
-ol.deducao > li.final::before { content: ""; }
-/* O ✓ do passo final é desenhado no centro da bolinha, não um caractere. */
-ol.deducao > li.final::after {
-  content: "";
-  position: absolute;
-  left: 0.875rem;
-  top: 1.58rem;
-  width: 0.3rem;
-  height: 0.6rem;
-  border-right: 2px solid var(--bg);
-  border-bottom: 2px solid var(--bg);
-  transform: translate(-50%, -50%) rotate(45deg);
-  z-index: 2;
-}
-ol.deducao > li.final.fechado::after { display: none; }
 /* O parágrafo que explica a equação do modelo vive dentro do passo final:
    aparece junto com ela, não antes. */
-ol.deducao > li.final > p:not(.porque) { margin: 0.9rem 0 0.3rem; }
+ol.deducao > li.final .item-dentro > p:not(.porque) { margin: 0.9rem 0 0.3rem; }
 
 /* O tipo do passo, como etiqueta. */
 .tipo {
@@ -684,10 +669,51 @@ section.codigo { margin: 2.5rem 0; counter-reset: passo; }
   letter-spacing: 0.01em;
 }
 
-/* FECHADO — o próximo item de qualquer linha do tempo (passo do código, passo
-   da dedução, observação): a bolinha vazada, pulsando de leve, e só o que diz
-   o que vem. Abre com um clique nele (codigo.js). */
-.fechado { cursor: pointer; }
+/* ---------- recolher: itens e seções ---------- */
+/* O que um item ou uma seção esconde fica dentro de .x-corpo, uma grade de uma
+   linha que desliza de 1fr a 0fr, e de .x-dentro, que corta o que passa: a
+   altura anima, em vez de o conteúdo sumir e aparecer de uma vez (codigo.js). */
+
+.item-corpo,
+.secao-corpo {
+  display: grid;
+  grid-template-rows: 1fr;
+  opacity: 1;
+  transition: grid-template-rows 0.38s ease, opacity 0.3s ease;
+}
+.item-dentro,
+.secao-dentro { min-height: 0; overflow: hidden; }
+
+/* Um item FECHADO (o próximo, ainda não aberto) e um RECOLHIDO (já lido) mostram
+   o mesmo: a bolinha e a cabeça. Só a bolinha os distingue: vazada e pulsando
+   no fechado, cheia no recolhido. */
+.fechado > .item-corpo,
+.recolhido > .item-corpo { grid-template-rows: 0fr; opacity: 0; }
+
+.fechado,
+.recolhido { cursor: pointer; }
+.fechado:focus-visible,
+.recolhido:focus-visible { outline: none; }
+.fechado:focus-visible > h3,
+.recolhido:focus-visible > h3,
+.fechado:focus-visible > .item-cabeca,
+.recolhido:focus-visible > .item-cabeca { text-decoration: underline; }
+
+/* A cabeça: o título no código e nas observações; as etiquetas de tipo na
+   dedução, que só aparecem com o passo recolhido (aberto, elas estão no texto). */
+.passo > h3,
+ol.observacoes > li > h3 { cursor: pointer; transition: color 0.2s ease; }
+.fechado > h3,
+.recolhido > h3 { color: var(--muted); font-weight: 400; }
+.fechado:hover > h3,
+.recolhido:hover > h3 { color: var(--fg); }
+
+.item-cabeca { display: none; gap: 0.4rem; align-items: center; }
+.fechado > .item-cabeca,
+.recolhido > .item-cabeca { display: flex; }
+.item-cabeca .tipo { margin-right: 0; }
+
+/* A bolinha do item fechado: vazada, pulsando de leve. */
 .fechado::before {
   color: var(--cor-linha) !important;
   background: var(--bg) !important;
@@ -696,72 +722,44 @@ section.codigo { margin: 2.5rem 0; counter-reset: passo; }
 }
 .fechado:hover::before,
 .fechado:focus-visible::before { color: var(--bg) !important; background: var(--cor-linha) !important; animation: none; }
-.fechado:focus-visible { outline: none; }
 
-/* Passo do código e observação fechados: só o título. */
-.passo.fechado, ol.observacoes > li.fechado { margin-bottom: 1.2rem; }
-.passo.fechado > :not(h3),
-ol.observacoes > li.fechado > :not(h3) { display: none; }
-.passo.fechado h3,
-ol.observacoes > li.fechado > h3 { color: var(--muted); font-weight: 400; }
-.passo.fechado h3::after,
-ol.observacoes > li.fechado > h3::after,
-ol.deducao > li.fechado .porque::after {
-  content: "  ·  clique para abrir";
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  font-weight: 400;
-  color: var(--cor-linha);
-}
-.fechado:hover h3 { color: var(--fg); }
-.fechado:focus-visible h3, .fechado:focus-visible .porque { text-decoration: underline; }
-
-/* Passo da dedução fechado: só a etiqueta do TIPO do próximo passo — o aluno
-   sabe que vem uma hipótese, mas não qual. */
-ol.deducao > li.fechado::before { top: 0; }
-ol.deducao > li.fechado > :not(.porque) { display: none; }
-ol.deducao > li.fechado .porque { font-size: 0; margin: 0.25rem 0 1.2rem; }
-ol.deducao > li.fechado .porque::before {
-  content: "próximo:";
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  color: var(--muted);
-  margin-right: 0.5rem;
-}
-ol.deducao > li.fechado .porque .tipo { font-size: 0.66rem; }
-
-/* RECOLHIDO — um item já aberto que o aluno recolheu: mostra o mesmo que o
-   fechado, mas com a bolinha cheia (já foi lido) e "clique para expandir".
-   A bolinha e o título de todo item aberto são a alça que recolhe. */
+/* A bolinha de todo item é a alça que recolhe. */
 .passo::before,
 ol.deducao > li::before,
-ol.observacoes > li::before,
-.passo > h3,
-ol.observacoes > li > h3 { cursor: pointer; }
+ol.observacoes > li::before { cursor: pointer; transition: top 0.3s ease; }
 
-.recolhido { cursor: pointer; }
-.recolhido:focus-visible { outline: none; }
-.recolhido:focus-visible h3, .recolhido:focus-visible .porque { text-decoration: underline; }
-.passo.recolhido, ol.observacoes > li.recolhido { margin-bottom: 1.2rem; }
-.passo.recolhido > :not(h3),
-ol.observacoes > li.recolhido > :not(h3) { display: none; }
-.passo.recolhido h3,
-ol.observacoes > li.recolhido > h3 { color: var(--muted); font-weight: 400; }
-.recolhido:hover h3 { color: var(--fg); }
-.passo.recolhido h3::after,
-ol.observacoes > li.recolhido > h3::after,
-ol.deducao > li.recolhido .porque::after {
-  content: "  ·  clique para expandir";
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  font-weight: 400;
-  color: var(--cor-linha);
-}
+.passo.fechado, .passo.recolhido,
+ol.observacoes > li.fechado, ol.observacoes > li.recolhido { margin-bottom: 1.2rem; }
+/* Na dedução, a bolinha aberta se alinha à caixa da equação; recolhida, à cabeça. */
+ol.deducao > li.fechado::before,
 ol.deducao > li.recolhido::before { top: 0; }
-ol.deducao > li.recolhido > :not(.porque) { display: none; }
-ol.deducao > li.recolhido .porque { font-size: 0; margin: 0.25rem 0 1.2rem; }
-ol.deducao > li.recolhido .porque .tipo { font-size: 0.66rem; }
-ol.deducao > li.final.recolhido::after { top: 0.83rem; }
+ol.deducao > li.fechado,
+ol.deducao > li.recolhido { min-height: 1.75rem; margin-bottom: 0.8rem; }
+ol.deducao > li > .item-cabeca { min-height: 1.75rem; }
+
+/* AS SEÇÕES: o título recolhe a seção inteira; a setinha diz o estado. */
+.secao-titulo { cursor: pointer; display: flex; align-items: center; gap: 0.7rem; }
+.secao-titulo::after {
+  content: "";
+  flex: none;
+  width: 0.42rem;
+  height: 0.42rem;
+  margin-top: -0.2rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  opacity: 0.55;
+  transform: rotate(45deg);
+  transition: transform 0.3s ease, margin 0.3s ease, opacity 0.2s ease;
+}
+.secao-titulo:hover::after,
+.secao-titulo:focus-visible::after { opacity: 1; }
+.secao-titulo:focus-visible { outline: none; text-decoration: underline; }
+.secao-titulo.secao-recolhida::after { transform: rotate(-45deg); margin-top: 0; }
+.secao-corpo.secao-recolhida { grid-template-rows: 0fr; opacity: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .item-corpo, .secao-corpo, .secao-titulo::after { transition: none; }
+}
 
 @keyframes chamar {
   0%, 100% { box-shadow: inset 0 0 0 2px var(--cor-linha), 0 0 0 0 color-mix(in srgb, var(--cor-linha) 45%, transparent); }
@@ -771,7 +769,7 @@ ol.deducao > li.final.recolhido::after { top: 0.83rem; }
   .fechado::before { animation: none; }
 }
 
-.passo > p { margin: 0.7rem 0 0; font-size: 0.95rem; }
+.passo .item-dentro > p { margin: 0.7rem 0 0; font-size: 0.95rem; }
 
 .oculto { display: none; }
 
@@ -1456,10 +1454,9 @@ body.redimensionando { user-select: none; }
   body.com-editor { margin: 0; }
   /* No papel não há clique: tudo que a tela esconde por etapas aparece. */
   .oculto { display: revert; }
-  .fechado > *, .recolhido > * { display: revert !important; }
-  .fechado h3::after, .fechado .porque::after, .fechado .porque::before,
-  .recolhido h3::after, .recolhido .porque::after { content: none !important; }
-  ol.deducao > li.fechado .porque, ol.deducao > li.recolhido .porque { font-size: 0.92rem; }
+  .item-corpo, .secao-corpo { grid-template-rows: 1fr !important; opacity: 1 !important; }
+  .item-cabeca { display: none !important; }
+  .secao-titulo::after { display: none; }
   .nota-duvida, mrow.chave-sob, mrow.chave-sobre { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   h1, h2, h3 { break-after: avoid; }
   a::after { content: " (" attr(href) ")"; font-size: 0.75em; color: var(--muted); word-break: break-all; }

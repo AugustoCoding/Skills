@@ -145,12 +145,46 @@
     pense.insertAdjacentElement("afterend", b);
   }
 
+  /* O CORPO RECOLHÍVEL — o que um item (ou uma seção) esconde quando recolhe vai
+     para dentro de dois invólucros: .x-corpo, uma grade de uma linha que vai de
+     0fr a 1fr, e .x-dentro, que corta o que passa. É o que deixa a altura
+     deslizar, em vez de o conteúdo sumir e aparecer de uma vez. */
+  function corpoRecolhivel(pai, nos, prefixo) {
+    var corpo = document.createElement("div");
+    corpo.className = prefixo + "-corpo";
+    var dentro = document.createElement("div");
+    dentro.className = prefixo + "-dentro";
+    nos.forEach(function (n) { dentro.appendChild(n); });
+    corpo.appendChild(dentro);
+    return corpo;
+  }
+
+  // A cabeça de um item é o que fica à vista com ele recolhido: o título, nos
+  // passos do código e nas observações; as etiquetas de tipo, na dedução.
+  function montarItem(item) {
+    var cabeca = item.querySelector(":scope > h3");
+    if (!cabeca) {
+      var tipos = item.querySelectorAll(".porque .tipo");
+      if (tipos.length) {
+        cabeca = document.createElement("div");
+        cabeca.className = "item-cabeca";
+        tipos.forEach(function (t) { cabeca.appendChild(t.cloneNode(true)); });
+      }
+    }
+    var resto = Array.prototype.filter.call(item.childNodes, function (n) { return n !== cabeca; });
+    var corpo = corpoRecolhivel(item, resto, "item");
+    item.textContent = "";
+    if (cabeca) item.appendChild(cabeca);
+    item.appendChild(corpo);
+  }
+
   /* A LINHA DO TEMPO — o mesmo mecanismo para os passos do código, os passos
      da dedução de um balanço e as observações do resultado. O primeiro item
-     abre; o seguinte aparece FECHADO (a bolinha e o que diz o que vem) e abre
-     com um clique nele, ou com Enter; os demais ficam escondidos, e o aluno não
-     sabe quantos faltam. Um "pense" pendente segura o próximo. aoFim roda
-     quando o último abre. */
+     abre; o seguinte aparece FECHADO (a bolinha e a cabeça) e abre com um
+     clique nele, ou com Enter; os demais ficam escondidos, e o aluno não sabe
+     quantos faltam. Um "pense" pendente segura o próximo. Todo item aberto se
+     RECOLHE com um clique na bolinha ou no título. aoFim roda quando o último
+     abre. */
   function sequencia(itens, aoFim) {
     if (!itens.length) { if (aoFim) aoFim(); return; }
     var abertos = 1;
@@ -164,8 +198,7 @@
         proximo.classList.add("fechado", "revelado");
         proximo.setAttribute("tabindex", "0");
         proximo.setAttribute("role", "button");
-        var titulo = proximo.querySelector("h3");
-        proximo.setAttribute("aria-label", "Abrir o próximo item" + (titulo ? ": " + titulo.textContent : ""));
+        proximo.setAttribute("aria-expanded", "false");
       }
       if (!proximo && !pendente && aoFim) { aoFim(); aoFim = null; }
       // O fio desce de cada passo do código até o seguinte, se ele estiver à
@@ -176,22 +209,21 @@
       });
     }
 
-    function abrir(p) {
-      if (!p.classList.contains("fechado")) return;
-      p.classList.remove("fechado", "revelado");
-      void p.offsetWidth;                      // reinicia a animação de entrada
-      p.classList.add("revelado");
+    function expandido(p) {
       p.removeAttribute("tabindex");
       p.removeAttribute("role");
-      p.removeAttribute("aria-label");
-      abertos++;
-      atualizar();
-      p.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      p.removeAttribute("aria-expanded");
     }
 
-    // RECOLHER — um item já aberto volta a mostrar só a bolinha e o título, e
-    // abre de novo com um clique. Só a bolinha (a calha à esquerda) e o título
-    // recolhem: clicar no texto, no código ou num botão de dentro não mexe.
+    function abrir(p) {
+      p.classList.remove("fechado");
+      expandido(p);
+      abertos++;
+      atualizar();
+      // Depois que a altura terminou de deslizar, o item aberto entra na vista.
+      setTimeout(function () { p.scrollIntoView({ behavior: "smooth", block: "nearest" }); }, 380);
+    }
+
     function alternar(p) {
       var recolher = !p.classList.contains("recolhido");
       p.classList.toggle("recolhido", recolher);
@@ -200,28 +232,24 @@
         p.setAttribute("role", "button");
         p.setAttribute("aria-expanded", "false");
       } else {
-        p.removeAttribute("tabindex");
-        p.removeAttribute("role");
-        p.removeAttribute("aria-expanded");
-        p.classList.remove("revelado");
-        void p.offsetWidth;
-        p.classList.add("revelado");
+        expandido(p);
       }
     }
 
+    // Só a bolinha (a calha à esquerda) e a cabeça recolhem: clicar no texto, no
+    // código ou num botão de dentro não mexe.
     function naAlca(p, ev) {
       var r = p.getBoundingClientRect();
       var calha = parseFloat(getComputedStyle(p).paddingLeft) || 0;
       if (ev.clientX - r.left < calha) return true;
-      var h3 = ev.target.closest && ev.target.closest("h3");
-      return !!h3 && h3.parentElement === p;
+      var cabeca = ev.target.closest && ev.target.closest("h3, .item-cabeca");
+      return !!cabeca && cabeca.parentElement === p;
     }
 
     itens.forEach(function (p, i) {
-      if (i > 0) p.classList.add("oculto");
       prepararPense(p, atualizar);
-      var h3 = p.querySelector(":scope > h3");
-      if (h3) h3.title = "Clique para recolher ou expandir";
+      montarItem(p);
+      if (i > 0) p.classList.add("oculto");
       p.addEventListener("click", function (ev) {
         if (p.classList.contains("fechado")) { abrir(p); return; }
         if (p.classList.contains("recolhido") || naAlca(p, ev)) alternar(p);
@@ -233,6 +261,38 @@
       });
     });
     atualizar();
+  }
+
+  /* AS SEÇÕES — cada h2 do corpo da lição (o modelo, o código, o resultado)
+     recolhe a seção inteira: tudo o que vem depois dele até o próximo h2, ou
+     até o convite a perguntar. */
+  function montarSecoes() {
+    Array.prototype.forEach.call(document.querySelectorAll("body > h2"), function (h2) {
+      if (h2.dataset.secao) return;
+      h2.dataset.secao = "1";
+      var nos = [], n = h2.nextSibling;
+      while (n && !(n.nodeType === 1 && (n.tagName === "H2" || n.classList.contains("pergunte") ||
+               (n.tagName === "SCRIPT" && n.src)))) {
+        nos.push(n);
+        n = n.nextSibling;
+      }
+      var corpo = corpoRecolhivel(h2.parentNode, nos, "secao");
+      h2.parentNode.insertBefore(corpo, n);
+      h2.classList.add("secao-titulo");
+      h2.setAttribute("tabindex", "0");
+      h2.setAttribute("role", "button");
+      h2.setAttribute("aria-expanded", "true");
+      function alternar() {
+        var recolher = !h2.classList.contains("secao-recolhida");
+        h2.classList.toggle("secao-recolhida", recolher);
+        corpo.classList.toggle("secao-recolhida", recolher);
+        h2.setAttribute("aria-expanded", String(!recolher));
+      }
+      h2.addEventListener("click", alternar);
+      h2.addEventListener("keydown", function (ev) {
+        if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); alternar(); }
+      });
+    });
   }
 
   function montar(sec) {
@@ -262,6 +322,7 @@
     document.querySelectorAll("ol.deducao, ol.observacoes").forEach(function (ol) {
       sequencia(Array.prototype.slice.call(ol.children));
     });
+    montarSecoes();
   }
 
   if (document.readyState === "loading") {

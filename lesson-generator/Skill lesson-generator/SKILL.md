@@ -59,7 +59,7 @@ Um arquivo HTML por exercício, que resolve a questão inteira. Ela tem **quatro
 
 O que vai **dentro** de cada momento é decisão sua, e é o exercício que manda: quantas equações, quantos passos, que figura, que verificação. Abaixo está para que serve cada momento e o que ele não pode deixar de fazer.
 
-A dedução de cada balanço, os passos do código e as observações são **linhas do tempo**: o próximo item aparece fechado e abre com um clique, e todo item já aberto se recolhe com um clique na bolinha ou no título, para o aluno enxugar a página depois de ler. O `codigo.js` cuida de tudo isso; a lição só escreve os itens.
+A dedução de cada balanço, os passos do código e as observações são **linhas do tempo**: o próximo item aparece fechado e abre com um clique, e todo item já aberto se recolhe com um clique na bolinha ou no título. Fechado ou recolhido, o item mostra só a bolinha e a cabeça: o título, ou na dedução as etiquetas de tipo. O título de cada momento (`h2`) recolhe a seção inteira. O `codigo.js` cuida de tudo isso, com a altura deslizando; a lição só escreve os itens.
 
 **Não há teto de palavras.** A régua é o tempo do aluno, e ele se ganha **cortando o que não ensina**, não abreviando o que ensina:
 
