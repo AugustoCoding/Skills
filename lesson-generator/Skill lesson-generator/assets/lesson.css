@@ -1013,21 +1013,23 @@ body.com-editor {
 }
 /* A linha que se vê. */
 .editor-abrir::before {
+  /* A faixa que se vê: 20 px, com o corpo translúcido e a borda que a separa
+     da lição em cor cheia, para a divisão se ler com nitidez. */
   content: "";
   position: absolute;
   top: 0;
   bottom: 0;
   right: 0;
-  width: 6px;
-  border-radius: 6px 0 0 6px;
-  background: var(--mom-codigo);
-  opacity: 0.5;
-  transition: opacity 0.2s ease, width 0.2s ease;
+  width: 20px;
+  background: color-mix(in srgb, var(--mom-codigo) 22%, var(--bg));
+  border-left: 3px solid var(--mom-codigo);
+  box-shadow: -2px 0 6px color-mix(in srgb, var(--mom-codigo) 35%, transparent);
+  transition: background 0.2s ease, width 0.2s ease;
 }
 /* O rótulo: uma pílula horizontal que desliza para fora da borda no hover. */
 .editor-abrir-rotulo {
   position: absolute;
-  right: 0.9rem;
+  right: 2.1rem;
   top: 50%;
   display: flex;
   align-items: center;
@@ -1058,12 +1060,12 @@ body.com-editor {
   background: var(--bg);
 }
 .editor-abrir:hover,
-.editor-abrir:focus-visible {
-  background: color-mix(in srgb, var(--mom-codigo) 12%, transparent);
-  outline: none;
-}
+.editor-abrir:focus-visible { outline: none; }
 .editor-abrir:hover::before,
-.editor-abrir:focus-visible::before { opacity: 1; width: 8px; }
+.editor-abrir:focus-visible::before {
+  width: 24px;
+  background: color-mix(in srgb, var(--mom-codigo) 45%, var(--bg));
+}
 .editor-abrir:hover .editor-abrir-rotulo,
 .editor-abrir:focus-visible .editor-abrir-rotulo { opacity: 1; transform: translate(0, -50%); }
 /* A área de hover não cobre o texto: a coluna deixa, dos dois lados, a
