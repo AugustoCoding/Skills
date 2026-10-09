@@ -1020,6 +1020,7 @@ body.com-editor {
    se abre, e o botão cresce na medida exata dele. */
 .editor-abrir-texto {
   display: inline-block;
+  line-height: 1;
   max-width: 0;
   overflow: hidden;
   opacity: 0;
@@ -1031,18 +1032,24 @@ body.com-editor {
   justify-content: center;
   width: 1.5rem;
   height: 1.5rem;
-  font-size: 1.05rem;
-  font-weight: 700;
-  line-height: 1;
-  padding-bottom: 0.12rem;
 }
-.editor-abrir-seta::before { content: "‹"; }
+/* A seta é desenhada (duas bordas de um quadrado girado), não um caractere:
+   assim fica no centro exato, em qualquer fonte, e alinhada ao texto. */
+.editor-abrir-seta::before {
+  content: "";
+  width: 0.42rem;
+  height: 0.42rem;
+  border-left: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateX(0.08rem) rotate(45deg);     /* aponta para a esquerda: ‹ */
+  transition: transform 0.22s ease;
+}
 .editor-abrir:hover,
 .editor-abrir:focus-visible { padding: 0 0.3rem 0 0.95rem; outline: none; }
 .editor-abrir:hover .editor-abrir-texto,
 .editor-abrir:focus-visible .editor-abrir-texto { max-width: 12rem; opacity: 1; margin-right: 0.3rem; }
 .editor-abrir:hover .editor-abrir-seta::before,
-.editor-abrir:focus-visible .editor-abrir-seta::before { content: "›"; }
+.editor-abrir:focus-visible .editor-abrir-seta::before { transform: translateX(-0.08rem) rotate(-135deg); }   /* › */
 /* A bolinha não cobre o texto: a coluna deixa, dos dois lados, a largura dela. */
 body:not(.com-editor) { max-width: min(46rem, calc(100vw - 3.6rem - 2 * 2.4rem)); }
 body.com-editor .editor-abrir { display: none; }
