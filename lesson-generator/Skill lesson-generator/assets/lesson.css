@@ -16,24 +16,27 @@
   --nota-bg: #fdf6d8;
   --nota-borda: #c9a227;
 
-  /* Termo destacado no meio do texto: contraste sem gritar. */
-  --acento-termo: #1f5c8b;
+  /* CADA COR TEM UM SÓ PAPEL.
+       · As cores de MOMENTO (azul, roxo, verde) são da estrutura: títulos,
+         bolinhas, etiquetas e caixas de cada seção.
+       · As cores de SÉRIE (âmbar, rosa, ciano, areia) são das grandezas que o
+         gráfico mostra, e de nada mais: no texto, na equação e na legenda.
+       · O vermelho (--err) é só de erro.
+       · Parâmetro e termo destacado não têm cor: negrito, na cor do texto.
 
-  /* Cores das séries do gráfico, na ordem em que a lição as declara. A mesma
+     Cores das séries do gráfico, na ordem em que a lição as declara. A mesma
      cor marca a grandeza no texto (.var-1 … .var-4): a cor vira vocabulário. */
-  --serie-1: #1f5c8b;
-  --serie-2: #8a6d1f;
-  --serie-3: #2e6b3f;
-  --serie-4: #1f7a7a;
+  --serie-1: #a36a00;   /* âmbar */
+  --serie-2: #b23a68;   /* rosa  */
+  --serie-3: #0f7c8a;   /* ciano */
+  --serie-4: #6b6250;   /* areia */
 
-  /* Parâmetro: a cor de tudo o que é dado fixo da conta (k, τ, C_A0…),
-     separada das cores de série, que são das grandezas que o gráfico mostra. */
-  --param: #8a3324;
+  /* Parâmetro (k, τ, C_A0…): sem cor própria, só negrito. Na equação, ficam
+     coloridas só as grandezas que variam; as constantes ficam neutras. */
+  --param: var(--fg);
 
-  /* Etiquetas de procedência na tabela de parâmetros. */
-  --proc-enunciado: #1f5c8b;
-  --proc-derivado: #2e6b3f;
-  --proc-escolha: #9a6a00;
+  /* Aviso que não é erro (o hover do Limpar do editor). */
+  --aviso: #9a6a00;
 
   /* Cor de cada momento da lição, no título. */
   --mom-modelo: #1f5c8b;
@@ -51,7 +54,7 @@
   --hl-op: #4a4a44;
 
   --ok: #2e6b3f;
-  --err: #8a3324;
+  --err: #b3261e;
 
   /* Raio único para todo bloco: caixa quadrada deixa a página dura. */
   /* Barras de rolagem e controles nativos acompanham o tema. */
@@ -85,16 +88,12 @@
     --nota-bg: #2b2718;
     --nota-borda: #8a7526;
 
-    --acento-termo: #7fb2dd;
 
-    --serie-1: #6fb2e0;
-    --serie-2: #d9b45c;
-    --serie-3: #7fc394;
-    --serie-4: #6cc4c4;
-    --param: #e08b6f;
-    --proc-enunciado: #6fb2e0;
-    --proc-derivado: #7fc394;
-    --proc-escolha: #e0b45c;
+    --serie-1: #e6b450;
+    --serie-2: #f093b4;
+    --serie-3: #5fc8d4;
+    --serie-4: #cfc6b0;
+    --aviso: #e0b45c;
     --mom-modelo: #6fb2e0;
     --mom-codigo: #c99bd2;
     --mom-resultado: #7fc394;
@@ -108,7 +107,7 @@
     --hl-op: #d4d4d4;
 
     --ok: #7fc394;
-    --err: #e08b6f;
+    --err: #ff7b72;
   }
 }
 
@@ -124,16 +123,12 @@
   --nota-bg: #2b2718;
   --nota-borda: #8a7526;
 
-  --acento-termo: #7fb2dd;
 
-  --serie-1: #6fb2e0;
-  --serie-2: #d9b45c;
-  --serie-3: #7fc394;
-  --serie-4: #6cc4c4;
-  --param: #e08b6f;
-  --proc-enunciado: #6fb2e0;
-  --proc-derivado: #7fc394;
-  --proc-escolha: #e0b45c;
+  --serie-1: #e6b450;
+  --serie-2: #f093b4;
+  --serie-3: #5fc8d4;
+  --serie-4: #cfc6b0;
+  --aviso: #e0b45c;
   --mom-modelo: #6fb2e0;
   --mom-codigo: #c99bd2;
   --mom-resultado: #7fc394;
@@ -147,7 +142,7 @@
   --hl-op: #d4d4d4;
 
   --ok: #7fc394;
-  --err: #e08b6f;
+  --err: #ff7b72;
 }
 
 /* ---------- estrutura ---------- */
@@ -283,16 +278,19 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
    em destaque, e o resto da linha é prosa normal. */
 .termos code {
   background: none;
-  color: var(--accent);
+  color: var(--fg);
   font-weight: 700;
   font-size: 1.02em;
 }
 
-/* Termo importante no meio da explicação. Sem caixa nem fundo: só peso e cor,
-   para destacar sem quebrar a linha de leitura. */
+/* Termo importante no meio da explicação: peso e um sublinhado discreto, sem
+   matiz — as cores da lição já têm dono (seção, grandeza, erro). */
 .termo {
   font-weight: 600;
-  color: var(--acento-termo);
+  text-decoration: underline;
+  text-decoration-color: var(--rule);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
 }
 
 /* Unidade. Nenhum parâmetro aparece sem uma. */
@@ -360,8 +358,8 @@ h3.balanco::before {
   vertical-align: 0.2em;
 }
 h3.balanco-massa::before      { content: "massa";      color: var(--mom-modelo); background: color-mix(in srgb, var(--mom-modelo) 16%, transparent); }
-h3.balanco-energia::before    { content: "energia";    color: var(--err);        background: color-mix(in srgb, var(--err) 16%, transparent); }
-h3.balanco-movimento::before  { content: "movimento";  color: var(--mom-codigo); background: color-mix(in srgb, var(--mom-codigo) 16%, transparent); }
+h3.balanco-energia::before    { content: "energia";    color: var(--mom-modelo); background: color-mix(in srgb, var(--mom-modelo) 16%, transparent); }
+h3.balanco-movimento::before  { content: "movimento";  color: var(--mom-modelo); background: color-mix(in srgb, var(--mom-modelo) 16%, transparent); }
 
 /* Dedução e observações são a mesma linha do tempo, cada uma na cor do seu
    momento: --cor-linha. */
@@ -442,12 +440,9 @@ ol.deducao > li.final .item-dentro > p:not(.porque) { margin: 0.9rem 0 0.3rem; }
   border-radius: 999px;
   vertical-align: 0.1em;
 }
-.tipo-principio { color: var(--mom-modelo);     background: color-mix(in srgb, var(--mom-modelo) 16%, transparent); }
-.tipo-traducao  { color: var(--mom-codigo);     background: color-mix(in srgb, var(--mom-codigo) 16%, transparent); }
-.tipo-cinetica  { color: var(--serie-4);        background: color-mix(in srgb, var(--serie-4) 16%, transparent); }
-.tipo-hipotese  { color: var(--proc-escolha);   background: color-mix(in srgb, var(--proc-escolha) 18%, transparent); }
-.tipo-algebra   { color: var(--muted);          background: color-mix(in srgb, var(--muted) 16%, transparent); }
-.tipo-definicao { color: var(--mom-resultado);  background: color-mix(in srgb, var(--mom-resultado) 16%, transparent); }
+.tipo { color: var(--mom-modelo); background: color-mix(in srgb, var(--mom-modelo) 16%, transparent); }
+/* A hipótese é o passo que muda de um exercício para outro: etiqueta cheia. */
+.tipo-hipotese { color: var(--bg); background: var(--mom-modelo); }
 
 /* ---------- chave sobre um termo da equação ---------- */
 /* Uma chave horizontal sob (ou sobre) um termo, com o significado dele em
@@ -559,9 +554,9 @@ td code { background: none; padding: 0; }
   border-radius: 999px;
   vertical-align: 0.08em;
 }
-.proc-enunciado { color: var(--proc-enunciado); background: color-mix(in srgb, var(--proc-enunciado) 16%, transparent); }
-.proc-derivado  { color: var(--proc-derivado);  background: color-mix(in srgb, var(--proc-derivado) 16%, transparent); }
-.proc-escolha   { color: var(--proc-escolha);   background: color-mix(in srgb, var(--proc-escolha) 18%, transparent); }
+.proc { color: var(--mom-modelo); background: color-mix(in srgb, var(--mom-modelo) 16%, transparent); }
+/* A escolha sua é o número que o enunciado não deu: etiqueta cheia. */
+.proc-escolha { color: var(--bg); background: var(--mom-modelo); }
 td.num, th.num { text-align: right; font-family: var(--mono); }
 
 /* ---------- blocos pedagógicos ---------- */
@@ -824,7 +819,7 @@ details.resposta > summary {
   font-size: 0.8rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--mom-codigo);
   padding: 0.2rem 0;
 }
 
@@ -1096,7 +1091,7 @@ canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
 }
 .controle label { display: flex; justify-content: space-between; gap: 0.5rem; }
 .controle .valor { font-family: var(--mono); color: var(--muted); }
-.controle input[type="range"] { width: 100%; accent-color: var(--accent); }
+.controle input[type="range"] { width: 100%; accent-color: var(--mom-resultado); }
 
 .legenda {
   display: flex;
@@ -1148,10 +1143,10 @@ canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
   margin-bottom: 0.35rem;
   color: var(--muted);
 }
-.pense::before        { content: "Antes de ver — pense"; color: var(--accent); }
+.pense::before        { content: "Antes de ver — pense"; color: var(--mom-codigo); }
 .armadilha::before    { content: "O erro que parece certo"; color: var(--err); }
-.confira::before      { content: "Como saber que está certo"; color: var(--ok); }
-.no-seu-codigo::before { content: "No seu código"; }
+.confira::before      { content: "Como saber que está certo"; color: var(--mom-codigo); }
+.no-seu-codigo::before { content: "No seu código"; color: var(--mom-resultado); }
 .pense > :last-child, .armadilha > :last-child,
 .confira > :last-child, .no-seu-codigo > :last-child { margin-bottom: 0; }
 
@@ -1165,7 +1160,7 @@ li .no-seu-codigo::before { display: inline; margin-right: 0.5rem; }
   font-size: 0.75rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--mom-codigo);
   margin-top: 0.6rem;
 }
 
@@ -1282,7 +1277,7 @@ body.com-editor .editor-painel { transform: none; }
 .editor-topo button { font-family: var(--mono); font-size: 0.75rem; padding: 0.3rem 0.8rem; }
 .editor-rodar { color: var(--bg); background: var(--mom-resultado); border-color: var(--mom-resultado); }
 .editor-rodar:disabled { opacity: 0.5; cursor: wait; }
-.editor-limpar:hover { color: #1a1a18; background: var(--proc-escolha); border-color: var(--proc-escolha); }
+.editor-limpar:hover { color: #1a1a18; background: var(--aviso); border-color: var(--aviso); }
 .editor-fechar:hover { color: #fff; background: var(--err); border-color: var(--err); }
 
 /* O editor: um textarea transparente por cima do código realçado, com a
@@ -1437,7 +1432,7 @@ body.redimensionando { user-select: none; }
   letter-spacing: 0.04em;
   padding: 0.2rem 0.65rem;
 }
-.editor-limpar-saida:hover { color: #1a1a18; background: var(--proc-escolha); border-color: var(--proc-escolha); }
+.editor-limpar-saida:hover { color: #1a1a18; background: var(--aviso); border-color: var(--aviso); }
 .editor-resultado { flex: 1; overflow: auto; padding: 0.6rem 0.9rem; }
 .editor-resultado pre {
   margin: 0 0 0.6rem;

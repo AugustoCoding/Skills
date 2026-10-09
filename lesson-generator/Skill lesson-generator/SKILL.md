@@ -71,10 +71,10 @@ A dedução de cada balanço, os passos do código e as observações são **lin
 A lição é **colorida de propósito**, porque cor bem usada é informação que o aluno lê sem esforço. Nenhuma cor é enfeite: cada uma marca uma categoria, e a categoria tem sempre a mesma cor na lição inteira.
 
 - **Cada grandeza que aparece no gráfico tem a cor da sua série** em todo lugar: na equação, na lista de símbolos, na tabela, no texto e na legenda. A primeira série é `var-1`, a segunda `var-2`, na ordem de `series` do `registrar`. Quando o aluno vê C<sub>A</sub> em azul na equação, já sabe qual é a curva dela. O nome no texto também leva a cor: "o <span class="var-1">reagente A</span>".
-- **Parâmetros têm a cor de parâmetro** (`param`): tudo o que é dado fixo da conta, como constantes, vazões, volumes e concentrações de alimentação.
-- **Grandeza que não está no gráfico nem é parâmetro** fica sem cor. Se ela importa a ponto de pedir cor, provavelmente pede uma curva.
+- **Parâmetros ficam sem cor**, em negrito (`param`): tudo o que é dado fixo da conta, como constantes, vazões, volumes e concentrações de alimentação. Na equação, só as grandezas que variam aparecem coloridas, e isso já é informação.
+- **Grandeza que não está no gráfico nem é parâmetro** também fica sem cor. Se ela importa a ponto de pedir cor, provavelmente pede uma curva.
 
-A marcação é a classe no elemento (`<msub class="var-1">` no MathML, `<code class="var-1">` na lista e na tabela, `<span class="var-1">` no texto). O resto da cor sai sozinho: o título de cada momento, as etiquetas de procedência e o realce do código.
+A marcação é a classe no elemento (`<msub class="var-1">` no MathML, `<code class="var-1">` na lista e na tabela, `<span class="var-1">` no texto). O resto da cor sai sozinho, e cada cor tem um só papel: azul, roxo e verde são da estrutura de cada seção (títulos, bolinhas, etiquetas, caixas); as cores das grandezas não aparecem em mais nada; vermelho é só de erro.
 
 ### 1. Abertura
 
