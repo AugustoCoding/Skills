@@ -5,7 +5,7 @@ Uma lição de exemplo completa, com números reais, onde a estrutura da lição
 O fluxo:
 
 1. Altera-se a estrutura aqui, em `licao-modelo.html`, olhando a página ao vivo.
-2. O que se firmar como preferência é registrado na skill: a regra em `LESSON-FORMAT.md`, a marcação em `templates/licao.html` e o estilo ou o comportamento em `assets/`.
+2. O que se firmar como preferência é registrado na skill: a regra no `SKILL.md`, a marcação em `templates/licao.html` e o estilo ou o comportamento em `assets/`.
 3. Só então a mudança vai a um teste.
 
 **A lição aponta para os `assets/` da própria skill** (`../Skill lesson-generator/assets/`), e não para uma cópia. Uma mudança de CSS ou de JS aparece aqui na hora, e o modelo nunca fica com componente desatualizado.

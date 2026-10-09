@@ -883,7 +883,7 @@ pre.com-copia:hover .para-editor { opacity: 1; }
      <p class="nota-duvida"> … </p>            bloco, para uma explicação inteira
      <mark class="nota-duvida"> … </mark>      em linha, para uma frase enxertada
 
-   Convenção documentada em LESSON-FORMAT.md. Não invente outra classe para isto:
+   Convenção documentada no SKILL.md. Não invente outra classe para isto:
    o valor está em ser o mesmo destaque em toda lição de todo aluno. */
 
 p.nota-duvida,

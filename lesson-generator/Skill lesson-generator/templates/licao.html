@@ -1,15 +1,8 @@
 <!doctype html>
 <!--
-  ESQUELETO DE LIÇÃO — copie para a pasta da lição como {nome-do-exercicio}.html
-
-  A ordem dos momentos é fixa: abertura · modelo · código · resultado.
-  O conteúdo de cada um é seu: o exercício decide quantas equações, quantos
-  passos, que figura. A marcação de cada peça está AQUI, e só aqui — copie em vez
-  de deduzir da prosa do LESSON-FORMAT.md.
-
-  As equações e o modelo do gráfico abaixo são EXEMPLOS DE MARCAÇÃO, não um
-  ponto de partida: troque tudo pelo que o seu exercício pede.
-  Apague estes comentários e as peças opcionais que não usar.
+  ESQUELETO DA LIÇÃO — copie como {nome-do-exercicio}.html. As regras estão no
+  SKILL.md; aqui está só a marcação de cada peça. As equações e o gráfico são
+  EXEMPLOS DE MARCAÇÃO: troque tudo. Apague estes comentários e o que não usar.
 -->
 <html lang="pt-BR">
 <head>
@@ -26,32 +19,17 @@
   <p class="gancho">{Uma frase: o que ele vai ter rodando no fim.}</p>
 </header>
 
-<!-- ================= ABERTURA =================
-     Três a cinco frases: que processo é este, o que o enunciado pede, e o que
-     ele vai ter no fim. Para quem acabou de ler o enunciado e não sabe por
-     onde pegar. -->
+<!-- ================= ABERTURA ================= -->
 <p>{O contexto do exercício.}</p>
 
-<!-- ================= MODELO =================
-     Cada BALANÇO é deduzido do princípio de conservação até a equação que o
-     código usa. Equação que não é balanço vai num bloco próprio. Depois, a
-     tabela de parâmetros e o parágrafo que nomeia o TIPO de problema. -->
+<!-- ================= MODELO ================= -->
 <h2>O modelo</h2>
 
-<!-- COR: grandeza do gráfico = classe da sua série (var-1, var-2… na ordem de
-     `series`); parâmetro = param. Vale no MathML, na lista, na tabela e no texto.
-
-     DEDUÇÃO: um passo por <li>, e cada passo faz UMA coisa, dita pela etiqueta
-     de tipo: tipo-principio, tipo-traducao, tipo-cinetica, tipo-hipotese,
-     tipo-algebra, tipo-definicao. O último <li> leva class="final" e é a
-     equação do modelo. Símbolo definido no passo em que aparece pela primeira vez.
-
-     CHAVES: no passo da tradução e no final, uma chave sob cada termo com o
-     que ele é em duas a cinco palavras. Rótulos que se atropelam: alterne
-     chave-sob e chave-sobre (munder ↔ mover). -->
-<!-- O TÍTULO DIZ A NATUREZA DO BALANÇO, sempre: classe balanco-massa,
-     balanco-energia ou balanco-movimento (vira a etiqueta colorida), e no texto
-     o tipo, o componente e a unidade em que ele é escrito. -->
+<!-- Cor: var-1, var-2… (série do gráfico) e param, no MathML, no <code> e no <span>.
+     Título: balanco-massa | balanco-energia | balanco-movimento.
+     Passos: tipo-principio | tipo-traducao | tipo-cinetica | tipo-hipotese |
+     tipo-algebra | tipo-definicao; o último <li> é class="final".
+     Chave: munder > mrow.chave-sob + mtext.chave (ou mover > mrow.chave-sobre). -->
 <h3 class="balanco balanco-massa">{Balanço de massa do componente A, em mols}</h3>
 
 <ol class="deducao">
@@ -126,9 +104,7 @@
   </li>
 </ol>
 
-<!-- EQUAÇÃO QUE NÃO É BALANÇO (lei de velocidade, correlação, equação de
-     estado): não se deduz. Bloco próprio: equação · símbolos · o que ela diz.
-     O "onde" antes da lista sai do CSS. -->
+<!-- Equação que não é balanço: bloco próprio. O "onde" antes da lista sai do CSS. -->
 <div class="eq-bloco">
   <div class="equacao">
     <math display="block">
@@ -145,9 +121,7 @@
   <p>{…}</p>
 </div>
 
-<!-- A tabela guarda os NÚMEROS; o significado já está nas deduções e nos blocos.
-     Procedência: etiqueta proc-enunciado, proc-derivado ou proc-escolha, e depois
-     dela a conta ou a justificativa. -->
+<!-- Procedência: proc-enunciado | proc-derivado | proc-escolha, e depois a conta ou o motivo. -->
 <table>
 <thead><tr><th>Parâmetro</th><th class="num">Valor</th><th>Unidade</th><th>Procedência</th></tr></thead>
 <tbody>
@@ -157,14 +131,10 @@
 </tbody>
 </table>
 
-<!-- O TIPO DE PROBLEMA. Duas ou três frases: que problema matemático é este
-     (valor inicial, sistema algébrico, contorno, ajuste, otimização…), e por que
-     isso decide a ferramenta. É a parte que o aluno leva para o próximo exercício. -->
+<!-- O tipo de problema. -->
 <p>{Que problema é este, e por que isso decide como o código o resolve.}</p>
 
-<!-- ================= CÓDIGO =================
-     O centro da lição. codigo.js esconde, revela, anima e põe o botão de copiar.
-     No máximo seis passos. Cada um: título · trecho · o PORQUÊ da decisão. -->
+<!-- ================= CÓDIGO ================= -->
 <h2>O código</h2>
 
 <section class="codigo">
@@ -175,8 +145,7 @@
     <p>{Por que assim.}</p>
   </div>
 
-  <!-- OPCIONAL — .pense: a pergunta aparece antes do código, e o código só
-       depois do clique. Use no passo em que prever ensina mais que ler. -->
+  <!-- Opcional: p.pense — a pergunta aparece antes, o código depois do clique. -->
   <div class="passo">
     <h3>{O passo central}</h3>
     <p class="pense">{A pergunta curta: "que sinal tem o termo de consumo, e por quê?"}</p>
@@ -184,7 +153,7 @@
     <p>{Por que assim — e a resposta da pergunta, se o código não a deixar óbvia.}</p>
   </div>
 
-  <!-- OPCIONAL — .armadilha: o erro plausível, e o SINTOMA pelo qual ele se denuncia. -->
+  <!-- Opcional: div.armadilha. -->
   <div class="passo">
     <h3>{A resolução}</h3>
 <pre><code>{as linhas deste passo}</code></pre>
@@ -193,9 +162,7 @@
     <div class="armadilha"><p>{O erro que parece certo, e como ele aparece na saída.}</p></div>
   </div>
 
-  <!-- A VERIFICAÇÃO: um passo, ou um .confira dentro de um passo. Uma conta
-       independente que o aluno pode refazer: solução analítica, balanço que
-       fecha, caso-limite. -->
+  <!-- A verificação: um passo, ou div.confira dentro de um passo. -->
   <div class="passo">
     <h3>{Conferir o resultado}</h3>
 <pre><code>{as linhas da verificação}</code></pre>
@@ -214,18 +181,12 @@
 
 </section>
 
-<!-- ================= RESULTADO =================
-     A figura que responde o exercício, e a leitura DESTE resultado.
-     No máximo duas figuras; uma por canvas; no máximo quatro controles.
-     TESTE: se a frase serviria para outro exercício, corte. -->
+<!-- ================= RESULTADO ================= -->
 <h2>{O que o resultado diz}</h2>
 
-<!-- A FIGURA. grafico.js desenha qualquer x contra y: tempo, posição, um
-     parâmetro varrido, dados contra modelo. A lição registra a conta — a MESMA
-     do Python — e o arquivo cuida do resto. Contrato completo no cabeçalho de
-     assets/grafico.js; o essencial está neste exemplo.
-
-     O DOMContentLoaded não é decoração: grafico.js carrega com defer. -->
+<!-- A figura: a lição registra a conta (a mesma do Python) e o grafico.js desenha.
+     Contrato completo no cabeçalho de assets/grafico.js. O DOMContentLoaded é
+     necessário: o grafico.js carrega com defer. -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   Grafico.registrar("principal", {
@@ -250,19 +211,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <div class="grafico" data-grafico="principal" data-controles="k"></div>
 
-<!-- Varredura de parâmetro ou equação algébrica: calcular() monta o x com
-     Grafico.linspace e resolve cada ponto com Grafico.raiz ou com a fórmula
-     fechada. Grandeza de escala muito diferente: { nome, eixo: 2 } e eixoY2.
-     Dados medidos: { nome, tipo: "pontos" }, com o seu próprio x.
+<!-- Varredura ou equação algébrica: x com Grafico.linspace, cada ponto com
+     Grafico.raiz ou a fórmula fechada. Segundo eixo: { nome, eixo: 2 } e eixoY2.
+     Dados medidos: { nome, tipo: "pontos" }, com o próprio x. -->
 
-     CONFIRA a faixa: ela tem de conter o valor que a observação manda procurar,
-     e o passo tem de cair exatamente nele. -->
-
-<!-- AS OBSERVAÇÕES: linha do tempo (ol.observacoes), uma por <li>, cada uma com
-     um <h3> — o título é o que o aluno vê com ela fechada, então é uma pergunta
-     ou uma ação, nunca a conclusão. Duas a quatro de leitura da curva, MAIS uma
-     por controle. Um insight distinto por item; o nome de cada grandeza é o da
-     legenda, na cor dela. -->
+<!-- As observações: uma por <li>, com um <h3> que é pergunta ou ação. -->
 <ol class="observacoes">
   <li>
     <h3>{Uma pergunta sobre a curva: "Por que B demora mais que A?"}</h3>
@@ -285,14 +238,13 @@ document.addEventListener("DOMContentLoaded", function () {
   aqui neste arquivo, no ponto exato onde a dúvida apareceu.
 </div>
 
-<!-- NOTA DE DÚVIDA — entra depois, quando ele perguntar, no ponto EXATO:
+<!-- Nota de dúvida, depois, no ponto exato:
      <p class="nota-duvida"><span class="rotulo">Dúvida — 30/08</span> … </p>
-     ou, em linha: <mark class="nota-duvida">…</mark> -->
+     ou em linha: <mark class="nota-duvida">…</mark> -->
 
 <script src="./assets/tema.js" defer></script>
 <script src="./assets/codigo.js" defer></script>
 <script src="./assets/grafico.js" defer></script>
-<!-- O editor de Python ao lado: depois do codigo.js, de quem usa o realce. -->
 <script src="./assets/editor.js" defer></script>
 </body>
 </html>
