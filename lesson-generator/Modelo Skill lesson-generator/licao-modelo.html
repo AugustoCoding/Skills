@@ -242,8 +242,8 @@ plt.show()</code></pre>
     <p>O gráfico usa a interpolação em 601 pontos, e não os pontos que o integrador escolheu, que são poucos e espaçados de forma desigual: com eles a curva sairia quebrada justamente no começo, onde tudo muda depressa.</p>
   </div>
 
-  <details class="programa">
-    <summary>Ver o programa completo</summary>
+  <div class="passo">
+    <h3>O programa completo</h3>
 <pre><code>import numpy as np
 from scipy.integrate import solve_ivp
 import matplotlib.pyplot as plt
@@ -297,18 +297,18 @@ plt.xlabel("Tempo (min)")
 plt.ylabel("Concentração (mol/L)")
 plt.legend()
 plt.show()</code></pre>
-  </details>
-
-  <details class="resposta">
-    <summary>Ver a resposta</summary>
-    <p>No estacionário, <span class="var-1">C<sub>A</sub></span> = 0,667 mol/L: dois terços do A que entra são convertidos.</p>
-    <p>O reator chega a 95% desse valor em t = 19,97 min.</p>
-    <p>O programa também imprime <span class="var-2">C<sub>B</sub></span> = 1,234 mol/L aos 60 min (93% dos 1,333 mol/L do estacionário de B) e um desvio máximo de 1,7·10⁻⁹ mol/L em relação à solução exata.</p>
-  </details>
+    <p>Os seis passos juntos, na ordem, prontos para rodar. É o mesmo programa que você monta no editor trazendo passo por passo.</p>
+  </div>
 
 </section>
 
 <h2>O que a curva diz</h2>
+
+<div class="resposta">
+  <p>No estacionário, <span class="var-1">C<sub>A</sub></span> = 0,667 mol/L: dois terços do A que entra são convertidos.</p>
+  <p>O reator chega a 95% desse valor em t = 19,97 min.</p>
+  <p>O programa também imprime <span class="var-2">C<sub>B</sub></span> = 1,234 mol/L aos 60 min (93% dos 1,333 mol/L do estacionário de B) e um desvio máximo de 1,7·10⁻⁹ mol/L em relação à solução exata.</p>
+</div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {

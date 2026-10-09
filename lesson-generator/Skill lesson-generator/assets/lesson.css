@@ -833,6 +833,27 @@ details.resposta[open] > summary { color: var(--muted); margin-bottom: 0.8rem; }
 
 details.resposta p { margin: 0 0 0.6rem; }
 
+/* A resposta: a primeira coisa da seção do resultado, antes da figura. Os
+   números que o exercício pede, como o programa os imprime. */
+div.resposta {
+  margin: 1.2rem 0 2rem;
+  padding: 1rem 1.25rem;
+  border: 2px solid var(--mom-resultado);
+  border-radius: var(--raio);
+  background: color-mix(in srgb, var(--mom-resultado) 8%, var(--code-bg));
+}
+div.resposta::before {
+  content: "A resposta";
+  display: block;
+  margin-bottom: 0.45rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mom-resultado);
+}
+div.resposta > :last-child { margin-bottom: 0; }
+
 /* Botão de copiar, no canto de cada bloco de código. */
 pre.com-copia { position: relative; }
 

@@ -169,20 +169,22 @@
     <div class="confira"><p>{O que tem de bater com o quê, e por que bater prova alguma coisa.}</p></div>
   </div>
 
-  <details class="programa">
-    <summary>Ver o programa completo</summary>
+  <!-- O último passo é sempre o programa completo. -->
+  <div class="passo">
+    <h3>O programa completo</h3>
 <pre><code>{o programa inteiro, executável, com dependências declaradas — e que imprime TODO número que a lição cita}</code></pre>
-  </details>
-
-  <details class="resposta">
-    <summary>Ver a resposta</summary>
-    <p>{os números finais, como o programa os imprime}</p>
-  </details>
+    <p>{Uma frase: os passos juntos, na ordem, prontos para rodar.}</p>
+  </div>
 
 </section>
 
 <!-- ================= RESULTADO ================= -->
 <h2>{O que o resultado diz}</h2>
+
+<!-- A resposta abre a seção, antes da figura. -->
+<div class="resposta">
+  <p>{os números que o exercício pede, como o programa os imprime}</p>
+</div>
 
 <!-- A figura: a lição registra a conta (a mesma do Python) e o grafico.js desenha.
      Contrato completo no cabeçalho de assets/grafico.js. O DOMContentLoaded é

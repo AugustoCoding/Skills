@@ -1,6 +1,6 @@
-/* codigo.js — as linhas do tempo da lição (código, dedução, observações) e o
- * resto da seção de código: libera o programa e a resposta no fim, injeta o
- * botão de copiar e realça o Python. Não formata nem valida código.
+/* codigo.js — as linhas do tempo da lição (código, dedução, observações), as
+ * seções recolhíveis, o botão de copiar e o realce do Python. Não formata nem
+ * valida código.
  *
  * Faz cinco coisas, e a lição não precisa de marcação nenhuma além da estrutura:
  *
@@ -11,7 +11,8 @@
  *      em vez de rolar até o fim;
  *   2. num passo que tem <p class="pense">, mostra primeiro o título e a pergunta,
  *      e o código só depois que o aluno clica — é a previsão antes da revelação;
- *   3. só libera o programa completo e a resposta depois do último passo;
+ *   3. se a seção ainda tiver o programa e a resposta em <details> (formato
+ *      antigo), só os libera depois do último passo;
  *   4. injeta um botão de copiar em cada bloco de código;
  *   5. pinta o Python de todo <pre><code> da lição com cores de IDE. Um bloco que
  *      não seja Python leva class="sem-realce".
@@ -21,8 +22,7 @@
  *   <section class="codigo">
  *     <div class="passo"><h3>…</h3><pre><code>…</code></pre><p>…</p></div>
  *     <div class="passo"><h3>…</h3><p class="pense">…</p><pre><code>…</code></pre><p>…</p></div>
- *     <details class="programa"><summary>Ver o programa completo</summary><pre><code>…</code></pre></details>
- *     <details class="resposta"><summary>Ver a resposta</summary><p>…</p></details>
+ *     <div class="passo"><h3>O programa completo</h3><pre><code>…</code></pre><p>…</p></div>
  *   </section>
  */
 

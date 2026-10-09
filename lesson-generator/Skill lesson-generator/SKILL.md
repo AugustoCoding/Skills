@@ -114,17 +114,16 @@ A dedução é a única parte longa do modelo. Fora dela, ele não cresce: sem h
 
 O centro da lição: o programa **explicado passo a passo**, numa linha do tempo. O próximo passo aparece fechado (a bolinha e o título) até o aluno clicar nele; o `codigo.js` cuida disso, e a lição só escreve os `.passo`.
 
-- **Até seis passos**, seguindo as divisões naturais do programa.
+- **Até seis passos**, seguindo as divisões naturais do programa, **mais o programa completo como o último**: um passo "O programa completo" com o programa inteiro, executável, com dependências declaradas e unidades em comentário.
 - **O título do passo é o que o aluno vê antes de abrir**: diz o que vem sem entregar a resposta. "Os balanços de A e de B", não "O balanço de B tem dois termos".
 - **Cada passo tem o trecho e o porquê.** O comentário no código cobre o "o quê"; o parágrafo cobre a decisão: por que este método, esta tolerância, um evento em vez de ler o instante no gráfico. Sem explicar o óbvio ("aqui importamos o numpy").
 - **A verificação é obrigatória**: pelo menos uma conta independente que confere o resultado, como a solução analítica de um caso particular, um balanço que fecha ou um caso-limite. Num passo próprio ou num `.confira`. Saber desconfiar do número que o programa imprime é metade de saber programar uma simulação.
 - **O critério de um número numérico vai no passo onde o método é escolhido**: ali ele é o porquê de uma decisão, não uma ressalva.
-- **Os passos, colados em ordem, são o programa completo, e rodam.** O aluno monta o programa no editor trazendo passo por passo; se um passo depende de uma linha que nenhum passo mostrou, ou repete um import, o programa dele quebra. Só os comentários de seção podem existir apenas no programa completo.
-- **O programa completo e a resposta ficam no fim**, atrás de botões que só abrem e mostram. O programa é executável, com dependências declaradas e unidades em comentário.
+- **Os passos que vêm antes do programa completo, colados em ordem, são o programa completo, e rodam.** O aluno monta o programa no editor trazendo passo por passo; se um passo depende de uma linha que nenhum passo mostrou, ou repete um import, o programa dele quebra. Só os comentários de seção podem existir apenas no programa completo.
 
 ### 4. Resultado
 
-A figura que responde o exercício, e a leitura **daquele** resultado.
+A seção abre com **a resposta** (`div.resposta`): os números que o exercício pede, como o programa os imprime, antes de qualquer figura. Depois vêm a figura que responde o exercício e a leitura **daquele** resultado.
 
 **A figura é a que a pergunta pede**: uma grandeza contra o tempo, um perfil ao longo do reator, uma varredura de parâmetro, uma curva de equilíbrio, dados contra o modelo ajustado. O `grafico.js` desenha qualquer x contra y: a lição registra a conta (a mesma do programa, em JS) e ele cuida de eixos, legenda, controles e tema. O contrato está no cabeçalho do arquivo; o essencial, no template.
 
