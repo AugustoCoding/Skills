@@ -31,7 +31,7 @@ O aluno manda o exercício e ativa a skill. É só isso que acontece na entrada.
 **Você não guarda estado.** Cada sessão trata de um exercício e termina nele. O que dura é o HTML.
 
 1. **Leia o enunciado como diagnóstico**: o que ele pede de fato, que dados dá e quais faltam, e **que tipo de problema matemático** ele é. A lição vai dizer isso ao aluno.
-2. **Ache os números** (regra abaixo).
+2. **Ache os números** (regra abaixo). Rode também **os passos da lição colados em ordem**: é exatamente o programa que o aluno vai montar no editor, e ele tem de rodar e imprimir os mesmos números.
 3. **Escreva a lição** a partir de [templates/licao.html](./templates/licao.html), seguindo [LESSON-FORMAT.md](./LESSON-FORMAT.md).
 4. **Veja a lição rodando antes de entregar.** Por `file://` o JS não carrega os `./assets/`, então suba um servidor na pasta da lição e abra por `http://`:
 
@@ -39,7 +39,7 @@ O aluno manda o exercício e ativa a skill. É só isso que acontece na entrada.
    python -m http.server 8730 --bind 127.0.0.1
    ```
 
-   Confira que as figuras desenham, que os passos revelam e que o tema alterna. **Leia o console**: o `grafico.js` avisa ali sobre curva achatada, controle sem faixa e valor não finito, coisas que você não enxergaria de outro jeito. Depois derrube o servidor e **abra o arquivo** para o aluno com um comando de CLI.
+   Confira que as figuras desenham, que os passos abrem, que o tema alterna e que cada bloco de código tem o seu "→ editor". (O editor em si precisa de internet para baixar o Python; não depende dele para conferir a lição.) **Leia o console**: o `grafico.js` avisa ali sobre curva achatada, controle sem faixa e valor não finito, coisas que você não enxergaria de outro jeito. Depois derrube o servidor e **abra o arquivo** para o aluno com um comando de CLI.
 5. **Fale pouco**: diga onde escreveu e convide a perguntar, em duas linhas. Repetir a lição no chat desfaz o motivo de ela existir.
 
 ## Como achar os números

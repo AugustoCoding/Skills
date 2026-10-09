@@ -38,6 +38,7 @@ Por cima disso, uma **caixa de ferramentas** opcional: pense antes, o erro que p
 | `lesson.css` | Tipografia, equações, blocos pedagógicos, tema claro/escuro, impressão — e as cores que ensinam: uma por grandeza do gráfico, uma para parâmetros, uma por momento, a procedência como etiqueta e o realce do código. |
 | `codigo.js` | A seção de código: monta os passos como linha do tempo, com o próximo fechado até um clique na bolinha, separa a pergunta do código no "pense antes", libera o programa e a resposta no fim, põe o botão de copiar e pinta o Python com cores de IDE. |
 | `grafico.js` | Qualquer figura x contra y: a lição registra a conta, ele desenha, com controles, segundo eixo, pontos e leitura sob o cursor. Traz `integrar`, `raiz` e `linspace` para a conta não reinventar nada, e **avisa no console** o que o autor não enxerga, como uma curva achatada. |
+| `editor.js` | Um editor de Python ao lado da lição, que roda ali mesmo (Pyodide, baixado no primeiro uso). Começa vazio: cada bloco de código ganha um "→ editor" que o acrescenta ao fim, e o aluno monta o programa ele mesmo. Embaixo, a saída com texto, erros e figuras. As divisões se arrastam. |
 | `tema.js` | Botão de claro/escuro, injetado sozinho. |
 
 ## Sem estado, de propósito

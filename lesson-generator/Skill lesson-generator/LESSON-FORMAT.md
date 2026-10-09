@@ -90,6 +90,7 @@ O centro da lição. O aluno recebe o programa **explicado passo a passo**, numa
 - **A verificação é obrigatória.** A lição mostra pelo menos uma conta independente que confere o resultado: a solução analítica de um caso particular, um balanço que fecha, um caso-limite que dá o valor conhecido. Pode ser um passo próprio ou um `.confira` dentro de um passo. Saber desconfiar do número que o programa imprime é metade de saber programar uma simulação.
 - **Um número que sai de método numérico tem o critério dito no passo onde o método é escolhido.** Ali o critério é o porquê de uma decisão de código, não uma ressalva.
 - **O programa completo é executável**, com dependências declaradas e unidades em comentário. É dele que o aluno copia.
+- **Os passos, colados em ordem, são o programa completo, e rodam.** O aluno monta o programa no editor trazendo passo por passo com "→ editor"; se um passo depende de uma linha que nenhum passo mostrou, ou repete um import, o programa que ele monta quebra. Nenhuma linha de código do programa completo fica fora dos passos; só os comentários de seção podem existir apenas nele.
 - **O código sai colorido como numa IDE**, sem nada a fazer: o `codigo.js` pinta todo `<pre><code>` da lição como Python. Um bloco que não seja Python leva `class="sem-realce"`.
 - **A resposta fica atrás de um botão** que só abre e mostra.
 
@@ -106,13 +107,23 @@ A figura que responde o exercício, e a leitura **daquele** resultado.
 - **As observações são uma linha do tempo** (`ol.observacoes`), abertas uma de cada vez, e a figura fica sempre à vista. Cada observação tem um título (`h3`), que é o que o aluno vê com ela fechada: uma pergunta ("Por que B demora mais que A?") ou, nas de controle, a ação ("Leve k até 0,30 1/min"). Nunca a conclusão.
 - **Escreva duas a quatro observações de leitura da curva, mais uma por controle.** Cada uma fica ancorada num ponto concreto **deste** resultado: por que uma curva cai quando a outra sobe, o que acontece onde elas se cruzam, por que a inflexão está ali.
 - **Cada observação traz um insight diferente.** Se duas explicam a mesma coisa com palavras diferentes, junte numa só.
-- **A observação de controle tem o seu `.no-seu-codigo`**: a mesma mudança feita no programa Python, e o que ele deve imprimir. O slider mostra a resposta, mas é no terminal que o aluno aprende.
+- **A observação de controle tem o seu `.no-seu-codigo`**: a mesma mudança feita no programa que o aluno montou no editor, e o que ele deve imprimir. O slider mostra a resposta, mas é mexendo no código e rodando que o aluno aprende.
 - **Use um nome por grandeza na lição inteira.** Se a legenda diz "reagente A", o texto diz "reagente A", nunca "o reagente" num lugar e "C<sub>A</sub>" em outro.
 
 **O teste que separa análise de enchimento de linguiça:** se a frase serviria para outro exercício, ela não é análise deste caso. Corte.
 
 Também não fale do que o modelo ignora. Uma lista de hipóteses não é o que o aluno veio aprender.
 
+
+## O editor
+
+Toda lição tem, ao lado, um **editor de Python que roda ali mesmo**. Ele vem sozinho com o `editor.js`, e a lição não escreve nada para ele:
+
+- uma bolinha na borda direita abre o painel; a lição desliza para a esquerda;
+- o editor **começa vazio**: cada bloco de código da seção de código ganha um botão "→ editor", que acrescenta aquele trecho ao fim do programa. O aluno monta o programa ele mesmo, passo a passo, e roda;
+- embaixo, a saída: o que o `print` escreve, os erros e as figuras do matplotlib.
+
+É por causa dele que os passos, colados em ordem, precisam formar o programa completo, e que os `.no-seu-codigo` falam do programa que o aluno montou.
 
 ## A caixa de ferramentas
 
@@ -162,8 +173,9 @@ Quando o aluno volta com uma pergunta, a resposta vai para o chat **e** para o H
 
 ## Requisitos técnicos
 
-- **Autocontido**, exceto pelos componentes de `./assets/`. Abre sem internet.
-- **Carrega** `lesson.css`, `tema.js` e `codigo.js`, mais `grafico.js` se houver figura, mais qualquer componente que você escrever. Copie para a pasta só o que a lição carrega.
+- **Autocontido**, exceto pelos componentes de `./assets/`. Abre e funciona sem internet, com uma exceção: o editor baixa o Python (Pyodide) no primeiro "Rodar". Ler a lição, abrir os passos e mexer nos gráficos nunca dependem de conexão.
+- **Carrega** `lesson.css`, `tema.js`, `codigo.js` e `editor.js`, mais `grafico.js` se houver figura, mais qualquer componente que você escrever. O `editor.js` vem depois do `codigo.js`, de quem ele usa o realce. Copie para a pasta só o que a lição carrega.
+- **Só bibliotecas que rodam no navegador**: o editor roda o Python do Pyodide, que tem numpy, scipy, matplotlib, pandas e sympy. Se o exercício pedir outra (CoolProp, Cantera…), use-a no programa, mas diga na lição, em uma frase no passo que a importa, que esse trecho só roda no Python do computador.
 - **Nenhum link que tire o aluno da lição.**
 - **Todo código exibido roda. Todo parâmetro tem unidade. Todo eixo tem rótulo com unidade.**
 - A lição não promete continuação: a questão se resolve ali.
