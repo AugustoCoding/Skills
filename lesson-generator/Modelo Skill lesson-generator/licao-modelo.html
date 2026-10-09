@@ -19,52 +19,137 @@
 
 <h2>O modelo</h2>
 
-<div class="eq-bloco">
-  <div class="equacao">
-    <math display="block">
-      <munder><mrow class="chave-sob">
-        <mfrac><mrow><mi>d</mi><msub class="var-1"><mi>C</mi><mi>A</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
-      </mrow><mtext class="chave">acúmulo de A</mtext></munder>
-      <mo>=</mo>
-      <munder><mrow class="chave-sob">
-        <mfrac><mn>1</mn><mi class="param">τ</mi></mfrac><mo>(</mo><msub class="param"><mi>C</mi><mrow><mi>A</mi><mn>0</mn></mrow></msub><mo>−</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub><mo>)</mo>
-      </mrow><mtext class="chave">entra menos sai</mtext></munder>
-      <mo>−</mo>
-      <munder><mrow class="chave-sob">
-        <mi class="param">k</mi><mo>⋅</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub>
-      </mrow><mtext class="chave">consumo pela reação</mtext></munder>
-    </math>
-  </div>
-  <ul class="termos">
-    <li><code class="var-1">C<sub>A</sub></code> — concentração do reagente A dentro do reator, que é também a da corrente de saída, porque a agitação deixa o tanque uniforme, mol/L</li>
-    <li><code class="param">C<sub>A0</sub></code> — concentração de A na corrente de alimentação, mol/L</li>
-    <li><code class="param">τ</code> — tempo de residência: quanto tempo, em média, uma porção de líquido fica no reator antes de sair, igual a V/F, min</li>
-    <li><code class="param">k</code> — constante de velocidade da reação A → B: a fração do A presente que reage a cada minuto, 1/min</li>
-  </ul>
-  <p>O balanço diz que a concentração de A dentro do tanque muda por dois motivos. A corrente traz A a <span class="param">C<sub>A0</sub></span> e leva embora a <span class="var-1">C<sub>A</sub></span>, e essa troca, dividida pelo tempo de residência, empurra o tanque na direção da alimentação; ao mesmo tempo a reação consome A numa velocidade proporcional ao que já está lá. O estacionário é o ponto em que os dois efeitos se anulam.</p>
-</div>
+<h3 class="balanco">Balanço de A</h3>
 
-<div class="eq-bloco">
-  <div class="equacao">
-    <math display="block">
-      <munder><mrow class="chave-sob">
-        <mfrac><mrow><mi>d</mi><msub class="var-2"><mi>C</mi><mi>B</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
-      </mrow><mtext class="chave">acúmulo de B</mtext></munder>
-      <mo>=</mo>
-      <munder><mrow class="chave-sob">
-        <mo>−</mo><mfrac><msub class="var-2"><mi>C</mi><mi>B</mi></msub><mi class="param">τ</mi></mfrac>
-      </mrow><mtext class="chave">sai com a corrente</mtext></munder>
-      <mo>+</mo>
-      <munder><mrow class="chave-sob">
-        <mi class="param">k</mi><mo>⋅</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub>
-      </mrow><mtext class="chave">formação pela reação</mtext></munder>
-    </math>
-  </div>
-  <ul class="termos">
-    <li><code class="var-2">C<sub>B</sub></code> — concentração do produto B dentro do reator e na saída, mol/L</li>
-  </ul>
-  <p>B não vem na alimentação, então o balanço dele não tem termo de entrada: B só nasce da reação e só vai embora com a corrente de saída. Cada mol de A consumido vira um mol de B, e por isso o termo de formação é o mesmo k·<span class="var-1">C<sub>A</sub></span> que aparece com sinal trocado na equação de A.</p>
-</div>
+<ol class="deducao">
+  <li>
+    <div class="equacao">
+      <math display="block">
+        <mtext>acúmulo de A</mtext><mo>=</mo><mtext>entrada</mtext><mo>−</mo><mtext>saída</mtext><mo>−</mo><mtext>consumo</mtext>
+      </math>
+    </div>
+    <p class="porque"><span class="tipo tipo-principio">princípio</span>A não aparece nem desaparece sem motivo. Escolhendo como volume de controle o líquido dentro do reator, o que se acumula lá é o que entra, menos o que sai, menos o que a reação consome. Cada termo é medido em mols de A por minuto.</p>
+  </li>
+  <li>
+    <div class="equacao">
+      <math display="block">
+        <munder><mrow class="chave-sob">
+          <mfrac><mrow><mi>d</mi><mo>(</mo><mi class="param">V</mi><mo>⋅</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub><mo>)</mo></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+        </mrow><mtext class="chave">acúmulo</mtext></munder>
+        <mo>=</mo>
+        <munder><mrow class="chave-sob"><mi class="param">F</mi><mo>⋅</mo><msub class="param"><mi>C</mi><mrow><mi>A</mi><mn>0</mn></mrow></msub></mrow><mtext class="chave">entrada</mtext></munder>
+        <mo>−</mo>
+        <munder><mrow class="chave-sob"><mi class="param">F</mi><mo>⋅</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub></mrow><mtext class="chave">saída</mtext></munder>
+        <mo>−</mo>
+        <munder><mrow class="chave-sob"><msub><mi>r</mi><mi>A</mi></msub><mo>⋅</mo><mi class="param">V</mi></mrow><mtext class="chave">consumo</mtext></munder>
+      </math>
+    </div>
+    <ul class="termos">
+      <li><code class="param">V</code> — volume de líquido dentro do reator, L</li>
+      <li><code class="var-1">C<sub>A</sub></code> — concentração do reagente A dentro do reator, que é também a da corrente de saída, porque a agitação deixa o tanque uniforme, mol/L</li>
+      <li><code class="param">F</code> — vazão volumétrica da alimentação, igual à da saída, L/min</li>
+      <li><code class="param">C<sub>A0</sub></code> — concentração de A na corrente de alimentação, mol/L</li>
+      <li><code>r<sub>A</sub></code> — velocidade de consumo de A pela reação: quantos mols de A reagem por litro de líquido a cada minuto, mol/(L·min)</li>
+    </ul>
+    <p class="porque"><span class="tipo tipo-traducao">tradução</span>Cada palavra vira uma vazão molar. A quantidade de A no reator é V·<span class="var-1">C<sub>A</sub></span>. A corrente de entrada traz F·<span class="param">C<sub>A0</sub></span>, e a de saída leva F·<span class="var-1">C<sub>A</sub></span>, porque o líquido sai com a composição do tanque. A reação consome r<sub>A</sub> em cada litro, e são V litros.</p>
+  </li>
+  <li>
+    <div class="equacao">
+      <math display="block">
+        <msub><mi>r</mi><mi>A</mi></msub><mo>=</mo><mi class="param">k</mi><mo>⋅</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub>
+      </math>
+    </div>
+    <ul class="termos">
+      <li><code class="param">k</code> — constante de velocidade da reação A → B: a fração do A presente que reage a cada minuto, 1/min</li>
+    </ul>
+    <p class="porque"><span class="tipo tipo-cinetica">cinética</span>A reação é de primeira ordem, como diz o enunciado: a velocidade é proporcional à concentração de A. Com o dobro de A no tanque, reage o dobro por minuto.</p>
+  </li>
+  <li>
+    <div class="equacao">
+      <math display="block">
+        <mi class="param">V</mi><mo>⋅</mo><mfrac><mrow><mi>d</mi><msub class="var-1"><mi>C</mi><mi>A</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+        <mo>=</mo><mi class="param">F</mi><mo>⋅</mo><mo>(</mo><msub class="param"><mi>C</mi><mrow><mi>A</mi><mn>0</mn></mrow></msub><mo>−</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub><mo>)</mo>
+        <mo>−</mo><mi class="param">k</mi><mo>⋅</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub><mo>⋅</mo><mi class="param">V</mi>
+      </math>
+    </div>
+    <p class="porque"><span class="tipo tipo-hipotese">hipótese</span>O volume de líquido não muda, porque entra e sai a mesma vazão F. Então V sai de dentro da derivada como uma constante. Se o tanque estivesse enchendo, este passo não valeria, e o volume precisaria de um balanço próprio.</p>
+  </li>
+  <li class="final">
+    <div class="equacao">
+      <math display="block">
+        <munder><mrow class="chave-sob">
+          <mfrac><mrow><mi>d</mi><msub class="var-1"><mi>C</mi><mi>A</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+        </mrow><mtext class="chave">acúmulo de A</mtext></munder>
+        <mo>=</mo>
+        <munder><mrow class="chave-sob">
+          <mfrac><mn>1</mn><mi class="param">τ</mi></mfrac><mo>(</mo><msub class="param"><mi>C</mi><mrow><mi>A</mi><mn>0</mn></mrow></msub><mo>−</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub><mo>)</mo>
+        </mrow><mtext class="chave">entra menos sai</mtext></munder>
+        <mo>−</mo>
+        <munder><mrow class="chave-sob">
+          <mi class="param">k</mi><mo>⋅</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub>
+        </mrow><mtext class="chave">consumo pela reação</mtext></munder>
+      </math>
+    </div>
+    <ul class="termos">
+      <li><code class="param">τ</code> — tempo de residência: quanto tempo, em média, uma porção de líquido fica no reator antes de sair, igual a V/F, min</li>
+    </ul>
+    <p class="porque"><span class="tipo tipo-algebra">álgebra</span><span class="tipo tipo-definicao">definição</span>Dividindo tudo por V e chamando V/F de τ, chega-se à equação do modelo para A.</p>
+  </li>
+</ol>
+
+<p>A concentração de A dentro do tanque muda por dois motivos. A corrente traz A a <span class="param">C<sub>A0</sub></span> e leva embora a <span class="var-1">C<sub>A</sub></span>, e essa troca, dividida pelo tempo de residência, empurra o tanque na direção da alimentação. Ao mesmo tempo, a reação consome A numa velocidade proporcional ao que já está lá. O estacionário é o ponto em que os dois efeitos se anulam.</p>
+
+<h3 class="balanco">Balanço de B</h3>
+
+<ol class="deducao">
+  <li>
+    <div class="equacao">
+      <math display="block">
+        <mtext>acúmulo de B</mtext><mo>=</mo><mtext>entrada</mtext><mo>−</mo><mtext>saída</mtext><mo>+</mo><mtext>geração</mtext>
+      </math>
+    </div>
+    <p class="porque"><span class="tipo tipo-principio">princípio</span>O mesmo volume de controle e a mesma conservação. Para B, a reação aparece somando, porque ela o produz.</p>
+  </li>
+  <li>
+    <div class="equacao">
+      <math display="block">
+        <munder><mrow class="chave-sob">
+          <mfrac><mrow><mi>d</mi><mo>(</mo><mi class="param">V</mi><mo>⋅</mo><msub class="var-2"><mi>C</mi><mi>B</mi></msub><mo>)</mo></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+        </mrow><mtext class="chave">acúmulo</mtext></munder>
+        <mo>=</mo>
+        <munder><mrow class="chave-sob"><mn>0</mn></mrow><mtext class="chave">entrada</mtext></munder>
+        <mo>−</mo>
+        <munder><mrow class="chave-sob"><mi class="param">F</mi><mo>⋅</mo><msub class="var-2"><mi>C</mi><mi>B</mi></msub></mrow><mtext class="chave">saída</mtext></munder>
+        <mo>+</mo>
+        <munder><mrow class="chave-sob"><msub><mi>r</mi><mi>A</mi></msub><mo>⋅</mo><mi class="param">V</mi></mrow><mtext class="chave">geração</mtext></munder>
+      </math>
+    </div>
+    <ul class="termos">
+      <li><code class="var-2">C<sub>B</sub></code> — concentração do produto B dentro do reator e na saída, mol/L</li>
+    </ul>
+    <p class="porque"><span class="tipo tipo-traducao">tradução</span>B não vem na alimentação, então a entrada é zero. Como a reação A → B converte um mol em um mol, a geração de B é exatamente o consumo de A, r<sub>A</sub>·V.</p>
+  </li>
+  <li class="final">
+    <div class="equacao">
+      <math display="block">
+        <munder><mrow class="chave-sob">
+          <mfrac><mrow><mi>d</mi><msub class="var-2"><mi>C</mi><mi>B</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+        </mrow><mtext class="chave">acúmulo de B</mtext></munder>
+        <mo>=</mo>
+        <munder><mrow class="chave-sob">
+          <mo>−</mo><mfrac><msub class="var-2"><mi>C</mi><mi>B</mi></msub><mi class="param">τ</mi></mfrac>
+        </mrow><mtext class="chave">sai com a corrente</mtext></munder>
+        <mo>+</mo>
+        <munder><mrow class="chave-sob">
+          <mi class="param">k</mi><mo>⋅</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub>
+        </mrow><mtext class="chave">formação pela reação</mtext></munder>
+      </math>
+    </div>
+    <p class="porque"><span class="tipo tipo-cinetica">cinética</span><span class="tipo tipo-hipotese">hipótese</span><span class="tipo tipo-algebra">álgebra</span>Os mesmos três passos do balanço de A, de uma vez: r<sub>A</sub> = k·<span class="var-1">C<sub>A</sub></span>, volume constante, e tudo dividido por V.</p>
+  </li>
+</ol>
+
+<p>B só nasce da reação e só vai embora com a corrente de saída. O termo de formação é o mesmo k·<span class="var-1">C<sub>A</sub></span> que aparece com sinal trocado na equação de A: é ele que amarra os dois balanços.</p>
 
 <table>
 <thead><tr><th>Parâmetro</th><th class="num">Valor</th><th>Unidade</th><th>Procedência</th></tr></thead>

@@ -323,6 +323,93 @@ code.var-1, code.var-2, code.var-3, code.var-4, code.param { font-weight: 700; }
 }
 .ilustrativo::before { content: "⚠ "; font-style: normal; }
 
+/* ---------- dedução de um balanço ---------- */
+/* Do princípio de conservação até a equação do modelo, um passo por linha.
+   Cada passo diz que TIPO de passo é — princípio, tradução, cinética, hipótese,
+   álgebra, definição —, porque as hipóteses são o que muda de um exercício
+   para o outro, e o aluno precisa enxergá-las separadas da álgebra.
+
+     <h3 class="balanco">Balanço de A</h3>
+     <ol class="deducao">
+       <li><div class="equacao">…</div>
+           <p class="porque"><span class="tipo tipo-hipotese">hipótese</span>…</p></li>
+       <li class="final">…</li>      ← a equação do modelo, em destaque
+     </ol>                                                                     */
+
+h3.balanco {
+  font-size: 1.1rem;
+  margin: 2.4rem 0 0.4rem;
+  color: var(--mom-modelo);
+}
+
+ol.deducao {
+  list-style: none;
+  counter-reset: deducao;
+  padding: 0;
+  margin: 1rem 0 2rem;
+  position: relative;
+}
+/* O fio que liga os passos: a dedução se lê de cima para baixo. */
+ol.deducao::before {
+  content: "";
+  position: absolute;
+  left: 0.85rem;
+  top: 0.9rem;
+  bottom: 0.9rem;
+  width: 2px;
+  background: color-mix(in srgb, var(--mom-modelo) 35%, transparent);
+}
+ol.deducao > li {
+  counter-increment: deducao;
+  position: relative;
+  padding-left: 2.6rem;
+  margin: 0 0 1rem;
+}
+ol.deducao > li::before {
+  content: counter(deducao);
+  position: absolute;
+  left: 0;
+  top: 0.75rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  line-height: 1.75rem;
+  text-align: center;
+  border-radius: 50%;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--bg);
+  background: var(--mom-modelo);
+}
+ol.deducao .equacao { margin: 0 0 0.4rem; }
+ol.deducao .termos { margin: 0.6rem 0 0.4rem; }
+ol.deducao p.porque { font-size: 0.92rem; margin: 0 0 0.3rem; color: var(--fg); }
+
+/* O último passo é a equação do modelo: caixa com a cor do momento. */
+ol.deducao > li.final .equacao {
+  background: color-mix(in srgb, var(--mom-modelo) 10%, var(--code-bg));
+  border: 2px solid var(--mom-modelo);
+}
+ol.deducao > li.final::before { content: "✓"; }
+
+/* O tipo do passo, como etiqueta. */
+.tipo {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.1rem 0.5rem;
+  margin-right: 0.5rem;
+  border-radius: 999px;
+  vertical-align: 0.1em;
+}
+.tipo-principio { color: var(--mom-modelo);     background: color-mix(in srgb, var(--mom-modelo) 16%, transparent); }
+.tipo-traducao  { color: var(--mom-codigo);     background: color-mix(in srgb, var(--mom-codigo) 16%, transparent); }
+.tipo-cinetica  { color: var(--serie-4);        background: color-mix(in srgb, var(--serie-4) 16%, transparent); }
+.tipo-hipotese  { color: var(--proc-escolha);   background: color-mix(in srgb, var(--proc-escolha) 18%, transparent); }
+.tipo-algebra   { color: var(--muted);          background: color-mix(in srgb, var(--muted) 16%, transparent); }
+.tipo-definicao { color: var(--mom-resultado);  background: color-mix(in srgb, var(--mom-resultado) 16%, transparent); }
+
 /* ---------- chave sobre um termo da equação ---------- */
 /* Uma chave horizontal sob (ou sobre) um termo, com o significado dele em
    poucas palavras. Desenhada por CSS, e não com o caractere ⏟ do MathML:
@@ -798,7 +885,7 @@ section.sua-vez summary {
   body { max-width: none; padding: 0; }
   .lateral { float: none; width: auto; margin: 0.8rem 0; padding-left: 0.8rem; border-left: 1px solid var(--rule); }
   button, .controles { display: none; }
-  .moldura, .passo, .nota-duvida, pre, table, figure { break-inside: avoid; }
+  .moldura, .passo, .nota-duvida, pre, table, figure, ol.deducao > li { break-inside: avoid; }
   .tema, .revelar-passo, .copiar { display: none; }
   /* No papel não há clique: tudo que a tela esconde por etapas aparece. */
   .oculto { display: revert; }

@@ -33,47 +33,100 @@
 <p>{O contexto do exercício.}</p>
 
 <!-- ================= MODELO =================
-     As equações que o código vai resolver, uma por bloco, e a tabela de
-     parâmetros. Fecha com o parágrafo que nomeia o TIPO de problema. -->
+     Cada BALANÇO é deduzido do princípio de conservação até a equação que o
+     código usa. Equação que não é balanço vai num bloco próprio. Depois, a
+     tabela de parâmetros e o parágrafo que nomeia o TIPO de problema. -->
 <h2>O modelo</h2>
 
 <!-- COR: grandeza do gráfico = classe da sua série (var-1, var-2… na ordem de
      `series`); parâmetro = param. Vale no MathML, na lista, na tabela e no texto.
 
-     UM BLOCO POR EQUAÇÃO: equação · símbolos dela · o que ela diz.
-     O "onde" antes da lista sai do CSS. Símbolo já definido não se repete.
+     DEDUÇÃO: um passo por <li>, e cada passo faz UMA coisa, dita pela etiqueta
+     de tipo: tipo-principio, tipo-traducao, tipo-cinetica, tipo-hipotese,
+     tipo-algebra, tipo-definicao. O último <li> leva class="final" e é a
+     equação do modelo. Símbolo definido no passo em que aparece pela primeira vez.
 
-     CHAVES: equação com dois ou mais termos de significado físico próprio
-     (um balanço, por exemplo) ganha uma chave sob cada termo, com o que ele
-     é em duas a cinco palavras. Rótulos longos que se atropelam: alterne,
-     um termo com chave-sob, o vizinho com chave-sobre (troca munder por mover). -->
-<div class="eq-bloco">
-  <div class="equacao">
-    <math display="block">
-      <munder><mrow class="chave-sob">
-        <mfrac><mrow><mi>d</mi><msub class="var-1"><mi>C</mi><mi>A</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
-      </mrow><mtext class="chave">{acúmulo}</mtext></munder>
-      <mo>=</mo>
-      <munder><mrow class="chave-sob">
-        <mfrac><mi class="param">F</mi><mi class="param">V</mi></mfrac><mo>(</mo><msub class="param"><mi>C</mi><mrow><mi>A</mi><mn>0</mn></mrow></msub><mo>−</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub><mo>)</mo>
-      </mrow><mtext class="chave">{entra menos sai, por volume}</mtext></munder>
-      <mo>−</mo>
-      <munder><mrow class="chave-sob">
-        <mi class="param">k</mi><mo>⋅</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub>
-      </mrow><mtext class="chave">{consumo pela reação}</mtext></munder>
-    </math>
-  </div>
-  <ul class="termos">
-    <li><code class="var-1">C<sub>A</sub></code> — {frase completa: concentração de quê, onde, em que unidade}</li>
-    <li><code class="param">F</code> — {…}</li>
-    <li><code class="param">V</code> — {…}</li>
-    <li><code class="param">C<sub>A0</sub></code> — {…}</li>
-    <li><code class="param">k</code> — {frase completa: taxa de quê, de quem, em que unidade}</li>
-  </ul>
-  <p>{Duas a quatro frases. Monte a cena — o que esta equação descreve no
-  processo — e só então conclua o que ela implica.}</p>
-</div>
+     CHAVES: no passo da tradução e no final, uma chave sob cada termo com o
+     que ele é em duas a cinco palavras. Rótulos que se atropelam: alterne
+     chave-sob e chave-sobre (munder ↔ mover). -->
+<h3 class="balanco">{Balanço de A}</h3>
 
+<ol class="deducao">
+  <li>
+    <div class="equacao">
+      <math display="block">
+        <mtext>{acúmulo de A}</mtext><mo>=</mo><mtext>entrada</mtext><mo>−</mo><mtext>saída</mtext><mo>−</mo><mtext>consumo</mtext>
+      </math>
+    </div>
+    <p class="porque"><span class="tipo tipo-principio">princípio</span>{A conservação, e qual é o volume de controle.}</p>
+  </li>
+  <li>
+    <div class="equacao">
+      <math display="block">
+        <munder><mrow class="chave-sob">
+          <mfrac><mrow><mi>d</mi><mo>(</mo><mi class="param">V</mi><mo>⋅</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub><mo>)</mo></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+        </mrow><mtext class="chave">acúmulo</mtext></munder>
+        <mo>=</mo>
+        <munder><mrow class="chave-sob"><mi class="param">F</mi><mo>⋅</mo><msub class="param"><mi>C</mi><mrow><mi>A</mi><mn>0</mn></mrow></msub></mrow><mtext class="chave">entrada</mtext></munder>
+        <mo>−</mo>
+        <munder><mrow class="chave-sob"><mi class="param">F</mi><mo>⋅</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub></mrow><mtext class="chave">saída</mtext></munder>
+        <mo>−</mo>
+        <munder><mrow class="chave-sob"><msub><mi>r</mi><mi>A</mi></msub><mo>⋅</mo><mi class="param">V</mi></mrow><mtext class="chave">consumo</mtext></munder>
+      </math>
+    </div>
+    <ul class="termos">
+      <li><code class="var-1">C<sub>A</sub></code> — {frase completa: concentração de quê, onde, em que unidade}</li>
+      <li><code class="param">V</code> — {…}</li>
+      <li><code class="param">F</code> — {…}</li>
+      <li><code class="param">C<sub>A0</sub></code> — {…}</li>
+      <li><code>r<sub>A</sub></code> — {…}</li>
+    </ul>
+    <p class="porque"><span class="tipo tipo-traducao">tradução</span>{Como cada palavra virou cada termo.}</p>
+  </li>
+  <li>
+    <div class="equacao">
+      <math display="block">
+        <msub><mi>r</mi><mi>A</mi></msub><mo>=</mo><mi class="param">k</mi><mo>⋅</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub>
+      </math>
+    </div>
+    <ul class="termos">
+      <li><code class="param">k</code> — {frase completa: taxa de quê, de quem, em que unidade}</li>
+    </ul>
+    <p class="porque"><span class="tipo tipo-cinetica">cinética</span>{De onde vem a lei de velocidade.}</p>
+  </li>
+  <li>
+    <div class="equacao"><math display="block"><mtext>{…}</mtext></math></div>
+    <p class="porque"><span class="tipo tipo-hipotese">hipótese</span>{A simplificação física, e o que aconteceria se ela não valesse.}</p>
+  </li>
+  <li class="final">
+    <div class="equacao">
+      <math display="block">
+        <munder><mrow class="chave-sob">
+          <mfrac><mrow><mi>d</mi><msub class="var-1"><mi>C</mi><mi>A</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+        </mrow><mtext class="chave">{acúmulo de A}</mtext></munder>
+        <mo>=</mo>
+        <munder><mrow class="chave-sob">
+          <mfrac><mn>1</mn><mi class="param">τ</mi></mfrac><mo>(</mo><msub class="param"><mi>C</mi><mrow><mi>A</mi><mn>0</mn></mrow></msub><mo>−</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub><mo>)</mo>
+        </mrow><mtext class="chave">{entra menos sai}</mtext></munder>
+        <mo>−</mo>
+        <munder><mrow class="chave-sob">
+          <mi class="param">k</mi><mo>⋅</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub>
+        </mrow><mtext class="chave">{consumo pela reação}</mtext></munder>
+      </math>
+    </div>
+    <ul class="termos">
+      <li><code class="param">τ</code> — {…}</li>
+    </ul>
+    <p class="porque"><span class="tipo tipo-algebra">álgebra</span><span class="tipo tipo-definicao">definição</span>{O rearranjo final, e o nome do grupo novo.}</p>
+  </li>
+</ol>
+
+<p>{Depois da equação final: monte a cena — o que ela descreve no processo —
+e só então conclua o que ela implica.}</p>
+
+<!-- EQUAÇÃO QUE NÃO É BALANÇO (lei de velocidade, correlação, equação de
+     estado): não se deduz. Bloco próprio: equação · símbolos · o que ela diz.
+     O "onde" antes da lista sai do CSS. -->
 <div class="eq-bloco">
   <div class="equacao">
     <math display="block">
@@ -90,7 +143,7 @@
   <p>{…}</p>
 </div>
 
-<!-- A tabela guarda os NÚMEROS; o significado já está nos blocos.
+<!-- A tabela guarda os NÚMEROS; o significado já está nas deduções e nos blocos.
      Procedência: etiqueta proc-enunciado, proc-derivado ou proc-escolha, e depois
      dela a conta ou a justificativa. -->
 <table>

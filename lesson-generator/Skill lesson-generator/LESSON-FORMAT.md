@@ -34,20 +34,45 @@ Antes de tudo, **um parágrafo situando o problema**: que processo é esse, o qu
 
 ## 2. Modelo
 
-As equações que o código vai resolver, e nada além delas. Podem ser diferenciais, algébricas, um balanço, uma correlação, um modelo a ajustar: o que o exercício pedir.
+As equações que o código vai resolver. Podem ser diferenciais, algébricas, um balanço, uma correlação, um modelo a ajustar: o que o exercício pedir.
 
-**Uma equação por bloco, e cada bloco se explica sozinho**, nesta ordem: equação, símbolos daquela equação, o que ela diz. Nunca despeje as equações em sequência deixando as definições para depois, porque quem lê a terceira já esqueceu o símbolo da primeira.
+### Balanço se deduz, do princípio até o modelo
 
-- **Defina só os símbolos daquela equação**, todos eles, com unidade. Um símbolo que já foi definido não se define de novo.
+**Toda equação de balanço (de massa, de componente, de energia, de quantidade de movimento) é deduzida na lição**, do princípio de conservação até a forma que o código usa, um passo por linha. Mostrar só a equação final ensina a resolver **este** exercício; mostrar de onde ela vem ensina a montar o balanço do próximo.
+
+- **O primeiro passo é o princípio em palavras**: "acúmulo = entrada − saída + geração − consumo", com o volume de controle dito na frase.
+- **O segundo traduz cada palavra em símbolos**, com uma chave sob cada termo dizendo qual palavra ele é. É o passo que o aluno mais erra sozinho.
+- **Cada passo seguinte faz uma coisa só, e diz qual** com uma etiqueta de tipo:
+
+| Tipo | O que o passo faz |
+|---|---|
+| `princípio` | A lei de conservação, em palavras |
+| `tradução` | Palavras viram vazões, concentrações, volumes |
+| `cinética` | Entra a lei de velocidade, ou outra relação constitutiva |
+| `hipótese` | Uma simplificação física: volume constante, mistura perfeita, regime permanente, adiabático |
+| `álgebra` | Rearranjo, divisão, substituição |
+| `definição` | Um grupo ganha nome próprio, como τ = V/F |
+
+- **A hipótese diz o que aconteceria se ela não valesse.** "Se o tanque estivesse enchendo, o volume precisaria de um balanço próprio." É a hipótese que muda de um exercício para outro, e é por ela que o aluno reconhece o próximo caso.
+- **O último passo é a equação do modelo**, marcado como `final`. Ele leva as chaves e é seguido do parágrafo que explica o que ela diz.
+- **Dois balanços parecidos não repetem a dedução inteira.** O segundo mostra o princípio e a tradução, que mudam, e junta numa linha os passos iguais aos do primeiro, com as etiquetas de todos eles.
+
+**Equação que não é balanço** (uma lei de velocidade dada, uma correlação, uma equação de estado) não se deduz: ela entra num bloco próprio, ou como passo de `cinética` dentro da dedução.
+
+### Símbolos, chaves e frases
+
+- **Defina cada símbolo no passo em que ele aparece pela primeira vez**, todos eles, com unidade. Um símbolo já definido não se define de novo.
 - **A definição é uma frase completa, não uma etiqueta.** "C<sub>A</sub> — concentração do reagente A dentro do reator, mol/L", nunca "C<sub>A</sub> — concentração, mol/L". Concentração de quê, taxa de quem, medida onde: se a frase deixa a pergunta no ar, ela só nomeou o símbolo.
-- **Cada termo com significado físico próprio ganha uma chave.** Numa equação de dois ou mais termos (um balanço, uma taxa com dois fatores), ponha uma chave horizontal sob cada termo, com o que ele é em duas a cinco palavras: "acúmulo", "entra menos sai", "consumo pela reação". A chave mostra a **estrutura** da equação de relance; a lista de símbolos continua dizendo o que cada letra é. Não ponha chave em termo de um símbolo só, nem em equação de um termo. A marcação está no template.
-- **A frase de fecho monta a cena antes de concluir.** Diga o que a equação descreve no processo, e só então o que ela implica. Use duas a quatro frases por bloco; menos que isso vira telegrama.
+- **Cada termo com significado físico próprio ganha uma chave.** Numa equação de dois ou mais termos, ponha uma chave horizontal sob cada termo, com o que ele é em duas a cinco palavras: "acúmulo", "entra menos sai", "consumo pela reação". A chave mostra a **estrutura** da equação de relance; a lista de símbolos continua dizendo o que cada letra é. Não ponha chave em termo de um símbolo só, nem em equação de um termo, nem em passo intermediário de pura álgebra.
+- **A frase do passo diz o que foi feito e por quê**, em uma a três frases. O parágrafo depois da equação final monta a cena antes de concluir: o que a equação descreve no processo, e só então o que ela implica.
 
-Depois dos blocos vem **a tabela de parâmetros**, com símbolo, valor, unidade e procedência. Ela guarda os números; os blocos guardam os significados. A procedência começa por uma etiqueta (`proc-enunciado`, `proc-derivado` ou `proc-escolha`), e o que vem depois dela é a conta ou a justificativa.
+### Tabela e tipo de problema
 
-O momento fecha com **o tipo de problema**: duas ou três frases dizendo que problema matemático é este (valor inicial, sistema algébrico, problema de contorno, ajuste, otimização, o que for) e por que isso decide a ferramenta. É a parte que o aluno leva para o próximo exercício, que nunca vai ser igual a este.
+Depois das deduções vem **a tabela de parâmetros**, com símbolo, valor, unidade e procedência. Ela guarda os números; as deduções guardam os significados. A procedência começa por uma etiqueta (`proc-enunciado`, `proc-derivado` ou `proc-escolha`), e o que vem depois dela é a conta ou a justificativa.
 
-Sem história, sem derivação e sem recapitulação. Quem já sabe aquilo passa os olhos em quinze segundos.
+O momento fecha com **o tipo de problema**: duas ou três frases dizendo que problema matemático é este (valor inicial, sistema algébrico, problema de contorno, ajuste, otimização, o que for) e por que isso decide a ferramenta.
+
+Sem história e sem recapitulação. A dedução é a única parte longa do modelo, e ela se paga: é o que o aluno reaproveita.
 
 ## 3. Código
 
@@ -148,7 +173,8 @@ Quando o aluno volta com uma pergunta, a resposta vai para o chat **e** para o H
 
 - **A definição-etiqueta**, que nomeia o símbolo e não define nada.
 - **A lição que começa na equação**, sem a abertura.
-- **A aula de teoria com apêndice de código**: o modelo cresce e o código vira resumo.
+- **A aula de teoria com apêndice de código**: o modelo cresce além da dedução dos balanços, e o código vira resumo.
+- **O balanço que cai pronto**: a equação do modelo aparece sem a dedução, ou com a hipótese misturada à álgebra sem etiqueta.
 - **O tipo de problema calado**: o código aparece sem que a lição diga que problema matemático ele resolve.
 - **O número sem verificação**: a lição confia no que o programa imprimiu e não mostra como desconfiar.
 - **A figura que não comunica**: a curva que o texto discute é uma reta rente ao fundo.
