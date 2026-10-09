@@ -17,13 +17,13 @@ Preencha os campos vazios durante e depois da sessão.
 
 | Campo | Valor |
 |---|---|
-| Commit | `f756788` — "Enxugar a skill: sem estado, tres divisoes, codigo revelado passo a passo" |
+| Commit | `58f0ea0` — "Enxugar a skill: sem estado, tres divisoes, codigo revelado passo a passo" |
 | Branch | `main` |
 | Alterações locais não commitadas | não |
 | Como a skill foi carregada | *junction* `~/.claude/skills/simulacao-fermentacao` → `Simulação-Fermentação/Skill Simulação Fermentação/` |
 | Nome da pasta instalada | `simulacao-fermentacao` |
 
-O que mudou desde o Teste 2 (`644d79b`): a skill perdeu o estado inteiro — missão, registros, glossário, notas, índice — e caiu de 30 arquivos para 9, de 9.088 para 2.146 palavras de leitura obrigatória. A lição passou a ter três divisões, com o código revelado passo a passo; morreram quiz, previsões e o explorador de variantes.
+O que mudou desde o Teste 2 (`9d600ba`): a skill perdeu o estado inteiro — missão, registros, glossário, notas, índice — e caiu de 30 arquivos para 9, de 9.088 para 2.146 palavras de leitura obrigatória. A lição passou a ter três divisões, com o código revelado passo a passo; morreram quiz, previsões e o explorador de variantes.
 
 ## 3. Ambiente
 
@@ -107,7 +107,7 @@ O [relatório do próprio modelo](./RELATORIO-MODELO.md) traz a procedência de 
 **Tempo e tamanho**
 
 - [ ] Menos de 5 minutos — **não**: ~8 min, contra 15+ do Teste 2
-- [~] Lição perto de 1.000 palavras — **1.024 de prosa**, dentro do teto; as 1.541 que registrei incluíam os blocos de código, com uma régua que a skill nunca definiu. Corrigido em 94f0648+
+- [~] Lição perto de 1.000 palavras — **1.024 de prosa**, dentro do teto; as 1.541 que registrei incluíam os blocos de código, com uma régua que a skill nunca definiu. Corrigido em bd01aac+
 - [x] Código + análise crítica pesam mais que a teoria — 1.227 contra 266
 
 **Comportamento**
@@ -174,9 +174,9 @@ O relatório de execução foi mais útil que o artefato — vale repetir a prá
 
 | Commit | O que corrigiu |
 |---|---|
-| `94f0648` | **Achado 1** — a proibição de escrever componente novo saiu; agora está escrito o contrário, com o caso da varredura de parâmetro nomeado |
-| `94f0648` | **Achados 2 e 3** — analítico primeiro, integração confirmando, com teto de esforço explícito |
-| `94f0648` | **Achado 4** — cabeçalho do `simulador.js` corrigido |
-| `94f0648` | **Achado 5** — "conte antes de salvar" |
-| `94f0648` | **Achado 6** — procedência explicitando faixas, ordens de grandeza ilustrativas e condições iniciais; e a regra de escrever **na** pasta indicada |
-| `94f0648` | **Achado 7** — gabarito do exercício corrigido |
+| `bd01aac` | **Achado 1** — a proibição de escrever componente novo saiu; agora está escrito o contrário, com o caso da varredura de parâmetro nomeado |
+| `bd01aac` | **Achados 2 e 3** — analítico primeiro, integração confirmando, com teto de esforço explícito |
+| `bd01aac` | **Achado 4** — cabeçalho do `simulador.js` corrigido |
+| `bd01aac` | **Achado 5** — "conte antes de salvar" |
+| `bd01aac` | **Achado 6** — procedência explicitando faixas, ordens de grandeza ilustrativas e condições iniciais; e a regra de escrever **na** pasta indicada |
+| `bd01aac` | **Achado 7** — gabarito do exercício corrigido |

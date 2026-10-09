@@ -17,14 +17,14 @@ Repetição controlada dos Testes [5](../Teste%205/SESSAO.md) e [6](../Teste%206
 
 | Campo | Valor |
 |---|---|
-| Commit da skill | `ca361b9` — Tirar o dominio da skill e consertar o grafico de 300px |
-| HEAD do dia | `16b7c6a` — só montou este teste; não tocou a skill |
+| Commit da skill | `11ac5de` — Tirar o dominio da skill e consertar o grafico de 300px |
+| HEAD do dia | `088b110` — só montou este teste; não tocou a skill |
 | Branch | `main` |
 | Alterações locais não commitadas | não |
 | Como a skill foi carregada | *junction* `~/.claude/skills/lesson-generator` → `lesson-generator/Skill lesson-generator/` |
 | Nome da pasta instalada | `lesson-generator` |
 
-O que mudou desde o Teste 6 (`12da50f`), tudo em `ca361b9` e **nada exercitado ainda**.
+O que mudou desde o Teste 6 (`fbe8760`), tudo em `11ac5de` e **nada exercitado ainda**.
 
 ### A regra nova
 
@@ -78,9 +78,9 @@ Marque a hora ao apertar enter e a hora em que a última linha aparecer, e anote
 evidência é a janela de mtime, 19:01:56 a 19:11:46 (9m50s), e ela **não é comparável**
 às dos testes anteriores: começa na cópia dos assets em vez do primeiro script de
 rascunho, cujos mtimes o relatório não trouxe, e inclui a verificação no navegador,
-que é trabalho que `ca361b9` passou a exigir e que o Teste 6 não fez.
+que é trabalho que `11ac5de` passou a exigir e que o Teste 6 não fez.
 
-Consequência: **a pergunta central de `ca361b9` fica sem resposta.** Escrever o
+Consequência: **a pergunta central de `11ac5de` fica sem resposta.** Escrever o
 `registrar` custa menos que ler o catálogo? Todas as outras evidências dizem que sim
 — 21 chamadas contra 23, zero leituras do `simulador.js` contra uma —, mas o
 cronômetro é quem decide, e ele não rodou.
@@ -186,7 +186,7 @@ Contagem pela convenção da série: MathML **conta** como prosa; `<pre>`, `<scr
 | Controles | 4 | 2 | **4** | ≤ 4 |
 | Observações | 6 | 4 | **7** (3 de leitura + 4 de controle) | pela regra nova |
 
-**A janela de escrita não é comparável às anteriores.** Em `T5` e `T6` ela partia do primeiro script de rascunho; aqui o relatório não deu os mtimes do scratchpad, e o primeiro arquivo registrado já é a cópia dos assets. Além disso, os 9m50s **incluem a verificação no navegador**, que é trabalho novo que `ca361b9` passou a exigir e que o Teste 6 não fez.
+**A janela de escrita não é comparável às anteriores.** Em `T5` e `T6` ela partia do primeiro script de rascunho; aqui o relatório não deu os mtimes do scratchpad, e o primeiro arquivo registrado já é a cópia dos assets. Além disso, os 9m50s **incluem a verificação no navegador**, que é trabalho novo que `11ac5de` passou a exigir e que o Teste 6 não fez.
 
 O [relatório do modelo](./RELATORIO-MODELO.md) é o mais direto da série sobre os próprios limites — a seção 9 diz com todas as letras o que ele não conseguiu ver, e é de lá que sai o achado 3.
 
@@ -207,7 +207,7 @@ O [relatório do modelo](./RELATORIO-MODELO.md) é o mais direto da série sobre
 - [x] Alturas de 320 e 340 px, um painel por canvas, dois canvas
 - [x] **Coluna de 46 rem** — `maxWidth` de 874 px com fonte de 19 px
 
-**Os três achados de `ca361b9`**
+**Os três achados de `11ac5de`**
 
 - [~] **Todo número citado é calculado pelo programa publicado** — extraí e rodei: o programa tem `events` e imprime `99% do etanol em t = 18.51 h`, que era exatamente o número irreproduzível do Teste 6. **Falta um**: o cruzamento de 10,5 h. Violação consciente, e ele explica o porquê — ver achado 5
 - [ ] Os números só numéricos **não** vêm declarados como tais. Ele diz que não achou onde encaixar sem virar a ressalva que outra regra proíbe — ver achado 6
@@ -250,8 +250,8 @@ O [relatório do modelo](./RELATORIO-MODELO.md) é o mais direto da série sobre
 |---|---|---|---|
 | 1 | **Aninhou a pasta.** O workspace indicado era `Teste 7/com-skill/`, e ele criou `aula-fermentacao/` dentro e escreveu ali. O `SKILL.md` diz literalmente *"Se ele indicar uma pasta, escreva **nela** — não crie outra dentro."* É **regressão**: os Testes 5 e 6 acertaram, e o Teste 3 tinha exatamente este defeito. A regra existe e está clara, então ou ela precisa estar mais perto do ponto onde ele decide, ou o padrão `./aula-fermentacao/` está forte demais e vence a instrução do aluno | atrapalha | `SKILL.md` |
 | 2 | **A curva de levedura é ilegível.** X vai de 1 a 11 g/L num eixo escalado até 281 pelo `S0` de 260 — no gráfico é uma reta rente ao fundo. Mas três observações e a resposta discutem a levedura chegando a 11,0 g/L. A figura não mostra o que o texto diz. Não é violação de nenhuma regra atual: as três curvas são g/L e cabem no mesmo eixo por unidade, mas não por **escala** | atrapalha | `LESSON-FORMAT.md` |
-| 3 | **Ele não consegue ver a própria lição, e o achado 2 é a prova de que isso custa.** Fez tudo o que `ca361b9` mandou — serviu por HTTP, contou pixels, conferiu console e linhas de leitura — e mesmo assim escreve: *"não vi as curvas com os meus olhos; verifiquei-as por medição. Se elas estiverem desenhadas com alguma feiura que só a vista pega, eu não teria detectado."* Bati no mesmo artefato: captura depois de rolar volta preta. Achado 5 do Teste 6 fica **meio fechado** | atrapalha | ambiente + `SKILL.md` |
-| 4 | **A cronometragem falhou de novo.** É a segunda vez em três testes que a métrica-chefe da série não é medida, e sem ela a pergunta central de `ca361b9` — escrever o `registrar` custa menos que ler o catálogo? — fica **sem resposta**. A janela de mtime também deixou de ser comparável, porque o relatório não trouxe os mtimes do scratchpad que o `T5` e o `T6` traziam | atrapalha | protocolo de teste |
+| 3 | **Ele não consegue ver a própria lição, e o achado 2 é a prova de que isso custa.** Fez tudo o que `11ac5de` mandou — serviu por HTTP, contou pixels, conferiu console e linhas de leitura — e mesmo assim escreve: *"não vi as curvas com os meus olhos; verifiquei-as por medição. Se elas estiverem desenhadas com alguma feiura que só a vista pega, eu não teria detectado."* Bati no mesmo artefato: captura depois de rolar volta preta. Achado 5 do Teste 6 fica **meio fechado** | atrapalha | ambiente + `SKILL.md` |
+| 4 | **A cronometragem falhou de novo.** É a segunda vez em três testes que a métrica-chefe da série não é medida, e sem ela a pergunta central de `11ac5de` — escrever o `registrar` custa menos que ler o catálogo? — fica **sem resposta**. A janela de mtime também deixou de ser comparável, porque o relatório não trouxe os mtimes do scratchpad que o `T5` e o `T6` traziam | atrapalha | protocolo de teste |
 | 5 | **Um número citado continua fora do programa publicado**: o cruzamento de 10,5 h. Violação consciente, e o raciocínio dele é bom — cumprir exigiria um sétimo bloco no programa, esbarrando no teto de seis passos e na regra de não explicar o que não ensina. As duas regras colidem quando a observação cita um instante que só a busca de raiz acha | cosmético | `LESSON-FORMAT.md` |
 | 6 | **A regra do número numérico colide com a proibição de ressalva.** "Diga que o número é numérico, com o critério de convergência" contra "nada de ressalva que não muda o que o aluno faz". Ele não achou onde pôr `rtol=1e-9` sem virar exatamente a ressalva proibida, e não escreveu. É a terceira vez que esta regra não é cumprida — Testes 5, 6 e 7 | atrapalha | `LESSON-FORMAT.md` |
 | 7 | **O contrato do `Simulador.registrar` não está escrito.** Nada diz o que acontece se um parâmetro de `padroes` não tiver entrada em `faixas`, nem se `data-controles` pode citar parâmetro ausente de `faixas`. Ele declarou `faixas` só para os dois que viram slider **e** sobrescreveu no `data-controles` — "cinto e suspensório porque eu não sabia qual dos dois valia" | cosmético | `templates/licao.html` |
@@ -261,7 +261,7 @@ O [relatório do modelo](./RELATORIO-MODELO.md) é o mais direto da série sobre
 
 **Aprovado com ressalva** — tudo o que era mensurável passou, mas a pasta foi aninhada e o tempo não foi medido.
 
-A aposta de `ca361b9` era dupla, e a metade verificável pagou inteira:
+A aposta de `11ac5de` era dupla, e a metade verificável pagou inteira:
 
 - **A skill sem domínio produz simulação certa.** Treze números recalculados por fora, nenhum errado, incluindo o cruzamento em 10,549 h e o pico que a lição arredonda. Os oito fatos de fermentação vieram do modelo, e ele diz que a skill está certa em não carregá-los. **A rede era peso morto.**
 - **Tirar os modelos empacotados eliminou a última leitura de componente**: 3 passagens inteiras no `T5`, um `grep` de 140 linhas no `T6`, **zero** aqui. E comprou o que não existia antes — a garantia, agora conferível linha a linha, de que a curva na tela é a mesma equação que a lição ensina.

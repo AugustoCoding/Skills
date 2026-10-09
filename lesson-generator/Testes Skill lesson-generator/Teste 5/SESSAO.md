@@ -17,19 +17,19 @@ Primeiro teste da skill já com o nome `lesson-generator`. Preencha os campos va
 
 | Campo | Valor |
 |---|---|
-| Commit | `bfff006` — Batizar as curvas do gráfico e montar o ambiente do Teste 5 |
+| Commit | `89677bf` — Batizar as curvas do gráfico e montar o ambiente do Teste 5 |
 | Branch | `main` |
 | Alterações locais não commitadas | não |
 | Como a skill foi carregada | *junction* `~/.claude/skills/lesson-generator` → `lesson-generator/Skill lesson-generator/` |
 | Nome da pasta instalada | `lesson-generator` |
 
-O que mudou desde o Teste 4 (`94f0648`):
+O que mudou desde o Teste 4 (`bd01aac`):
 
 - **Teoria por bloco**: uma equação, os símbolos dela, e uma frase do que ela significa. Antes as equações vinham empilhadas e as definições depois.
 - **Um gráfico, um painel**, de 320 a 420 px. No Teste 4 o componente empilhou dois painéis de 150 px e o resultado ficou apertado.
 - **Curvas batizáveis** por `data-rotulos`, e a regra de que o texto usa os mesmos nomes da legenda.
 - **Um insight distinto por observação.**
-- Mais as seis correções de `a4ea8ea`, que nunca foram exercitadas: régua do teto de palavras, tabela de componentes, copiar só o que a lição carrega, cada controle com sua observação, a dúzia de pontos valendo para integrações, e a procedência conferida por `grep` de dígitos.
+- Mais as seis correções de `4c54a23`, que nunca foram exercitadas: régua do teto de palavras, tabela de componentes, copiar só o que a lição carrega, cada controle com sua observação, a dúzia de pontos valendo para integrações, e a procedência conferida por `grep` de dígitos.
 
 ## 3. Ambiente
 
@@ -152,7 +152,7 @@ Os cinco arquivos de `assets/` são carregados pela lição — nenhuma cópia s
 
 **A teoria passou o código.** É a primeira vez: 334 contra 865 ainda respeita "código é a maior", mas a teoria saltou de 288 para 334 enquanto o código encolheu de 1.141 para 865. O bloco por equação custa palavra — quatro blocos, cada um com equação, símbolos e frase de fecho.
 
-**Sobre a contagem.** Os números acima seguem a convenção dos Testes 3 e 4: contam-se títulos, parágrafos, listas, células de tabela e o texto dentro dos `<details>`, **mais o conteúdo do MathML**; ficam fora `<pre>`, `<script>` e `<style>`. O modelo contou 1.012 porque excluiu o MathML — a skill mandava contar palavras e nunca disse o que conta. A divergência deixou de importar quando `0af04c2` tirou o teto, mas a medida do registro continua sendo esta, para comparar com os testes anteriores.
+**Sobre a contagem.** Os números acima seguem a convenção dos Testes 3 e 4: contam-se títulos, parágrafos, listas, células de tabela e o texto dentro dos `<details>`, **mais o conteúdo do MathML**; ficam fora `<pre>`, `<script>` e `<style>`. O modelo contou 1.012 porque excluiu o MathML — a skill mandava contar palavras e nunca disse o que conta. A divergência deixou de importar quando `a84f18d` tirou o teto, mas a medida do registro continua sendo esta, para comparar com os testes anteriores.
 
 O [relatório do próprio modelo](./RELATORIO-MODELO.md) traz a procedência de cada número, o inventário de leituras e chamadas, e a seção 8 de atrito, que é de onde saiu quase toda a correção deste teste.
 
@@ -164,7 +164,7 @@ O [relatório do próprio modelo](./RELATORIO-MODELO.md) traz a procedência de 
 - [x] Símbolo repetido definido só na primeira aparição — a primeira equação define seis; as outras três definem um cada (`X`, `Yx/s`, `Yp/x`)
 - [ ] **A frase de fecho fala do processo, não da matemática** — metade falhou. "Dois freios multiplicando: falta de açúcar e excesso de etanol" conclui sem montar a cena, e a de `dX/dt` fala do erro de unidade em vez do processo. As de `dS/dt` e `dP/dt` passam. Ver achado 2
 - [x] **Um painel por canvas**, entre 320 e 420 px — medido no navegador: 320 px e 340 px, um painel em cada
-- [ ] **μ resolvido sem segundo painel** — não: virou um segundo canvas, com componente próprio. A regra da época dizia "não vira segundo painel", e ele leu "painel" como painel dentro do canvas. Ver achado 4: a leitura dele foi ratificada por `0af04c2`
+- [ ] **μ resolvido sem segundo painel** — não: virou um segundo canvas, com componente próprio. A regra da época dizia "não vira segundo painel", e ele leu "painel" como painel dentro do canvas. Ver achado 4: a leitura dele foi ratificada por `a84f18d`
 - [x] **`data-rotulos`** batizando as curvas — `"Levedura X, ART S, Etanol P"`, e a legenda renderizada confere
 - [x] O texto usa os mesmos nomes da legenda — "etanol", "ART" e "levedura" na lição inteira; nenhum "produto", nenhuma "biomassa"
 - [x] Cada observação com insight próprio — seis observações, seis fenômenos distintos. Ele conta no relatório que descartou um slider de `μmax` porque a observação repetiria a de `X0`
@@ -243,7 +243,7 @@ O que reprovaria, pela régua, é a outra metade: mais de 10 minutos. E o valor 
 
 | Commit | O que corrigiu |
 |---|---|
-| `0af04c2` | **Tirou o teto de palavras** (achados 1 e 2) e pôs no lugar a régua de cortar o que não ensina, nunca abreviar o que ensina. **Escreveu as convenções de componente** — DPR, cores vindas do CSS, os três eventos de redesenho, as classes de controle —, que é o que custou as três leituras do `simulador.js` (achado 1). Entrou o **parágrafo de abertura**, e a definição virou frase completa, com a frase de fecho montando a cena antes de concluir (achados 2 e 3). Resolveu as três ambiguidades que ele apontou: **segundo gráfico permitido** em canvas separado (4), **caixa do número derivado** (5) e **faixa de slider é configuração, não afirmação** (6). Mais o design: texto de 17 para 19 px, coluna de 46 para 54 rem, cantos de 10 px e o símbolo definido em cor |
-| `f7d4d15` | Removeu a pasta `smoke/`, cópia temporária desta lição usada para conferir o CSS novo, que entrou no commit anterior por engano |
+| `a84f18d` | **Tirou o teto de palavras** (achados 1 e 2) e pôs no lugar a régua de cortar o que não ensina, nunca abreviar o que ensina. **Escreveu as convenções de componente** — DPR, cores vindas do CSS, os três eventos de redesenho, as classes de controle —, que é o que custou as três leituras do `simulador.js` (achado 1). Entrou o **parágrafo de abertura**, e a definição virou frase completa, com a frase de fecho montando a cena antes de concluir (achados 2 e 3). Resolveu as três ambiguidades que ele apontou: **segundo gráfico permitido** em canvas separado (4), **caixa do número derivado** (5) e **faixa de slider é configuração, não afirmação** (6). Mais o design: texto de 17 para 19 px, coluna de 46 para 54 rem, cantos de 10 px e o símbolo definido em cor |
+| `ad8fd2c` | Removeu a pasta `smoke/`, cópia temporária desta lição usada para conferir o CSS novo, que entrou no commit anterior por engano |
 
 Achados **7 e 8 seguem em aberto** — não pedem mudança de texto, pedem verificação no próximo teste.

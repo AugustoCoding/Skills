@@ -17,13 +17,13 @@ Mesmo enunciado do Teste 3, skill corrigida. Preencha os campos vazios durante e
 
 | Campo | Valor |
 |---|---|
-| Commit | `94f0648` — "Corrigir os cinco achados do Teste 3 e destravar o modelo" |
+| Commit | `bd01aac` — "Corrigir os cinco achados do Teste 3 e destravar o modelo" |
 | Branch | `main` |
 | Alterações locais não commitadas | não |
 | Como a skill foi carregada | *junction* `~/.claude/skills/simulacao-fermentacao` → `Simulação-Fermentação/Skill Simulação Fermentação/` |
 | Nome da pasta instalada | `simulacao-fermentacao` |
 
-**A comparação é com o Teste 3** (`f756788`), que rodou este mesmo enunciado. O que mudou entre as duas versões:
+**A comparação é com o Teste 3** (`58f0ea0`), que rodou este mesmo enunciado. O que mudou entre as duas versões:
 
 - conferência **analítica primeiro**, integração confirmando, com teto de esforço explícito;
 - permissão — e ordem — de **escrever componente novo** quando o exercício pede figura que as peças não fazem;
@@ -192,10 +192,10 @@ O que sobra são acabamentos: um gráfico apertado, um número em prosa sem conf
 
 | Commit | O que corrigiu |
 |---|---|
-| `a4ea8ea` | **Achado 2** — o teto ganhou régua: 1.000 palavras de prosa, sem `<pre>`, `<script>` nem `<math>`; código sem teto |
-| `a4ea8ea` | **Achado 3** — tabela de componentes com coluna "não faz", e cabeçalho novo no `simulador.js` |
-| `a4ea8ea` | **Achado 4** — copiar só os componentes que a lição carrega |
-| `a4ea8ea` | **Achado 5** — cada controle precisa da própria observação |
-| `a4ea8ea` | **Achado 6** — a dúzia de pontos fala de integrações |
-| `a4ea8ea` | **Achado 1** — varredura de procedência mecânica: procurar dígitos com `grep`, não ler |
+| `4c54a23` | **Achado 2** — o teto ganhou régua: 1.000 palavras de prosa, sem `<pre>`, `<script>` nem `<math>`; código sem teto |
+| `4c54a23` | **Achado 3** — tabela de componentes com coluna "não faz", e cabeçalho novo no `simulador.js` |
+| `4c54a23` | **Achado 4** — copiar só os componentes que a lição carrega |
+| `4c54a23` | **Achado 5** — cada controle precisa da própria observação |
+| `4c54a23` | **Achado 6** — a dúzia de pontos fala de integrações |
+| `4c54a23` | **Achado 1** — varredura de procedência mecânica: procurar dígitos com `grep`, não ler |
 | (este commit) | **Achado 7** — um gráfico, um painel, 320 a 420 px de altura; grandezas de unidades diferentes não viram segundo painel |
