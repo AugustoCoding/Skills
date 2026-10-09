@@ -27,6 +27,7 @@ As equações que o código vai resolver, e nada além delas. Podem ser diferenc
 
 - **Defina só os símbolos daquela equação**, todos eles, com unidade. Um símbolo que já foi definido não se define de novo.
 - **A definição é uma frase completa, não uma etiqueta.** "C<sub>A</sub> — concentração do reagente A dentro do reator, mol/L", nunca "C<sub>A</sub> — concentração, mol/L". Concentração de quê, taxa de quem, medida onde: se a frase deixa a pergunta no ar, ela só nomeou o símbolo.
+- **Cada termo com significado físico próprio ganha uma chave.** Numa equação de dois ou mais termos (um balanço, uma taxa com dois fatores), ponha uma chave horizontal sob cada termo, com o que ele é em duas a cinco palavras: "acúmulo", "entra menos sai", "consumo pela reação". A chave mostra a **estrutura** da equação de relance; a lista de símbolos continua dizendo o que cada letra é. Não ponha chave em termo de um símbolo só, nem em equação de um termo. A marcação está no template.
 - **A frase de fecho monta a cena antes de concluir.** Diga o que a equação descreve no processo, e só então o que ela implica. Use duas a quatro frases por bloco; menos que isso vira telegrama.
 
 Depois dos blocos vem **a tabela de parâmetros**, com símbolo, valor, unidade e procedência. Ela guarda os números; os blocos guardam os significados.

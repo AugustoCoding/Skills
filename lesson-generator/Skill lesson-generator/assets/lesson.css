@@ -250,6 +250,48 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
 }
 .ilustrativo::before { content: "⚠ "; font-style: normal; }
 
+/* ---------- chave sobre um termo da equação ---------- */
+/* Uma chave horizontal sob (ou sobre) um termo, com o significado dele em
+   poucas palavras. Desenhada por CSS, e não com o caractere ⏟ do MathML:
+   esse só estica se a fonte tiver tabela matemática, e a da lição não tem.
+   Pontas e bico têm tamanho fixo; só os trechos retos esticam. O cinza é o
+   mesmo nos dois temas: um data URI não lê variável de CSS.
+
+     <munder><mrow class="chave-sob">…termo…</mrow><mtext class="chave">rótulo</mtext></munder>
+     <mover><mrow class="chave-sobre">…termo…</mrow><mtext class="chave">rótulo</mtext></mover>  */
+
+mrow.chave-sob,
+mrow.chave-sobre { --chave-cor: #8a877f; }
+
+mrow.chave-sob {
+  padding-bottom: 9px;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='8'%3E%3Cpath d='M0.6 0 Q0.6 4 6 4' fill='none' stroke='%238a877f' stroke-width='1.1'/%3E%3C/svg%3E") left bottom / 6px 8px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='8'%3E%3Cpath d='M5.4 0 Q5.4 4 0 4' fill='none' stroke='%238a877f' stroke-width='1.1'/%3E%3C/svg%3E") right bottom / 6px 8px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 4 Q6 4 6 8 Q6 4 12 4' fill='none' stroke='%238a877f' stroke-width='1.1'/%3E%3C/svg%3E") center bottom / 12px 8px no-repeat,
+    linear-gradient(var(--chave-cor), var(--chave-cor)) left 6px bottom 3.45px / calc(50% - 12px) 1.1px no-repeat,
+    linear-gradient(var(--chave-cor), var(--chave-cor)) right 6px bottom 3.45px / calc(50% - 12px) 1.1px no-repeat;
+}
+
+mrow.chave-sobre {
+  padding-top: 9px;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='8'%3E%3Cpath d='M0.6 8 Q0.6 4 6 4' fill='none' stroke='%238a877f' stroke-width='1.1'/%3E%3C/svg%3E") left top / 6px 8px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='8'%3E%3Cpath d='M5.4 8 Q5.4 4 0 4' fill='none' stroke='%238a877f' stroke-width='1.1'/%3E%3C/svg%3E") right top / 6px 8px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 4 Q6 4 6 0 Q6 4 12 4' fill='none' stroke='%238a877f' stroke-width='1.1'/%3E%3C/svg%3E") center top / 12px 8px no-repeat,
+    linear-gradient(var(--chave-cor), var(--chave-cor)) left 6px top 3.45px / calc(50% - 12px) 1.1px no-repeat,
+    linear-gradient(var(--chave-cor), var(--chave-cor)) right 6px top 3.45px / calc(50% - 12px) 1.1px no-repeat;
+}
+
+/* O rótulo: prosa miúda, sem o itálico da matemática. */
+mtext.chave {
+  font-family: var(--serif);
+  font-size: 0.66em;
+  font-style: normal;
+  color: var(--muted);
+  padding: 0 0.2em;
+}
+
 /* ---------- código ---------- */
 
 code {
@@ -654,7 +696,7 @@ section.sua-vez summary {
   /* No papel não há clique: tudo que a tela esconde por etapas aparece. */
   .oculto { display: revert; }
   section.sua-vez details > *:not(summary) { display: block; }
-  .nota-duvida { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .nota-duvida, mrow.chave-sob, mrow.chave-sobre { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   h1, h2, h3 { break-after: avoid; }
   a::after { content: " (" attr(href) ")"; font-size: 0.75em; color: var(--muted); word-break: break-all; }
   a[href^="#"]::after { content: ""; }

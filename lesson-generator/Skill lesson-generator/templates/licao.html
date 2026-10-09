@@ -38,16 +38,33 @@
 <h2>O modelo</h2>
 
 <!-- UM BLOCO POR EQUAÇÃO: equação · símbolos dela · o que ela diz.
-     O "onde" antes da lista sai do CSS. Símbolo já definido não se repete. -->
+     O "onde" antes da lista sai do CSS. Símbolo já definido não se repete.
+
+     CHAVES: equação com dois ou mais termos de significado físico próprio
+     (um balanço, por exemplo) ganha uma chave sob cada termo, com o que ele
+     é em duas a cinco palavras. Rótulos longos que se atropelam: alterne,
+     um termo com chave-sob, o vizinho com chave-sobre (troca munder por mover). -->
 <div class="eq-bloco">
   <div class="equacao">
     <math display="block">
-      <mfrac><mrow><mi>d</mi><msub><mi>C</mi><mi>A</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
-      <mo>=</mo><mo>−</mo><mi>k</mi><mo>⋅</mo><msub><mi>C</mi><mi>A</mi></msub>
+      <munder><mrow class="chave-sob">
+        <mfrac><mrow><mi>d</mi><msub><mi>C</mi><mi>A</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+      </mrow><mtext class="chave">{acúmulo}</mtext></munder>
+      <mo>=</mo>
+      <munder><mrow class="chave-sob">
+        <mfrac><mi>F</mi><mi>V</mi></mfrac><mo>(</mo><msub><mi>C</mi><mrow><mi>A</mi><mn>0</mn></mrow></msub><mo>−</mo><msub><mi>C</mi><mi>A</mi></msub><mo>)</mo>
+      </mrow><mtext class="chave">{entra menos sai, por volume}</mtext></munder>
+      <mo>−</mo>
+      <munder><mrow class="chave-sob">
+        <mi>k</mi><mo>⋅</mo><msub><mi>C</mi><mi>A</mi></msub>
+      </mrow><mtext class="chave">{consumo pela reação}</mtext></munder>
     </math>
   </div>
   <ul class="termos">
     <li><code>C<sub>A</sub></code> — {frase completa: concentração de quê, onde, em que unidade}</li>
+    <li><code>F</code> — {…}</li>
+    <li><code>V</code> — {…}</li>
+    <li><code>C<sub>A0</sub></code> — {…}</li>
     <li><code>k</code> — {frase completa: taxa de quê, de quem, em que unidade}</li>
   </ul>
   <p>{Duas a quatro frases. Monte a cena — o que esta equação descreve no
