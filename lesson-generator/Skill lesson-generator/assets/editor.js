@@ -103,7 +103,8 @@
     var saida = el("div", "editor-saida");
     var saidaTopo = el("div", "editor-saida-topo");
     var estado = el("span", "editor-estado", "Na primeira vez que você rodar, o Python é baixado (precisa de internet).");
-    saidaTopo.append(el("span", "", "Saída"), estado);
+    var limparSaida = botao("editor-limpar-saida", "Limpar saída", "Apagar a saída, sem mexer no código");
+    saidaTopo.append(el("span", "", "Saída"), estado, limparSaida);
     var resultado = el("div", "editor-resultado");
     saida.append(saidaTopo, resultado);
 
@@ -316,6 +317,10 @@
       texto.focus();
     });
     rodar.addEventListener("click", executar);
+    limparSaida.addEventListener("click", function () {
+      resultado.textContent = "";
+      estado.textContent = "";
+    });
 
     /* ---------- "→ editor" em cada bloco de código ---------- */
 

@@ -996,6 +996,7 @@ mark.nota-duvida {
 /* Os botões com ícone alinham ícone e texto pelo meio — e o "copiar", vizinho
    do "→ editor", entra na mesma regra para os dois terem a mesma altura. */
 .editor-topo button,
+.editor-limpar-saida,
 .para-editor,
 .copiar,
 .tema {
@@ -1367,7 +1368,7 @@ body.redimensionando { user-select: none; }
 .editor-saida-topo {
   display: flex;
   gap: 0.8rem;
-  align-items: baseline;
+  align-items: center;
   padding: 0.5rem 0.9rem;
   font-family: var(--mono);
   font-size: 0.72rem;
@@ -1376,6 +1377,15 @@ body.redimensionando { user-select: none; }
 }
 .editor-saida-topo > span:first-child { text-transform: uppercase; color: var(--mom-resultado); }
 .editor-estado { color: var(--muted); }
+.editor-limpar-saida {
+  margin-left: auto;
+  flex: none;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  padding: 0.2rem 0.65rem;
+}
+.editor-limpar-saida:hover { color: #1a1a18; background: var(--proc-escolha); border-color: var(--proc-escolha); }
 .editor-resultado { flex: 1; overflow: auto; padding: 0.6rem 0.9rem; }
 .editor-resultado pre {
   margin: 0 0 0.6rem;
