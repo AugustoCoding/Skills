@@ -54,6 +54,9 @@
   --err: #8a3324;
 
   /* Raio único para todo bloco: caixa quadrada deixa a página dura. */
+  /* Barras de rolagem e controles nativos acompanham o tema. */
+  color-scheme: light;
+
   --raio: 10px;
   --raio-p: 6px;
 
@@ -71,6 +74,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-tema="claro"]) {
+    color-scheme: dark;
     --bg: #16161a;
     --fg: #e6e4dd;
     --muted: #9a978d;
@@ -109,6 +113,7 @@
 }
 
 :root[data-tema="escuro"] {
+  color-scheme: dark;
   --bg: #16161a;
   --fg: #e6e4dd;
   --muted: #9a978d;
@@ -1083,7 +1088,7 @@ body.com-editor .editor-painel { transform: none; }
   resize: none;
   outline: none;
 }
-.editor-texto::placeholder { color: var(--muted); opacity: 0.8; }
+.editor-texto::placeholder { color: var(--muted); opacity: 0.8; white-space: pre-wrap; }
 /* Um lampejo quando um trecho chega: o olho vê que algo entrou. */
 .editor-codigo.recebeu { animation: recebeu 0.7s ease-out; }
 @keyframes recebeu {
@@ -1092,6 +1097,33 @@ body.com-editor .editor-painel { transform: none; }
 }
 .editor-texto::selection { background: color-mix(in srgb, var(--mom-codigo) 30%, transparent); }
 
+/* A barra entre o código e a saída: arrasta-se para ver a saída inteira. */
+.editor-divisor {
+  flex: none;
+  height: 10px;
+  cursor: row-resize;
+  touch-action: none;
+  background: var(--rule);
+  position: relative;
+}
+.editor-divisor::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2.5rem;
+  height: 3px;
+  margin: -1.5px 0 0 -1.25rem;
+  border-radius: 2px;
+  background: var(--muted);
+  opacity: 0.6;
+}
+.editor-divisor:hover,
+.editor-divisor:focus-visible,
+.editor-divisor.arrastando { background: color-mix(in srgb, var(--mom-codigo) 45%, var(--rule)); outline: none; }
+.editor-divisor:hover::after,
+.editor-divisor.arrastando::after { opacity: 1; background: var(--bg); }
+
 /* A saída: texto do print, erros e figuras. */
 .editor-saida {
   flex: 1 1 45%;
@@ -1099,7 +1131,6 @@ body.com-editor .editor-painel { transform: none; }
   display: flex;
   flex-direction: column;
   background: var(--bg);
-  border-top: 2px solid var(--rule);
 }
 .editor-saida-topo {
   display: flex;

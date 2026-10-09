@@ -93,8 +93,70 @@
     var resultado = el("div", "editor-resultado");
     saida.append(saidaTopo, resultado);
 
-    painel.append(topo, codigo, saida);
+    // A divisão entre o código e a saída: arrasta-se para ver a saída inteira.
+    var divisor = el("div", "editor-divisor");
+    divisor.setAttribute("role", "separator");
+    divisor.setAttribute("aria-orientation", "horizontal");
+    divisor.setAttribute("aria-label", "Arraste para dividir o espaço entre o código e a saída");
+    divisor.title = "Arraste para dividir o espaço · duplo clique volta ao meio";
+    divisor.tabIndex = 0;
+
+    painel.append(topo, codigo, divisor, saida);
     document.body.append(abrir, painel);
+
+    /* ---------- a divisão entre código e saída ---------- */
+
+    var MINIMO = 90;   // px: nenhuma das duas some de vez
+
+    function dividir(altura) {
+      // A altura que sobra para código + saída, descontados o topo e a barra.
+      var livre = painel.clientHeight - topo.offsetHeight - divisor.offsetHeight;
+      altura = Math.max(MINIMO, Math.min(livre - MINIMO, altura));
+      codigo.style.flex = "0 0 " + altura + "px";
+      saida.style.flex = "1 1 0";
+      return altura;
+    }
+
+    function divisaoPadrao() {
+      codigo.style.flex = "";
+      saida.style.flex = "";
+      try { localStorage.removeItem("licao-editor-divisao"); } catch (e) { /* sem armazenamento */ }
+    }
+
+    function guardarDivisao(altura) {
+      try { localStorage.setItem("licao-editor-divisao", String(Math.round(altura))); } catch (e) { /* idem */ }
+    }
+
+    divisor.addEventListener("pointerdown", function (ev) {
+      ev.preventDefault();
+      divisor.setPointerCapture(ev.pointerId);
+      divisor.classList.add("arrastando");
+      var y0 = ev.clientY, h0 = codigo.offsetHeight, ultima = h0;
+      function mover(e) { ultima = dividir(h0 + e.clientY - y0); }
+      function soltar() {
+        divisor.classList.remove("arrastando");
+        divisor.removeEventListener("pointermove", mover);
+        divisor.removeEventListener("pointerup", soltar);
+        divisor.removeEventListener("pointercancel", soltar);
+        guardarDivisao(ultima);
+      }
+      divisor.addEventListener("pointermove", mover);
+      divisor.addEventListener("pointerup", soltar);
+      divisor.addEventListener("pointercancel", soltar);
+    });
+    divisor.addEventListener("dblclick", divisaoPadrao);
+    divisor.addEventListener("keydown", function (ev) {
+      var passo = ev.shiftKey ? 80 : 24;
+      if (ev.key === "ArrowUp" || ev.key === "ArrowDown") {
+        ev.preventDefault();
+        guardarDivisao(dividir(codigo.offsetHeight + (ev.key === "ArrowDown" ? passo : -passo)));
+      }
+    });
+
+    try {
+      var salva = parseFloat(localStorage.getItem("licao-editor-divisao"));
+      if (salva) codigo.style.flex = "0 0 " + salva + "px";
+    } catch (e) { /* sem armazenamento: fica a divisão padrão */ }
 
     /* ---------- o editor ---------- */
 
