@@ -59,9 +59,11 @@
   }
 
   function montar() {
-    var abrir = botao("editor-abrir", null, "Abrir o editor de Python");
-    abrir.setAttribute("aria-label", "Abrir o editor de Python");
-    abrir.appendChild(el("span", "editor-abrir-icone", "▶"));
+    var abrir = botao("editor-abrir", null, "Abrir o editor de código");
+    abrir.setAttribute("aria-label", "Abrir o editor de código");
+    var rotulo = el("span", "editor-abrir-rotulo");
+    rotulo.append(el("span", "editor-abrir-icone", "▶"), el("span", "", "Editor de código"));
+    abrir.appendChild(rotulo);
 
     var painel = el("aside", "editor-painel");
     painel.setAttribute("aria-label", "Editor de Python");
@@ -70,7 +72,7 @@
     var rodar = botao("editor-rodar", "▶ Rodar", "Rodar (Ctrl+Enter)");
     var limpar = botao("editor-botao", "Limpar", "Esvaziar o editor");
     var fechar = botao("editor-botao", "Fechar ✕", "Fechar o editor");
-    topo.append(el("span", "editor-titulo", "Python"), rodar, limpar, fechar);
+    topo.append(el("span", "editor-titulo", "Editor de código"), rodar, limpar, fechar);
 
     var codigo = el("div", "editor-codigo");
     var linhas = el("div", "editor-linhas");
