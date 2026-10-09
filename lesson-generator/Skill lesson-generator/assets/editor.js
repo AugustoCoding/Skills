@@ -1,7 +1,7 @@
 /* editor.js — um editor de Python ao lado da lição, que roda o código ali mesmo.
  *
- * Injeta sozinho uma faixa na lateral direita, "Abrir editor", que abre o
- * painel. Aberto, o painel ocupa a direita da página e a lição desliza para a
+ * Injeta sozinho uma linha fina na borda direita, que se alarga com o mouse em
+ * cima e abre o painel. Aberto, o painel ocupa a direita da página e a lição desliza para a
  * esquerda. Em cima, o editor; embaixo, a saída: o que o print escreve, os
  * erros e as figuras do matplotlib.
  *
@@ -59,8 +59,9 @@
   }
 
   function montar() {
-    var abrir = botao("editor-abrir", null, "Abrir um editor de Python ao lado da lição");
-    abrir.append(el("span", "editor-abrir-icone", "▶"), el("span", "editor-abrir-texto", "Abrir\neditor"));
+    var abrir = botao("editor-abrir", null, "Abrir o editor de Python");
+    abrir.setAttribute("aria-label", "Abrir o editor de Python");
+    abrir.appendChild(el("span", "editor-abrir-icone", "▶"));
 
     var painel = el("aside", "editor-painel");
     painel.setAttribute("aria-label", "Editor de Python");

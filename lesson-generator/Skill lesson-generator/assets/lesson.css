@@ -992,60 +992,63 @@ body.com-editor {
 }
 
 .editor-abrir {
-  /* Uma faixa na lateral direita inteira, com o convite na horizontal, no
-     meio da altura: está sempre à mão, em qualquer ponto da lição, sem cobrir
-     o texto. */
+  /* Uma linha fina na borda direita, de cima a baixo, sem nada escrito. Com o
+     mouse em cima ela se alarga e mostra o ▶. A área de pegar é mais larga que
+     a linha que se vê. */
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   z-index: 15;
-  width: 4.4rem;
+  width: 0.9rem;
   padding: 0;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.45rem;
-  font-family: var(--mono);
-  color: var(--mom-codigo);
-  background: color-mix(in srgb, var(--mom-codigo) 10%, var(--bg));
+  background: transparent;
   border: none;
-  border-left: 2px solid color-mix(in srgb, var(--mom-codigo) 55%, transparent);
   border-radius: 0;
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: width 0.2s ease, background 0.2s ease;
+}
+/* A linha que se vê. */
+.editor-abrir::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 3px;
+  background: var(--mom-codigo);
+  opacity: 0.45;
+  transition: opacity 0.2s ease;
 }
 .editor-abrir-icone {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.3rem;
-  height: 2.3rem;
+  width: 2rem;
+  height: 2rem;
   border-radius: 50%;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--bg);
   background: var(--mom-codigo);
-}
-.editor-abrir-texto {
-  white-space: pre;
-  text-align: center;
-  font-size: 0.7rem;
-  line-height: 1.35;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 .editor-abrir:hover,
 .editor-abrir:focus-visible {
-  color: var(--bg);
-  background: var(--mom-codigo);
+  width: 3rem;
+  background: color-mix(in srgb, var(--mom-codigo) 14%, transparent);
   outline: none;
 }
+.editor-abrir:hover::before,
+.editor-abrir:focus-visible::before { opacity: 1; }
 .editor-abrir:hover .editor-abrir-icone,
-.editor-abrir:focus-visible .editor-abrir-icone { color: var(--mom-codigo); background: var(--bg); }
-/* A faixa nunca cobre o texto: a coluna deixa, dos dois lados, pelo menos a
-   largura dela (e a coluna continua centrada). */
-body:not(.com-editor) { max-width: min(46rem, calc(100vw - 3.6rem - 2 * 4.7rem)); }
+.editor-abrir:focus-visible .editor-abrir-icone { opacity: 1; transform: none; }
+/* A linha não cobre o texto: a coluna deixa, dos dois lados, a largura dela. */
+body:not(.com-editor) { max-width: min(46rem, calc(100vw - 3.6rem - 2 * 1.2rem)); }
 body.com-editor .editor-abrir { display: none; }
 
 .editor-painel {
