@@ -55,7 +55,7 @@ Nada de contabilidade: nenhum arquivo de estado, índice, registro ou anotação
 
 ## A lição
 
-Um arquivo HTML por exercício, que resolve a questão inteira. Ela tem **quatro momentos, sempre nesta ordem**: abertura, modelo, código e resultado. A ordem segue o caminho de quem aprende: saber do que se trata, entender as equações, ver o programa nascer e ler o resultado. Não há exercício extra no fim: o aluno veio resolver o problema dele, e a lição termina nele.
+Um arquivo HTML por exercício, que resolve a questão inteira. Ela tem **quatro momentos, sempre nesta ordem**: abertura, modelo, código e resultado. Os três últimos têm títulos fixos, os mesmos em toda lição: "O modelo", "O código" e "O resultado". A ordem segue o caminho de quem aprende: saber do que se trata, entender as equações, ver o programa nascer e ler o resultado. Não há exercício extra no fim: o aluno veio resolver o problema dele, e a lição termina nele.
 
 O que vai **dentro** de cada momento é decisão sua, e é o exercício que manda: quantas equações, quantos passos, que figura, que verificação. Abaixo está para que serve cada momento e o que ele não pode deixar de fazer.
 
