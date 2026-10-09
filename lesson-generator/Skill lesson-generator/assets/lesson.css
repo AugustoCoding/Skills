@@ -421,7 +421,14 @@ ol.deducao > li.final::before { content: "✓"; }
      <mover><mrow class="chave-sobre">…termo…</mrow><mtext class="chave">rótulo</mtext></mover>  */
 
 mrow.chave-sob,
-mrow.chave-sobre { --chave-cor: #8a877f; }
+mrow.chave-sobre {
+  --chave-cor: #8a877f;
+  /* Folga dos lados: as pontas e o bico somam 24 px fixos, e um termo de um
+     caractere só (um "0", um "V") é mais estreito que isso — sem a folga, as
+     peças se sobrepõem e a chave sai embolada. */
+  padding-left: 0.4em;
+  padding-right: 0.4em;
+}
 
 mrow.chave-sob {
   padding-bottom: 9px;
