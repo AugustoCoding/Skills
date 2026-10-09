@@ -324,7 +324,7 @@ code.var-1, code.var-2, code.var-3, code.var-4, code.param { font-weight: 700; }
   color: var(--muted);
   font-style: italic;
 }
-.ilustrativo::before { content: "⚠ "; font-style: normal; }
+.ilustrativo::before { content: "⚠"; font-style: normal; display: inline-block; margin-right: 0.35em; vertical-align: -0.05em; }
 
 /* ---------- dedução de um balanço ---------- */
 /* Do princípio de conservação até a equação do modelo, um passo por linha.
@@ -402,8 +402,10 @@ ol.observacoes > li::before {
   top: 0.75rem;
   width: 1.75rem;
   height: 1.75rem;
-  line-height: 1.75rem;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
   border-radius: 50%;
   font-family: var(--mono);
   font-size: 0.78rem;
@@ -424,7 +426,21 @@ ol.deducao > li.final .equacao {
   background: color-mix(in srgb, var(--cor-linha) 10%, var(--code-bg));
   border: 2px solid var(--cor-linha);
 }
-ol.deducao > li.final::before { content: "✓"; }
+ol.deducao > li.final::before { content: ""; }
+/* O ✓ do passo final é desenhado no centro da bolinha, não um caractere. */
+ol.deducao > li.final::after {
+  content: "";
+  position: absolute;
+  left: 0.875rem;
+  top: 1.58rem;
+  width: 0.3rem;
+  height: 0.6rem;
+  border-right: 2px solid var(--bg);
+  border-bottom: 2px solid var(--bg);
+  transform: translate(-50%, -50%) rotate(45deg);
+  z-index: 2;
+}
+ol.deducao > li.final.fechado::after { display: none; }
 /* O parágrafo que explica a equação do modelo vive dentro do passo final:
    aparece junto com ela, não antes. */
 ol.deducao > li.final > p:not(.porque) { margin: 0.9rem 0 0.3rem; }
@@ -638,8 +654,10 @@ section.codigo { margin: 2.5rem 0; counter-reset: passo; }
   top: -0.05rem;
   width: 1.75rem;
   height: 1.75rem;
-  line-height: 1.75rem;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
   border-radius: 50%;
   font-family: var(--mono);
   font-size: 0.78rem;
@@ -745,6 +763,28 @@ details.resposta {
   padding-top: 0.9rem;
   margin: 1.4rem 0;
 }
+
+details > summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+}
+details > summary::-webkit-details-marker { display: none; }
+/* O marcador é desenhado, como os outros ícones: aponta para a direita, e
+   para baixo quando o bloco está aberto. */
+details > summary::before {
+  content: "";
+  flex: none;
+  width: 0.4em;
+  height: 0.4em;
+  margin-left: 0.1em;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform 0.2s ease;
+}
+details[open] > summary::before { transform: rotate(45deg); }
 
 details.programa > summary,
 details.resposta > summary {
@@ -875,6 +915,96 @@ mark.nota-duvida {
   padding: 0 0.15em;
 }
 
+/* ---------- ícones desenhados ---------- */
+/* Todo ícone ao lado de texto é desenhado por CSS, e não um caractere (▶ ✕ →
+   ✓ ◐): cada fonte põe um caractere numa altura diferente, e o ícone sai torto
+   ao lado do texto. Desenhado, ele fica no centro exato, e o botão que o
+   contém alinha os dois pelo meio (inline-flex, align-items: center).
+
+     <span class="ic ic-play"></span>  ic-x · ic-seta · ic-check · ic-tema      */
+
+.ic {
+  display: inline-block;
+  position: relative;
+  flex: none;
+  width: 0.8em;
+  height: 0.8em;
+}
+.ic-play {
+  width: 0.62em;
+  height: 0.72em;
+  background: currentColor;
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+.ic-x::before,
+.ic-x::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.9em;
+  height: 2px;
+  margin: -1px 0 0 -0.45em;
+  border-radius: 1px;
+  background: currentColor;
+}
+.ic-x::before { transform: rotate(45deg); }
+.ic-x::after  { transform: rotate(-45deg); }
+.ic-seta { width: 0.95em; }
+.ic-seta::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 1px;
+  top: 50%;
+  height: 2px;
+  margin-top: -1px;
+  border-radius: 1px;
+  background: currentColor;
+}
+.ic-seta::after {
+  content: "";
+  position: absolute;
+  right: 1px;
+  top: 50%;
+  width: 0.38em;
+  height: 0.38em;
+  border-top: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  transform: translateY(-50%) rotate(45deg);
+}
+.ic-check::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  width: 0.3em;
+  height: 0.58em;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.ic-tema {
+  width: 0.85em;
+  height: 0.85em;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  background: linear-gradient(90deg, currentColor 50%, transparent 50%);
+}
+
+/* Os botões com ícone alinham ícone e texto pelo meio — e o "copiar", vizinho
+   do "→ editor", entra na mesma regra para os dois terem a mesma altura. */
+.editor-topo button,
+.para-editor,
+.copiar,
+.tema {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  line-height: 1;
+}
+
 /* ---------- botões ---------- */
 
 button {
@@ -922,12 +1052,20 @@ canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
   font-size: 0.82rem;
   margin-top: 0.6rem;
 }
+.legenda span { display: inline-flex; align-items: center; gap: 0.5em; }
+/* A amostra da legenda é desenhada com o mesmo traço da curva no gráfico:
+   sólida, tracejada, pontilhada, traço-ponto — não um "——" de texto. */
 .legenda span::before {
-  content: "—— ";
-  font-family: var(--mono);
-  font-weight: bold;
+  content: "";
+  flex: none;
+  width: 1.7em;
+  height: 2px;
+  background: currentColor;
 }
-.legenda span.l-pontos::before { content: "● "; }
+.legenda .l-2::before { background: repeating-linear-gradient(90deg, currentColor 0 7px, transparent 7px 11px); }
+.legenda .l-3::before { background: repeating-linear-gradient(90deg, currentColor 0 2px, transparent 2px 5px); }
+.legenda .l-4::before { background: repeating-linear-gradient(90deg, currentColor 0 9px, transparent 9px 12px, currentColor 12px 14px, transparent 14px 17px); }
+.legenda span.l-pontos::before { width: 0.6em; height: 0.6em; border-radius: 50%; background: currentColor; }
 .legenda small { color: var(--muted); font-size: 0.9em; }
 .legenda .l-1 { color: var(--serie-1); }
 .legenda .l-2 { color: var(--serie-2); }
@@ -1091,6 +1229,8 @@ body.com-editor .editor-painel { transform: none; }
 .editor-topo button { font-family: var(--mono); font-size: 0.75rem; padding: 0.3rem 0.8rem; }
 .editor-rodar { color: var(--bg); background: var(--mom-resultado); border-color: var(--mom-resultado); }
 .editor-rodar:disabled { opacity: 0.5; cursor: wait; }
+.editor-limpar:hover { color: #1a1a18; background: var(--proc-escolha); border-color: var(--proc-escolha); }
+.editor-fechar:hover { color: #fff; background: var(--err); border-color: var(--err); }
 
 /* O editor: um textarea transparente por cima do código realçado, com a
    mesma fonte e o mesmo espaçamento, e a numeração das linhas ao lado. */

@@ -1,9 +1,9 @@
 /* editor.js — um editor de Python ao lado da lição, que roda o código ali mesmo.
  *
  * Injeta sozinho uma bolinha "‹" na borda direita, que vira o botão "Editor de
- * código ›" com o mouse em cima e abre o painel. Aberto, o painel ocupa a direita da página e a lição desliza para a
- * esquerda. Em cima, o editor; embaixo, a saída: o que o print escreve, os
- * erros e as figuras do matplotlib.
+ * código ›" com o mouse em cima e abre o painel. Aberto, o painel ocupa a
+ * direita da página e a lição desliza para a esquerda. Em cima, o editor;
+ * embaixo, a saída: o que o print escreve, os erros e as figuras do matplotlib.
  *
  * O editor começa VAZIO. Cada bloco de código da seção de código ganha, ao lado
  * do "copiar", um botão "→ editor" que acrescenta aquele trecho ao fim do
@@ -51,9 +51,20 @@
     return e;
   }
 
-  function botao(cls, txt, titulo) {
-    var b = el("button", cls, txt);
+  // Um ícone desenhado (lesson.css, "ícones desenhados"): nunca um caractere
+  // como ▶ ou ✕, que cada fonte põe numa altura e sai torto ao lado do texto.
+  function icone(nome) { return el("span", "ic ic-" + nome); }
+
+  // O conteúdo de um botão: texto e ícones, na ordem dada.
+  function rotular(b, partes) {
+    b.textContent = "";
+    partes.forEach(function (p) { b.append(typeof p === "string" ? document.createTextNode(p) : p); });
+  }
+
+  function botao(cls, partes, titulo) {
+    var b = el("button", cls);
     b.type = "button";
+    if (partes) rotular(b, [].concat(partes));
     if (titulo) b.title = titulo;
     return b;
   }
@@ -67,9 +78,9 @@
     painel.setAttribute("aria-label", "Editor de Python");
 
     var topo = el("div", "editor-topo");
-    var rodar = botao("editor-rodar", "▶ Rodar", "Rodar (Ctrl+Enter)");
-    var limpar = botao("editor-botao", "Limpar", "Esvaziar o editor");
-    var fechar = botao("editor-botao", "Fechar ✕", "Fechar o editor");
+    var rodar = botao("editor-rodar", [icone("play"), "Rodar"], "Rodar (Ctrl+Enter)");
+    var limpar = botao("editor-botao editor-limpar", "Limpar", "Esvaziar o editor");
+    var fechar = botao("editor-botao editor-fechar", ["Fechar", icone("x")], "Fechar o editor");
     topo.append(el("span", "editor-titulo", "Editor de código"), rodar, limpar, fechar);
 
     var codigo = el("div", "editor-codigo");
@@ -324,14 +335,14 @@
     document.querySelectorAll("section.codigo pre").forEach(function (pre) {
       var c = pre.querySelector("code");
       if (!c) return;
-      var b = botao("para-editor", "→ editor", "Acrescentar este trecho ao fim do programa no editor");
+      var b = botao("para-editor", [icone("seta"), "editor"], "Acrescentar este trecho ao fim do programa no editor");
       b.addEventListener("click", function (ev) {
         ev.stopPropagation();           // o clique não abre nem fecha o passo ao redor
         if (!document.body.classList.contains("com-editor")) alternar(true);
         acrescentar(c.textContent);
-        b.textContent = "✓ no editor";
+        rotular(b, [icone("check"), "no editor"]);
         b.classList.add("enviado");
-        setTimeout(function () { b.textContent = "→ editor"; b.classList.remove("enviado"); }, 1600);
+        setTimeout(function () { rotular(b, [icone("seta"), "editor"]); b.classList.remove("enviado"); }, 1600);
       });
       pre.classList.add("com-copia");
       pre.appendChild(b);
