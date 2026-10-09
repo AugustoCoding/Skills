@@ -17,13 +17,13 @@ Preencha os campos vazios **durante e depois** da sessão de teste. Os campos j�
 
 | Campo | Valor |
 |---|---|
-| Commit | `a2285bd` — "Mandar SKILL.md abrir rules.md e system_prompt.md" |
+| Commit | `f385df4` — "Mandar SKILL.md abrir rules.md e system_prompt.md" |
 | Branch | `main` |
 | Alterações locais não commitadas | não (na pasta da skill) |
 | Como a skill foi carregada | *junction* `~/.claude/skills/simulacao-fermentacao` → `Simulação-Fermentação/Skill Simulação Fermentação/`. Aponta para o repositório, não é cópia: o que estiver no working tree é o que roda, e uma escrita indevida na pasta da skill apareceria no `git status` |
 | Nome da pasta instalada | `simulacao-fermentacao` — bate com o `name:` do frontmatter |
 
-Esta é a **primeira** execução depois da reescrita que tirou a entrevista da entrada (commit `ee19e71`). Nenhum teste anterior existe para comparar.
+Esta é a **primeira** execução depois da reescrita que tirou a entrevista da entrada (commit `e4c21e1`). Nenhum teste anterior existe para comparar.
 
 ## 3. Ambiente
 
@@ -75,7 +75,7 @@ Só mande o próximo depois de o modelo terminar o anterior. Não ofereça infor
 |---|---|---|
 | 2 | `Não entendi por que o Yx/s aparece dividindo em dS/dt, e não multiplicando.` | O ciclo da dúvida: resposta no chat **e** `.nota-duvida` enxertada no ponto exato do HTML, com reabertura do arquivo |
 | 3 | `De onde saiu esse rendimento de etanol? Não estava no enunciado.` | Se a suposição foi declarada como suposição, com ordem de grandeza justificada — e não apresentada como dado de literatura |
-| 4 | Pedido de histórico da sessão em markdown, salvo em arquivo. **Fora do roteiro** — acrescentado na hora; texto exato não registrado | Nada da skill. Produziu `com-skill/HISTORICO-SESSAO-2026-08-30.md` — relato do próprio modelo avaliado, não transcript independente. Serviu para preencher as seções 5 e 6 e foi **apagado ao fechar o teste**; continua recuperável no commit `eac6c3e` |
+| 4 | Pedido de histórico da sessão em markdown, salvo em arquivo. **Fora do roteiro** — acrescentado na hora; texto exato não registrado | Nada da skill. Produziu `com-skill/HISTORICO-SESSAO-2026-08-30.md` — relato do próprio modelo avaliado, não transcript independente. Serviu para preencher as seções 5 e 6 e foi **apagado ao fechar o teste**; continua recuperável no commit `c748310` |
 
 ### O que este teste **não** cobre
 
@@ -134,7 +134,7 @@ O relato da sessão registra que o modelo conferiu os números com `solve_ivp` e
 - [r] Falou pouco no chat no turno 1 (o relato não descreve a resposta; nos turnos 2 e 3 a resposta longa é a regra, não a exceção)
 - [ ] Abriu o arquivo via CLI **na entrega inicial** — segue em aberto: o relato só menciona as reaberturas dos turnos 2 e 3, e ninguém anotou na hora. Não muda o veredito; conferir no Teste 2
 - [x] Registro de aprendizado só por evidência: os dois registros nascem das suas perguntas, nenhum de cobertura
-- [x] Leu `system_prompt.md` e `rules.md` — o relato lista os dois, confirmando que o ajuste do commit `a2285bd` funcionou
+- [x] Leu `system_prompt.md` e `rules.md` — o relato lista os dois, confirmando que o ajuste do commit `f385df4` funcionou
 - [x] Usou o banco de casos (`caso_producao_etanol.md`) como matéria-prima, sem copiá-lo para a lição
 
 **Dúvida pós-entrega (turnos 2 e 3)**
@@ -179,7 +179,7 @@ O relato da sessão registra que o modelo conferiu os números com `solve_ivp` e
 
 | Commit | O que corrigiu |
 |---|---|
-| `a52f83f` | **Achado 1** — regra da lacuna em `LESSON-FORMAT.md`: quando o enunciado manda o aluno produzir o modelo, a seção "modelo à vista" vem incompleta e o sistema fechado fica só no último degrau da escada. Refletida no passo 5 de `rules.md` e nas restrições |
-| `a52f83f` | **Achado 2** — varredura de procedência em `LESSON-FORMAT.md`: passo separado, com o arquivo pronto, em que todo número cai em dado do enunciado, fonte citada ou suposição marcada. Faixas e percentuais contam explicitamente |
-| `a52f83f` | **Achado 4** — regra de links em `LEARNING-RECORD-FORMAT.md` e nas restrições de `rules.md`: nada dentro do workspace aponta para fora dele |
+| `10919df` | **Achado 1** — regra da lacuna em `LESSON-FORMAT.md`: quando o enunciado manda o aluno produzir o modelo, a seção "modelo à vista" vem incompleta e o sistema fechado fica só no último degrau da escada. Refletida no passo 5 de `rules.md` e nas restrições |
+| `10919df` | **Achado 2** — varredura de procedência em `LESSON-FORMAT.md`: passo separado, com o arquivo pronto, em que todo número cai em dado do enunciado, fonte citada ou suposição marcada. Faixas e percentuais contam explicitamente |
+| `10919df` | **Achado 4** — regra de links em `LEARNING-RECORD-FORMAT.md` e nas restrições de `rules.md`: nada dentro do workspace aponta para fora dele |
 | — | **Achado 3** (um alvo por lição, na fronteira) segue em observação; nada mudou |

@@ -17,16 +17,16 @@ Repetição controlada do [Teste 5](../Teste%205/SESSAO.md), com o mesmo enuncia
 
 | Campo | Valor |
 |---|---|
-| Commit da skill | `12da50f` — Mover a forma para os arquivos que se copiam, e tirar o teto esquecido |
-| HEAD do dia | `5d8ed1a` — só repontou o registro do Teste 6; não tocou a skill |
+| Commit da skill | `fbe8760` — Mover a forma para os arquivos que se copiam, e tirar o teto esquecido |
+| HEAD do dia | `9125343` — só repontou o registro do Teste 6; não tocou a skill |
 | Branch | `main` |
 | Alterações locais não commitadas | não |
 | Como a skill foi carregada | *junction* `~/.claude/skills/lesson-generator` → `lesson-generator/Skill lesson-generator/` |
 | Nome da pasta instalada | `lesson-generator` |
 
-O que mudou desde o Teste 5 (`bfff006`), em dois commits, **nada disso exercitado ainda**.
+O que mudou desde o Teste 5 (`89677bf`), em dois commits, **nada disso exercitado ainda**.
 
-### `0af04c2` — as regras
+### `a84f18d` — as regras
 
 - **O teto de 1.000 palavras saiu.** No lugar, a régua de cortar o que não ensina e nunca abreviar o que ensina. Sobrou só um sinal frouxo em ~1.800 palavras de prosa.
 - **Parágrafo de abertura** obrigatório: três a cinco frases situando o processo, antes da primeira divisão.
@@ -37,11 +37,11 @@ O que mudou desde o Teste 5 (`bfff006`), em dois commits, **nada disso exercitad
 - Três modos de falha novos: a definição-etiqueta, a explicação com pressa, a lição que começa na equação.
 - **Design**: texto de 17 para 19 px, coluna de 46 para 54 rem, cantos de 3 para 10 px, símbolo definido em cor e negrito, e a classe `.termo`.
 
-### `12da50f` — a forma saiu da prosa e foi para os arquivos que se copiam
+### `fbe8760` — a forma saiu da prosa e foi para os arquivos que se copiam
 
 O pente passado antes deste teste. A hipótese: instrução que **descreve** forma custa raciocínio; forma que **já está escrita** se copia. O próprio Teste 5 demonstrou isso sem que ninguém notasse — o `codigo.js`, único componente com contrato escrito, foi o único que ele não abriu.
 
-- **O teto de palavras tinha ficado em dois lugares.** `0af04c2` tirou do `LESSON-FORMAT.md` e esqueceu no `templates/licao.html` e no `README.md`. O template é lido inteiro em toda sessão: **o Teste 6 rodado antes deste commit teria medido uma remoção pela metade.**
+- **O teto de palavras tinha ficado em dois lugares.** `a84f18d` tirou do `LESSON-FORMAT.md` e esqueceu no `templates/licao.html` e no `README.md`. O template é lido inteiro em toda sessão: **o Teste 6 rodado antes deste commit teria medido uma remoção pela metade.**
 - **`templates/componente.js`**, novo: esqueleto de gráfico que já roda, no lugar dos cinco tópicos de convenções em prosa.
 - **Os cinco blocos de HTML saíram do `LESSON-FORMAT.md`** — quatro repetiam marcação que já estava no template. Ficam as regras; a forma mora só no template. O arquivo caiu de 17.020 para 15.542 B.
 - **O template mostra `data-controles` com faixa e passo**, e manda conferir que a faixa alcança o valor citado na observação — é o mecanismo do achado 7.
@@ -81,7 +81,7 @@ conferência depois — por isso a medida do usuário é a que vale.
 
 Referências: 15+ min no Teste 2, 8 no Teste 3, **6 no Teste 4**, > 10 no Teste 5.
 
-O alvo continua sendo **menos de 5 minutos**. Mas o resultado que interessa aqui é o **sinal**: se cair abaixo dos 6 min do Teste 4 com uma lição *maior*, `0af04c2` acertou. Se ficar acima de 10 de novo, o teto de palavras não era a causa e o diagnóstico do Teste 5 estava errado.
+O alvo continua sendo **menos de 5 minutos**. Mas o resultado que interessa aqui é o **sinal**: se cair abaixo dos 6 min do Teste 4 com uma lição *maior*, `a84f18d` acertou. Se ficar acima de 10 de novo, o teto de palavras não era a causa e o diagnóstico do Teste 5 estava errado.
 
 ### O estado inicial do workspace
 
@@ -231,7 +231,7 @@ O [relatório do modelo](./RELATORIO-MODELO.md) é o mais útil da série. A se�
 **Renderização — conferida por mim, servida por HTTP, já que ele não conseguiu**
 
 - [x] Os dois canvas desenham; 320 e 340 px; zero erro de console
-- [x] **A troca de tema repinta os dois**, inclusive o `mu-tempo.js`, que o `tema.js` não conhece pelo nome — o contrato `tema-mudou` de `12da50f` funciona ponta a ponta
+- [x] **A troca de tema repinta os dois**, inclusive o `mu-tempo.js`, que o `tema.js` não conhece pelo nome — o contrato `tema-mudou` de `fbe8760` funciona ponta a ponta
 - [x] Seis passos, só o primeiro visível; cinco cliques revelam tudo e liberam os dois `details`
 - [x] Sete botões de copiar, sliders respeitando `min:max:passo`, linhas de leitura conferindo com o Python
 
@@ -254,7 +254,7 @@ Nenhum número errado.
 | 1 | **Número só numérico não declarado — repetido do Teste 5, e agora com a causa mapeada.** Seis números da lição saem só de integração (18,5 h, 12,2 h, 5,5 g/L, 89,9 g/L, o pico de dX/dt, "por volta de 20 h") e nenhum vem marcado. Pior: **o programa publicado não tem evento nem busca de raiz**, então quatro deles o aluno não consegue reproduzir com o código que recebeu — confirmado extraindo e rodando o programa. O diagnóstico é dele: a ênfase do documento no par analítico/integração treina a atenção para o resultado **final** e deixa no escuro os números de meio de curva, que são justamente os que vão para as observações. Mesma família: 85,5 % e os fatores de Monod aparecem em prosa sem a conta ao lado | atrapalha | `LESSON-FORMAT.md` |
 | 2 | **A tabela de componentes não basta para *usar* o `simulador.js`.** Lista os modelos registrados, mas não as chaves de parâmetro de cada um nem as faixas padrão dos sliders — e sem isso o `data-params` é adivinhação. Foi a única leitura de componente que sobrou. Quatro linhas na tabela a eliminam | atrapalha | `LESSON-FORMAT.md` |
 | 3 | **"Duas a quatro observações" colide com "cada controle precisa da sua própria observação".** A partir de três controles as observações acabam e não sobra nenhuma para a leitura da curva, que é o que o formato chama de análise de verdade. Ele resolveu cortando para dois controles — e resolveu bem —, mas o documento não diz qual das duas regras cede | atrapalha | `LESSON-FORMAT.md` |
-| 4 | **Redundância introduzida por `12da50f`.** "Não abra o `simulador.js` para aprender o estilo" aparece três vezes, com a mesma anedota; e três assuntos estão inteiros no `SKILL.md` e no `LESSON-FORMAT.md` (copiar só o que a lição carrega, partir do esqueleto, o componente ficar no workspace). Ele leu cada um duas vezes. Foi o pente que criou isto: pus o ponteiro novo sem tirar a prosa antiga | cosmético | `SKILL.md` |
+| 4 | **Redundância introduzida por `fbe8760`.** "Não abra o `simulador.js` para aprender o estilo" aparece três vezes, com a mesma anedota; e três assuntos estão inteiros no `SKILL.md` e no `LESSON-FORMAT.md` (copiar só o que a lição carrega, partir do esqueleto, o componente ficar no workspace). Ele leu cada um duas vezes. Foi o pente que criou isto: pus o ponteiro novo sem tirar a prosa antiga | cosmético | `SKILL.md` |
 | 5 | **A skill não tem caminho de autoverificação de renderização.** O painel de navegador da sessão abre arquivo de fora do projeto como snapshot estático, sem executar JS nem carregar `./assets/`. Ele compensou rodando o componente em Node, mas o `simulador.js` com os `data-params` dele **nunca foi visto funcionando** por quem escreveu a lição. Estava certo desta vez — eu conferi —, mas foi sorte, não método | atrapalha | `SKILL.md` |
 | 6 | **A teoria em prosa passou o código em prosa**: 794 contra 674. Com o código contado a regra passa folgada (1.265, e 1.611 somando a crítica), então não é falha — é sinal. Reli os quatro blocos procurando repetição, história ou ressalva inútil, como o formato manda acima de 1.800 palavras, e não achei: a lição é longa porque foi explicada por inteiro | cosmético | vigiar |
 

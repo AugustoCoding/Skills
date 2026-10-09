@@ -2,7 +2,7 @@
 
 **Origem:** o mesmo enunciado do [Teste 5](../Teste%205/EXERCICIO.md), palavra por palavra. Não é questão de prova real de nenhuma instituição.
 
-**Por que repetir:** o Teste 6 mede o efeito de `0af04c2`, e a métrica central é o **tempo**. Tempo só se compara com a mesma entrada. O Teste 4 usou esse desenho contra o Teste 3 e foi o teste mais informativo da série.
+**Por que repetir:** o Teste 6 mede o efeito de `a84f18d`, e a métrica central é o **tempo**. Tempo só se compara com a mesma entrada. O Teste 4 usou esse desenho contra o Teste 3 e foi o teste mais informativo da série.
 
 A comparação é direta contra a lição que já está no repositório, em [`Teste 5/com-skill/batelada-vhg-inibida-por-etanol.html`](../Teste%205/com-skill/batelada-vhg-inibida-por-etanol.html). Ao avaliar, abra as duas lado a lado.
 
@@ -18,7 +18,7 @@ Quero simular 72 h dessa batelada em Python, saber quanto etanol sai no final e 
 
 ## O que este teste responde
 
-Todas as regras abaixo entraram em `0af04c2` e **nunca foram exercitadas**. O Teste 5 rodou contra a versão anterior delas.
+Todas as regras abaixo entraram em `a84f18d` e **nunca foram exercitadas**. O Teste 5 rodou contra a versão anterior delas.
 
 | Pergunta | Como saber | O que o Teste 5 fez |
 |---|---|---|
@@ -27,8 +27,8 @@ Todas as regras abaixo entraram em `0af04c2` e **nunca foram exercitadas**. O Te
 | **A definição virou frase completa?** | Leia os `<li>` da lista de termos. "μ — taxa específica de crescimento, 1/h" é reprovação; a definição tem de dizer taxa de quê, de quem, por quê | "P — etanol, g/L", "X — levedura, g/L", "μ — taxa específica de crescimento, 1/h" |
 | **Tem parágrafo de abertura?** Três a cinco frases situando o processo, antes da primeira divisão | Olhe entre o `<header>` e o primeiro `<h2>`. O `gancho` do cabeçalho **não conta**: ele diz o que o aluno terá no fim, não que processo é este | Não tinha — o template da época não previa |
 | **A frase de fecho monta a cena antes de concluir?** Duas a quatro frases por bloco | Compare com a do Teste 5: *"Dois freios multiplicando: falta de açúcar e excesso de etanol"* pressupõe a cena montada. A nova deve construí-la | Duas das quatro frases concluíam sem montar a cena |
-| **O esqueleto de componente poupou a leitura do `simulador.js`?** As convenções em prosa (`0af04c2`) não bastaram; agora há um `templates/componente.js` que roda e se copia (`12da50f`) | Seção 3 do relatório: quantas vezes abriu o `simulador.js`, e se partiu do esqueleto. Uma leitura já significa que o esqueleto não convenceu | Leu o arquivo inteiro **3 vezes**, ~470 linhas, só para aprender o estilo, e escreveu 240 do zero |
-| **O teto de palavras sumiu de verdade?** Ele sobreviveu no `templates/licao.html` até `12da50f`, e o template é lido inteiro em toda sessão | Nenhuma menção a contagem de palavras no relatório nem no chat, e nenhuma rodada de corte de prosa | Contou, cortou de 1.126 para 1.012, recontou — uma rodada inteira de edição |
+| **O esqueleto de componente poupou a leitura do `simulador.js`?** As convenções em prosa (`a84f18d`) não bastaram; agora há um `templates/componente.js` que roda e se copia (`fbe8760`) | Seção 3 do relatório: quantas vezes abriu o `simulador.js`, e se partiu do esqueleto. Uma leitura já significa que o esqueleto não convenceu | Leu o arquivo inteiro **3 vezes**, ~470 linhas, só para aprender o estilo, e escreveu 240 do zero |
+| **O teto de palavras sumiu de verdade?** Ele sobreviveu no `templates/licao.html` até `fbe8760`, e o template é lido inteiro em toda sessão | Nenhuma menção a contagem de palavras no relatório nem no chat, e nenhuma rodada de corte de prosa | Contou, cortou de 1.126 para 1.012, recontou — uma rodada inteira de edição |
 | **Usou a caixa do número derivado?** | 22 g de ART por grama de levedura, 85,5 % de conversão, 4.500 kg: a conta tem de estar visível na lição ou no código | Publicou os três sem mostrar a conta de todos |
 | **O design novo aparece?** 19 px, coluna de 54 rem, cantos de 10 px, símbolo definido em cor e negrito | Abra no navegador. O CSS é copiado da skill, então isto testa a cópia, não a escrita — mas confirma que ele copiou a versão nova | CSS antigo: 17 px, 46 rem, cantos de 3 px |
 | **Usou `<span class="termo">`?** Classe nova, com parcimônia — um ou dois por divisão | `grep 'class="termo"'`. Zero é aceitável; muitos é ruído | Não existia |

@@ -2,7 +2,7 @@
 
 **Origem:** o mesmo enunciado dos Testes [5](../Teste%205/EXERCICIO.md) e [6](../Teste%206/EXERCICIO.md), palavra por palavra. Não é questão de prova real de nenhuma instituição.
 
-**Por que repetir pela terceira vez:** `ca361b9` mexeu em oito arquivos de uma vez, e a métrica-chefe continua sendo o **tempo**. Tempo só se compara com a mesma entrada. Além disso, os dois achados abertos e o bug do gráfico estão colados nesta lição, então dá para ver se sumiram no mesmo artefato.
+**Por que repetir pela terceira vez:** `11ac5de` mexeu em oito arquivos de uma vez, e a métrica-chefe continua sendo o **tempo**. Tempo só se compara com a mesma entrada. Além disso, os dois achados abertos e o bug do gráfico estão colados nesta lição, então dá para ver se sumiram no mesmo artefato.
 
 Compare lado a lado com [`Teste 6/com-skill/batelada-vhg-inibicao-etanol.html`](../Teste%206/com-skill/batelada-vhg-inibicao-etanol.html), que é a linha de base.
 
@@ -20,7 +20,7 @@ Quero simular 72 h dessa batelada em Python, saber quanto etanol sai no final e 
 
 ### A aposta principal: a skill entrega forma, o modelo entrega teoria
 
-`ca361b9` apagou todo conhecimento de fermentação da skill. **É a mudança de maior risco da série** — a lista de erros do domínio era a única rede contra simulação fisicamente errada, e ela não existe mais.
+`11ac5de` apagou todo conhecimento de fermentação da skill. **É a mudança de maior risco da série** — a lista de erros do domínio era a única rede contra simulação fisicamente errada, e ela não existe mais.
 
 | Pergunta | Como saber | Linha de base |
 |---|---|---|
@@ -40,7 +40,7 @@ A causa era o `lesson.css` prender a regra de largura ao `.simulador`; canvas se
 | **Os dois gráficos têm a mesma largura?** Moldura desigual lê como gráfico torto | As larguras têm de ser **idênticas**; o esqueleto veste `.sim-moldura` sozinho | T6: 600 e 300, molduras diferentes |
 | **A coluna voltou a 46 rem?** | `getComputedStyle(document.body).maxWidth` = 874 px, com fonte de 19 px | T6: 54 rem, 1.026 px |
 
-### Os dois achados que `ca361b9` fechou
+### Os dois achados que `11ac5de` fechou
 
 | Pergunta | Como saber | Linha de base |
 |---|---|---|

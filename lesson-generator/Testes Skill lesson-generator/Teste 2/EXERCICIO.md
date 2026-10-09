@@ -22,7 +22,7 @@ Preciso escolher a vazão de alimentação e defender a escolha: a dorna tem que
 | **A vazão não é dada** | É a decisão de projeto do exercício, não um dado esquecido: tem que ser escolhida, com número, e defendida contra o trade-off |
 | **O critério "sem acumular açúcar" é impossível de cumprir** com vazão constante e inóculo pequeno | O pico de S é inevitável e cai devagar com F. É o coração da lição: reconhecer que o critério do enunciado não fecha, e negociar o trade-off em vez de fingir que fecha |
 | **Yp/x não é dado, e o enunciado fala em etanol** | O modelo aqui não representa etanol nem efeito Crabtree. Isso é hipótese a nomear na crítica, não parâmetro a inventar — retesta o achado 2 do Teste 1 |
-| **O simulador já tem `batelada_alimentada`** | Está em `assets/simulador.js` desde o commit `644d79b`. Quem lê `./assets/` antes de escrever acha; quem não lê, registra um modelo novo à toa ou cai no `batelada`, que não tem volume variável |
+| **O simulador já tem `batelada_alimentada`** | Está em `assets/simulador.js` desde o commit `9d600ba`. Quem lê `./assets/` antes de escrever acha; quem não lê, registra um modelo novo à toa ou cai no `batelada`, que não tem volume variável |
 | **Não há lacuna registrada** | `learning-records/` começa vazio, então **não existe pré-requisito em aberto**. A ponte não deve disparar: a regra é "só com lacuna registrada, nunca por precaução" |
 
 ## Números conferidos

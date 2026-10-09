@@ -17,13 +17,13 @@ Preencha os campos vazios durante e depois da sessão. Os campos já preenchidos
 
 | Campo | Valor |
 |---|---|
-| Commit | `644d79b` — "Ensinar o simulador a batelada alimentada e corrigir a legenda" |
+| Commit | `9d600ba` — "Ensinar o simulador a batelada alimentada e corrigir a legenda" |
 | Branch | `main` |
 | Alterações locais não commitadas | não |
 | Como a skill foi carregada | *junction* `~/.claude/skills/simulacao-fermentacao` → `Simulação-Fermentação/Skill Simulação Fermentação/`. Aponta para o repositório: escrita indevida na pasta da skill apareceria no `git status` |
 | Nome da pasta instalada | `simulacao-fermentacao` |
 
-Diferença central para o Teste 1 (`a2285bd`): a lição deixou de ser "uma coisa por vez, o resto na próxima" e passou a resolver a questão inteira num arquivo, com quatro estações fixas e a estação de código como a maior. Saíram a escada de dicas, a regra da lacuna e todos os links internos; entraram MathML, botão de tema e o explorador de variantes.
+Diferença central para o Teste 1 (`f385df4`): a lição deixou de ser "uma coisa por vez, o resto na próxima" e passou a resolver a questão inteira num arquivo, com quatro estações fixas e a estação de código como a maior. Saíram a escada de dicas, a regra da lacuna e todos os links internos; entraram MathML, botão de tema e o explorador de variantes.
 
 ## 3. Ambiente
 
@@ -129,6 +129,6 @@ Palavras por seção da lição:
 
 | Commit | O que corrigiu |
 |---|---|
-| `f756788` | **Achado 1** — a skill perdeu o estado inteiro (missão, registros, glossário, notas, índice) e caiu de 30 arquivos para 9, de 9.088 para 2.146 palavras de leitura obrigatória. O workspace do aluno passou de nove itens para dois |
-| `f756788` | **Achado 2** — a lição virou três divisões com teto de 1.000 palavras, e morreram quiz, previsões, recuperação e aposta declarada. Menos itens obrigatórios, menos escrita |
-| `f756788` | **Achados 3 e 4** — `NOTES.md` deixou de existir; o explorador de variantes foi removido e a análise crítica passou a usar só o simulador |
+| `58f0ea0` | **Achado 1** — a skill perdeu o estado inteiro (missão, registros, glossário, notas, índice) e caiu de 30 arquivos para 9, de 9.088 para 2.146 palavras de leitura obrigatória. O workspace do aluno passou de nove itens para dois |
+| `58f0ea0` | **Achado 2** — a lição virou três divisões com teto de 1.000 palavras, e morreram quiz, previsões, recuperação e aposta declarada. Menos itens obrigatórios, menos escrita |
+| `58f0ea0` | **Achados 3 e 4** — `NOTES.md` deixou de existir; o explorador de variantes foi removido e a análise crítica passou a usar só o simulador |

@@ -4,9 +4,9 @@
 
 **É o mesmo enunciado do Teste 3, palavra por palavra.** De propósito.
 
-O Teste 3 rodou com a skill em `f756788` e deixou três coisas em aberto: 8 minutos contra a meta de 5, lição de 1.541 palavras contra o teto de 1.000, e a figura que responde a questão — a curva de produtividade contra D — fora da lição, porque a skill proibia criar componente novo.
+O Teste 3 rodou com a skill em `58f0ea0` e deixou três coisas em aberto: 8 minutos contra a meta de 5, lição de 1.541 palavras contra o teto de 1.000, e a figura que responde a questão — a curva de produtividade contra D — fora da lição, porque a skill proibia criar componente novo.
 
-As três foram corrigidas em `94f0648`. Repetir o exercício é a única forma de saber se a correção pegou: mesma entrada, skill diferente, e a diferença tem dono. Comparar exercícios diferentes, como aconteceu entre o Teste 2 e o 3, mistura o efeito da skill com o efeito do enunciado.
+As três foram corrigidas em `bd01aac`. Repetir o exercício é a única forma de saber se a correção pegou: mesma entrada, skill diferente, e a diferença tem dono. Comparar exercícios diferentes, como aconteceu entre o Teste 2 e o 3, mistura o efeito da skill com o efeito do enunciado.
 
 ## Enunciado (é este o texto colado no chat)
 
