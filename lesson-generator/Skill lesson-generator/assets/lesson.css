@@ -1000,7 +1000,7 @@ body.com-editor {
   right: 0;
   bottom: 0;
   z-index: 15;
-  width: 0.9rem;
+  width: 2.2rem;          /* a área que dispara o hover: invisível, mais larga que a linha */
   padding: 0;
   display: flex;
   align-items: center;
@@ -1039,7 +1039,7 @@ body.com-editor {
 }
 .editor-abrir:hover,
 .editor-abrir:focus-visible {
-  width: 3rem;
+  width: 3.2rem;
   background: color-mix(in srgb, var(--mom-codigo) 14%, transparent);
   outline: none;
 }
@@ -1047,8 +1047,9 @@ body.com-editor {
 .editor-abrir:focus-visible::before { opacity: 1; }
 .editor-abrir:hover .editor-abrir-icone,
 .editor-abrir:focus-visible .editor-abrir-icone { opacity: 1; transform: none; }
-/* A linha não cobre o texto: a coluna deixa, dos dois lados, a largura dela. */
-body:not(.com-editor) { max-width: min(46rem, calc(100vw - 3.6rem - 2 * 1.2rem)); }
+/* A área de hover não cobre o texto: a coluna deixa, dos dois lados, a
+   largura dela. */
+body:not(.com-editor) { max-width: min(46rem, calc(100vw - 3.6rem - 2 * 2.4rem)); }
 body.com-editor .editor-abrir { display: none; }
 
 .editor-painel {
