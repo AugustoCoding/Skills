@@ -40,6 +40,7 @@ As equações que o código vai resolver. Podem ser diferenciais, algébricas, u
 
 **Toda equação de balanço (de massa, de componente, de energia, de quantidade de movimento) é deduzida na lição**, do princípio de conservação até a forma que o código usa, um passo por linha. Mostrar só a equação final ensina a resolver **este** exercício; mostrar de onde ela vem ensina a montar o balanço do próximo.
 
+- **O título diz sempre a natureza do balanço**: de massa ou de energia (ou de quantidade de movimento), global ou de qual componente, e em que unidade ele é escrito. "Balanço de massa do componente A, em mols", "Balanço de energia do líquido do reator". A classe `balanco-massa`, `balanco-energia` ou `balanco-movimento` põe a etiqueta colorida antes do título, para que, numa lição com os dois, massa e energia se distingam de relance. A frase do princípio repete a natureza, e por que o balanço é escrito naquela unidade.
 - **O primeiro passo é o princípio em palavras**: "acúmulo = entrada − saída + geração − consumo", com o volume de controle dito na frase.
 - **O segundo traduz cada palavra em símbolos**, com uma chave sob cada termo dizendo qual palavra ele é. É o passo que o aluno mais erra sozinho.
 - **Cada passo seguinte faz uma coisa só, e diz qual** com uma etiqueta de tipo:

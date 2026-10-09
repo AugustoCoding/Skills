@@ -342,6 +342,24 @@ h3.balanco {
   color: var(--mom-modelo);
 }
 
+/* A natureza do balanço vem escrita no título E como etiqueta antes dele:
+   massa e energia nunca se confundem, nem numa lição que tem os dois. */
+h3.balanco::before {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.55rem;
+  margin-right: 0.6rem;
+  border-radius: 999px;
+  vertical-align: 0.2em;
+}
+h3.balanco-massa::before      { content: "massa";      color: var(--mom-modelo); background: color-mix(in srgb, var(--mom-modelo) 16%, transparent); }
+h3.balanco-energia::before    { content: "energia";    color: var(--err);        background: color-mix(in srgb, var(--err) 16%, transparent); }
+h3.balanco-movimento::before  { content: "movimento";  color: var(--mom-codigo); background: color-mix(in srgb, var(--mom-codigo) 16%, transparent); }
+
 ol.deducao {
   list-style: none;
   counter-reset: deducao;
