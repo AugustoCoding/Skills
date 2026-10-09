@@ -813,7 +813,7 @@ pre.com-copia:hover .para-editor { opacity: 1; }
 .tema {
   position: fixed;
   top: 1rem;
-  right: 1rem;
+  left: 1rem;
   z-index: 10;
   font-family: var(--mono);
   font-size: 0.75rem;
@@ -831,7 +831,7 @@ pre.com-copia:hover .para-editor { opacity: 1; }
 .tema:hover { opacity: 1; color: var(--fg); }
 
 @media (max-width: 40rem) {
-  .tema { top: 0.5rem; right: 0.5rem; }
+  .tema { top: 0.5rem; left: 0.5rem; }
 }
 
 
@@ -990,24 +990,43 @@ body.com-editor {
   margin-left: max(0px, calc((100vw - var(--editor-w) - 46rem) / 2));
   margin-right: var(--editor-w);
 }
-body.com-editor .tema { right: calc(var(--editor-w) + 1rem); }
 
 .editor-abrir {
+  /* Uma faixa fina na lateral direita inteira, com o convite na vertical: está
+     sempre à mão, em qualquer altura da lição, sem cobrir o texto. */
   position: fixed;
-  right: 1.2rem;
-  bottom: 1.2rem;
+  top: 0;
+  right: 0;
+  bottom: 0;
   z-index: 15;
+  width: 2.3rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  writing-mode: vertical-rl;
   font-family: var(--mono);
-  font-size: 0.8rem;
-  letter-spacing: 0.04em;
-  padding: 0.55rem 1rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--mom-codigo);
+  background: color-mix(in srgb, var(--mom-codigo) 12%, var(--bg));
+  border: none;
+  border-left: 2px solid color-mix(in srgb, var(--mom-codigo) 55%, transparent);
+  border-radius: 0;
+  cursor: pointer;
+  transition: width 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+.editor-abrir:hover,
+.editor-abrir:focus-visible {
+  width: 2.9rem;
   color: var(--bg);
   background: var(--mom-codigo);
-  border: none;
-  border-radius: 999px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  outline: none;
 }
-.editor-abrir:hover { filter: brightness(1.1); }
+/* A faixa nunca cobre o texto: a coluna deixa, dos dois lados, pelo menos a
+   largura dela (e a coluna continua centrada). */
+body:not(.com-editor) { max-width: min(46rem, calc(100vw - 3.6rem - 2 * 2.6rem)); }
 body.com-editor .editor-abrir { display: none; }
 
 .editor-painel {
