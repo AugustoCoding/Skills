@@ -1026,6 +1026,34 @@ body.com-editor {
   box-shadow: -2px 0 6px color-mix(in srgb, var(--mom-codigo) 35%, transparent);
   transition: background 0.2s ease, width 0.2s ease;
 }
+/* A setinha sobre a borda: uma aba redonda com "‹", no meio da altura, que
+   diz que há algo recolhido à direita. No hover ela dá lugar ao rótulo. */
+.editor-abrir::after {
+  content: "‹";
+  position: absolute;
+  top: 50%;
+  right: calc(20px - 0.7rem);
+  width: 1.3rem;
+  height: 1.3rem;
+  margin-top: -0.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 0.12rem;
+  box-sizing: border-box;
+  border-radius: 50%;
+  font-family: var(--mono);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--bg);
+  background: var(--mom-codigo);
+  box-shadow: 0 0 0 3px var(--bg);
+  transition: opacity 0.15s ease;
+}
+.editor-abrir:hover::after,
+.editor-abrir:focus-visible::after { opacity: 0; }
+
 /* O rótulo: aparece DENTRO da barra, quando ela se expande no hover. */
 .editor-abrir-rotulo {
   position: absolute;
