@@ -1,6 +1,6 @@
 /* editor.js — um editor de Python ao lado da lição, que roda o código ali mesmo.
  *
- * Injeta sozinho uma faixa na lateral direita, "Editor de Python", que abre o
+ * Injeta sozinho uma faixa na lateral direita, "Abrir editor", que abre o
  * painel. Aberto, o painel ocupa a direita da página e a lição desliza para a
  * esquerda. Em cima, o editor; embaixo, a saída: o que o print escreve, os
  * erros e as figuras do matplotlib.
@@ -59,7 +59,8 @@
   }
 
   function montar() {
-    var abrir = botao("editor-abrir", "▶  Editor de Python", "Abrir um editor de Python ao lado da lição");
+    var abrir = botao("editor-abrir", null, "Abrir um editor de Python ao lado da lição");
+    abrir.append(el("span", "editor-abrir-icone", "▶"), el("span", "editor-abrir-texto", "Abrir\neditor"));
 
     var painel = el("aside", "editor-painel");
     painel.setAttribute("aria-label", "Editor de Python");
@@ -102,8 +103,79 @@
     divisor.title = "Arraste para dividir o espaço · duplo clique volta ao meio";
     divisor.tabIndex = 0;
 
-    painel.append(topo, codigo, divisor, saida);
+    // A divisão entre a lição e o editor: arrasta-se para os lados.
+    var lateral = el("div", "editor-divisor-v");
+    lateral.setAttribute("role", "separator");
+    lateral.setAttribute("aria-orientation", "vertical");
+    lateral.setAttribute("aria-label", "Arraste para dividir a largura entre a lição e o editor");
+    lateral.title = "Arraste para os lados · duplo clique volta ao padrão";
+    lateral.tabIndex = 0;
+
+    painel.append(lateral, topo, codigo, divisor, saida);
     document.body.append(abrir, painel);
+
+    /* ---------- a divisão entre a lição e o editor ---------- */
+
+    var raiz = document.documentElement;
+    var MIN_EDITOR = 360;   // px: o editor ainda mostra uma linha de código inteira
+    var MIN_LICAO = 420;    // px: a lição ainda é uma coluna legível
+
+    function redesenharLicao() { window.dispatchEvent(new Event("resize")); }
+
+    function larguraEditor(w) {
+      w = Math.max(MIN_EDITOR, Math.min(window.innerWidth - MIN_LICAO, w));
+      raiz.style.setProperty("--editor-w", w + "px");
+      return w;
+    }
+
+    function larguraPadrao() {
+      raiz.style.removeProperty("--editor-w");
+      try { localStorage.removeItem("licao-editor-largura"); } catch (e) { /* sem armazenamento */ }
+      redesenharLicao();
+    }
+
+    function guardarLargura(w) {
+      try { localStorage.setItem("licao-editor-largura", String(Math.round(w))); } catch (e) { /* idem */ }
+    }
+
+    lateral.addEventListener("pointerdown", function (ev) {
+      ev.preventDefault();
+      lateral.setPointerCapture(ev.pointerId);
+      lateral.classList.add("arrastando");
+      // Sem as transições enquanto arrasta: a lição acompanha o dedo, não atrasa.
+      document.body.classList.add("redimensionando");
+      var ultima = painel.offsetWidth, quadro = 0;
+      function mover(e) {
+        ultima = larguraEditor(window.innerWidth - e.clientX);
+        if (!quadro) quadro = requestAnimationFrame(function () { quadro = 0; redesenharLicao(); });
+      }
+      function soltar() {
+        lateral.classList.remove("arrastando");
+        document.body.classList.remove("redimensionando");
+        lateral.removeEventListener("pointermove", mover);
+        lateral.removeEventListener("pointerup", soltar);
+        lateral.removeEventListener("pointercancel", soltar);
+        guardarLargura(ultima);
+        redesenharLicao();
+      }
+      lateral.addEventListener("pointermove", mover);
+      lateral.addEventListener("pointerup", soltar);
+      lateral.addEventListener("pointercancel", soltar);
+    });
+    lateral.addEventListener("dblclick", larguraPadrao);
+    lateral.addEventListener("keydown", function (ev) {
+      var passo = ev.shiftKey ? 120 : 40;
+      if (ev.key === "ArrowLeft" || ev.key === "ArrowRight") {
+        ev.preventDefault();
+        guardarLargura(larguraEditor(painel.offsetWidth + (ev.key === "ArrowLeft" ? passo : -passo)));
+        redesenharLicao();
+      }
+    });
+
+    try {
+      var largura = parseFloat(localStorage.getItem("licao-editor-largura"));
+      if (largura) larguraEditor(largura);
+    } catch (e) { /* sem armazenamento: fica a largura padrão */ }
 
     /* ---------- a divisão entre código e saída ---------- */
 

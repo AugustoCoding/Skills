@@ -992,41 +992,60 @@ body.com-editor {
 }
 
 .editor-abrir {
-  /* Uma faixa fina na lateral direita inteira, com o convite na vertical: está
-     sempre à mão, em qualquer altura da lição, sem cobrir o texto. */
+  /* Uma faixa na lateral direita inteira, com o convite na horizontal, no
+     meio da altura: está sempre à mão, em qualquer ponto da lição, sem cobrir
+     o texto. */
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   z-index: 15;
-  width: 2.3rem;
+  width: 4.4rem;
   padding: 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  writing-mode: vertical-rl;
+  gap: 0.45rem;
   font-family: var(--mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
   color: var(--mom-codigo);
-  background: color-mix(in srgb, var(--mom-codigo) 12%, var(--bg));
+  background: color-mix(in srgb, var(--mom-codigo) 10%, var(--bg));
   border: none;
   border-left: 2px solid color-mix(in srgb, var(--mom-codigo) 55%, transparent);
   border-radius: 0;
   cursor: pointer;
-  transition: width 0.2s ease, background 0.2s ease, color 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.editor-abrir-icone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.3rem;
+  height: 2.3rem;
+  border-radius: 50%;
+  font-size: 0.85rem;
+  color: var(--bg);
+  background: var(--mom-codigo);
+}
+.editor-abrir-texto {
+  white-space: pre;
+  text-align: center;
+  font-size: 0.7rem;
+  line-height: 1.35;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 .editor-abrir:hover,
 .editor-abrir:focus-visible {
-  width: 2.9rem;
   color: var(--bg);
   background: var(--mom-codigo);
   outline: none;
 }
+.editor-abrir:hover .editor-abrir-icone,
+.editor-abrir:focus-visible .editor-abrir-icone { color: var(--mom-codigo); background: var(--bg); }
 /* A faixa nunca cobre o texto: a coluna deixa, dos dois lados, pelo menos a
    largura dela (e a coluna continua centrada). */
-body:not(.com-editor) { max-width: min(46rem, calc(100vw - 3.6rem - 2 * 2.6rem)); }
+body:not(.com-editor) { max-width: min(46rem, calc(100vw - 3.6rem - 2 * 4.7rem)); }
 body.com-editor .editor-abrir { display: none; }
 
 .editor-painel {
@@ -1116,6 +1135,52 @@ body.com-editor .editor-painel { transform: none; }
 }
 .editor-texto::selection { background: color-mix(in srgb, var(--mom-codigo) 30%, transparent); }
 
+/* A barra entre a lição e o editor, na borda esquerda do painel: arrasta-se
+   para os lados. Mais larga que a linha que se vê, para ser fácil de pegar. */
+.editor-divisor-v {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -6px;
+  width: 12px;
+  z-index: 2;
+  cursor: col-resize;
+  touch-action: none;
+}
+.editor-divisor-v::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 5px;
+  width: 2px;
+  background: transparent;
+  transition: background 0.15s ease;
+}
+.editor-divisor-v::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 4px;
+  width: 4px;
+  height: 2.5rem;
+  margin-top: -1.25rem;
+  border-radius: 2px;
+  background: var(--muted);
+  opacity: 0.55;
+}
+.editor-divisor-v:hover::before,
+.editor-divisor-v:focus-visible::before,
+.editor-divisor-v.arrastando::before { background: var(--mom-codigo); }
+.editor-divisor-v:hover::after,
+.editor-divisor-v.arrastando::after { opacity: 1; background: var(--mom-codigo); }
+.editor-divisor-v:focus-visible { outline: none; }
+
+/* Enquanto se arrasta a divisão, nada anima: a lição acompanha o ponteiro. */
+body.redimensionando,
+body.redimensionando .editor-painel { transition: none; }
+body.redimensionando { user-select: none; }
+
 /* A barra entre o código e a saída: arrasta-se para ver a saída inteira. */
 .editor-divisor {
   flex: none;
@@ -1177,7 +1242,8 @@ body.com-editor .editor-painel { transform: none; }
 
 /* Tela estreita: não há lado para dividir — o editor cobre a lição. */
 @media (max-width: 62rem) {
-  :root { --editor-w: 100vw; }
+  :root { --editor-w: 100vw !important; }
+  .editor-divisor-v { display: none; }
   body.com-editor { margin-right: 0; }
 }
 
