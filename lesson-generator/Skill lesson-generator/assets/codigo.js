@@ -81,10 +81,9 @@
     return t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
-  function realcar(code) {
-    if (code.dataset.realcado || code.classList.contains("sem-realce")) return;
-    code.dataset.realcado = "1";
-    var txt = code.textContent, out = "", fim = 0, anterior = "", m;
+  // O texto Python vira HTML com as classes de realce. Usado aqui e no editor.
+  function realcarTexto(txt) {
+    var out = "", fim = 0, anterior = "", m;
     TOKEN.lastIndex = 0;
     while ((m = TOKEN.exec(txt))) {
       out += esc(txt.slice(fim, m.index));
@@ -102,7 +101,13 @@
       } else if (m[5]) cls = "hl-op";
       out += cls ? '<span class="' + cls + '">' + esc(t) + "</span>" : esc(t);
     }
-    code.innerHTML = out + esc(txt.slice(fim));
+    return out + esc(txt.slice(fim));
+  }
+
+  function realcar(code) {
+    if (code.dataset.realcado || code.classList.contains("sem-realce")) return;
+    code.dataset.realcado = "1";
+    code.innerHTML = realcarTexto(code.textContent);
   }
 
   function botaoCopiar(pre) {
@@ -233,5 +238,5 @@
     iniciar();
   }
 
-  window.Codigo = { iniciar: iniciar };
+  window.Codigo = { iniciar: iniciar, realcarTexto: realcarTexto };
 })();

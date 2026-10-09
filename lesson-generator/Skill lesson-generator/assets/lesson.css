@@ -780,6 +780,27 @@ pre.com-copia:hover .copiar { opacity: 1; }
 .copiar:hover { color: var(--fg); border-color: var(--accent); }
 .copiar.copiado { color: var(--ok); border-color: var(--ok); opacity: 1; }
 
+/* "→ editor", ao lado do copiar (assets/editor.js): manda o trecho para o fim
+   do programa que o aluno está montando no editor. */
+.para-editor {
+  position: absolute;
+  top: 0.4rem;
+  right: 4.4rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  padding: 0.2rem 0.5rem;
+  color: var(--mom-codigo);
+  background: var(--bg);
+  border: 1px solid color-mix(in srgb, var(--mom-codigo) 50%, var(--rule));
+  border-radius: var(--raio-p);
+  cursor: pointer;
+  opacity: 0.8;
+}
+pre.com-copia:hover .para-editor { opacity: 1; }
+.para-editor:hover { color: var(--bg); background: var(--mom-codigo); }
+.para-editor.enviado { color: var(--ok); border-color: var(--ok); background: var(--bg); opacity: 1; }
+
 /* ---------- botão de tema ---------- */
 /* Dois estados, claro e escuro. Fica fora do fluxo do texto: é ferramenta,
    não conteúdo. Some na impressão. */
@@ -953,6 +974,163 @@ li .no-seu-codigo::before { display: inline; margin-right: 0.5rem; }
 }
 
 
+/* ---------- editor de Python (assets/editor.js) ---------- */
+/* Aberto, o painel ocupa a direita e a lição desliza para a esquerda, centrada
+   no espaço que sobra. Em cima o código, embaixo a saída. */
+
+:root { --editor-w: min(50vw, 52rem); }
+
+body { transition: margin 0.3s ease; }
+body.com-editor {
+  margin-left: max(0px, calc((100vw - var(--editor-w) - 46rem) / 2));
+  margin-right: var(--editor-w);
+}
+body.com-editor .tema { right: calc(var(--editor-w) + 1rem); }
+
+.editor-abrir {
+  position: fixed;
+  right: 1.2rem;
+  bottom: 1.2rem;
+  z-index: 15;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  padding: 0.55rem 1rem;
+  color: var(--bg);
+  background: var(--mom-codigo);
+  border: none;
+  border-radius: 999px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+.editor-abrir:hover { filter: brightness(1.1); }
+body.com-editor .editor-abrir { display: none; }
+
+.editor-painel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: var(--editor-w);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  background: var(--code-bg);
+  border-left: 1px solid var(--rule);
+  box-shadow: -6px 0 20px rgba(0, 0, 0, 0.15);
+  transform: translateX(101%);
+  transition: transform 0.3s ease;
+}
+body.com-editor .editor-painel { transform: none; }
+
+.editor-topo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid var(--rule);
+}
+.editor-titulo {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mom-codigo);
+  margin-right: auto;
+}
+.editor-topo button { font-family: var(--mono); font-size: 0.75rem; padding: 0.3rem 0.8rem; }
+.editor-rodar { color: var(--bg); background: var(--mom-resultado); border-color: var(--mom-resultado); }
+.editor-rodar:disabled { opacity: 0.5; cursor: wait; }
+
+/* O editor: um textarea transparente por cima do código realçado, com a
+   mesma fonte e o mesmo espaçamento, e a numeração das linhas ao lado. */
+.editor-codigo { flex: 1 1 55%; display: flex; min-height: 0; }
+.editor-linhas,
+.editor-realce,
+.editor-texto {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  line-height: 1.55;
+  tab-size: 4;
+}
+.editor-linhas {
+  flex: none;
+  padding: 0.9rem 0.6rem 0.9rem 0.9rem;
+  color: var(--muted);
+  opacity: 0.6;
+  text-align: right;
+  white-space: pre;
+  overflow: hidden;
+  user-select: none;
+}
+.editor-campo { position: relative; flex: 1; min-width: 0; }
+.editor-realce,
+.editor-texto {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0.9rem 1rem 0.9rem 0.4rem;
+  border: 0;
+  border-radius: 0;
+  white-space: pre;
+  overflow: auto;
+}
+.editor-realce { background: none; overflow: hidden; pointer-events: none; }
+.editor-realce code { font: inherit; background: none; padding: 0; }
+.editor-texto {
+  color: transparent;
+  caret-color: var(--fg);
+  background: transparent;
+  resize: none;
+  outline: none;
+}
+.editor-texto::placeholder { color: var(--muted); opacity: 0.8; }
+/* Um lampejo quando um trecho chega: o olho vê que algo entrou. */
+.editor-codigo.recebeu { animation: recebeu 0.7s ease-out; }
+@keyframes recebeu {
+  from { background: color-mix(in srgb, var(--mom-codigo) 22%, transparent); }
+  to   { background: transparent; }
+}
+.editor-texto::selection { background: color-mix(in srgb, var(--mom-codigo) 30%, transparent); }
+
+/* A saída: texto do print, erros e figuras. */
+.editor-saida {
+  flex: 1 1 45%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  border-top: 2px solid var(--rule);
+}
+.editor-saida-topo {
+  display: flex;
+  gap: 0.8rem;
+  align-items: baseline;
+  padding: 0.5rem 0.9rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid var(--rule);
+}
+.editor-saida-topo > span:first-child { text-transform: uppercase; color: var(--mom-resultado); }
+.editor-estado { color: var(--muted); }
+.editor-resultado { flex: 1; overflow: auto; padding: 0.6rem 0.9rem; }
+.editor-resultado pre {
+  margin: 0 0 0.6rem;
+  padding: 0;
+  background: none;
+  font-size: 0.8rem;
+  white-space: pre-wrap;
+}
+.saida-erro { color: var(--err); }
+.saida-vazia { color: var(--muted); font-style: italic; }
+.saida-figura { display: block; max-width: 100%; margin: 0.4rem 0 0.8rem; border-radius: var(--raio-p); background: #fff; }
+
+/* Tela estreita: não há lado para dividir — o editor cobre a lição. */
+@media (max-width: 62rem) {
+  :root { --editor-w: 100vw; }
+  body.com-editor { margin-right: 0; }
+}
+
 /* ---------- impressão ---------- */
 /* O aluno pode querer estudar no papel. Controles somem, cor vira preto. */
 
@@ -967,7 +1145,8 @@ li .no-seu-codigo::before { display: inline; margin-right: 0.5rem; }
   .lateral { float: none; width: auto; margin: 0.8rem 0; padding-left: 0.8rem; border-left: 1px solid var(--rule); }
   button, .controles { display: none; }
   .moldura, .passo, .nota-duvida, pre, table, figure, ol.deducao > li, ol.observacoes > li { break-inside: avoid; }
-  .tema, .copiar { display: none; }
+  .tema, .copiar, .para-editor, .editor-abrir, .editor-painel { display: none; }
+  body.com-editor { margin: 0; }
   /* No papel não há clique: tudo que a tela esconde por etapas aparece. */
   .oculto { display: revert; }
   .fechado > * { display: revert !important; }
