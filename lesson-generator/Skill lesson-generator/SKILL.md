@@ -56,7 +56,7 @@ Equação que não é balanço (lei de velocidade dada, correlação) não se de
 - **Chave** em cada termo com significado físico próprio, com duas a cinco palavras; não em passo de pura álgebra.
 - Equação exibida é MathML; código nunca é.
 
-Depois, **a tabela de parâmetros** (valor, unidade, procedência) e **a técnica**, que fecha o modelo: o nome da ferramenta que resolve o exercício e a linha "para resolver esse tipo de problema, vamos usar esta técnica, que serve aqui por isto e isto; confira a próxima seção para aprender a usá-la". Fora da dedução, o modelo não cresce.
+Depois, **a tabela de parâmetros** (valor, unidade, procedência) e **a técnica**, que fecha o modelo em três ou quatro frases: o nome da ferramenta que resolve o exercício e a linha "para resolver esse tipo de problema, vamos usar esta técnica, que serve aqui por isto e isto; confira a próxima seção para aprender a usá-la". Fora da dedução, o modelo não cresce.
 
 **O aluno nunca simulou nada.** Termo de simulação ou de método numérico (integrador, passo, tolerância, convergência) só entra explicado em palavras do básico, na primeira vez que aparece.
 
@@ -65,7 +65,8 @@ Depois, **a tabela de parâmetros** (valor, unidade, procedência) e **a técnic
 O programa explicado **em até seis passos, mais o programa completo como o último**.
 
 - **O título do passo** é o que o aluno vê antes de abrir: diz o que vem sem entregar a resposta.
-- **Cada passo tem o trecho e o porquê**: o comentário cobre o "o quê", o parágrafo cobre a decisão (por que este método, esta tolerância, este evento). Nada de explicar o óbvio.
+- **Cada passo segue uma linha argumentativa**, em três tempos: **para quê** (a intenção, antes do código), **como** (a sintaxe de cada elemento novo, depois dele: o que é um `def`, o que a função recebe e devolve, o que significa cada formato) e **até aqui** (o que o programa ganhou com o passo). O aluno sabe a engenharia, não o Python.
+- **Toda função de biblioteca tem todos os argumentos explicados**, um a um, os posicionais e os por nome: o que cada um é e por que este valor.
 - **A verificação é obrigatória**: uma conta independente que confere o resultado (caso analítico, balanço que fecha, caso-limite).
 - **O critério de um número numérico** vai no passo onde o método é escolhido.
 - **Os passos, colados em ordem, são o programa completo e rodam**: nenhuma linha de código fica fora deles.

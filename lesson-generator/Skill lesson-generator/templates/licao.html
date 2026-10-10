@@ -133,10 +133,9 @@
 <!-- A técnica: fecha o modelo. O nome da ferramenta, em palavras do básico. -->
 <div class="tecnica">
   <p class="tecnica-nome">{Integração numérica}</p>
-  <p>{Que tipo de problema o modelo virou, em palavras simples. "Para resolver
-  esse tipo de problema, vamos usar ESTA técnica": o que ela faz, sem jargão de
-  simulação, e por que é perfeita para este caso. Termine com: "Confira a
-  próxima seção para aprender a usá-la."}</p>
+  <p>{Três ou quatro frases: o tipo de problema, em palavras simples; "para esse
+  tipo de problema, vamos usar ESTA técnica", o que ela faz sem jargão; por que
+  serve aqui; "Confira a próxima seção para aprender a usá-la."}</p>
 </div>
 
 <!-- ================= CÓDIGO ================= -->
@@ -144,32 +143,37 @@
 
 <section class="codigo">
 
+  <!-- Todo passo, menos o último, tem três tempos:
+       p.para-que  a intenção, antes do código;
+       p.como      a sintaxe de cada elemento novo, depois dele, e todo
+                   argumento que o código passa (inclusive os nome=valor);
+       p.agora     por último: o que o programa ganhou com este passo.
+       Opcionais entre o .como e o .agora: div.armadilha, div.confira. -->
   <div class="passo">
     <h3>{Parâmetros}</h3>
+    <p class="para-que">{O que este passo quer fazer, e por quê.}</p>
 <pre><code>{as linhas deste passo, com unidade em comentário}</code></pre>
-    <p>{Por que assim.}</p>
+    <p class="como">{Como o código faz isso: a sintaxe de cada elemento novo.}</p>
+    <p class="agora">{O que o programa já sabe fazer.}</p>
   </div>
 
-  <div class="passo">
-    <h3>{O passo central}</h3>
-<pre><code>{as linhas deste passo}</code></pre>
-    <p>{Por que assim.}</p>
-  </div>
-
-  <!-- Opcional: div.armadilha. -->
   <div class="passo">
     <h3>{A resolução}</h3>
+    <p class="para-que">{…}</p>
 <pre><code>{as linhas deste passo}</code></pre>
-    <p>{Por que este método, esta tolerância, este evento. Se o número sai de
-    método numérico, É AQUI que se diz o critério de convergência.}</p>
+    <p class="como">{Cada argumento da função da biblioteca, um a um. Se o número
+    sai de método numérico, É AQUI que se diz o critério que o garante.}</p>
     <div class="armadilha"><p>{O erro que parece certo, e como ele aparece na saída.}</p></div>
+    <p class="agora">{…}</p>
   </div>
 
-  <!-- A verificação: um passo, ou div.confira dentro de um passo. -->
   <div class="passo">
     <h3>{Conferir o resultado}</h3>
+    <p class="para-que">{…}</p>
 <pre><code>{as linhas da verificação}</code></pre>
+    <p class="como">{…}</p>
     <div class="confira"><p>{O que tem de bater com o quê, e por que bater prova alguma coisa.}</p></div>
+    <p class="agora">{…}</p>
   </div>
 
   <!-- O último passo é sempre o programa completo. -->

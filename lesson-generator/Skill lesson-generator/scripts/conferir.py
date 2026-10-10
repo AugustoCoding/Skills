@@ -95,12 +95,28 @@ def aviso(msg): avisos.append(msg)
 
 
 def codigo_de(no):
-    c = no.achar("code")
-    return c[0].texto() if c else ""
+    # O bloco de código do passo: o <pre>, não um <code> no meio do texto.
+    pres = no.achar("pre")
+    return pres[0].texto() if pres else ""
 
 
 def linhas_de_codigo(texto):
     return [l.rstrip() for l in texto.splitlines() if l.strip() and not l.strip().startswith("#")]
+
+
+def argumentos_por_nome(codigo):
+    """Os nomes passados como nome=valor DENTRO de uma chamada (rtol=, label=…)."""
+    nomes, prof = [], 0
+    sem_texto = re.sub(r"#[^\n]*|\"[^\"\n]*\"|'[^'\n]*'", "", codigo)
+    for m in re.finditer(r"[()\[\]]|([A-Za-z_]\w*)\s*=(?!=)", sem_texto):
+        t = m.group(0)
+        if t in "([":
+            prof += 1
+        elif t in ")]":
+            prof -= 1
+        elif prof > 0 and m.group(1) not in nomes:
+            nomes.append(m.group(1))
+    return nomes
 
 
 def numeros(texto):
@@ -142,6 +158,9 @@ def conferir_estrutura(doc):
     if not tecnica:
         erro("Falta a técnica (div.tecnica) no fim de \"O modelo\": o nome da ferramenta e por que ela serve.")
     else:
+        palavras = len(tecnica[0].texto().split())
+        if palavras > 90:
+            aviso(f"A técnica tem {palavras} palavras: o normal é três ou quatro frases, até umas 80.")
         if not tecnica[0].achar("p", "tecnica-nome"):
             erro("A técnica não tem nome (p.tecnica-nome).")
         h2s = [i for i, n in enumerate(filhos) if n.tag == "h2"]
@@ -168,6 +187,21 @@ def conferir_codigo(doc, pasta):
     if passos[-1].filhos_no("h3") and passos[-1].filhos_no("h3")[0].texto().strip() != "O programa completo":
         erro("O último passo do código tem de ser \"O programa completo\".")
         return None
+    for i, p in enumerate(passos[:-1], 1):
+        tit = p.filhos_no("h3")[0].texto().strip() if p.filhos_no("h3") else str(i)
+        partes = [f.tag if f.tag == "pre" else (f.classes[0] if f.classes else f.tag) for f in p.filhos_no()]
+        if "para-que" not in partes or "pre" not in partes or partes.index("para-que") > partes.index("pre"):
+            erro(f"Passo \"{tit}\": falta p.para-que (a intenção) antes do código.")
+        if "como" not in partes or ("pre" in partes and partes.index("como") < partes.index("pre")):
+            erro(f"Passo \"{tit}\": falta p.como (a sintaxe) depois do código.")
+        if not partes or partes[-1] != "agora":
+            erro(f"Passo \"{tit}\": o passo termina com p.agora (o que o programa ganhou).")
+        # Todo argumento passado por nome (rtol=, events=…) é explicado no passo.
+        prosa = " ".join(f.texto() for f in p.filhos_no() if f.tag != "pre")
+        for nome in argumentos_por_nome(codigo_de(p)):
+            if not re.search(r"\b" + re.escape(nome) + r"\b", prosa):
+                erro(f"Passo \"{tit}\": o argumento {nome}= não é explicado no texto do passo.")
+
     if len(passos) - 1 > 6:
         aviso(f"O código tem {len(passos) - 1} passos antes do programa completo; o limite é seis.")
 

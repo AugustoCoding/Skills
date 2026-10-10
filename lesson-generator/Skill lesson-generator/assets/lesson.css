@@ -63,9 +63,10 @@
   --mono: "SF Mono", "Cascadia Mono", Consolas, "Liberation Mono", Menlo, monospace;
 
   /* A ESCALA DO TEXTO: sete tamanhos, e cada coisa da lição usa um deles.
-       · serifada: títulos, o texto que ensina, e o de consulta;
-       · mono: código, e os rótulos (etiquetas, botões, números das bolinhas),
-         sempre em maiúsculas espaçadas quando são rótulos.
+       · serifada: tudo, inclusive os rótulos (etiquetas, botões, números das
+         bolinhas), que vão em maiúsculas espaçadas;
+       · mono: SÓ código de verdade, o que o aluno digita ou lê no editor. Um
+         símbolo (k, τ, C_A) não é código: fica em serifada, como na equação.
      Nada de tamanho solto: um elemento novo escolhe o papel dele aqui. */
   --t-h1: 2.1rem;       /* título da lição */
   --t-h2: 1.35rem;      /* seção: o modelo, o código, o resultado */
@@ -73,7 +74,7 @@
   --t-texto: 1rem;      /* tudo o que ensina: parágrafos, porquês, caixas */
   --t-apoio: 0.9rem;    /* o que se consulta: símbolos, tabela, legenda, controles */
   --t-codigo: 0.85rem;  /* código, na lição e no editor */
-  --t-rotulo: 0.7rem;   /* rótulos e botões em mono */
+  --t-rotulo: 0.78rem;  /* rótulos e botões, em maiúsculas */
   --esp-rotulo: 0.08em;
 }
 
@@ -172,7 +173,7 @@ body {
 header.licao { margin-bottom: 3rem; }
 
 header.licao .etiqueta {
-  font-family: var(--mono);
+  font-family: var(--serif);
   font-size: var(--t-rotulo);
   letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
@@ -242,7 +243,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
   padding: 1rem 1.2rem;
   background: var(--code-bg);
   border-radius: var(--raio);
-  font-family: var(--mono);
+  font-family: var(--serif);
   font-size: 0.92rem;
   overflow-x: auto;
   /* Sistemas de equações são escritos em várias linhas: preserve as quebras.
@@ -273,10 +274,12 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
 /* O símbolo definido é o que o olho procura ao voltar para conferir: ele fica
    em destaque, e o resto da linha é prosa normal. */
 .termos code {
+  font-family: var(--serif);
+  font-style: italic;
   background: none;
   color: var(--fg);
   font-weight: 700;
-  font-size: 1.02em;
+  font-size: 1em;
 }
 
 /* Termo importante no meio da explicação: peso e um sublinhado discreto, sem
@@ -291,7 +294,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
 
 /* Unidade. Nenhum parâmetro aparece sem uma. */
 .un {
-  font-family: var(--mono);
+  font-family: var(--serif);
   font-size: 0.85em;
   color: var(--muted);
   white-space: nowrap;
@@ -305,7 +308,14 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
 
 /* A cor da grandeza vale em toda a lição: equação, lista de símbolos, tabela,
    texto. Dentro da lista e da tabela, o <code> do símbolo herda a cor dela. */
-code.var-1, code.var-2, code.var-3, code.var-4, code.param { font-weight: 700; }
+code.var-1, code.var-2, code.var-3, code.var-4, code.param {
+  font-family: var(--serif);
+  font-size: 1em;
+  font-style: italic;
+  font-weight: 700;
+  background: none;
+  padding: 0;
+}
 .termos code.var-1, td code.var-1 { color: var(--serie-1); }
 .termos code.var-2, td code.var-2 { color: var(--serie-2); }
 .termos code.var-3, td code.var-3 { color: var(--serie-3); }
@@ -342,7 +352,7 @@ h3.balanco {
    massa e energia nunca se confundem, nem numa lição que tem os dois. */
 h3.balanco::before {
   display: inline-block;
-  font-family: var(--mono);
+  font-family: var(--serif);
   font-size: var(--t-rotulo);
   font-weight: 600;
   letter-spacing: var(--esp-rotulo);
@@ -400,7 +410,7 @@ ol.observacoes > li::before {
   justify-content: center;
   line-height: 1;
   border-radius: 50%;
-  font-family: var(--mono);
+  font-family: var(--serif);
   font-size: var(--t-rotulo);
   color: var(--bg);
   background: var(--cor-linha);
@@ -426,7 +436,7 @@ ol.deducao > li.final .item-dentro > p:not(.porque) { margin: 0.9rem 0 0.3rem; }
 /* O tipo do passo, como etiqueta. */
 .tipo {
   display: inline-block;
-  font-family: var(--mono);
+  font-family: var(--serif);
   font-size: var(--t-rotulo);
   letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
@@ -535,12 +545,12 @@ th {
 thead th:first-child { border-top-left-radius: var(--raio-p); }
 thead th:last-child  { border-top-right-radius: var(--raio-p); }
 tbody tr:nth-child(even) { background: color-mix(in srgb, var(--code-bg) 75%, transparent); }
-td code { background: none; padding: 0; }
+td code { font-family: var(--serif); font-style: italic; font-size: 1em; background: none; padding: 0; }
 
 /* Procedência como etiqueta: de onde veio o número se lê pela cor. */
 .proc {
   display: inline-block;
-  font-family: var(--mono);
+  font-family: var(--serif);
   font-size: var(--t-rotulo);
   letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
@@ -552,7 +562,7 @@ td code { background: none; padding: 0; }
 .proc { color: var(--mom-modelo); background: color-mix(in srgb, var(--mom-modelo) 16%, transparent); }
 /* A escolha sua é o número que o enunciado não deu: etiqueta cheia. */
 .proc-escolha { color: var(--bg); background: var(--mom-modelo); }
-td.num, th.num { text-align: right; font-family: var(--mono); }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
 
 /* ---------- blocos pedagógicos ---------- */
 
@@ -634,7 +644,7 @@ section.codigo { margin: 2.5rem 0; counter-reset: passo; }
   justify-content: center;
   line-height: 1;
   border-radius: 50%;
-  font-family: var(--mono);
+  font-family: var(--serif);
   font-size: var(--t-rotulo);
   color: var(--bg);
   background: var(--mom-codigo);
@@ -759,6 +769,25 @@ ol.deducao > li > .item-cabeca { min-height: 1.75rem; }
 
 .passo .item-dentro > p { margin: 0.7rem 0 0; font-size: var(--t-texto); }
 
+/* A explicação de um passo tem três tempos: PARA QUÊ (a intenção, antes do
+   código), COMO (a sintaxe de cada elemento, depois dele) e ATÉ AQUI (o que o
+   programa ganhou). O "até aqui" fecha o passo, com rótulo próprio. */
+.passo .item-dentro > p.para-que { margin: 0 0 0.9rem; }
+.passo .item-dentro > p.agora {
+  margin: 0.9rem 0 0;
+  padding-left: 0.8rem;
+  border-left: 3px solid var(--mom-codigo);
+  color: var(--muted);
+}
+.agora::before {
+  content: "Até aqui";
+  margin-right: 0.5rem;
+  font-size: var(--t-rotulo);
+  letter-spacing: var(--esp-rotulo);
+  text-transform: uppercase;
+  color: var(--mom-codigo);
+}
+
 .oculto { display: none; }
 
 /* A animação é curta de propósito: é para marcar que algo apareceu, não para
@@ -808,7 +837,7 @@ details[open] > summary::before { transform: rotate(45deg); }
 details.programa > summary,
 details.resposta > summary {
   cursor: pointer;
-  font-family: var(--mono);
+  font-family: var(--serif);
   font-size: var(--t-rotulo);
   letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
@@ -834,7 +863,7 @@ div.resposta::before {
   content: "A resposta";
   display: block;
   margin-bottom: 0.45rem;
-  font-family: var(--mono);
+  font-family: var(--serif);
   font-size: var(--t-rotulo);
   letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
@@ -849,7 +878,7 @@ pre.com-copia { position: relative; }
   position: absolute;
   top: 0.4rem;
   right: 0.4rem;
-  font-family: var(--mono);
+  font-family: var(--serif);
   font-size: var(--t-rotulo);
   letter-spacing: var(--esp-rotulo);
   padding: 0.2rem 0.5rem;
@@ -871,7 +900,7 @@ pre.com-copia:hover .copiar { opacity: 1; }
   position: absolute;
   top: 0.4rem;
   right: 4.4rem;
-  font-family: var(--mono);
+  font-family: var(--serif);
   font-size: var(--t-rotulo);
   letter-spacing: var(--esp-rotulo);
   padding: 0.2rem 0.5rem;
@@ -895,7 +924,7 @@ pre.com-copia:hover .para-editor { opacity: 1; }
   top: 1rem;
   left: 1rem;
   z-index: 10;
-  font-family: var(--mono);
+  font-family: var(--serif);
   font-size: var(--t-rotulo);
   letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
@@ -1044,7 +1073,7 @@ canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
   font-size: var(--t-apoio);
 }
 .controle label { display: flex; justify-content: space-between; gap: 0.5rem; }
-.controle .valor { font-family: var(--mono); color: var(--muted); }
+.controle .valor { color: var(--muted); font-variant-numeric: tabular-nums; }
 .controle input[type="range"] { width: 100%; accent-color: var(--mom-resultado); }
 
 .legenda {
@@ -1093,7 +1122,7 @@ canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
   content: "A técnica";
   display: block;
   margin-bottom: 0.3rem;
-  font-family: var(--mono);
+  font-family: var(--serif);
   font-size: var(--t-rotulo);
   letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
@@ -1120,7 +1149,7 @@ canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
 }
 .armadilha::before, .confira::before, .no-seu-codigo::before {
   display: block;
-  font-family: var(--mono);
+  font-family: var(--serif);
   font-size: var(--t-rotulo);
   letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
@@ -1161,7 +1190,7 @@ body.com-editor {
   height: 2rem;
   padding: 0 0.25rem 0 0.25rem;
   transform: translateY(-50%);
-  font-family: var(--mono);
+  font-family: var(--serif);
   font-size: var(--t-rotulo);
   letter-spacing: var(--esp-rotulo);
   white-space: nowrap;
@@ -1238,14 +1267,14 @@ body.com-editor .editor-painel { transform: none; }
   border-bottom: 1px solid var(--rule);
 }
 .editor-titulo {
-  font-family: var(--mono);
+  font-family: var(--serif);
   font-size: var(--t-rotulo);
   letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
   color: var(--mom-codigo);
   margin-right: auto;
 }
-.editor-topo button { font-family: var(--mono); font-size: var(--t-rotulo); padding: 0.3rem 0.8rem; }
+.editor-topo button { font-family: var(--serif); font-size: var(--t-rotulo); padding: 0.3rem 0.8rem; }
 .editor-rodar { color: var(--bg); background: var(--mom-resultado); border-color: var(--mom-resultado); }
 .editor-rodar:disabled { opacity: 0.5; cursor: wait; }
 .editor-limpar:hover { color: #1a1a18; background: var(--aviso); border-color: var(--aviso); }
@@ -1388,7 +1417,7 @@ body.redimensionando { user-select: none; }
   gap: 0.8rem;
   align-items: center;
   padding: 0.5rem 0.9rem;
-  font-family: var(--mono);
+  font-family: var(--serif);
   font-size: var(--t-rotulo);
   letter-spacing: var(--esp-rotulo);
   border-bottom: 1px solid var(--rule);
@@ -1398,7 +1427,7 @@ body.redimensionando { user-select: none; }
 .editor-limpar-saida {
   margin-left: auto;
   flex: none;
-  font-family: var(--mono);
+  font-family: var(--serif);
   font-size: var(--t-rotulo);
   letter-spacing: var(--esp-rotulo);
   padding: 0.2rem 0.65rem;

@@ -210,7 +210,7 @@
 
     var corRule = cor("--rule"), corMuted = cor("--muted"), corFg = cor("--fg");
     ctx.lineWidth = 1;
-    ctx.font = "11px ui-monospace, monospace";
+    ctx.font = "13px " + cor("--serif");
 
     // Grade e marcas do eixo y principal
     var cy = casasDe(ey[1].passo), v;
@@ -253,7 +253,7 @@
 
     // Rótulos dos eixos
     ctx.fillStyle = corFg;
-    ctx.font = "12px ui-monospace, monospace";
+    ctx.font = "14px " + cor("--serif");
     ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
     ctx.fillText(def.eixoX || "x", m.esq + lw / 2, h - 10);
     ctx.save(); ctx.translate(14, m.topo + lh / 2); ctx.rotate(-Math.PI / 2);
@@ -314,7 +314,7 @@
     ctx.strokeStyle = cor("--muted"); ctx.setLineDash([3, 3]); ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(xp, m.topo); ctx.lineTo(xp, m.topo + e.lh); ctx.stroke(); ctx.setLineDash([]);
 
-    ctx.font = "11px ui-monospace, monospace";
+    ctx.font = "13px " + cor("--serif");
     var largura = Math.max.apply(null, linhas.map(function (l) { return ctx.measureText(l).width; })) + 16;
     var altura = linhas.length * 15 + 10;
     var bx = xp + 10 + largura > m.esq + e.lw ? xp - 10 - largura : xp + 10;
