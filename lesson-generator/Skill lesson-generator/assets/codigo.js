@@ -276,6 +276,63 @@
     chamar();
   }
 
+  /* O MODELO NUMA LINHA SÓ — a lição escreve cada balanço como um título e a
+     sua dedução, e depois a tabela e a técnica. Aqui tudo vira uma única linha
+     do tempo, numerada em sequência como os passos do código: o título de cada
+     balanço entra como divisória sobre o fio, cada etapa é um item, e as
+     equações complementares, a tabela de parâmetros e a técnica viram os itens
+     do fim, com título próprio. A marcação da lição não muda. */
+  function unificarModelo() {
+    var h2 = document.querySelector("body > h2");
+    if (!h2 || h2.dataset.unificado) return null;
+    var nos = [], n = h2.nextElementSibling;
+    while (n && n.tagName !== "H2" && !n.classList.contains("pergunte") && !(n.tagName === "SCRIPT" && n.src)) {
+      nos.push(n);
+      n = n.nextElementSibling;
+    }
+    if (!nos.some(function (e) { return e.matches("ol.deducao"); })) return null;
+    h2.dataset.unificado = "1";
+
+    var linha = document.createElement("ol");
+    linha.className = "deducao modelo-linha";
+    nos[0].parentNode.insertBefore(linha, nos[0]);
+
+    function extra(titulo, el) {
+      var li = document.createElement("li");
+      li.className = "extra";
+      var h3 = document.createElement("h3");
+      h3.textContent = titulo;
+      li.appendChild(h3);
+      li.appendChild(el);
+      linha.appendChild(li);
+    }
+
+    nos.forEach(function (el) {
+      if (el.matches("h3.balanco")) {
+        var g = document.createElement("li");
+        g.className = "grupo";
+        g.appendChild(el);
+        linha.appendChild(g);
+      } else if (el.matches("ol.deducao")) {
+        Array.prototype.slice.call(el.children).forEach(function (li) { linha.appendChild(li); });
+        el.remove();
+      } else if (el.matches(".eq-bloco")) {
+        extra(el.dataset.titulo || "Equação complementar", el);
+      } else if (el.matches("table")) {
+        extra("Os parâmetros", el);
+      } else if (el.matches(".tecnica")) {
+        var nome = el.querySelector(".tecnica-nome");
+        extra("A técnica" + (nome ? ": " + nome.textContent.trim() : ""), el);
+      } else {
+        var li = document.createElement("li");
+        li.className = "solto";
+        li.appendChild(el);
+        linha.appendChild(li);
+      }
+    });
+    return linha;
+  }
+
   /* O SUMÁRIO — à esquerda da folha, quando a tela tem espaço (lesson.css). Sai
      da estrutura da lição: as três seções e, dentro delas, os balanços, a
      técnica, os passos do código, a resposta, as figuras e as observações. Cada
@@ -335,14 +392,19 @@
       lista.className = "sumario-grupo-itens " + (cores[i] || "");
       lista.style.setProperty("--cor-sec", "var(--mom-" + ["modelo", "codigo", "resultado"][i] + ")");
 
-      corpo.querySelectorAll("h3.balanco, .tecnica, section.codigo, div.resposta, .grafico, ol.observacoes").forEach(function (el) {
-        if (el.matches("h3.balanco")) {
-          var ol = el.nextElementSibling;
-          var nome = el.textContent.replace(/^Balanço de /, "").replace(/, em .*$/, "").replace(/ do componente /, " de ");
+      corpo.querySelectorAll("ol.modelo-linha > li.grupo, ol.modelo-linha > li.extra, section.codigo, div.resposta, .grafico, ol.observacoes").forEach(function (el) {
+        if (el.matches("li.grupo")) {
+          // As etapas do balanço: os itens até a próxima divisória ou item do fim.
+          var etapas = [], s = el.nextElementSibling;
+          while (s && !s.classList.contains("grupo") && !s.classList.contains("extra")) {
+            if (!s.classList.contains("solto")) etapas.push(s);
+            s = s.nextElementSibling;
+          }
+          var nome = el.textContent.trim().replace(/^Balanço de /, "").replace(/, em .*$/, "").replace(/ do componente /, " de ");
           nome = nome.charAt(0).toUpperCase() + nome.slice(1);
-          lista.appendChild(item(h2, nome, el, ol && ol.matches("ol.deducao") ? Array.prototype.slice.call(ol.children) : []));
-        } else if (el.matches(".tecnica")) {
-          lista.appendChild(item(h2, "A técnica", el));
+          lista.appendChild(item(h2, nome, el, etapas));
+        } else if (el.matches("li.extra")) {
+          lista.appendChild(item(h2, el.querySelector("h3").textContent.replace(/: .*$/, ""), el));
         } else if (el.matches("section.codigo")) {
           lista.appendChild(item(h2, "Os passos", el, Array.prototype.slice.call(el.querySelectorAll(".passo"))));
         } else if (el.matches("div.resposta")) {
@@ -408,8 +470,11 @@
     // para o botão de copiar entrar depois do texto já pintado.
     document.querySelectorAll("pre > code").forEach(realcar);
     document.querySelectorAll("section.codigo").forEach(montar);
+    unificarModelo();
     document.querySelectorAll("ol.deducao, ol.observacoes").forEach(function (ol) {
-      sequencia(Array.prototype.slice.call(ol.children));
+      sequencia(Array.prototype.filter.call(ol.children, function (li) {
+        return !li.classList.contains("grupo") && !li.classList.contains("solto");
+      }));
     });
     montarSecoes();
     montarSumario();

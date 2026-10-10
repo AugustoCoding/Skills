@@ -153,6 +153,10 @@ def conferir_estrutura(doc):
     if not doc.achar("table"):
         aviso("Não há tabela de parâmetros.")
 
+    for bloco in doc.achar("div", "eq-bloco"):
+        if not (bloco.attrs.get("data-titulo") or "").strip():
+            aviso("Uma equação complementar (div.eq-bloco) está sem data-titulo: ele é o título do item na linha do modelo.")
+
     # A técnica fecha o modelo: é o último bloco antes de "O código".
     tecnica = doc.achar("div", "tecnica")
     if not tecnica:

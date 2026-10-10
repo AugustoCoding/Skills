@@ -1299,7 +1299,8 @@ body.com-editor { margin-left: max(1rem, calc((100vw - var(--editor-w) - var(--f
 
 .recolhido > .item-cabeca,
 .passo.recolhido > h3,
-ol.observacoes > li.recolhido > h3 {
+ol.observacoes > li.recolhido > h3,
+ol.modelo-linha > li.recolhido > h3 {
   display: flex;
   align-items: center;
   gap: 0.45rem;
@@ -1316,17 +1317,20 @@ ol.observacoes > li.recolhido > h3 {
 /* Um título com palavras coloridas é texto corrido, não uma fileira de peças:
    no h3, bloco comum, com a altura vinda do respiro. */
 .passo.recolhido > h3,
-ol.observacoes > li.recolhido > h3 { display: block; padding-top: 0.45rem; padding-bottom: 0.45rem; line-height: 1.4; }
+ol.observacoes > li.recolhido > h3,
+ol.modelo-linha > li.recolhido > h3 { display: block; padding-top: 0.45rem; padding-bottom: 0.45rem; line-height: 1.4; }
 .recolhido:hover > .item-cabeca,
 .passo.recolhido:hover > h3,
-ol.observacoes > li.recolhido:hover > h3 {
+ol.observacoes > li.recolhido:hover > h3,
+ol.modelo-linha > li.recolhido:hover > h3 {
   border-color: color-mix(in srgb, var(--cor-linha) 60%, transparent);
   background: color-mix(in srgb, var(--cor-linha) 12%, var(--bg));
 }
 /* A setinha: › para abrir. */
 .recolhido > .item-cabeca::after,
 .passo.recolhido > h3::after,
-ol.observacoes > li.recolhido > h3::after {
+ol.observacoes > li.recolhido > h3::after,
+ol.modelo-linha > li.recolhido > h3::after {
   content: "";
   position: absolute;
   right: 0.95rem;
@@ -1352,6 +1356,34 @@ ol.observacoes > li.recolhido { margin-bottom: var(--faixa-gap); min-height: var
 @media (max-width: 760px) {
   body, body:not(.com-editor) { margin: 0 auto; padding: 3.2rem 1.1rem 4rem; border-radius: 0; box-shadow: none; }
 }
+
+/* ---------- o modelo numa linha só (codigo.js, unificarModelo) ---------- */
+/* As etapas de todos os balanços numa só sequência numerada. O título de cada
+   balanço é uma divisória sobre o fio, marcada por um losango, sem número; a
+   tabela e a técnica são os itens do fim, com título como os passos. */
+ol.modelo-linha > li.grupo,
+ol.modelo-linha > li.solto { counter-increment: none; cursor: default; }
+ol.modelo-linha > li.grupo { margin: 1.8rem 0 0.7rem; }
+ol.modelo-linha > li.grupo:first-child { margin-top: 0.4rem; }
+ol.modelo-linha > li.grupo::before {
+  content: "";
+  left: calc(0.85rem + 1px - 0.38rem);
+  top: 50%;
+  width: 0.76rem;
+  height: 0.76rem;
+  border-radius: 2px;
+  transform: translateY(-50%) rotate(45deg);
+}
+ol.modelo-linha > li.solto::before { display: none; }
+ol.modelo-linha > li.grupo > h3.balanco { margin: 0; }
+ol.modelo-linha > li.extra > h3 { margin: 0.1rem 0 0.5rem; font-size: var(--t-h3); }
+ol.modelo-linha > li.extra::before { top: 0; }
+ol.modelo-linha > li.extra .item-dentro > table,
+ol.modelo-linha > li.extra .item-dentro > .tecnica,
+ol.modelo-linha > li.extra .item-dentro > .eq-bloco { margin: 0.3rem 0 0.5rem; }
+/* Sem o título de fora, a técnica não repete o nome dentro da caixa. */
+ol.modelo-linha .tecnica .tecnica-nome { display: none; }
+ol.modelo-linha .tecnica::before { content: none; }
 
 /* ---------- editor de Python (assets/editor.js) ---------- */
 /* Aberto, o painel ocupa a direita e a lição desliza para a esquerda, centrada

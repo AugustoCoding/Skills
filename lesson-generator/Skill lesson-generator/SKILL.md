@@ -71,7 +71,7 @@ Três a cinco frases: o processo, o que o enunciado pede e o que o aluno terá n
 - Um balanço que repetiria as etapas de outro já deduzido mostra o princípio e a tradução e resume o restante numa etapa.
 - A ordem dos balanços é a que a dedução exige: por exemplo, o global vem antes do de componente quando este depende dele.
 
-Uma equação que não é balanço (lei de velocidade dada, correlação) não se deduz: ela entra num bloco próprio (`div.eq-bloco`).
+Uma equação que não é balanço (lei de velocidade dada, correlação) não se deduz: ela entra num bloco próprio (`div.eq-bloco`), com o nome dela em `data-titulo`.
 
 - Cada símbolo deve ser definido onde aparece pela primeira vez, numa frase completa, com unidade: "concentração do reagente A dentro do reator, mol/L", e não "concentração, mol/L".
 - Recomenda-se uma chave, de duas a cinco palavras, em cada termo com significado físico próprio; não em etapas de álgebra pura.
