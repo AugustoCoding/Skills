@@ -184,6 +184,7 @@ header.licao { margin-bottom: 3rem; }
 header.licao .etiqueta {
   font-family: var(--serif);
   font-size: var(--t-rotulo);
+  font-weight: 600;
   letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
   color: var(--muted);
@@ -191,14 +192,14 @@ header.licao .etiqueta {
 
 h1 {
   font-size: var(--t-h1);
-  font-weight: 400;
+  font-weight: 600;
   line-height: 1.15;
   margin: 0.4rem 0 0.8rem;
 }
 
 h2 {
   font-size: var(--t-h2);
-  font-weight: 400;
+  font-weight: 600;
   margin: 3rem 0 0.8rem;
 }
 
@@ -823,6 +824,7 @@ ol.deducao .porque > .tipo { display: none; }
   font-size: var(--t-rotulo);
   letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
+  font-weight: 600;
   color: var(--mom-codigo);
 }
 
@@ -877,6 +879,7 @@ details.resposta > summary {
   cursor: pointer;
   font-family: var(--serif);
   font-size: var(--t-rotulo);
+  font-weight: 600;
   letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
   color: var(--mom-codigo);
@@ -903,6 +906,7 @@ div.resposta::before {
   margin-bottom: 0.45rem;
   font-family: var(--serif);
   font-size: var(--t-rotulo);
+  font-weight: 600;
   letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
   color: var(--mom-resultado);
@@ -964,6 +968,7 @@ pre.com-copia:hover .para-editor { opacity: 1; }
   z-index: 10;
   font-family: var(--serif);
   font-size: var(--t-rotulo);
+  font-weight: 600;
   letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
   padding: 0.35rem 0.7rem;
@@ -1162,6 +1167,7 @@ canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
   margin-bottom: 0.3rem;
   font-family: var(--serif);
   font-size: var(--t-rotulo);
+  font-weight: 600;
   letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
   color: var(--mom-modelo);
@@ -1189,6 +1195,7 @@ canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
   display: block;
   font-family: var(--serif);
   font-size: var(--t-rotulo);
+  font-weight: 600;
   letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
   margin-bottom: 0.35rem;
@@ -1229,7 +1236,7 @@ body {
 
 /* A bolinha do editor não cobre a folha. */
 body:not(.com-editor) { max-width: min(var(--folha-w), calc(100vw - 2 * var(--folha-pad) - 2 * 2.8rem)); }
-body.com-editor { margin-left: max(1rem, calc((100vw - var(--editor-w) - var(--folha-w) - 2 * var(--folha-pad)) / 2)); }
+body.com-editor { margin-left: max(var(--editor-vao), calc((100vw - var(--editor-w) - 2 * var(--editor-vao) - var(--folha-w) - 2 * var(--folha-pad)) / 2)); }
 
 /* Com espaço, folha e sumário formam um conjunto centrado na tela. */
 @media (min-width: 1240px) {
@@ -1395,10 +1402,12 @@ ol.modelo-linha .tecnica::before { content: none; }
 /* Aberto, o painel ocupa a direita e a lição desliza para a esquerda, centrada
    no espaço que sobra. Em cima o código, embaixo a saída. */
 
-:root { --editor-w: min(50vw, 52rem); }
+:root { --editor-w: min(50vw, 52rem); --editor-vao: 0.8rem; }
 
 body { transition: margin 0.3s ease; }
-body.com-editor { margin-right: var(--editor-w); }
+body.com-editor { margin-right: calc(var(--editor-w) + 2 * var(--editor-vao)); }
+/* Com o editor aberto, o respiro dos lados da folha encolhe junto com ela. */
+body.com-editor { padding-left: clamp(1.1rem, 3vw, var(--folha-pad)); padding-right: clamp(1.1rem, 3vw, var(--folha-pad)); }
 
 .editor-abrir {
   /* Uma bolinha presa à borda direita, no meio da altura, com "‹": há algo
@@ -1464,18 +1473,22 @@ body.com-editor { margin-right: var(--editor-w); }
 body.com-editor .editor-abrir { display: none; }
 
 .editor-painel {
+  /* Uma folha própria, como a da lição: cantos arredondados, a mesma borda e
+     sombra, e um vão entre as duas — elas ficam lado a lado, nunca uma por
+     cima da outra. */
   position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
+  top: var(--editor-vao);
+  right: var(--editor-vao);
+  bottom: var(--editor-vao);
   width: var(--editor-w);
   z-index: 20;
   display: flex;
   flex-direction: column;
   background: var(--code-bg);
-  border-left: 1px solid var(--rule);
-  box-shadow: -6px 0 20px rgba(0, 0, 0, 0.15);
-  transform: translateX(101%);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px var(--borda-folha), 0 12px 40px var(--sombra-folha);
+  transform: translateX(calc(100% + 2 * var(--editor-vao)));
   transition: transform 0.3s ease;
 }
 body.com-editor .editor-painel { transform: none; }
@@ -1490,10 +1503,15 @@ body.com-editor .editor-painel { transform: none; }
 .editor-titulo {
   font-family: var(--serif);
   font-size: var(--t-rotulo);
+  font-weight: 600;
   letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
   color: var(--mom-codigo);
   margin-right: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
 .editor-topo button { font-family: var(--serif); font-size: var(--t-rotulo); padding: 0.3rem 0.8rem; }
 .editor-rodar { color: var(--bg); background: var(--mom-resultado); border-color: var(--mom-resultado); }
@@ -1558,8 +1576,8 @@ body.com-editor .editor-painel { transform: none; }
   position: absolute;
   top: 0;
   bottom: 0;
-  left: -6px;
-  width: 12px;
+  left: 0;
+  width: 10px;
   z-index: 2;
   cursor: col-resize;
   touch-action: none;
@@ -1643,7 +1661,7 @@ body.redimensionando { user-select: none; }
   letter-spacing: var(--esp-rotulo);
   border-bottom: 1px solid var(--rule);
 }
-.editor-saida-topo > span:first-child { text-transform: uppercase; color: var(--mom-resultado); }
+.editor-saida-topo > span:first-child { text-transform: uppercase; font-weight: 600; color: var(--mom-resultado); }
 .editor-estado { color: var(--muted); }
 .editor-limpar-saida {
   margin-left: auto;
@@ -1664,11 +1682,13 @@ body.redimensionando { user-select: none; }
 }
 .saida-erro { color: var(--err); }
 .saida-vazia { color: var(--muted); }
-.saida-figura { display: block; max-width: 100%; margin: 0.4rem 0 0.8rem; border-radius: var(--raio-p); background: #fff; }
+.saida-figura { display: block; max-width: 100%; max-height: calc(100% - 1rem); width: auto; height: auto; object-fit: contain; margin: 0.4rem auto 0.8rem; border-radius: var(--raio-p); background: #fff; }
 
-/* Tela estreita: não há lado para dividir — o editor cobre a lição. */
-@media (max-width: 62rem) {
-  :root { --editor-w: 100vw !important; }
+/* Celular: não há lado para dividir — o editor ocupa a tela. Acima disso, a
+   lição e o editor ficam sempre lado a lado. */
+@media (max-width: 760px) {
+  :root { --editor-w: 100vw !important; --editor-vao: 0px; }
+  .editor-painel { border-radius: 0; }
   .editor-divisor-v { display: none; }
   body.com-editor { margin-right: 0; }
 }
