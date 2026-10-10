@@ -142,4 +142,4 @@ Resultado do `conferir.py` rodado por você na lição entregue não é possíve
 
 | Commit | O que corrigiu |
 |---|---|
-| | |
+| `eb1befa` | Achados 1 a 7: rascunho apagado mesmo com terminal dentro, resposta aceita números da tabela, nome legível no controle (`nomes`), aviso da técnica alinhado, UTF-8 nos scripts, sessão termina na entrega, ordem dos balanços |

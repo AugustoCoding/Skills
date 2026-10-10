@@ -11,7 +11,7 @@ Uma linha por execução. É daqui que se lê a evolução da skill: o que foi t
 | [5](./Teste%205/SESSAO.md) | 2026-09-01 | `89677bf` | Opus 5, esforço médio | Teoria por equação, e a disciplina do gráfico | Aprovado com ressalvas: > 10 min | `a84f18d` — teto de palavras removido, parágrafo de abertura, definição por extenso, convenções de componente e o design novo |
 | [6](./Teste%206/SESSAO.md) | 2026-09-01 | `fbe8760` | Opus 5, esforço médio | Sem teto de palavras: mais completa e mais rápida? | Aprovado com ressalva: 6 a 8 min, lição 88% maior | {a preencher} |
 | [7](./Teste%207/SESSAO.md) | 2026-09-04 | `11ac5de` | Opus 5, esforço médio | A skill sem domínio: forma da skill, teoria do modelo | Aprovado com ressalva: 0 leituras do simulador, gráficos corrigidos, tempo não medido | {a preencher} |
-| [8](./Teste%208/SESSAO.md) | 2026-10-10 | `4f11200` | Opus 5.5, esforço médio | A skill reescrita num exercício de separação (flash, raiz) | Aprovado com ressalvas: números certos, 10 min 37 s, 3 achados de script | {a preencher} |
+| [8](./Teste%208/SESSAO.md) | 2026-10-10 | `4f11200` | Opus 5.5, esforço médio | A skill reescrita num exercício de separação (flash, raiz) | Aprovado com ressalvas: números certos, 10 min 37 s, 3 achados de script | `eb1befa` — rascunho, resposta com dados da tabela, nome do controle, sessão sem commit |
 
 ## Como usar
 
