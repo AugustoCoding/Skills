@@ -36,7 +36,7 @@
   --param: var(--fg);
 
   /* Aviso que não é erro (o hover do Limpar do editor). */
-  --aviso: #f2dc8c;
+  --aviso: #b08410;
 
   /* Cor de cada momento da lição, no título. */
   --mom-modelo: #8a6510;
@@ -109,7 +109,7 @@
     --serie-2: #f093b4;
     --serie-3: #5fc8d4;
     --serie-4: #cfc6b0;
-    --aviso: #f4e19a;
+    --aviso: #f2d478;
     --mom-modelo: #e2bb5c;
     --mom-codigo: #c99bd2;
     --mom-resultado: #7fc394;
@@ -145,7 +145,7 @@
   --serie-2: #f093b4;
   --serie-3: #5fc8d4;
   --serie-4: #cfc6b0;
-  --aviso: #f4e19a;
+  --aviso: #f2d478;
   --mom-modelo: #e2bb5c;
   --mom-codigo: #c99bd2;
   --mom-resultado: #7fc394;
@@ -1549,9 +1549,13 @@ button.editor-icone {
   justify-content: center;
   font-size: 0.9rem;
 }
-.editor-rodar { color: var(--bg); background: var(--mom-resultado); border-color: var(--mom-resultado); }
+/* Os três botões no mesmo padrão: neutros, e com o mouse em cima o ícone
+   ganha a cor do botão, sobre um véu dela. O ▶ já vem verde, por ser a ação
+   principal. */
+.editor-rodar { color: var(--mom-resultado); }
+.editor-rodar:hover:not(:disabled) { color: var(--mom-resultado); background: color-mix(in srgb, var(--mom-resultado) 22%, var(--bg)); border-color: color-mix(in srgb, var(--mom-resultado) 45%, var(--bg)); }
 .editor-rodar:disabled { opacity: 0.5; cursor: wait; }
-.editor-limpar:hover { color: #1a1a18; background: var(--aviso); border-color: var(--aviso); }
+.editor-limpar:hover { color: var(--aviso); background: color-mix(in srgb, var(--aviso) 22%, var(--bg)); border-color: color-mix(in srgb, var(--aviso) 45%, var(--bg)); }
 /* O fechar não é um erro: um vermelho suave, só um véu da cor de erro. */
 .editor-fechar:hover { color: var(--err); background: color-mix(in srgb, var(--err) 22%, var(--bg)); border-color: color-mix(in srgb, var(--err) 45%, var(--bg)); }
 
@@ -1701,7 +1705,7 @@ body.redimensionando { user-select: none; }
   letter-spacing: var(--esp-rotulo);
   padding: 0.2rem 0.65rem;
 }
-.editor-limpar-saida:hover { color: #1a1a18; background: var(--aviso); border-color: var(--aviso); }
+.editor-limpar-saida:hover { color: var(--aviso); background: color-mix(in srgb, var(--aviso) 22%, var(--bg)); border-color: color-mix(in srgb, var(--aviso) 45%, var(--bg)); }
 .editor-resultado { flex: 1; overflow: auto; padding: 0.6rem 0.9rem; }
 .editor-resultado pre {
   margin: 0 0 0.6rem;
