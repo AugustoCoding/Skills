@@ -161,6 +161,11 @@ def conferir_estrutura(doc):
         palavras = len(tecnica[0].texto().split())
         if palavras > 90:
             aviso(f"A técnica tem {palavras} palavras: o normal é três ou quatro frases, até umas 80.")
+        texto_tec = [p for p in tecnica[0].filhos_no("p") if not p.tem("tecnica-nome")]
+        if not any(p.achar(cls="termo") for p in texto_tec):
+            erro("A técnica não destaca o nome dela no texto (span.termo).")
+        if not any(p.achar("code") for p in texto_tec):
+            erro("A técnica não diz a função de Python que a faz (<code>).")
         if not tecnica[0].achar("p", "tecnica-nome"):
             erro("A técnica não tem nome (p.tecnica-nome).")
         h2s = [i for i, n in enumerate(filhos) if n.tag == "h2"]

@@ -390,6 +390,23 @@ ol.observacoes::before {
   width: 2px;
   background: color-mix(in srgb, var(--cor-linha) 35%, transparent);
 }
+/* O pé do fio: com o último item aberto, o fio desce além da bolinha dele, e
+   um traço na ponta diz que a sequência acabou ali. */
+ol.deducao::after,
+ol.observacoes::after {
+  content: "";
+  position: absolute;
+  left: calc(0.85rem + 1px - 0.4rem);
+  bottom: 0.9rem;
+  width: 0.8rem;
+  height: 2px;
+  border-radius: 1px;
+  background: color-mix(in srgb, var(--cor-linha) 60%, transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+ol.deducao:has(> li:last-child:not(.recolhido))::after,
+ol.observacoes:has(> li:last-child:not(.recolhido))::after { opacity: 1; }
 ol.deducao > li,
 ol.observacoes > li {
   counter-increment: item;
