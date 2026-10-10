@@ -1552,7 +1552,8 @@ button.editor-icone {
 .editor-rodar { color: var(--bg); background: var(--mom-resultado); border-color: var(--mom-resultado); }
 .editor-rodar:disabled { opacity: 0.5; cursor: wait; }
 .editor-limpar:hover { color: #1a1a18; background: var(--aviso); border-color: var(--aviso); }
-.editor-fechar:hover { color: #fff; background: var(--err); border-color: var(--err); }
+/* O fechar não é um erro: um vermelho suave, só um véu da cor de erro. */
+.editor-fechar:hover { color: var(--err); background: color-mix(in srgb, var(--err) 22%, var(--bg)); border-color: color-mix(in srgb, var(--err) 45%, var(--bg)); }
 
 /* O editor: um textarea transparente por cima do código realçado, com a
    mesma fonte e o mesmo espaçamento, e a numeração das linhas ao lado. */
