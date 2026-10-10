@@ -26,4 +26,10 @@
 
 ## Gabarito
 
-Guardado fora do repositório até a sessão de teste terminar; acrescentado aqui depois.
+Calculado com `solve_bvp` (tol 10⁻⁸) e conferido pela solução analítica (η = tanh φ / φ; centro = C<sub>s</sub>/cosh φ), guardado fora do repositório até a sessão terminar.
+
+| Grandeza | Pastilha de 4 mm (L = 2 mm) | Pastilha de 8 mm (L = 4 mm) |
+|---|---|---|
+| Módulo de Thiele φ | 2,000 | 4,000 |
+| Concentração no centro | 2,658 mol/m³ | 0,366 mol/m³ |
+| Fator de efetividade η | 0,4820 | 0,2498 |
