@@ -1046,28 +1046,14 @@ pre.com-copia:hover .para-editor { opacity: 1; }
   border-right: 2px solid currentColor;
   transform: translateY(-50%) rotate(45deg);
 }
-/* A lixeira: a tampa (um traço) e o corpo (um balde aberto em cima). */
-.ic-lixo { width: 0.8em; height: 0.9em; }
-.ic-lixo::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0.08em;
-  height: 2px;
-  border-radius: 1px;
+/* A lixeira: tampa com alça, corpo afunilado e dois frisos. Desenhada em SVG
+   e usada como máscara, para tomar a cor do botão (currentColor). */
+.ic-lixo {
+  width: 1.05em;
+  height: 1.05em;
   background: currentColor;
-}
-.ic-lixo::after {
-  content: "";
-  position: absolute;
-  left: 0.1em;
-  right: 0.1em;
-  top: 0.26em;
-  bottom: 0;
-  border: 2px solid currentColor;
-  border-top: none;
-  border-radius: 0 0 2px 2px;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 6.5h17'/%3E%3Cpath d='M9 6.5V4.8A1.8 1.8 0 0 1 10.8 3h2.4A1.8 1.8 0 0 1 15 4.8v1.7'/%3E%3Cpath d='M18.5 6.5l-.9 12.6A2 2 0 0 1 15.6 21H8.4a2 2 0 0 1-2-1.9L5.5 6.5'/%3E%3Cpath d='M10 10.5v6M14 10.5v6'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 6.5h17'/%3E%3Cpath d='M9 6.5V4.8A1.8 1.8 0 0 1 10.8 3h2.4A1.8 1.8 0 0 1 15 4.8v1.7'/%3E%3Cpath d='M18.5 6.5l-.9 12.6A2 2 0 0 1 15.6 21H8.4a2 2 0 0 1-2-1.9L5.5 6.5'/%3E%3Cpath d='M10 10.5v6M14 10.5v6'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 .ic-check::before {
   content: "";
