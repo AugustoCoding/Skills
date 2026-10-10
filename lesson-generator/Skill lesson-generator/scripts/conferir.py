@@ -348,21 +348,39 @@ def conferir_observacoes(doc, saida):
     """Números das observações de leitura: impressos pelo programa ou da tabela."""
     if saida is None:
         return
-    conhecidos = numeros(saida) + [n for t in doc.achar("table") for n in numeros(t.texto())]
+    # Conhecidos: o que o programa imprime, a tabela de parâmetros e os dados
+    # escritos no próprio programa (as medidas do enunciado, por exemplo).
+    programa = "\n".join(codigo_de(p) for p in doc.achar("div", "passo"))
+    conhecidos = (numeros(saida) + [n for t in doc.achar("table") for n in numeros(t.texto())]
+                  + numeros(re.sub(r"#[^\n]*", "", programa)))
+
+    def conhecido(bruto):
+        return any(abs(v - w) <= 0.5 * 10 ** -c + 1e-12 for v, c, _, _ in numeros(bruto) for w, *_ in conhecidos)
+
     soltos = []
     for ol in doc.achar("ol", "observacoes"):
         for li in ol.filhos_no("li"):
             if li.achar(cls="no-seu-codigo"):
                 continue        # observação de controle: fala de outro cenário
             for p in li.filhos_no("p"):
-                for m in re.finditer(NUMERO_TEXTO, texto_fora_de_codigo(p)):
+                texto = texto_fora_de_codigo(p)
+                for m in re.finditer(NUMERO_TEXTO, texto):
+                    # Conta feita à vista com números conhecidos: "2,00 − 1,35 = 0,65".
+                    conta = re.search(r"((?:\d+(?:[.,]\d+)?\s*[-+−×·*/]\s*)+\d+(?:[.,]\d+)?)\s*=\s*$", texto[:m.start()])
+                    if conta and all(conhecido(x) for x in re.findall(r"\d+(?:[.,]\d+)?", conta.group(1))):
+                        # A conta tem de estar certa, até o arredondamento do resultado.
+                        expr = conta.group(1).replace(",", ".").replace("−", "-").translate(str.maketrans("×·", "**"))
+                        valor, casas, _, bruto = numeros(m.group(0))[0]
+                        if abs(eval(expr, {"__builtins__": {}}) - valor) > 0.5 * 10 ** -casas + 1e-9:
+                            aviso(f"Conta errada numa observação: {conta.group(1).strip()} = {bruto}.")
+                        continue
                     for valor, casas, cientifico, bruto in numeros(m.group(0)):
                         tol = 0.5 * 10 ** -casas + 1e-12
                         if not any(abs(valor - v) <= tol for v, *_ in conhecidos) and bruto not in soltos:
                             soltos.append(bruto)
     if soltos:
-        aviso("Números das observações que o programa não imprime e a tabela não tem: " +
-              ", ".join(soltos[:6]) + ". Todo número citado é impresso pelo programa.")
+        aviso("Números das observações que nem o programa imprime, nem a tabela ou os dados do programa têm, "
+              "nem saem de uma conta à vista: " + ", ".join(soltos[:6]) + ".")
 
 
 def listar_numeros(doc):

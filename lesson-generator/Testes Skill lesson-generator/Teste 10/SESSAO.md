@@ -48,20 +48,60 @@ Protocolo do [README dos testes](../README.md): sessão à mão, prompt como pri
 
 | | Horário |
 |---|---|
-| Início | |
-| Fim do turno 1 | |
-| **Duração** | |
+| Início | 17:28:27 UTC |
+| Fim do turno 1 | 17:33:36 UTC |
+| **Duração** | **5 min 09 s** (Teste 9: 5 min 02 s) |
+
+Sessão: "Ordem de reação e constante de velocidade", iniciada à mão; o histórico confirma o `/lesson-generator` como comando.
 
 ## 5. Saída
 
+```text
+~\testes-lesson-generator\teste-10\
+  licoes\
+    ordem-de-reacao-a-partir-de-dados-de-batelada.html   106 KB, arquivo único
+```
+
+Copiada para [com-skill/](./com-skill/).
+
 ## 6. Avaliação
+
+**Fluxo**
+
+- [x] Skill invocada pelo comando; não entrevistou; destino padrão `./licoes`; rascunho apagado; sem commit
+- [x] Resposta ao aluno em duas linhas, com os números certos e vírgula decimal
+
+**As duas mudanças de `b266a1e`**
+
+- [x] **Mecanismo explicado**: o passo do ajuste diz que o `curve_fit` chama `CA_modelo(t_med, n, k)` a cada tentativa, com o vetor inteiro de tempos no primeiro argumento e o par em teste nos outros, por que `t` vem primeiro, o que ele faz com o que a função devolve (diferenças, quadrados, soma) e quando para. Também explica a função passada sem parênteses, `p0` na ordem dos parâmetros, `(k,)` e a vírgula, `CA_med[0]` e o índice que começa em zero, `**`, e por que `CA_n_fixo` existe.
+- [x] **Figura no programa**: o último passo desenha medidas e modelo com `plt.show()`. No editor, os seis passos rodaram no Pyodide em 6,9 s e a figura apareceu na saída.
+
+**A lição**
+
+- [x] Balanço de massa deduzido em 7 etapas, com duas hipóteses que dizem o que mudaria (volume e temperatura constantes)
+- [x] Quadro da técnica: "ajuste não linear por mínimos quadrados", com `curve_fit`
+- [x] Ordem ajustada livre (1,996 ± 0,037), depois fixada em 2 com justificativa, e o tempo pedido pela equação integrada (armadilhas 1 e 4)
+- [x] Unidade de k correta para n = 2 (armadilha 3)
+- [x] Duas caixas "o erro que parece certo", ambas verdadeiras: chute n = 1 prende o ajuste em n = 1,000 (confirmado rodando), e `n_fixo = 1` divide por zero
+- [x] Verificação independente pela reta de 1/C<sub>A</sub> contra t, com a diferença explicada (o peso dos pontos baixos na linearização)
+- [x] Figura com controle de n (1 a 3) que reajusta k e mostra a soma dos quadrados; console limpo
+- [x] Observações ancoradas nos dados; a de controle diz a mudança no código, e as afirmações conferem (n = 1,5 dá soma 38 vezes maior; n = 2,5, 26 vezes)
+
+**Correção técnica** (contra o [gabarito](./EXERCICIO.md))
+
+- [x] n = 2,00 (1,996 ± 0,037); k = 0,0499 L/(mol·min) com n = 2; 70,1 min até 0,25 mol/L
 
 ## 7. Achados
 
 | # | Achado | Gravidade | Onde |
 |---|---|---|---|
+| 1 | O `conferir.py` deu aviso falso para números das observações que são medidas do enunciado (estão no programa, não na tabela) e para contas feitas à vista ("2,00 − 1,35 = 0,65") | atrapalha | `conferir.py`: aceitar os dados do programa e contas à vista com números conhecidos, refazendo a conta; `SKILL.md` 5 deixa a conta à vista explícita |
+
+Nenhum achado na lição.
 
 ## 8. Veredito
+
+**Aprovado, sem ressalvas na lição.** 5 min 09 s, números certos, as duas mudanças pedidas aplicadas com folga (a explicação do mecanismo do `curve_fit` é o melhor trecho de código de todos os testes), editor com figura. O único achado foi no verificador.
 
 ## 9. O que mudou depois deste teste
 

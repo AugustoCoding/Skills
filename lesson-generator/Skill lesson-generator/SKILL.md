@@ -132,7 +132,7 @@ Você não deve criar componente nem figura que não seja do tipo x contra y: o 
 
 **Cálculo prévio.** Antes de escrever, calcule os resultados com contas rápidas, só para saber o que a lição vai afirmar. Se existir solução analítica, mesmo de um caso particular ou de um limite, use-a para confirmar o resultado numérico. Se os dois discordarem, encontre o erro antes de prosseguir, sem presumir qual está certo. O programa deve rodar em menos de 30 s; se demorar mais, revise o método.
 
-**Todo número citado na lição deve ser impresso pelo programa entregue**, inclusive os instantes, picos e cruzamentos mencionados nas observações. Se um número exigiria um passo a mais para ser calculado, não o cite.
+**Todo número citado na lição deve ser impresso pelo programa entregue**, inclusive os instantes, picos e cruzamentos mencionados nas observações. Valem também os dados do enunciado e uma conta simples feita à vista no texto com números já citados ("2,00 − 1,35 = 0,65 mol/L"). Se um número exigiria um passo a mais para ser calculado, não o cite.
 
 **Procedência.** Revise cada número da lista impressa pelo `conferir.py`, inclusive faixas e percentuais no meio de frases. Todo número deve ser de um destes tipos:
 

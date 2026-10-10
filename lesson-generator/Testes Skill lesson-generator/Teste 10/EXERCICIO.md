@@ -34,4 +34,11 @@ Os dados foram gerados de uma reação de segunda ordem com ruído de cerca de 2
 
 ## Gabarito
 
-Guardado fora do repositório até a sessão de teste terminar; acrescentado aqui depois.
+Calculado com `curve_fit` antes da sessão, com C<sub>A0</sub> fixo em 2,0 mol/L, e guardado fora do repositório até ela terminar.
+
+| Grandeza | Valor |
+|---|---|
+| Ajuste livre | n = 2,00 (± 0,04); k = 0,0500 (± 0,0007) L/(mol·min); soma dos quadrados 1,05·10⁻³ (mol/L)² |
+| Primeira ordem | k = 0,0532 1/min; soma dos quadrados 0,188 (180 vezes pior) |
+| Segunda ordem | k = 0,0499 L/(mol·min); soma dos quadrados 1,05·10⁻³ |
+| Tempo até 0,25 mol/L | cerca de 70 min (69,8 com n livre; 70,1 com n = 2) |
