@@ -1,8 +1,7 @@
 ---
 name: lesson-generator
-description: Transforma um exercício de engenharia química numa lição HTML interativa que ensina o aluno a programar a solução em Python.
+description: Gera uma lição HTML interativa que ensina a programar em Python a solução de um exercício de engenharia química. Use SOMENTE quando o usuário pedir esta skill pelo nome (lesson-generator), por exemplo "use a lesson-generator neste exercício". Não a use por conta própria para exercícios ou dúvidas de engenharia química sem esse pedido.
 disable-model-invocation: true
-allow_implicit_invocation: false
 argument-hint: "Cole o exercício que você quer aprender a resolver programando"
 ---
 
