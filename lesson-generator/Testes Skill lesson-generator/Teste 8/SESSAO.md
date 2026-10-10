@@ -9,8 +9,8 @@ Primeiro teste da skill reescrita na branch `skill-geral`. Preencha os campos va
 | Campo | Valor |
 |---|---|
 | Teste | 8 |
-| Data | {AAAA-MM-DD} |
-| Quem rodou | Augusto |
+| Data | 2026-10-10 |
+| Quem rodou | Augusto, por uma sessão separada iniciada pela sessão de desenvolvimento |
 | Foco | A skill reescrita (só copiar e preencher, peças prontas, conferir.py, entrega em arquivo único) produz uma lição certa e rápida num exercício que não é de reator nem de EDO? |
 
 ## 2. Versão da skill
@@ -19,7 +19,7 @@ Primeiro teste da skill reescrita na branch `skill-geral`. Preencha os campos va
 |---|---|
 | Commit da skill | `4f11200` — Corrigir incoerencias da skill antes do Teste 8 |
 | Branch | `skill-geral` |
-| Alterações locais não commitadas | {conferir com `git status` antes de rodar: deve ser "não"} |
+| Alterações locais não commitadas | não (HEAD `de2dfb7`, só a montagem deste teste) |
 | Como a skill foi carregada | *junction* `~/.claude/skills/lesson-generator` → `lesson-generator/Skill lesson-generator/` (refeita em 2026-10-10: a antiga apontava para o caminho de antes da mudança do repositório) |
 | Nome da pasta instalada | `lesson-generator` |
 
@@ -37,11 +37,11 @@ Praticamente tudo; a skill foi reescrita. O que este teste exercita pela primeir
 
 | Campo | Valor |
 |---|---|
-| Cliente | Claude Code {desktop / CLI, versão} |
-| Modelo | {id exato} |
-| Esforço | {baixo / médio / alto} |
-| Modo de permissões | {ex: auto} |
-| Acesso à web | {sim / não} |
+| Cliente | Claude Code desktop (sessão iniciada por `start_session`, contexto novo) |
+| Modelo | `claude-opus-5-5` |
+| Esforço | médio |
+| Modo de permissões | auto |
+| Acesso à web | não usado |
 | Sistema | Windows 11 |
 | Diretório de trabalho | raiz do repositório |
 
@@ -69,16 +69,19 @@ Marque a hora ao apertar enter e quando a última linha do turno 1 aparecer, **a
 
 | | Horário |
 |---|---|
-| Prompt enviado | |
-| Última linha | |
-| **Duração** | |
+| Prompt enviado | 12:10:01 UTC (criação da sessão) |
+| Última linha | 12:20:38 UTC (última atividade do turno 1) |
+| **Duração** | **10 min 37 s**, pelos registros da sessão |
+
+A sessão recebeu, além do prompt, uma linha de abertura: atender como um usuário comum e não abrir nada em `Testes Skill lesson-generator/` além da pasta de gravação (o gabarito está lá).
 
 ## 5. Saída
 
 Onde a lição foi gravada: `com-skill/` — começou vazia.
 
 ```text
-{árvore dos arquivos gerados: deve ser UM .html, sem pasta assets e sem .rascunho-*}
+com-skill/
+  flash-de-tres-componentes.html   106 KB, arquivo único, sem comentários
 ```
 
 Resultado do `conferir.py` rodado por você na lição entregue não é possível (o rascunho é apagado); confira pelo relatório do modelo se ele rodou e zerou os erros.
@@ -87,43 +90,53 @@ Resultado do `conferir.py` rodado por você na lição entregue não é possíve
 
 **Fluxo**
 
-- [ ] Não entrevistou; um turno só
-- [ ] Usou os três scripts, na ordem: `nova_licao.py`, `conferir.py`, `empacotar.py`
-- [ ] Copiou e preencheu: não escreveu CSS nem JS além do `calcular` da figura, não leu os `assets/`
-- [ ] Usou peças do `pecas.html` (separador, varredura com raiz)
-- [ ] Entrega: um só `.html` em `com-skill/`, sem rascunho sobrando, nenhum arquivo novo dentro da pasta da skill
-- [ ] Falou pouco no chat
+- [x] Não entrevistou; um turno só
+- [x] Usou os três scripts, na ordem: `nova_licao.py`, `conferir.py` (duas rodadas), `empacotar.py`
+- [x] Copiou e preencheu: não escreveu CSS nem JS além do `calcular` da figura, não leu os `assets/`
+- [x] Usou peças do `pecas.html`: o separador (dividido em dois balanços) e o padrão da varredura com raiz
+- [ ] Entrega: um só `.html`, nenhum arquivo na pasta da skill, **mas** o rascunho não foi apagado pelo script (achado 1)
+- [x] Falou pouco no chat
+- [ ] Ficou só na tarefa: **fez um commit sem ninguém pedir** (achado 5)
 
-**A lição** (abra a entrega com dois cliques)
+**A lição**
 
-- [ ] Abre toda recolhida; o próximo item pulsa; o fio termina num pé
-- [ ] Nenhum `{…}` sobrando, nenhum número de exemplo do template
-- [ ] Balanços deduzidos, com etiquetas de tipo e chaves
-- [ ] Tabela com procedência; os K e os A e B como "enunciado", a conversão para kelvin como "derivado"
-- [ ] Quadro da técnica: busca de raiz (não integração), com o nome destacado e a função (`brentq` ou equivalente), em palavras do básico
-- [ ] Passos em três tempos (para quê, como, até aqui), e todos os argumentos de cada função explicados
-- [ ] Verificação: soma das frações e balanço por componente
-- [ ] Resposta primeiro em "O resultado", com os números que o programa imprime
-- [ ] Figura de varredura entre bolha e orvalho, com até quatro controles, cada um com a sua observação e o "no seu código"
-- [ ] O editor roda o programa colado passo a passo
+- [x] Abre toda recolhida; console limpo
+- [x] Nenhum `{…}` sobrando, nenhum número de exemplo do template, nenhum comentário
+- [x] Balanços deduzidos, com etiquetas de tipo e chaves; a hipótese diz o que aconteceria se não valesse
+- [x] Tabela com procedência; T = 340,15 K como "derivado", tolerâncias e intervalos como "escolha"
+- [x] Quadro da técnica: "busca de raiz num intervalo", com o nome destacado e o `brentq`, sem jargão
+- [x] Passos em três tempos, e todos os argumentos de `brentq` explicados um a um (inclusive `args=(T,)` e a tupla)
+- [x] Verificação: somas, balanço por componente e bolha < tambor < orvalho, com a honestidade de dizer que a soma não é independente
+- [x] Resposta primeiro em "O resultado", com os números que o programa imprime
+- [x] Figura de varredura entre bolha e orvalho; um controle, com a sua observação e o "no seu código"
+- [ ] O rótulo do controle é a chave interna, "zC3" (achado 3)
+- [ ] O editor rodando o programa: não testado nesta avaliação
 
-**Correção técnica** (contra o [gabarito](./EXERCICIO.md))
+**Correção técnica** (recalculada por fora, nas duas composições citadas)
 
-- [ ] T convertida para kelvin
-- [ ] V/F = 0,476; V = 47,6 kmol/h; L = 52,4 kmol/h
-- [ ] Composições conferem; Σ x = Σ y = 1
-- [ ] Bolha 56,4 °C e orvalho 77,7 °C
-- [ ] Armadilhas 2 e 3: Rachford-Rice com intervalo justificado
+- [x] T convertida para kelvin, e a armadilha do °C virou a caixa "o erro que parece certo", com o sintoma exato (`ValueError` do `brentq`)
+- [x] V/F = 0,4756; V = 47,56 kmol/h; L = 52,44 kmol/h
+- [x] Composições conferem; Σ x = Σ y = 1
+- [x] Bolha 56,4 °C e orvalho 77,7 °C; composições da primeira bolha e da última gota conferem
+- [x] Observação do controle (propano a 0,50): bolha 45,4 °C, orvalho 72,5 °C, V = 81,34 kmol/h conferem
+- [x] Rachford-Rice no intervalo (0, 1), justificado pelo significado de β
 
 ## 7. Achados
 
 | # | Achado | Gravidade | Onde |
 |---|---|---|---|
-| 1 | | | |
+| 1 | O `empacotar.py` falhou ao apagar o rascunho (`PermissionError`) porque o diretório de trabalho da sessão estava dentro dele; a sessão apagou à mão | atrapalha | `scripts/empacotar.py`: sair da pasta antes de apagar |
+| 2 | O `conferir.py` barrou "10 bar" na resposta: um dado do enunciado não é impresso pelo programa, e o modelo teve de reescrever a resposta | atrapalha | `scripts/conferir.py`: aceitar os números da tabela de parâmetros |
+| 3 | O controle aparece com a chave interna, "zC3": o `grafico.js` não tem como dar nome ao controle | atrapalha | `assets/grafico.js` e `pecas.html`: um nome por controle |
+| 4 | O aviso do tamanho da técnica fala em "três ou quatro frases, até umas 80 palavras", e o `SKILL.md` pede quatro ou cinco frases com um roteiro que dá 90 a 100 | cosmético | `scripts/conferir.py` |
+| 5 | A sessão fez commit da lição sem ninguém pedir | cosmético | `SKILL.md`: a sessão termina na entrega |
+| 6 | Saída dos scripts com acento quebrado no console do Windows | cosmético | `nova_licao.py`, `empacotar.py`: UTF-8 na saída, como o `conferir.py` |
+| 7 | "Um segundo balanço parecido mostra o princípio e a tradução" deixou dúvida sobre a ordem dos balanços | cosmético | `SKILL.md` |
+| 8 | 10 min 37 s: mais lento que a meta, com um heredoc que falhou, o programa testado à parte antes de entrar na lição e a olhada no navegador | observar | sem correção direta; medir de novo no próximo teste |
 
 ## 8. Veredito
 
-{aprovado / reprovado} — {uma frase}
+**Aprovado com ressalvas** — a lição é tecnicamente certa em todos os números, segue a estrutura inteira (técnica que não é integração, três tempos, argumentos explicados, armadilha do °C bem usada) e foi feita copiando e preenchendo; as ressalvas são de script (rascunho, resposta, rótulo do controle) e o tempo, de 10 min 37 s.
 
 ## 9. O que mudou depois deste teste
 
