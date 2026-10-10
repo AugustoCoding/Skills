@@ -146,9 +146,9 @@ def conferir_estrutura(doc):
         itens = ol.filhos_no("li")
         for i, li in enumerate(itens, 1):
             if not any(p.achar("span", "tipo") for p in li.achar("p", "porque")):
-                erro(f"Dedução: o passo {i} não tem etiqueta de tipo (princípio, tradução, …).")
+                erro(f"Dedução: a etapa {i} não tem etiqueta de tipo (princípio, tradução, …).")
         if itens and not itens[-1].tem("final"):
-            erro("Dedução: o último passo tem de ser a equação do modelo, com class=\"final\".")
+            erro("Dedução: a última etapa deve ser a equação do modelo, com class=\"final\".")
 
     if not doc.achar("table"):
         aviso("Não há tabela de parâmetros.")
@@ -200,7 +200,7 @@ def conferir_codigo(doc, pasta):
         if "como" not in partes or ("pre" in partes and partes.index("como") < partes.index("pre")):
             erro(f"Passo \"{tit}\": falta p.como (a sintaxe) depois do código.")
         if not partes or partes[-1] != "agora":
-            erro(f"Passo \"{tit}\": o passo termina com p.agora (o que o programa ganhou).")
+            erro(f"Passo \"{tit}\": o passo deve terminar com p.agora (o que o programa passou a fazer).")
         # Todo argumento passado por nome (rtol=, events=…) é explicado no passo.
         prosa = " ".join(f.texto() for f in p.filhos_no() if f.tag != "pre")
         for nome in argumentos_por_nome(codigo_de(p)):

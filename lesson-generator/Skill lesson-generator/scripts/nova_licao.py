@@ -73,7 +73,7 @@ def main():
 
     print(f"Rascunho: {licao}")
     print(f"Entrega:  {entrega}  (escrita pelo empacotar.py)")
-    print("Escreva a lição no rascunho, confira com conferir.py e entregue com empacotar.py.")
+    print("Preencha o rascunho, confira com conferir.py e entregue com empacotar.py.")
 
 
 if __name__ == "__main__":

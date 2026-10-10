@@ -5,106 +5,148 @@ disable-model-invocation: true
 argument-hint: "Cole o exercício que você quer aprender a resolver programando"
 ---
 
-O aluno tem um exercício de engenharia química e quer sair sabendo **programar a solução em Python**. Você transforma o exercício numa lição: um arquivo HTML que ele abre, percorre e usa para escrever o código.
+# lesson-generator
 
-**A régua é a reação dele no fim:** *"ganhei muito com isso, e foi rápido demais"*. As duas metades contam: uma lição correta que custou meia hora falhou tanto quanto uma rasa. É essa régua que decide o que este documento não responder.
+## 1. Objetivo
 
-**A engenharia e a programação são suas**: você resolve o exercício e escolhe a técnica. A skill não traz teoria nem catálogo de métodos, de propósito. **A forma é da skill**: este documento, o esqueleto em [templates/licao.html](./templates/licao.html), as peças prontas em [templates/pecas.html](./templates/pecas.html) e os componentes em `assets/`, que cuidam sozinhos do comportamento da página.
+A partir de um exercício de engenharia química, você produz uma **lição**: um arquivo HTML que ensina o aluno a programar a solução em Python. O aluno conhece a engenharia, mas não sabe programar nem tem experiência com simulação.
 
-**Você só copia e preenche. Não fabrique estrutura.** A página, os estilos, as seções e o comportamento já estão prontos: o seu trabalho é trocar o texto entre chaves do template e, para as equações e a figura, copiar a peça de `pecas.html` mais parecida com o exercício e trocar símbolos, rótulos e contas. Não escreva CSS, nem JavaScript além do `calcular` da figura, nem marcação nova, nem leia os `assets/`. Só monte uma peça do zero quando nenhuma do catálogo servir, e no mesmo padrão. É isso que deixa a lição rápida e barata.
+**Critério de qualidade.** A lição deve ensinar o máximo no menor tempo, tanto o de leitura do aluno quanto o de geração. Uma lição correta que exige meia hora para ser gerada falhou tanto quanto uma lição rasa. Quando esta skill não cobrir uma situação, escolha a opção que melhor atende a esse critério.
 
-## A sessão
+**Divisão de responsabilidades.** A engenharia e a programação são suas: você resolve o exercício e escolhe a técnica. A forma é da skill e já está pronta. **Seu trabalho é copiar e preencher**: trocar cada `{…}` do template (`templates/licao.html`) e copiar de `templates/pecas.html` a peça mais próxima do exercício, ajustando símbolos, rótulos e contas. Você não deve escrever CSS, JavaScript além da função `calcular` da figura, nem marcação nova, e não deve ler os arquivos de `assets/`. Só monte uma peça do zero se nenhuma servir, no mesmo padrão das existentes.
 
-Se o pedido não traz um exercício concreto ("me ensina reator tubular"), diga em uma linha que a skill precisa de um enunciado e responda normalmente, sem lição.
+## 2. Glossário
 
-Não entreviste o aluno nem guarde estado: o que precisaria ser perguntado, você infere do enunciado. A lição é entregue pronta, num arquivo único, e não é editada depois.
+| Termo | Significado |
+|---|---|
+| modelo | o modelo matemático do exercício (balanços e equações); quem executa a skill é sempre "você" |
+| lição | o arquivo HTML final, entregue ao aluno |
+| rascunho | a cópia de trabalho, em `.rascunho-<nome>/`, apagada na entrega |
+| seção | uma das quatro divisões da lição: abertura, O modelo, O código, O resultado |
+| etapa | um item da dedução de um balanço (`ol.deducao > li`) |
+| passo | um item da seção O código (`div.passo`) |
+| peça | um trecho pronto de `templates/pecas.html`: um balanço ou uma figura |
+| figura | um gráfico do `grafico.js`, com até quatro controles deslizantes |
 
-Rode os scripts da sua pasta de trabalho, com caminhos, sem entrar na pasta do rascunho: no Windows, um terminal dentro dela impede que ela seja apagada.
+Os verbos **deve** e **não deve** indicam regras obrigatórias; **pode** indica uma opção; **recomenda-se** indica a escolha preferível, que pode ser contrariada com motivo.
 
-1. **Leia o enunciado como diagnóstico**: o que ele pede, que dados dá e quais faltam, e que tipo de problema matemático ele é.
-2. **Ache os números** ([Os números](#os-números)).
-3. **Monte o rascunho** com `python <pasta desta skill>/scripts/nova_licao.py "<nome do exercício>" [pasta]`, passando a pasta só se o aluno indicou uma. O script diz onde está o rascunho e para onde a lição vai.
-4. **Preencha a lição** no rascunho: troque cada `{…}` do template, apague o que não usar, e traga de `templates/pecas.html` os balanços e a figura que servirem.
-5. **Confira** com `python <pasta desta skill>/scripts/conferir.py <rascunho.html>` e corrija todo ERRO; os AVISOS, confira. Ele roda os passos colados em ordem (o programa que o aluno monta no editor), compara a resposta com o que o programa imprime, acusa `{…}` esquecido e lista os números do texto para a revisão de procedência.
-6. **Se você tiver um navegador, veja o rascunho rodando, antes de entregar**: sirva a pasta do rascunho (`python -m http.server 8730 --bind 127.0.0.1`), abra por `http://` e confira que as figuras desenham e os passos abrem. **Leia o console**: o `grafico.js` avisa ali sobre curva achatada, controle sem faixa e valor não finito. Sem navegador, o `conferir.py` basta.
-7. **Entregue** com `python <pasta desta skill>/scripts/empacotar.py <rascunho.html>`: ele junta tudo num arquivo único, tira os comentários, grava na pasta do aluno e apaga o rascunho. Depois disso, a lição não muda.
-8. **Fale pouco**: onde está a lição e o convite a perguntar, em duas linhas. A sessão termina na entrega: nada de commit nem outra ação que o aluno não pediu.
+## 3. Fluxo de trabalho
 
-Nada de arquivo de estado ou anotação sobre o aluno.
+Se o pedido não traz um exercício concreto (por exemplo, "me ensina reator tubular"), responda em uma linha que a skill precisa de um enunciado e atenda o pedido normalmente, sem gerar lição.
 
-## A lição
+Você não deve entrevistar o aluno (infira do enunciado o que precisaria perguntar) nem criar arquivos de estado ou anotações sobre ele.
 
-Quatro momentos, nesta ordem: **abertura**, **modelo**, **código** e **resultado**. O conteúdo de cada um é o exercício que decide. Não há exercício extra no fim.
+Rode os scripts da sua pasta de trabalho, com caminhos completos, sem entrar na pasta do rascunho: no Windows, um terminal dentro dela impede que ela seja apagada.
 
-**Não há teto de palavras**: o tempo do aluno se ganha cortando o que não ensina (repetição, história, ressalva que não muda nada), nunca abreviando o que ensina (definição de símbolo, contexto de equação, o porquê de uma decisão).
+1. **Diagnóstico.** Leia o enunciado e identifique o que ele pede, os dados que dá, os que faltam e o tipo de problema matemático.
+2. **Números.** Calcule os resultados com contas rápidas, conforme a seção 5.
+3. **Rascunho.** Rode `python <pasta desta skill>/scripts/nova_licao.py "<nome do exercício>" [pasta]`. Passe a pasta só se o aluno indicou uma. O script informa onde está o rascunho e para onde a lição irá.
+4. **Preenchimento.** No rascunho, troque cada `{…}` do template, apague o que não for usado e traga de `templates/pecas.html` os balanços e a figura que servirem.
+5. **Conferência.** Rode `python <pasta desta skill>/scripts/conferir.py <rascunho.html>`. Todo ERRO deve ser corrigido; todo AVISO deve ser avaliado. O script roda os passos colados em ordem, compara a resposta com o que o programa imprime, acusa `{…}` esquecido e lista os números do texto para a revisão de procedência (seção 5).
+6. **Verificação visual, se houver navegador.** Sirva a pasta do rascunho (`python -m http.server 8730 --bind 127.0.0.1`), abra a lição por `http://`, confirme que as figuras desenham e leia o console, onde o `grafico.js` avisa sobre curva achatada, controle sem faixa e valor não finito. Sem navegador, o passo 5 basta.
+7. **Entrega.** Rode `python <pasta desta skill>/scripts/empacotar.py <rascunho.html>`, que gera o arquivo único, grava a lição no destino e apaga o rascunho. Depois disso, a lição não muda.
+8. **Resposta ao aluno.** Em até duas linhas: onde está a lição e o convite a perguntar no chat. A sessão termina na entrega: você não deve fazer commit nem outra ação que o aluno não pediu.
 
-**A cor marca grandeza.** Cada grandeza que aparece no gráfico leva a cor da sua série em todo lugar: equação, lista de símbolos, tabela, texto (o nome também: "o reagente A"). Parâmetros e todo o resto ficam sem cor. O template mostra a marcação.
+## 4. Estrutura da lição
 
-### Abertura
+A lição tem quatro seções, nesta ordem: abertura, O modelo, O código e O resultado. Não há exercício extra no fim.
 
-Três a cinco frases: que processo é esse, o que o enunciado pede e o que o aluno vai ter no fim.
+**Extensão.** Não há limite de palavras. Corte o que não ensina (repetição, contexto histórico, ressalvas sem consequência); nunca abrevie o que ensina (definição de símbolo, contexto de uma equação, motivo de uma decisão).
 
-### Modelo
+**Cor.** Cada grandeza mostrada numa figura deve levar a cor da sua série em todos os lugares: equação, lista de símbolos, tabela e texto, inclusive no nome ("o reagente A"). Parâmetros e o restante ficam sem cor. A marcação está no template.
 
-**Todo balanço é deduzido**, do princípio de conservação até a forma que o código usa, um passo por item. Mostrar de onde a equação vem ensina a montar o balanço do próximo exercício.
+### 4.1 Abertura
 
-- O título diz a natureza: massa ou energia, global ou de qual componente, e em que unidade ("Balanço de massa do componente A, em mols").
-- O primeiro passo é o **princípio** em palavras, com o volume de controle. O segundo é a **tradução** de cada palavra em símbolos, com uma chave sob cada termo dizendo qual palavra ele é.
-- Cada passo seguinte faz **uma coisa só** e diz qual: princípio, tradução, cinética, hipótese, álgebra ou definição. **A hipótese diz o que aconteceria se não valesse**: é ela que muda de um exercício para outro.
-- O último passo é a equação do modelo, com as chaves e, dentro dele, o parágrafo que a explica: primeiro a cena, depois a conclusão.
-- Um balanço que repetiria os passos de outro já deduzido mostra o princípio e a tradução e junta o resto numa linha. A ordem dos balanços é a que a dedução pede: o global vem antes do de componente quando este precisa dele.
+Três a cinco frases: o processo, o que o enunciado pede e o que o aluno terá no fim.
 
-Equação que não é balanço (lei de velocidade dada, correlação) não se deduz: entra num bloco próprio.
+### 4.2 O modelo
 
-- **Defina cada símbolo onde ele aparece pela primeira vez, com unidade, numa frase completa**: "concentração do reagente A dentro do reator, mol/L", nunca "concentração, mol/L".
-- **Chave** em cada termo com significado físico próprio, com duas a cinco palavras; não em passo de pura álgebra.
-- Equação exibida é MathML; código nunca é.
+**Todo balanço deve ser deduzido**, do princípio de conservação até a forma usada no código, uma etapa por item. Motivo: ver de onde a equação vem ensina o aluno a montar o balanço do próximo exercício.
 
-Depois, **a tabela de parâmetros** (valor, unidade, procedência) e **a técnica**, que fecha o modelo em quatro ou cinco frases: o nome da ferramenta que resolve o exercício, destacado também no texto, e a linha "para resolver esse tipo de problema, vamos usar esta técnica, que serve aqui por isto e isto; em Python, quem faz isso é a função tal, da biblioteca tal; confira a próxima seção para aprender a usá-la". Se a resposta sai de conta direta, sem método numérico, a técnica é essa conta, e o recurso de Python é o que a faz (as operações do NumPy, por exemplo). Fora da dedução, o modelo não cresce.
+- O título do balanço deve dizer a natureza (massa ou energia), se é global ou de qual componente, e a unidade. Exemplo: "Balanço de massa do componente A, em mols".
+- A primeira etapa é o princípio, em palavras, com o volume de controle; a segunda, a tradução de cada palavra em símbolos, com uma chave sob cada termo.
+- Cada etapa seguinte deve fazer uma única operação e declarar o tipo: princípio, tradução, cinética, hipótese, álgebra ou definição.
+- Toda hipótese deve dizer o que aconteceria se ela não valesse, porque é a hipótese que muda de um exercício para outro.
+- A última etapa é a equação do modelo, com as chaves, seguida de um parágrafo que descreve o que ela representa no processo e, depois, o que ela implica.
+- Um balanço que repetiria as etapas de outro já deduzido mostra o princípio e a tradução e resume o restante numa etapa.
+- A ordem dos balanços é a que a dedução exige: por exemplo, o global vem antes do de componente quando este depende dele.
 
-**O aluno nunca simulou nada.** Termo de simulação ou de método numérico (integrador, passo, tolerância, convergência) só entra explicado em palavras do básico, na primeira vez que aparece.
+Uma equação que não é balanço (lei de velocidade dada, correlação) não se deduz: ela entra num bloco próprio (`div.eq-bloco`).
 
-### Código
+- Cada símbolo deve ser definido onde aparece pela primeira vez, numa frase completa, com unidade: "concentração do reagente A dentro do reator, mol/L", e não "concentração, mol/L".
+- Recomenda-se uma chave, de duas a cinco palavras, em cada termo com significado físico próprio; não em etapas de álgebra pura.
+- Equações exibidas devem estar em MathML; código nunca.
 
-O programa explicado **em até seis passos, mais o programa completo como o último**.
+Depois da dedução, a seção O modelo tem apenas mais dois elementos:
 
-- **O título do passo** é o que o aluno vê antes de abrir: diz o que vem sem entregar a resposta.
-- **Cada passo segue uma linha argumentativa**, em três tempos: **para quê** (a intenção, antes do código), **como** (a sintaxe de cada elemento novo, depois dele: o que é um `def`, o que a função recebe e devolve, o que significa cada formato) e **até aqui** (o que o programa ganhou com o passo). O aluno sabe a engenharia, não o Python.
-- **Toda função de biblioteca tem todos os argumentos explicados**, um a um, os posicionais e os por nome: o que cada um é e por que este valor.
-- **A verificação é obrigatória**: uma conta independente que confere o resultado (caso analítico, balanço que fecha, caso-limite).
-- **O critério de um número numérico** vai no passo onde o método é escolhido.
-- **Os passos, colados em ordem, são o programa completo e rodam**: nenhuma linha de código fica fora deles.
+1. **A tabela de parâmetros**, com valor, unidade e procedência de cada um.
+2. **O quadro da técnica**, que fecha a seção em quatro ou cinco frases, nesta sequência:
+   - o tipo de problema matemático, em palavras simples;
+   - "para resolver esse tipo de problema, vamos usar" a técnica, com o nome dela destacado também no texto (`span.termo`);
+   - por que ela serve neste caso;
+   - "em Python, quem faz isso é a função" tal, "da biblioteca" tal;
+   - "Confira a próxima seção para aprender a usá-la."
 
-### Resultado
+   Se a resposta sai de uma conta direta, sem método numérico, a técnica é essa conta, e o recurso de Python é o que a executa (as operações do NumPy, por exemplo).
 
-Abre com **a resposta**: os números que o exercício pede, como o programa os imprime. Depois, **a figura que a pergunta pede** (no tempo, ao longo do reator, contra um parâmetro, dados contra modelo), registrando no `grafico.js` a mesma conta do programa. Duas figuras no máximo.
+Todo termo de simulação ou de método numérico (integrador, passo de integração, tolerância, convergência) deve ser explicado em palavras simples na primeira vez que aparece.
 
-- **Até quatro controles**, cada um convocado pela sua própria observação, com faixa e passo que alcançam o valor que ela manda procurar.
-- **Duas a quatro observações de leitura da curva, mais uma por controle**, cada uma ancorada num ponto concreto deste resultado e com um insight próprio. O título de cada uma é uma pergunta ou, nas de controle, a ação; nunca a conclusão.
-- **Cada observação de controle diz a mesma mudança no código** e o que o programa deve imprimir.
-- **Um nome por grandeza** na lição inteira, o mesmo da legenda.
+### 4.3 O código
 
-Se a frase serviria para outro exercício, não é análise deste: corte. E não liste o que o modelo ignora.
+O programa é explicado em no máximo seis passos, seguidos de um último passo com o programa completo.
 
-### Opcionais
+- O título de cada passo é o que o aluno vê antes de abri-lo: deve anunciar o conteúdo sem revelar a resposta.
+- Cada passo deve ter três partes, nesta ordem:
+  1. **para quê** (`p.para-que`), antes do código: a intenção do passo;
+  2. **como** (`p.como`), depois do código: a sintaxe de cada elemento novo, como o que é um `def`, o que a função recebe e devolve, o que significa cada formato de impressão;
+  3. **até aqui** (`p.agora`), por último: o que o programa passou a fazer.
+- Toda função de biblioteca deve ter todos os argumentos explicados, posicionais e nomeados: o que cada um é e por que tem aquele valor.
+- A verificação é obrigatória: uma conta independente que confere o resultado (caso analítico, balanço que fecha, caso-limite).
+- O critério de precisão de um resultado numérico deve ser explicado no passo em que o método é usado.
+- Os passos, colados em ordem, devem formar exatamente o programa completo e rodar sem erro.
 
-Use quando pagar o tempo que custa: **o erro que parece certo** (com o sintoma pelo qual ele aparece na saída), **conferência extra**, **tabela de resultados**, **nota lateral** e **termo destacado**, cuja marcação está no template; **segundo eixo** e **dados contra modelo**, que são figuras do `pecas.html`. Não crie componente nem figura que não seja x contra y: o que não couber nelas, explique em texto.
+### 4.4 O resultado
 
-## Os números
+A seção começa pela **resposta**: os números que o exercício pede, como o programa os imprime. Depois vem a figura que a pergunta exige (no tempo, ao longo do reator, contra um parâmetro, dados contra modelo), registrada no `grafico.js` com a mesma conta do programa. A lição pode ter no máximo duas figuras.
 
-**Ache os números antes de escrever**, com contas rápidas: é para saber o que a lição vai dizer, não ainda o programa entregue, que usa a precisão que o critério dele pede. Se existir solução analítica, mesmo de um caso particular ou de um limite, use-a para confirmar o numérico; quando os dois discordam, ache o erro antes de seguir, sem presumir qual está certo. Script de mais de meio minuto é script errado.
+- No máximo quatro controles. Cada um deve ser motivado por uma observação própria, e a faixa e o passo do controle devem alcançar o valor que essa observação pede.
+- Duas a quatro observações de leitura da curva, mais uma por controle. Cada observação deve citar um valor ou um trecho de curva deste exercício; uma frase que serviria para outro exercício deve ser cortada.
+- O título de cada observação é uma pergunta ou, nas observações de controle, a ação a fazer; nunca a conclusão.
+- Cada observação de controle deve indicar a mesma mudança no código e o que o programa passa a imprimir.
+- Cada grandeza deve ter um único nome na lição inteira, igual ao da legenda.
+- Você não deve listar o que o modelo desconsidera.
 
-**Todo número que a lição cita é impresso pelo programa que ela entrega**, sobretudo os instantes, picos e cruzamentos das observações, que passam batidos. Se calcular um número exigiria mais um passo, não o cite.
+### 4.5 Elementos opcionais
 
-**Revise cada número da lista que o `conferir.py` imprime**, inclusive faixas e percentuais no meio de frases. Cada número é **dado do enunciado**, **derivado** (com a conta visível) ou **escolha sua** (marcada na tabela, com o motivo em meia linha: condições iniciais, horizontes, tolerâncias). Faixa de slider não precisa de procedência, mas precisa fazer sentido físico. Não cite literatura.
+Cada opcional só deve ser usado se ensinar algo que o texto principal não ensina:
 
-## Requisitos
+- com marcação no template: o erro que parece certo (com o sintoma pelo qual ele aparece na saída), conferência extra, tabela de resultados, nota lateral e termo destacado;
+- como figuras do `pecas.html`: segundo eixo e dados contra modelo.
 
-- Abre sem internet, exceto o editor, que baixa o Python na primeira vez.
-- Só bibliotecas que o Pyodide tem (numpy, scipy, matplotlib, pandas, sympy). Se precisar de outra, diga no passo que a importa que aquele trecho só roda no computador.
-- Todo código roda; todo parâmetro e todo eixo têm unidade. Bloco de código que não é Python leva `sem-realce`.
-- Nenhum link para fora e nenhuma promessa de continuação.
+Você não deve criar componente nem figura que não seja do tipo x contra y: o que não couber nesse formato deve ser explicado em texto.
 
-## Depois da entrega
+## 5. Números e procedência
 
-A lição não é editada. Dúvida se responde no chat. Se o aluno pedir explicitamente uma lição com algo a mais, é uma lição nova, com outro nome.
+**Cálculo prévio.** Antes de escrever, calcule os resultados com contas rápidas, só para saber o que a lição vai afirmar. Se existir solução analítica, mesmo de um caso particular ou de um limite, use-a para confirmar o resultado numérico. Se os dois discordarem, encontre o erro antes de prosseguir, sem presumir qual está certo. O programa deve rodar em menos de 30 s; se demorar mais, revise o método.
+
+**Todo número citado na lição deve ser impresso pelo programa entregue**, inclusive os instantes, picos e cruzamentos mencionados nas observações. Se um número exigiria um passo a mais para ser calculado, não o cite.
+
+**Procedência.** Revise cada número da lista impressa pelo `conferir.py`, inclusive faixas e percentuais no meio de frases. Todo número deve ser de um destes tipos:
+
+- **dado do enunciado**;
+- **derivado**, com a conta visível;
+- **escolha sua**, marcada na tabela com o motivo em meia linha (condições iniciais, horizontes de tempo, tolerâncias).
+
+A faixa de um controle não precisa de procedência, mas deve fazer sentido físico. Você não deve citar literatura.
+
+## 6. Restrições técnicas
+
+- A lição deve abrir sem internet. A exceção é o editor, que baixa o Python na primeira execução.
+- Use apenas bibliotecas disponíveis no Pyodide (numpy, scipy, matplotlib, pandas, sympy). Se outra for indispensável, o passo que a importa deve avisar que aquele trecho só roda no computador.
+- Todo código deve rodar; todo parâmetro e todo eixo devem ter unidade.
+- Um bloco de código que não seja Python deve levar a classe `sem-realce`.
+- A lição não deve ter links externos nem prometer continuação.
+
+## 7. Após a entrega
+
+A lição não é editada depois de entregue. Dúvidas do aluno são respondidas no chat. Se o aluno pedir explicitamente uma lição com algo a mais, ela é uma lição nova, com outro nome.
