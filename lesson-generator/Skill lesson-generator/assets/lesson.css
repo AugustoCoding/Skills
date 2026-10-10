@@ -1236,14 +1236,24 @@ li .no-seu-codigo::before { display: inline; margin-right: 0.5rem; }
    arredondados ficam sempre à vista, e o texto rola DENTRO dela. */
 html { background: var(--fundo); height: 100%; overflow: hidden; }
 
-/* A barra de rolagem da folha: fina, na cor do tema, e afastada dos cantos
-   arredondados (a trilha começa e termina antes da curva). */
-body::-webkit-scrollbar { width: 8px; }
-body::-webkit-scrollbar-track { background: transparent; margin: 16px 0; }
-body::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--muted) 45%, transparent); border-radius: 999px; border: 2px solid transparent; background-clip: padding-box; }
+/* AS BARRAS DE ROLAGEM, em toda a página (folha, código e saída do editor,
+   equações e blocos largos): finas, sem setas, e invisíveis até o mouse
+   passar por cima da área que rola. */
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-track,
+*::-webkit-scrollbar-corner { background: transparent; }
+*::-webkit-scrollbar-button { display: none; }
+*::-webkit-scrollbar-thumb { background-color: transparent; border-radius: 999px; border: 2px solid transparent; background-clip: padding-box; }
+*:hover::-webkit-scrollbar-thumb { background-color: color-mix(in srgb, var(--muted) 50%, transparent); }
+*::-webkit-scrollbar-thumb:hover { background-color: var(--muted); }
+/* Na folha e na saída do editor, a trilha para antes dos cantos arredondados. */
+body::-webkit-scrollbar-track { margin: 16px 0; }
+.editor-resultado::-webkit-scrollbar-track { margin-bottom: 12px; }
 @supports not selector(::-webkit-scrollbar) {
-  body { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--muted) 45%, transparent) transparent; }
+  * { scrollbar-width: thin; scrollbar-color: transparent transparent; }
+  *:hover { scrollbar-color: color-mix(in srgb, var(--muted) 50%, transparent) transparent; }
 }
+
 
 body {
   position: relative;
@@ -1261,7 +1271,9 @@ body {
 
 /* A bolinha do editor não cobre a folha. */
 body:not(.com-editor) { max-width: min(calc(var(--folha-w) + 2 * var(--folha-pad)), calc(100vw - 2 * 2.8rem)); }
-body.com-editor { margin-left: max(var(--editor-vao), calc((100vw - var(--editor-w) - 2 * var(--editor-vao) - var(--folha-w) - 2 * var(--folha-pad)) / 2)); }
+/* Com o editor aberto, a folha ocupa todo o espaço que sobra ao lado dele, e
+   acompanha a largura do editor quando a divisão é arrastada. */
+body.com-editor { max-width: none; margin-left: var(--editor-vao); }
 
 /* Com espaço, folha e sumário formam um conjunto centrado na tela. */
 @media (min-width: 1240px) {
