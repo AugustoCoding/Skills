@@ -211,6 +211,9 @@ def conferir_codigo(doc, pasta):
         aviso(f"O código tem {len(passos) - 1} passos antes do programa completo; o limite é seis.")
 
     programa = codigo_de(passos[-1])
+    if not re.search(r"\bplt\.show\s*\(", programa):
+        erro("O programa não desenha nenhuma figura: ele deve terminar com uma figura do matplotlib e plt.show(), "
+             "para o aluno ver o resultado ao rodar no editor.")
     colados = "\n".join(codigo_de(p) for p in passos[:-1])
     a, b = linhas_de_codigo(colados), linhas_de_codigo(programa)
     if a != b:

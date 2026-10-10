@@ -101,9 +101,12 @@ O programa é explicado em no máximo seis passos, seguidos de um último passo 
   2. **como** (`p.como`), depois do código: a sintaxe de cada elemento novo, como o que é um `def`, o que a função recebe e devolve, o que significa cada formato de impressão;
   3. **até aqui** (`p.agora`), por último: o que o programa passou a fazer.
 - Toda função de biblioteca deve ter todos os argumentos explicados, posicionais e nomeados: o que cada um é e por que tem aquele valor.
+- Quando uma função sua é entregue a uma função de biblioteca (a função dos balanços ao `solve_ivp`, a de resíduo ao `brentq`), explique o mecanismo: quem a chama, quantas vezes, com que valores em cada argumento, e o que é feito com o que ela devolve. É isso que dá sentido à ordem dos argumentos, a `y[0]` (o estado chega sempre como lista, mesmo com uma só variável) e a `args=(…,)` (o caminho pelo qual um valor extra chega a cada chamada, e por que a vírgula).
+- Toda construção que um iniciante não reconheceria (índice de lista, tupla, desempacotamento, função como argumento, atributo como `.terminal`) deve ser explicada com o que ela é e o que faz neste programa.
 - A verificação é obrigatória: uma conta independente que confere o resultado (caso analítico, balanço que fecha, caso-limite).
 - O critério de precisão de um resultado numérico deve ser explicado no passo em que o método é usado.
 - Os passos, colados em ordem, devem formar exatamente o programa completo e rodar sem erro.
+- O programa deve terminar com uma figura do matplotlib (`plt.show()`): a mesma da seção O resultado, ou uma versão simples dela. É o que o aluno vê ao rodar o código no editor.
 
 ### 4.4 O resultado
 
