@@ -50,6 +50,14 @@
 /lesson-generator Uma reação A → B, irreversível, de primeira ordem e exotérmica, é conduzida em fase líquida num reator tubular adiabático. A alimentação entra a 47 °C, com 2,0 mol/L de A e vazão de 10 L/min. A constante de velocidade vale 0,020 min⁻¹ a 47 °C, e a energia de ativação é 80 kJ/mol. O calor de reação é −50 kJ/mol de A, e o produto da densidade pelo calor específico da mistura é 4,0 kJ/(L·K), constante. Que volume de reator é necessário para converter 90% de A, e com que temperatura a corrente sai? Compare com o volume necessário se o reator fosse mantido a 47 °C.
 ```
 
+### Primeira tentativa: inválida (2026-10-10, 12:59–13:01 UTC)
+
+A sessão iniciada por `start_session` **não recebeu a skill**. O `start_session` entrega o prompt embrulhado ("Background: … Task: /lesson-generator …"), e o `/lesson-generator` deixa de ser o início da mensagem: não é tratado como comando. A sessão respondeu "Não existe uma skill `/lesson-generator` nesta sessão" e fez uma aula em Markdown, um script e um PNG em 1,5 min. Os arquivos estão em [execucao-invalida/](./execucao-invalida/), só como registro.
+
+**Consequência para o Teste 8:** lá a skill também não foi invocada pelo comando. A sessão rodava na raiz do repositório, achou o `SKILL.md` por conta própria e o seguiu. A lição do Teste 8 continua válida como teste do conteúdo da skill, mas não da invocação.
+
+**Consequência para o protocolo:** um teste com prompt de aluno precisa ser iniciado à mão, numa sessão nova aberta na pasta do aluno, com o prompt colado como primeira mensagem.
+
 ### Prompt do relatório (turno 2, depois da entrega)
 
 ```text
