@@ -579,8 +579,9 @@ table:has(.proc) th:nth-child(1) { width: 24%; }
 table:has(.proc) th:nth-child(2) { width: 15%; }
 table:has(.proc) th:nth-child(3) { width: 17%; }
 table:has(.proc) td { vertical-align: baseline; }
-table:has(.proc) td.num { padding-right: 0.4rem; }
-table:has(.proc) td.un { padding-left: 0.4rem; }
+/* Tudo centrado na coluna, cabeçalho inclusive. */
+table:has(.proc) th,
+table:has(.proc) td { text-align: center; }
 td:has(> .proc) { color: var(--muted); line-height: 1.4; }
 td > .proc { display: block; margin: 0.1rem 0 0.15rem; }
 
