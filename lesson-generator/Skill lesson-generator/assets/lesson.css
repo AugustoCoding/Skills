@@ -357,23 +357,9 @@ h3.balanco {
   color: var(--mom-modelo);
 }
 
-/* A natureza do balanço vem escrita no título E como etiqueta antes dele:
-   massa e energia nunca se confundem, nem numa lição que tem os dois. */
-h3.balanco::before {
-  display: inline-block;
-  font-family: var(--serif);
-  font-size: var(--t-rotulo);
-  font-weight: 600;
-  letter-spacing: var(--esp-rotulo);
-  text-transform: uppercase;
-  padding: 0.15rem 0.55rem;
-  margin-right: 0.6rem;
-  border-radius: 999px;
-  vertical-align: 0.2em;
-}
-h3.balanco-massa::before      { content: "massa";      color: var(--mom-modelo); background: color-mix(in srgb, var(--mom-modelo) 16%, transparent); }
-h3.balanco-energia::before    { content: "energia";    color: var(--mom-modelo); background: color-mix(in srgb, var(--mom-modelo) 16%, transparent); }
-h3.balanco-movimento::before  { content: "movimento";  color: var(--mom-modelo); background: color-mix(in srgb, var(--mom-modelo) 16%, transparent); }
+/* A natureza do balanço (massa, energia) vem escrita no próprio título, que
+   a skill exige: "Balanço de massa do componente A, em mols". As classes
+   balanco-massa e balanco-energia ficam como marcação, sem desenho próprio. */
 
 /* Dedução e observações são a mesma linha do tempo, cada uma na cor do seu
    momento: --cor-linha. */
@@ -459,21 +445,19 @@ ol.deducao > li.final .equacao {
    aparece junto com ela, não antes. */
 ol.deducao > li.final .item-dentro > p:not(.porque) { margin: 0.9rem 0 0.3rem; }
 
-/* O tipo do passo, como etiqueta. */
+/* O tipo da etapa: um rótulo em versalete no começo do parágrafo, sem caixa.
+   Vários tipos seguidos se separam por um ponto. */
 .tipo {
-  display: inline-block;
-  font-family: var(--serif);
   font-size: var(--t-rotulo);
+  font-weight: 600;
   letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
-  padding: 0.1rem 0.5rem;
-  margin-right: 0.5rem;
-  border-radius: 999px;
-  vertical-align: 0.1em;
+  color: var(--mom-modelo);
+  margin-right: 0.55rem;
 }
-.tipo { color: var(--mom-modelo); background: color-mix(in srgb, var(--mom-modelo) 16%, transparent); }
-/* A hipótese é o passo que muda de um exercício para outro: etiqueta cheia. */
-.tipo-hipotese { color: var(--bg); background: var(--mom-modelo); }
+.tipo + .tipo::before { content: "· "; margin-left: -0.3rem; }
+/* A hipótese é a etapa que muda de um exercício para outro: sublinhada. */
+.tipo-hipotese { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
 
 /* ---------- chave sobre um termo da equação ---------- */
 /* Uma chave horizontal sob (ou sobre) um termo, com o significado dele em
@@ -573,21 +557,17 @@ thead th:last-child  { border-top-right-radius: var(--raio-p); }
 tbody tr:nth-child(even) { background: color-mix(in srgb, var(--code-bg) 75%, transparent); }
 td code { font-family: var(--serif); font-style: italic; font-size: 1em; background: none; padding: 0; }
 
-/* Procedência como etiqueta: de onde veio o número se lê pela cor. */
+/* Procedência: o mesmo rótulo em versalete, sem caixa. */
 .proc {
-  display: inline-block;
-  font-family: var(--serif);
   font-size: var(--t-rotulo);
+  font-weight: 600;
   letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
-  padding: 0.12rem 0.5rem;
-  margin-right: 0.45rem;
-  border-radius: 999px;
-  vertical-align: 0.08em;
+  color: var(--mom-modelo);
+  margin-right: 0.5rem;
 }
-.proc { color: var(--mom-modelo); background: color-mix(in srgb, var(--mom-modelo) 16%, transparent); }
-/* A escolha sua é o número que o enunciado não deu: etiqueta cheia. */
-.proc-escolha { color: var(--bg); background: var(--mom-modelo); }
+/* A escolha sua é o número que o enunciado não deu: sublinhada. */
+.proc-escolha { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
 td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
 
 /* ---------- blocos pedagógicos ---------- */
@@ -728,7 +708,8 @@ ol.observacoes > li > h3 { cursor: pointer; transition: color 0.2s ease; }
 .recolhido > h3 { color: var(--muted); }
 .recolhido:hover > h3 { color: var(--fg); }
 
-.item-cabeca { display: none; gap: 0.4rem; align-items: center; }
+.item-cabeca { display: none; gap: 0.4rem; align-items: center; font-weight: 600; color: var(--muted); transition: color 0.2s ease; }
+.recolhido:hover > .item-cabeca { color: var(--fg); }
 .recolhido > .item-cabeca { display: flex; }
 .item-cabeca .tipo { margin-right: 0; }
 
@@ -1193,14 +1174,12 @@ li .no-seu-codigo::before { display: inline; margin-right: 0.5rem; }
 
 /* ---------- a folha, a medida e o sumário ---------- */
 /* A lição fica numa FOLHA, um tom acima do fundo da página, para o texto não
-   encostar na tela. Dentro dela, o texto corrido tem uma medida de leitura
-   (uns 70 caracteres); equações, código, tabelas, caixas e figuras usam a
-   largura toda da folha. À esquerda, quando há espaço, o SUMÁRIO (codigo.js). */
+   encostar na tela. Texto e blocos ocupam a largura toda da folha. À
+   esquerda, quando há espaço, o SUMÁRIO (codigo.js). */
 
 :root {
   --folha-w: 42rem;        /* largura útil da folha */
   --folha-pad: 3rem;       /* respiro dos lados da folha */
-  --medida: 37rem;         /* largura do texto corrido */
   --sumario-w: 13.5rem;
   --sumario-gap: 1.6rem;
 }
@@ -1216,11 +1195,6 @@ body {
   box-shadow: 0 0 0 1px var(--borda-folha), 0 12px 40px var(--sombra-folha);
 }
 
-/* A medida vale para a prosa; blocos largos ficam com a folha inteira. */
-body > p,
-.item-dentro > p,
-.termos,
-ol.observacoes .item-dentro > p { max-width: var(--medida); }
 
 /* A bolinha do editor não cobre a folha. */
 body:not(.com-editor) { max-width: min(var(--folha-w), calc(100vw - 2 * var(--folha-pad) - 2 * 2.8rem)); }

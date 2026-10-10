@@ -133,15 +133,20 @@
   }
 
   // A cabeça de um item é o que fica à vista com ele recolhido: o título, nos
-  // passos do código e nas observações; as etiquetas de tipo, na dedução.
+  // passos do código e nas observações; o tipo da etapa, na dedução.
   function montarItem(item) {
     var cabeca = item.querySelector(":scope > h3");
     if (!cabeca) {
-      var tipos = item.querySelectorAll(".porque .tipo");
+      // Na dedução, o título da etapa recolhida é o tipo dela, por extenso:
+      // "Princípio", "Cinética, hipótese e álgebra".
+      var tipos = Array.prototype.map.call(item.querySelectorAll(".porque .tipo"), function (t) {
+        return t.textContent.trim().toLowerCase();
+      });
       if (tipos.length) {
+        var nome = tipos.length > 1 ? tipos.slice(0, -1).join(", ") + " e " + tipos[tipos.length - 1] : tipos[0];
         cabeca = document.createElement("div");
         cabeca.className = "item-cabeca";
-        tipos.forEach(function (t) { cabeca.appendChild(t.cloneNode(true)); });
+        cabeca.textContent = nome.charAt(0).toUpperCase() + nome.slice(1);
       }
     }
     var resto = Array.prototype.filter.call(item.childNodes, function (n) { return n !== cabeca; });
