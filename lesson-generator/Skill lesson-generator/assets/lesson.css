@@ -10,6 +10,9 @@
   --rule: #d8d8cc;
   --accent: #8a3324;
   --code-bg: #f4f4ea;
+  --fundo: #e9e7dc;
+  --borda-folha: #dcdacd;
+  --sombra-folha: rgba(60, 55, 30, 0.08);
 
 
   /* CADA COR TEM UM SÓ PAPEL.
@@ -95,6 +98,9 @@
     --rule: #34343c;
     --accent: #e08b6f;
     --code-bg: #1f1f26;
+    --fundo: #0e0e11;
+    --borda-folha: #26262d;
+    --sombra-folha: rgba(0, 0, 0, 0.45);
 
 
 
@@ -128,6 +134,9 @@
   --rule: #34343c;
   --accent: #e08b6f;
   --code-bg: #1f1f26;
+  --fundo: #0e0e11;
+  --borda-folha: #26262d;
+  --sombra-folha: rgba(0, 0, 0, 0.45);
 
 
 
@@ -1182,6 +1191,175 @@ canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
 li .no-seu-codigo { display: block; margin: 0.4rem 0 0; padding: 0.4rem 0.8rem; font-size: var(--t-apoio); }
 li .no-seu-codigo::before { display: inline; margin-right: 0.5rem; }
 
+/* ---------- a folha, a medida e o sumário ---------- */
+/* A lição fica numa FOLHA, um tom acima do fundo da página, para o texto não
+   encostar na tela. Dentro dela, o texto corrido tem uma medida de leitura
+   (uns 70 caracteres); equações, código, tabelas, caixas e figuras usam a
+   largura toda da folha. À esquerda, quando há espaço, o SUMÁRIO (codigo.js). */
+
+:root {
+  --folha-w: 42rem;        /* largura útil da folha */
+  --folha-pad: 3rem;       /* respiro dos lados da folha */
+  --medida: 37rem;         /* largura do texto corrido */
+  --sumario-w: 13.5rem;
+  --sumario-gap: 1.6rem;
+}
+
+html { background: var(--fundo); }
+
+body {
+  max-width: var(--folha-w);
+  margin: 2.4rem auto;
+  padding: 3.4rem var(--folha-pad) 4.5rem;
+  line-height: 1.65;
+  border-radius: 16px;
+  box-shadow: 0 0 0 1px var(--borda-folha), 0 12px 40px var(--sombra-folha);
+}
+
+/* A medida vale para a prosa; blocos largos ficam com a folha inteira. */
+body > p,
+.item-dentro > p,
+.termos,
+ol.observacoes .item-dentro > p { max-width: var(--medida); }
+
+/* A bolinha do editor não cobre a folha. */
+body:not(.com-editor) { max-width: min(var(--folha-w), calc(100vw - 2 * var(--folha-pad) - 2 * 2.8rem)); }
+body.com-editor { margin-left: max(1rem, calc((100vw - var(--editor-w) - var(--folha-w) - 2 * var(--folha-pad)) / 2)); }
+
+/* Com espaço, folha e sumário formam um conjunto centrado na tela. */
+@media (min-width: 1240px) {
+  body:not(.com-editor).com-sumario {
+    margin-left: calc((100vw - var(--folha-w) - 2 * var(--folha-pad) - var(--sumario-w) - var(--sumario-gap)) / 2
+                      + var(--sumario-w) + var(--sumario-gap));
+  }
+}
+
+.sumario {
+  position: fixed;
+  top: 5rem;
+  left: calc((100vw - var(--folha-w) - 2 * var(--folha-pad) - var(--sumario-w) - var(--sumario-gap)) / 2);
+  width: var(--sumario-w);
+  max-height: calc(100vh - 7rem);
+  overflow-y: auto;
+  display: none;
+  font-size: var(--t-apoio);
+  line-height: 1.35;
+}
+@media (min-width: 1240px) {
+  body:not(.com-editor) .sumario { display: block; }
+}
+
+.sumario-secao {
+  --cor-sec: var(--muted);
+  display: block;
+  margin: 0 0 0.25rem;
+  padding: 0.35rem 0.6rem;
+  border-left: 3px solid color-mix(in srgb, var(--cor-sec) 35%, transparent);
+  border-radius: 0 var(--raio-p) var(--raio-p) 0;
+  color: var(--cor-sec);
+  font-size: var(--t-texto);
+  cursor: pointer;
+}
+.sumario-secao.s-modelo    { --cor-sec: var(--mom-modelo); }
+.sumario-secao.s-codigo    { --cor-sec: var(--mom-codigo); }
+.sumario-secao.s-resultado { --cor-sec: var(--mom-resultado); }
+.sumario-grupo { margin: 0 0 1.1rem; }
+
+.sumario-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.22rem 0.6rem 0.22rem 0.9rem;
+  border-radius: var(--raio-p);
+  color: var(--muted);
+  cursor: pointer;
+}
+.sumario-item > span:first-child { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sumario-secao:hover,
+.sumario-item:hover { background: color-mix(in srgb, var(--fg) 6%, transparent); }
+.sumario-secao.ativo { border-left-color: var(--cor-sec); background: color-mix(in srgb, var(--cor-sec) 12%, transparent); }
+.sumario-item.ativo { color: var(--fg); }
+
+/* Uma bolinha por item (etapa, passo, observação): cheia quando já foi lido. */
+.sumario-pontos { display: inline-flex; gap: 3px; flex: none; }
+.sumario-pontos i {
+  width: 0.38rem;
+  height: 0.38rem;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--cor-sec) 70%, transparent);
+}
+.sumario-pontos i.lido { background: var(--cor-sec); box-shadow: none; }
+
+/* O botão de tema: na margem acima da folha, rolando com a página, para nunca
+   cobrir o texto; com o sumário à vista, fixo no topo dele. */
+.tema { position: absolute; top: 0.55rem; left: max(0.6rem, calc((100vw - var(--folha-w) - 2 * var(--folha-pad)) / 2)); z-index: 12; }
+@media (min-width: 1240px) {
+  body.com-sumario:not(.com-editor) .tema {
+    position: fixed;
+    top: 1.6rem;
+    left: calc((100vw - var(--folha-w) - 2 * var(--folha-pad) - var(--sumario-w) - var(--sumario-gap)) / 2 + 0.6rem);
+  }
+}
+
+/* ---------- itens recolhidos: uma linha com apoio ---------- */
+/* Recolhido, cada item é uma faixa da largura da folha, na altura da bolinha,
+   com fundo leve na cor da sua parte e uma setinha à direita: a lista inteira
+   fica alinhada, como as linhas de uma tabela, em vez de etiquetas soltas. */
+
+:root { --faixa-h: 2.3rem; --faixa-gap: 0.55rem; }
+
+.recolhido > .item-cabeca,
+.passo.recolhido > h3,
+ol.observacoes > li.recolhido > h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: var(--faixa-h);
+  margin: 0;
+  padding: 0.25rem 2.2rem 0.25rem 0.85rem;
+  position: relative;
+  box-sizing: border-box;
+  background: color-mix(in srgb, var(--cor-linha) 7%, var(--bg));
+  border: 1px solid color-mix(in srgb, var(--cor-linha) 22%, transparent);
+  border-radius: var(--raio);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.recolhido:hover > .item-cabeca,
+.passo.recolhido:hover > h3,
+ol.observacoes > li.recolhido:hover > h3 {
+  border-color: color-mix(in srgb, var(--cor-linha) 60%, transparent);
+  background: color-mix(in srgb, var(--cor-linha) 12%, var(--bg));
+}
+/* A setinha: › para abrir. */
+.recolhido > .item-cabeca::after,
+.passo.recolhido > h3::after,
+ol.observacoes > li.recolhido > h3::after {
+  content: "";
+  position: absolute;
+  right: 0.95rem;
+  top: 50%;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-right: 2px solid color-mix(in srgb, var(--cor-linha) 70%, transparent);
+  border-bottom: 2px solid color-mix(in srgb, var(--cor-linha) 70%, transparent);
+  transform: translateY(-60%) rotate(-45deg);
+}
+
+/* A bolinha centrada na faixa, e o mesmo espaço entre todas as faixas. */
+.passo.recolhido::before,
+ol.deducao > li.recolhido::before,
+ol.observacoes > li.recolhido::before { top: calc((var(--faixa-h) - 1.75rem) / 2); }
+.passo.recolhido,
+ol.deducao > li.recolhido,
+ol.observacoes > li.recolhido { margin-bottom: var(--faixa-gap); min-height: var(--faixa-h); }
+/* O fio do código desce do centro de uma bolinha até a próxima. */
+.passo.recolhido::after { top: calc(var(--faixa-h) / 2); bottom: calc(-1 * var(--faixa-gap) - var(--faixa-h) / 2); }
+.passo.recolhido.sem-fio::after { display: none; }
+
+@media (max-width: 760px) {
+  body, body:not(.com-editor) { margin: 0 auto; padding: 3.2rem 1.1rem 4rem; border-radius: 0; box-shadow: none; }
+}
+
 /* ---------- editor de Python (assets/editor.js) ---------- */
 /* Aberto, o painel ocupa a direita e a lição desliza para a esquerda, centrada
    no espaço que sobra. Em cima o código, embaixo a saída. */
@@ -1189,10 +1367,7 @@ li .no-seu-codigo::before { display: inline; margin-right: 0.5rem; }
 :root { --editor-w: min(50vw, 52rem); }
 
 body { transition: margin 0.3s ease; }
-body.com-editor {
-  margin-left: max(0px, calc((100vw - var(--editor-w) - 46rem) / 2));
-  margin-right: var(--editor-w);
-}
+body.com-editor { margin-right: var(--editor-w); }
 
 .editor-abrir {
   /* Uma bolinha presa à borda direita, no meio da altura, com "‹": há algo
@@ -1255,8 +1430,6 @@ body.com-editor {
 .editor-abrir:focus-visible .editor-abrir-texto { max-width: 12rem; opacity: 1; margin-right: 0.3rem; }
 .editor-abrir:hover .editor-abrir-seta::before,
 .editor-abrir:focus-visible .editor-abrir-seta::before { transform: scaleX(-1) translateX(0.08rem) rotate(45deg); }   /* › */
-/* A bolinha não cobre o texto: a coluna deixa, dos dois lados, a largura dela. */
-body:not(.com-editor) { max-width: min(46rem, calc(100vw - 3.6rem - 2 * 2.4rem)); }
 body.com-editor .editor-abrir { display: none; }
 
 .editor-painel {
@@ -1473,6 +1646,9 @@ body.redimensionando { user-select: none; }
 /* O aluno pode querer estudar no papel. Controles somem, cor vira preto. */
 
 @media print {
+  .sumario { display: none !important; }
+  html { background: #fff; }
+  body { box-shadow: none !important; margin: 0 auto !important; }
   :root {
     --bg: #fff; --fg: #000; --muted: #444;
     --rule: #bbb; --code-bg: #f3f3f3; --accent: #000;

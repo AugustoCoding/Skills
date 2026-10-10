@@ -51,8 +51,8 @@ A pasta da skill contém apenas o que entra no contexto do modelo de linguagem. 
 
 | Arquivo | Função |
 |---|---|
-| `lesson.css` | Tipografia (escala única de tamanhos; fonte monoespaçada só em código), equações, blocos pedagógicos, temas claro e escuro, impressão, e o sistema de cores: uma cor por seção, uma por grandeza da figura, vermelho reservado a erros. |
-| `codigo.js` | As linhas do tempo da dedução, do código e das observações: tudo começa recolhido, o próximo item a ler é sinalizado e cada item se recolhe pelo marcador ou pelo título. Também o botão de copiar e o realce de sintaxe do Python. |
+| `lesson.css` | A folha sobre o fundo da página, a medida de leitura do texto (~70 caracteres), tipografia (escala única de tamanhos; fonte monoespaçada só em código), equações, blocos pedagógicos, temas claro e escuro, impressão, e o sistema de cores: uma cor por seção, uma por grandeza da figura, vermelho reservado a erros. |
+| `codigo.js` | As linhas do tempo da dedução, do código e das observações: tudo começa recolhido, cada item recolhido é uma faixa alinhada, o próximo a ler é sinalizado e cada item se recolhe pelo marcador ou pelo título. O sumário à esquerda, montado da estrutura, com o progresso de cada parte e a seção atual. Também o botão de copiar e o realce de sintaxe do Python. |
 | `grafico.js` | Figuras do tipo x contra y: a lição registra a conta e o componente desenha, com controles, segundo eixo, pontos experimentais e leitura sob o cursor. Inclui integrador (RK4), busca de raiz e `linspace`, e emite avisos no console sobre problemas que o autor não vê, como uma curva achatada. |
 | `editor.js` | O editor de Python (Pyodide, baixado no primeiro uso). Começa vazio; cada bloco de código da lição tem um botão que o acrescenta ao editor. A saída mostra texto, erros e figuras. |
 | `tema.js` | O botão de tema claro ou escuro. |

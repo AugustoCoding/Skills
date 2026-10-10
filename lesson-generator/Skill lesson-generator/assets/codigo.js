@@ -2,7 +2,7 @@
  * seções recolhíveis, o botão de copiar e o realce do Python. Não formata nem
  * valida código.
  *
- * Faz quatro coisas, e a lição não precisa de marcação nenhuma além da estrutura:
+ * Faz cinco coisas, e a lição não precisa de marcação nenhuma além da estrutura:
  *
  *   1. monta como linha do tempo os passos do código (.passo), os da dedução de
  *      cada balanço (ol.deducao) e as observações (ol.observacoes). A lição abre
@@ -13,6 +13,7 @@
  *   3. injeta um botão de copiar em cada bloco de código;
  *   4. pinta o Python de todo <pre><code> da lição com cores de IDE. Um bloco que
  *      não seja Python leva class="sem-realce".
+ *   5. monta o sumário à esquerda da folha, com o progresso de cada parte.
  *
  * Estrutura esperada na lição:
  *
@@ -186,6 +187,7 @@
       p.removeAttribute("aria-expanded");
       if (!p.dataset.lido) {
         p.dataset.lido = "1";
+        document.dispatchEvent(new CustomEvent("licao-mudou"));
         atualizar();
       }
       // Depois que a altura terminou de deslizar, o item aberto entra na vista.
@@ -256,8 +258,10 @@
         corpo.classList.toggle("secao-recolhida", sim);
         h2.setAttribute("aria-expanded", String(!sim));
         if (!sim && !h2.dataset.lido) { h2.dataset.lido = "1"; chamar(); }
+        document.dispatchEvent(new CustomEvent("licao-mudou"));
       }
       recolher(true);
+      h2._abrir = function () { if (h2.classList.contains("secao-recolhida")) recolher(false); };
       function alternar() { recolher(!h2.classList.contains("secao-recolhida")); }
       h2.addEventListener("click", alternar);
       h2.addEventListener("keydown", function (ev) {
@@ -265,6 +269,114 @@
       });
     });
     chamar();
+  }
+
+  /* O SUMÁRIO — à esquerda da folha, quando a tela tem espaço (lesson.css). Sai
+     da estrutura da lição: as três seções e, dentro delas, os balanços, a
+     técnica, os passos do código, a resposta, as figuras e as observações. Cada
+     item mostra uma bolinha por etapa, passo ou observação, cheia quando já foi
+     lida; um clique abre a seção, se preciso, e leva até ali. */
+  function montarSumario() {
+    var titulos = Array.prototype.slice.call(document.querySelectorAll("body > h2.secao-titulo"));
+    if (!titulos.length || document.querySelector("nav.sumario")) return;
+    var cores = ["s-modelo", "s-codigo", "s-resultado"];
+    var nav = document.createElement("nav");
+    nav.className = "sumario";
+    nav.setAttribute("aria-label", "Sumário da lição");
+    var alvos = [];
+
+    function irPara(h2, alvo) {
+      if (h2._abrir) h2._abrir();
+      setTimeout(function () {
+        var y = alvo.getBoundingClientRect().top + window.scrollY - 24;
+        window.scrollTo({ top: y, behavior: "smooth" });
+      }, h2._abrir ? 120 : 0);
+    }
+
+    function pontos(itens) {
+      var s = document.createElement("span");
+      s.className = "sumario-pontos";
+      itens.forEach(function (it) {
+        var i = document.createElement("i");
+        s.appendChild(i);
+        it._ponto = i;
+      });
+      return s;
+    }
+
+    function item(h2, texto, alvo, itens) {
+      var a = document.createElement("div");
+      a.className = "sumario-item";
+      var t = document.createElement("span");
+      t.textContent = texto;
+      a.appendChild(t);
+      if (itens && itens.length) a.appendChild(pontos(itens));
+      a.addEventListener("click", function () { irPara(h2, alvo); });
+      alvos.push({ el: alvo, link: a });
+      return a;
+    }
+
+    titulos.forEach(function (h2, i) {
+      var corpo = h2.nextElementSibling;
+      var grupo = document.createElement("div");
+      grupo.className = "sumario-grupo";
+      var sec = document.createElement("div");
+      sec.className = "sumario-secao " + (cores[i] || "");
+      sec.textContent = h2.textContent.trim();
+      sec.addEventListener("click", function () { irPara(h2, h2); });
+      alvos.push({ el: h2, link: sec, secao: true });
+      grupo.appendChild(sec);
+      var lista = document.createElement("div");
+      lista.className = "sumario-grupo-itens " + (cores[i] || "");
+      lista.style.setProperty("--cor-sec", "var(--mom-" + ["modelo", "codigo", "resultado"][i] + ")");
+
+      corpo.querySelectorAll("h3.balanco, .tecnica, section.codigo, div.resposta, .grafico, ol.observacoes").forEach(function (el) {
+        if (el.matches("h3.balanco")) {
+          var ol = el.nextElementSibling;
+          var nome = el.textContent.replace(/^Balanço de /, "").replace(/, em .*$/, "").replace(/ do componente /, " de ");
+          nome = nome.charAt(0).toUpperCase() + nome.slice(1);
+          lista.appendChild(item(h2, nome, el, ol && ol.matches("ol.deducao") ? Array.prototype.slice.call(ol.children) : []));
+        } else if (el.matches(".tecnica")) {
+          lista.appendChild(item(h2, "A técnica", el));
+        } else if (el.matches("section.codigo")) {
+          lista.appendChild(item(h2, "Os passos", el, Array.prototype.slice.call(el.querySelectorAll(".passo"))));
+        } else if (el.matches("div.resposta")) {
+          lista.appendChild(item(h2, "A resposta", el));
+        } else if (el.matches(".grafico")) {
+          lista.appendChild(item(h2, "A figura", el));
+        } else {
+          lista.appendChild(item(h2, "Observações", el, Array.prototype.slice.call(el.children)));
+        }
+      });
+      grupo.appendChild(lista);
+      nav.appendChild(grupo);
+    });
+
+    function atualizar() {
+      document.querySelectorAll("[data-lido]").forEach(function (el) {
+        if (el._ponto) el._ponto.classList.add("lido");
+      });
+      // A parte ativa: a última cujo topo já passou de um terço da tela.
+      var linha = window.innerHeight / 3, ativo = null, secAtiva = null;
+      alvos.forEach(function (a) {
+        if (!a.el.offsetParent && !a.secao) return;
+        if (a.el.getBoundingClientRect().top < linha) {
+          if (a.secao) { secAtiva = a; ativo = null; } else { ativo = a; }
+        }
+      });
+      alvos.forEach(function (a) { a.link.classList.toggle("ativo", a === ativo || a === secAtiva); });
+    }
+
+    document.body.appendChild(nav);
+    document.body.classList.add("com-sumario");
+    var pedido = false;
+    window.addEventListener("scroll", function () {
+      if (pedido) return;
+      pedido = true;
+      requestAnimationFrame(function () { pedido = false; atualizar(); });
+    }, { passive: true });
+    document.addEventListener("licao-mudou", atualizar);
+    atualizar();
   }
 
   function montar(sec) {
@@ -295,6 +407,7 @@
       sequencia(Array.prototype.slice.call(ol.children));
     });
     montarSecoes();
+    montarSumario();
   }
 
   if (document.readyState === "loading") {
