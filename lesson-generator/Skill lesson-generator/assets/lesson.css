@@ -1226,13 +1226,20 @@ li .no-seu-codigo::before { display: inline; margin-right: 0.5rem; }
    arredondados ficam sempre à vista, e o texto rola DENTRO dela. */
 html { background: var(--fundo); height: 100%; overflow: hidden; }
 
+/* A barra de rolagem da folha: fina, na cor do tema, e afastada dos cantos
+   arredondados (a trilha começa e termina antes da curva). */
+body::-webkit-scrollbar { width: 8px; }
+body::-webkit-scrollbar-track { background: transparent; margin: 16px 0; }
+body::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--muted) 45%, transparent); border-radius: 999px; border: 2px solid transparent; background-clip: padding-box; }
+@supports not selector(::-webkit-scrollbar) {
+  body { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--muted) 45%, transparent) transparent; }
+}
+
 body {
   position: relative;
   box-sizing: border-box;
   height: calc(100vh - 2 * var(--editor-vao));
   overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: color-mix(in srgb, var(--muted) 45%, transparent) transparent;
   max-width: calc(var(--folha-w) + 2 * var(--folha-pad));
   margin: var(--editor-vao) auto;
   padding: 3.4rem var(--folha-pad) 4.5rem;
@@ -1496,7 +1503,6 @@ body.com-editor .editor-abrir { display: none; }
   flex-direction: column;
   background: var(--code-bg);
   border-radius: 16px;
-  overflow: hidden;
   box-shadow: 0 0 0 1px var(--borda-folha), 0 12px 40px var(--sombra-folha);
   transform: translateX(calc(100% + 2 * var(--editor-vao)));
   transition: transform 0.3s ease;
@@ -1583,11 +1589,12 @@ body.com-editor .editor-painel { transform: none; }
 /* A barra entre a lição e o editor, na borda esquerda do painel: arrasta-se
    para os lados. Mais larga que a linha que se vê, para ser fácil de pegar. */
 .editor-divisor-v {
+  /* No vão entre a folha da lição e a do editor, não dentro de uma delas. */
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 0;
-  width: 12px;
+  left: calc(-1 * var(--editor-vao));
+  width: var(--editor-vao);
   z-index: 2;
   cursor: col-resize;
   touch-action: none;
@@ -1598,10 +1605,10 @@ body.com-editor .editor-painel { transform: none; }
   content: "";
   position: absolute;
   top: 50%;
-  left: 4px;
+  left: 50%;
   width: 4px;
   height: 2.2rem;
-  margin-top: -1.1rem;
+  margin: -1.1rem 0 0 -2px;
   border-radius: 999px;
   background: var(--muted);
   opacity: 0.35;
@@ -1651,6 +1658,8 @@ body.redimensionando { user-select: none; }
   display: flex;
   flex-direction: column;
   background: var(--bg);
+  border-radius: 0 0 16px 16px;
+  overflow: hidden;
 }
 .editor-saida-topo {
   display: flex;

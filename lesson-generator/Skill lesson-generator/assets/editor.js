@@ -159,9 +159,11 @@
       document.body.classList.add("redimensionando");
       var ultima = painel.offsetWidth, quadro = 0;
       function mover(e) {
-        // O editor fica a um vão da borda direita: a largura desconta esse vão.
+        // O editor fica a um vão da borda direita, e a alça no meio do vão
+        // entre as folhas: a largura desconta o vão e meio, para a alça seguir
+        // o ponteiro.
         var vao = parseFloat(getComputedStyle(painel).right) || 0;
-        ultima = larguraEditor(window.innerWidth - vao - e.clientX);
+        ultima = larguraEditor(window.innerWidth - vao - e.clientX - vao / 2);
         if (!quadro) quadro = requestAnimationFrame(function () { quadro = 0; redesenharLicao(); });
       }
       function soltar() {
