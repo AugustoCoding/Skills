@@ -32,7 +32,7 @@
 | Cliente | Claude Code desktop, sessão nova iniciada à mão |
 | Modelo | `claude-opus-5-5` |
 | Esforço | médio |
-| Diretório de trabalho | `~\aula-teste-10`, pasta vazia fora do repositório |
+| Diretório de trabalho | `~\testes-lesson-generator\teste-10`, pasta vazia fora do repositório |
 
 Protocolo do [README dos testes](../README.md): sessão à mão, prompt como primeira mensagem, avaliação pelo histórico, pela lição e por conferência externa, sem pedir relatório ao modelo.
 
