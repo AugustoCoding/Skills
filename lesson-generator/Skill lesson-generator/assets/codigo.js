@@ -146,6 +146,7 @@
         var nome = tipos.length > 1 ? tipos.slice(0, -1).join(", ") + " e " + tipos[tipos.length - 1] : tipos[0];
         cabeca = document.createElement("div");
         cabeca.className = "item-cabeca";
+        if (item.dataset.balanco) nome += " do " + item.dataset.balanco;
         cabeca.textContent = nome.charAt(0).toUpperCase() + nome.slice(1);
       }
     }
@@ -279,7 +280,7 @@
   /* O MODELO NUMA LINHA SÓ — a lição escreve cada balanço como um título e a
      sua dedução, e depois a tabela e a técnica. Aqui tudo vira uma única linha
      do tempo, numerada em sequência como os passos do código: o título de cada
-     balanço entra como divisória sobre o fio, cada etapa é um item, e as
+     balanço dá nome à primeira etapa dele, cada etapa é um item, e as
      equações complementares, a tabela de parâmetros e a técnica viram os itens
      do fim, com título próprio. A marcação da lição não muda. */
   function unificarModelo() {
@@ -293,7 +294,7 @@
     if (!nos.some(function (e) { return e.matches("ol.deducao"); })) return null;
     h2.dataset.unificado = "1";
 
-    var linha = document.createElement("ol");
+    var linha = document.createElement("ol"), balanco = "";
     linha.className = "deducao modelo-linha";
     nos[0].parentNode.insertBefore(linha, nos[0]);
 
@@ -309,12 +310,21 @@
 
     nos.forEach(function (el) {
       if (el.matches("h3.balanco")) {
+        // O título do balanço não aparece como divisória: ele dá nome à
+        // primeira etapa ("Princípio do balanço de massa de B") e fica, oculto,
+        // como marca de grupo para o sumário.
         var g = document.createElement("li");
         g.className = "grupo";
         g.appendChild(el);
         linha.appendChild(g);
+        balanco = el.textContent.trim().replace(/, em .*$/, "").replace(/ do componente /, " de ");
+        balanco = balanco.charAt(0).toLowerCase() + balanco.slice(1);
       } else if (el.matches("ol.deducao")) {
-        Array.prototype.slice.call(el.children).forEach(function (li) { linha.appendChild(li); });
+        Array.prototype.slice.call(el.children).forEach(function (li, i) {
+          if (i === 0 && balanco) li.dataset.balanco = balanco;
+          linha.appendChild(li);
+        });
+        balanco = "";
         el.remove();
       } else if (el.matches(".eq-bloco")) {
         extra(el.dataset.titulo || "Equação complementar", el);
