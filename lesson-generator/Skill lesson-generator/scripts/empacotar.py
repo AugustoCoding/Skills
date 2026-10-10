@@ -3,7 +3,7 @@
     python empacotar.py <rascunho.html> [--saida <arquivo.html>]
 
 Troca cada <link rel="stylesheet" href="…"> e cada <script src="…"> locais
-pelo conteúdo do arquivo, embutido. O resultado abre com dois cliques, em
+pelo conteúdo do arquivo, embutido, e tira os comentários. O resultado abre com dois cliques, em
 qualquer lugar, sem pasta assets/ ao lado. Só o editor usa a internet, para
 baixar o Python na primeira vez.
 
@@ -27,6 +27,31 @@ def apagar(pasta):
         os.chmod(caminho, stat.S_IWRITE)
         funcao(caminho)
     shutil.rmtree(pasta, onerror=liberar)
+
+
+# Comentários são para quem escreve, não para o aluno: a entrega sai sem eles.
+# No JS, só os de linha inteira (/* … */ e //), que nunca estão dentro de um
+# texto; o comentário no fim de uma linha de código fica. O Python dos blocos
+# <pre> não é tocado: os comentários dele ensinam.
+BLOCO_JS = re.compile(r"^[ \t]*/\*(?:(?!\*/).)*\*/[ \t]*\n", re.M | re.S)
+LINHA_JS = re.compile(r"^[ \t]*//[^\n]*\n", re.M)
+
+
+def sem_comentarios_js(js):
+    return LINHA_JS.sub("", BLOCO_JS.sub("", js))
+
+
+def sem_comentarios_css(css):
+    return re.sub(r"/\*.*?\*/", "", css, flags=re.S)
+
+
+def sem_comentarios(html):
+    html = re.sub(r"<!--.*?-->", "", html, flags=re.S)
+    html = re.sub(r"(<script\b[^>]*>)(.*?)(</script>)",
+                  lambda m: m.group(1) + sem_comentarios_js(m.group(2)) + m.group(3), html, flags=re.S)
+    html = re.sub(r"(<style\b[^>]*>)(.*?)(</style>)",
+                  lambda m: m.group(1) + sem_comentarios_css(m.group(2)) + m.group(3), html, flags=re.S)
+    return re.sub(r"\n[ \t]*\n(?:[ \t]*\n)+", "\n\n", html)
 
 
 def local(url):
@@ -90,6 +115,7 @@ def main():
     if restos:
         sys.exit("ERRO: ainda há referências a arquivos locais: " + ", ".join(restos))
 
+    html = sem_comentarios(html)
     saida.parent.mkdir(parents=True, exist_ok=True)
     saida.write_text(html, encoding="utf-8", newline="\n")
     print(f"Lição entregue: {saida} ({saida.stat().st_size // 1024} KB, arquivo único)")

@@ -165,7 +165,7 @@ def conferir_estrutura(doc):
         if not any(p.achar(cls="termo") for p in texto_tec):
             erro("A técnica não destaca o nome dela no texto (span.termo).")
         if not any(p.achar("code") for p in texto_tec):
-            erro("A técnica não diz a função de Python que a faz (<code>).")
+            aviso("A técnica não diz em <code> o recurso de Python que a faz.")
         if not tecnica[0].achar("p", "tecnica-nome"):
             erro("A técnica não tem nome (p.tecnica-nome).")
         h2s = [i for i, n in enumerate(filhos) if n.tag == "h2"]
@@ -288,6 +288,27 @@ def conferir_assets(doc, pasta):
             erro(f"O componente {s} não existe ao lado da lição: copie os assets da skill.")
 
 
+def conferir_placeholders(doc):
+    # Texto fora de código: o que sobrar entre chaves é placeholder do template.
+    fora = {"script", "style", "pre", "code", "head"}
+    partes = []
+
+    def visitar(n):
+        if n.tag in fora:
+            return
+        for f in n.filhos:
+            if isinstance(f, No):
+                visitar(f)
+            else:
+                partes.append(f)
+
+    visitar(doc)
+    texto = " ".join(" ".join(partes).split())
+    for m in list(re.finditer(r"\{[^{}]{1,300}\}", texto))[:5]:
+        trecho = m.group(0) if len(m.group(0)) <= 70 else m.group(0)[:67] + "…}"
+        erro(f"Ficou um placeholder do template: {trecho}")
+
+
 def listar_numeros(doc):
     # Fora da conta: código, equações, subíndices (o 0 de C_A0) e o cabeçalho.
     ignorar = {"script", "style", "pre", "code", "math", "head", "title", "sub", "sup"}
@@ -325,6 +346,7 @@ def main():
     saida = conferir_codigo(doc, caminho.parent)
     conferir_resultado(doc, saida)
     conferir_assets(doc, caminho.parent)
+    conferir_placeholders(doc)
 
     for e in erros:
         print("ERRO   " + e)

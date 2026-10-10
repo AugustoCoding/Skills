@@ -4,7 +4,7 @@
   Estilo e comportamento já estão prontos; não escreva CSS nem JS.
   Balanços e figuras para outros tipos de problema: copie de pecas.html, ao
   lado, e troque símbolos, rótulos e contas. As regras estão no SKILL.md.
-  Apague estes comentários.
+  Os comentários saem sozinhos na entrega.
 -->
 <html lang="pt-BR">
 <head>
@@ -126,9 +126,9 @@
 <table>
 <thead><tr><th>Parâmetro</th><th class="num">Valor</th><th>Unidade</th><th>Procedência</th></tr></thead>
 <tbody>
-<tr><td><code class="param">k<sub>0</sub></code></td><td class="num">1,2·10⁶</td><td class="un">1/min</td><td><span class="proc proc-enunciado">enunciado</span></td></tr>
-<tr><td><code class="param">τ</code></td><td class="num">20</td><td class="un">min</td><td><span class="proc proc-derivado">derivado</span>V/F = 100/5</td></tr>
-<tr><td><code class="param">t<sub>f</sub></code></td><td class="num">60</td><td class="un">min</td><td><span class="proc proc-escolha">escolha</span>{a justificativa em meia linha}</td></tr>
+<tr><td><code class="param">k<sub>0</sub></code></td><td class="num">{valor}</td><td class="un">{unidade}</td><td><span class="proc proc-enunciado">enunciado</span></td></tr>
+<tr><td><code class="param">τ</code></td><td class="num">{valor}</td><td class="un">{unidade}</td><td><span class="proc proc-derivado">derivado</span>{a conta, com os números: V/F = 100/5}</td></tr>
+<tr><td><code class="param">t<sub>f</sub></code></td><td class="num">{valor}</td><td class="un">{unidade}</td><td><span class="proc proc-escolha">escolha</span>{a justificativa em meia linha}</td></tr>
 </tbody>
 </table>
 
@@ -136,9 +136,9 @@
 <div class="tecnica">
   <p class="tecnica-nome">{Integração numérica}</p>
   <p>{Quatro ou cinco frases: o tipo de problema, em palavras simples; "para esse
-  tipo de problema, vamos usar a <span class="termo">ESTA técnica</span>", o que
-  ela faz sem jargão; por que serve aqui; "Em Python, quem faz isso é a função
-  <code>nome_da_funcao</code>, da biblioteca X"; "Confira a próxima seção para
+  tipo de problema, vamos usar a" e o nome da técnica em span.termo; o que ela
+  faz, sem jargão; por que serve aqui; "em Python, quem faz isso é a função" e o
+  nome dela em code, "da biblioteca" tal; "Confira a próxima seção para
   aprender a usá-la."}</p>
 </div>
 
@@ -197,9 +197,10 @@
   <p>{os números que o exercício pede, como o programa os imprime}</p>
 </div>
 
-<!-- A figura: a lição registra a conta (a mesma do Python) e o grafico.js desenha.
-     Contrato completo no cabeçalho de assets/grafico.js. O DOMContentLoaded é
-     necessário: o grafico.js carrega com defer. -->
+<!-- A figura: a lição registra a conta (a mesma do Python) e o grafico.js
+     desenha. Para outra forma de figura (perfil, dois eixos, varredura,
+     cruzamento, dados contra modelo), copie a de pecas.html. Os números abaixo
+     são de exemplo: troque todos. -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   Grafico.registrar("principal", {
@@ -223,10 +224,6 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 <div class="grafico" data-grafico="principal" data-controles="k"></div>
-
-<!-- Varredura ou equação algébrica: x com Grafico.linspace, cada ponto com
-     Grafico.raiz ou a fórmula fechada. Segundo eixo: { nome, eixo: 2 } e eixoY2.
-     Dados medidos: { nome, tipo: "pontos" }, com o próprio x. -->
 
 <!-- As observações: uma por <li>, com um <h3> que é pergunta ou ação. -->
 <ol class="observacoes">
@@ -252,8 +249,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <!-- Opcionais sem lugar fixo:
      <span class="termo">conceito</span> · <aside class="lateral">comentário à margem</aside>
-     <table> para um resultado de poucos valores · <svg> em linha para um diagrama,
-     com as cores do CSS (var(--serie-1) etc.). -->
+     <table> para um resultado de poucos valores. -->
 
 
 <script src="./assets/tema.js" defer></script>

@@ -9,7 +9,7 @@ O aluno tem um exercício de engenharia química e quer sair sabendo **programar
 
 **A régua é a reação dele no fim:** *"ganhei muito com isso, e foi rápido demais"*. As duas metades contam: uma lição correta que custou meia hora falhou tanto quanto uma rasa. É essa régua que decide o que este documento não responder.
 
-**A engenharia e a programação são suas**: você resolve o exercício e escolhe a técnica. A skill não traz teoria nem catálogo de métodos, de propósito. **A forma é da skill**: este documento, o esqueleto em [templates/licao.html](./templates/licao.html) (toda a marcação mora lá), as peças prontas em [templates/pecas.html](./templates/pecas.html) e os componentes em `assets/`, que cuidam sozinhos do comportamento da página.
+**A engenharia e a programação são suas**: você resolve o exercício e escolhe a técnica. A skill não traz teoria nem catálogo de métodos, de propósito. **A forma é da skill**: este documento, o esqueleto em [templates/licao.html](./templates/licao.html), as peças prontas em [templates/pecas.html](./templates/pecas.html) e os componentes em `assets/`, que cuidam sozinhos do comportamento da página.
 
 **Você só copia e preenche. Não fabrique estrutura.** A página, os estilos, as seções e o comportamento já estão prontos: o seu trabalho é trocar o texto entre chaves do template e, para as equações e a figura, copiar a peça de `pecas.html` mais parecida com o exercício e trocar símbolos, rótulos e contas. Não escreva CSS, nem JavaScript além do `calcular` da figura, nem marcação nova, nem leia os `assets/`. Só monte uma peça do zero quando nenhuma do catálogo servir, e no mesmo padrão. É isso que deixa a lição rápida e barata.
 
@@ -23,9 +23,9 @@ Não entreviste o aluno nem guarde estado: o que precisaria ser perguntado, voc�
 2. **Ache os números** ([Os números](#os-números)).
 3. **Monte o rascunho** com `python <pasta desta skill>/scripts/nova_licao.py "<nome do exercício>" [pasta]`, passando a pasta só se o aluno indicou uma. O script diz onde está o rascunho e para onde a lição vai.
 4. **Preencha a lição** no rascunho: troque cada `{…}` do template, apague o que não usar, e traga de `templates/pecas.html` os balanços e a figura que servirem.
-5. **Confira** com `python <pasta desta skill>/scripts/conferir.py <rascunho.html>` e corrija todo ERRO; os AVISOS, confira. Ele roda os passos colados em ordem (o programa que o aluno monta no editor), compara a resposta com o que o programa imprime e lista os números do texto para a revisão de procedência.
-6. **Entregue** com `python <pasta desta skill>/scripts/empacotar.py <rascunho.html>`: ele junta tudo num arquivo único, grava na pasta do aluno e apaga o rascunho.
-7. **Se você tiver um navegador, veja a lição rodando**: sirva a pasta da entrega (`python -m http.server 8730 --bind 127.0.0.1`), abra por `http://` e confira que as figuras desenham e os passos abrem. **Leia o console**: o `grafico.js` avisa ali sobre curva achatada, controle sem faixa e valor não finito. Sem navegador, o `conferir.py` basta.
+5. **Confira** com `python <pasta desta skill>/scripts/conferir.py <rascunho.html>` e corrija todo ERRO; os AVISOS, confira. Ele roda os passos colados em ordem (o programa que o aluno monta no editor), compara a resposta com o que o programa imprime, acusa `{…}` esquecido e lista os números do texto para a revisão de procedência.
+6. **Se você tiver um navegador, veja o rascunho rodando, antes de entregar**: sirva a pasta do rascunho (`python -m http.server 8730 --bind 127.0.0.1`), abra por `http://` e confira que as figuras desenham e os passos abrem. **Leia o console**: o `grafico.js` avisa ali sobre curva achatada, controle sem faixa e valor não finito. Sem navegador, o `conferir.py` basta.
+7. **Entregue** com `python <pasta desta skill>/scripts/empacotar.py <rascunho.html>`: ele junta tudo num arquivo único, tira os comentários, grava na pasta do aluno e apaga o rascunho. Depois disso, a lição não muda.
 8. **Fale pouco**: onde está a lição e o convite a perguntar, em duas linhas.
 
 Nada de arquivo de estado ou anotação sobre o aluno.
@@ -58,7 +58,7 @@ Equação que não é balanço (lei de velocidade dada, correlação) não se de
 - **Chave** em cada termo com significado físico próprio, com duas a cinco palavras; não em passo de pura álgebra.
 - Equação exibida é MathML; código nunca é.
 
-Depois, **a tabela de parâmetros** (valor, unidade, procedência) e **a técnica**, que fecha o modelo em quatro ou cinco frases: o nome da ferramenta que resolve o exercício, destacado também no texto, e a linha "para resolver esse tipo de problema, vamos usar esta técnica, que serve aqui por isto e isto; em Python, quem faz isso é a função tal, da biblioteca tal; confira a próxima seção para aprender a usá-la". Fora da dedução, o modelo não cresce.
+Depois, **a tabela de parâmetros** (valor, unidade, procedência) e **a técnica**, que fecha o modelo em quatro ou cinco frases: o nome da ferramenta que resolve o exercício, destacado também no texto, e a linha "para resolver esse tipo de problema, vamos usar esta técnica, que serve aqui por isto e isto; em Python, quem faz isso é a função tal, da biblioteca tal; confira a próxima seção para aprender a usá-la". Se a resposta sai de conta direta, sem método numérico, a técnica é essa conta, e o recurso de Python é o que a faz (as operações do NumPy, por exemplo). Fora da dedução, o modelo não cresce.
 
 **O aluno nunca simulou nada.** Termo de simulação ou de método numérico (integrador, passo, tolerância, convergência) só entra explicado em palavras do básico, na primeira vez que aparece.
 
@@ -86,11 +86,11 @@ Se a frase serviria para outro exercício, não é análise deste: corte. E não
 
 ### Opcionais
 
-Use quando pagar o tempo que custa: **o erro que parece certo** (com o sintoma pelo qual ele aparece na saída), **conferência extra**, **segundo eixo**, **dados contra modelo**, **tabela de resultados**, **diagrama**, **nota lateral**, **termo destacado**. A marcação de cada um está no template. Componente novo só para o que não é x contra y, e ele fica no `assets/` da lição.
+Use quando pagar o tempo que custa: **o erro que parece certo** (com o sintoma pelo qual ele aparece na saída), **conferência extra**, **tabela de resultados**, **nota lateral** e **termo destacado**, cuja marcação está no template; **segundo eixo** e **dados contra modelo**, que são figuras do `pecas.html`. Não crie componente nem figura que não seja x contra y: o que não couber nelas, explique em texto.
 
 ## Os números
 
-**Resolva analiticamente primeiro** e use o numérico para confirmar, não para descobrir; quando discordam, o errado é quase sempre o numérico. Gaste pouco: uma dúzia de pontos integrados basta, e script de mais de meio minuto é script errado.
+**Ache os números antes de escrever**, com contas rápidas: é para saber o que a lição vai dizer, não ainda o programa entregue, que usa a precisão que o critério dele pede. Se existir solução analítica, mesmo de um caso particular ou de um limite, use-a para confirmar o numérico; quando os dois discordam, ache o erro antes de seguir, sem presumir qual está certo. Script de mais de meio minuto é script errado.
 
 **Todo número que a lição cita é impresso pelo programa que ela entrega**, sobretudo os instantes, picos e cruzamentos das observações, que passam batidos. Se calcular um número exigiria mais um passo, não o cite.
 
