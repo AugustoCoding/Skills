@@ -570,6 +570,20 @@ td code { font-family: var(--serif); font-style: italic; font-size: 1em; backgro
 .proc-escolha { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
 td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
 
+/* A TABELA DE PARÂMETROS (a que tem procedência): colunas de largura fixa,
+   todas as células alinhadas pela linha de base, valor colado à unidade, e a
+   procedência em duas linhas — o rótulo em cima, a conta ou o motivo embaixo,
+   em tom de nota. Assim nenhuma linha quebra de um jeito diferente da outra. */
+table:has(.proc) { table-layout: fixed; }
+table:has(.proc) th:nth-child(1) { width: 24%; }
+table:has(.proc) th:nth-child(2) { width: 15%; }
+table:has(.proc) th:nth-child(3) { width: 17%; }
+table:has(.proc) td { vertical-align: baseline; }
+table:has(.proc) td.num { padding-right: 0.4rem; }
+table:has(.proc) td.un { padding-left: 0.4rem; }
+td:has(> .proc) { color: var(--muted); line-height: 1.4; }
+td > .proc { display: block; margin: 0.1rem 0 0.15rem; }
+
 /* ---------- blocos pedagógicos ---------- */
 
 /* Lembrete de que o professor está disponível. Fecha toda lição. */
