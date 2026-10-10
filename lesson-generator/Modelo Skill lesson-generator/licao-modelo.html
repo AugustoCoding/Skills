@@ -14,7 +14,7 @@
   <h1>A partida de um CSTR</h1>
 </header>
 
-<p>Um reator de tanque agitado contínuo (CSTR) de 100 L começa cheio de solvente puro e passa a receber, a 5 L/min, uma alimentação com 2,0 mol/L do reagente A, que se converte em B por uma reação de primeira ordem com k = 0,1 min⁻¹. Logo depois da partida não há reagente nenhum lá dentro; aos poucos A entra, parte dele reage, e as concentrações caminham para um estado estacionário. O exercício pede duas coisas: a concentração de A nesse estacionário e quanto tempo o reator leva para chegar a 95% dela. Você vai sair com um programa que integra os balanços de A e de B, encontra esse instante sozinho e confere o próprio resultado contra a solução exata.</p>
+<p>Um reator de tanque agitado contínuo (CSTR) de 100 L começa cheio de solvente puro e passa a receber, a 5 L/min, uma alimentação com 2,0 mol/L do reagente A, que se converte em B por uma reação de primeira ordem com <span class="param">k</span> = 0,1 min⁻¹. Logo depois da partida não há reagente nenhum lá dentro; aos poucos A entra, parte dele reage, e as concentrações caminham para um estado estacionário. O exercício pede duas coisas: a concentração de A nesse estacionário e quanto tempo o reator leva para chegar a 95% dela. Você vai sair com um programa que integra os balanços de A e de B, encontra esse instante sozinho e confere o próprio resultado contra a solução exata.</p>
 
 <h2>O modelo</h2>
 
@@ -50,7 +50,7 @@
       <li><code class="param">C<sub>A0</sub></code> — concentração de A na corrente de alimentação, mol/L</li>
       <li><code>r<sub>A</sub></code> — velocidade de consumo de A pela reação: quantos mols de A reagem por litro de líquido a cada minuto, mol/(L·min)</li>
     </ul>
-    <p class="porque"><span class="tipo tipo-traducao">tradução</span>Cada palavra vira uma vazão molar. A quantidade de A no reator é V·<span class="var-1">C<sub>A</sub></span>. A corrente de entrada traz F·<span class="param">C<sub>A0</sub></span>, e a de saída leva F·<span class="var-1">C<sub>A</sub></span>, porque o líquido sai com a composição do tanque. A reação consome r<sub>A</sub> em cada litro, e são V litros.</p>
+    <p class="porque"><span class="tipo tipo-traducao">tradução</span>Cada palavra vira uma vazão molar. A quantidade de A no reator é <span class="param">V</span>·<span class="var-1">C<sub>A</sub></span>. A corrente de entrada traz <span class="param">F</span>·<span class="param">C<sub>A0</sub></span>, e a de saída leva <span class="param">F</span>·<span class="var-1">C<sub>A</sub></span>, porque o líquido sai com a composição do tanque. A reação consome <span class="param">r<sub>A</sub></span> em cada litro, e são <span class="param">V</span> litros.</p>
   </li>
   <li>
     <div class="equacao">
@@ -71,7 +71,7 @@
         <mo>−</mo><mi class="param">k</mi><mo>⋅</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub><mo>⋅</mo><mi class="param">V</mi>
       </math>
     </div>
-    <p class="porque"><span class="tipo tipo-hipotese">hipótese</span>O volume de líquido não muda, porque entra e sai a mesma vazão F. Então V sai de dentro da derivada como uma constante. Se o tanque estivesse enchendo, este passo não valeria, e o volume precisaria de um balanço próprio.</p>
+    <p class="porque"><span class="tipo tipo-hipotese">hipótese</span>O volume de líquido não muda, porque entra e sai a mesma vazão <span class="param">F</span>. Então <span class="param">V</span> sai de dentro da derivada como uma constante. Se o tanque estivesse enchendo, este passo não valeria, e o volume precisaria de um balanço próprio.</p>
   </li>
   <li class="final">
     <div class="equacao">
@@ -90,9 +90,9 @@
       </math>
     </div>
     <ul class="termos">
-      <li><code class="param">τ</code> — tempo de residência: quanto tempo, em média, uma porção de líquido fica no reator antes de sair, igual a V/F, min</li>
+      <li><code class="param">τ</code> — tempo de residência: quanto tempo, em média, uma porção de líquido fica no reator antes de sair, igual a <span class="param">V</span>/<span class="param">F</span>, min</li>
     </ul>
-    <p class="porque"><span class="tipo tipo-algebra">álgebra</span><span class="tipo tipo-definicao">definição</span>Dividindo tudo por V e chamando V/F de τ, chega-se à equação do modelo para A.</p>
+    <p class="porque"><span class="tipo tipo-algebra">álgebra</span><span class="tipo tipo-definicao">definição</span>Dividindo tudo por <span class="param">V</span> e chamando <span class="param">V</span>/<span class="param">F</span> de <span class="param">τ</span>, chega-se à equação do modelo para A.</p>
     <p>A concentração de A dentro do tanque muda por dois motivos. A corrente traz A a <span class="param">C<sub>A0</sub></span> e leva embora a <span class="var-1">C<sub>A</sub></span>, e essa troca, dividida pelo tempo de residência, empurra o tanque na direção da alimentação. Ao mesmo tempo, a reação consome A numa velocidade proporcional ao que já está lá. O estacionário é o ponto em que os dois efeitos se anulam.</p>
   </li>
 </ol>
@@ -125,7 +125,7 @@
     <ul class="termos">
       <li><code class="var-2">C<sub>B</sub></code> — concentração do produto B dentro do reator e na saída, mol/L</li>
     </ul>
-    <p class="porque"><span class="tipo tipo-traducao">tradução</span>B não vem na alimentação, então a entrada é zero. Como a reação A → B converte um mol em um mol, a geração de B é exatamente o consumo de A, r<sub>A</sub>·V.</p>
+    <p class="porque"><span class="tipo tipo-traducao">tradução</span>B não vem na alimentação, então a entrada é zero. Como a reação A → B converte um mol em um mol, a geração de B é exatamente o consumo de A, <span class="param">r<sub>A</sub></span>·<span class="param">V</span>.</p>
   </li>
   <li class="final">
     <div class="equacao">
@@ -143,8 +143,8 @@
         </mrow><mtext class="chave">formação pela reação</mtext></munder>
       </math>
     </div>
-    <p class="porque"><span class="tipo tipo-cinetica">cinética</span><span class="tipo tipo-hipotese">hipótese</span><span class="tipo tipo-algebra">álgebra</span>Os mesmos três passos do balanço de A, de uma vez: r<sub>A</sub> = k·<span class="var-1">C<sub>A</sub></span>, volume constante, e tudo dividido por V.</p>
-    <p>B só nasce da reação e só vai embora com a corrente de saída. O termo de formação é o mesmo k·<span class="var-1">C<sub>A</sub></span> que aparece com sinal trocado na equação de A: é ele que amarra os dois balanços.</p>
+    <p class="porque"><span class="tipo tipo-cinetica">cinética</span><span class="tipo tipo-hipotese">hipótese</span><span class="tipo tipo-algebra">álgebra</span>Os mesmos três passos do balanço de A, de uma vez: <span class="param">r<sub>A</sub></span> = <span class="param">k</span>·<span class="var-1">C<sub>A</sub></span>, volume constante, e tudo dividido por <span class="param">V</span>.</p>
+    <p>B só nasce da reação e só vai embora com a corrente de saída. O termo de formação é o mesmo <span class="param">k</span>·<span class="var-1">C<sub>A</sub></span> que aparece com sinal trocado na equação de A: é ele que amarra os dois balanços.</p>
   </li>
 </ol>
 
@@ -155,7 +155,7 @@
 <tr><td><code class="param">F</code></td><td class="num">5,0</td><td class="un">L/min</td><td><span class="proc proc-enunciado">enunciado</span></td></tr>
 <tr><td><code class="param">C<sub>A0</sub></code></td><td class="num">2,0</td><td class="un">mol/L</td><td><span class="proc proc-enunciado">enunciado</span></td></tr>
 <tr><td><code class="param">k</code></td><td class="num">0,1</td><td class="un">1/min</td><td><span class="proc proc-enunciado">enunciado</span></td></tr>
-<tr><td><code class="param">τ</code></td><td class="num">20</td><td class="un">min</td><td><span class="proc proc-derivado">derivado</span>V/F = 100/5</td></tr>
+<tr><td><code class="param">τ</code></td><td class="num">20</td><td class="un">min</td><td><span class="proc proc-derivado">derivado</span><span class="param">V</span>/<span class="param">F</span> = 100/5</td></tr>
 <tr><td><code class="var-1">C<sub>A</sub>(0)</code>, <code class="var-2">C<sub>B</sub>(0)</code></td><td class="num">0</td><td class="un">mol/L</td><td><span class="proc proc-enunciado">enunciado</span>o reator começa só com solvente</td></tr>
 <tr><td><code class="param">t<sub>fim</sub></code></td><td class="num">60</td><td class="un">min</td><td><span class="proc proc-enunciado">enunciado</span></td></tr>
 </tbody>
@@ -183,7 +183,7 @@ CA0 = 2.0      # concentração de A na alimentação, mol/L
 k = 0.1        # constante de velocidade de A -> B, 1/min
 tau = V / F    # tempo de residência, min
 t_fim = 60.0   # horizonte da simulação, min</code></pre>
-    <p class="como"><code>import</code> traz as bibliotecas que o programa vai usar: o NumPy, para contas com listas de números; a função <code>solve_ivp</code>, do SciPy, que faz a integração numérica; e o Matplotlib, para o gráfico. O <code>as np</code> dá um apelido curto à biblioteca, e <code>from … import</code> traz só a função de que precisamos. Cada linha seguinte cria uma variável: o nome à esquerda do <code>=</code> passa a guardar o valor à direita. O <code>#</code> abre um comentário, que o Python ignora; é onde fica a unidade. O tempo de residência é calculado, não digitado: se você mudar V ou F, ele acompanha sozinho.</p>
+    <p class="como"><code>import</code> traz as bibliotecas que o programa vai usar: o NumPy, para contas com listas de números; a função <code>solve_ivp</code>, do SciPy, que faz a integração numérica; e o Matplotlib, para o gráfico. O <code>as np</code> dá um apelido curto à biblioteca, e <code>from … import</code> traz só a função de que precisamos. Cada linha seguinte cria uma variável: o nome à esquerda do <code>=</code> passa a guardar o valor à direita. O <code>#</code> abre um comentário, que o Python ignora; é onde fica a unidade. O tempo de residência é calculado, não digitado: se você mudar <span class="param">V</span> ou <span class="param">F</span>, ele acompanha sozinho.</p>
     <p class="agora">O programa conhece o reator: todos os dados estão guardados com nome, e nada foi calculado ainda.</p>
   </div>
 
@@ -232,7 +232,7 @@ CA_fim, CB_fim = sol.y[:, -1]</code></pre>
 CA_exata = CA_ss * (1 - np.exp(-(1 / tau + k) * t))
 desvio = np.max(np.abs(sol.sol(t)[0] - CA_exata))</code></pre>
     <p class="como"><code>np.linspace(0, t_fim, 601)</code> cria 601 instantes igualmente espaçados entre 0 e <code>t_fim</code>. A linha seguinte calcula a solução exata de A em todos eles de uma vez: com o NumPy, uma conta feita com uma lista vale para cada elemento dela. <code>sol.sol(t)</code> avalia a solução numérica nos mesmos instantes (é a fórmula guardada pelo <code>dense_output</code>), e o <code>[0]</code> pega a linha de A. <code>np.abs</code> tira o sinal das diferenças, e <code>np.max</code> fica com a maior.</p>
-    <div class="confira"><p>A solução exata é uma exponencial que sobe até <span class="var-1">C<sub>A</sub></span> no estacionário com velocidade 1/τ + k. A <code>solve_ivp</code> não sabe disso. Se as duas concordam em 601 pontos, até a nona casa, o código dos balanços e a integração numérica estão certos, e não só "plausíveis".</p></div>
+    <div class="confira"><p>A solução exata é uma exponencial que sobe até <span class="var-1">C<sub>A</sub></span> no estacionário com velocidade 1/<span class="param">τ</span> + <span class="param">k</span>. A <code>solve_ivp</code> não sabe disso. Se as duas concordam em 601 pontos, até a nona casa, o código dos balanços e a integração numérica estão certos, e não só "plausíveis".</p></div>
     <p class="agora">O programa resolve o exercício e confere o próprio resultado. Falta mostrá-lo.</p>
   </div>
 
@@ -356,11 +356,11 @@ document.addEventListener("DOMContentLoaded", function () {
 <ol class="observacoes">
   <li>
     <h3>Por que o <span class="var-2">produto B</span> demora mais que o <span class="var-1">reagente A</span>?</h3>
-    <p>O <span class="var-1">reagente A</span> sobe e estaciona perto dos 20 min, enquanto o <span class="var-2">produto B</span> continua subindo: aos 60 min ainda está em 93% do seu estacionário. A diferença está nos balanços. A se ajusta pela troca com a corrente e pela reação ao mesmo tempo, com velocidade 1/τ + k. B só é removido pela corrente, com velocidade 1/τ, que neste reator é três vezes menor.</p>
+    <p>O <span class="var-1">reagente A</span> sobe e estaciona perto dos 20 min, enquanto o <span class="var-2">produto B</span> continua subindo: aos 60 min ainda está em 93% do seu estacionário. A diferença está nos balanços. A se ajusta pela troca com a corrente e pela reação ao mesmo tempo, com velocidade 1/<span class="param">τ</span> + <span class="param">k</span>. B só é removido pela corrente, com velocidade 1/<span class="param">τ</span>, que neste reator é três vezes menor.</p>
   </li>
   <li>
     <h3>O que <span class="param">C<sub>A0</sub></span> muda no tempo de partida?</h3>
-    <p>Nada. Dobrar a concentração da alimentação dobra o estacionário, mas a curva inteira escala junto, e os 95% continuam caindo no mesmo instante, porque esse instante só depende de 1/τ + k.</p>
+    <p>Nada. Dobrar a concentração da alimentação dobra o estacionário, mas a curva inteira escala junto, e os 95% continuam caindo no mesmo instante, porque esse instante só depende de 1/<span class="param">τ</span> + <span class="param">k</span>.</p>
   </li>
   <li>
     <h3>Leve <code class="param">k</code> até 0,30 1/min</h3>

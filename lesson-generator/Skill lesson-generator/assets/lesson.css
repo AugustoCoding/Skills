@@ -288,7 +288,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
   background: none;
   color: var(--fg);
   font-weight: 700;
-  font-size: 1em;
+  font-size: 1.1em;
 }
 
 /* Termo importante no meio da explicação: peso e um sublinhado discreto, sem
@@ -309,6 +309,10 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
   white-space: nowrap;
 }
 
+/* Símbolo no meio do texto ou da tabela (C_A, τ, k): em itálico e um pouco
+   maior que a letra em volta, como na equação, para o olho reconhecer a mesma
+   grandeza. Por isso todo símbolo do texto vai marcado, colorido ou não. */
+span.var-1, span.var-2, span.var-3, span.var-4, span.param { font-size: 1.1em; font-style: italic; }
 .var-1 { color: var(--serie-1); }
 .var-2 { color: var(--serie-2); }
 .var-3 { color: var(--serie-3); }
@@ -319,7 +323,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
    texto. Dentro da lista e da tabela, o <code> do símbolo herda a cor dela. */
 code.var-1, code.var-2, code.var-3, code.var-4, code.param {
   font-family: var(--serif);
-  font-size: 1em;
+  font-size: 1.1em;
   font-style: italic;
   font-weight: 700;
   background: none;
@@ -555,7 +559,7 @@ th {
 thead th:first-child { border-top-left-radius: var(--raio-p); }
 thead th:last-child  { border-top-right-radius: var(--raio-p); }
 tbody tr:nth-child(even) { background: color-mix(in srgb, var(--code-bg) 75%, transparent); }
-td code { font-family: var(--serif); font-style: italic; font-size: 1em; background: none; padding: 0; }
+td code { font-family: var(--serif); font-style: italic; font-size: 1.1em; background: none; padding: 0; }
 
 /* Procedência: o mesmo rótulo em versalete, sem caixa. */
 .proc {
@@ -600,7 +604,7 @@ td > .proc { display: block; margin: 0.1rem 0 0.15rem; }
 /* O navegador renderiza MathML nativamente. Só ajustamos escala e respiro:
    o padrão sai pequeno demais ao lado de uma serifada de 17px. */
 
-math { font-size: 1.12em; }
+math { font-size: 1.25em; }
 
 /* Não sobrescreva o display do <math>: o navegador usa "block math", e trocar
    por "block" comum faz o mfrac virar caixa CSS — a barra de fração estica
@@ -1130,15 +1134,15 @@ canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
 
 /* A TÉCNICA: o fecho do modelo. Diz o nome da ferramenta que vai resolver o
    exercício e por que ela serve, e passa a palavra para a seção do código,
-   que ensina a usá-la. Na cor do código, porque é para lá que ela aponta.
+   que ensina a usá-la. Na cor do modelo, a seção que ela fecha.
 
      <div class="tecnica"><p class="tecnica-nome">…</p><p>…</p></div>          */
 .tecnica {
   margin: 2.2rem 0 1rem;
   padding: 1rem 1.25rem;
-  border: 2px solid var(--mom-codigo);
+  border: 2px solid var(--mom-modelo);
   border-radius: var(--raio);
-  background: color-mix(in srgb, var(--mom-codigo) 8%, var(--code-bg));
+  background: color-mix(in srgb, var(--mom-modelo) 8%, var(--code-bg));
 }
 .tecnica::before {
   content: "A técnica";
@@ -1148,12 +1152,12 @@ canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
   font-size: var(--t-rotulo);
   letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
-  color: var(--mom-codigo);
+  color: var(--mom-modelo);
 }
 .tecnica .tecnica-nome {
   font-size: var(--t-h3);
   font-weight: 600;
-  color: var(--mom-codigo);
+  color: var(--mom-modelo);
   margin: 0 0 0.5rem;
 }
 .tecnica > :last-child { margin-bottom: 0; }

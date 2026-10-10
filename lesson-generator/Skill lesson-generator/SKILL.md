@@ -53,7 +53,7 @@ A lição tem quatro seções, nesta ordem: abertura, O modelo, O código e O re
 
 **Extensão.** Não há limite de palavras. Corte o que não ensina (repetição, contexto histórico, ressalvas sem consequência); nunca abrevie o que ensina (definição de símbolo, contexto de uma equação, motivo de uma decisão).
 
-**Cor.** Cada grandeza mostrada numa figura deve levar a cor da sua série em todos os lugares: equação, lista de símbolos, tabela e texto, inclusive no nome ("o reagente A"). Parâmetros e o restante ficam sem cor. A marcação está no template.
+**Cor.** Cada grandeza mostrada numa figura deve levar a cor da sua série em todos os lugares: equação, lista de símbolos, tabela e texto, inclusive no nome ("o reagente A"). Parâmetros e o restante ficam sem cor. Todo símbolo citado no texto deve ser marcado (`span.var-N` ou, sem cor, `span.param`), para sair em itálico e no tamanho da equação. A marcação está no template.
 
 ### 4.1 Abertura
 
