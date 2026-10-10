@@ -4,14 +4,14 @@
    para notas laterais, régua horizontal escassa, cor usada com parcimônia. */
 
 :root {
-  --bg: #f3efe4;
-  --fg: #24221d;
-  --muted: #6b675c;
-  --rule: #d4cebf;
+  --bg: #dcd6c7;
+  --fg: #23211c;
+  --muted: #5d594e;
+  --rule: #c5bdaa;
   --accent: #8a3324;
-  --code-bg: #e9e4d6;
-  --fundo: #dcd6c7;
-  --borda-folha: #cfc8b6;
+  --code-bg: #d1cab9;
+  --fundo: #c4bca8;
+  --borda-folha: #b9b09b;
   --sombra-folha: rgba(60, 55, 30, 0.08);
 
 
