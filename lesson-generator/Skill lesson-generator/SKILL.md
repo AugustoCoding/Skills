@@ -9,7 +9,9 @@ O aluno tem um exercício de engenharia química e quer sair sabendo **programar
 
 **A régua é a reação dele no fim:** *"ganhei muito com isso, e foi rápido demais"*. As duas metades contam: uma lição correta que custou meia hora falhou tanto quanto uma rasa. É essa régua que decide o que este documento não responder.
 
-**A engenharia e a programação são suas**: você resolve o exercício e escolhe a técnica. A skill não traz teoria nem catálogo de métodos, de propósito. **A forma é da skill**: este documento, o esqueleto em [templates/licao.html](./templates/licao.html) (toda a marcação mora lá) e os componentes em `assets/`, que cuidam sozinhos do comportamento da página.
+**A engenharia e a programação são suas**: você resolve o exercício e escolhe a técnica. A skill não traz teoria nem catálogo de métodos, de propósito. **A forma é da skill**: este documento, o esqueleto em [templates/licao.html](./templates/licao.html) (toda a marcação mora lá), as peças prontas em [templates/pecas.html](./templates/pecas.html) e os componentes em `assets/`, que cuidam sozinhos do comportamento da página.
+
+**Você só copia e preenche. Não fabrique estrutura.** A página, os estilos, as seções e o comportamento já estão prontos: o seu trabalho é trocar o texto entre chaves do template e, para as equações e a figura, copiar a peça de `pecas.html` mais parecida com o exercício e trocar símbolos, rótulos e contas. Não escreva CSS, nem JavaScript além do `calcular` da figura, nem marcação nova, nem leia os `assets/`. Só monte uma peça do zero quando nenhuma do catálogo servir, e no mesmo padrão. É isso que deixa a lição rápida e barata.
 
 ## A sessão
 
@@ -20,7 +22,7 @@ Não entreviste o aluno nem guarde estado: o que precisaria ser perguntado, voc�
 1. **Leia o enunciado como diagnóstico**: o que ele pede, que dados dá e quais faltam, e que tipo de problema matemático ele é.
 2. **Ache os números** ([Os números](#os-números)).
 3. **Monte o rascunho** com `python <pasta desta skill>/scripts/nova_licao.py "<nome do exercício>" [pasta]`, passando a pasta só se o aluno indicou uma. O script diz onde está o rascunho e para onde a lição vai.
-4. **Escreva a lição** no rascunho, trocando o conteúdo do template.
+4. **Preencha a lição** no rascunho: troque cada `{…}` do template, apague o que não usar, e traga de `templates/pecas.html` os balanços e a figura que servirem.
 5. **Confira** com `python <pasta desta skill>/scripts/conferir.py <rascunho.html>` e corrija todo ERRO; os AVISOS, confira. Ele roda os passos colados em ordem (o programa que o aluno monta no editor), compara a resposta com o que o programa imprime e lista os números do texto para a revisão de procedência.
 6. **Entregue** com `python <pasta desta skill>/scripts/empacotar.py <rascunho.html>`: ele junta tudo num arquivo único, grava na pasta do aluno e apaga o rascunho.
 7. **Se você tiver um navegador, veja a lição rodando**: sirva a pasta da entrega (`python -m http.server 8730 --bind 127.0.0.1`), abra por `http://` e confira que as figuras desenham e os passos abrem. **Leia o console**: o `grafico.js` avisa ali sobre curva achatada, controle sem faixa e valor não finito. Sem navegador, o `conferir.py` basta.

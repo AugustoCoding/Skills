@@ -42,7 +42,8 @@ A pasta da skill tem só o que vai para o contexto do modelo. Este README, o mod
 | Arquivo | Papel |
 |---|---|
 | `SKILL.md` | Tudo o que o modelo segue: como a sessão corre, onde escrever, a lição momento a momento, a cor, o editor, os números e os requisitos. |
-| `templates/licao.html` | O esqueleto da lição, com a marcação de cada peça. A marcação mora **só aqui**. |
+| `templates/licao.html` | O esqueleto da lição, com a marcação de cada peça. O modelo só preenche os `{…}`. |
+| `templates/pecas.html` | Peças prontas para copiar: os balanços mais comuns (massa e energia, tanque e tubo, separador) com as chaves, e uma figura por tipo de problema (EDOs no tempo, perfil, dois eixos, varredura, cruzamento de curvas, dados contra modelo). Abre no navegador com tudo funcionando. |
 | `scripts/nova_licao.py` | Monta o rascunho da lição (o template e a cópia dos componentes) e anota para onde ela vai, sempre no lugar certo. |
 | `scripts/empacotar.py` | Junta o rascunho e os componentes num **arquivo HTML único**, grava na pasta do aluno e apaga o rascunho. |
 | `scripts/conferir.py` | Confere a lição pronta e diz o que corrigir: roda os passos colados em ordem, compara a resposta com o que o programa imprime, checa a estrutura e lista os números do texto para a revisão de procedência. |

@@ -1,0 +1,335 @@
+<!doctype html>
+<!--
+  PEÇAS PRONTAS — não é uma lição. É o catálogo do que se copia para dentro
+  dela: os balanços mais comuns, já em MathML com as chaves, e uma figura
+  pronta para cada tipo de problema. Abra no navegador para ver cada peça
+  funcionando; copie a marcação da que servir e troque símbolos, rótulos e
+  contas pelos do exercício. O que não estiver aqui, monte no mesmo padrão.
+
+  Cor: var-1, var-2… nas grandezas que a figura mostra; param nas constantes.
+  Recolorir ao copiar: a cor segue a ordem das séries DA SUA figura.
+-->
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Peças prontas da lição</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+
+<header class="licao">
+  <span class="etiqueta">lesson-generator · catálogo</span>
+  <h1>Peças prontas</h1>
+</header>
+
+<p>Balanços com as chaves já postas, e figuras já ligadas ao <code>grafico.js</code>. Cada peça entra num <code>li</code> da dedução (as equações) ou no lugar da figura do template (os gráficos).</p>
+
+<h2>Balanços</h2>
+
+<!-- ============ MASSA · COMPONENTE · TANQUE AGITADO ============ -->
+<!-- Serve para CSTR, batelada (F0 = F = 0) e semibatelada (F = 0).
+     Princípio, em palavras:
+       <mtext>acúmulo de A</mtext><mo>=</mo><mtext>entrada</mtext><mo>−</mo><mtext>saída</mtext><mo>+</mo><mtext>geração</mtext>  -->
+<h3 class="balanco balanco-massa">Massa de um componente num tanque agitado</h3>
+<div class="equacao">
+  <math display="block">
+    <munder><mrow class="chave-sob">
+      <mfrac><mrow><mi>d</mi><mo>(</mo><mi>V</mi><mo>⋅</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub><mo>)</mo></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+    </mrow><mtext class="chave">acúmulo</mtext></munder>
+    <mo>=</mo>
+    <munder><mrow class="chave-sob"><msub class="param"><mi>F</mi><mn>0</mn></msub><mo>⋅</mo><msub class="param"><mi>C</mi><mrow><mi>A</mi><mn>0</mn></mrow></msub></mrow><mtext class="chave">entrada</mtext></munder>
+    <mo>−</mo>
+    <munder><mrow class="chave-sob"><mi class="param">F</mi><mo>⋅</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub></mrow><mtext class="chave">saída</mtext></munder>
+    <mo>+</mo>
+    <munder><mrow class="chave-sob"><msub class="param"><mi>ν</mi><mi>A</mi></msub><mo>⋅</mo><mi>r</mi><mo>⋅</mo><mi>V</mi></mrow><mtext class="chave">geração</mtext></munder>
+  </math>
+</div>
+<ul class="termos">
+  <li><code>V</code> — volume de líquido no tanque, L</li>
+  <li><code class="var-1">C<sub>A</sub></code> — concentração de A no tanque, que é também a da saída, mol/L</li>
+  <li><code class="param">F<sub>0</sub></code>, <code class="param">F</code> — vazões volumétricas de entrada e de saída, L/min</li>
+  <li><code class="param">C<sub>A0</sub></code> — concentração de A na alimentação, mol/L</li>
+  <li><code class="param">ν<sub>A</sub></code> — coeficiente estequiométrico de A: negativo para reagente, positivo para produto</li>
+  <li><code>r</code> — velocidade da reação por volume de líquido, mol/(L·min)</li>
+</ul>
+
+<!-- ============ MASSA · GLOBAL · VOLUME ============ -->
+<!-- Quando o volume muda (semibatelada, tanque enchendo). Densidade constante. -->
+<h3 class="balanco balanco-massa">Massa global, com densidade constante</h3>
+<div class="equacao">
+  <math display="block">
+    <munder><mrow class="chave-sob"><mfrac><mrow><mi>d</mi><mi class="var-2">V</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac></mrow><mtext class="chave">acúmulo de volume</mtext></munder>
+    <mo>=</mo>
+    <munder><mrow class="chave-sob"><msub class="param"><mi>F</mi><mn>0</mn></msub></mrow><mtext class="chave">entra</mtext></munder>
+    <mo>−</mo>
+    <munder><mrow class="chave-sob"><mi class="param">F</mi></mrow><mtext class="chave">sai</mtext></munder>
+  </math>
+</div>
+
+<!-- ============ MASSA · COMPONENTE · REATOR TUBULAR ============ -->
+<!-- PFR em estado estacionário, a variável independente é o volume percorrido.
+     Princípio: "o que A perde de vazão molar numa fatia dV é o que reage nela". -->
+<h3 class="balanco balanco-massa">Massa de um componente num reator tubular</h3>
+<div class="equacao">
+  <math display="block">
+    <munder><mrow class="chave-sob"><mfrac><mrow><mi>d</mi><msub class="var-1"><mi>F</mi><mi>A</mi></msub></mrow><mrow><mi>d</mi><mi>V</mi></mrow></mfrac></mrow><mtext class="chave">variação ao longo do tubo</mtext></munder>
+    <mo>=</mo>
+    <munder><mrow class="chave-sob"><msub class="param"><mi>ν</mi><mi>A</mi></msub><mo>⋅</mo><mi>r</mi></mrow><mtext class="chave">geração por volume</mtext></munder>
+  </math>
+</div>
+<ul class="termos">
+  <li><code class="var-1">F<sub>A</sub></code> — vazão molar de A que passa pela seção do tubo, mol/min</li>
+  <li><code>V</code> — volume de reator já percorrido desde a entrada, L</li>
+</ul>
+
+<!-- ============ ENERGIA · TANQUE AGITADO ============ -->
+<!-- Líquido, cp constante, um reagente. Batelada: tire o termo da corrente. -->
+<h3 class="balanco balanco-energia">Energia num tanque agitado com camisa</h3>
+<div class="equacao">
+  <math display="block">
+    <munder><mrow class="chave-sob"><mi class="param">ρ</mi><mo>⋅</mo><msub class="param"><mi>c</mi><mi>p</mi></msub><mo>⋅</mo><mi class="param">V</mi><mo>⋅</mo><mfrac><mrow><mi>d</mi><mi class="var-2">T</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac></mrow><mtext class="chave">acúmulo de energia</mtext></munder>
+    <mo>=</mo>
+    <munder><mrow class="chave-sob"><mi class="param">ρ</mi><mo>⋅</mo><msub class="param"><mi>c</mi><mi>p</mi></msub><mo>⋅</mo><mi class="param">F</mi><mo>⋅</mo><mo>(</mo><msub class="param"><mi>T</mi><mn>0</mn></msub><mo>−</mo><mi class="var-2">T</mi><mo>)</mo></mrow><mtext class="chave">a corrente aquece ou esfria</mtext></munder>
+    <mo>+</mo>
+    <munder><mrow class="chave-sob"><mo>(</mo><mo>−</mo><mi class="param">Δ</mi><msub class="param"><mi>H</mi><mi>r</mi></msub><mo>)</mo><mo>⋅</mo><mi>r</mi><mo>⋅</mo><mi class="param">V</mi></mrow><mtext class="chave">calor da reação</mtext></munder>
+    <mo>−</mo>
+    <munder><mrow class="chave-sob"><mi class="param">U</mi><mo>⋅</mo><mi class="param">A</mi><mo>⋅</mo><mo>(</mo><mi class="var-2">T</mi><mo>−</mo><msub class="param"><mi>T</mi><mi>c</mi></msub><mo>)</mo></mrow><mtext class="chave">troca com a camisa</mtext></munder>
+  </math>
+</div>
+<ul class="termos">
+  <li><code class="param">ρ</code>, <code class="param">c<sub>p</sub></code> — densidade e calor específico do líquido, kg/L e J/(kg·K)</li>
+  <li><code class="var-2">T</code> — temperatura do líquido no tanque e na saída, K</li>
+  <li><code class="param">ΔH<sub>r</sub></code> — calor de reação por mol reagido, negativo se exotérmica, J/mol</li>
+  <li><code class="param">U</code>, <code class="param">A</code> — coeficiente global de troca e área da camisa, W/(m²·K) e m²</li>
+  <li><code class="param">T<sub>c</sub></code> — temperatura do fluido da camisa, K</li>
+</ul>
+
+<!-- ============ ENERGIA · REATOR TUBULAR ============ -->
+<h3 class="balanco balanco-energia">Energia num reator tubular</h3>
+<div class="equacao">
+  <math display="block">
+    <munder><mrow class="chave-sob"><mrow><mo>∑</mo><msub class="param"><mi>F</mi><mi>i</mi></msub><mo>⋅</mo><msub class="param"><mi>c</mi><mrow><mi>p</mi><mo>,</mo><mi>i</mi></mrow></msub></mrow><mo>⋅</mo><mfrac><mrow><mi>d</mi><mi class="var-2">T</mi></mrow><mrow><mi>d</mi><mi>V</mi></mrow></mfrac></mrow><mtext class="chave">aquecimento da corrente</mtext></munder>
+    <mo>=</mo>
+    <munder><mrow class="chave-sob"><mo>(</mo><mo>−</mo><mi class="param">Δ</mi><msub class="param"><mi>H</mi><mi>r</mi></msub><mo>)</mo><mo>⋅</mo><mi>r</mi></mrow><mtext class="chave">calor da reação</mtext></munder>
+    <mo>−</mo>
+    <munder><mrow class="chave-sob"><mi class="param">U</mi><mo>⋅</mo><mi class="param">a</mi><mo>⋅</mo><mo>(</mo><mi class="var-2">T</mi><mo>−</mo><msub class="param"><mi>T</mi><mi>a</mi></msub><mo>)</mo></mrow><mtext class="chave">troca com a parede</mtext></munder>
+  </math>
+</div>
+<ul class="termos">
+  <li><code class="param">a</code> — área de troca por volume de reator, m²/m³</li>
+  <li><code class="param">T<sub>a</sub></code> — temperatura do lado de fora do tubo, K</li>
+</ul>
+
+<!-- ============ SEPARADOR EM ESTADO ESTACIONÁRIO ============ -->
+<!-- Flash, coluna de um prato, extrator: equações algébricas, sem derivada.
+     O problema vira achar a raiz (Rachford-Rice, no flash). -->
+<h3 class="balanco balanco-massa">Massa num separador em estado estacionário</h3>
+<div class="equacao">
+  <math display="block">
+    <mtable columnalign="right left" columnspacing="0.3em" rowspacing="0.9em">
+      <mtr><mtd><mi class="param">F</mi></mtd><mtd><mo>=</mo>
+        <munder><mrow class="chave-sob"><mi class="var-1">V</mi></mrow><mtext class="chave">vapor</mtext></munder><mo>+</mo>
+        <munder><mrow class="chave-sob"><mi class="var-2">L</mi></mrow><mtext class="chave">líquido</mtext></munder></mtd></mtr>
+      <mtr><mtd><mi class="param">F</mi><mo>⋅</mo><msub class="param"><mi>z</mi><mi>i</mi></msub></mtd><mtd><mo>=</mo>
+        <munder><mrow class="chave-sob"><mi class="var-1">V</mi><mo>⋅</mo><msub><mi>y</mi><mi>i</mi></msub></mrow><mtext class="chave">i no vapor</mtext></munder><mo>+</mo>
+        <munder><mrow class="chave-sob"><mi class="var-2">L</mi><mo>⋅</mo><msub><mi>x</mi><mi>i</mi></msub></mrow><mtext class="chave">i no líquido</mtext></munder></mtd></mtr>
+      <mtr><mtd><msub><mi>y</mi><mi>i</mi></msub></mtd><mtd><mo>=</mo>
+        <munder><mrow class="chave-sob"><msub class="param"><mi>K</mi><mi>i</mi></msub><mo>⋅</mo><msub><mi>x</mi><mi>i</mi></msub></mrow><mtext class="chave">equilíbrio</mtext></munder></mtd></mtr>
+    </mtable>
+  </math>
+</div>
+
+<h2>Figuras</h2>
+
+<p>Uma por tipo de problema. Copie o <code>&lt;script&gt;</code> e a <code>div.grafico</code>, troque nome, eixos, séries, padrões e a conta de <code>calcular</code>, que é a mesma do Python, traduzida.</p>
+
+<!-- ============ 1. EDOs NO TEMPO ============ -->
+<!-- Batelada, CSTR na partida, qualquer sistema de valor inicial. Python: solve_ivp. -->
+<h3>EDOs no tempo: reações em série numa batelada</h3>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  Grafico.registrar("tempo", {
+    eixoX: "Tempo (min)",
+    eixoY: "Concentração (mol/L)",
+    series: ["Reagente A", "Intermediário B", "Produto C"],
+    padroes:  { k1: 0.20, k2: 0.10, CA0: 1.0, tf: 40 },
+    faixas:   { k1: [0.02, 0.60, 0.01], k2: [0.02, 0.60, 0.01] },
+    unidades: { k1: "1/min", k2: "1/min" },
+    calcular: function (p) {
+      var r = Grafico.integrar(function (t, C) {
+        var r1 = p.k1 * C[0], r2 = p.k2 * C[1];
+        return [-r1, r1 - r2, r2];
+      }, [p.CA0, 0, 0], 0, p.tf, p);
+      return { x: r.t, y: r.y };
+    },
+    ler: function (s) {                     // o pico de B: instante e valor
+      var B = s[1].y, i = B.indexOf(Math.max.apply(null, B));
+      return "B máximo: " + Grafico.fmt(B[i], 3) + " mol/L em " + Grafico.fmt(s[1].x[i], 1) + " min";
+    }
+  });
+});
+</script>
+<div class="grafico" data-grafico="tempo" data-controles="k1, k2"></div>
+
+<!-- ============ 2. PERFIL AO LONGO DO REATOR ============ -->
+<!-- A mesma integração, com o volume (ou o comprimento) no lugar do tempo. -->
+<h3>Perfil ao longo de um reator tubular</h3>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  Grafico.registrar("perfil", {
+    eixoX: "Volume percorrido (L)",
+    eixoY: "Conversão de A",
+    series: ["Conversão de A"],
+    padroes:  { k: 0.5, CA0: 2.0, FA0: 10, Vt: 50 },   // 2ª ordem: k em L/(mol·min)
+    faixas:   { k: [0.05, 2, 0.05], FA0: [2, 30, 1] },
+    unidades: { k: "L/(mol·min)", FA0: "mol/min" },
+    limites:  { y: [0, 1] },
+    calcular: function (p) {
+      var v0 = p.FA0 / p.CA0;                          // vazão volumétrica, L/min
+      var r = Grafico.integrar(function (V, F) {
+        var CA = F[0] / v0;
+        return [-p.k * CA * CA];
+      }, [p.FA0], 0, p.Vt, p);
+      return { x: r.t, y: [r.y[0].map(function (F) { return 1 - F / p.FA0; })] };
+    },
+    ler: function (s) {
+      var X = s[0].y;
+      return "Conversão na saída: " + Grafico.fmt(X[X.length - 1], 3);
+    }
+  });
+});
+</script>
+<div class="grafico" data-grafico="perfil" data-controles="k, FA0"></div>
+
+<!-- ============ 3. DOIS EIXOS ============ -->
+<!-- Grandezas de unidades diferentes no mesmo tempo: { nome, eixo: 2 } e eixoY2. -->
+<h3>Dois eixos: concentração e temperatura numa batelada com camisa</h3>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  Grafico.registrar("dois-eixos", {
+    eixoX: "Tempo (min)",
+    eixoY: "Concentração de A (mol/L)",
+    eixoY2: "Temperatura (K)",
+    series: ["Reagente A", { nome: "Temperatura", eixo: 2 }],
+    padroes:  { CA0: 2.0, T0: 320, Tc: 320, UA: 0.2, k0: 0.08, Tref: 330, ER: 8000, dT: 30, tf: 60 },
+    faixas:   { Tc: [290, 350, 1], UA: [0, 2, 0.05] },
+    unidades: { Tc: "K", UA: "1/min" },
+    // UA aqui é U·A/(ρ·cp·V), em 1/min; dT é (−ΔH)/(ρ·cp), em K·L/mol.
+    calcular: function (p) {
+      var r = Grafico.integrar(function (t, y) {
+        var k = p.k0 * Math.exp(-p.ER * (1 / y[1] - 1 / p.Tref));
+        var rr = k * y[0];
+        return [-rr, p.dT * rr - p.UA * (y[1] - p.Tc)];
+      }, [p.CA0, p.T0], 0, p.tf, p);
+      return { x: r.t, y: r.y };
+    },
+    ler: function (s) {
+      var T = s[1].y;
+      return "Pico de temperatura: " + Grafico.fmt(Math.max.apply(null, T), 1) + " K";
+    }
+  });
+});
+</script>
+<div class="grafico" data-grafico="dois-eixos" data-controles="Tc, UA"></div>
+
+<!-- ============ 4. VARREDURA COM RAIZ ============ -->
+<!-- O estacionário é uma equação algébrica sem fórmula: para cada x da
+     varredura, Grafico.raiz. Python: scipy.optimize.brentq num laço. -->
+<h3>Varredura de um parâmetro: conversão de um CSTR contra o tempo de residência</h3>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  Grafico.registrar("varredura", {
+    eixoX: "Tempo de residência (min)",
+    eixoY: "Conversão de A",
+    series: ["1ª ordem", "2ª ordem"],
+    padroes:  { k1: 0.2, k2: 0.1, CA0: 2.0, taumax: 60 },
+    faixas:   { k2: [0.02, 0.5, 0.01] },
+    unidades: { k2: "L/(mol·min)" },
+    limites:  { y: [0, 1] },
+    calcular: function (p) {
+      var tau = Grafico.linspace(0, p.taumax, 121);
+      var X1 = tau.map(function (t) { return p.k1 * t / (1 + p.k1 * t); });   // fórmula fechada
+      var X2 = tau.map(function (t) {                                          // raiz, ponto a ponto
+        return Grafico.raiz(function (X) { return X - t * p.k2 * p.CA0 * (1 - X) * (1 - X); }, 0, 1);
+      });
+      return { x: tau, y: [X1, X2] };
+    }
+  });
+});
+</script>
+<div class="grafico" data-grafico="varredura" data-controles="k2"></div>
+
+<!-- ============ 5. DUAS CURVAS QUE SE CRUZAM ============ -->
+<!-- Quando a resposta é "onde as curvas se cruzam": estados estacionários,
+     ponto de operação, equilíbrio. Cada cruzamento sai de Grafico.raiz na
+     diferença das duas, e o ler os lista. -->
+<h3>Onde as curvas se cruzam: estados estacionários de um CSTR exotérmico</h3>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  function cruzamentos(f, a, b, n) {             // todas as raízes de f em [a, b]
+    var xs = Grafico.linspace(a, b, n), out = [];
+    for (var i = 1; i < xs.length; i++) {
+      var r = Grafico.raiz(f, xs[i - 1], xs[i]);
+      if (isFinite(r)) out.push(r);
+    }
+    return out;
+  }
+  Grafico.registrar("cruzamento", {
+    eixoX: "Temperatura no reator (K)",
+    eixoY: "Calor (J/mol de A alimentado)",
+    series: ["Calor gerado", "Calor removido"],
+    padroes:  { dH: 20000, cp: 50, kapa: 1, Tc: 300, tau: 10, kref: 0.1, Tref: 350, ER: 10000 },
+    faixas:   { Tc: [280, 330, 1], tau: [2, 30, 1] },
+    unidades: { Tc: "K", tau: "min" },
+    calcular: function (p) {
+      var T = Grafico.linspace(290, 520, 231);
+      function G(t) { var k = p.kref * Math.exp(-p.ER * (1 / t - 1 / p.Tref)); return p.dH * p.tau * k / (1 + p.tau * k); }
+      function R(t) { return p.cp * (1 + p.kapa) * (t - p.Tc); }
+      return { x: T, y: [T.map(G), T.map(R)] };
+    },
+    ler: function (s, p) {
+      function G(t) { var k = p.kref * Math.exp(-p.ER * (1 / t - 1 / p.Tref)); return p.dH * p.tau * k / (1 + p.tau * k); }
+      var Ts = cruzamentos(function (t) { return G(t) - p.cp * (1 + p.kapa) * (t - p.Tc); }, 290, 520, 231);
+      return "Estados estacionários: " + Ts.map(function (t) { return Grafico.fmt(t, 0) + " K"; }).join(" · ");
+    }
+  });
+});
+</script>
+<div class="grafico" data-grafico="cruzamento" data-controles="Tc, tau"></div>
+
+<!-- ============ 6. DADOS CONTRA MODELO ============ -->
+<!-- Os pontos são os do enunciado (nunca inventados): { tipo: "pontos" }, cada
+     série com o seu próprio x. Python: plt.plot(t, C, "o") e a curva por cima. -->
+<h3>Dados contra modelo: ajustar k aos pontos medidos</h3>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var tMed = [0, 5, 10, 20, 30, 45],
+      CMed = [2.00, 1.22, 0.75, 0.29, 0.11, 0.03];   // os dados do enunciado
+  Grafico.registrar("dados", {
+    eixoX: "Tempo (min)",
+    eixoY: "Concentração de A (mol/L)",
+    series: ["Modelo", { nome: "Medidas", tipo: "pontos" }],
+    padroes:  { k: 0.1, CA0: 2.0 },
+    faixas:   { k: [0.02, 0.2, 0.002] },
+    unidades: { k: "1/min" },
+    calcular: function (p) {
+      var t = Grafico.linspace(0, 45, 181);
+      return [
+        { x: t, y: t.map(function (s) { return p.CA0 * Math.exp(-p.k * s); }) },
+        { x: tMed, y: CMed }
+      ];
+    },
+    ler: function (s, p) {                        // a soma dos quadrados dos resíduos
+      var q = tMed.reduce(function (a, t, i) { var d = CMed[i] - p.CA0 * Math.exp(-p.k * t); return a + d * d; }, 0);
+      return "Soma dos resíduos ao quadrado: " + Grafico.fmt(q, 4) + " (mol/L)²";
+    }
+  });
+});
+</script>
+<div class="grafico" data-grafico="dados" data-controles="k"></div>
+
+<script src="../assets/tema.js" defer></script>
+<script src="../assets/grafico.js" defer></script>
+</body>
+</html>
