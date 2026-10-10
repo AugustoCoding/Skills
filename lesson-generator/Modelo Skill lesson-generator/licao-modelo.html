@@ -221,7 +221,16 @@ def chega_95(t, C):
                 events=chega_95, dense_output=True)
 t95 = sol.t_events[0][0]
 CA_fim, CB_fim = sol.y[:, -1]</code></pre>
-    <p class="como">A <code>solve_ivp</code> recebe primeiro, nesta ordem, a função dos balanços, o intervalo de tempo como o par <code>(0, t_fim)</code> e as concentrações iniciais de A e de B, <code>[0.0, 0.0]</code>. O resto vai pelo nome. <code>rtol</code> e <code>atol</code> são as <span class="termo">tolerâncias</span>, o erro que ela aceita a cada avanço: relativo ao tamanho da concentração e absoluto, em mol/L. Quanto menores, mais curtos os avanços e mais exato o resultado; com estes valores, o instante do evento sai certo muito além das duas casas que a lição cita, e o próximo passo mede isso. <code>events=chega_95</code> liga o evento do passo anterior. <code>dense_output=True</code> guarda uma fórmula que costura os pontos calculados, para avaliar a solução em qualquer instante sem integrar de novo. A resposta fica em <code>sol</code>: <code>sol.t_events[0][0]</code> é o primeiro instante em que o primeiro evento disparou, e <code>sol.y[:, -1]</code> é a última coluna de <code>sol.y</code>, as duas concentrações no fim, desmontadas em duas variáveis.</p>
+    <p class="como">A <code>solve_ivp</code> recebe três argumentos na ordem e os outros pelo nome:</p>
+    <ul class="como">
+      <li><code>derivadas</code>: a função dos balanços, entregue sem parênteses, porque quem a chama é a <code>solve_ivp</code>.</li>
+      <li><code>(0, t_fim)</code>: o intervalo de tempo, do início ao horizonte.</li>
+      <li><code>[0.0, 0.0]</code>: as concentrações iniciais de A e de B.</li>
+      <li><code>rtol</code> e <code>atol</code>: as <span class="termo">tolerâncias</span>, o erro que ela aceita a cada avanço, relativo ao tamanho da concentração e absoluto, em mol/L. Quanto menores, mais curtos os avanços e mais exato o resultado; com estes valores, o instante do evento sai certo muito além das duas casas que a lição cita, e o próximo passo mede isso.</li>
+      <li><code>events=chega_95</code>: liga o evento do passo anterior.</li>
+      <li><code>dense_output=True</code>: guarda uma fórmula que costura os pontos calculados, para avaliar a solução em qualquer instante sem integrar de novo.</li>
+    </ul>
+    <p class="como">A resposta fica em <code>sol</code>: <code>sol.t_events[0][0]</code> é o primeiro instante em que o primeiro evento disparou, e <code>sol.y[:, -1]</code> é a última coluna de <code>sol.y</code>, as duas concentrações no fim, desmontadas em duas variáveis.</p>
     <p class="agora">O exercício está resolvido: <code>t95</code> guarda o instante pedido. Antes de confiar nele, vamos conferi-lo.</p>
   </div>
 

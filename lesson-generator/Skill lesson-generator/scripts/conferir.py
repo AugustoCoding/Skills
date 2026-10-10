@@ -170,8 +170,11 @@ def conferir_estrutura(doc):
             erro("A técnica não destaca o nome dela no texto (span.termo).")
         if not any(p.achar("code") for p in texto_tec):
             aviso("A técnica não diz em <code> o recurso de Python que a faz.")
-        if not tecnica[0].achar("p", "tecnica-nome"):
+        nomes = tecnica[0].achar("p", "tecnica-nome")
+        if not nomes:
             erro("A técnica não tem nome (p.tecnica-nome).")
+        elif len(nomes[0].texto().split()) > 4:
+            aviso(f"O nome da técnica tem {len(nomes[0].texto().split())} palavras: use até quatro, e os detalhes no texto.")
         h2s = [i for i, n in enumerate(filhos) if n.tag == "h2"]
         if len(h2s) >= 2 and tecnica[0] is not filhos[h2s[1] - 1]:
             erro("A técnica tem de ser o último bloco de \"O modelo\", logo antes de \"O código\".")

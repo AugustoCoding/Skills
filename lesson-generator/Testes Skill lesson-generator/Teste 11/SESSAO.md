@@ -113,3 +113,4 @@ Copiada para [com-skill/](./com-skill/). `conferir.py` na entrega: nenhum erro; 
 
 | Commit | O que corrigiu |
 |---|---|
+| (este commit) | Achado 1: nome da técnica com até quatro palavras (SKILL.md, template, aviso no conferir.py). Achado 2: o "como" pode ser uma lista, um item por argumento (ul.como), e um passo pesado pode virar dois; a lição modelo mostra a lista no passo da integração |

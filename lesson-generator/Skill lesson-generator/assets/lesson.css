@@ -810,6 +810,11 @@ ol.deducao .porque > .tipo { display: none; }
 }
 
 .passo .item-dentro > p { margin: 0.7rem 0 0; font-size: var(--t-texto); }
+/* O "como" em lista: um item por argumento ou por elemento novo, quando um
+   parágrafo só ficaria pesado. */
+.passo .item-dentro > ul.como { margin: 0.5rem 0 0; padding-left: 1.3rem; }
+.passo .item-dentro > ul.como > li { margin: 0.35rem 0; }
+.passo .item-dentro > ul.como > li::marker { color: var(--mom-codigo); }
 
 /* A explicação de um passo tem três tempos: PARA QUÊ (a intenção, antes do
    código), COMO (a sintaxe de cada elemento, depois dele) e ATÉ AQUI (o que o

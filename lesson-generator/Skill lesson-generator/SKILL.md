@@ -82,7 +82,7 @@ Depois da dedução, a seção O modelo tem apenas mais dois elementos:
 1. **A tabela de parâmetros**, com valor, unidade e procedência de cada um.
 2. **O quadro da técnica**, que fecha a seção em quatro ou cinco frases, nesta sequência:
    - o tipo de problema matemático, em palavras simples;
-   - "para resolver esse tipo de problema, vamos usar" a técnica, com o nome dela destacado também no texto (`span.termo`);
+   - "para resolver esse tipo de problema, vamos usar" a técnica, com o nome dela destacado também no texto (`span.termo`). O nome da técnica, no título do quadro, é curto: até quatro palavras ("Busca de raiz", "Integração numérica"); os detalhes vão no texto;
    - por que ela serve neste caso;
    - "em Python, quem faz isso é a função" tal, "da biblioteca" tal;
    - "Confira a próxima seção para aprender a usá-la."
@@ -100,7 +100,7 @@ O programa é explicado em no máximo seis passos, seguidos de um último passo 
   1. **para quê** (`p.para-que`), antes do código: a intenção do passo;
   2. **como** (`p.como`), depois do código: a sintaxe de cada elemento novo, como o que é um `def`, o que a função recebe e devolve, o que significa cada formato de impressão;
   3. **até aqui** (`p.agora`), por último: o que o programa passou a fazer.
-- Toda função de biblioteca deve ter todos os argumentos explicados, posicionais e nomeados: o que cada um é e por que tem aquele valor.
+- Toda função de biblioteca deve ter todos os argumentos explicados, posicionais e nomeados: o que cada um é e por que tem aquele valor. Quando são muitos, recomenda-se escrever o "como" em lista (`ul.como`), um item por argumento, em vez de um parágrafo longo; um passo que ainda fique pesado pode ser dividido em dois.
 - Quando uma função sua é entregue a uma função de biblioteca (a função dos balanços ao `solve_ivp`, a de resíduo ao `brentq`), explique o mecanismo: quem a chama, quantas vezes, com que valores em cada argumento, e o que é feito com o que ela devolve. É isso que dá sentido à ordem dos argumentos, a `y[0]` (o estado chega sempre como lista, mesmo com uma só variável) e a `args=(…,)` (o caminho pelo qual um valor extra chega a cada chamada, e por que a vírgula).
 - Toda construção que um iniciante não reconheceria (índice de lista, tupla, desempacotamento, função como argumento, atributo como `.terminal`) deve ser explicada com o que ela é e o que faz neste programa.
 - A verificação é obrigatória: uma conta independente que confere o resultado (caso analítico, balanço que fecha, caso-limite).
