@@ -317,6 +317,25 @@ def conferir_placeholders(doc):
         trecho = m.group(0) if len(m.group(0)) <= 70 else m.group(0)[:67] + "…}"
         erro(f"Ficou um placeholder do template: {trecho}")
 
+    # Placeholders em atributos (class="tipo-{…}") e classes que não existem.
+    validas = {
+        "tipo": {"principio", "traducao", "cinetica", "hipotese", "algebra", "definicao"},
+        "proc": {"enunciado", "derivado", "constante", "escolha"},
+        "balanco": {"massa", "energia", "movimento"},
+    }
+    for n in doc.todos():
+        for nome, valor in n.attrs.items():
+            if valor and "{" in valor and n.tag not in ("script", "style"):
+                erro(f"Ficou um placeholder do template no atributo {nome}=\"{valor}\".")
+        for base, ok in validas.items():
+            if n.tem(base):
+                sufixos = [c[len(base) + 1:] for c in n.classes if c.startswith(base + "-")]
+                if base != "balanco" and not sufixos:
+                    erro(f"Um .{base} está sem a classe do tipo ({base}-…): \"{n.texto().strip()[:40]}\".")
+                for s in sufixos:
+                    if s not in ok:
+                        erro(f"Classe {base}-{s} não existe; use uma de: " + ", ".join(sorted(ok)) + ".")
+
 
 def texto_fora_de_codigo(no):
     """O texto de um nó sem script, style, pre, code, math, sub e sup."""

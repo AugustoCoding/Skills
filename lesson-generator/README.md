@@ -41,8 +41,8 @@ A pasta da skill contém apenas o que entra no contexto do modelo de linguagem. 
 |---|---|
 | `SKILL.md` | As instruções que o modelo de linguagem segue: objetivo, glossário, fluxo de trabalho, estrutura da lição, tratamento dos números e restrições técnicas. |
 | `agents/openai.yaml` | Configuração para Codex/ChatGPT: a skill só é ativada quando o usuário a chama. |
-| `templates/licao.html` | O esqueleto da lição, com marcadores `{…}` a preencher. |
-| `templates/pecas.html` | O catálogo de peças prontas: balanços de massa e de energia (tanque, tubo, separador) e uma figura por tipo de problema (EDOs no tempo, perfil, dois eixos, varredura, cruzamento de curvas, dados contra modelo). Abre no navegador com todas as peças funcionando. |
+| `templates/licao.html` | O esqueleto da lição: cada elemento uma vez, como padrão a repetir, com marcadores `{…}` a preencher. Sem conteúdo de um exercício específico. |
+| `templates/pecas.html` | O catálogo de conteúdo pronto, com índice: uma dedução completa de exemplo, balanços de massa e de energia (tanque, tubo, separador), equações complementares (lei de potência, Arrhenius) e uma figura por tipo de problema (EDOs no tempo, perfil, dois eixos, varredura, cruzamento de curvas, dados contra modelo). Abre no navegador com todas as peças funcionando. |
 | `scripts/nova_licao.py` | Cria o rascunho da lição (o template e a cópia dos componentes) e registra o destino da entrega. |
 | `scripts/conferir.py` | Verifica o rascunho: executa os passos do código em ordem, compara a resposta com o que o programa imprime, checa a estrutura de cada seção, acusa marcadores não preenchidos e lista os números do texto para a revisão de procedência. |
 | `scripts/empacotar.py` | Gera a lição como arquivo HTML único, sem comentários, grava no destino e apaga o rascunho. |
