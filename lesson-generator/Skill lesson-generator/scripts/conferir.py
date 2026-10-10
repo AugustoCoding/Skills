@@ -137,6 +137,21 @@ def conferir_estrutura(doc):
     if not doc.achar("table"):
         aviso("Não há tabela de parâmetros.")
 
+    # A técnica fecha o modelo: é o último bloco antes de "O código".
+    tecnica = doc.achar("div", "tecnica")
+    if not tecnica:
+        erro("Falta a técnica (div.tecnica) no fim de \"O modelo\": o nome da ferramenta e por que ela serve.")
+    else:
+        if not tecnica[0].achar("p", "tecnica-nome"):
+            erro("A técnica não tem nome (p.tecnica-nome).")
+        h2s = [i for i, n in enumerate(filhos) if n.tag == "h2"]
+        if len(h2s) >= 2 and tecnica[0] is not filhos[h2s[1] - 1]:
+            erro("A técnica tem de ser o último bloco de \"O modelo\", logo antes de \"O código\".")
+
+    for cls in ("pense", "gancho"):
+        if doc.achar(cls=cls):
+            erro(f"A marcação .{cls} saiu da lição: tire-a.")
+
 
 def conferir_codigo(doc, pasta):
     secoes = doc.achar("section", "codigo")
@@ -258,6 +273,8 @@ def listar_numeros(doc):
 
 
 def main():
+    # No Windows, a saída redirecionada sai em cp1252, que não tem ⁻ nem ·.
+    sys.stdout.reconfigure(encoding="utf-8")
     if len(sys.argv) != 2:
         sys.exit("uso: python conferir.py <lição.html>")
     caminho = Path(sys.argv[1]).resolve()

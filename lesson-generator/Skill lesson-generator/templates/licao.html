@@ -16,7 +16,6 @@
 <header class="licao">
   <span class="etiqueta">{Área · tipo de problema matemático}</span>
   <h1>{Título curto}</h1>
-  <p class="gancho">{Uma frase: o que ele vai ter rodando no fim.}</p>
 </header>
 
 <!-- ================= ABERTURA ================= -->
@@ -131,8 +130,14 @@
 </tbody>
 </table>
 
-<!-- O tipo de problema. -->
-<p>{Que problema é este, e por que isso decide como o código o resolve.}</p>
+<!-- A técnica: fecha o modelo. O nome da ferramenta, em palavras do básico. -->
+<div class="tecnica">
+  <p class="tecnica-nome">{Integração numérica}</p>
+  <p>{Que tipo de problema o modelo virou, em palavras simples. "Para resolver
+  esse tipo de problema, vamos usar ESTA técnica": o que ela faz, sem jargão de
+  simulação, e por que é perfeita para este caso. Termine com: "Confira a
+  próxima seção para aprender a usá-la."}</p>
+</div>
 
 <!-- ================= CÓDIGO ================= -->
 <h2>O código</h2>
@@ -145,12 +150,10 @@
     <p>{Por que assim.}</p>
   </div>
 
-  <!-- Opcional: p.pense — a pergunta aparece antes, o código depois do clique. -->
   <div class="passo">
     <h3>{O passo central}</h3>
-    <p class="pense">{A pergunta curta: "que sinal tem o termo de consumo, e por quê?"}</p>
 <pre><code>{as linhas deste passo}</code></pre>
-    <p>{Por que assim — e a resposta da pergunta, se o código não a deixar óbvia.}</p>
+    <p>{Por que assim.}</p>
   </div>
 
   <!-- Opcional: div.armadilha. -->

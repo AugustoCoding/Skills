@@ -61,6 +61,20 @@
 
   --serif: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Times New Roman", serif;
   --mono: "SF Mono", "Cascadia Mono", Consolas, "Liberation Mono", Menlo, monospace;
+
+  /* A ESCALA DO TEXTO: sete tamanhos, e cada coisa da lição usa um deles.
+       · serifada: títulos, o texto que ensina, e o de consulta;
+       · mono: código, e os rótulos (etiquetas, botões, números das bolinhas),
+         sempre em maiúsculas espaçadas quando são rótulos.
+     Nada de tamanho solto: um elemento novo escolhe o papel dele aqui. */
+  --t-h1: 2.1rem;       /* título da lição */
+  --t-h2: 1.35rem;      /* seção: o modelo, o código, o resultado */
+  --t-h3: 1.05rem;      /* balanço, passo, observação: todo h3 igual */
+  --t-texto: 1rem;      /* tudo o que ensina: parágrafos, porquês, caixas */
+  --t-apoio: 0.9rem;    /* o que se consulta: símbolos, tabela, legenda, controles */
+  --t-codigo: 0.85rem;  /* código, na lição e no editor */
+  --t-rotulo: 0.7rem;   /* rótulos e botões em mono */
+  --esp-rotulo: 0.08em;
 }
 
 /* Tema escuro em dois caminhos, com a mesma paleta:
@@ -154,28 +168,27 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Cabeçalho da lição: etiqueta (área · tipo de problema), título, uma linha de gancho. */
+/* Cabeçalho da lição: etiqueta (área · tipo de problema) e título. */
 header.licao { margin-bottom: 3rem; }
 
 header.licao .etiqueta {
   font-family: var(--mono);
-  font-size: 0.8rem;
-  letter-spacing: 0.12em;
+  font-size: var(--t-rotulo);
+  letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
   color: var(--muted);
 }
 
 h1 {
-  font-size: 2.1rem;
+  font-size: var(--t-h1);
   font-weight: 400;
   line-height: 1.15;
   margin: 0.4rem 0 0.8rem;
 }
 
 h2 {
-  font-size: 1.35rem;
+  font-size: var(--t-h2);
   font-weight: 400;
-  font-style: italic;
   margin: 3rem 0 0.8rem;
 }
 
@@ -187,21 +200,12 @@ body > h2:nth-of-type(2) { color: var(--mom-codigo);    border-left-color: var(-
 body > h2:nth-of-type(3) { color: var(--mom-resultado); border-left-color: var(--mom-resultado); }
 
 h3 {
-  font-size: 1.05rem;
+  font-size: var(--t-h3);
   font-weight: 600;
   margin: 2rem 0 0.6rem;
 }
 
 p { margin: 0 0 1.1rem; }
-
-/* O gancho: por que esta lição, por que agora. */
-.gancho {
-  font-style: italic;
-  color: var(--muted);
-  border-left: 2px solid var(--rule);
-  padding-left: 1rem;
-  margin: 0 0 2rem;
-}
 
 a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
 
@@ -216,7 +220,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
   clear: right;
   width: 14rem;
   margin: 0.3rem -16rem 1rem 0;
-  font-size: 0.82rem;
+  font-size: var(--t-apoio);
   line-height: 1.4;
   color: var(--muted);
 }
@@ -261,7 +265,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
   list-style: none;
   padding: 0;
   margin: -0.6rem 0 1.6rem;
-  font-size: 0.88rem;
+  font-size: var(--t-apoio);
   color: var(--muted);
 }
 .termos li { margin: 0.45rem 0; }
@@ -310,9 +314,8 @@ code.var-1, code.var-2, code.var-3, code.var-4, code.param { font-weight: 700; }
 
 /* Valor sem procedência. Obrigatório marcar. */
 .ilustrativo {
-  font-size: 0.8rem;
+  font-size: var(--t-apoio);
   color: var(--muted);
-  font-style: italic;
 }
 .ilustrativo::before { content: "⚠"; font-style: normal; display: inline-block; margin-right: 0.35em; vertical-align: -0.05em; }
 
@@ -330,7 +333,7 @@ code.var-1, code.var-2, code.var-3, code.var-4, code.param { font-weight: 700; }
      </ol>                                                                     */
 
 h3.balanco {
-  font-size: 1.1rem;
+  font-size: var(--t-h3);
   margin: 2.4rem 0 0.4rem;
   color: var(--mom-modelo);
 }
@@ -340,9 +343,9 @@ h3.balanco {
 h3.balanco::before {
   display: inline-block;
   font-family: var(--mono);
-  font-size: 0.62rem;
+  font-size: var(--t-rotulo);
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
   padding: 0.15rem 0.55rem;
   margin-right: 0.6rem;
@@ -398,18 +401,18 @@ ol.observacoes > li::before {
   line-height: 1;
   border-radius: 50%;
   font-family: var(--mono);
-  font-size: 0.78rem;
+  font-size: var(--t-rotulo);
   color: var(--bg);
   background: var(--cor-linha);
   z-index: 1;
 }
 ol.observacoes > li::before { top: 0; }
-ol.observacoes > li > h3 { margin: 0.1rem 0 0.4rem; font-size: 1rem; }
+ol.observacoes > li > h3 { margin: 0.1rem 0 0.4rem; font-size: var(--t-h3); }
 ol.observacoes .item-dentro > p { margin: 0 0 0.4rem; }
 
 ol.deducao .equacao { margin: 0 0 0.4rem; }
 ol.deducao .termos { margin: 0.6rem 0 0.4rem; }
-ol.deducao p.porque { font-size: 0.92rem; margin: 0 0 0.3rem; color: var(--fg); }
+ol.deducao p.porque { font-size: var(--t-texto); margin: 0 0 0.3rem; color: var(--fg); }
 
 /* O último passo é a equação do modelo: caixa com a cor do momento. */
 ol.deducao > li.final .equacao {
@@ -424,8 +427,8 @@ ol.deducao > li.final .item-dentro > p:not(.porque) { margin: 0.9rem 0 0.3rem; }
 .tipo {
   display: inline-block;
   font-family: var(--mono);
-  font-size: 0.66rem;
-  letter-spacing: 0.08em;
+  font-size: var(--t-rotulo);
+  letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
   padding: 0.1rem 0.5rem;
   margin-right: 0.5rem;
@@ -500,7 +503,7 @@ pre {
   padding: 1rem 1.2rem;
   border-radius: var(--raio);
   overflow-x: auto;
-  font-size: 0.85rem;
+  font-size: var(--t-codigo);
   line-height: 1.5;
 }
 pre code { background: none; padding: 0; }
@@ -521,7 +524,7 @@ table {
   border-collapse: collapse;
   width: 100%;
   margin: 1.6rem 0;
-  font-size: 0.9rem;
+  font-size: var(--t-apoio);
 }
 th, td { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--rule); }
 th {
@@ -538,8 +541,8 @@ td code { background: none; padding: 0; }
 .proc {
   display: inline-block;
   font-family: var(--mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.08em;
+  font-size: var(--t-rotulo);
+  letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
   padding: 0.12rem 0.5rem;
   margin-right: 0.45rem;
@@ -559,7 +562,7 @@ td.num, th.num { text-align: right; font-family: var(--mono); }
   border-radius: var(--raio);
   padding: 1rem 1.2rem;
   margin: 2.5rem 0 0;
-  font-size: 0.92rem;
+  font-size: var(--t-apoio);
 }
 
 /* ---------- equações em MathML ---------- */
@@ -600,7 +603,7 @@ math[display="block"] {
 
 .eq-bloco > p {
   margin: 0.7rem 0 0;
-  font-size: 0.95rem;
+  font-size: var(--t-texto);
 }
 
 /* ---------- seção de código (assets/codigo.js) ---------- */
@@ -632,7 +635,7 @@ section.codigo { margin: 2.5rem 0; counter-reset: passo; }
   line-height: 1;
   border-radius: 50%;
   font-family: var(--mono);
-  font-size: 0.78rem;
+  font-size: var(--t-rotulo);
   color: var(--bg);
   background: var(--mom-codigo);
   z-index: 1;
@@ -651,9 +654,8 @@ section.codigo { margin: 2.5rem 0; counter-reset: passo; }
 
 .passo h3 {
   margin: 0.1rem 0 0.6rem;
-  font-size: 1rem;
+  font-size: var(--t-h3);
   font-weight: 600;
-  letter-spacing: 0.01em;
 }
 
 /* ---------- recolher: itens e seções ---------- */
@@ -668,63 +670,56 @@ section.codigo { margin: 2.5rem 0; counter-reset: passo; }
   opacity: 1;
   transition: grid-template-rows 0.38s ease, opacity 0.3s ease;
 }
-.item-dentro,
-.secao-dentro { min-height: 0; overflow: hidden; }
+.item-dentro { min-height: 0; overflow: hidden; }
+/* A seção corta o que passa, mas com folga dos lados: o anel que pulsa em
+   volta da bolinha sai da coluna, e sem a folga ele seria cortado. */
+.secao-dentro { min-height: 0; overflow: hidden; margin: 0 -0.8rem; padding: 0 0.8rem; }
 
-/* Um item FECHADO (o próximo, ainda não aberto) e um RECOLHIDO (já lido) mostram
-   o mesmo: a bolinha e a cabeça. Só a bolinha os distingue: vazada e pulsando
-   no fechado, cheia no recolhido. */
-.fechado > .item-corpo,
+/* A lição abre com tudo RECOLHIDO: cada item mostra só a bolinha e a cabeça,
+   e o aluno vê de saída quantos passos tem cada parte. O próximo a ler CHAMA:
+   a bolinha fica vazada e pulsa, e passa ao seguinte quando ele é aberto. */
 .recolhido > .item-corpo { grid-template-rows: 0fr; opacity: 0; }
 
-.fechado,
 .recolhido { cursor: pointer; }
-.fechado:focus-visible,
 .recolhido:focus-visible { outline: none; }
-.fechado:focus-visible > h3,
 .recolhido:focus-visible > h3,
-.fechado:focus-visible > .item-cabeca,
 .recolhido:focus-visible > .item-cabeca { text-decoration: underline; }
 
 /* A cabeça: o título no código e nas observações; as etiquetas de tipo na
    dedução, que só aparecem com o passo recolhido (aberto, elas estão no texto). */
 .passo > h3,
 ol.observacoes > li > h3 { cursor: pointer; transition: color 0.2s ease; }
-.fechado > h3,
-.recolhido > h3 { color: var(--muted); font-weight: 400; }
-.fechado:hover > h3,
+.recolhido > h3 { color: var(--muted); }
 .recolhido:hover > h3 { color: var(--fg); }
 
 .item-cabeca { display: none; gap: 0.4rem; align-items: center; }
-.fechado > .item-cabeca,
 .recolhido > .item-cabeca { display: flex; }
 .item-cabeca .tipo { margin-right: 0; }
 
-/* A bolinha do item fechado: vazada, pulsando de leve. */
-.fechado::before {
+/* A bolinha que chama: vazada, pulsando de leve. */
+.chamando::before {
   color: var(--cor-linha) !important;
   background: var(--bg) !important;
   box-shadow: inset 0 0 0 2px var(--cor-linha);
   animation: chamar 1.8s ease-in-out infinite;
 }
-.fechado:hover::before,
-.fechado:focus-visible::before { color: var(--bg) !important; background: var(--cor-linha) !important; animation: none; }
+.chamando:hover::before,
+.chamando:focus-visible::before { color: var(--bg) !important; background: var(--cor-linha) !important; animation: none; }
 
 /* A bolinha de todo item é a alça que recolhe. */
 .passo::before,
 ol.deducao > li::before,
 ol.observacoes > li::before { cursor: pointer; transition: top 0.3s ease; }
 
-.passo.fechado, .passo.recolhido,
-ol.observacoes > li.fechado, ol.observacoes > li.recolhido { margin-bottom: 1.2rem; }
+.passo.recolhido,
+ol.observacoes > li.recolhido { margin-bottom: 1.2rem; }
 /* Na dedução, a bolinha aberta se alinha à caixa da equação; recolhida, à cabeça. */
-ol.deducao > li.fechado::before,
 ol.deducao > li.recolhido::before { top: 0; }
-ol.deducao > li.fechado,
 ol.deducao > li.recolhido { min-height: 1.75rem; margin-bottom: 0.8rem; }
 ol.deducao > li > .item-cabeca { min-height: 1.75rem; }
 
-/* AS SEÇÕES: o título recolhe a seção inteira; a setinha diz o estado. */
+/* AS SEÇÕES: o título recolhe a seção inteira; a setinha diz o estado. A
+   primeira seção ainda não aberta chama, com a setinha pulsando. */
 .secao-titulo { cursor: pointer; display: flex; align-items: center; gap: 0.7rem; }
 .secao-titulo::after {
   content: "";
@@ -742,6 +737,8 @@ ol.deducao > li > .item-cabeca { min-height: 1.75rem; }
 .secao-titulo:focus-visible::after { opacity: 1; }
 .secao-titulo:focus-visible { outline: none; text-decoration: underline; }
 .secao-titulo.secao-recolhida::after { transform: rotate(-45deg); margin-top: 0; }
+.secao-titulo.chamando::after { animation: chamar-seta 1.8s ease-in-out infinite; }
+.secao-titulo.chamando:hover::after { animation: none; }
 .secao-corpo.secao-recolhida { grid-template-rows: 0fr; opacity: 0; }
 
 @media (prefers-reduced-motion: reduce) {
@@ -752,11 +749,15 @@ ol.deducao > li > .item-cabeca { min-height: 1.75rem; }
   0%, 100% { box-shadow: inset 0 0 0 2px var(--cor-linha), 0 0 0 0 color-mix(in srgb, var(--cor-linha) 45%, transparent); }
   50%      { box-shadow: inset 0 0 0 2px var(--cor-linha), 0 0 0 6px color-mix(in srgb, var(--cor-linha) 0%, transparent); }
 }
+@keyframes chamar-seta {
+  0%, 100% { opacity: 0.55; translate: 0 0; }
+  50%      { opacity: 1;    translate: 0.25rem 0; }
+}
 @media (prefers-reduced-motion: reduce) {
-  .fechado::before { animation: none; }
+  .chamando::before, .secao-titulo.chamando::after { animation: none; }
 }
 
-.passo .item-dentro > p { margin: 0.7rem 0 0; font-size: 0.95rem; }
+.passo .item-dentro > p { margin: 0.7rem 0 0; font-size: var(--t-texto); }
 
 .oculto { display: none; }
 
@@ -808,8 +809,8 @@ details.programa > summary,
 details.resposta > summary {
   cursor: pointer;
   font-family: var(--mono);
-  font-size: 0.8rem;
-  letter-spacing: 0.06em;
+  font-size: var(--t-rotulo);
+  letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
   color: var(--mom-codigo);
   padding: 0.2rem 0;
@@ -834,8 +835,8 @@ div.resposta::before {
   display: block;
   margin-bottom: 0.45rem;
   font-family: var(--mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
+  font-size: var(--t-rotulo);
+  letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
   color: var(--mom-resultado);
 }
@@ -849,8 +850,8 @@ pre.com-copia { position: relative; }
   top: 0.4rem;
   right: 0.4rem;
   font-family: var(--mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.06em;
+  font-size: var(--t-rotulo);
+  letter-spacing: var(--esp-rotulo);
   padding: 0.2rem 0.5rem;
   color: var(--muted);
   background: var(--bg);
@@ -871,8 +872,8 @@ pre.com-copia:hover .copiar { opacity: 1; }
   top: 0.4rem;
   right: 4.4rem;
   font-family: var(--mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.06em;
+  font-size: var(--t-rotulo);
+  letter-spacing: var(--esp-rotulo);
   padding: 0.2rem 0.5rem;
   color: var(--mom-codigo);
   background: var(--bg);
@@ -895,8 +896,8 @@ pre.com-copia:hover .para-editor { opacity: 1; }
   left: 1rem;
   z-index: 10;
   font-family: var(--mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.06em;
+  font-size: var(--t-rotulo);
+  letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
   padding: 0.35rem 0.7rem;
   background: var(--bg);
@@ -1010,7 +1011,7 @@ pre.com-copia:hover .para-editor { opacity: 1; }
 
 button {
   font-family: var(--serif);
-  font-size: 0.9rem;
+  font-size: var(--t-apoio);
   padding: 0.4rem 0.9rem;
   background: var(--bg);
   color: var(--fg);
@@ -1040,7 +1041,7 @@ canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
   grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
   gap: 0.6rem 1.2rem;
   margin-top: 1rem;
-  font-size: 0.85rem;
+  font-size: var(--t-apoio);
 }
 .controle label { display: flex; justify-content: space-between; gap: 0.5rem; }
 .controle .valor { font-family: var(--mono); color: var(--muted); }
@@ -1050,7 +1051,7 @@ canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
   display: flex;
   gap: 1.2rem;
   flex-wrap: wrap;
-  font-size: 0.82rem;
+  font-size: var(--t-apoio);
   margin-top: 0.6rem;
 }
 .legenda span { display: inline-flex; align-items: center; gap: 0.5em; }
@@ -1073,50 +1074,67 @@ canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
 .legenda .l-3 { color: var(--serie-3); }
 .legenda .l-4 { color: var(--serie-4); }
 
-.leitura { font-size: 0.85rem; color: var(--muted); margin: 0.6rem 0 0; }
+.leitura { font-size: var(--t-apoio); color: var(--muted); margin: 0.6rem 0 0; }
 .leitura:empty { display: none; }
+
+/* A TÉCNICA: o fecho do modelo. Diz o nome da ferramenta que vai resolver o
+   exercício e por que ela serve, e passa a palavra para a seção do código,
+   que ensina a usá-la. Na cor do código, porque é para lá que ela aponta.
+
+     <div class="tecnica"><p class="tecnica-nome">…</p><p>…</p></div>          */
+.tecnica {
+  margin: 2.2rem 0 1rem;
+  padding: 1rem 1.25rem;
+  border: 2px solid var(--mom-codigo);
+  border-radius: var(--raio);
+  background: color-mix(in srgb, var(--mom-codigo) 8%, var(--code-bg));
+}
+.tecnica::before {
+  content: "A técnica";
+  display: block;
+  margin-bottom: 0.3rem;
+  font-family: var(--mono);
+  font-size: var(--t-rotulo);
+  letter-spacing: var(--esp-rotulo);
+  text-transform: uppercase;
+  color: var(--mom-codigo);
+}
+.tecnica .tecnica-nome {
+  font-size: var(--t-h3);
+  font-weight: 600;
+  color: var(--mom-codigo);
+  margin: 0 0 0.5rem;
+}
+.tecnica > :last-child { margin-bottom: 0; }
 
 /* ---------- blocos pedagógicos opcionais ---------- */
 /* Todos com a mesma forma — fundo de código, rótulo em versalete — para que o
    aluno reconheça a função pelo rótulo, não pela cor. O rótulo sai do CSS. */
 
-.pense, .armadilha, .confira, .no-seu-codigo {
+.armadilha, .confira, .no-seu-codigo {
   background: var(--code-bg);
   border-radius: var(--raio);
   padding: 0.9rem 1.1rem;
   margin: 1.2rem 0;
-  font-size: 0.95rem;
+  font-size: var(--t-texto);
 }
-.pense::before, .armadilha::before, .confira::before, .no-seu-codigo::before {
+.armadilha::before, .confira::before, .no-seu-codigo::before {
   display: block;
   font-family: var(--mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
+  font-size: var(--t-rotulo);
+  letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
   margin-bottom: 0.35rem;
   color: var(--muted);
 }
-.pense::before        { content: "Antes de ver — pense"; color: var(--mom-codigo); }
 .armadilha::before    { content: "O erro que parece certo"; color: var(--err); }
 .confira::before      { content: "Como saber que está certo"; color: var(--mom-codigo); }
 .no-seu-codigo::before { content: "No seu código"; color: var(--mom-resultado); }
-.pense > :last-child, .armadilha > :last-child,
-.confira > :last-child, .no-seu-codigo > :last-child { margin-bottom: 0; }
+.armadilha > :last-child, .confira > :last-child, .no-seu-codigo > :last-child { margin-bottom: 0; }
 
 /* Dentro da lista de observações, o "no seu código" é uma linha, não uma caixa. */
-li .no-seu-codigo { display: block; margin: 0.4rem 0 0; padding: 0.4rem 0.8rem; font-size: 0.88rem; }
+li .no-seu-codigo { display: block; margin: 0.4rem 0 0; padding: 0.4rem 0.8rem; font-size: var(--t-apoio); }
 li .no-seu-codigo::before { display: inline; margin-right: 0.5rem; }
-
-/* O botão que separa a pergunta do passo da resposta dele. */
-.ver-passo {
-  font-family: var(--mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--mom-codigo);
-  margin-top: 0.6rem;
-}
-
 
 /* ---------- editor de Python (assets/editor.js) ---------- */
 /* Aberto, o painel ocupa a direita e a lição desliza para a esquerda, centrada
@@ -1144,8 +1162,8 @@ body.com-editor {
   padding: 0 0.25rem 0 0.25rem;
   transform: translateY(-50%);
   font-family: var(--mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.04em;
+  font-size: var(--t-rotulo);
+  letter-spacing: var(--esp-rotulo);
   white-space: nowrap;
   color: var(--bg);
   background: var(--mom-codigo);
@@ -1221,13 +1239,13 @@ body.com-editor .editor-painel { transform: none; }
 }
 .editor-titulo {
   font-family: var(--mono);
-  font-size: 0.8rem;
-  letter-spacing: 0.1em;
+  font-size: var(--t-rotulo);
+  letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
   color: var(--mom-codigo);
   margin-right: auto;
 }
-.editor-topo button { font-family: var(--mono); font-size: 0.75rem; padding: 0.3rem 0.8rem; }
+.editor-topo button { font-family: var(--mono); font-size: var(--t-rotulo); padding: 0.3rem 0.8rem; }
 .editor-rodar { color: var(--bg); background: var(--mom-resultado); border-color: var(--mom-resultado); }
 .editor-rodar:disabled { opacity: 0.5; cursor: wait; }
 .editor-limpar:hover { color: #1a1a18; background: var(--aviso); border-color: var(--aviso); }
@@ -1240,7 +1258,7 @@ body.com-editor .editor-painel { transform: none; }
 .editor-realce,
 .editor-texto {
   font-family: var(--mono);
-  font-size: 0.8rem;
+  font-size: var(--t-codigo);
   line-height: 1.55;
   tab-size: 4;
 }
@@ -1371,8 +1389,8 @@ body.redimensionando { user-select: none; }
   align-items: center;
   padding: 0.5rem 0.9rem;
   font-family: var(--mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.06em;
+  font-size: var(--t-rotulo);
+  letter-spacing: var(--esp-rotulo);
   border-bottom: 1px solid var(--rule);
 }
 .editor-saida-topo > span:first-child { text-transform: uppercase; color: var(--mom-resultado); }
@@ -1381,8 +1399,8 @@ body.redimensionando { user-select: none; }
   margin-left: auto;
   flex: none;
   font-family: var(--mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.04em;
+  font-size: var(--t-rotulo);
+  letter-spacing: var(--esp-rotulo);
   padding: 0.2rem 0.65rem;
 }
 .editor-limpar-saida:hover { color: #1a1a18; background: var(--aviso); border-color: var(--aviso); }
@@ -1391,11 +1409,11 @@ body.redimensionando { user-select: none; }
   margin: 0 0 0.6rem;
   padding: 0;
   background: none;
-  font-size: 0.8rem;
+  font-size: var(--t-codigo);
   white-space: pre-wrap;
 }
 .saida-erro { color: var(--err); }
-.saida-vazia { color: var(--muted); font-style: italic; }
+.saida-vazia { color: var(--muted); }
 .saida-figura { display: block; max-width: 100%; margin: 0.4rem 0 0.8rem; border-radius: var(--raio-p); background: #fff; }
 
 /* Tela estreita: não há lado para dividir — o editor cobre a lição. */

@@ -18,7 +18,7 @@ A separação entre a pasta da skill e a pasta de testes é proposital: a pasta 
 
 ### lesson-generator
 
-Transforma um exercício de engenharia química numa lição HTML que ensina o aluno a programar a solução em Python: o modelo e o tipo de problema, o código explicado passo a passo com uma verificação, e uma figura interativa para ler o resultado.
+Transforma um exercício de engenharia química numa lição HTML que ensina o aluno a programar a solução em Python: o modelo e a técnica que o resolve, o código explicado passo a passo com uma verificação, e uma figura interativa para ler o resultado.
 
 - [`lesson-generator/README.md`](lesson-generator/README.md) — a apresentação do projeto: a ideia, a estrutura da lição, como instalar.
 - [`lesson-generator/Skill lesson-generator/`](lesson-generator/Skill%20lesson-generator/) — a skill: o `SKILL.md`, o template e os componentes.

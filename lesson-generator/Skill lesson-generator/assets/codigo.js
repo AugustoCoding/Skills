@@ -2,26 +2,22 @@
  * seções recolhíveis, o botão de copiar e o realce do Python. Não formata nem
  * valida código.
  *
- * Faz cinco coisas, e a lição não precisa de marcação nenhuma além da estrutura:
+ * Faz quatro coisas, e a lição não precisa de marcação nenhuma além da estrutura:
  *
  *   1. monta como linha do tempo os passos do código (.passo), os da dedução de
- *      cada balanço (ol.deducao) e as observações (ol.observacoes): o próximo
- *      item aparece fechado e abre com um clique nele. Os demais ficam
- *      escondidos: o aluno não vê quantos faltam, e é isso que o mantém lendo
- *      em vez de rolar até o fim;
- *   2. num passo que tem <p class="pense">, mostra primeiro o título e a pergunta,
- *      e o código só depois que o aluno clica — é a previsão antes da revelação;
- *   3. se a seção ainda tiver o programa e a resposta em <details> (formato
+ *      cada balanço (ol.deducao) e as observações (ol.observacoes). A lição abre
+ *      com as seções e os itens todos recolhidos: o aluno vê de saída quantos
+ *      passos tem cada parte. O próximo a ler chama (a bolinha pulsa);
+ *   2. se a seção ainda tiver o programa e a resposta em <details> (formato
  *      antigo), só os libera depois do último passo;
- *   4. injeta um botão de copiar em cada bloco de código;
- *   5. pinta o Python de todo <pre><code> da lição com cores de IDE. Um bloco que
+ *   3. injeta um botão de copiar em cada bloco de código;
+ *   4. pinta o Python de todo <pre><code> da lição com cores de IDE. Um bloco que
  *      não seja Python leva class="sem-realce".
  *
  * Estrutura esperada na lição:
  *
  *   <section class="codigo">
  *     <div class="passo"><h3>…</h3><pre><code>…</code></pre><p>…</p></div>
- *     <div class="passo"><h3>…</h3><p class="pense">…</p><pre><code>…</code></pre><p>…</p></div>
  *     <div class="passo"><h3>O programa completo</h3><pre><code>…</code></pre><p>…</p></div>
  *   </section>
  */
@@ -121,30 +117,6 @@
     pre.appendChild(btn);
   }
 
-  // Passo com .pense abre em dois tempos: título e pergunta primeiro, o resto
-  // só depois que o aluno pensou. Devolve true enquanto a pergunta está pendente.
-  function prepararPense(passo, aoResolver) {
-    var pense = passo.querySelector(":scope > .pense");
-    if (!pense) return;
-    var resto = [], el = pense.nextElementSibling;
-    while (el) { resto.push(el); el = el.nextElementSibling; }
-    if (!resto.length) return;
-    resto.forEach(function (r) { r.classList.add("oculto"); });
-    passo.dataset.pendente = "1";
-
-    var b = document.createElement("button");
-    b.type = "button";
-    b.className = "ver-passo";
-    b.textContent = "Pensei — mostrar o código";
-    b.addEventListener("click", function () {
-      resto.forEach(function (r) { r.classList.remove("oculto"); r.classList.add("revelado"); });
-      b.remove();
-      delete passo.dataset.pendente;
-      aoResolver();
-    });
-    pense.insertAdjacentElement("afterend", b);
-  }
-
   /* O CORPO RECOLHÍVEL — o que um item (ou uma seção) esconde quando recolhe vai
      para dentro de dois invólucros: .x-corpo, uma grade de uma linha que vai de
      0fr a 1fr, e .x-dentro, que corta o que passa. É o que deixa a altura
@@ -179,49 +151,25 @@
   }
 
   /* A LINHA DO TEMPO — o mesmo mecanismo para os passos do código, os passos
-     da dedução de um balanço e as observações do resultado. O primeiro item
-     abre; o seguinte aparece FECHADO (a bolinha e a cabeça) e abre com um
-     clique nele, ou com Enter; os demais ficam escondidos, e o aluno não sabe
-     quantos faltam. Um "pense" pendente segura o próximo. Todo item aberto se
-     RECOLHE com um clique na bolinha ou no título. aoFim roda quando o último
-     abre. */
+     da dedução de um balanço e as observações do resultado. Todos começam
+     RECOLHIDOS (a bolinha e a cabeça) e abrem com um clique, ou com Enter; um
+     clique na bolinha ou no título de um item aberto o recolhe de novo. O
+     primeiro ainda não lido CHAMA, com a bolinha pulsando. aoFim roda quando
+     todos já foram abertos uma vez. */
   function sequencia(itens, aoFim) {
     if (!itens.length) { if (aoFim) aoFim(); return; }
-    var abertos = 1;
 
     function atualizar() {
-      var atual = itens[abertos - 1];
-      var pendente = atual && atual.dataset.pendente;
-      var proximo = itens[abertos];
-      if (proximo && !pendente && proximo.classList.contains("oculto")) {
-        proximo.classList.remove("oculto");
-        proximo.classList.add("fechado", "revelado");
-        proximo.setAttribute("tabindex", "0");
-        proximo.setAttribute("role", "button");
-        proximo.setAttribute("aria-expanded", "false");
-      }
-      if (!proximo && !pendente && aoFim) { aoFim(); aoFim = null; }
-      // O fio desce de cada passo do código até o seguinte, se ele estiver à
-      // vista. (Na dedução e nas observações, o fio é da lista inteira.)
-      itens.forEach(function (p, i) {
-        var seguinte = itens[i + 1];
-        p.classList.toggle("sem-fio", !seguinte || seguinte.classList.contains("oculto") || p.classList.contains("fechado"));
+      var proximo = null;
+      itens.forEach(function (p) {
+        if (!proximo && !p.dataset.lido) proximo = p;
+        p.classList.remove("chamando");
       });
-    }
-
-    function expandido(p) {
-      p.removeAttribute("tabindex");
-      p.removeAttribute("role");
-      p.removeAttribute("aria-expanded");
-    }
-
-    function abrir(p) {
-      p.classList.remove("fechado");
-      expandido(p);
-      abertos++;
-      atualizar();
-      // Depois que a altura terminou de deslizar, o item aberto entra na vista.
-      setTimeout(function () { p.scrollIntoView({ behavior: "smooth", block: "nearest" }); }, 380);
+      if (proximo) proximo.classList.add("chamando");
+      else if (aoFim) { aoFim(); aoFim = null; }
+      // O fio desce de cada passo do código até o seguinte. (Na dedução e nas
+      // observações, o fio é da lista inteira.)
+      itens.forEach(function (p, i) { p.classList.toggle("sem-fio", !itens[i + 1]); });
     }
 
     function alternar(p) {
@@ -231,9 +179,17 @@
         p.setAttribute("tabindex", "0");
         p.setAttribute("role", "button");
         p.setAttribute("aria-expanded", "false");
-      } else {
-        expandido(p);
+        return;
       }
+      p.removeAttribute("tabindex");
+      p.removeAttribute("role");
+      p.removeAttribute("aria-expanded");
+      if (!p.dataset.lido) {
+        p.dataset.lido = "1";
+        atualizar();
+      }
+      // Depois que a altura terminou de deslizar, o item aberto entra na vista.
+      setTimeout(function () { p.scrollIntoView({ behavior: "smooth", block: "nearest" }); }, 380);
     }
 
     // Só a bolinha (a calha à esquerda) e a cabeça recolhem: clicar no texto, no
@@ -246,18 +202,20 @@
       return !!cabeca && cabeca.parentElement === p;
     }
 
-    itens.forEach(function (p, i) {
-      prepararPense(p, atualizar);
+    itens.forEach(function (p) {
       montarItem(p);
-      if (i > 0) p.classList.add("oculto");
+      p.classList.add("recolhido");
+      p.setAttribute("tabindex", "0");
+      p.setAttribute("role", "button");
+      p.setAttribute("aria-expanded", "false");
       p.addEventListener("click", function (ev) {
-        if (p.classList.contains("fechado")) { abrir(p); return; }
         if (p.classList.contains("recolhido") || naAlca(p, ev)) alternar(p);
       });
       p.addEventListener("keydown", function (ev) {
-        if (ev.key !== "Enter" && ev.key !== " ") return;
-        if (p.classList.contains("fechado")) { ev.preventDefault(); abrir(p); }
-        else if (p.classList.contains("recolhido")) { ev.preventDefault(); alternar(p); }
+        if ((ev.key === "Enter" || ev.key === " ") && p.classList.contains("recolhido")) {
+          ev.preventDefault();
+          alternar(p);
+        }
       });
     });
     atualizar();
@@ -265,9 +223,21 @@
 
   /* AS SEÇÕES — cada h2 do corpo da lição (o modelo, o código, o resultado)
      recolhe a seção inteira: tudo o que vem depois dele até o próximo h2, ou
-     até o convite a perguntar. */
+     até o convite a perguntar. Começam recolhidas; a primeira ainda não aberta
+     chama, com a setinha pulsando. */
   function montarSecoes() {
-    Array.prototype.forEach.call(document.querySelectorAll("body > h2"), function (h2) {
+    var titulos = Array.prototype.slice.call(document.querySelectorAll("body > h2"));
+
+    function chamar() {
+      var proximo = null;
+      titulos.forEach(function (h2) {
+        if (!proximo && !h2.dataset.lido) proximo = h2;
+        h2.classList.remove("chamando");
+      });
+      if (proximo) proximo.classList.add("chamando");
+    }
+
+    titulos.forEach(function (h2) {
       if (h2.dataset.secao) return;
       h2.dataset.secao = "1";
       var nos = [], n = h2.nextSibling;
@@ -281,18 +251,20 @@
       h2.classList.add("secao-titulo");
       h2.setAttribute("tabindex", "0");
       h2.setAttribute("role", "button");
-      h2.setAttribute("aria-expanded", "true");
-      function alternar() {
-        var recolher = !h2.classList.contains("secao-recolhida");
-        h2.classList.toggle("secao-recolhida", recolher);
-        corpo.classList.toggle("secao-recolhida", recolher);
-        h2.setAttribute("aria-expanded", String(!recolher));
+      function recolher(sim) {
+        h2.classList.toggle("secao-recolhida", sim);
+        corpo.classList.toggle("secao-recolhida", sim);
+        h2.setAttribute("aria-expanded", String(!sim));
+        if (!sim && !h2.dataset.lido) { h2.dataset.lido = "1"; chamar(); }
       }
+      recolher(true);
+      function alternar() { recolher(!h2.classList.contains("secao-recolhida")); }
       h2.addEventListener("click", alternar);
       h2.addEventListener("keydown", function (ev) {
         if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); alternar(); }
       });
     });
+    chamar();
   }
 
   function montar(sec) {

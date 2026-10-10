@@ -12,7 +12,6 @@
 <header class="licao">
   <span class="etiqueta">Reatores · sistema de EDOs de valor inicial</span>
   <h1>A partida de um CSTR</h1>
-  <p class="gancho">No fim você terá um programa que simula o reator enchendo de produto e diz em quanto tempo ele estabiliza.</p>
 </header>
 
 <p>Um reator de tanque agitado contínuo (CSTR) de 100 L começa cheio de solvente puro e passa a receber, a 5 L/min, uma alimentação com 2,0 mol/L do reagente A, que se converte em B por uma reação de primeira ordem com k = 0,1 min⁻¹. Logo depois da partida não há reagente nenhum lá dentro; aos poucos A entra, parte dele reage, e as concentrações caminham para um estado estacionário. O exercício pede duas coisas: a concentração de A nesse estacionário e quanto tempo o reator leva para chegar a 95% dela. Você vai sair com um programa que integra os balanços de A e de B, encontra esse instante sozinho e confere o próprio resultado contra a solução exata.</p>
@@ -162,7 +161,11 @@
 </tbody>
 </table>
 
-<p>Matematicamente, isto é um <span class="termo">sistema de equações diferenciais ordinárias de valor inicial</span>: duas derivadas no tempo, com as concentrações conhecidas em t = 0. É isso que decide a ferramenta: problema de valor inicial se resolve com um integrador, que parte do estado conhecido e avança no tempo. Este sistema em particular é linear e tem solução exata, e a lição vai usá-la para conferir o integrador, não para substituí-lo, porque basta a reação deixar de ser de primeira ordem para a solução exata desaparecer e o integrador continuar funcionando.</p>
+<div class="tecnica">
+  <p class="tecnica-nome">Integração numérica</p>
+  <p>As duas equações do modelo não dão as concentrações diretamente: elas dizem quanto cada concentração muda a cada instante. E sabemos de onde as concentrações partem: de zero, quando o reator começa.</p>
+  <p>Para resolver esse tipo de problema, vamos usar a <span class="termo">integração numérica</span>. O computador parte das concentrações iniciais, usa as equações para calcular quanto elas mudam num intervalo de tempo bem curto, avança esse pouquinho e repete, construindo a curva ponto a ponto até o fim do tempo pedido. Ela é perfeita aqui por dois motivos: só precisa do que você já tem, as equações e o ponto de partida, e continua funcionando do mesmo jeito se a reação ficar mais complicada e a conta à mão deixar de ser possível. Em Python, quem faz isso é a função <code>solve_ivp</code>, da biblioteca SciPy. Confira a próxima seção para aprender a usá-la.</p>
+</div>
 
 <h2>O código</h2>
 
@@ -185,14 +188,13 @@ t_fim = 60.0   # horizonte da simulação, min</code></pre>
 
   <div class="passo">
     <h3>Os balanços de A e de B</h3>
-    <p class="pense">B não entra com a alimentação. Quantos termos o balanço de B deve ter, e com que sinais?</p>
 <pre><code>def derivadas(t, C):
     CA, CB = C
     r = k * CA                   # velocidade da reação, mol/(L·min)
     dCA = (CA0 - CA) / tau - r   # entra - sai - consumo
     dCB = (0.0 - CB) / tau + r   # não entra B - sai B + formação
     return [dCA, dCB]</code></pre>
-    <p>Dois termos: B sai com a corrente e se forma pela reação. O <code>0.0</code> na linha de B está ali de propósito, para o balanço de B ter a mesma forma "entra menos sai" do balanço de A; quem ler a função vê que a entrada de B é zero, em vez de concluir que ela foi esquecida. A velocidade <code>r</code> é calculada uma vez e usada nas duas linhas, o que garante que todo A consumido aparece como B.</p>
+    <p>Como B não entra com a alimentação, o balanço dele tem dois termos: B sai com a corrente e se forma pela reação. O <code>0.0</code> na linha de B está ali de propósito, para o balanço de B ter a mesma forma "entra menos sai" do balanço de A; quem ler a função vê que a entrada de B é zero, em vez de concluir que ela foi esquecida. A velocidade <code>r</code> é calculada uma vez e usada nas duas linhas, o que garante que todo A consumido aparece como B.</p>
   </div>
 
   <div class="passo">
@@ -202,7 +204,7 @@ CB_ss = k * tau * CA_ss          # dCB/dt = 0 resolvido para CB
 
 def chega_95(t, C):
     return C[0] - 0.95 * CA_ss</code></pre>
-    <p>O estacionário sai de uma linha de álgebra: zere a derivada de A e isole <span class="var-1">C<sub>A</sub></span>. A função <code>chega_95</code> é um <span class="termo">evento</span>: o integrador a observa a cada passo e, quando ela troca de sinal, localiza o instante exato do cruzamento, em vez de você procurar o tempo olhando o gráfico.</p>
+    <p>O estacionário sai de uma linha de álgebra: zere a derivada de A e isole <span class="var-1">C<sub>A</sub></span>. A função <code>chega_95</code> é um <span class="termo">evento</span>: enquanto avança no tempo, a <code>solve_ivp</code> fica de olho nela e, quando ela troca de sinal, acha o instante exato em que a concentração cruzou o alvo, em vez de você procurar esse tempo olhando o gráfico.</p>
     <div class="armadilha"><p>Mirar em 95% de <span class="param">C<sub>A0</sub></span> em vez de 95% de <span class="var-1">C<sub>A</sub></span> no estacionário. O alvo seria 1,9 mol/L, que o reator nunca alcança porque a reação consome parte do A: o evento não dispara, <code>sol.t_events[0]</code> volta vazio, e a linha seguinte quebra com <code>IndexError</code>.</p></div>
   </div>
 
@@ -213,7 +215,7 @@ def chega_95(t, C):
                 events=chega_95, dense_output=True)
 t95 = sol.t_events[0][0]
 CA_fim, CB_fim = sol.y[:, -1]</code></pre>
-    <p>As tolerâncias apertadas são o critério que autoriza o número: com <code>rtol=1e-8</code>, o instante do evento sai certo muito além das duas casas que a lição cita, e o próximo passo mede isso. O <code>dense_output=True</code> guarda uma interpolação da solução, para você avaliá-la em qualquer instante sem integrar de novo.</p>
+    <p>A <code>solve_ivp</code> recebe a função dos balanços, o intervalo de tempo e as concentrações iniciais. As <span class="termo">tolerâncias</span> <code>rtol</code> e <code>atol</code> dizem o erro que ela aceita a cada avanço: quanto menores, mais curtos os avanços e mais exato o resultado. Com <code>rtol=1e-8</code>, o instante do evento sai certo muito além das duas casas que a lição cita, e o próximo passo mede isso. O <code>dense_output=True</code> guarda uma interpolação da solução, para você avaliá-la em qualquer instante sem integrar de novo.</p>
   </div>
 
   <div class="passo">
@@ -221,7 +223,7 @@ CA_fim, CB_fim = sol.y[:, -1]</code></pre>
 <pre><code>t = np.linspace(0, t_fim, 601)
 CA_exata = CA_ss * (1 - np.exp(-(1 / tau + k) * t))
 desvio = np.max(np.abs(sol.sol(t)[0] - CA_exata))</code></pre>
-    <div class="confira"><p>Como a equação de A é linear e não depende de B, ela tem solução fechada: uma exponencial que sobe até <span class="var-1">C<sub>A</sub></span> no estacionário com velocidade 1/τ + k. O integrador não sabe disso. Se os dois concordam em 601 pontos, até a nona casa, o código dos balanços e a integração estão certos, e não só "plausíveis".</p></div>
+    <div class="confira"><p>Como a equação de A é linear e não depende de B, ela tem solução fechada: uma exponencial que sobe até <span class="var-1">C<sub>A</sub></span> no estacionário com velocidade 1/τ + k. A <code>solve_ivp</code> não sabe disso. Se os dois concordam em 601 pontos, até a nona casa, o código dos balanços e a integração numérica estão certos, e não só "plausíveis".</p></div>
   </div>
 
   <div class="passo">
@@ -239,7 +241,7 @@ plt.xlabel("Tempo (min)")
 plt.ylabel("Concentração (mol/L)")
 plt.legend()
 plt.show()</code></pre>
-    <p>O gráfico usa a interpolação em 601 pontos, e não os pontos que o integrador escolheu, que são poucos e espaçados de forma desigual: com eles a curva sairia quebrada justamente no começo, onde tudo muda depressa.</p>
+    <p>O gráfico usa a interpolação em 601 pontos, e não os pontos em que a <code>solve_ivp</code> parou ao avançar, que são poucos e espaçados de forma desigual: com eles a curva sairia quebrada justamente no começo, onde tudo muda depressa.</p>
   </div>
 
   <div class="passo">

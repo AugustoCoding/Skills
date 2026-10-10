@@ -56,7 +56,9 @@ Equação que não é balanço (lei de velocidade dada, correlação) não se de
 - **Chave** em cada termo com significado físico próprio, com duas a cinco palavras; não em passo de pura álgebra.
 - Equação exibida é MathML; código nunca é.
 
-Depois, **a tabela de parâmetros** (valor, unidade, procedência) e **o tipo de problema**: duas ou três frases sobre que problema matemático é este e por que isso decide a ferramenta. Fora da dedução, o modelo não cresce.
+Depois, **a tabela de parâmetros** (valor, unidade, procedência) e **a técnica**, que fecha o modelo: o nome da ferramenta que resolve o exercício e a linha "para resolver esse tipo de problema, vamos usar esta técnica, que serve aqui por isto e isto; confira a próxima seção para aprender a usá-la". Fora da dedução, o modelo não cresce.
+
+**O aluno nunca simulou nada.** Termo de simulação ou de método numérico (integrador, passo, tolerância, convergência) só entra explicado em palavras do básico, na primeira vez que aparece.
 
 ### Código
 
@@ -81,7 +83,7 @@ Se a frase serviria para outro exercício, não é análise deste: corte. E não
 
 ### Opcionais
 
-Use quando pagar o tempo que custa: **pense antes** (num ou dois passos em que prever ensina mais que ler), **o erro que parece certo** (com o sintoma pelo qual ele aparece na saída), **conferência extra**, **segundo eixo**, **dados contra modelo**, **tabela de resultados**, **diagrama**, **nota lateral**, **termo destacado**. A marcação de cada um está no template. Componente novo só para o que não é x contra y, e ele fica no `assets/` da lição.
+Use quando pagar o tempo que custa: **o erro que parece certo** (com o sintoma pelo qual ele aparece na saída), **conferência extra**, **segundo eixo**, **dados contra modelo**, **tabela de resultados**, **diagrama**, **nota lateral**, **termo destacado**. A marcação de cada um está no template. Componente novo só para o que não é x contra y, e ele fica no `assets/` da lição.
 
 ## Os números
 
