@@ -2,7 +2,7 @@
  * seções recolhíveis, o botão de copiar e o realce do Python. Não formata nem
  * valida código.
  *
- * Faz cinco coisas, e a lição não precisa de marcação nenhuma além da estrutura:
+ * Faz seis coisas, e a lição não precisa de marcação nenhuma além da estrutura:
  *
  *   1. monta como linha do tempo os passos do código (.passo), os da dedução de
  *      cada balanço (ol.deducao) e as observações (ol.observacoes). A lição abre
@@ -13,7 +13,8 @@
  *   3. injeta um botão de copiar em cada bloco de código;
  *   4. pinta o Python de todo <pre><code> da lição com cores de IDE. Um bloco que
  *      não seja Python leva class="sem-realce".
- *   5. monta o sumário à esquerda da folha, com o progresso de cada parte.
+ *   5. monta o sumário à esquerda da folha, com o progresso de cada parte;
+ *   6. encolhe a fonte de equações e blocos de código que não cabem na largura.
  *
  * Estrutura esperada na lição:
  *
@@ -467,6 +468,50 @@
     atualizar();
   }
 
+  /* CABER NA LARGURA — equação e bloco de código não são cortados quando a
+     folha estreita (janela pequena, editor aberto): a fonte deles encolhe só o
+     necessário para caber, e volta ao normal quando há espaço. Abaixo de 50%
+     do tamanho normal ela não desce mais: aí volta a rolagem lateral, porque
+     letra menor que isso já não se lê. */
+  var MENOR_ESCALA = 0.5;
+
+  function caber(caixa, alvo) {
+    if (!caixa.clientWidth) return;               // escondido: refaz quando aparecer
+    alvo.style.fontSize = "";
+    var sobra = caixa.scrollWidth - caixa.clientWidth;
+    if (sobra <= 1) return;
+    var base = parseFloat(getComputedStyle(alvo).fontSize);
+    var escala = Math.max(MENOR_ESCALA, (caixa.clientWidth - 2) / caixa.scrollWidth);
+    alvo.style.fontSize = (base * escala).toFixed(2) + "px";
+    // A medida não é linear (respiros e espaços fixos): refina até caber.
+    for (var i = 0; i < 6 && caixa.scrollWidth > caixa.clientWidth + 1 && escala > MENOR_ESCALA; i++) {
+      escala = Math.max(MENOR_ESCALA, escala * (caixa.clientWidth - 2) / caixa.scrollWidth - 0.01);
+      alvo.style.fontSize = (base * escala).toFixed(2) + "px";
+    }
+  }
+
+  function caberNaLargura() {
+    var pares = [];
+    document.querySelectorAll(".equacao").forEach(function (eq) {
+      var m = eq.querySelector("math");
+      if (m) pares.push([eq, m]);
+    });
+    document.querySelectorAll("section.codigo pre").forEach(function (pre) { pares.push([pre, pre]); });
+    function refazer() { pares.forEach(function (p) { caber(p[0], p[1]); }); }
+    refazer();
+    if (window.ResizeObserver) {
+      var pedido = false;
+      var ro = new ResizeObserver(function () {
+        if (pedido) return;
+        pedido = true;
+        requestAnimationFrame(function () { pedido = false; refazer(); });
+      });
+      pares.forEach(function (p) { ro.observe(p[0]); });
+    } else {
+      window.addEventListener("resize", refazer);
+    }
+  }
+
   function montar(sec) {
     Array.prototype.forEach.call(sec.querySelectorAll("pre"), function (pre) {
       pre.classList.add("com-copia");
@@ -499,6 +544,7 @@
     });
     montarSecoes();
     montarSumario();
+    caberNaLargura();
   }
 
   if (document.readyState === "loading") {

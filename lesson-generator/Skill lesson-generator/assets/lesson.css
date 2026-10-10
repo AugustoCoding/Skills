@@ -532,7 +532,9 @@ code {
 
 pre {
   background: var(--code-bg);
-  padding: 1rem 1.2rem;
+  /* Em em, e não em rem: o respiro encolhe junto com a fonte quando o bloco
+     precisa caber numa folha estreita (codigo.js). */
+  padding: 1.15em 1.4em;
   border-radius: var(--raio);
   overflow-x: auto;
   font-size: var(--t-codigo);
@@ -915,7 +917,9 @@ div.resposta::before {
 div.resposta > :last-child { margin-bottom: 0; }
 
 /* Botão de copiar, no canto de cada bloco de código. */
-pre.com-copia { position: relative; }
+/* Os botões do canto têm uma faixa própria no topo do bloco: não cobrem a
+   primeira linha do código, por mais estreita que fique a folha. */
+pre.com-copia { position: relative; padding-top: 2.6rem; }
 /* Copiar e levar ao editor: só ícone, quadrados e iguais, no canto do código. */
 pre > button.copiar, pre > button.para-editor { width: 1.75rem; height: 1.75rem; padding: 0; justify-content: center; font-size: 0.85rem; }
 

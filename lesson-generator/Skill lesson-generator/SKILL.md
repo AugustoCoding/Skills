@@ -151,6 +151,7 @@ A faixa de um controle não precisa de procedência, mas deve fazer sentido fís
 - Use apenas bibliotecas disponíveis no Pyodide (numpy, scipy, matplotlib, pandas, sympy). Se outra for indispensável, o passo que a importa deve avisar que aquele trecho só roda no computador.
 - Todo código deve rodar; todo parâmetro e todo eixo devem ter unidade.
 - Um bloco de código que não seja Python deve levar a classe `sem-realce`.
+- Recomenda-se linhas de código de até 70 caracteres: numa folha estreita, a fonte do bloco encolhe para caber, e linha curta encolhe menos.
 - A lição não deve ter links externos nem prometer continuação.
 
 ## 7. Após a entrega
