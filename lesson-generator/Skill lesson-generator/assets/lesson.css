@@ -727,9 +727,9 @@ ol.observacoes > li > h3 { cursor: pointer; transition: color 0.2s ease; }
 .recolhido > h3 { color: var(--muted); }
 .recolhido:hover > h3 { color: var(--fg); }
 
-.item-cabeca { display: none; gap: 0.4rem; align-items: center; font-weight: 600; color: var(--muted); transition: color 0.2s ease; }
+.item-cabeca { display: flex; gap: 0.4rem; align-items: center; font-weight: 600; font-size: var(--t-h3); cursor: pointer; transition: color 0.2s ease; }
+.recolhido > .item-cabeca { color: var(--muted); }
 .recolhido:hover > .item-cabeca { color: var(--fg); }
-.recolhido > .item-cabeca { display: flex; }
 .item-cabeca .tipo { margin-right: 0; }
 
 /* A bolinha que chama: vazada, pulsando de leve. */
@@ -753,6 +753,12 @@ ol.observacoes > li.recolhido { margin-bottom: 1.2rem; }
 ol.deducao > li.recolhido::before { top: 0; }
 ol.deducao > li.recolhido { min-height: 1.75rem; margin-bottom: 0.8rem; }
 ol.deducao > li > .item-cabeca { min-height: 1.75rem; }
+/* Aberta, a etapa tem o título no topo, como um passo do código: a bolinha se
+   alinha a ele, e o rótulo de tipo sai do começo do parágrafo, porque o
+   título já o diz. */
+ol.deducao > li:not(.recolhido) > .item-cabeca { margin: 0 0 0.6rem; }
+ol.deducao > li::before { top: 0; }
+ol.deducao .porque > .tipo { display: none; }
 
 /* AS SEÇÕES: o título recolhe a seção inteira; a setinha diz o estado. A
    primeira seção ainda não aberta chama, com a setinha pulsando. */
@@ -1693,6 +1699,7 @@ body.redimensionando { user-select: none; }
   .oculto { display: revert; }
   .item-corpo, .secao-corpo { grid-template-rows: 1fr !important; opacity: 1 !important; }
   .item-cabeca { display: none !important; }
+  ol.deducao .porque > .tipo { display: inline !important; }
   .secao-titulo::after { display: none; }
   mrow.chave-sob, mrow.chave-sobre { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   h1, h2, h3 { break-after: avoid; }
