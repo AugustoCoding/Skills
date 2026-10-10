@@ -20,7 +20,8 @@
          bolinhas, rótulos e caixas de cada seção.
        · As cores de SÉRIE (azul, rosa, ciano, areia) são das grandezas que o
          gráfico mostra, e de nada mais: no texto, na equação e na legenda.
-       · O laranja (--aviso) é só de aviso; o vermelho (--err), só de erro.
+       · O amarelo-claro (--aviso) é só do hover de limpar; o vermelho (--err),
+         só de erro.
        · Parâmetro e termo destacado não têm cor: negrito, na cor do texto.
 
      Cores das séries do gráfico, na ordem em que a lição as declara. A mesma
@@ -35,7 +36,7 @@
   --param: var(--fg);
 
   /* Aviso que não é erro (o hover do Limpar do editor). */
-  --aviso: #b0561c;
+  --aviso: #f2dc8c;
 
   /* Cor de cada momento da lição, no título. */
   --mom-modelo: #8a6510;
@@ -108,7 +109,7 @@
     --serie-2: #f093b4;
     --serie-3: #5fc8d4;
     --serie-4: #cfc6b0;
-    --aviso: #ec9157;
+    --aviso: #f4e19a;
     --mom-modelo: #e2bb5c;
     --mom-codigo: #c99bd2;
     --mom-resultado: #7fc394;
@@ -144,7 +145,7 @@
   --serie-2: #f093b4;
   --serie-3: #5fc8d4;
   --serie-4: #cfc6b0;
-  --aviso: #ec9157;
+  --aviso: #f4e19a;
   --mom-modelo: #e2bb5c;
   --mom-codigo: #c99bd2;
   --mom-resultado: #7fc394;
