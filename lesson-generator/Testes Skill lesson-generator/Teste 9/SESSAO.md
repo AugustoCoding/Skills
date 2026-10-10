@@ -58,6 +58,10 @@ A sessão iniciada por `start_session` **não recebeu a skill**. O `start_sessio
 
 **Consequência para o protocolo:** um teste com prompt de aluno precisa ser iniciado à mão, numa sessão nova aberta na pasta do aluno, com o prompt colado como primeira mensagem.
 
+### Segunda tentativa: válida
+
+Iniciada à mão pelo Augusto, numa sessão nova do Claude Code aberta em `~\aula-teste-9` (Opus 5.5, esforço médio), com o prompt acima colado como primeira mensagem. O histórico confirma o `/lesson-generator` tratado como comando e o `SKILL.md` reescrito carregado. Sessão: "Reator tubular adiabático com reação exotérmica".
+
 ### Prompt do relatório (turno 2, depois da entrega)
 
 ```text
@@ -80,20 +84,67 @@ Pelos registros da sessão (criação e última atividade do turno 1).
 
 | | Horário |
 |---|---|
-| Início | |
-| Fim do turno 1 | |
-| **Duração** | |
+| Início | 13:08:07 UTC |
+| Fim do turno 1 | 13:13:09 UTC |
+| **Duração** | **5 min 02 s** (Teste 8: 10 min 37 s) |
+
+**O relatório não saiu.** O pedido foi barrado duas vezes por um filtro de segurança do modelo (`reasoning_extraction`): a primeira com o texto acima, a segunda reformulado como revisão da documentação. A avaliação abaixo vem do histórico da sessão, da lição e das conferências feitas por fora.
 
 ## 5. Saída
 
+```text
+~\aula-teste-9\
+  licoes\
+    reator-tubular-adiabatico.html   114 KB, arquivo único, sem comentários
+```
+
+Copiada para [com-skill/](./com-skill/). Destino padrão (`./licoes`) escolhido sozinho; rascunho apagado; nada além disso na pasta.
+
 ## 6. Avaliação
+
+**Fluxo**
+
+- [x] Skill invocada pelo comando, de verdade (pela primeira vez nos testes)
+- [x] Não entrevistou; usou `nova_licao.py`, `conferir.py`, navegador e `empacotar.py`, nessa ordem
+- [x] Destino padrão `./licoes`; rascunho apagado pelo script; nenhum arquivo sobrando; sem commit
+- [x] Copiou e preencheu; usou `nomes` nos controles ("T₀ da alimentação", "−ΔHr")
+- [x] Resposta ao aluno em duas linhas
+
+**A lição**
+
+- [x] Dois balanços deduzidos (massa em 7 etapas, energia em 6), com etiquetas, chaves e hipóteses que dizem o que mudaria
+- [x] Arrhenius em `eq-bloco`, na forma com temperatura de referência (armadilha 3)
+- [x] Quadro da técnica: "integração de EDO com parada num evento", com `solve_ivp`, sem jargão
+- [x] Passos em três partes; todos os argumentos de `solve_ivp` e de `quad` explicados; "integrador" e "passo de integração" explicados na primeira vez
+- [x] "O erro que parece certo" sobre R em J com Eₐ em kJ, com o sintoma exato (armadilha 2)
+- [x] Verificação por dois caminhos independentes: fórmula fechada no isotérmico e `quad` no adiabático (armadilhas 5 e 7)
+- [x] Figura de perfil com dois eixos (conversão e temperatura), dois controles, console limpo
+- [x] **Editor testado**: os cinco passos enviados ao editor rodaram no Pyodide em 2,1 s e imprimiram os mesmos números
+- [ ] A resposta usa ponto decimal ("350.4 L", "69.5 °C"), copiada da saída do programa, enquanto o resto da lição usa vírgula (achado 1)
+- [ ] Uma observação cita "72 °C" (47 + 25), que o programa não imprime (achado 2)
+- [ ] R marcado como "escolha" na procedência: é uma constante física, e a skill não tem essa categoria (achado 3)
+
+**Correção técnica** (contra o [gabarito](./EXERCICIO.md), e rodando o programa da lição com T₀ = 57 °C)
+
+- [x] 350,4 L; 69,5 °C; 1151,3 L; razão 3,29
+- [x] Observação de controle: 149,7 L com T₀ = 57 °C, e saída a 79,5 °C
+- [x] Conversão em kelvin, Eₐ e R na mesma unidade, evento em X = 0,90 (armadilhas 1, 2 e 6)
+- [ ] "Com ρcp constante, ΔHr também não muda com a temperatura" é apresentado como consequência; é uma hipótese a mais (achado 4)
 
 ## 7. Achados
 
 | # | Achado | Gravidade | Onde |
 |---|---|---|---|
+| 1 | A resposta copia a saída do programa com ponto decimal, destoando da vírgula do resto da lição: "como o programa os imprime" foi lido ao pé da letra | atrapalha | `SKILL.md` 4.4 |
+| 2 | Número citado numa observação (72 °C) não é impresso pelo programa; o `conferir.py` só confere a resposta | cosmético | `conferir.py`: aviso para números das observações |
+| 3 | Constante física (R) classificada como "escolha": falta essa categoria na lista de procedências | cosmético | `SKILL.md` 5, template e CSS |
+| 4 | Uma hipótese (ΔHr independente de T) aparece como consequência de outra | cosmético | conteúdo da lição, não da skill |
+| 5 | O pedido de relatório foi barrado duas vezes pelo filtro de segurança (`reasoning_extraction`) | protocolo | `Testes/README.md`: o relatório do modelo deixa de ser parte fixa |
+| 6 | Sessões iniciadas por `start_session` não executam o `/lesson-generator` | protocolo | `Testes/README.md`: testes de invocação são iniciados à mão |
 
 ## 8. Veredito
+
+**Aprovado.** Primeira execução com a skill invocada de verdade, num ambiente de aluno: 5 min 02 s (metade do Teste 8), números todos certos, editor funcionando, nenhuma das falhas de script do Teste 8. As ressalvas são de formatação (ponto decimal na resposta) e de procedência.
 
 ## 9. O que mudou depois deste teste
 

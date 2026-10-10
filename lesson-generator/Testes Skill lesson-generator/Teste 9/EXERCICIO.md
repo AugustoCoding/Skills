@@ -26,4 +26,13 @@
 
 ## Gabarito
 
-Guardado fora do repositório até a sessão de teste terminar, para que ela não o encontre; acrescentado aqui depois.
+Calculado com `solve_ivp` (rtol 10⁻¹⁰) antes da sessão e guardado fora do repositório até ela terminar.
+
+| Grandeza | Valor |
+|---|---|
+| Elevação adiabática ΔT_ad | 25 K (T = T₀ + 25·X) |
+| Volume para X = 0,90, adiabático | 350,4 L |
+| Temperatura de saída | 69,5 °C |
+| Volume para X = 0,90, isotérmico a 47 °C | 1151,3 L (= v₀/k·ln 10) |
+| Com T₀ = 37 °C | 866,4 L, saída a 59,5 °C |
+| Com T₀ = 57 °C | 149,7 L, saída a 79,5 °C |
