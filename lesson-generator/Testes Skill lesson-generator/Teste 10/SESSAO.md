@@ -107,3 +107,4 @@ Nenhum achado na lição.
 
 | Commit | O que corrigiu |
 |---|---|
+| `ca6a63a` | Achado 1: o `conferir.py` aceita os dados do programa e contas à vista (refazendo a conta); `SKILL.md` 5 explicita a regra |

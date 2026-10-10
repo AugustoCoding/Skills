@@ -13,7 +13,7 @@ Uma linha por execução. É daqui que se lê a evolução da skill: o que foi t
 | [7](./Teste%207/SESSAO.md) | 2026-09-04 | `11ac5de` | Opus 5, esforço médio | A skill sem domínio: forma da skill, teoria do modelo | Aprovado com ressalva: 0 leituras do simulador, gráficos corrigidos, tempo não medido | {a preencher} |
 | [8](./Teste%208/SESSAO.md) | 2026-10-10 | `4f11200` | Opus 5.5, esforço médio | A skill reescrita num exercício de separação (flash, raiz) | Aprovado com ressalvas: números certos, 10 min 37 s, 3 achados de script | `eb1befa` — rascunho, resposta com dados da tabela, nome do controle, sessão sem commit |
 | [9](./Teste%209/SESSAO.md) | 2026-10-10 | `fec2854` | Opus 5.5, esforço médio | Prompt de aluno, pasta de aluno, skill em registro técnico | Aprovado: 5 min 02 s, números certos, editor ok; relatório barrado pelo filtro | `574dec5` — vírgula decimal, avisos de formato e de número não impresso, constante física, protocolo |
-| [10](./Teste%2010/SESSAO.md) | 2026-10-10 | `b266a1e` | Opus 5.5, esforço médio | Ajuste de cinética a dados (`curve_fit`): mecanismo explicado e figura no programa | Aprovado: 5 min 09 s, nenhum achado na lição | {commit} — `conferir.py` aceita dados do programa e contas à vista, refazendo a conta |
+| [10](./Teste%2010/SESSAO.md) | 2026-10-10 | `b266a1e` | Opus 5.5, esforço médio | Ajuste de cinética a dados (`curve_fit`): mecanismo explicado e figura no programa | Aprovado: 5 min 09 s, nenhum achado na lição | `ca6a63a` — `conferir.py` aceita dados do programa e contas à vista, refazendo a conta |
 
 ## Como usar
 
