@@ -40,6 +40,8 @@ def kebab(texto):
 
 
 def main():
+    # No Windows, a saída redirecionada sai em cp1252 e quebra os acentos.
+    sys.stdout.reconfigure(encoding="utf-8")
     ap = argparse.ArgumentParser(description="Monta o rascunho de uma lição nova.")
     ap.add_argument("nome", help="nome do exercício; vira o nome do arquivo, em kebab-case")
     ap.add_argument("pasta", nargs="?", default="licoes", help="a pasta que o aluno indicou (padrão: ./licoes)")

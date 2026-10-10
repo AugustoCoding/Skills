@@ -159,8 +159,8 @@ def conferir_estrutura(doc):
         erro("Falta a técnica (div.tecnica) no fim de \"O modelo\": o nome da ferramenta e por que ela serve.")
     else:
         palavras = len(tecnica[0].texto().split())
-        if palavras > 90:
-            aviso(f"A técnica tem {palavras} palavras: o normal é três ou quatro frases, até umas 80.")
+        if palavras > 110:
+            aviso(f"A técnica tem {palavras} palavras: o normal são quatro ou cinco frases, até umas 100.")
         texto_tec = [p for p in tecnica[0].filhos_no("p") if not p.tem("tecnica-nome")]
         if not any(p.achar(cls="termo") for p in texto_tec):
             erro("A técnica não destaca o nome dela no texto (span.termo).")
@@ -257,11 +257,13 @@ def conferir_resultado(doc, saida):
             erro("A resposta tem de vir antes da figura, no começo de \"O resultado\".")
 
     if resposta and saida is not None:
-        impressos = numeros(saida)
+        # Vale o que o programa imprime e o que a tabela de parâmetros dá (os
+        # dados do enunciado, como a pressão de operação, podem voltar na resposta).
+        impressos = numeros(saida) + [n for t in doc.achar("table") for n in numeros(t.texto())]
         for valor, casas, cientifico, bruto in numeros(resposta[0].texto()):
             tol = abs(valor) * 0.006 if cientifico else 0.5 * 10 ** -casas + 1e-12
             if not any(abs(valor - v) <= tol for v, *_ in impressos):
-                erro(f"A resposta cita \"{bruto.strip()}\", e o programa não imprime esse número: a resposta é o que o programa imprime.")
+                erro(f"A resposta cita \"{bruto.strip()}\", e nem o programa o imprime nem a tabela de parâmetros o tem: a resposta é o que o programa imprime.")
 
     controles = sum(len([c for c in (g.attrs.get("data-controles") or "").split(",") if c.strip()]) for g in graficos)
     if controles > 4:

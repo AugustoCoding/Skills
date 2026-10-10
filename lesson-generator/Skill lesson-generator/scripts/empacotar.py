@@ -59,6 +59,8 @@ def local(url):
 
 
 def main():
+    # No Windows, a saída redirecionada sai em cp1252 e quebra os acentos.
+    sys.stdout.reconfigure(encoding="utf-8")
     ap = argparse.ArgumentParser(description="Empacota a lição num arquivo único.")
     ap.add_argument("rascunho", help="a lição escrita, com os componentes em ./assets/")
     ap.add_argument("--saida", help="onde gravar (padrão: o que o nova_licao.py anotou)")
@@ -120,8 +122,15 @@ def main():
     saida.write_text(html, encoding="utf-8", newline="\n")
     print(f"Lição entregue: {saida} ({saida.stat().st_size // 1024} KB, arquivo único)")
     if not a.saida and base.name.startswith(".rascunho-"):
-        apagar(base)
-        print("Rascunho apagado.")
+        # Um processo dentro da pasta a trava no Windows: este sai dela, e se
+        # outro (o terminal que rodou o script) estiver lá, o erro diz o que fazer.
+        os.chdir(base.parent)
+        try:
+            apagar(base)
+            print("Rascunho apagado.")
+        except PermissionError:
+            sys.exit(f"AVISO: a lição foi entregue, mas a pasta {base} não pôde ser apagada: "
+                     "algum terminal está dentro dela. Saia dela e apague-a.")
 
 
 if __name__ == "__main__":

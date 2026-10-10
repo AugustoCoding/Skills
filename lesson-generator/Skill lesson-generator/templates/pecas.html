@@ -215,6 +215,7 @@ document.addEventListener("DOMContentLoaded", function () {
     padroes:  { CA0: 2.0, T0: 320, Tc: 320, UA: 0.2, k0: 0.08, Tref: 330, ER: 8000, dT: 30, tf: 60 },
     faixas:   { Tc: [290, 350, 1], UA: [0, 2, 0.05] },
     unidades: { Tc: "K", UA: "1/min" },
+    nomes:    { Tc: "Tc da camisa", UA: "UA/(ρ·cp·V)" },   // o rótulo do controle; sem ele, a chave
     // UA aqui é U·A/(ρ·cp·V), em 1/min; dT é (−ΔH)/(ρ·cp), em K·L/mol.
     calcular: function (p) {
       var r = Grafico.integrar(function (t, y) {
@@ -282,6 +283,7 @@ document.addEventListener("DOMContentLoaded", function () {
     padroes:  { dH: 20000, cp: 50, kapa: 1, Tc: 300, tau: 10, kref: 0.1, Tref: 350, ER: 10000 },
     faixas:   { Tc: [280, 330, 1], tau: [2, 30, 1] },
     unidades: { Tc: "K", tau: "min" },
+    nomes:    { tau: "τ" },
     calcular: function (p) {
       var T = Grafico.linspace(290, 520, 231);
       function G(t) { var k = p.kref * Math.exp(-p.ER * (1 / t - 1 / p.Tref)); return p.dH * p.tau * k / (1 + p.tau * k); }

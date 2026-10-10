@@ -210,6 +210,7 @@ document.addEventListener("DOMContentLoaded", function () {
     padroes:  { k: 0.08, CA0: 2.0, tf: 60 },
     faixas:   { k: [0.01, 0.30, 0.01] },   // [min, max, passo]
     unidades: { k: "1/min", CA0: "mol/L" },
+    nomes:    { k: "k" },                  // como cada controle aparece para o aluno
     calcular: function (p) {               // {a SUA conta}
       var r = Grafico.integrar(function (t, y, p) { return [-p.k * y[0]]; },
                                [p.CA0], 0, p.tf, p);

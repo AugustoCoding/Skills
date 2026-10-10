@@ -23,6 +23,7 @@
  *     padroes:  { k: 0.3, T0: 350 },       todo parâmetro que calcular() lê
  *     faixas:   { k: [0.05, 1, 0.01] },    [min, max, passo] de quem pode virar controle
  *     unidades: { k: "1/h", T0: "K" },
+ *     nomes:    { T0: "T de entrada" },  opcional: como o controle aparece (padrão: a chave)
  *     limites:  { y: [0, 2] },             opcional: fixa x, y ou y2 em vez da escala automática
  *     calcular: function (p) { ... },      devolve as séries — formatos abaixo
  *     ler:      function (s, p) { ... }    opcional: a linha de números embaixo do gráfico
@@ -443,7 +444,8 @@
       bloco.className = "controle";
       var label = document.createElement("label");
       var nomeSpan = document.createElement("span");
-      nomeSpan.textContent = chave;
+      var rotulo = (def.nomes || {})[chave] || chave;
+      nomeSpan.textContent = rotulo;
       var valor = document.createElement("span");
       valor.className = "valor";
       function mostrar() { valor.textContent = fmt(params[chave], casas) + (un ? " " + un : ""); }
@@ -454,7 +456,7 @@
       range.type = "range";
       range.min = f[0]; range.max = f[1]; range.step = f[2];
       range.value = params[chave];
-      range.setAttribute("aria-label", chave + (un ? " em " + un : ""));
+      range.setAttribute("aria-label", rotulo + (un ? " em " + un : ""));
       range.addEventListener("input", function () {
         params[chave] = parseFloat(range.value);
         mostrar();

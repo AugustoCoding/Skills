@@ -19,6 +19,8 @@ Se o pedido não traz um exercício concreto ("me ensina reator tubular"), diga 
 
 Não entreviste o aluno nem guarde estado: o que precisaria ser perguntado, você infere do enunciado. A lição é entregue pronta, num arquivo único, e não é editada depois.
 
+Rode os scripts da sua pasta de trabalho, com caminhos, sem entrar na pasta do rascunho: no Windows, um terminal dentro dela impede que ela seja apagada.
+
 1. **Leia o enunciado como diagnóstico**: o que ele pede, que dados dá e quais faltam, e que tipo de problema matemático ele é.
 2. **Ache os números** ([Os números](#os-números)).
 3. **Monte o rascunho** com `python <pasta desta skill>/scripts/nova_licao.py "<nome do exercício>" [pasta]`, passando a pasta só se o aluno indicou uma. O script diz onde está o rascunho e para onde a lição vai.
@@ -26,7 +28,7 @@ Não entreviste o aluno nem guarde estado: o que precisaria ser perguntado, voc�
 5. **Confira** com `python <pasta desta skill>/scripts/conferir.py <rascunho.html>` e corrija todo ERRO; os AVISOS, confira. Ele roda os passos colados em ordem (o programa que o aluno monta no editor), compara a resposta com o que o programa imprime, acusa `{…}` esquecido e lista os números do texto para a revisão de procedência.
 6. **Se você tiver um navegador, veja o rascunho rodando, antes de entregar**: sirva a pasta do rascunho (`python -m http.server 8730 --bind 127.0.0.1`), abra por `http://` e confira que as figuras desenham e os passos abrem. **Leia o console**: o `grafico.js` avisa ali sobre curva achatada, controle sem faixa e valor não finito. Sem navegador, o `conferir.py` basta.
 7. **Entregue** com `python <pasta desta skill>/scripts/empacotar.py <rascunho.html>`: ele junta tudo num arquivo único, tira os comentários, grava na pasta do aluno e apaga o rascunho. Depois disso, a lição não muda.
-8. **Fale pouco**: onde está a lição e o convite a perguntar, em duas linhas.
+8. **Fale pouco**: onde está a lição e o convite a perguntar, em duas linhas. A sessão termina na entrega: nada de commit nem outra ação que o aluno não pediu.
 
 Nada de arquivo de estado ou anotação sobre o aluno.
 
@@ -50,7 +52,7 @@ Três a cinco frases: que processo é esse, o que o enunciado pede e o que o alu
 - O primeiro passo é o **princípio** em palavras, com o volume de controle. O segundo é a **tradução** de cada palavra em símbolos, com uma chave sob cada termo dizendo qual palavra ele é.
 - Cada passo seguinte faz **uma coisa só** e diz qual: princípio, tradução, cinética, hipótese, álgebra ou definição. **A hipótese diz o que aconteceria se não valesse**: é ela que muda de um exercício para outro.
 - O último passo é a equação do modelo, com as chaves e, dentro dele, o parágrafo que a explica: primeiro a cena, depois a conclusão.
-- Um segundo balanço parecido mostra o princípio e a tradução e junta o resto numa linha.
+- Um balanço que repetiria os passos de outro já deduzido mostra o princípio e a tradução e junta o resto numa linha. A ordem dos balanços é a que a dedução pede: o global vem antes do de componente quando este precisa dele.
 
 Equação que não é balanço (lei de velocidade dada, correlação) não se deduz: entra num bloco próprio.
 
