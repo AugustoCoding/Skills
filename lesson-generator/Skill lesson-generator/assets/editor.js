@@ -351,14 +351,14 @@
     document.querySelectorAll("section.codigo pre").forEach(function (pre) {
       var c = pre.querySelector("code");
       if (!c) return;
-      var b = botao("para-editor", [icone("seta"), "editor"], "Acrescentar este trecho ao fim do programa no editor");
+      var b = botaoIcone("para-editor", "enviar", "Levar este trecho ao fim do programa no editor");
       b.addEventListener("click", function (ev) {
         ev.stopPropagation();           // o clique não abre nem fecha o passo ao redor
         if (!document.body.classList.contains("com-editor")) alternar(true);
         acrescentar(c.textContent);
-        rotular(b, [icone("check"), "no editor"]);
+        rotular(b, [icone("check")]);
         b.classList.add("enviado");
-        setTimeout(function () { rotular(b, [icone("seta"), "editor"]); b.classList.remove("enviado"); }, 1600);
+        setTimeout(function () { rotular(b, [icone("enviar")]); b.classList.remove("enviado"); }, 1600);
       });
       pre.classList.add("com-copia");
       pre.appendChild(b);

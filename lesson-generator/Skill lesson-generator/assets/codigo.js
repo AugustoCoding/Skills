@@ -27,12 +27,13 @@
   "use strict";
 
   function copiar(texto, botao) {
+    // Copiado: o ícone vira um ✓ por um instante.
     function ok() {
-      var antes = botao.textContent;
-      botao.textContent = "copiado";
+      var ic = botao.querySelector(".ic");
+      if (ic) ic.className = "ic ic-check";
       botao.classList.add("copiado");
       setTimeout(function () {
-        botao.textContent = antes;
+        if (ic) ic.className = "ic ic-copiar";
         botao.classList.remove("copiado");
       }, 1400);
     }
@@ -111,7 +112,11 @@
     var btn = document.createElement("button");
     btn.type = "button";
     btn.className = "copiar";
-    btn.textContent = "copiar";
+    btn.title = "Copiar o código";
+    btn.setAttribute("aria-label", "Copiar o código");
+    var ic = document.createElement("span");
+    ic.className = "ic ic-copiar";
+    btn.appendChild(ic);
     btn.addEventListener("click", function () {
       copiar(pre.querySelector("code") ? pre.querySelector("code").textContent : pre.textContent, btn);
     });

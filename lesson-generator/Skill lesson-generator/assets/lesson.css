@@ -916,6 +916,8 @@ div.resposta > :last-child { margin-bottom: 0; }
 
 /* Botão de copiar, no canto de cada bloco de código. */
 pre.com-copia { position: relative; }
+/* Copiar e levar ao editor: só ícone, quadrados e iguais, no canto do código. */
+pre > button.copiar, pre > button.para-editor { width: 1.75rem; height: 1.75rem; padding: 0; justify-content: center; font-size: 0.85rem; }
 
 .copiar {
   position: absolute;
@@ -942,7 +944,7 @@ pre.com-copia:hover .copiar { opacity: 1; }
 .para-editor {
   position: absolute;
   top: 0.4rem;
-  right: 4.4rem;
+  right: calc(0.4rem + 1.75rem + 0.3rem);
   font-family: var(--serif);
   font-size: var(--t-rotulo);
   letter-spacing: var(--esp-rotulo);
@@ -1056,6 +1058,11 @@ pre.com-copia:hover .para-editor { opacity: 1; }
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 6.5h17'/%3E%3Cpath d='M9 6.5V4.8A1.8 1.8 0 0 1 10.8 3h2.4A1.8 1.8 0 0 1 15 4.8v1.7'/%3E%3Cpath d='M18.5 6.5l-.9 12.6A2 2 0 0 1 15.6 21H8.4a2 2 0 0 1-2-1.9L5.5 6.5'/%3E%3Cpath d='M10 10.5v6M14 10.5v6'/%3E%3C/svg%3E") center / contain no-repeat;
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 6.5h17'/%3E%3Cpath d='M9 6.5V4.8A1.8 1.8 0 0 1 10.8 3h2.4A1.8 1.8 0 0 1 15 4.8v1.7'/%3E%3Cpath d='M18.5 6.5l-.9 12.6A2 2 0 0 1 15.6 21H8.4a2 2 0 0 1-2-1.9L5.5 6.5'/%3E%3Cpath d='M10 10.5v6M14 10.5v6'/%3E%3C/svg%3E") center / contain no-repeat;
 }
+/* Copiar (duas folhas) e levar ao editor (seta até a barra, à direita, onde
+   o editor fica). */
+.ic-copiar, .ic-enviar { width: 1.05em; height: 1.05em; background: currentColor; }
+.ic-copiar { -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='8.5' y='8.5' width='12' height='12' rx='2.2'/%3E%3Cpath d='M15.5 8.5V5.7A2.2 2.2 0 0 0 13.3 3.5H5.7A2.2 2.2 0 0 0 3.5 5.7v7.6a2.2 2.2 0 0 0 2.2 2.2h2.8'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='8.5' y='8.5' width='12' height='12' rx='2.2'/%3E%3Cpath d='M15.5 8.5V5.7A2.2 2.2 0 0 0 13.3 3.5H5.7A2.2 2.2 0 0 0 3.5 5.7v7.6a2.2 2.2 0 0 0 2.2 2.2h2.8'/%3E%3C/svg%3E") center / contain no-repeat; }
+.ic-enviar { -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 12h13'/%3E%3Cpath d='M11.5 6l6 6-6 6'/%3E%3Cpath d='M20.5 4.5v15'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 12h13'/%3E%3Cpath d='M11.5 6l6 6-6 6'/%3E%3Cpath d='M20.5 4.5v15'/%3E%3C/svg%3E") center / contain no-repeat; }
 .ic-check::before {
   content: "";
   position: absolute;
@@ -1633,7 +1640,7 @@ button.editor-icone {
   touch-action: none;
 }
 /* As duas alças de arrastar têm o mesmo desenho: uma pílula pequena e
-   discreta, que só ganha a cor do código com o mouse em cima ou arrastando. */
+   discreta, na cor das barras de rolagem, mais firme com o mouse em cima. */
 .editor-divisor-v::after {
   content: "";
   position: absolute;
@@ -1649,7 +1656,7 @@ button.editor-icone {
 }
 .editor-divisor-v:hover::after,
 .editor-divisor-v:focus-visible::after,
-.editor-divisor-v.arrastando::after { opacity: 1; background: var(--mom-codigo); }
+.editor-divisor-v.arrastando::after { opacity: 1; background: color-mix(in srgb, var(--muted) 55%, transparent); }
 .editor-divisor-v:focus-visible { outline: none; }
 
 /* Enquanto se arrasta a divisão, nada anima: a lição acompanha o ponteiro. */
@@ -1682,7 +1689,7 @@ body.redimensionando { user-select: none; }
 .editor-divisor:focus-visible { outline: none; }
 .editor-divisor:hover::after,
 .editor-divisor:focus-visible::after,
-.editor-divisor.arrastando::after { opacity: 1; background: var(--mom-codigo); }
+.editor-divisor.arrastando::after { opacity: 1; background: color-mix(in srgb, var(--muted) 55%, transparent); }
 
 /* A saída: texto do print, erros e figuras. */
 .editor-saida {
