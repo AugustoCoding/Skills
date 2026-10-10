@@ -492,10 +492,8 @@
 
   function caberNaLargura() {
     var pares = [];
-    document.querySelectorAll(".equacao").forEach(function (eq) {
-      var m = eq.querySelector("math");
-      if (m) pares.push([eq, m]);
-    });
+    // A equação rola dentro do próprio <math> (lesson.css): é ele que se mede.
+    document.querySelectorAll(".equacao math").forEach(function (m) { pares.push([m, m]); });
     document.querySelectorAll("section.codigo pre").forEach(function (pre) { pares.push([pre, pre]); });
     function refazer() { pares.forEach(function (p) { caber(p[0], p[1]); }); }
     refazer();
