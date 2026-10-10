@@ -1222,11 +1222,19 @@ li .no-seu-codigo::before { display: inline; margin-right: 0.5rem; }
   --sumario-gap: 1.6rem;
 }
 
-html { background: var(--fundo); }
+/* A folha tem a altura da tela, com um vão em volta, como o editor: os cantos
+   arredondados ficam sempre à vista, e o texto rola DENTRO dela. */
+html { background: var(--fundo); height: 100%; overflow: hidden; }
 
 body {
-  max-width: var(--folha-w);
-  margin: 2.4rem auto;
+  position: relative;
+  box-sizing: border-box;
+  height: calc(100vh - 2 * var(--editor-vao));
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--muted) 45%, transparent) transparent;
+  max-width: calc(var(--folha-w) + 2 * var(--folha-pad));
+  margin: var(--editor-vao) auto;
   padding: 3.4rem var(--folha-pad) 4.5rem;
   line-height: 1.65;
   border-radius: 16px;
@@ -1235,7 +1243,7 @@ body {
 
 
 /* A bolinha do editor não cobre a folha. */
-body:not(.com-editor) { max-width: min(var(--folha-w), calc(100vw - 2 * var(--folha-pad) - 2 * 2.8rem)); }
+body:not(.com-editor) { max-width: min(calc(var(--folha-w) + 2 * var(--folha-pad)), calc(100vw - 2 * 2.8rem)); }
 body.com-editor { margin-left: max(var(--editor-vao), calc((100vw - var(--editor-w) - 2 * var(--editor-vao) - var(--folha-w) - 2 * var(--folha-pad)) / 2)); }
 
 /* Com espaço, folha e sumário formam um conjunto centrado na tela. */
@@ -1304,10 +1312,11 @@ body.com-editor { margin-left: max(var(--editor-vao), calc((100vw - var(--editor
 
 /* O botão de tema: na margem acima da folha, rolando com a página, para nunca
    cobrir o texto; com o sumário à vista, fixo no topo dele. */
-.tema { position: absolute; top: 0.55rem; left: max(0.6rem, calc((100vw - var(--folha-w) - 2 * var(--folha-pad)) / 2)); z-index: 12; }
+.tema { position: absolute; top: 1rem; right: 1.2rem; left: auto; z-index: 12; }
 @media (min-width: 1240px) {
   body.com-sumario:not(.com-editor) .tema {
     position: fixed;
+    right: auto;
     top: 1.6rem;
     left: calc((100vw - var(--folha-w) - 2 * var(--folha-pad) - var(--sumario-w) - var(--sumario-gap)) / 2 + 0.6rem);
   }
@@ -1377,7 +1386,8 @@ ol.observacoes > li.recolhido { margin-bottom: var(--faixa-gap); min-height: var
 .passo.recolhido.sem-fio::after { display: none; }
 
 @media (max-width: 760px) {
-  body, body:not(.com-editor) { margin: 0 auto; padding: 3.2rem 1.1rem 4rem; border-radius: 0; box-shadow: none; }
+  html { height: auto; overflow: visible; }
+  body, body:not(.com-editor) { height: auto; overflow: visible; margin: 0 auto; padding: 3.2rem 1.1rem 4rem; border-radius: 0; box-shadow: none; }
 }
 
 /* ---------- o modelo numa linha só (codigo.js, unificarModelo) ---------- */
@@ -1577,37 +1587,28 @@ body.com-editor .editor-painel { transform: none; }
   top: 0;
   bottom: 0;
   left: 0;
-  width: 10px;
+  width: 12px;
   z-index: 2;
   cursor: col-resize;
   touch-action: none;
 }
-.editor-divisor-v::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 5px;
-  width: 2px;
-  background: transparent;
-  transition: background 0.15s ease;
-}
+/* As duas alças de arrastar têm o mesmo desenho: uma pílula pequena e
+   discreta, que só ganha a cor do código com o mouse em cima ou arrastando. */
 .editor-divisor-v::after {
   content: "";
   position: absolute;
   top: 50%;
   left: 4px;
   width: 4px;
-  height: 2.5rem;
-  margin-top: -1.25rem;
-  border-radius: 2px;
+  height: 2.2rem;
+  margin-top: -1.1rem;
+  border-radius: 999px;
   background: var(--muted);
-  opacity: 0.55;
+  opacity: 0.35;
+  transition: opacity 0.15s ease, background 0.15s ease;
 }
-.editor-divisor-v:hover::before,
-.editor-divisor-v:focus-visible::before,
-.editor-divisor-v.arrastando::before { background: var(--mom-codigo); }
 .editor-divisor-v:hover::after,
+.editor-divisor-v:focus-visible::after,
 .editor-divisor-v.arrastando::after { opacity: 1; background: var(--mom-codigo); }
 .editor-divisor-v:focus-visible { outline: none; }
 
@@ -1616,32 +1617,32 @@ body.redimensionando,
 body.redimensionando .editor-painel { transition: none; }
 body.redimensionando { user-select: none; }
 
-/* A barra entre o código e a saída: arrasta-se para ver a saída inteira. */
+/* A alça entre o código e a saída: um fio fino com a mesma pílula. */
 .editor-divisor {
   flex: none;
-  height: 10px;
+  height: 12px;
   cursor: row-resize;
   touch-action: none;
-  background: var(--rule);
   position: relative;
+  border-top: 1px solid var(--rule);
 }
 .editor-divisor::after {
   content: "";
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 2.5rem;
-  height: 3px;
-  margin: -1.5px 0 0 -1.25rem;
-  border-radius: 2px;
+  width: 2.2rem;
+  height: 4px;
+  margin: -2.5px 0 0 -1.1rem;
+  border-radius: 999px;
   background: var(--muted);
-  opacity: 0.6;
+  opacity: 0.35;
+  transition: opacity 0.15s ease, background 0.15s ease;
 }
-.editor-divisor:hover,
-.editor-divisor:focus-visible,
-.editor-divisor.arrastando { background: color-mix(in srgb, var(--mom-codigo) 45%, var(--rule)); outline: none; }
+.editor-divisor:focus-visible { outline: none; }
 .editor-divisor:hover::after,
-.editor-divisor.arrastando::after { opacity: 1; background: var(--bg); }
+.editor-divisor:focus-visible::after,
+.editor-divisor.arrastando::after { opacity: 1; background: var(--mom-codigo); }
 
 /* A saída: texto do print, erros e figuras. */
 .editor-saida {
@@ -1699,7 +1700,8 @@ body.redimensionando { user-select: none; }
 @media print {
   .sumario { display: none !important; }
   html { background: #fff; }
-  body { box-shadow: none !important; margin: 0 auto !important; }
+  html { height: auto; overflow: visible; }
+  body { box-shadow: none !important; margin: 0 auto !important; height: auto !important; overflow: visible !important; }
   :root {
     --bg: #fff; --fg: #000; --muted: #444;
     --rule: #bbb; --code-bg: #f3f3f3; --accent: #000;

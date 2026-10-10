@@ -360,8 +360,11 @@
     function irPara(h2, alvo) {
       if (h2._abrir) h2._abrir();
       setTimeout(function () {
-        var y = alvo.getBoundingClientRect().top + window.scrollY - 24;
-        window.scrollTo({ top: y, behavior: "smooth" });
+        // A folha rola por dentro (lesson.css); no celular, a página inteira.
+        var rolador = document.body.scrollHeight > document.body.clientHeight ? document.body : document.scrollingElement;
+        var y = alvo.getBoundingClientRect().top - rolador.getBoundingClientRect().top + rolador.scrollTop - 24;
+        if (rolador === document.scrollingElement) y = alvo.getBoundingClientRect().top + window.scrollY - 24;
+        rolador.scrollTo({ top: y, behavior: "smooth" });
       }, h2._abrir ? 120 : 0);
     }
 
@@ -447,11 +450,14 @@
     document.body.appendChild(nav);
     document.body.classList.add("com-sumario");
     var pedido = false;
-    window.addEventListener("scroll", function () {
+    function rolou() {
       if (pedido) return;
       pedido = true;
       requestAnimationFrame(function () { pedido = false; atualizar(); });
-    }, { passive: true });
+    }
+    // A folha rola por dentro; no celular, rola a janela. Escuta os dois.
+    document.body.addEventListener("scroll", rolou, { passive: true });
+    window.addEventListener("scroll", rolou, { passive: true });
     document.addEventListener("licao-mudou", atualizar);
     atualizar();
   }
