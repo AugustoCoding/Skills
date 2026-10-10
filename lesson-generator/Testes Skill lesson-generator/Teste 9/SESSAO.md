@@ -150,3 +150,4 @@ Copiada para [com-skill/](./com-skill/). Destino padrão (`./licoes`) escolhido 
 
 | Commit | O que corrigiu |
 |---|---|
+| `574dec5` | Achados 1, 2, 3 e 5/6: vírgula decimal no texto, aviso do `conferir.py` para ponto decimal e para número de observação não impresso, "constante física" como procedência, protocolo de testes (sessão à mão, avaliação sem relatório do modelo). A lição modelo também citava dois números não impressos, e foi corrigida. |
