@@ -14,7 +14,7 @@ Uma linha por execução. É daqui que se lê a evolução da skill: o que foi t
 | [8](./Teste%208/SESSAO.md) | 2026-10-10 | `4f11200` | Opus 5.5, esforço médio | A skill reescrita num exercício de separação (flash, raiz) | Aprovado com ressalvas: números certos, 10 min 37 s, 3 achados de script | `eb1befa` — rascunho, resposta com dados da tabela, nome do controle, sessão sem commit |
 | [9](./Teste%209/SESSAO.md) | 2026-10-10 | `fec2854` | Opus 5.5, esforço médio | Prompt de aluno, pasta de aluno, skill em registro técnico | Aprovado: 5 min 02 s, números certos, editor ok; relatório barrado pelo filtro | `574dec5` — vírgula decimal, avisos de formato e de número não impresso, constante física, protocolo |
 | [10](./Teste%2010/SESSAO.md) | 2026-10-10 | `b266a1e` | Opus 5.5, esforço médio | Ajuste de cinética a dados (`curve_fit`): mecanismo explicado e figura no programa | Aprovado: 5 min 09 s, nenhum achado na lição | `ca6a63a` — `conferir.py` aceita dados do programa e contas à vista, refazendo a conta |
-| [11](./Teste%2011/SESSAO.md) | 2026-10-10 | `6503118` | Opus 5.5, esforço médio | Template só com padrões, num problema de valor de contorno (`solve_bvp`) | Aprovado: 4 min 09 s, números exatos, regras novas cumpridas | nenhuma necessária; dois achados de forma |
+| [11](./Teste%2011/SESSAO.md) | 2026-10-10 | `6503118` | Opus 5.5, esforço médio | Template só com padrões, num problema de valor de contorno (`solve_bvp`) | Aprovado: 4 min 09 s, números exatos, regras novas cumpridas | `547a34d` — nome curto da técnica, "como" em lista |
 
 ## Como usar
 
