@@ -311,6 +311,57 @@ def conferir_placeholders(doc):
         erro(f"Ficou um placeholder do template: {trecho}")
 
 
+def texto_fora_de_codigo(no):
+    """O texto de um nó sem script, style, pre, code, math, sub e sup."""
+    fora = {"script", "style", "pre", "code", "math", "sub", "sup"}
+    partes = []
+
+    def visitar(n):
+        if n.tag in fora:
+            return
+        for f in n.filhos:
+            if isinstance(f, No):
+                visitar(f)
+            else:
+                partes.append(f)
+
+    visitar(no)
+    return " ".join(" ".join(partes).split())
+
+
+# Um número do texto: nem o 1 de uma unidade ("1/min") nem o 10 de "·10⁻⁹".
+NUMERO_TEXTO = r"(?<![·\d])\d+(?:[.,]\d+)?(?!\s*/\s*[^\W\d])"
+
+
+def conferir_formato(doc):
+    corpo = doc.achar("body")[0] if doc.achar("body") else doc
+    pontos = sorted(set(re.findall(r"(?<![\d.])\d+\.\d+(?![\d.])", texto_fora_de_codigo(corpo))))
+    if pontos:
+        aviso("Números com ponto decimal no texto (" + ", ".join(pontos[:5]) +
+              "): no texto da lição, use vírgula; o ponto fica só no código.")
+
+
+def conferir_observacoes(doc, saida):
+    """Números das observações de leitura: impressos pelo programa ou da tabela."""
+    if saida is None:
+        return
+    conhecidos = numeros(saida) + [n for t in doc.achar("table") for n in numeros(t.texto())]
+    soltos = []
+    for ol in doc.achar("ol", "observacoes"):
+        for li in ol.filhos_no("li"):
+            if li.achar(cls="no-seu-codigo"):
+                continue        # observação de controle: fala de outro cenário
+            for p in li.filhos_no("p"):
+                for m in re.finditer(NUMERO_TEXTO, texto_fora_de_codigo(p)):
+                    for valor, casas, cientifico, bruto in numeros(m.group(0)):
+                        tol = 0.5 * 10 ** -casas + 1e-12
+                        if not any(abs(valor - v) <= tol for v, *_ in conhecidos) and bruto not in soltos:
+                            soltos.append(bruto)
+    if soltos:
+        aviso("Números das observações que o programa não imprime e a tabela não tem: " +
+              ", ".join(soltos[:6]) + ". Todo número citado é impresso pelo programa.")
+
+
 def listar_numeros(doc):
     # Fora da conta: código, equações, subíndices (o 0 de C_A0) e o cabeçalho.
     ignorar = {"script", "style", "pre", "code", "math", "head", "title", "sub", "sup"}
@@ -349,6 +400,8 @@ def main():
     conferir_resultado(doc, saida)
     conferir_assets(doc, caminho.parent)
     conferir_placeholders(doc)
+    conferir_formato(doc)
+    conferir_observacoes(doc, saida)
 
     for e in erros:
         print("ERRO   " + e)

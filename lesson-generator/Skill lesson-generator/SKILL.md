@@ -107,7 +107,7 @@ O programa é explicado em no máximo seis passos, seguidos de um último passo 
 
 ### 4.4 O resultado
 
-A seção começa pela **resposta**: os números que o exercício pede, como o programa os imprime. Depois vem a figura que a pergunta exige (no tempo, ao longo do reator, contra um parâmetro, dados contra modelo), registrada no `grafico.js` com a mesma conta do programa. A lição pode ter no máximo duas figuras.
+A seção começa pela **resposta**: os números que o exercício pede, com os mesmos valores e casas que o programa imprime. Depois vem a figura que a pergunta exige (no tempo, ao longo do reator, contra um parâmetro, dados contra modelo), registrada no `grafico.js` com a mesma conta do programa. A lição pode ter no máximo duas figuras.
 
 - No máximo quatro controles. Cada um deve ser motivado por uma observação própria, e a faixa e o passo do controle devem alcançar o valor que essa observação pede.
 - Duas a quatro observações de leitura da curva, mais uma por controle. Cada observação deve citar um valor ou um trecho de curva deste exercício; uma frase que serviria para outro exercício deve ser cortada.
@@ -135,9 +135,12 @@ Você não deve criar componente nem figura que não seja do tipo x contra y: o 
 
 - **dado do enunciado**;
 - **derivado**, com a conta visível;
+- **constante física** (a constante dos gases, por exemplo), sem fonte;
 - **escolha sua**, marcada na tabela com o motivo em meia linha (condições iniciais, horizontes de tempo, tolerâncias).
 
 A faixa de um controle não precisa de procedência, mas deve fazer sentido físico. Você não deve citar literatura.
+
+**Formato.** No texto da lição, os números usam vírgula decimal ("350,4 L"), inclusive quando reproduzem a saída do programa; o ponto decimal fica só dentro do código.
 
 ## 6. Restrições técnicas
 

@@ -54,10 +54,10 @@ Depois de fechar o teste, acrescente a linha em [INDEX.md](./INDEX.md).
 1. Crie `Teste N/`, copie [TEMPLATE-SESSAO.md](./TEMPLATE-SESSAO.md) para `Teste N/SESSAO.md` e crie `Teste N/com-skill/` **vazia**.
 2. Escreva `Teste N/EXERCICIO.md`: o enunciado e, em tabela, o que cada armadilha deve provocar. Enunciado sem armadilha declarada é difícil de avaliar depois.
 3. Preencha as seções 1 a 4 do `SESSAO.md` **antes** de rodar — inclusive o prompt exato. Prompt improvisado na hora não é reproduzível.
-4. Em outra sessão, carregue a skill e cole o prompt. Indique `Teste N/com-skill/` como workspace quando quiser a saída dentro do teste; **não indique nada** quando o que estiver sendo testado for a escolha automática de pasta.
+4. **Inicie a sessão à mão**, nova, numa pasta vazia fora do repositório (como a de um aluno), e cole o prompt como primeira mensagem. Uma sessão iniciada por outra (`start_session`) recebe o prompt embrulhado e não executa o `/lesson-generator` (Teste 9); uma sessão dentro do repositório acha o `SKILL.md` sozinha e mascara a invocação (Teste 8). Depois, copie a lição para `Teste N/com-skill/`.
 5. **Cronometre.** Marque a hora ao enviar o prompt e ao aparecer a última linha. É a métrica que mais dói quando escapa.
 6. **Um turno só.** O teste avalia a produção da lição e para aí — nada de fazer o papel do aluno em turnos seguintes. Se o modelo entrevistar, o teste já falhou o critério principal: registre e encerre.
-7. Peça ao modelo um **relatório de execução** ao final, em `Teste N/RELATORIO-MODELO.md`, fora de `com-skill/`. Instrua-o a escrever "não sei" onde não tiver medição — ele não sabe contar os próprios tokens nem medir o próprio tempo, e estimativa dele entra no registro com cara de medida. No Teste 3 esse relatório rendeu mais achados que o artefato.
+7. **Avalie pelo histórico e pela lição**, não por um relatório do modelo. O tempo sai dos registros da sessão; os passos, do histórico; os números, de uma conferência por fora; e a lição é aberta no navegador, com o editor rodando o programa. No Teste 9, pedir ao modelo um relato das próprias dúvidas foi barrado duas vezes pelo filtro de segurança (`reasoning_extraction`). O relatório é opcional e, se pedido, deve tratar só do documento da skill, sem pedir o raciocínio do modelo.
 8. Abra a lição no navegador e confira que renderiza: os passos revelam, o botão de copiar copia, o gráfico desenha e o tema alterna.
 9. Preencha as seções 5 a 9, acrescente a linha no `INDEX.md`, e abra os commits de correção que os achados exigirem.
 
