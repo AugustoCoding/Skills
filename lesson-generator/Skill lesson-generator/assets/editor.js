@@ -69,6 +69,13 @@
     return b;
   }
 
+  // Botão só de ícone: o nome fica na dica (title) e no leitor de tela.
+  function botaoIcone(cls, nome, titulo) {
+    var b = botao(cls + " editor-icone", [icone(nome)], titulo);
+    b.setAttribute("aria-label", titulo);
+    return b;
+  }
+
   function montar() {
     var abrir = botao("editor-abrir", null, "Abrir o editor de código");
     abrir.setAttribute("aria-label", "Abrir o editor de código");
@@ -78,9 +85,9 @@
     painel.setAttribute("aria-label", "Editor de Python");
 
     var topo = el("div", "editor-topo");
-    var rodar = botao("editor-rodar", [icone("play"), "Rodar"], "Rodar (Ctrl+Enter)");
-    var limpar = botao("editor-botao editor-limpar", "Limpar", "Esvaziar o editor");
-    var fechar = botao("editor-botao editor-fechar", ["Fechar", icone("x")], "Fechar o editor");
+    var rodar = botaoIcone("editor-rodar", "play", "Rodar (Ctrl+Enter)");
+    var limpar = botaoIcone("editor-botao editor-limpar", "lixo", "Esvaziar o editor");
+    var fechar = botaoIcone("editor-botao editor-fechar", "x", "Fechar o editor");
     topo.append(el("span", "editor-titulo", "Editor de código"), rodar, limpar, fechar);
 
     var codigo = el("div", "editor-codigo");
@@ -103,7 +110,7 @@
     var saida = el("div", "editor-saida");
     var saidaTopo = el("div", "editor-saida-topo");
     var estado = el("span", "editor-estado", "Na primeira vez que você rodar, o Python é baixado (precisa de internet).");
-    var limparSaida = botao("editor-limpar-saida", "Limpar saída", "Apagar a saída, sem mexer no código");
+    var limparSaida = botaoIcone("editor-limpar-saida", "lixo", "Apagar a saída, sem mexer no código");
     saidaTopo.append(el("span", "", "Saída"), estado, limparSaida);
     var resultado = el("div", "editor-resultado");
     saida.append(saidaTopo, resultado);

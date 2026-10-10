@@ -1046,6 +1046,29 @@ pre.com-copia:hover .para-editor { opacity: 1; }
   border-right: 2px solid currentColor;
   transform: translateY(-50%) rotate(45deg);
 }
+/* A lixeira: a tampa (um traço) e o corpo (um balde aberto em cima). */
+.ic-lixo { width: 0.8em; height: 0.9em; }
+.ic-lixo::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0.08em;
+  height: 2px;
+  border-radius: 1px;
+  background: currentColor;
+}
+.ic-lixo::after {
+  content: "";
+  position: absolute;
+  left: 0.1em;
+  right: 0.1em;
+  top: 0.26em;
+  bottom: 0;
+  border: 2px solid currentColor;
+  border-top: none;
+  border-radius: 0 0 2px 2px;
+}
 .ic-check::before {
   content: "";
   position: absolute;
@@ -1530,6 +1553,15 @@ body.com-editor .editor-painel { transform: none; }
   min-width: 0;
 }
 .editor-topo button { font-family: var(--serif); font-size: var(--t-rotulo); padding: 0.3rem 0.8rem; }
+/* Os botões do editor são só ícone: quadrados, do mesmo tamanho, para
+   ocupar o mínimo da barra. */
+button.editor-icone {
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  justify-content: center;
+  font-size: 0.9rem;
+}
 .editor-rodar { color: var(--bg); background: var(--mom-resultado); border-color: var(--mom-resultado); }
 .editor-rodar:disabled { opacity: 0.5; cursor: wait; }
 .editor-limpar:hover { color: #1a1a18; background: var(--aviso); border-color: var(--aviso); }
