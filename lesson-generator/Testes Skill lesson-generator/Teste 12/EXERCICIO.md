@@ -27,4 +27,12 @@
 
 ## Gabarito
 
-Guardado fora do repositório até a sessão de teste terminar; acrescentado aqui depois.
+Calculado com `minimize_scalar` (intervalo 300 a 500 K, xatol 10⁻⁶) e guardado fora do repositório até a sessão terminar. X(T) = τ·k₁/[1 + τ·k₁·(1 + 1/K)], com k₁ e K a partir de 350 K.
+
+| τ | Temperatura ótima | Conversão máxima |
+|---|---|---|
+| 5 min | 382,6 K | 0,452 |
+| 10 min | 376,6 K (103,5 °C) | 0,551 |
+| 20 min | 370,9 K (97,7 °C) | 0,646 |
+
+Conferências: X(350 K) = 0,328; X(400 K) = 0,370 < X_eq(400 K) = 0,392.

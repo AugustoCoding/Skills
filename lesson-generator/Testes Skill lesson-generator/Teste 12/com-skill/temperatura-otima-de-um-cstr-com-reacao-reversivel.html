@@ -1,0 +1,3362 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Temperatura ótima de um CSTR com reação reversível exotérmica</title>
+<style>
+
+:root {
+  --bg: #dcd6c7;
+  --fg: #23211c;
+  --muted: #5d594e;
+  --rule: #c5bdaa;
+  --accent: #8a3324;
+  --code-bg: #d1cab9;
+  --fundo: #c4bca8;
+  --borda-folha: #b9b09b;
+  --sombra-folha: rgba(60, 55, 30, 0.08);
+
+  --serie-1: #2f5fa8;   
+  --serie-2: #b23a68;   
+  --serie-3: #0f7c8a;   
+  --serie-4: #6b6250;   
+
+  --param: var(--fg);
+
+  --aviso: #b08410;
+
+  --mom-modelo: #8a6510;
+  --mom-codigo: #7a3d82;
+  --mom-resultado: #2e6b3f;
+
+  --hl-kw: #af00db;
+  --hl-def: #0000ff;
+  --hl-str: #a31515;
+  --hl-com: #008000;
+  --hl-num: #098658;
+  --hl-fn: #795e26;
+  --hl-builtin: #267f99;
+  --hl-op: #4a4a44;
+
+  --ok: #2e6b3f;
+  --err: #b3261e;
+
+  color-scheme: light;
+
+  --raio: 10px;
+  --raio-p: 6px;
+
+  --serif: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Times New Roman", serif;
+  --mono: "SF Mono", "Cascadia Mono", Consolas, "Liberation Mono", Menlo, monospace;
+
+  --t-h1: 2.1rem;       
+  --t-h2: 1.35rem;      
+  --t-h3: 1.05rem;      
+  --t-texto: 1rem;      
+  --t-apoio: 0.9rem;    
+  --t-codigo: 0.85rem;  
+  --t-rotulo: 0.78rem;  
+  --esp-rotulo: 0.08em;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="claro"]) {
+    color-scheme: dark;
+    --bg: #16161a;
+    --fg: #e6e4dd;
+    --muted: #9a978d;
+    --rule: #34343c;
+    --accent: #e08b6f;
+    --code-bg: #1f1f26;
+    --fundo: #0e0e11;
+    --borda-folha: #26262d;
+    --sombra-folha: rgba(0, 0, 0, 0.45);
+
+    --serie-1: #7aa7f2;
+    --serie-2: #f093b4;
+    --serie-3: #5fc8d4;
+    --serie-4: #cfc6b0;
+    --aviso: #f2d478;
+    --mom-modelo: #e2bb5c;
+    --mom-codigo: #c99bd2;
+    --mom-resultado: #7fc394;
+    --hl-kw: #c586c0;
+    --hl-def: #569cd6;
+    --hl-str: #ce9178;
+    --hl-com: #6a9955;
+    --hl-num: #b5cea8;
+    --hl-fn: #dcdcaa;
+    --hl-builtin: #4ec9b0;
+    --hl-op: #d4d4d4;
+
+    --ok: #7fc394;
+    --err: #ff7b72;
+  }
+}
+
+:root[data-tema="escuro"] {
+  color-scheme: dark;
+  --bg: #16161a;
+  --fg: #e6e4dd;
+  --muted: #9a978d;
+  --rule: #34343c;
+  --accent: #e08b6f;
+  --code-bg: #1f1f26;
+  --fundo: #0e0e11;
+  --borda-folha: #26262d;
+  --sombra-folha: rgba(0, 0, 0, 0.45);
+
+  --serie-1: #7aa7f2;
+  --serie-2: #f093b4;
+  --serie-3: #5fc8d4;
+  --serie-4: #cfc6b0;
+  --aviso: #f2d478;
+  --mom-modelo: #e2bb5c;
+  --mom-codigo: #c99bd2;
+  --mom-resultado: #7fc394;
+  --hl-kw: #c586c0;
+  --hl-def: #569cd6;
+  --hl-str: #ce9178;
+  --hl-com: #6a9955;
+  --hl-num: #b5cea8;
+  --hl-fn: #dcdcaa;
+  --hl-builtin: #4ec9b0;
+  --hl-op: #d4d4d4;
+
+  --ok: #7fc394;
+  --err: #ff7b72;
+}
+
+html { font-size: 19px; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--serif);
+  line-height: 1.55;
+  margin: 0 auto;
+  padding: 3.5rem 1.8rem 6rem;
+  max-width: 46rem;
+  text-rendering: optimizeLegibility;
+}
+
+header.licao { margin-bottom: 3rem; }
+
+header.licao .etiqueta {
+  font-family: var(--serif);
+  font-size: var(--t-rotulo);
+  font-weight: 600;
+  letter-spacing: var(--esp-rotulo);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+h1 {
+  font-size: var(--t-h1);
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0.4rem 0 0.8rem;
+}
+
+h2 {
+  font-size: var(--t-h2);
+  font-weight: 600;
+  margin: 3rem 0 0.8rem;
+}
+
+body > h2 { padding-left: 0.7rem; border-left: 4px solid var(--rule); }
+body > h2:nth-of-type(1) { color: var(--mom-modelo);    border-left-color: var(--mom-modelo); }
+body > h2:nth-of-type(2) { color: var(--mom-codigo);    border-left-color: var(--mom-codigo); }
+body > h2:nth-of-type(3) { color: var(--mom-resultado); border-left-color: var(--mom-resultado); }
+
+h3 {
+  font-size: var(--t-h3);
+  font-weight: 600;
+  margin: 2rem 0 0.6rem;
+}
+
+p { margin: 0 0 1.1rem; }
+
+sub, sup { line-height: 0; }
+
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
+
+.lateral {
+  float: right;
+  clear: right;
+  width: 14rem;
+  margin: 0.3rem -16rem 1rem 0;
+  font-size: var(--t-apoio);
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+@media (max-width: 82rem) {
+  .lateral {
+    float: none;
+    width: auto;
+    margin: 1rem 0;
+    padding-left: 1rem;
+    border-left: 1px solid var(--rule);
+  }
+}
+
+.equacao {
+  margin: 1.6rem 0;
+  padding: 1rem 1.2rem;
+  background: var(--code-bg);
+  border-radius: var(--raio);
+  font-family: var(--serif);
+  font-size: 0.92rem;
+  overflow-x: auto;
+  
+  white-space: pre-wrap;
+  line-height: 1.7;
+}
+
+.equacao:has(math),
+.eq-bloco .equacao {
+  white-space: normal;
+  line-height: 1.4;
+}
+
+.termos {
+  list-style: none;
+  padding: 0;
+  margin: -0.6rem 0 1.6rem;
+  font-size: var(--t-apoio);
+  color: var(--muted);
+}
+.termos li { margin: 0.45rem 0; }
+
+.termos code {
+  font-family: var(--serif);
+  font-style: italic;
+  background: none;
+  color: var(--fg);
+  font-weight: 700;
+  font-size: 1.1em;
+}
+
+.termo {
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--rule);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.un {
+  font-family: var(--serif);
+  font-size: 0.85em;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+span.var-1, span.var-2, span.var-3, span.var-4, span.param { font-size: 1.1em; font-style: italic; }
+.var-1 { color: var(--serie-1); }
+.var-2 { color: var(--serie-2); }
+.var-3 { color: var(--serie-3); }
+.var-4 { color: var(--serie-4); }
+.param { color: var(--param); }
+
+code.var-1, code.var-2, code.var-3, code.var-4, code.param {
+  font-family: var(--serif);
+  font-size: 1.1em;
+  font-style: italic;
+  font-weight: 700;
+  background: none;
+  padding: 0;
+}
+.termos code.var-1, td code.var-1 { color: var(--serie-1); }
+.termos code.var-2, td code.var-2 { color: var(--serie-2); }
+.termos code.var-3, td code.var-3 { color: var(--serie-3); }
+.termos code.var-4, td code.var-4 { color: var(--serie-4); }
+.termos code.param, td code.param { color: var(--param); }
+
+.ilustrativo {
+  font-size: var(--t-apoio);
+  color: var(--muted);
+}
+.ilustrativo::before { content: "⚠"; font-style: normal; display: inline-block; margin-right: 0.35em; vertical-align: -0.05em; }
+
+h3.balanco {
+  font-size: var(--t-h3);
+  margin: 2.4rem 0 0.4rem;
+  color: var(--mom-modelo);
+}
+
+ol.deducao     { --cor-linha: var(--mom-modelo); }
+ol.observacoes { --cor-linha: var(--mom-resultado); }
+
+ol.deducao,
+ol.observacoes {
+  list-style: none;
+  counter-reset: item;
+  padding: 0;
+  margin: 1rem 0 2rem;
+  position: relative;
+}
+
+ol.deducao::before,
+ol.observacoes::before {
+  content: "";
+  position: absolute;
+  left: 0.85rem;
+  top: 0.9rem;
+  bottom: 0.9rem;
+  width: 2px;
+  background: color-mix(in srgb, var(--cor-linha) 35%, transparent);
+}
+
+ol.deducao::after,
+ol.observacoes::after {
+  content: "";
+  position: absolute;
+  left: calc(0.85rem + 1px - 0.4rem);
+  bottom: 0.9rem;
+  width: 0.8rem;
+  height: 2px;
+  border-radius: 1px;
+  background: color-mix(in srgb, var(--cor-linha) 60%, transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+ol.deducao:has(> li:last-child.recolhido)::before,
+ol.observacoes:has(> li:last-child.recolhido)::before { bottom: calc(var(--faixa-gap) + var(--faixa-h) / 2); }
+ol.deducao:has(> li:last-child:not(.recolhido))::after,
+ol.observacoes:has(> li:last-child:not(.recolhido))::after { opacity: 1; }
+ol.deducao > li,
+ol.observacoes > li {
+  counter-increment: item;
+  position: relative;
+  padding-left: 2.6rem;
+  margin: 0 0 1rem;
+}
+ol.deducao > li::before,
+ol.observacoes > li::before {
+  content: counter(item);
+  position: absolute;
+  left: 0;
+  top: 0.75rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  border-radius: 50%;
+  font-family: var(--serif);
+  font-size: var(--t-rotulo);
+  color: var(--bg);
+  background: var(--cor-linha);
+  z-index: 1;
+}
+ol.observacoes > li::before { top: 0; }
+ol.observacoes > li > h3 { margin: 0.1rem 0 0.4rem; font-size: var(--t-h3); }
+ol.observacoes .item-dentro > p { margin: 0 0 0.4rem; }
+
+ol.deducao .equacao { margin: 0 0 0.4rem; }
+ol.deducao .termos { margin: 0.6rem 0 0.4rem; }
+ol.deducao p.porque { font-size: var(--t-texto); margin: 0 0 0.3rem; color: var(--fg); }
+
+ol.deducao > li.final .equacao {
+  background: color-mix(in srgb, var(--cor-linha) 10%, var(--code-bg));
+  border: 2px solid var(--cor-linha);
+}
+
+ol.deducao > li.final .item-dentro > p:not(.porque) { margin: 0.9rem 0 0.3rem; }
+
+.tipo {
+  font-size: var(--t-rotulo);
+  font-weight: 600;
+  letter-spacing: var(--esp-rotulo);
+  text-transform: uppercase;
+  color: var(--mom-modelo);
+  margin-right: 0.55rem;
+}
+.tipo + .tipo::before { content: "· "; margin-left: -0.3rem; }
+
+.tipo-hipotese { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+
+mrow.chave-sob,
+mrow.chave-sobre {
+  --chave-cor: #8a877f;
+  
+  padding-left: 0.4em;
+  padding-right: 0.4em;
+}
+
+mrow.chave-sob {
+  padding-bottom: 9px;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='8'%3E%3Cpath d='M0.6 0 Q0.6 4 6 4' fill='none' stroke='%238a877f' stroke-width='1.1'/%3E%3C/svg%3E") left bottom / 6px 8px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='8'%3E%3Cpath d='M5.4 0 Q5.4 4 0 4' fill='none' stroke='%238a877f' stroke-width='1.1'/%3E%3C/svg%3E") right bottom / 6px 8px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 4 Q6 4 6 8 Q6 4 12 4' fill='none' stroke='%238a877f' stroke-width='1.1'/%3E%3C/svg%3E") center bottom / 12px 8px no-repeat,
+    linear-gradient(var(--chave-cor), var(--chave-cor)) left 6px bottom 3.45px / calc(50% - 12px) 1.1px no-repeat,
+    linear-gradient(var(--chave-cor), var(--chave-cor)) right 6px bottom 3.45px / calc(50% - 12px) 1.1px no-repeat;
+}
+
+mrow.chave-sobre {
+  padding-top: 9px;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='8'%3E%3Cpath d='M0.6 8 Q0.6 4 6 4' fill='none' stroke='%238a877f' stroke-width='1.1'/%3E%3C/svg%3E") left top / 6px 8px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='8'%3E%3Cpath d='M5.4 8 Q5.4 4 0 4' fill='none' stroke='%238a877f' stroke-width='1.1'/%3E%3C/svg%3E") right top / 6px 8px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 4 Q6 4 6 0 Q6 4 12 4' fill='none' stroke='%238a877f' stroke-width='1.1'/%3E%3C/svg%3E") center top / 12px 8px no-repeat,
+    linear-gradient(var(--chave-cor), var(--chave-cor)) left 6px top 3.45px / calc(50% - 12px) 1.1px no-repeat,
+    linear-gradient(var(--chave-cor), var(--chave-cor)) right 6px top 3.45px / calc(50% - 12px) 1.1px no-repeat;
+}
+
+mtext.chave {
+  font-family: var(--serif);
+  font-size: 0.66em;
+  font-style: normal;
+  color: var(--muted);
+  padding: 0 0.2em;
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  background: var(--code-bg);
+  padding: 0.1em 0.3em;
+  border-radius: var(--raio-p);
+}
+
+pre {
+  background: var(--code-bg);
+  
+  padding: 1.15em 1.4em;
+  border-radius: var(--raio);
+  overflow-x: auto;
+  font-size: var(--t-codigo);
+  line-height: 1.5;
+}
+pre code { background: none; padding: 0; }
+
+.hl-kw  { color: var(--hl-kw); }
+.hl-def { color: var(--hl-def); }
+.hl-str { color: var(--hl-str); }
+.hl-com { color: var(--hl-com); font-style: italic; }
+.hl-num { color: var(--hl-num); }
+.hl-fn  { color: var(--hl-fn); }
+.hl-bi  { color: var(--hl-builtin); }
+.hl-op  { color: var(--hl-op); }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.6rem 0;
+  font-size: var(--t-apoio);
+}
+th, td { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--rule); }
+th {
+  font-weight: 600;
+  background: color-mix(in srgb, var(--mom-modelo) 14%, transparent);
+  border-bottom: 2px solid var(--mom-modelo);
+}
+thead th:first-child { border-top-left-radius: var(--raio-p); }
+thead th:last-child  { border-top-right-radius: var(--raio-p); }
+tbody tr:nth-child(even) { background: color-mix(in srgb, var(--code-bg) 75%, transparent); }
+td code { font-family: var(--serif); font-style: italic; font-size: 1.1em; background: none; padding: 0; }
+
+.proc {
+  font-size: var(--t-rotulo);
+  font-weight: 600;
+  letter-spacing: var(--esp-rotulo);
+  text-transform: uppercase;
+  color: var(--mom-modelo);
+  margin-right: 0.5rem;
+}
+
+.proc-escolha { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+table:has(.proc) { table-layout: fixed; }
+table:has(.proc) th:nth-child(1) { width: 24%; }
+table:has(.proc) th:nth-child(2) { width: 15%; }
+table:has(.proc) th:nth-child(3) { width: 17%; }
+table:has(.proc) td { vertical-align: baseline; }
+
+table:has(.proc) th,
+table:has(.proc) td { text-align: center; }
+td:has(> .proc) { color: var(--muted); line-height: 1.4; }
+td > .proc { display: block; margin: 0.1rem 0 0.15rem; }
+
+.pergunte {
+  background: var(--code-bg);
+  border-radius: var(--raio);
+  padding: 1rem 1.2rem;
+  margin: 2.5rem 0 0;
+  font-size: var(--t-apoio);
+}
+
+math { font-size: 1.25em; }
+
+math[display="block"] {
+  margin: 0.5rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.equacao math[display="block"] { margin: 0; }
+
+.eq-bloco { margin: 2rem 0; }
+
+.eq-bloco .equacao { margin-bottom: 0.5rem; }
+
+.eq-bloco .termos::before {
+  content: "onde";
+  display: block;
+  font-style: italic;
+  color: var(--muted);
+  margin-bottom: 0.35rem;
+}
+
+.eq-bloco > p {
+  margin: 0.7rem 0 0;
+  font-size: var(--t-texto);
+}
+
+section.codigo { margin: 2.5rem 0; counter-reset: passo; }
+
+.passo {
+  --cor-linha: var(--mom-codigo);
+  position: relative;
+  counter-increment: passo;
+  padding: 0 0 0 2.8rem;
+  margin: 0 0 1.6rem;
+}
+.passo::before {
+  content: counter(passo);
+  position: absolute;
+  left: 0;
+  top: -0.05rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  border-radius: 50%;
+  font-family: var(--serif);
+  font-size: var(--t-rotulo);
+  color: var(--bg);
+  background: var(--mom-codigo);
+  z-index: 1;
+}
+
+.passo::after {
+  content: "";
+  position: absolute;
+  left: 0.85rem;
+  top: 1.7rem;
+  bottom: -1.6rem;
+  width: 2px;
+  background: color-mix(in srgb, var(--mom-codigo) 35%, transparent);
+}
+.passo.sem-fio::after { display: none; }
+
+.passo h3 {
+  margin: 0.1rem 0 0.6rem;
+  font-size: var(--t-h3);
+  font-weight: 600;
+}
+
+.item-corpo,
+.secao-corpo {
+  display: grid;
+  grid-template-rows: 1fr;
+  opacity: 1;
+  transition: grid-template-rows 0.38s ease, opacity 0.3s ease;
+}
+.item-dentro { min-height: 0; overflow: hidden; }
+
+.secao-dentro { min-height: 0; overflow: hidden; margin: 0 -0.8rem; padding: 0 0.8rem; }
+
+.recolhido > .item-corpo { grid-template-rows: 0fr; opacity: 0; }
+
+.recolhido { cursor: pointer; }
+.recolhido:focus-visible { outline: none; }
+.recolhido:focus-visible > h3,
+.recolhido:focus-visible > .item-cabeca { text-decoration: underline; }
+
+.passo > h3,
+ol.observacoes > li > h3 { cursor: pointer; transition: color 0.2s ease; }
+.recolhido > h3 { color: var(--muted); }
+.recolhido:hover > h3 { color: var(--fg); }
+
+.item-cabeca { display: flex; gap: 0.4rem; align-items: center; font-weight: 600; font-size: var(--t-h3); cursor: pointer; transition: color 0.2s ease; }
+.recolhido > .item-cabeca { color: var(--muted); }
+.recolhido:hover > .item-cabeca { color: var(--fg); }
+.item-cabeca .tipo { margin-right: 0; }
+
+.chamando::before {
+  color: var(--cor-linha) !important;
+  background: var(--bg) !important;
+  box-shadow: inset 0 0 0 2px var(--cor-linha);
+  animation: chamar 1.8s ease-in-out infinite;
+}
+.chamando:hover::before,
+.chamando:focus-visible::before { color: var(--bg) !important; background: var(--cor-linha) !important; animation: none; }
+
+.passo::before,
+ol.deducao > li::before,
+ol.observacoes > li::before { cursor: pointer; transition: top 0.3s ease; }
+
+.passo.recolhido,
+ol.observacoes > li.recolhido { margin-bottom: 1.2rem; }
+
+ol.deducao > li.recolhido::before { top: 0; }
+ol.deducao > li.recolhido { min-height: 1.75rem; margin-bottom: 0.8rem; }
+ol.deducao > li > .item-cabeca { min-height: 1.75rem; }
+
+ol.deducao > li:not(.recolhido) > .item-cabeca { margin: 0 0 0.6rem; }
+ol.deducao > li::before { top: 0; }
+ol.deducao .porque > .tipo { display: none; }
+
+.secao-titulo { cursor: pointer; display: flex; align-items: center; gap: 0.7rem; }
+.secao-titulo::after {
+  content: "";
+  flex: none;
+  width: 0.42rem;
+  height: 0.42rem;
+  margin-top: -0.2rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  opacity: 0.55;
+  transform: rotate(45deg);
+  transition: transform 0.3s ease, margin 0.3s ease, opacity 0.2s ease;
+}
+.secao-titulo:hover::after,
+.secao-titulo:focus-visible::after { opacity: 1; }
+.secao-titulo:focus-visible { outline: none; text-decoration: underline; }
+.secao-titulo.secao-recolhida::after { transform: rotate(-45deg); margin-top: 0; }
+.secao-titulo.chamando::after { animation: chamar-seta 1.8s ease-in-out infinite; }
+.secao-titulo.chamando:hover::after { animation: none; }
+.secao-corpo.secao-recolhida { grid-template-rows: 0fr; opacity: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .item-corpo, .secao-corpo, .secao-titulo::after { transition: none; }
+}
+
+@keyframes chamar {
+  0%, 100% { box-shadow: inset 0 0 0 2px var(--cor-linha), 0 0 0 0 color-mix(in srgb, var(--cor-linha) 45%, transparent); }
+  50%      { box-shadow: inset 0 0 0 2px var(--cor-linha), 0 0 0 6px color-mix(in srgb, var(--cor-linha) 0%, transparent); }
+}
+@keyframes chamar-seta {
+  0%, 100% { opacity: 0.55; translate: 0 0; }
+  50%      { opacity: 1;    translate: 0.25rem 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chamando::before, .secao-titulo.chamando::after { animation: none; }
+}
+
+.passo .item-dentro > p { margin: 0.7rem 0 0; font-size: var(--t-texto); }
+
+.passo .item-dentro > ul.como { margin: 0.5rem 0 0; padding-left: 1.3rem; }
+.passo .item-dentro > ul.como > li { margin: 0.35rem 0; }
+.passo .item-dentro > ul.como > li::marker { color: var(--mom-codigo); }
+
+.passo .item-dentro > p.para-que { margin: 0 0 0.9rem; }
+.passo .item-dentro > p.agora {
+  margin: 0.9rem 0 0;
+  padding-left: 0.8rem;
+  border-left: 3px solid var(--mom-codigo);
+  color: var(--muted);
+}
+.agora::before {
+  content: "Até aqui";
+  margin-right: 0.5rem;
+  font-size: var(--t-rotulo);
+  letter-spacing: var(--esp-rotulo);
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--mom-codigo);
+}
+
+.oculto { display: none; }
+
+.revelado { animation: surgir 0.32s ease-out both; }
+
+@keyframes surgir {
+  from { opacity: 0; transform: translateY(0.5rem); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .revelado { animation: none; }
+}
+
+details.programa,
+details.resposta {
+  border-top: 1px solid var(--rule);
+  padding-top: 0.9rem;
+  margin: 1.4rem 0;
+}
+
+details > summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+}
+details > summary::-webkit-details-marker { display: none; }
+
+details > summary::before {
+  content: "";
+  flex: none;
+  width: 0.4em;
+  height: 0.4em;
+  margin-left: 0.1em;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform 0.2s ease;
+}
+details[open] > summary::before { transform: rotate(45deg); }
+
+details.programa > summary,
+details.resposta > summary {
+  cursor: pointer;
+  font-family: var(--serif);
+  font-size: var(--t-rotulo);
+  font-weight: 600;
+  letter-spacing: var(--esp-rotulo);
+  text-transform: uppercase;
+  color: var(--mom-codigo);
+  padding: 0.2rem 0;
+}
+
+details.programa[open] > summary,
+details.resposta[open] > summary { color: var(--muted); margin-bottom: 0.8rem; }
+
+details.resposta p { margin: 0 0 0.6rem; }
+
+div.resposta {
+  margin: 1.2rem 0 2rem;
+  padding: 1rem 1.25rem;
+  border: 2px solid var(--mom-resultado);
+  border-radius: var(--raio);
+  background: color-mix(in srgb, var(--mom-resultado) 8%, var(--code-bg));
+}
+div.resposta::before {
+  content: "A resposta";
+  display: block;
+  margin-bottom: 0.45rem;
+  font-family: var(--serif);
+  font-size: var(--t-rotulo);
+  font-weight: 600;
+  letter-spacing: var(--esp-rotulo);
+  text-transform: uppercase;
+  color: var(--mom-resultado);
+}
+div.resposta > :last-child { margin-bottom: 0; }
+
+pre.com-copia { position: relative; padding-top: 2.6rem; }
+
+pre > button.copiar, pre > button.para-editor { width: 1.75rem; height: 1.75rem; padding: 0; justify-content: center; font-size: 0.85rem; }
+
+.copiar {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  font-family: var(--serif);
+  font-size: var(--t-rotulo);
+  letter-spacing: var(--esp-rotulo);
+  padding: 0.2rem 0.5rem;
+  color: var(--muted);
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: var(--raio-p);
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+pre.com-copia:hover .copiar { opacity: 1; }
+.copiar:hover { color: var(--fg); border-color: var(--accent); }
+.copiar.copiado { color: var(--ok); border-color: var(--ok); opacity: 1; }
+
+.para-editor {
+  position: absolute;
+  top: 0.4rem;
+  right: calc(0.4rem + 1.75rem + 0.3rem);
+  font-family: var(--serif);
+  font-size: var(--t-rotulo);
+  letter-spacing: var(--esp-rotulo);
+  padding: 0.2rem 0.5rem;
+  color: var(--mom-codigo);
+  background: var(--bg);
+  border: 1px solid color-mix(in srgb, var(--mom-codigo) 50%, var(--rule));
+  border-radius: var(--raio-p);
+  cursor: pointer;
+  opacity: 0.8;
+}
+pre.com-copia:hover .para-editor { opacity: 1; }
+.para-editor:hover { color: var(--bg); background: var(--mom-codigo); }
+.para-editor.enviado { color: var(--ok); border-color: var(--ok); background: var(--bg); opacity: 1; }
+
+.tema {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 10;
+  font-family: var(--serif);
+  font-size: var(--t-rotulo);
+  font-weight: 600;
+  letter-spacing: var(--esp-rotulo);
+  text-transform: uppercase;
+  padding: 0.35rem 0.7rem;
+  background: var(--bg);
+  color: var(--muted);
+  border: 1px solid var(--rule);
+  border-radius: var(--raio);
+  cursor: pointer;
+  opacity: 0.65;
+}
+
+.tema:hover { opacity: 1; color: var(--fg); }
+
+@media (max-width: 40rem) {
+  .tema { top: 0.5rem; left: 0.5rem; }
+}
+
+.ic {
+  display: inline-block;
+  position: relative;
+  flex: none;
+  width: 0.8em;
+  height: 0.8em;
+}
+.ic-play {
+  width: 0.62em;
+  height: 0.72em;
+  background: currentColor;
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+.ic-x::before,
+.ic-x::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.9em;
+  height: 2px;
+  margin: -1px 0 0 -0.45em;
+  border-radius: 1px;
+  background: currentColor;
+}
+.ic-x::before { transform: rotate(45deg); }
+.ic-x::after  { transform: rotate(-45deg); }
+.ic-seta { width: 0.95em; }
+.ic-seta::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 1px;
+  top: 50%;
+  height: 2px;
+  margin-top: -1px;
+  border-radius: 1px;
+  background: currentColor;
+}
+.ic-seta::after {
+  content: "";
+  position: absolute;
+  right: 1px;
+  top: 50%;
+  width: 0.38em;
+  height: 0.38em;
+  border-top: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.ic-lixo {
+  width: 1.05em;
+  height: 1.05em;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 6.5h17'/%3E%3Cpath d='M9 6.5V4.8A1.8 1.8 0 0 1 10.8 3h2.4A1.8 1.8 0 0 1 15 4.8v1.7'/%3E%3Cpath d='M18.5 6.5l-.9 12.6A2 2 0 0 1 15.6 21H8.4a2 2 0 0 1-2-1.9L5.5 6.5'/%3E%3Cpath d='M10 10.5v6M14 10.5v6'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 6.5h17'/%3E%3Cpath d='M9 6.5V4.8A1.8 1.8 0 0 1 10.8 3h2.4A1.8 1.8 0 0 1 15 4.8v1.7'/%3E%3Cpath d='M18.5 6.5l-.9 12.6A2 2 0 0 1 15.6 21H8.4a2 2 0 0 1-2-1.9L5.5 6.5'/%3E%3Cpath d='M10 10.5v6M14 10.5v6'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.ic-copiar, .ic-enviar { width: 1.05em; height: 1.05em; background: currentColor; }
+.ic-copiar { -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='8.5' y='8.5' width='12' height='12' rx='2.2'/%3E%3Cpath d='M15.5 8.5V5.7A2.2 2.2 0 0 0 13.3 3.5H5.7A2.2 2.2 0 0 0 3.5 5.7v7.6a2.2 2.2 0 0 0 2.2 2.2h2.8'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='8.5' y='8.5' width='12' height='12' rx='2.2'/%3E%3Cpath d='M15.5 8.5V5.7A2.2 2.2 0 0 0 13.3 3.5H5.7A2.2 2.2 0 0 0 3.5 5.7v7.6a2.2 2.2 0 0 0 2.2 2.2h2.8'/%3E%3C/svg%3E") center / contain no-repeat; }
+.ic-enviar { -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 12h13'/%3E%3Cpath d='M11.5 6l6 6-6 6'/%3E%3Cpath d='M20.5 4.5v15'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 12h13'/%3E%3Cpath d='M11.5 6l6 6-6 6'/%3E%3Cpath d='M20.5 4.5v15'/%3E%3C/svg%3E") center / contain no-repeat; }
+.ic-check::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  width: 0.3em;
+  height: 0.58em;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.ic-tema {
+  width: 0.85em;
+  height: 0.85em;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  background: linear-gradient(90deg, currentColor 50%, transparent 50%);
+}
+
+.editor-topo button,
+.editor-limpar-saida,
+.para-editor,
+.copiar,
+.tema {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  line-height: 1;
+}
+
+button {
+  font-family: var(--serif);
+  font-size: var(--t-apoio);
+  padding: 0.4rem 0.9rem;
+  background: var(--bg);
+  color: var(--fg);
+  border: 1px solid var(--rule);
+  border-radius: var(--raio);
+  cursor: pointer;
+}
+button:hover { border-color: var(--muted); }
+button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.moldura {
+  border: 1px solid var(--rule);
+  border-radius: var(--raio);
+  padding: 1.2rem;
+  margin: 2rem 0;
+}
+
+canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
+
+.controles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 0.6rem 1.2rem;
+  margin-top: 1rem;
+  font-size: var(--t-apoio);
+}
+.controle label { display: flex; justify-content: space-between; gap: 0.5rem; }
+.controle .valor { color: var(--muted); font-variant-numeric: tabular-nums; }
+.controle input[type="range"] { width: 100%; accent-color: var(--mom-resultado); }
+
+.legenda {
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  font-size: var(--t-apoio);
+  margin-top: 0.6rem;
+}
+.legenda span { display: inline-flex; align-items: center; gap: 0.5em; }
+
+.legenda span::before {
+  content: "";
+  flex: none;
+  width: 1.7em;
+  height: 2px;
+  background: currentColor;
+}
+.legenda .l-2::before { background: repeating-linear-gradient(90deg, currentColor 0 7px, transparent 7px 11px); }
+.legenda .l-3::before { background: repeating-linear-gradient(90deg, currentColor 0 2px, transparent 2px 5px); }
+.legenda .l-4::before { background: repeating-linear-gradient(90deg, currentColor 0 9px, transparent 9px 12px, currentColor 12px 14px, transparent 14px 17px); }
+.legenda span.l-pontos::before { width: 0.6em; height: 0.6em; border-radius: 50%; background: currentColor; }
+.legenda small { color: var(--muted); font-size: 0.9em; }
+.legenda .l-1 { color: var(--serie-1); }
+.legenda .l-2 { color: var(--serie-2); }
+.legenda .l-3 { color: var(--serie-3); }
+.legenda .l-4 { color: var(--serie-4); }
+
+.leitura { font-size: var(--t-apoio); color: var(--muted); margin: 0.6rem 0 0; }
+.leitura:empty { display: none; }
+
+.tecnica {
+  margin: 2.2rem 0 1rem;
+  padding: 1rem 1.25rem;
+  border: 2px solid var(--mom-modelo);
+  border-radius: var(--raio);
+  background: color-mix(in srgb, var(--mom-modelo) 8%, var(--code-bg));
+}
+.tecnica::before {
+  content: "A técnica";
+  display: block;
+  margin-bottom: 0.3rem;
+  font-family: var(--serif);
+  font-size: var(--t-rotulo);
+  font-weight: 600;
+  letter-spacing: var(--esp-rotulo);
+  text-transform: uppercase;
+  color: var(--mom-modelo);
+}
+.tecnica .tecnica-nome {
+  font-size: var(--t-h3);
+  font-weight: 600;
+  color: var(--mom-modelo);
+  margin: 0 0 0.5rem;
+}
+.tecnica > :last-child { margin-bottom: 0; }
+
+.enunciado {
+  margin: 0 0 1.6rem;
+  padding: 1rem 1.25rem;
+  border-left: 4px solid var(--muted);
+  border-radius: 0 var(--raio) var(--raio) 0;
+  background: var(--code-bg);
+}
+.enunciado::before {
+  content: "O exercício";
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: var(--t-rotulo);
+  font-weight: 600;
+  letter-spacing: var(--esp-rotulo);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.enunciado > p { margin: 0 0 0.6rem; }
+.enunciado > ul { margin: 0; padding-left: 1.3rem; }
+.enunciado > ul > li { margin: 0.25rem 0; }
+.enunciado > :last-child { margin-bottom: 0; }
+
+.no-seu-codigo {
+  background: var(--code-bg);
+  border-radius: var(--raio);
+  padding: 0.9rem 1.1rem;
+  margin: 1.2rem 0;
+  font-size: var(--t-texto);
+}
+.no-seu-codigo::before {
+  display: block;
+  font-family: var(--serif);
+  font-size: var(--t-rotulo);
+  font-weight: 600;
+  letter-spacing: var(--esp-rotulo);
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+  color: var(--muted);
+}
+.no-seu-codigo::before { content: "No seu código"; color: var(--mom-resultado); }
+.no-seu-codigo > :last-child { margin-bottom: 0; }
+
+li .no-seu-codigo { display: block; margin: 0.4rem 0 0; padding: 0.4rem 0.8rem; font-size: var(--t-apoio); }
+li .no-seu-codigo::before { display: inline; margin-right: 0.5rem; }
+
+:root {
+  --folha-w: 42rem;        
+  --folha-pad: 3rem;       
+  --sumario-w: 13.5rem;
+  --sumario-gap: 1.6rem;
+}
+
+html { background: var(--fundo); height: 100%; overflow: hidden; }
+
+* { scrollbar-width: thin; scrollbar-color: transparent transparent; }
+*:hover { scrollbar-color: color-mix(in srgb, var(--muted) 55%, transparent) transparent; }
+
+body:has(.editor-painel:hover, .sumario:hover, .editor-abrir:hover) { scrollbar-color: transparent transparent; }
+
+body {
+  position: relative;
+  box-sizing: border-box;
+  height: calc(100vh - 2 * var(--editor-vao));
+  overflow-y: auto;
+  max-width: calc(var(--folha-w) + 2 * var(--folha-pad));
+  margin: var(--editor-vao) auto;
+  padding: calc(3.4rem - 14px) var(--folha-pad) calc(4.5rem - 14px);
+  
+  border-top: 14px solid transparent;
+  border-bottom: 14px solid transparent;
+  line-height: 1.65;
+  border-radius: 16px;
+  box-shadow: 0 0 0 1px var(--borda-folha), 0 12px 40px var(--sombra-folha);
+}
+
+body:not(.com-editor) { max-width: min(calc(var(--folha-w) + 2 * var(--folha-pad)), calc(100vw - 2 * 2.8rem)); }
+
+body.com-editor { max-width: none; margin-left: var(--editor-vao); }
+
+@media (min-width: 1240px) {
+  body:not(.com-editor).com-sumario {
+    margin-left: calc((100vw - var(--folha-w) - 2 * var(--folha-pad) - var(--sumario-w) - var(--sumario-gap)) / 2
+                      + var(--sumario-w) + var(--sumario-gap));
+  }
+}
+
+.sumario {
+  position: fixed;
+  top: 5rem;
+  left: calc((100vw - var(--folha-w) - 2 * var(--folha-pad) - var(--sumario-w) - var(--sumario-gap)) / 2);
+  width: var(--sumario-w);
+  max-height: calc(100vh - 7rem);
+  overflow-y: auto;
+  display: none;
+  font-size: var(--t-apoio);
+  line-height: 1.35;
+}
+@media (min-width: 1240px) {
+  body:not(.com-editor) .sumario { display: block; }
+}
+
+.sumario-secao {
+  --cor-sec: var(--muted);
+  display: block;
+  margin: 0 0 0.25rem;
+  padding: 0.35rem 0.6rem;
+  border-left: 3px solid color-mix(in srgb, var(--cor-sec) 35%, transparent);
+  border-radius: 0 var(--raio-p) var(--raio-p) 0;
+  color: var(--cor-sec);
+  font-size: var(--t-texto);
+  cursor: pointer;
+}
+.sumario-secao.s-modelo    { --cor-sec: var(--mom-modelo); }
+.sumario-secao.s-codigo    { --cor-sec: var(--mom-codigo); }
+.sumario-secao.s-resultado { --cor-sec: var(--mom-resultado); }
+.sumario-grupo { margin: 0 0 1.1rem; }
+
+.sumario-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.22rem 0.6rem 0.22rem 0.9rem;
+  border-radius: var(--raio-p);
+  color: var(--muted);
+  cursor: pointer;
+}
+.sumario-item > span:first-child { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sumario-secao:hover,
+.sumario-item:hover { background: color-mix(in srgb, var(--fg) 6%, transparent); }
+.sumario-secao.ativo { border-left-color: var(--cor-sec); background: color-mix(in srgb, var(--cor-sec) 12%, transparent); }
+.sumario-item.ativo { color: var(--fg); }
+
+.sumario-pontos { display: inline-flex; gap: 3px; flex: none; }
+.sumario-pontos i {
+  width: 0.38rem;
+  height: 0.38rem;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--cor-sec) 70%, transparent);
+}
+.sumario-pontos i.lido { background: var(--cor-sec); box-shadow: none; }
+
+.tema { position: absolute; top: 1rem; right: 1.2rem; left: auto; z-index: 12; }
+@media (min-width: 1240px) {
+  body.com-sumario:not(.com-editor) .tema {
+    position: fixed;
+    right: auto;
+    top: 1.6rem;
+    left: calc((100vw - var(--folha-w) - 2 * var(--folha-pad) - var(--sumario-w) - var(--sumario-gap)) / 2 + 0.6rem);
+  }
+}
+
+:root { --faixa-h: 2.3rem; --faixa-gap: 0.55rem; }
+
+.recolhido > .item-cabeca,
+.passo.recolhido > h3,
+ol.observacoes > li.recolhido > h3,
+ol.modelo-linha > li.recolhido > h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: var(--faixa-h);
+  margin: 0;
+  padding: 0.25rem 2.2rem 0.25rem 0.85rem;
+  position: relative;
+  box-sizing: border-box;
+  background: color-mix(in srgb, var(--cor-linha) 7%, var(--bg));
+  border: 1px solid color-mix(in srgb, var(--cor-linha) 22%, transparent);
+  border-radius: var(--raio);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.passo.recolhido > h3,
+ol.observacoes > li.recolhido > h3,
+ol.modelo-linha > li.recolhido > h3 { display: block; padding-top: 0.45rem; padding-bottom: 0.45rem; line-height: 1.4; }
+.recolhido:hover > .item-cabeca,
+.passo.recolhido:hover > h3,
+ol.observacoes > li.recolhido:hover > h3,
+ol.modelo-linha > li.recolhido:hover > h3 {
+  border-color: color-mix(in srgb, var(--cor-linha) 60%, transparent);
+  background: color-mix(in srgb, var(--cor-linha) 12%, var(--bg));
+}
+
+.recolhido > .item-cabeca::after,
+.passo.recolhido > h3::after,
+ol.observacoes > li.recolhido > h3::after,
+ol.modelo-linha > li.recolhido > h3::after {
+  content: "";
+  position: absolute;
+  right: 0.95rem;
+  top: 50%;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-right: 2px solid color-mix(in srgb, var(--cor-linha) 70%, transparent);
+  border-bottom: 2px solid color-mix(in srgb, var(--cor-linha) 70%, transparent);
+  transform: translateY(-60%) rotate(-45deg);
+}
+
+.passo.recolhido::before,
+ol.deducao > li.recolhido::before,
+ol.observacoes > li.recolhido::before { top: calc((var(--faixa-h) - 1.75rem) / 2); }
+.passo.recolhido,
+ol.deducao > li.recolhido,
+ol.observacoes > li.recolhido { margin-bottom: var(--faixa-gap); min-height: var(--faixa-h); }
+
+.passo.recolhido::after { top: calc(var(--faixa-h) / 2); bottom: calc(-1 * var(--faixa-gap) - var(--faixa-h) / 2); }
+.passo.recolhido.sem-fio::after { display: none; }
+
+@media (max-width: 760px) {
+  html { height: auto; overflow: visible; }
+  body, body:not(.com-editor) { height: auto; overflow: visible; margin: 0 auto; padding: 3.2rem 1.1rem 4rem; border-radius: 0; box-shadow: none; }
+}
+
+ol.modelo-linha > li.grupo,
+ol.modelo-linha > li.solto { counter-increment: none; cursor: default; }
+ol.modelo-linha > li.grupo { display: none; }
+ol.modelo-linha > li.solto::before { display: none; }
+ol.modelo-linha > li.extra > h3 { font-size: var(--t-h3); }
+ol.modelo-linha > li.extra:not(.recolhido) > h3 { margin: 0.1rem 0 0.5rem; }
+ol.modelo-linha > li.extra:not(.recolhido)::before { top: 0; }
+ol.modelo-linha > li.extra .item-dentro > table,
+ol.modelo-linha > li.extra .item-dentro > .tecnica,
+ol.modelo-linha > li.extra .item-dentro > .eq-bloco { margin: 0.3rem 0 0.5rem; }
+
+ol.modelo-linha .tecnica .tecnica-nome { display: none; }
+ol.modelo-linha .tecnica::before { content: none; }
+
+:root { --editor-w: min(50vw, 52rem); --editor-vao: 0.8rem; }
+
+body { transition: margin 0.3s ease; }
+body.com-editor { margin-right: calc(var(--editor-w) + 2 * var(--editor-vao)); }
+
+body.com-editor { padding-left: clamp(1.1rem, 3vw, var(--folha-pad)); padding-right: clamp(1.1rem, 3vw, var(--folha-pad)); }
+
+.editor-abrir {
+  
+  position: fixed;
+  top: 50%;
+  right: 0.6rem;
+  z-index: 15;
+  display: inline-flex;
+  align-items: center;
+  height: 2rem;
+  padding: 0 0.25rem 0 0.25rem;
+  transform: translateY(-50%);
+  font-family: var(--serif);
+  font-size: var(--t-rotulo);
+  letter-spacing: var(--esp-rotulo);
+  white-space: nowrap;
+  color: var(--bg);
+  background: var(--mom-codigo);
+  border: none;
+  border-radius: 999px;
+  box-shadow: 0 0 0 3px var(--bg), 0 3px 12px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: padding 0.22s ease;
+}
+
+.editor-abrir-texto {
+  display: inline-block;
+  line-height: 1;
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-width 0.25s ease, opacity 0.15s ease, margin 0.25s ease;
+}
+.editor-abrir-seta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.editor-abrir-seta::before {
+  content: "";
+  width: 0.42rem;
+  height: 0.42rem;
+  border-left: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  
+  transform: scaleX(1) translateX(0.08rem) rotate(45deg);
+  transition: transform 0.22s ease;
+}
+.editor-abrir:hover,
+.editor-abrir:focus-visible { padding: 0 0.3rem 0 0.95rem; outline: none; }
+.editor-abrir:hover .editor-abrir-texto,
+.editor-abrir:focus-visible .editor-abrir-texto { max-width: 12rem; opacity: 1; margin-right: 0.3rem; }
+.editor-abrir:hover .editor-abrir-seta::before,
+.editor-abrir:focus-visible .editor-abrir-seta::before { transform: scaleX(-1) translateX(0.08rem) rotate(45deg); }   
+body.com-editor .editor-abrir { display: none; }
+
+.editor-painel {
+  
+  position: fixed;
+  top: var(--editor-vao);
+  right: var(--editor-vao);
+  bottom: var(--editor-vao);
+  width: var(--editor-w);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  
+  background: transparent;
+  filter: drop-shadow(0 0 1px var(--borda-folha)) drop-shadow(0 10px 18px var(--sombra-folha));
+  transform: translateX(calc(100% + 2 * var(--editor-vao)));
+  transition: transform 0.3s ease;
+}
+body.com-editor .editor-painel { transform: none; }
+
+.editor-topo {
+  background: var(--code-bg);
+  border-radius: 16px 16px 0 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid var(--rule);
+}
+.editor-titulo {
+  font-family: var(--serif);
+  font-size: var(--t-rotulo);
+  font-weight: 600;
+  letter-spacing: var(--esp-rotulo);
+  text-transform: uppercase;
+  color: var(--mom-codigo);
+  margin-right: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.editor-topo button { font-family: var(--serif); font-size: var(--t-rotulo); padding: 0.3rem 0.8rem; }
+
+button.editor-icone {
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+
+.editor-rodar { color: var(--mom-resultado); }
+.editor-rodar:hover:not(:disabled) { color: var(--mom-resultado); background: color-mix(in srgb, var(--mom-resultado) 22%, var(--bg)); border-color: color-mix(in srgb, var(--mom-resultado) 45%, var(--bg)); }
+.editor-rodar:disabled { opacity: 0.5; cursor: wait; }
+.editor-limpar:hover { color: var(--aviso); background: color-mix(in srgb, var(--aviso) 22%, var(--bg)); border-color: color-mix(in srgb, var(--aviso) 45%, var(--bg)); }
+
+.editor-fechar:hover { color: var(--err); background: color-mix(in srgb, var(--err) 22%, var(--bg)); border-color: color-mix(in srgb, var(--err) 45%, var(--bg)); }
+
+.editor-codigo { flex: 1 1 55%; display: flex; min-height: 0; background: var(--code-bg); border-radius: 0 0 16px 16px; overflow: hidden; }
+.editor-linhas,
+.editor-realce,
+.editor-texto {
+  font-family: var(--mono);
+  font-size: var(--t-codigo);
+  line-height: 1.55;
+  tab-size: 4;
+}
+.editor-linhas {
+  flex: none;
+  padding: 0.9rem 0.6rem 0.9rem 0.9rem;
+  color: var(--muted);
+  opacity: 0.6;
+  text-align: right;
+  white-space: pre;
+  overflow: hidden;
+  user-select: none;
+}
+.editor-campo { position: relative; flex: 1; min-width: 0; }
+.editor-realce,
+.editor-texto {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0.9rem 1rem 0.9rem 0.4rem;
+  border: 0;
+  border-radius: 0;
+  white-space: pre;
+  overflow: auto;
+}
+.editor-realce { background: none; overflow: hidden; pointer-events: none; }
+.editor-realce code { font: inherit; background: none; padding: 0; }
+.editor-texto {
+  color: transparent;
+  caret-color: var(--fg);
+  background: transparent;
+  resize: none;
+  outline: none;
+}
+.editor-texto::placeholder { color: var(--muted); opacity: 0.8; white-space: pre-wrap; }
+
+.editor-codigo.recebeu { animation: recebeu 0.7s ease-out; }
+@keyframes recebeu {
+  from { background: color-mix(in srgb, var(--mom-codigo) 22%, transparent); }
+  to   { background: transparent; }
+}
+.editor-texto::selection { background: color-mix(in srgb, var(--mom-codigo) 30%, transparent); }
+
+.editor-divisor-v {
+  
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(-1 * var(--editor-vao));
+  width: var(--editor-vao);
+  z-index: 2;
+  cursor: col-resize;
+  touch-action: none;
+}
+
+.editor-divisor-v::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 2.2rem;
+  margin: -1.1rem 0 0 -2px;
+  border-radius: 999px;
+  background: var(--muted);
+  opacity: 0.35;
+  transition: opacity 0.15s ease, background 0.15s ease;
+}
+.editor-divisor-v:hover::after,
+.editor-divisor-v:focus-visible::after,
+.editor-divisor-v.arrastando::after { opacity: 1; background: color-mix(in srgb, var(--muted) 55%, transparent); }
+.editor-divisor-v:focus-visible { outline: none; }
+
+body.redimensionando,
+body.redimensionando .editor-painel { transition: none; }
+body.redimensionando { user-select: none; }
+
+.editor-divisor {
+  
+  flex: none;
+  height: max(12px, var(--editor-vao));
+  cursor: row-resize;
+  touch-action: none;
+  position: relative;
+}
+.editor-divisor::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2.2rem;
+  height: 4px;
+  margin: -2.5px 0 0 -1.1rem;
+  border-radius: 999px;
+  background: var(--muted);
+  opacity: 0.35;
+  transition: opacity 0.15s ease, background 0.15s ease;
+}
+.editor-divisor:focus-visible { outline: none; }
+.editor-divisor:hover::after,
+.editor-divisor:focus-visible::after,
+.editor-divisor.arrastando::after { opacity: 1; background: color-mix(in srgb, var(--muted) 55%, transparent); }
+
+.editor-saida {
+  flex: 1 1 45%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--code-bg);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.editor-saida-topo {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  padding: 0.5rem 0.9rem;
+  font-family: var(--serif);
+  font-size: var(--t-rotulo);
+  letter-spacing: var(--esp-rotulo);
+  border-bottom: 1px solid var(--rule);
+}
+.editor-saida-topo > span:first-child { text-transform: uppercase; font-weight: 600; color: var(--mom-resultado); }
+.editor-estado { color: var(--muted); }
+.editor-limpar-saida {
+  margin-left: auto;
+  flex: none;
+  font-family: var(--serif);
+  font-size: var(--t-rotulo);
+  letter-spacing: var(--esp-rotulo);
+  padding: 0.2rem 0.65rem;
+}
+.editor-limpar-saida:hover { color: var(--aviso); background: color-mix(in srgb, var(--aviso) 22%, var(--bg)); border-color: color-mix(in srgb, var(--aviso) 45%, var(--bg)); }
+.editor-resultado { flex: 1; overflow: auto; padding: 0.6rem 0.9rem; }
+.editor-resultado pre {
+  margin: 0 0 0.6rem;
+  padding: 0;
+  background: none;
+  font-size: var(--t-codigo);
+  white-space: pre-wrap;
+}
+.saida-erro { color: var(--err); }
+.saida-vazia { color: var(--muted); }
+.saida-figura { display: block; max-width: 100%; max-height: calc(100% - 1rem); width: auto; height: auto; object-fit: contain; margin: 0.4rem auto 0.8rem; border-radius: var(--raio-p); background: #fff; }
+
+@media (max-width: 760px) {
+  :root { --editor-w: 100vw !important; --editor-vao: 0px; }
+  .editor-painel { border-radius: 0; }
+  .editor-divisor-v { display: none; }
+  body.com-editor { margin-right: 0; }
+}
+
+@media print {
+  .sumario { display: none !important; }
+  html { background: #fff; }
+  html { height: auto; overflow: visible; }
+  body { box-shadow: none !important; margin: 0 auto !important; height: auto !important; overflow: visible !important; }
+  :root {
+    --bg: #fff; --fg: #000; --muted: #444;
+    --rule: #bbb; --code-bg: #f3f3f3; --accent: #000;
+  }
+  html { font-size: 11pt; }
+  body { max-width: none; padding: 0; }
+  .lateral { float: none; width: auto; margin: 0.8rem 0; padding-left: 0.8rem; border-left: 1px solid var(--rule); }
+  button, .controles { display: none; }
+  .moldura, .passo, pre, table, figure, ol.deducao > li, ol.observacoes > li { break-inside: avoid; }
+  .tema, .copiar, .para-editor, .editor-abrir, .editor-painel { display: none; }
+  body.com-editor { margin: 0; }
+  
+  .oculto { display: revert; }
+  .item-corpo, .secao-corpo { grid-template-rows: 1fr !important; opacity: 1 !important; }
+  .item-cabeca { display: none !important; }
+  ol.deducao .porque > .tipo { display: inline !important; }
+  .secao-titulo::after { display: none; }
+  mrow.chave-sob, mrow.chave-sobre { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  h1, h2, h3 { break-after: avoid; }
+  a::after { content: " (" attr(href) ")"; font-size: 0.75em; color: var(--muted); word-break: break-all; }
+  a[href^="#"]::after { content: ""; }
+}
+
+</style>
+</head>
+<body>
+
+<header class="licao">
+  <span class="etiqueta">Reatores · otimização em uma variável</span>
+  <h1>A temperatura ótima de um CSTR</h1>
+</header>
+
+<div class="enunciado">
+  <p>A reação reversível e exotérmica A ⇌ B, de primeira ordem nos dois sentidos, é conduzida em fase líquida num CSTR com tempo de residência <span class="param">τ</span> = 10 min, alimentado só com A. A 350 K, a constante de velocidade direta vale <span class="param">k<sub>1</sub></span> = 0,050 min⁻¹ e a constante de equilíbrio vale <span class="param">K</span> = 20. A energia de ativação da reação direta é <span class="param">E<sub>1</sub></span> = 60 kJ/mol, e o calor de reação é <span class="param">ΔH<sub>r</sub></span> = −80 kJ/mol, ambos constantes.</p>
+  <ul>
+    <li>Em que temperatura o reator deve operar para a <span class="var-1">conversão no CSTR</span> ser máxima, e qual é essa conversão?</li>
+    <li>Como muda a temperatura ótima se o tempo de residência dobrar, para 20 min?</li>
+  </ul>
+</div>
+
+<p>Esquentar o reator acelera a reação, mas, como ela é exotérmica, também empurra o equilíbrio de volta para A. Abaixo de certa temperatura manda a velocidade; acima dela manda o equilíbrio; no meio fica o máximo da conversão. No fim, você terá um programa que escreve a conversão como função da temperatura e pede ao Python que encontre o ponto mais alto dessa curva.</p>
+
+<h2>O modelo</h2>
+
+<h3 class="balanco balanco-massa">Balanço de massa do componente A, em mols</h3>
+
+<ol class="deducao">
+  <li>
+    <div class="equacao">
+      <math display="block"><mtext>acúmulo de A</mtext><mo>=</mo><mtext>entrada</mtext><mo>−</mo><mtext>saída</mtext><mo>−</mo><mtext>consumo líquido</mtext></math>
+    </div>
+    <p class="porque"><span class="tipo tipo-principio">princípio</span>A quantidade de A no reator só muda pelo que entra, pelo que sai e pelo que reage. O volume de controle é o líquido dentro do reator. "Consumo líquido" é o que a reação direta consome menos o que a reação inversa devolve.</p>
+  </li>
+  <li>
+    <div class="equacao">
+      <math display="block">
+        <munder><mrow class="chave-sob"><mfrac><mrow><mi>d</mi><mo>(</mo><mi class="param">V</mi><mo>⋅</mo><msub class="param"><mi>C</mi><mi>A</mi></msub><mo>)</mo></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac></mrow><mtext class="chave">acúmulo</mtext></munder>
+        <mo>=</mo>
+        <munder><mrow class="chave-sob"><mi class="param">F</mi><mo>⋅</mo><msub class="param"><mi>C</mi><mrow><mi>A</mi><mn>0</mn></mrow></msub></mrow><mtext class="chave">entrada</mtext></munder>
+        <mo>−</mo>
+        <munder><mrow class="chave-sob"><mi class="param">F</mi><mo>⋅</mo><msub class="param"><mi>C</mi><mi>A</mi></msub></mrow><mtext class="chave">saída</mtext></munder>
+        <mo>−</mo>
+        <munder><mrow class="chave-sob"><mi>r</mi><mo>⋅</mo><mi class="param">V</mi></mrow><mtext class="chave">consumo líquido</mtext></munder>
+      </math>
+    </div>
+    <ul class="termos">
+      <li><code class="param">V</code> — volume de líquido dentro do reator, L</li>
+      <li><code class="param">C<sub>A</sub></code> — concentração de A dentro do reator, que é também a da corrente de saída, mol/L</li>
+      <li><code class="param">C<sub>A0</sub></code> — concentração de A na alimentação, mol/L</li>
+      <li><code class="param">F</code> — vazão volumétrica que entra e sai do reator, L/min</li>
+      <li><code>r</code> — velocidade líquida da reação, em mols de A convertidos por litro e por minuto, mol/(L·min)</li>
+    </ul>
+    <p class="porque"><span class="tipo tipo-traducao">tradução</span>Cada palavra vira uma vazão molar de A, em mol/min.</p>
+  </li>
+  <li>
+    <div class="equacao">
+      <math display="block"><mi>r</mi><mo>=</mo><msub class="param"><mi>k</mi><mn>1</mn></msub><mo>⋅</mo><msub class="param"><mi>C</mi><mi>A</mi></msub><mo>−</mo><msub class="param"><mi>k</mi><mn>2</mn></msub><mo>⋅</mo><msub class="param"><mi>C</mi><mi>B</mi></msub></math>
+    </div>
+    <ul class="termos">
+      <li><code class="param">k<sub>1</sub></code> — constante de velocidade da reação direta, A → B, 1/min</li>
+      <li><code class="param">k<sub>2</sub></code> — constante de velocidade da reação inversa, B → A, 1/min</li>
+      <li><code class="param">C<sub>B</sub></code> — concentração de B dentro do reator, mol/L</li>
+    </ul>
+    <p class="porque"><span class="tipo tipo-cinetica">cinética</span>Primeira ordem nos dois sentidos, como diz o enunciado: a direta consome A, a inversa o devolve.</p>
+  </li>
+  <li>
+    <div class="equacao">
+      <math display="block"><mfrac><mrow><mi>d</mi><mo>(</mo><mi class="param">V</mi><mo>⋅</mo><msub class="param"><mi>C</mi><mi>A</mi></msub><mo>)</mo></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mn>0</mn></math>
+    </div>
+    <p class="porque"><span class="tipo tipo-hipotese">hipótese</span>O reator está em estado estacionário: nada muda com o tempo. Se não estivesse (na partida, por exemplo), o balanço continuaria uma equação diferencial, e a conversão dependeria do instante.</p>
+  </li>
+  <li>
+    <div class="equacao">
+      <math display="block"><mi class="param">τ</mi><mo>=</mo><mfrac><mi class="param">V</mi><mi class="param">F</mi></mfrac></math>
+    </div>
+    <ul class="termos">
+      <li><code class="param">τ</code> — tempo de residência, o tempo médio que o líquido passa dentro do reator, min</li>
+    </ul>
+    <p class="porque"><span class="tipo tipo-hipotese">hipótese</span><span class="tipo tipo-definicao">definição</span>Em fase líquida, a densidade não muda com a reação, e a vazão que sai é a que entra. Se a densidade mudasse (num gás, por exemplo), a vazão de saída seria outra, e ela precisaria entrar no balanço.</p>
+  </li>
+  <li>
+    <div class="equacao">
+      <math display="block"><msub class="param"><mi>C</mi><mi>A</mi></msub><mo>=</mo><msub class="param"><mi>C</mi><mrow><mi>A</mi><mn>0</mn></mrow></msub><mo>⋅</mo><mo>(</mo><mn>1</mn><mo>−</mo><mi class="var-1">X</mi><mo>)</mo><mspace width="2em"/><msub class="param"><mi>C</mi><mi>B</mi></msub><mo>=</mo><msub class="param"><mi>C</mi><mrow><mi>A</mi><mn>0</mn></mrow></msub><mo>⋅</mo><mi class="var-1">X</mi></math>
+    </div>
+    <ul class="termos">
+      <li><code class="var-1">X</code> — conversão no CSTR: fração do A alimentado que sai do reator como B, adimensional</li>
+    </ul>
+    <p class="porque"><span class="tipo tipo-definicao">definição</span>Cada mol de A que reage vira um mol de B, e a alimentação não traz B. Por isso, todo B que há no reator veio do A que sumiu.</p>
+  </li>
+  <li class="final">
+    <div class="equacao">
+      <math display="block">
+        <munder><mrow class="chave-sob"><mi class="var-1">X</mi></mrow><mtext class="chave">conversão no CSTR</mtext></munder>
+        <mo>=</mo>
+        <mfrac>
+          <munder><mrow class="chave-sob"><msub class="param"><mi>k</mi><mn>1</mn></msub><mo>⋅</mo><mi class="param">τ</mi></mrow><mtext class="chave">quanto A reage</mtext></munder>
+          <mrow><mn>1</mn><mo>+</mo><msub class="param"><mi>k</mi><mn>1</mn></msub><mo>⋅</mo><mi class="param">τ</mi><mo>+</mo><munder><mrow class="chave-sob"><msub class="param"><mi>k</mi><mn>2</mn></msub><mo>⋅</mo><mi class="param">τ</mi></mrow><mtext class="chave">quanto B volta</mtext></munder></mrow>
+        </mfrac>
+      </math>
+    </div>
+    <p class="porque"><span class="tipo tipo-algebra">álgebra</span>Com o acúmulo nulo, divida tudo por <span class="param">F</span> e por <span class="param">C<sub>A0</sub></span>, troque as concentrações pela conversão e isole <span class="var-1">X</span>.</p>
+    <p>A equação diz quanto do A alimentado sai como B, dado o tempo que o líquido passa no reator. O termo <span class="param">k<sub>1</sub></span>·<span class="param">τ</span> mede quanto A tem tempo de reagir; o termo <span class="param">k<sub>2</sub></span>·<span class="param">τ</span> mede quanto B tem tempo de voltar a ser A. A temperatura entra pelas duas constantes: ela não aparece explicitamente, mas mexe em <span class="param">k<sub>1</sub></span> e em <span class="param">k<sub>2</sub></span> em proporções diferentes, e é dessa diferença que nasce o máximo.</p>
+  </li>
+</ol>
+
+<div class="eq-bloco" data-titulo="Lei de Arrhenius da reação direta">
+  <div class="equacao">
+    <math display="block"><msub class="param"><mi>k</mi><mn>1</mn></msub><mo>(</mo><mi class="param">T</mi><mo>)</mo><mo>=</mo><msub class="param"><mi>k</mi><mrow><mn>1</mn><mo>,</mo><mtext>ref</mtext></mrow></msub><mo>⋅</mo><mi>exp</mi><mrow><mo>[</mo><mfrac><msub class="param"><mi>E</mi><mn>1</mn></msub><mi class="param">R</mi></mfrac><mo>(</mo><mfrac><mn>1</mn><msub class="param"><mi>T</mi><mtext>ref</mtext></msub></mfrac><mo>−</mo><mfrac><mn>1</mn><mi class="param">T</mi></mfrac><mo>)</mo><mo>]</mo></mrow></math>
+  </div>
+  <ul class="termos">
+    <li><code class="param">T</code> — temperatura do líquido no reator, K</li>
+    <li><code class="param">k<sub>1,ref</sub></code> — constante direta medida na temperatura de referência, 1/min</li>
+    <li><code class="param">T<sub>ref</sub></code> — temperatura de referência, em que o enunciado dá as constantes, K</li>
+    <li><code class="param">E<sub>1</sub></code> — energia de ativação da reação direta, J/mol</li>
+    <li><code class="param">R</code> — constante dos gases, 8,314 J/(mol·K)</li>
+  </ul>
+  <p>O enunciado dá <span class="param">k<sub>1</sub></span> a 350 K, e não o fator pré-exponencial; por isso a lei é escrita a partir dessa temperatura. Em <span class="param">T</span> = <span class="param">T<sub>ref</sub></span>, o colchete zera e <span class="param">k<sub>1</sub></span> = <span class="param">k<sub>1,ref</sub></span>.</p>
+</div>
+
+<div class="eq-bloco" data-titulo="Equação de van 't Hoff">
+  <div class="equacao">
+    <math display="block"><mi class="param">K</mi><mo>(</mo><mi class="param">T</mi><mo>)</mo><mo>=</mo><msub class="param"><mi>K</mi><mtext>ref</mtext></msub><mo>⋅</mo><mi>exp</mi><mrow><mo>[</mo><mfrac><mrow><mi class="param">Δ</mi><msub class="param"><mi>H</mi><mi>r</mi></msub></mrow><mi class="param">R</mi></mfrac><mo>(</mo><mfrac><mn>1</mn><msub class="param"><mi>T</mi><mtext>ref</mtext></msub></mfrac><mo>−</mo><mfrac><mn>1</mn><mi class="param">T</mi></mfrac><mo>)</mo><mo>]</mo></mrow></math>
+  </div>
+  <ul class="termos">
+    <li><code class="param">K</code> — constante de equilíbrio da reação, a razão <span class="param">C<sub>B</sub></span>/<span class="param">C<sub>A</sub></span> no equilíbrio, adimensional</li>
+    <li><code class="param">K<sub>ref</sub></code> — constante de equilíbrio na temperatura de referência, adimensional</li>
+    <li><code class="param">ΔH<sub>r</sub></code> — calor de reação por mol de A convertido, negativo porque a reação é exotérmica, J/mol</li>
+  </ul>
+  <p>Ela tem a mesma forma de Arrhenius, com o calor de reação no lugar da energia de ativação. Como <span class="param">ΔH<sub>r</sub></span> é negativo, <span class="param">K</span> diminui quando <span class="param">T</span> sobe: o calor favorece a volta de B para A.</p>
+</div>
+
+<div class="eq-bloco" data-titulo="Constante da reação inversa">
+  <div class="equacao">
+    <math display="block"><msub class="param"><mi>k</mi><mn>2</mn></msub><mo>=</mo><mfrac><msub class="param"><mi>k</mi><mn>1</mn></msub><mi class="param">K</mi></mfrac><mspace width="2em"/><msub class="param"><mi>E</mi><mn>2</mn></msub><mo>=</mo><msub class="param"><mi>E</mi><mn>1</mn></msub><mo>−</mo><mi class="param">Δ</mi><msub class="param"><mi>H</mi><mi>r</mi></msub></math>
+  </div>
+  <ul class="termos">
+    <li><code class="param">E<sub>2</sub></code> — energia de ativação da reação inversa, J/mol</li>
+  </ul>
+  <p>No equilíbrio a velocidade líquida <span>r</span> é zero, e então <span class="param">k<sub>1</sub></span>·<span class="param">C<sub>A</sub></span> = <span class="param">k<sub>2</sub></span>·<span class="param">C<sub>B</sub></span>, ou seja, <span class="param">K</span> = <span class="param">k<sub>1</sub></span>/<span class="param">k<sub>2</sub></span>. Dividindo Arrhenius por van 't Hoff, <span class="param">k<sub>2</sub></span> também segue Arrhenius, com <span class="param">E<sub>2</sub></span> = 60 − (−80) = 140 kJ/mol. A inversa é mais sensível à temperatura que a direta; esse número será usado na verificação do programa.</p>
+</div>
+
+<div class="eq-bloco" data-titulo="Conversão de equilíbrio">
+  <div class="equacao">
+    <math display="block"><msub class="var-2"><mi>X</mi><mi>e</mi></msub><mo>=</mo><mfrac><mi class="param">K</mi><mrow><mn>1</mn><mo>+</mo><mi class="param">K</mi></mrow></mfrac></math>
+  </div>
+  <ul class="termos">
+    <li><code class="var-2">X<sub>e</sub></code> — conversão de equilíbrio: a maior conversão possível naquela temperatura, com tempo infinito, adimensional</li>
+  </ul>
+  <p>É o limite da equação do modelo quando <span class="param">τ</span> cresce sem fim (divida em cima e embaixo por <span class="param">τ</span> e use <span class="param">k<sub>2</sub></span> = <span class="param">k<sub>1</sub></span>/<span class="param">K</span>). A <span class="var-1">conversão no CSTR</span> nunca passa da <span class="var-2">conversão de equilíbrio</span>; ela é o teto que cai à medida que a temperatura sobe.</p>
+</div>
+
+<table>
+<thead><tr><th>Parâmetro</th><th class="num">Valor</th><th>Unidade</th><th>Procedência</th></tr></thead>
+<tbody>
+<tr><td><code class="param">τ</code></td><td class="num">10 e 20</td><td class="un">min</td><td><span class="proc proc-enunciado">enunciado</span>o valor base e o dobro</td></tr>
+<tr><td><code class="param">T<sub>ref</sub></code></td><td class="num">350</td><td class="un">K</td><td><span class="proc proc-enunciado">enunciado</span></td></tr>
+<tr><td><code class="param">k<sub>1,ref</sub></code></td><td class="num">0,050</td><td class="un">1/min</td><td><span class="proc proc-enunciado">enunciado</span></td></tr>
+<tr><td><code class="param">K<sub>ref</sub></code></td><td class="num">20</td><td class="un">—</td><td><span class="proc proc-enunciado">enunciado</span></td></tr>
+<tr><td><code class="param">E<sub>1</sub></code></td><td class="num">60 000</td><td class="un">J/mol</td><td><span class="proc proc-enunciado">enunciado</span></td></tr>
+<tr><td><code class="param">ΔH<sub>r</sub></code></td><td class="num">−80 000</td><td class="un">J/mol</td><td><span class="proc proc-enunciado">enunciado</span></td></tr>
+<tr><td><code class="param">R</code></td><td class="num">8,314</td><td class="un">J/(mol·K)</td><td><span class="proc proc-constante">constante</span></td></tr>
+<tr><td><code class="param">E<sub>2</sub></code></td><td class="num">140 000</td><td class="un">J/mol</td><td><span class="proc proc-derivado">derivado</span>60 000 − (−80 000)</td></tr>
+<tr><td><code class="param">k<sub>2,ref</sub></code></td><td class="num">0,0025</td><td class="un">1/min</td><td><span class="proc proc-derivado">derivado</span>0,050/20</td></tr>
+<tr><td>faixa de busca</td><td class="num">300 a 450</td><td class="un">K</td><td><span class="proc proc-escolha">escolha</span>larga o bastante para conter o máximo</td></tr>
+<tr><td>tolerância</td><td class="num">0,0001</td><td class="un">K</td><td><span class="proc proc-escolha">escolha</span>muito abaixo da casa decimal impressa</td></tr>
+</tbody>
+</table>
+
+<div class="tecnica">
+  <p class="tecnica-nome">Otimização em uma variável</p>
+  <p>O problema é achar o valor de uma única variável, a temperatura, que deixa uma função, a <span class="var-1">conversão no CSTR</span>, o mais alta possível. Para resolver esse tipo de problema, vamos usar a <span class="termo">otimização em uma variável</span>, que testa temperaturas e estreita o intervalo onde está o máximo até ele ficar menor que uma tolerância (a incerteza aceita na resposta). Ela serve aqui porque a curva tem um único pico numa faixa conhecida, e cada avaliação é só uma conta. Em Python, quem faz isso é a função <code>minimize_scalar</code>, da biblioteca SciPy. Confira a próxima seção para aprender a usá-la.</p>
+</div>
+
+<h2>O código</h2>
+
+<section class="codigo">
+
+  <div class="passo">
+    <h3>Os dados do enunciado</h3>
+    <p class="para-que">Começamos importando as bibliotecas e guardando cada dado do enunciado num nome, em unidades coerentes entre si: energia em J/mol, tempo em minutos, temperatura em kelvin.</p>
+<pre><code>import numpy as np
+from scipy.optimize import minimize_scalar
+import matplotlib.pyplot as plt
+
+# Dados do enunciado
+k1_ref = 0.050     # constante direta a 350 K, 1/min
+K_ref = 20.0       # constante de equilíbrio a 350 K
+T_ref = 350.0      # temperatura de referência, K
+E1 = 60000.0       # energia de ativação direta, J/mol
+dH = -80000.0      # calor de reação, J/mol
+R = 8.314          # constante dos gases, J/(mol·K)</code></pre>
+    <p class="como"><code>import numpy as np</code> carrega o NumPy, a biblioteca de contas com números e listas de números, com o apelido <code>np</code>. <code>from scipy.optimize import minimize_scalar</code> traz do SciPy só a função de otimização. <code>matplotlib.pyplot</code>, apelidado <code>plt</code>, desenha gráficos. Cada linha seguinte cria uma variável: o nome à esquerda do <code>=</code> passa a guardar o número à direita. Tudo depois de <code>#</code> é comentário, ignorado pelo Python. As energias foram passadas de kJ para J para combinar com <span class="param">R</span>, que está em J/(mol·K).</p>
+    <p class="agora">O programa conhece os dados, mas ainda não calcula nada.</p>
+  </div>
+
+  <div class="passo">
+    <h3>O modelo vira três funções</h3>
+    <p class="para-que">Agora traduzimos as equações do modelo: uma função para <span class="param">k<sub>1</sub></span>, uma para <span class="param">K</span> e uma para a <span class="var-1">conversão no CSTR</span>, que usa as duas primeiras.</p>
+<pre><code>def k1(T):
+    """Constante direta, 1/min (Arrhenius)."""
+    return k1_ref * np.exp(E1 / R * (1 / T_ref - 1 / T))
+
+def K(T):
+    """Constante de equilíbrio (van 't Hoff)."""
+    return K_ref * np.exp(dH / R * (1 / T_ref - 1 / T))
+
+def conversao(T, tau):
+    """Conversão de A na saída do CSTR."""
+    k2 = k1(T) / K(T)              # constante inversa, 1/min
+    return k1(T) * tau / (1 + k1(T) * tau + k2 * tau)</code></pre>
+    <p class="como"><code>def nome(argumentos):</code> cria uma função: um trecho de conta que recebe valores, chamados argumentos, e devolve um resultado com <code>return</code>. As linhas recuadas abaixo do <code>def</code> são o corpo da função. O texto entre três aspas logo depois do <code>def</code> é uma descrição para quem lê; não altera a conta. <code>np.exp</code> é a exponencial. <code>k2</code>, criado dentro de <code>conversao</code>, só existe enquanto a função roda. Como as funções só fazem contas, elas funcionam tanto com uma temperatura só quanto com uma lista inteira de temperaturas do NumPy, o que será útil no gráfico.</p>
+    <p class="agora">O programa já sabe calcular a conversão para qualquer temperatura e qualquer tempo de residência, mas ainda não procura o máximo.</p>
+  </div>
+
+  <div class="passo">
+    <h3>Pedir o máximo ao otimizador</h3>
+    <p class="para-que">O <code>minimize_scalar</code> procura o mínimo de uma função, e não o máximo. O truque é entregar a ele a conversão com o sinal trocado: o ponto mais baixo de −<span class="var-1">X</span> é o ponto mais alto de <span class="var-1">X</span>. Escrevemos isso numa função que recebe um tempo de residência e devolve a temperatura ótima.</p>
+<pre><code>def menos_conversao(T, tau):
+    """O que o otimizador minimiza: -X."""
+    return -conversao(T, tau)
+
+def T_otima(tau):
+    """Temperatura que maximiza a conversão, K."""
+    res = minimize_scalar(menos_conversao, bounds=(300, 450),
+                          args=(tau,), method="bounded",
+                          options={"xatol": 1e-4})
+    return res.x</code></pre>
+    <p class="como">A chamada ao <code>minimize_scalar</code> tem cinco argumentos:</p>
+    <ul class="como">
+      <li><code>menos_conversao</code>: a função a minimizar, passada pelo nome, sem parênteses. Sem parênteses, entregamos a função em si, e não um resultado dela. O <code>minimize_scalar</code> chama essa função algumas dezenas de vezes, cada vez com uma temperatura nova no primeiro argumento, <code>T</code>; compara os valores que voltam e decide qual temperatura testar em seguida. É por isso que <code>T</code> precisa ser o primeiro argumento: é o único que o otimizador varia.</li>
+      <li><code>bounds=(300, 450)</code>: a faixa de temperaturas, em K, onde a busca acontece. Os parênteses formam uma tupla, uma sequência fixa de valores. A faixa é larga o bastante para conter o máximo, como o gráfico do fim mostra.</li>
+      <li><code>args=(tau,)</code>: os valores extras que o otimizador repassa, sem mudar, a cada chamada de <code>menos_conversao</code>, depois de <code>T</code>. É o caminho pelo qual o tempo de residência chega à função. A vírgula em <code>(tau,)</code> é obrigatória: sem ela, <code>(tau)</code> seria só o número entre parênteses, e não uma tupla de um elemento.</li>
+      <li><code>method="bounded"</code>: escolhe o método de Brent com limites, que só testa temperaturas dentro de <code>bounds</code> e combina divisões do intervalo com o ajuste de parábolas pelos pontos já calculados.</li>
+      <li><code>options={"xatol": 1e-4}</code>: o critério de parada. O <code>{}</code> é um dicionário, uma coleção de pares nome: valor. <code>xatol</code> é a tolerância absoluta em <span class="param">T</span>: a busca para quando o intervalo que contém o máximo fica menor que 0,0001 K, muito abaixo da casa decimal que vamos imprimir. <code>1e-4</code> é a notação científica de 10⁻⁴.</li>
+    </ul>
+    <p class="como">O <code>minimize_scalar</code> devolve um objeto com várias informações sobre a busca; <code>res.x</code> lê dele o atributo <code>x</code>, a temperatura encontrada.</p>
+    <p class="agora">O programa sabe encontrar a temperatura ótima para qualquer tempo de residência, mas ainda não a usou.</p>
+  </div>
+
+  <div class="passo">
+    <h3>Os dois tempos de residência</h3>
+    <p class="para-que">Agora respondemos às duas perguntas de uma vez: para 10 e para 20 min, calculamos a temperatura ótima, a conversão máxima, a conversão a 350 K (para comparar) e a conversão de equilíbrio na temperatura ótima.</p>
+<pre><code>print("tau(min)  T_otima(K)  X_max  X(350 K)  Xe(T_otima)")
+for tau in [10, 20]:
+    T_opt = T_otima(tau)
+    X_max = conversao(T_opt, tau)
+    X_350 = conversao(350.0, tau)
+    Xe = K(T_opt) / (1 + K(T_opt))
+    print(f"{tau:8.0f}  {T_opt:10.1f}  {X_max:5.3f}  {X_350:8.3f}"
+          f"  {Xe:11.3f}")</code></pre>
+    <p class="como"><code>for tau in [10, 20]:</code> repete o bloco recuado uma vez para cada valor da lista, guardando o valor da vez em <code>tau</code>. <code>print(f"…")</code> imprime um texto formatado: o <code>f</code> antes das aspas permite colocar variáveis entre chaves. Em <code>{T_opt:10.1f}</code>, o <code>10</code> é a largura da coluna em caracteres, e <code>.1f</code> pede uma casa decimal; <code>.3f</code> pede três, e <code>.0f</code> nenhuma. Dois textos entre aspas, um logo depois do outro dentro dos parênteses, são colados num só; serve para quebrar a linha longa.</p>
+    <p class="agora">O programa imprime a resposta: uma linha para cada tempo de residência.</p>
+  </div>
+
+  <div class="passo">
+    <h3>Conferir com uma fórmula</h3>
+    <p class="para-que">Este caso tem solução analítica, e ela serve de verificação independente. Derivando <span class="var-1">X</span> em relação a <span class="param">T</span>, com d<span class="param">k</span>/d<span class="param">T</span> = <span class="param">k</span>·<span class="param">E</span>/(<span class="param">R</span>·<span class="param">T</span>²) para as duas constantes, a derivada zera quando <span class="param">E<sub>1</sub></span>·(1 + <span class="param">k<sub>2</sub></span>·<span class="param">τ</span>) = <span class="param">E<sub>2</sub></span>·<span class="param">k<sub>2</sub></span>·<span class="param">τ</span>, isto é, quando <span class="param">k<sub>2</sub></span>·<span class="param">τ</span> = <span class="param">E<sub>1</sub></span>/(<span class="param">E<sub>2</sub></span> − <span class="param">E<sub>1</sub></span>) = 60/80 = 0,75. Basta então achar a temperatura em que <span class="param">k<sub>2</sub></span> vale 0,75/<span class="param">τ</span>, isolando <span class="param">T</span> na lei de Arrhenius da reação inversa.</p>
+<pre><code># Verificação: no ótimo, k2*tau = E1/(E2 - E1)
+E2 = E1 - dH                      # ativação da inversa, J/mol
+k2_ref = k1_ref / K_ref           # constante inversa a 350 K, 1/min
+for tau in [10, 20]:
+    alvo = E1 / (E2 - E1) / tau   # k2 que o ótimo exige, 1/min
+    T_an = 1 / (1 / T_ref - R / E2 * np.log(alvo / k2_ref))
+    print(f"tau = {tau} min: T pela fórmula = {T_an:.1f} K")</code></pre>
+    <p class="como"><code>np.log</code> é o logaritmo natural. A linha de <code>T_an</code> é a lei de Arrhenius de <span class="param">k<sub>2</sub></span> resolvida para <span class="param">T</span>: 1/<span class="param">T</span> = 1/<span class="param">T<sub>ref</sub></span> − (<span class="param">R</span>/<span class="param">E<sub>2</sub></span>)·ln(<span class="param">k<sub>2</sub></span>/<span class="param">k<sub>2,ref</sub></span>). Nada aqui usa o otimizador, por isso a concordância com o passo anterior confirma as duas contas.</p>
+    <p class="agora">O programa imprime, para cada tempo de residência, a temperatura ótima pela fórmula, que deve repetir a do otimizador.</p>
+  </div>
+
+  <div class="passo">
+    <h3>A curva da conversão</h3>
+    <p class="para-que">Por fim, desenhamos a conversão contra a temperatura para os dois tempos de residência, junto com a conversão de equilíbrio, para ver o máximo e o teto que o limita.</p>
+<pre><code>T = np.linspace(320, 430, 221)    # temperaturas, K
+for tau in [10, 20]:
+    plt.plot(T, conversao(T, tau),
+             label=f"Conversão no CSTR, tau = {tau} min")
+plt.plot(T, K(T) / (1 + K(T)), "--",
+         label="Conversão de equilíbrio")
+plt.xlabel("Temperatura (K)")
+plt.ylabel("Conversão de A")
+plt.legend()
+plt.show()</code></pre>
+    <p class="como"><code>np.linspace(320, 430, 221)</code> cria uma lista de 221 temperaturas igualmente espaçadas de 320 a 430 K, de meio em meio kelvin. Como <code>conversao</code> e <code>K</code> só fazem contas, recebem a lista inteira e devolvem uma lista de resultados do mesmo tamanho. <code>plt.plot(x, y)</code> desenha uma curva; <code>"--"</code> a faz tracejada; <code>label</code> é o nome na legenda. <code>xlabel</code> e <code>ylabel</code> dão nome aos eixos, <code>legend</code> mostra a legenda e <code>show</code> abre a figura.</p>
+    <p class="agora">O programa está completo: imprime a resposta, confere-a e desenha a curva.</p>
+  </div>
+
+  <div class="passo">
+    <h3>O programa completo</h3>
+<pre><code>import numpy as np
+from scipy.optimize import minimize_scalar
+import matplotlib.pyplot as plt
+
+# Dados do enunciado
+k1_ref = 0.050     # constante direta a 350 K, 1/min
+K_ref = 20.0       # constante de equilíbrio a 350 K
+T_ref = 350.0      # temperatura de referência, K
+E1 = 60000.0       # energia de ativação direta, J/mol
+dH = -80000.0      # calor de reação, J/mol
+R = 8.314          # constante dos gases, J/(mol·K)
+
+def k1(T):
+    """Constante direta, 1/min (Arrhenius)."""
+    return k1_ref * np.exp(E1 / R * (1 / T_ref - 1 / T))
+
+def K(T):
+    """Constante de equilíbrio (van 't Hoff)."""
+    return K_ref * np.exp(dH / R * (1 / T_ref - 1 / T))
+
+def conversao(T, tau):
+    """Conversão de A na saída do CSTR."""
+    k2 = k1(T) / K(T)              # constante inversa, 1/min
+    return k1(T) * tau / (1 + k1(T) * tau + k2 * tau)
+
+def menos_conversao(T, tau):
+    """O que o otimizador minimiza: -X."""
+    return -conversao(T, tau)
+
+def T_otima(tau):
+    """Temperatura que maximiza a conversão, K."""
+    res = minimize_scalar(menos_conversao, bounds=(300, 450),
+                          args=(tau,), method="bounded",
+                          options={"xatol": 1e-4})
+    return res.x
+
+print("tau(min)  T_otima(K)  X_max  X(350 K)  Xe(T_otima)")
+for tau in [10, 20]:
+    T_opt = T_otima(tau)
+    X_max = conversao(T_opt, tau)
+    X_350 = conversao(350.0, tau)
+    Xe = K(T_opt) / (1 + K(T_opt))
+    print(f"{tau:8.0f}  {T_opt:10.1f}  {X_max:5.3f}  {X_350:8.3f}"
+          f"  {Xe:11.3f}")
+
+# Verificação: no ótimo, k2*tau = E1/(E2 - E1)
+E2 = E1 - dH                      # ativação da inversa, J/mol
+k2_ref = k1_ref / K_ref           # constante inversa a 350 K, 1/min
+for tau in [10, 20]:
+    alvo = E1 / (E2 - E1) / tau   # k2 que o ótimo exige, 1/min
+    T_an = 1 / (1 / T_ref - R / E2 * np.log(alvo / k2_ref))
+    print(f"tau = {tau} min: T pela fórmula = {T_an:.1f} K")
+
+T = np.linspace(320, 430, 221)    # temperaturas, K
+for tau in [10, 20]:
+    plt.plot(T, conversao(T, tau),
+             label=f"Conversão no CSTR, tau = {tau} min")
+plt.plot(T, K(T) / (1 + K(T)), "--",
+         label="Conversão de equilíbrio")
+plt.xlabel("Temperatura (K)")
+plt.ylabel("Conversão de A")
+plt.legend()
+plt.show()</code></pre>
+    <p>Os seis passos juntos, na ordem, prontos para rodar.</p>
+  </div>
+
+</section>
+
+<h2>O resultado</h2>
+
+<div class="resposta">
+  <p>Com <span class="param">τ</span> = 10 min, o reator deve operar a <strong>376,6 K</strong>, e a <span class="var-1">conversão no CSTR</span> máxima é <strong>0,551</strong>. Com <span class="param">τ</span> = 20 min, a temperatura ótima cai para <strong>370,9 K</strong>, e a conversão máxima sobe para <strong>0,646</strong>. A fórmula da verificação dá as mesmas temperaturas, 376,6 K e 370,9 K.</p>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  function k1(p, t) { return p.k1ref * Math.exp(p.E1 / p.R * (1 / p.Tref - 1 / t)); }
+  function K(p, t) { return p.Kref * Math.exp(p.dH / p.R * (1 / p.Tref - 1 / t)); }
+  function X(p, t) { var a = k1(p, t) * p.tau; return a / (1 + a + a / K(p, t)); }
+  Grafico.registrar("conversao", {
+    eixoX: "Temperatura (K)",
+    eixoY: "Conversão de A",
+    series: ["Conversão no CSTR", "Conversão de equilíbrio"],
+    padroes:  { tau: 10, k1ref: 0.05, Kref: 20, Tref: 350, E1: 60000, dH: -80000, R: 8.314 },
+    faixas:   { tau: [2, 40, 1] },
+    unidades: { tau: "min" },
+    nomes:    { tau: "τ" },
+    limites:  { y: [0, 1] },
+    calcular: function (p) {
+      var T = Grafico.linspace(320, 430, 221);
+      return {
+        x: T,
+        y: [T.map(function (t) { return X(p, t); }),
+            T.map(function (t) { var k = K(p, t); return k / (1 + k); })]
+      };
+    },
+    ler: function (s, p) {                       // a fórmula da verificação
+      var E2 = p.E1 - p.dH, k2ref = p.k1ref / p.Kref;
+      var alvo = p.E1 / (E2 - p.E1) / p.tau;
+      var Topt = 1 / (1 / p.Tref - p.R / E2 * Math.log(alvo / k2ref));
+      return "Temperatura ótima: " + Grafico.fmt(Topt, 1) + " K · conversão máxima: " + Grafico.fmt(X(p, Topt), 3);
+    }
+  });
+});
+</script>
+<div class="grafico" data-grafico="conversao" data-controles="tau"></div>
+
+<ol class="observacoes">
+  <li>
+    <h3>Por que a curva sobe e depois desce?</h3>
+    <p>À esquerda do pico, a <span class="var-1">conversão no CSTR</span> fica bem abaixo da <span class="var-2">conversão de equilíbrio</span>: falta velocidade, e esquentar ajuda porque <span class="param">k<sub>1</sub></span> cresce. À direita, as duas curvas quase se encostam: a reação já é rápida o bastante para chegar perto do equilíbrio, e esquentar só baixa o teto, porque <span class="param">K</span> cai. O pico, a 376,6 K, é onde os dois efeitos se equilibram.</p>
+  </li>
+  <li>
+    <h3>Quanto se ganha em relação a operar a 350 K?</h3>
+    <p>A 350 K, a temperatura em que o enunciado dá as constantes, a <span class="var-1">conversão no CSTR</span> é 0,328. Subir para 376,6 K a leva a 0,551: 0,551 − 0,328 = 0,223, quase dois terços a mais, sem mudar o tamanho do reator.</p>
+  </li>
+  <li>
+    <h3>No ótimo, o reator chega ao equilíbrio?</h3>
+    <p>Não. A 376,6 K, a <span class="var-2">conversão de equilíbrio</span> é 0,741, bem acima do 0,551 que o reator alcança com 10 min. O ótimo de um CSTR não é a temperatura em que se chega ao equilíbrio: é um compromisso em que ainda sobra distância até ele, porque o tempo de residência é finito.</p>
+  </li>
+  <li>
+    <h3>Leve τ até 20 min</h3>
+    <p>A curva sobe inteira, e o pico se desloca para a esquerda, para 370,9 K (376,6 − 370,9 = 5,7 K mais frio), com conversão máxima de 0,646. Com mais tempo no reator, a reação não precisa ser tão rápida para chegar perto do equilíbrio, e vale a pena operar mais frio, onde o teto é mais alto (0,810 nessa temperatura). A verificação explica o deslocamento: o ótimo exige <span class="param">k<sub>2</sub></span>·<span class="param">τ</span> = 0,75, então dobrar <span class="param">τ</span> exige metade de <span class="param">k<sub>2</sub></span>, e isso só acontece numa temperatura menor.</p>
+    <p class="no-seu-codigo">O laço <code>for tau in [10, 20]</code> já faz essa conta: a segunda linha impressa traz 370,9 K, 0,646, 0,488 a 350 K e 0,810 de conversão de equilíbrio. Para outro tempo de residência, acrescente-o à lista.</p>
+  </li>
+</ol>
+
+<div class="pergunte">
+  <strong>Ficou algo obscuro?</strong> Pergunte no chat.
+</div>
+
+<script>
+
+(function () {
+  "use strict";
+
+  var CHAVE = "licao-tema";
+  var raiz = document.documentElement;
+
+  function lido() {
+    try {
+      var v = localStorage.getItem(CHAVE);
+      return v === "claro" || v === "escuro" ? v : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function guardar(v) {
+    try {
+      localStorage.setItem(CHAVE, v);
+    } catch (e) {
+    }
+  }
+
+  function doSistema() {
+    return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "escuro"
+      : "claro";
+  }
+
+  function atual() {
+    return raiz.getAttribute("data-tema") || doSistema();
+  }
+
+  function aplicar(tema) {
+    raiz.setAttribute("data-tema", tema);
+  }
+
+  function montar() {
+    var btn = document.createElement("button");
+    btn.className = "tema";
+    btn.type = "button";
+
+    function rotular() {
+      var alvo = atual() === "escuro" ? "claro" : "escuro";
+      btn.textContent = "";
+      var ic = document.createElement("span");
+      ic.className = "ic ic-tema";
+      btn.append(ic, document.createTextNode(alvo));
+      btn.setAttribute("aria-label", "Mudar para o tema " + alvo);
+    }
+
+    btn.addEventListener("click", function () {
+      var alvo = atual() === "escuro" ? "claro" : "escuro";
+      aplicar(alvo);
+      guardar(alvo);
+      rotular();
+      document.dispatchEvent(new CustomEvent("tema-mudou"));
+    });
+
+    rotular();
+    document.body.appendChild(btn);
+  }
+
+  var guardado = lido();
+  if (guardado) aplicar(guardado);
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", montar);
+  } else {
+    montar();
+  }
+
+  window.Tema = { atual: atual, aplicar: aplicar };
+})();
+
+</script>
+<script>
+
+(function () {
+  "use strict";
+
+  function copiar(texto, botao) {
+    function ok() {
+      var ic = botao.querySelector(".ic");
+      if (ic) ic.className = "ic ic-check";
+      botao.classList.add("copiado");
+      setTimeout(function () {
+        if (ic) ic.className = "ic ic-copiar";
+        botao.classList.remove("copiado");
+      }, 1400);
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(texto).then(ok, function () { legado(texto, ok); });
+    } else {
+      legado(texto, ok);
+    }
+  }
+
+  function legado(texto, ok) {
+    var ta = document.createElement("textarea");
+    ta.value = texto;
+    ta.setAttribute("readonly", "");
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand("copy");
+      ok();
+    } catch (e) {
+      console.warn("[codigo] não consegui copiar:", e);
+    }
+    ta.remove();
+  }
+
+  var PALAVRAS = /^(if|elif|else|for|while|return|import|from|as|in|not|and|or|is|with|try|except|finally|raise|break|continue|pass|lambda|yield|global|nonlocal|del|assert|async|await)$/;
+  var DEFINE = /^(def|class|None|True|False)$/;
+  var EMBUTIDAS = /^(print|range|len|abs|min|max|sum|float|int|str|bool|list|dict|tuple|set|zip|enumerate|round|sorted|reversed|map|filter|open|isinstance|type|any|all)$/;
+  var TOKEN = /(#[^\n]*)|((?:[rRbBfFuU]{1,2})?(?:"""[\s\S]*?"""|'''[\s\S]*?'''|"(?:\.|[^"\\n])*"|'(?:\.|[^'\\n])*'))|(\b\d+\.?\d*(?:[eE][+-]?\d+)?\b|\.\d+(?:[eE][+-]?\d+)?\b)|([A-Za-z_\u00C0-\u024F]\w*)|(\*\*=?|\/\/=?|[-+*\/%=<>!@&|^~]=?)/g;
+
+  function esc(t) {
+    return t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  function realcarTexto(txt) {
+    var out = "", fim = 0, anterior = "", m;
+    TOKEN.lastIndex = 0;
+    while ((m = TOKEN.exec(txt))) {
+      out += esc(txt.slice(fim, m.index));
+      fim = TOKEN.lastIndex;
+      var t = m[0], cls = "";
+      if (m[1]) cls = "hl-com";
+      else if (m[2]) cls = "hl-str";
+      else if (m[3]) cls = "hl-num";
+      else if (m[4]) {
+        if (anterior === "def" || anterior === "class") cls = "hl-fn";
+        else if (DEFINE.test(t)) cls = "hl-def";
+        else if (PALAVRAS.test(t)) cls = "hl-kw";
+        else if (/^\s*\(/.test(txt.slice(fim))) cls = EMBUTIDAS.test(t) ? "hl-bi" : "hl-fn";
+        anterior = t;
+      } else if (m[5]) cls = "hl-op";
+      out += cls ? '<span class="' + cls + '">' + esc(t) + "</span>" : esc(t);
+    }
+    return out + esc(txt.slice(fim));
+  }
+
+  function realcar(code) {
+    if (code.dataset.realcado || code.classList.contains("sem-realce")) return;
+    code.dataset.realcado = "1";
+    code.innerHTML = realcarTexto(code.textContent);
+  }
+
+  function botaoCopiar(pre) {
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "copiar";
+    btn.title = "Copiar o código";
+    btn.setAttribute("aria-label", "Copiar o código");
+    var ic = document.createElement("span");
+    ic.className = "ic ic-copiar";
+    btn.appendChild(ic);
+    btn.addEventListener("click", function () {
+      copiar(pre.querySelector("code") ? pre.querySelector("code").textContent : pre.textContent, btn);
+    });
+    pre.appendChild(btn);
+  }
+
+  function corpoRecolhivel(pai, nos, prefixo) {
+    var corpo = document.createElement("div");
+    corpo.className = prefixo + "-corpo";
+    var dentro = document.createElement("div");
+    dentro.className = prefixo + "-dentro";
+    nos.forEach(function (n) { dentro.appendChild(n); });
+    corpo.appendChild(dentro);
+    return corpo;
+  }
+
+  function montarItem(item) {
+    var cabeca = item.querySelector(":scope > h3");
+    if (!cabeca) {
+      var tipos = Array.prototype.map.call(item.querySelectorAll(".porque .tipo"), function (t) {
+        return t.textContent.trim().toLowerCase();
+      });
+      if (tipos.length) {
+        var nome = tipos.length > 1 ? tipos.slice(0, -1).join(", ") + " e " + tipos[tipos.length - 1] : tipos[0];
+        cabeca = document.createElement("div");
+        cabeca.className = "item-cabeca";
+        if (item.dataset.balanco) nome += " do " + item.dataset.balanco;
+        cabeca.textContent = nome.charAt(0).toUpperCase() + nome.slice(1);
+      }
+    }
+    var resto = Array.prototype.filter.call(item.childNodes, function (n) { return n !== cabeca; });
+    var corpo = corpoRecolhivel(item, resto, "item");
+    item.textContent = "";
+    if (cabeca) item.appendChild(cabeca);
+    item.appendChild(corpo);
+  }
+
+  function sequencia(itens, aoFim) {
+    if (!itens.length) { if (aoFim) aoFim(); return; }
+
+    function atualizar() {
+      var proximo = null;
+      itens.forEach(function (p) {
+        if (!proximo && !p.dataset.lido) proximo = p;
+        p.classList.remove("chamando");
+      });
+      if (proximo) proximo.classList.add("chamando");
+      else if (aoFim) { aoFim(); aoFim = null; }
+      itens.forEach(function (p, i) { p.classList.toggle("sem-fio", !itens[i + 1]); });
+    }
+
+    function alternar(p) {
+      var recolher = !p.classList.contains("recolhido");
+      p.classList.toggle("recolhido", recolher);
+      if (recolher) {
+        p.setAttribute("tabindex", "0");
+        p.setAttribute("role", "button");
+        p.setAttribute("aria-expanded", "false");
+        return;
+      }
+      p.removeAttribute("tabindex");
+      p.removeAttribute("role");
+      p.removeAttribute("aria-expanded");
+      if (!p.dataset.lido) {
+        p.dataset.lido = "1";
+        document.dispatchEvent(new CustomEvent("licao-mudou"));
+        atualizar();
+      }
+      setTimeout(function () { p.scrollIntoView({ behavior: "smooth", block: "nearest" }); }, 380);
+    }
+
+    function naAlca(p, ev) {
+      var r = p.getBoundingClientRect();
+      var calha = parseFloat(getComputedStyle(p).paddingLeft) || 0;
+      if (ev.clientX - r.left < calha) return true;
+      var cabeca = ev.target.closest && ev.target.closest("h3, .item-cabeca");
+      return !!cabeca && cabeca.parentElement === p;
+    }
+
+    itens.forEach(function (p) {
+      montarItem(p);
+      p.classList.add("recolhido");
+      p.setAttribute("tabindex", "0");
+      p.setAttribute("role", "button");
+      p.setAttribute("aria-expanded", "false");
+      p.addEventListener("click", function (ev) {
+        if (p.classList.contains("recolhido") || naAlca(p, ev)) alternar(p);
+      });
+      p.addEventListener("keydown", function (ev) {
+        if ((ev.key === "Enter" || ev.key === " ") && p.classList.contains("recolhido")) {
+          ev.preventDefault();
+          alternar(p);
+        }
+      });
+    });
+    atualizar();
+  }
+
+  function montarSecoes() {
+    var titulos = Array.prototype.slice.call(document.querySelectorAll("body > h2"));
+
+    function chamar() {
+      var proximo = null;
+      titulos.forEach(function (h2) {
+        if (!proximo && !h2.dataset.lido) proximo = h2;
+        h2.classList.remove("chamando");
+      });
+      if (proximo) proximo.classList.add("chamando");
+    }
+
+    titulos.forEach(function (h2) {
+      if (h2.dataset.secao) return;
+      h2.dataset.secao = "1";
+      var nos = [], n = h2.nextSibling;
+      while (n && !(n.nodeType === 1 && (n.tagName === "H2" || n.classList.contains("pergunte") ||
+               (n.tagName === "SCRIPT" && n.src)))) {
+        nos.push(n);
+        n = n.nextSibling;
+      }
+      var corpo = corpoRecolhivel(h2.parentNode, nos, "secao");
+      h2.parentNode.insertBefore(corpo, n);
+      h2.classList.add("secao-titulo");
+      h2.setAttribute("tabindex", "0");
+      h2.setAttribute("role", "button");
+      function recolher(sim) {
+        h2.classList.toggle("secao-recolhida", sim);
+        corpo.classList.toggle("secao-recolhida", sim);
+        h2.setAttribute("aria-expanded", String(!sim));
+        if (!sim && !h2.dataset.lido) { h2.dataset.lido = "1"; chamar(); }
+        document.dispatchEvent(new CustomEvent("licao-mudou"));
+      }
+      recolher(true);
+      h2._abrir = function () { if (h2.classList.contains("secao-recolhida")) recolher(false); };
+      function alternar() { recolher(!h2.classList.contains("secao-recolhida")); }
+      h2.addEventListener("click", alternar);
+      h2.addEventListener("keydown", function (ev) {
+        if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); alternar(); }
+      });
+    });
+    chamar();
+  }
+
+  function unificarModelo() {
+    var h2 = document.querySelector("body > h2");
+    if (!h2 || h2.dataset.unificado) return null;
+    var nos = [], n = h2.nextElementSibling;
+    while (n && n.tagName !== "H2" && !n.classList.contains("pergunte") && !(n.tagName === "SCRIPT" && n.src)) {
+      nos.push(n);
+      n = n.nextElementSibling;
+    }
+    if (!nos.some(function (e) { return e.matches("ol.deducao"); })) return null;
+    h2.dataset.unificado = "1";
+
+    var linha = document.createElement("ol"), balanco = "";
+    linha.className = "deducao modelo-linha";
+    nos[0].parentNode.insertBefore(linha, nos[0]);
+
+    function extra(titulo, el) {
+      var li = document.createElement("li");
+      li.className = "extra";
+      var h3 = document.createElement("h3");
+      h3.textContent = titulo;
+      li.appendChild(h3);
+      li.appendChild(el);
+      linha.appendChild(li);
+    }
+
+    nos.forEach(function (el) {
+      if (el.matches("h3.balanco")) {
+        var g = document.createElement("li");
+        g.className = "grupo";
+        g.appendChild(el);
+        linha.appendChild(g);
+        balanco = el.textContent.trim().replace(/, em .*$/, "").replace(/ do componente /, " de ");
+        balanco = balanco.charAt(0).toLowerCase() + balanco.slice(1);
+      } else if (el.matches("ol.deducao")) {
+        Array.prototype.slice.call(el.children).forEach(function (li, i) {
+          if (i === 0 && balanco) li.dataset.balanco = balanco;
+          linha.appendChild(li);
+        });
+        balanco = "";
+        el.remove();
+      } else if (el.matches(".eq-bloco")) {
+        extra(el.dataset.titulo || "Equação complementar", el);
+      } else if (el.matches("table")) {
+        extra("Os parâmetros", el);
+      } else if (el.matches(".tecnica")) {
+        var nome = el.querySelector(".tecnica-nome");
+        extra("A técnica" + (nome ? ": " + nome.textContent.trim() : ""), el);
+      } else {
+        var li = document.createElement("li");
+        li.className = "solto";
+        li.appendChild(el);
+        linha.appendChild(li);
+      }
+    });
+    return linha;
+  }
+
+  function montarSumario() {
+    var titulos = Array.prototype.slice.call(document.querySelectorAll("body > h2.secao-titulo"));
+    if (!titulos.length || document.querySelector("nav.sumario")) return;
+    var cores = ["s-modelo", "s-codigo", "s-resultado"];
+    var nav = document.createElement("nav");
+    nav.className = "sumario";
+    nav.setAttribute("aria-label", "Sumário da lição");
+    var alvos = [];
+
+    function irPara(h2, alvo) {
+      if (h2._abrir) h2._abrir();
+      setTimeout(function () {
+        var rolador = document.body.scrollHeight > document.body.clientHeight ? document.body : document.scrollingElement;
+        var y = alvo.getBoundingClientRect().top - rolador.getBoundingClientRect().top + rolador.scrollTop - 24;
+        if (rolador === document.scrollingElement) y = alvo.getBoundingClientRect().top + window.scrollY - 24;
+        rolador.scrollTo({ top: y, behavior: "smooth" });
+      }, h2._abrir ? 120 : 0);
+    }
+
+    function pontos(itens) {
+      var s = document.createElement("span");
+      s.className = "sumario-pontos";
+      itens.forEach(function (it) {
+        var i = document.createElement("i");
+        s.appendChild(i);
+        it._ponto = i;
+      });
+      return s;
+    }
+
+    function item(h2, texto, alvo, itens) {
+      var a = document.createElement("div");
+      a.className = "sumario-item";
+      var t = document.createElement("span");
+      t.textContent = texto;
+      a.appendChild(t);
+      if (itens && itens.length) a.appendChild(pontos(itens));
+      a.addEventListener("click", function () { irPara(h2, alvo); });
+      alvos.push({ el: alvo, link: a });
+      return a;
+    }
+
+    titulos.forEach(function (h2, i) {
+      var corpo = h2.nextElementSibling;
+      var grupo = document.createElement("div");
+      grupo.className = "sumario-grupo";
+      var sec = document.createElement("div");
+      sec.className = "sumario-secao " + (cores[i] || "");
+      sec.textContent = h2.textContent.trim();
+      sec.addEventListener("click", function () { irPara(h2, h2); });
+      alvos.push({ el: h2, link: sec, secao: true });
+      grupo.appendChild(sec);
+      var lista = document.createElement("div");
+      lista.className = "sumario-grupo-itens " + (cores[i] || "");
+      lista.style.setProperty("--cor-sec", "var(--mom-" + ["modelo", "codigo", "resultado"][i] + ")");
+
+      corpo.querySelectorAll("ol.modelo-linha > li.grupo, ol.modelo-linha > li.extra, section.codigo, div.resposta, .grafico, ol.observacoes").forEach(function (el) {
+        if (el.matches("li.grupo")) {
+          var etapas = [], s = el.nextElementSibling;
+          while (s && !s.classList.contains("grupo") && !s.classList.contains("extra")) {
+            if (!s.classList.contains("solto")) etapas.push(s);
+            s = s.nextElementSibling;
+          }
+          var nome = el.textContent.trim().replace(/^Balanço de /, "").replace(/, em .*$/, "").replace(/ do componente /, " de ");
+          nome = nome.charAt(0).toUpperCase() + nome.slice(1);
+          lista.appendChild(item(h2, nome, el, etapas));
+        } else if (el.matches("li.extra")) {
+          lista.appendChild(item(h2, el.querySelector("h3").textContent.replace(/: .*$/, ""), el));
+        } else if (el.matches("section.codigo")) {
+          lista.appendChild(item(h2, "Os passos", el, Array.prototype.slice.call(el.querySelectorAll(".passo"))));
+        } else if (el.matches("div.resposta")) {
+          lista.appendChild(item(h2, "A resposta", el));
+        } else if (el.matches(".grafico")) {
+          lista.appendChild(item(h2, "A figura", el));
+        } else {
+          lista.appendChild(item(h2, "Observações", el, Array.prototype.slice.call(el.children)));
+        }
+      });
+      grupo.appendChild(lista);
+      nav.appendChild(grupo);
+    });
+
+    function atualizar() {
+      document.querySelectorAll("[data-lido]").forEach(function (el) {
+        if (el._ponto) el._ponto.classList.add("lido");
+      });
+      var linha = window.innerHeight / 3, ativo = null, secAtiva = null;
+      alvos.forEach(function (a) {
+        if (!a.el.offsetParent && !a.secao) return;
+        if (a.el.getBoundingClientRect().top < linha) {
+          if (a.secao) { secAtiva = a; ativo = null; } else { ativo = a; }
+        }
+      });
+      alvos.forEach(function (a) { a.link.classList.toggle("ativo", a === ativo || a === secAtiva); });
+    }
+
+    document.body.appendChild(nav);
+    document.body.classList.add("com-sumario");
+    var pedido = false;
+    function rolou() {
+      if (pedido) return;
+      pedido = true;
+      requestAnimationFrame(function () { pedido = false; atualizar(); });
+    }
+    document.body.addEventListener("scroll", rolou, { passive: true });
+    window.addEventListener("scroll", rolou, { passive: true });
+    document.addEventListener("licao-mudou", atualizar);
+    atualizar();
+  }
+
+  var MENOR_ESCALA = 0.5;
+
+  function caber(caixa, alvo) {
+    if (!caixa.clientWidth) return;               // escondido: refaz quando aparecer
+    alvo.style.fontSize = "";
+    var sobra = caixa.scrollWidth - caixa.clientWidth;
+    if (sobra <= 1) return;
+    var base = parseFloat(getComputedStyle(alvo).fontSize);
+    var escala = Math.max(MENOR_ESCALA, (caixa.clientWidth - 2) / caixa.scrollWidth);
+    alvo.style.fontSize = (base * escala).toFixed(2) + "px";
+    for (var i = 0; i < 6 && caixa.scrollWidth > caixa.clientWidth + 1 && escala > MENOR_ESCALA; i++) {
+      escala = Math.max(MENOR_ESCALA, escala * (caixa.clientWidth - 2) / caixa.scrollWidth - 0.01);
+      alvo.style.fontSize = (base * escala).toFixed(2) + "px";
+    }
+  }
+
+  function caberNaLargura() {
+    var pares = [];
+    document.querySelectorAll(".equacao math").forEach(function (m) { pares.push([m, m]); });
+    document.querySelectorAll("section.codigo pre").forEach(function (pre) { pares.push([pre, pre]); });
+    function refazer() { pares.forEach(function (p) { caber(p[0], p[1]); }); }
+    refazer();
+    if (window.ResizeObserver) {
+      var pedido = false;
+      var ro = new ResizeObserver(function () {
+        if (pedido) return;
+        pedido = true;
+        requestAnimationFrame(function () { pedido = false; refazer(); });
+      });
+      pares.forEach(function (p) { ro.observe(p[0]); });
+    } else {
+      window.addEventListener("resize", refazer);
+    }
+  }
+
+  function montar(sec) {
+    Array.prototype.forEach.call(sec.querySelectorAll("pre"), function (pre) {
+      pre.classList.add("com-copia");
+      botaoCopiar(pre);
+    });
+
+    var passos = Array.prototype.slice.call(sec.querySelectorAll(".passo"));
+    var finais = Array.prototype.slice.call(sec.querySelectorAll("details.programa, details.resposta"));
+    finais.forEach(function (d) { d.classList.add("oculto"); });
+
+    sequencia(passos, function () {
+      finais.forEach(function (d) {
+        if (!d.classList.contains("oculto")) return;
+        d.classList.remove("oculto");
+        d.classList.add("revelado");
+      });
+    });
+  }
+
+  function iniciar() {
+    document.querySelectorAll("pre > code").forEach(realcar);
+    document.querySelectorAll("section.codigo").forEach(montar);
+    unificarModelo();
+    document.querySelectorAll("ol.deducao, ol.observacoes").forEach(function (ol) {
+      sequencia(Array.prototype.filter.call(ol.children, function (li) {
+        return !li.classList.contains("grupo") && !li.classList.contains("solto");
+      }));
+    });
+    montarSecoes();
+    montarSumario();
+    caberNaLargura();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", iniciar);
+  } else {
+    iniciar();
+  }
+
+  window.Codigo = { iniciar: iniciar, realcarTexto: realcarTexto };
+})();
+
+</script>
+<script>
+
+(function () {
+  "use strict";
+
+  var DEFS = {};
+  var REDESENHOS = [];
+
+  function registrar(nome, def) {
+    DEFS[nome] = def;
+    if (document.body) iniciar();
+  }
+
+  function linspace(a, b, n) {
+    var v = [];
+    for (var i = 0; i < n; i++) v.push(n === 1 ? a : a + ((b - a) * i) / (n - 1));
+    return v;
+  }
+
+  function rk4(f, t, y, h, p) {
+    var k1 = f(t, y, p);
+    var k2 = f(t + h / 2, y.map(function (v, i) { return v + (h / 2) * k1[i]; }), p);
+    var k3 = f(t + h / 2, y.map(function (v, i) { return v + (h / 2) * k2[i]; }), p);
+    var k4 = f(t + h, y.map(function (v, i) { return v + h * k3[i]; }), p);
+    return y.map(function (v, i) { return v + (h / 6) * (k1[i] + 2 * k2[i] + 2 * k3[i] + k4[i]); });
+  }
+
+  function integrar(deriv, y0, t0, tf, p, n) {
+    n = n || 2000;
+    var h = (tf - t0) / n;
+    var y = y0.slice();
+    var saida = { t: [t0], y: y.map(function (v) { return [v]; }) };
+    for (var k = 1; k <= n; k++) {
+      y = rk4(deriv, t0 + (k - 1) * h, y, h, p);
+      saida.t.push(t0 + k * h);
+      y.forEach(function (v, i) { saida.y[i].push(v); });
+    }
+    return saida;
+  }
+
+  function raiz(f, a, b) {
+    var fa = f(a), fb = f(b);
+    if (!(isFinite(fa) && isFinite(fb)) || fa * fb > 0) return NaN;
+    for (var i = 0; i < 200; i++) {
+      var m = (a + b) / 2, fm = f(m);
+      if (fm === 0 || (b - a) / 2 < 1e-12 * Math.max(1, Math.abs(m))) return m;
+      if (fa * fm < 0) { b = m; } else { a = m; fa = fm; }
+    }
+    return (a + b) / 2;
+  }
+
+  function fmt(v, casas) {
+    if (!isFinite(v)) return "—";
+    return v.toFixed(casas == null ? 2 : casas).replace(".", ",");
+  }
+
+  function passoBonito(amplitude) {
+    var bruto = amplitude / 5;
+    var mag = Math.pow(10, Math.floor(Math.log10(bruto)));
+    var r = bruto / mag;
+    return (r < 1.5 ? 1 : r < 3 ? 2 : r < 7 ? 5 : 10) * mag;
+  }
+
+  function casasDe(passo) {
+    return Math.max(0, -Math.floor(Math.log10(passo) + 1e-9));
+  }
+
+  function escalaY(min, max, fixo) {
+    if (fixo) return { min: fixo[0], max: fixo[1], passo: passoBonito(fixo[1] - fixo[0]) };
+    if (!(isFinite(min) && isFinite(max))) { min = 0; max = 1; }
+    if (min >= 0 && min < 0.3 * max) min = 0;
+    if (max === min) max = min + (Math.abs(min) || 1);
+    var passo = passoBonito(max - min);
+    return { min: Math.floor(min / passo + 1e-9) * passo, max: Math.ceil(max / passo - 1e-9) * passo, passo: passo };
+  }
+
+  function escalaX(min, max, fixo) {
+    if (fixo) { min = fixo[0]; max = fixo[1]; }
+    if (!(isFinite(min) && isFinite(max))) { min = 0; max = 1; }
+    if (max === min) max = min + 1;
+    return { min: min, max: max, passo: passoBonito(max - min) };
+  }
+
+  function normalizar(bruto, n) {
+    if (Array.isArray(bruto)) return bruto;
+    return (bruto.y || []).slice(0, n).map(function (y) { return { x: bruto.x, y: y }; });
+  }
+
+  function specSerie(s) {
+    return typeof s === "string" ? { nome: s, eixo: 1, tipo: "linha" }
+      : { nome: s.nome, eixo: s.eixo || 1, tipo: s.tipo || "linha" };
+  }
+
+  function cor(nome) {
+    return getComputedStyle(document.documentElement).getPropertyValue(nome).trim() || "#888";
+  }
+
+  var TRACOS = [[], [7, 4], [2, 3], [9, 3, 2, 3]];
+
+  function desenhar(estado) {
+    var canvas = estado.canvas, def = estado.def, series = estado.series, specs = estado.specs;
+    var pai = canvas.parentElement;
+    var w = canvas.clientWidth || (pai && pai.clientWidth) || 600;
+    var h = estado.altura;
+    var dpr = window.devicePixelRatio || 1;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.height = h + "px";
+
+    var ctx = canvas.getContext("2d");
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+
+    var temY2 = specs.some(function (s) { return s.eixo === 2; });
+    var m = { esq: 60, dir: temY2 ? 60 : 14, topo: 12, base: 46 };
+    var lw = w - m.esq - m.dir, lh = h - m.topo - m.base;
+
+    var xs = { min: Infinity, max: -Infinity };
+    var ys = [null, { min: Infinity, max: -Infinity }, { min: Infinity, max: -Infinity }];
+    series.forEach(function (s, i) {
+      var e = ys[specs[i].eixo];
+      s.x.forEach(function (x, k) {
+        var y = s.y[k];
+        if (!isFinite(x) || !isFinite(y)) return;
+        if (x < xs.min) xs.min = x; if (x > xs.max) xs.max = x;
+        if (y < e.min) e.min = y; if (y > e.max) e.max = y;
+      });
+    });
+
+    var lim = def.limites || {};
+    var ex = escalaX(xs.min, xs.max, lim.x);
+    var ey = [null, escalaY(ys[1].min, ys[1].max, lim.y), temY2 ? escalaY(ys[2].min, ys[2].max, lim.y2) : null];
+    estado.escalas = { x: ex, y: ey, m: m, lw: lw, lh: lh };
+
+    function px(x) { return m.esq + ((x - ex.min) / (ex.max - ex.min)) * lw; }
+    function py(y, e) { var s = ey[e]; return m.topo + lh - ((y - s.min) / (s.max - s.min)) * lh; }
+    estado.px = px; estado.py = py;
+
+    var corRule = cor("--rule"), corMuted = cor("--muted"), corFg = cor("--fg");
+    ctx.lineWidth = 1;
+    ctx.font = "13px " + cor("--serif");
+
+    var cy = casasDe(ey[1].passo), v;
+    for (v = ey[1].min; v <= ey[1].max + ey[1].passo / 2; v += ey[1].passo) {
+      var yp = py(v, 1);
+      ctx.strokeStyle = corRule;
+      ctx.globalAlpha = Math.abs(v - ey[1].min) < 1e-12 ? 1 : 0.35;
+      ctx.beginPath(); ctx.moveTo(m.esq - 4, yp); ctx.lineTo(m.esq + lw, yp); ctx.stroke();
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = corMuted; ctx.textAlign = "right"; ctx.textBaseline = "middle";
+      ctx.fillText(fmt(v, cy), m.esq - 7, yp);
+    }
+    if (temY2) {
+      var c2 = casasDe(ey[2].passo);
+      for (v = ey[2].min; v <= ey[2].max + ey[2].passo / 2; v += ey[2].passo) {
+        var y2p = py(v, 2);
+        ctx.strokeStyle = corRule;
+        ctx.beginPath(); ctx.moveTo(m.esq + lw, y2p); ctx.lineTo(m.esq + lw + 4, y2p); ctx.stroke();
+        ctx.fillStyle = corMuted; ctx.textAlign = "left"; ctx.textBaseline = "middle";
+        ctx.fillText(fmt(v, c2), m.esq + lw + 7, y2p);
+      }
+    }
+    var cx = casasDe(ex.passo);
+    for (v = Math.ceil(ex.min / ex.passo - 1e-9) * ex.passo; v <= ex.max + 1e-9 * Math.abs(ex.max || 1); v += ex.passo) {
+      var xp = px(v);
+      ctx.strokeStyle = corRule;
+      ctx.beginPath(); ctx.moveTo(xp, m.topo + lh); ctx.lineTo(xp, m.topo + lh + 4); ctx.stroke();
+      ctx.fillStyle = corMuted; ctx.textAlign = "center"; ctx.textBaseline = "top";
+      ctx.fillText(fmt(v, cx), xp, m.topo + lh + 7);
+    }
+
+    ctx.strokeStyle = corRule;
+    ctx.beginPath();
+    ctx.moveTo(m.esq, m.topo); ctx.lineTo(m.esq, m.topo + lh); ctx.lineTo(m.esq + lw, m.topo + lh);
+    if (temY2) ctx.lineTo(m.esq + lw, m.topo);
+    ctx.stroke();
+
+    ctx.fillStyle = corFg;
+    ctx.font = "14px " + cor("--serif");
+    ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
+    ctx.fillText(def.eixoX || "x", m.esq + lw / 2, h - 10);
+    ctx.save(); ctx.translate(14, m.topo + lh / 2); ctx.rotate(-Math.PI / 2);
+    ctx.fillText(def.eixoY || "y", 0, 0); ctx.restore();
+    if (temY2) {
+      ctx.save(); ctx.translate(w - 8, m.topo + lh / 2); ctx.rotate(Math.PI / 2);
+      ctx.fillText(def.eixoY2 || "y₂", 0, 0); ctx.restore();
+    }
+
+    ctx.save();
+    ctx.beginPath(); ctx.rect(m.esq - 5, m.topo - 5, lw + 10, lh + 10); ctx.clip();
+    series.forEach(function (s, i) {
+      var sp = specs[i], c = cor("--serie-" + (i + 1)) || corFg;
+      ctx.strokeStyle = c; ctx.fillStyle = c; ctx.lineWidth = 2;
+      if (sp.tipo === "pontos") {
+        s.x.forEach(function (x, k) {
+          if (!isFinite(x) || !isFinite(s.y[k])) return;
+          ctx.beginPath(); ctx.arc(px(x), py(s.y[k], sp.eixo), 3.5, 0, 2 * Math.PI); ctx.fill();
+        });
+        return;
+      }
+      ctx.setLineDash(TRACOS[i] || []);
+      ctx.beginPath();
+      var aberto = false;
+      s.x.forEach(function (x, k) {
+        var y = s.y[k];
+        if (!isFinite(x) || !isFinite(y)) { aberto = false; return; }
+        if (!aberto) { ctx.moveTo(px(x), py(y, sp.eixo)); aberto = true; }
+        else ctx.lineTo(px(x), py(y, sp.eixo));
+      });
+      ctx.stroke(); ctx.setLineDash([]);
+    });
+    ctx.restore();
+
+    if (estado.cursor != null) desenharCursor(ctx, estado);
+  }
+
+  function desenharCursor(ctx, estado) {
+    var e = estado.escalas, m = e.m;
+    var x = e.x.min + ((estado.cursor - m.esq) / e.lw) * (e.x.max - e.x.min);
+    if (x < e.x.min || x > e.x.max) return;
+    var linhas = [estado.def.eixoX.replace(/\s*\(.*\)$/, "") + " = " + fmt(x, casasDe(e.x.passo) + 1)];
+    estado.series.forEach(function (s, i) {
+      var sp = estado.specs[i];
+      if (sp.tipo === "pontos") return;
+      var y = interpolar(s, x);
+      if (!isFinite(y)) return;
+      linhas.push(sp.nome + ": " + fmt(y, casasDe(e.y[sp.eixo].passo) + 1));
+      ctx.fillStyle = cor("--serie-" + (i + 1));
+      ctx.beginPath(); ctx.arc(estado.px(x), estado.py(y, sp.eixo), 4, 0, 2 * Math.PI); ctx.fill();
+    });
+
+    var xp = estado.px(x);
+    ctx.strokeStyle = cor("--muted"); ctx.setLineDash([3, 3]); ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(xp, m.topo); ctx.lineTo(xp, m.topo + e.lh); ctx.stroke(); ctx.setLineDash([]);
+
+    ctx.font = "13px " + cor("--serif");
+    var largura = Math.max.apply(null, linhas.map(function (l) { return ctx.measureText(l).width; })) + 16;
+    var altura = linhas.length * 15 + 10;
+    var bx = xp + 10 + largura > m.esq + e.lw ? xp - 10 - largura : xp + 10;
+    ctx.fillStyle = cor("--bg"); ctx.strokeStyle = cor("--rule");
+    ctx.fillRect(bx, m.topo + 6, largura, altura); ctx.strokeRect(bx, m.topo + 6, largura, altura);
+    ctx.fillStyle = cor("--fg"); ctx.textAlign = "left"; ctx.textBaseline = "top";
+    linhas.forEach(function (l, k) { ctx.fillText(l, bx + 8, m.topo + 11 + k * 15); });
+  }
+
+  function interpolar(s, x) {
+    for (var k = 1; k < s.x.length; k++) {
+      var a = s.x[k - 1], b = s.x[k];
+      if ((a <= x && x <= b) || (b <= x && x <= a)) {
+        if (a === b) return s.y[k];
+        return s.y[k - 1] + ((x - a) / (b - a)) * (s.y[k] - s.y[k - 1]);
+      }
+    }
+    return NaN;
+  }
+
+  function conferir(estado) {
+    var nome = estado.nome, avisados = estado.avisados;
+    var porEixo = {};
+    estado.series.forEach(function (s, i) {
+      var sp = estado.specs[i];
+      (porEixo[sp.eixo] = porEixo[sp.eixo] || []).push(i);
+      var ruins = s.y.filter(function (v) { return !isFinite(v); }).length;
+      if (ruins && !avisados["nan" + i]) {
+        avisados["nan" + i] = 1;
+        console.warn("[grafico] " + nome + ': a série "' + sp.nome + '" tem ' + ruins + " valores não finitos — a curva sai com buracos.");
+      }
+    });
+    Object.keys(porEixo).forEach(function (e) {
+      if (porEixo[e].length < 2) return;
+      var esc = estado.escalas.y[e], alt = esc.max - esc.min;
+      porEixo[e].forEach(function (i) {
+        var ys = estado.series[i].y.filter(isFinite);
+        if (!ys.length || estado.specs[i].tipo === "pontos") return;
+        var amp = Math.max.apply(null, ys) - Math.min.apply(null, ys);
+        if (amp > 0 && amp < 0.08 * alt && !avisados["chata" + i]) {
+          avisados["chata" + i] = 1;
+          console.warn("[grafico] " + nome + ': a série "' + estado.specs[i].nome + '" varia só ' +
+            Math.round((100 * amp) / alt) + "% da altura do eixo " + e + " — no gráfico ela é uma reta rente. " +
+            "Ponha-a no eixo 2 ({ nome, eixo: 2 }) ou numa figura própria.");
+        }
+      });
+    });
+  }
+
+  function pares(txt) {
+    var p = {};
+    (txt || "").split(",").forEach(function (par) {
+      var kv = par.split("=");
+      if (kv.length === 2) p[kv[0].trim()] = parseFloat(kv[1].trim());
+    });
+    return p;
+  }
+
+  function montar(el, nome) {
+    var def = DEFS[nome];
+    el.classList.add("moldura");
+    var params = Object.assign({}, def.padroes || {}, pares(el.dataset.params));
+    var specs = (def.series || []).map(specSerie);
+    var altura = Math.min(420, Math.max(320, parseFloat(el.dataset.altura) || 340));
+
+    var canvas = document.createElement("canvas");
+    canvas.setAttribute("role", "img");
+    canvas.setAttribute("aria-label", (def.eixoY || "y") + " contra " + (def.eixoX || "x"));
+    el.appendChild(canvas);
+
+    var legenda = document.createElement("div");
+    legenda.className = "legenda";
+    legenda.innerHTML = specs.map(function (s, i) {
+      return '<span class="l-' + (i + 1) + (s.tipo === "pontos" ? " l-pontos" : "") + '">' +
+        s.nome + (s.eixo === 2 ? " <small>(eixo à direita)</small>" : "") + "</span>";
+    }).join("");
+    el.appendChild(legenda);
+
+    var leitura = document.createElement("p");
+    leitura.className = "leitura";
+    el.appendChild(leitura);
+
+    var controles = document.createElement("div");
+    controles.className = "controles";
+    el.appendChild(controles);
+
+    var estado = { nome: nome, def: def, canvas: canvas, specs: specs, altura: altura, cursor: null, avisados: {} };
+
+    function recalcular() {
+      estado.series = normalizar(def.calcular(params), specs.length);
+      if (estado.series.length !== specs.length) {
+        console.error("[grafico] " + nome + ": calcular() devolveu " + estado.series.length +
+          " séries, e `series` declara " + specs.length + ".");
+      }
+      estado.series = estado.series.slice(0, specs.length);
+      desenhar(estado);
+      conferir(estado);
+      leitura.textContent = typeof def.ler === "function" ? def.ler(estado.series, params) : "";
+    }
+    function redesenhar() { if (estado.series) desenhar(estado); }
+
+    var pedidos = (el.dataset.controles || "").split(",").map(function (s) { return s.trim(); }).filter(Boolean);
+    if (pedidos.length > 4) console.warn("[grafico] " + nome + ": " + pedidos.length + " controles — o limite é quatro.");
+    pedidos.forEach(function (spec) {
+      var q = spec.split(":"), chave = q[0].trim();
+      var f = q.length === 4 ? q.slice(1).map(parseFloat) : (def.faixas || {})[chave];
+      if (!f) {
+        console.error("[grafico] " + nome + ': o controle "' + chave + '" não tem faixa — declare em faixas ou como "' + chave + ':min:max:passo".');
+        return;
+      }
+      if (!(chave in params)) {
+        console.error("[grafico] " + nome + ': o controle "' + chave + '" não está em padroes, e calcular() nunca o lê.');
+        return;
+      }
+      if (params[chave] < f[0] || params[chave] > f[1]) {
+        console.warn("[grafico] " + nome + ": " + chave + " = " + params[chave] + " fica fora da faixa [" + f[0] + ", " + f[1] + "].");
+      }
+      var un = (def.unidades || {})[chave] || "";
+      var casas = casasDe(f[2]);
+
+      var bloco = document.createElement("div");
+      bloco.className = "controle";
+      var label = document.createElement("label");
+      var nomeSpan = document.createElement("span");
+      var rotulo = (def.nomes || {})[chave] || chave;
+      nomeSpan.textContent = rotulo;
+      var valor = document.createElement("span");
+      valor.className = "valor";
+      function mostrar() { valor.textContent = fmt(params[chave], casas) + (un ? " " + un : ""); }
+      mostrar();
+      label.appendChild(nomeSpan); label.appendChild(valor);
+
+      var range = document.createElement("input");
+      range.type = "range";
+      range.min = f[0]; range.max = f[1]; range.step = f[2];
+      range.value = params[chave];
+      range.setAttribute("aria-label", rotulo + (un ? " em " + un : ""));
+      range.addEventListener("input", function () {
+        params[chave] = parseFloat(range.value);
+        mostrar();
+        recalcular();
+      });
+      bloco.appendChild(label); bloco.appendChild(range);
+      controles.appendChild(bloco);
+    });
+
+    canvas.addEventListener("pointermove", function (ev) {
+      estado.cursor = ev.clientX - canvas.getBoundingClientRect().left;
+      redesenhar();
+    });
+    canvas.addEventListener("pointerleave", function () { estado.cursor = null; redesenhar(); });
+
+    recalcular();
+    REDESENHOS.push(redesenhar);
+  }
+
+  function iniciar() {
+    document.querySelectorAll(".grafico[data-grafico]").forEach(function (el) {
+      var nome = el.dataset.grafico;
+      if (el.dataset.montado || !DEFS[nome]) return;   // idempotente; espera o registrar
+      el.dataset.montado = "1";
+      montar(el, nome);
+    });
+  }
+
+  function redesenharTodos() { REDESENHOS.forEach(function (f) { f(); }); }
+
+  window.addEventListener("resize", redesenharTodos);
+  document.addEventListener("tema-mudou", redesenharTodos);
+  if (window.matchMedia) {
+    var mq = window.matchMedia("(prefers-color-scheme: dark)");
+    if (mq.addEventListener) mq.addEventListener("change", redesenharTodos);
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", iniciar);
+  else iniciar();
+
+  window.addEventListener("load", function () {
+    document.querySelectorAll(".grafico[data-grafico]").forEach(function (el) {
+      if (!el.dataset.montado) console.error('[grafico] nenhum Grafico.registrar("' + el.dataset.grafico + '") — a figura ficou vazia.');
+    });
+  });
+
+  window.Grafico = {
+    registrar: registrar,
+    iniciar: iniciar,
+    integrar: integrar,
+    linspace: linspace,
+    raiz: raiz,
+    fmt: fmt
+  };
+})();
+
+</script>
+<script>
+
+(function () {
+  "use strict";
+
+  var PYODIDE = "https://cdn.jsdelivr.net/pyodide/v0.27.2/full/";
+  var CHAVE = "licao-editor:" + location.pathname;
+  var INDENT = "    ";
+  var VAZIO = "O editor começa vazio.\n\n" +
+    "Em cada bloco de código da lição, o botão  → editor  traz aquele trecho " +
+    "para cá, no fim do programa. Monte o programa passo a passo e aperte " +
+    "Rodar (ou Ctrl+Enter).";
+
+  var py = null;          // a instância do Pyodide, quando carregada
+  var carregando = null;  // a promessa do carregamento, para não carregar duas vezes
+
+  function guardar(txt) { try { localStorage.setItem(CHAVE, txt); } catch (e) { /* sem armazenamento */ } }
+  function lido() { try { return localStorage.getItem(CHAVE); } catch (e) { return null; } }
+  function esquecer() { try { localStorage.removeItem(CHAVE); } catch (e) { /* idem */ } }
+
+  function realcar(txt) {
+    return window.Codigo && window.Codigo.realcarTexto
+      ? window.Codigo.realcarTexto(txt)
+      : txt.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  function el(tag, cls, txt) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (txt != null) e.textContent = txt;
+    return e;
+  }
+
+  function icone(nome) { return el("span", "ic ic-" + nome); }
+
+  function rotular(b, partes) {
+    b.textContent = "";
+    partes.forEach(function (p) { b.append(typeof p === "string" ? document.createTextNode(p) : p); });
+  }
+
+  function botao(cls, partes, titulo) {
+    var b = el("button", cls);
+    b.type = "button";
+    if (partes) rotular(b, [].concat(partes));
+    if (titulo) b.title = titulo;
+    return b;
+  }
+
+  function botaoIcone(cls, nome, titulo) {
+    var b = botao(cls + " editor-icone", [icone(nome)], titulo);
+    b.setAttribute("aria-label", titulo);
+    return b;
+  }
+
+  function montar() {
+    var abrir = botao("editor-abrir", null, "Abrir o editor de código");
+    abrir.setAttribute("aria-label", "Abrir o editor de código");
+    abrir.append(el("span", "editor-abrir-texto", "Editor de código"), el("span", "editor-abrir-seta"));
+
+    var painel = el("aside", "editor-painel");
+    painel.setAttribute("aria-label", "Editor de Python");
+
+    var topo = el("div", "editor-topo");
+    var rodar = botaoIcone("editor-rodar", "play", "Rodar (Ctrl+Enter)");
+    var limpar = botaoIcone("editor-botao editor-limpar", "lixo", "Esvaziar o editor");
+    var fechar = botaoIcone("editor-botao editor-fechar", "x", "Fechar o editor");
+    topo.append(el("span", "editor-titulo", "Editor de código"), rodar, limpar, fechar);
+
+    var codigo = el("div", "editor-codigo");
+    var linhas = el("div", "editor-linhas");
+    linhas.setAttribute("aria-hidden", "true");
+    var campo = el("div", "editor-campo");
+    var realce = el("pre", "editor-realce");
+    realce.setAttribute("aria-hidden", "true");
+    var realceCode = el("code", "sem-realce");
+    realce.appendChild(realceCode);
+    var texto = el("textarea", "editor-texto");
+    texto.spellcheck = false;
+    texto.placeholder = VAZIO;
+    texto.setAttribute("autocapitalize", "off");
+    texto.setAttribute("autocomplete", "off");
+    texto.setAttribute("aria-label", "Código Python");
+    campo.append(realce, texto);
+    codigo.append(linhas, campo);
+
+    var saida = el("div", "editor-saida");
+    var saidaTopo = el("div", "editor-saida-topo");
+    var estado = el("span", "editor-estado", "Na primeira vez que você rodar, o Python é baixado (precisa de internet).");
+    var limparSaida = botaoIcone("editor-limpar-saida", "lixo", "Apagar a saída, sem mexer no código");
+    saidaTopo.append(el("span", "", "Saída"), estado, limparSaida);
+    var resultado = el("div", "editor-resultado");
+    saida.append(saidaTopo, resultado);
+
+    var divisor = el("div", "editor-divisor");
+    divisor.setAttribute("role", "separator");
+    divisor.setAttribute("aria-orientation", "horizontal");
+    divisor.setAttribute("aria-label", "Arraste para dividir o espaço entre o código e a saída");
+    divisor.title = "Arraste para dividir o espaço · duplo clique volta ao meio";
+    divisor.tabIndex = 0;
+
+    var lateral = el("div", "editor-divisor-v");
+    lateral.setAttribute("role", "separator");
+    lateral.setAttribute("aria-orientation", "vertical");
+    lateral.setAttribute("aria-label", "Arraste para dividir a largura entre a lição e o editor");
+    lateral.title = "Arraste para os lados · duplo clique volta ao padrão";
+    lateral.tabIndex = 0;
+
+    painel.append(lateral, topo, codigo, divisor, saida);
+    document.body.append(abrir, painel);
+
+    var raiz = document.documentElement;
+    var MIN_EDITOR = 360;   // px: o editor ainda mostra uma linha de código inteira
+    var MIN_LICAO = 420;    // px: a lição ainda é uma coluna legível
+
+    function redesenharLicao() { window.dispatchEvent(new Event("resize")); }
+
+    function larguraEditor(w) {
+      w = Math.max(MIN_EDITOR, Math.min(window.innerWidth - MIN_LICAO, w));
+      raiz.style.setProperty("--editor-w", w + "px");
+      return w;
+    }
+
+    function larguraPadrao() {
+      raiz.style.removeProperty("--editor-w");
+      try { localStorage.removeItem("licao-editor-largura"); } catch (e) { /* sem armazenamento */ }
+      redesenharLicao();
+    }
+
+    function guardarLargura(w) {
+      try { localStorage.setItem("licao-editor-largura", String(Math.round(w))); } catch (e) { /* idem */ }
+    }
+
+    lateral.addEventListener("pointerdown", function (ev) {
+      ev.preventDefault();
+      lateral.setPointerCapture(ev.pointerId);
+      lateral.classList.add("arrastando");
+      document.body.classList.add("redimensionando");
+      var ultima = painel.offsetWidth, quadro = 0;
+      function mover(e) {
+        var vao = parseFloat(getComputedStyle(painel).right) || 0;
+        ultima = larguraEditor(window.innerWidth - vao - e.clientX - vao / 2);
+        if (!quadro) quadro = requestAnimationFrame(function () { quadro = 0; redesenharLicao(); });
+      }
+      function soltar() {
+        lateral.classList.remove("arrastando");
+        document.body.classList.remove("redimensionando");
+        lateral.removeEventListener("pointermove", mover);
+        lateral.removeEventListener("pointerup", soltar);
+        lateral.removeEventListener("pointercancel", soltar);
+        guardarLargura(ultima);
+        redesenharLicao();
+      }
+      lateral.addEventListener("pointermove", mover);
+      lateral.addEventListener("pointerup", soltar);
+      lateral.addEventListener("pointercancel", soltar);
+    });
+    lateral.addEventListener("dblclick", larguraPadrao);
+    lateral.addEventListener("keydown", function (ev) {
+      var passo = ev.shiftKey ? 120 : 40;
+      if (ev.key === "ArrowLeft" || ev.key === "ArrowRight") {
+        ev.preventDefault();
+        guardarLargura(larguraEditor(painel.offsetWidth + (ev.key === "ArrowLeft" ? passo : -passo)));
+        redesenharLicao();
+      }
+    });
+
+    try {
+      var largura = parseFloat(localStorage.getItem("licao-editor-largura"));
+      if (largura) larguraEditor(largura);
+    } catch (e) { /* sem armazenamento: fica a largura padrão */ }
+
+    var MINIMO = 90;   // px: nenhuma das duas some de vez
+
+    function dividir(altura) {
+      var livre = painel.clientHeight - topo.offsetHeight - divisor.offsetHeight;
+      altura = Math.max(MINIMO, Math.min(livre - MINIMO, altura));
+      codigo.style.flex = "0 0 " + altura + "px";
+      saida.style.flex = "1 1 0";
+      return altura;
+    }
+
+    function divisaoPadrao() {
+      codigo.style.flex = "";
+      saida.style.flex = "";
+      try { localStorage.removeItem("licao-editor-divisao"); } catch (e) { /* sem armazenamento */ }
+    }
+
+    function guardarDivisao(altura) {
+      try { localStorage.setItem("licao-editor-divisao", String(Math.round(altura))); } catch (e) { /* idem */ }
+    }
+
+    divisor.addEventListener("pointerdown", function (ev) {
+      ev.preventDefault();
+      divisor.setPointerCapture(ev.pointerId);
+      divisor.classList.add("arrastando");
+      var y0 = ev.clientY, h0 = codigo.offsetHeight, ultima = h0;
+      function mover(e) { ultima = dividir(h0 + e.clientY - y0); }
+      function soltar() {
+        divisor.classList.remove("arrastando");
+        divisor.removeEventListener("pointermove", mover);
+        divisor.removeEventListener("pointerup", soltar);
+        divisor.removeEventListener("pointercancel", soltar);
+        guardarDivisao(ultima);
+      }
+      divisor.addEventListener("pointermove", mover);
+      divisor.addEventListener("pointerup", soltar);
+      divisor.addEventListener("pointercancel", soltar);
+    });
+    divisor.addEventListener("dblclick", divisaoPadrao);
+    divisor.addEventListener("keydown", function (ev) {
+      var passo = ev.shiftKey ? 80 : 24;
+      if (ev.key === "ArrowUp" || ev.key === "ArrowDown") {
+        ev.preventDefault();
+        guardarDivisao(dividir(codigo.offsetHeight + (ev.key === "ArrowDown" ? passo : -passo)));
+      }
+    });
+
+    try {
+      var salva = parseFloat(localStorage.getItem("licao-editor-divisao"));
+      if (salva) codigo.style.flex = "0 0 " + salva + "px";
+    } catch (e) { /* sem armazenamento: fica a divisão padrão */ }
+
+    function sincronizar() {
+      realce.scrollTop = texto.scrollTop;
+      realce.scrollLeft = texto.scrollLeft;
+      linhas.scrollTop = texto.scrollTop;
+    }
+
+    function pintar() {
+      realceCode.innerHTML = realcar(texto.value) + "\n";
+      var n = texto.value ? texto.value.split("\n").length : 1;
+      var nums = "";
+      for (var i = 1; i <= n; i++) nums += i + "\n";
+      linhas.textContent = nums;
+      sincronizar();
+    }
+
+    function aoEditar() { pintar(); guardar(texto.value); }
+
+    function inserir(txt) {
+      if (!document.execCommand || !document.execCommand("insertText", false, txt)) {
+        var a = texto.selectionStart, b = texto.selectionEnd;
+        texto.value = texto.value.slice(0, a) + txt + texto.value.slice(b);
+        texto.selectionStart = texto.selectionEnd = a + txt.length;
+      }
+      aoEditar();
+    }
+
+    texto.addEventListener("input", aoEditar);
+    texto.addEventListener("scroll", sincronizar);
+    texto.addEventListener("keydown", function (ev) {
+      if (ev.key === "Enter" && (ev.ctrlKey || ev.metaKey)) {
+        ev.preventDefault();
+        executar();
+      } else if (ev.key === "Tab" && !ev.shiftKey) {
+        ev.preventDefault();
+        inserir(INDENT);
+      } else if (ev.key === "Enter") {
+        var antes = texto.value.slice(0, texto.selectionStart);
+        var linha = antes.slice(antes.lastIndexOf("\n") + 1);
+        var recuo = linha.match(/^[ \t]*/)[0];
+        if (/:[ \t]*(#.*)?$/.test(linha)) recuo += INDENT;
+        ev.preventDefault();
+        inserir("\n" + recuo);
+      }
+    });
+
+    texto.value = lido() || "";
+    pintar();
+
+    function alternar(aberto) {
+      document.body.classList.toggle("com-editor", aberto);
+      setTimeout(function () { window.dispatchEvent(new Event("resize")); }, 320);
+    }
+    abrir.addEventListener("click", function () {
+      alternar(true);
+      setTimeout(function () { texto.focus(); }, 320);
+    });
+    fechar.addEventListener("click", function () { alternar(false); });
+    limpar.addEventListener("click", function () {
+      texto.value = "";
+      esquecer();
+      pintar();
+      resultado.textContent = "";
+      texto.focus();
+    });
+    rodar.addEventListener("click", executar);
+    limparSaida.addEventListener("click", function () {
+      resultado.textContent = "";
+      estado.textContent = "";
+    });
+
+    function acrescentar(trecho) {
+      trecho = trecho.replace(/\s+$/, "") + "\n";
+      var atual = texto.value.replace(/\s+$/, "");
+      texto.value = atual ? atual + "\n\n" + trecho : trecho;
+      aoEditar();
+      texto.scrollTop = texto.scrollHeight;
+      sincronizar();
+      codigo.classList.remove("recebeu");
+      void codigo.offsetWidth;          // reinicia o lampejo
+      codigo.classList.add("recebeu");
+    }
+
+    document.querySelectorAll("section.codigo pre").forEach(function (pre) {
+      var c = pre.querySelector("code");
+      if (!c) return;
+      var b = botaoIcone("para-editor", "enviar", "Levar este trecho ao fim do programa no editor");
+      b.addEventListener("click", function (ev) {
+        ev.stopPropagation();           // o clique não abre nem fecha o passo ao redor
+        if (!document.body.classList.contains("com-editor")) alternar(true);
+        acrescentar(c.textContent);
+        rotular(b, [icone("check")]);
+        b.classList.add("enviado");
+        setTimeout(function () { rotular(b, [icone("enviar")]); b.classList.remove("enviado"); }, 1600);
+      });
+      pre.classList.add("com-copia");
+      pre.appendChild(b);
+    });
+
+    function escrever(txt, cls) {
+      var ultimo = resultado.lastElementChild;
+      if (ultimo && ultimo.tagName === "PRE" && ultimo.className === cls) {
+        ultimo.textContent += txt + "\n";
+      } else {
+        resultado.appendChild(el("pre", cls, txt + "\n"));
+      }
+    }
+
+    function figura(b64) {
+      var img = el("img", "saida-figura");
+      img.alt = "Figura gerada pelo programa";
+      img.src = "data:image/png;base64," + b64;
+      resultado.appendChild(img);
+    }
+
+    function carregar() {
+      if (carregando) return carregando;
+      carregando = new Promise(function (ok, falha) {
+        estado.textContent = "Baixando o Python… (só na primeira vez)";
+        var s = document.createElement("script");
+        s.src = PYODIDE + "pyodide.js";
+        s.onload = function () {
+          window.loadPyodide({ indexURL: PYODIDE }).then(function (p) {
+            py = p;
+            py.setStdout({ batched: function (t) { escrever(t, "saida-texto"); } });
+            py.setStderr({ batched: function (t) {
+              if (/building the font cache/i.test(t)) return;
+              escrever(t, "saida-erro");
+            } });
+            py.globals.set("_licao_figura", figura);
+            ok(py);
+          }, falha);
+        };
+        s.onerror = function () { falha(new Error("sem conexão")); };
+        document.head.appendChild(s);
+      });
+      carregando.catch(function () { carregando = null; });
+      return carregando;
+    }
+
+    var PREPARO_MPL = [
+      "import io, base64",
+      "import matplotlib",
+      "matplotlib.use('Agg')",
+      "import matplotlib.pyplot as plt",
+      "def _licao_show(*a, **k):",
+      "    for n in plt.get_fignums():",
+      "        b = io.BytesIO()",
+      "        plt.figure(n).savefig(b, format='png', dpi=110, bbox_inches='tight')",
+      "        _licao_figura(base64.b64encode(b.getvalue()).decode())",
+      "    plt.close('all')",
+      "plt.show = _licao_show"
+    ].join("\n");
+
+    var ocupado = false;
+
+    function executar() {
+      if (ocupado) return;
+      var codigoPy = texto.value;
+      if (!codigoPy.trim()) {
+        estado.textContent = "O editor está vazio: traga os trechos da lição com  → editor.";
+        return;
+      }
+      ocupado = true;
+      rodar.disabled = true;
+      resultado.textContent = "";
+      var t0;
+
+      carregar().then(function () {
+        estado.textContent = "Carregando as bibliotecas que o programa importa…";
+        return py.loadPackagesFromImports(codigoPy);
+      }).then(function () {
+        if (py.loadedPackages.matplotlib) py.runPython(PREPARO_MPL);
+        estado.textContent = "Rodando…";
+        t0 = performance.now();
+        var ns = py.globals.get("dict")();
+        return py.runPythonAsync(codigoPy, { globals: ns }).finally(function () { ns.destroy(); });
+      }).then(function () {
+        if (py.loadedPackages.matplotlib) py.runPython("_licao_show()");
+        var s = (performance.now() - t0) / 1000;
+        estado.textContent = "Pronto em " + s.toFixed(1).replace(".", ",") + " s";
+        if (!resultado.childElementCount) escrever("(o programa não imprimiu nada)", "saida-vazia");
+      }).catch(function (err) {
+        if (!py) {
+          estado.textContent = "Não consegui baixar o Python. O editor precisa de internet na primeira vez.";
+          return;
+        }
+        var msg = String((err && err.message) || err);
+        var corte = msg.indexOf('File "<exec>"');
+        escrever(corte >= 0 ? "Traceback (most recent call last):\n  " + msg.slice(corte) : msg, "saida-erro");
+        estado.textContent = "O programa parou com um erro";
+      }).finally(function () {
+        ocupado = false;
+        rodar.disabled = false;
+      });
+    }
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", montar);
+  else montar();
+})();
+
+</script>
+</body>
+</html>

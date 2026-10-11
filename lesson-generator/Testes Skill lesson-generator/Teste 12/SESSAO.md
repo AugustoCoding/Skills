@@ -46,20 +46,61 @@
 
 | | Horário |
 |---|---|
-| Início | |
-| Fim do turno 1 | |
-| **Duração** | |
+| Início | 00:56:24 UTC |
+| Fim do turno 1 | 01:00:35 UTC |
+| **Duração** | **4 min 11 s** (Teste 11: 4 min 09 s) |
+
+Sessão: "Temperatura ótima reator CSTR", iniciada à mão.
 
 ## 5. Saída
 
+```text
+~\testes-lesson-generator\teste-12\
+  licoes\
+    temperatura-otima-de-um-cstr-com-reacao-reversivel.html   131 KB, arquivo único
+```
+
+Copiada para [com-skill/](./com-skill/). `conferir.py` na entrega: nenhum erro nem aviso de conteúdo (só os esperados de arquivo empacotado, com os componentes embutidos).
+
 ## 6. Avaliação
+
+**Fluxo**
+
+- [x] Skill invocada pelo comando; não entrevistou; destino padrão; rascunho apagado; sem commit; resposta em duas linhas
+
+**O que mudou desde o Teste 11**
+
+- [x] Quadro "O exercício" na abertura, com os dados e os símbolos marcados, e a lista com as duas perguntas (armadilha 7)
+- [x] Nome curto da técnica: "Otimização em uma variável"; quadro sem aviso de tamanho
+- [x] O "como" em lista no passo que chama o `minimize_scalar`
+- [x] Nenhuma caixa de erro: o texto não força alerta onde não precisa
+- [x] Quatro equações complementares com título (Arrhenius, van 't Hoff, constante inversa, conversão de equilíbrio)
+- [x] Linhas de código com no máximo 68 caracteres; programa termina em `plt.show()`
+
+**A lição**
+
+- [x] Balanço com o consumo líquido (direta menos inversa), k₋₁ = k₁/K deduzido do equilíbrio, e a observação de que a inversa é mais sensível à temperatura (E₂ = 140 kJ/mol) (armadilhas 1 e 2)
+- [x] Arrhenius e van 't Hoff na forma com temperatura de referência, em J/mol (armadilha 3)
+- [x] Máximo por `minimize_scalar` no negativo da conversão, com intervalo (armadilha 4)
+- [x] Verificação independente: a temperatura ótima por uma fórmula fechada (derivada nula), que dá os mesmos 376,6 K e 370,9 K; e a conversão sempre abaixo da de equilíbrio (armadilha 5)
+- [x] Figura com a conversão e a conversão de equilíbrio contra a temperatura, controle de τ, observações ancoradas
+- [x] Editor: os seis passos rodaram no Pyodide, com a figura; console limpo
+
+**Correção técnica** (contra o [gabarito](./EXERCICIO.md), rodando o programa da lição)
+
+- [x] τ = 10 min: 376,6 K, X = 0,551; X(350 K) = 0,328; X_eq no ótimo = 0,741
+- [x] τ = 20 min: 370,9 K, X = 0,646; X_eq no ótimo = 0,810 (armadilha 6)
 
 ## 7. Achados
 
 | # | Achado | Gravidade | Onde |
 |---|---|---|---|
 
+Nenhum achado.
+
 ## 8. Veredito
+
+**Aprovado, sem ressalvas.** 4 min 11 s, números exatos, uma verificação independente melhor que a pedida (a fórmula fechada do ótimo), e todas as mudanças desde o Teste 11 funcionando como previsto: enunciado em quadro, nome curto da técnica, "como" em lista e nenhuma caixa de erro.
 
 ## 9. O que mudou depois deste teste
 
