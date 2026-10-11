@@ -14,7 +14,15 @@
   <h1>A partida de um CSTR</h1>
 </header>
 
-<p>Um reator de tanque agitado contínuo (CSTR) de 100 L começa cheio de solvente puro e passa a receber, a 5 L/min, uma alimentação com 2,0 mol/L do reagente A, que se converte em B por uma reação de primeira ordem com <span class="param">k</span> = 0,1 min⁻¹. Logo depois da partida não há reagente nenhum lá dentro; aos poucos A entra, parte dele reage, e as concentrações caminham para um estado estacionário. O exercício pede duas coisas: a concentração de A nesse estacionário e quanto tempo o reator leva para chegar a 95% dela. Você vai sair com um programa que integra os balanços de A e de B, encontra esse instante sozinho e confere o próprio resultado contra a solução exata.</p>
+<div class="enunciado">
+  <p>Um reator de tanque agitado contínuo (CSTR) com <span class="param">V</span> = 100 L de líquido começa cheio de solvente puro. A partir de t = 0, ele recebe <span class="param">F</span> = 5 L/min de uma alimentação com <span class="param">C<sub>A0</sub></span> = 2,0 mol/L do reagente A, que se converte no produto B por uma reação de primeira ordem com <span class="param">k</span> = 0,1 min⁻¹. A vazão de saída é igual à de entrada. Calcule:</p>
+  <ul>
+    <li>a concentração de A no reator em estado estacionário;</li>
+    <li>o tempo que o reator leva para chegar a 95% dessa concentração.</li>
+  </ul>
+</div>
+
+<p>Logo depois da partida não há reagente nenhum lá dentro; aos poucos A entra, parte dele reage, e as concentrações caminham para um estado estacionário. Você vai sair com um programa que integra os balanços de A e de B, encontra esse instante sozinho e confere o próprio resultado contra a solução exata.</p>
 
 <h2>O modelo</h2>
 
@@ -209,7 +217,6 @@ CB_ss = k * tau * CA_ss          # dCB/dt = 0 resolvido para CB
 def chega_95(t, C):
     return C[0] - 0.95 * CA_ss</code></pre>
     <p class="como">O estacionário sai de uma linha de álgebra: zere a derivada de A e isole <span class="var-1">C<sub>A</sub></span>; o mesmo para B. A função <code>chega_95</code> recebe o mesmo <code>t</code> e <code>C</code> da função dos balanços e devolve a distância entre <span class="var-1">C<sub>A</sub></span> (o <code>C[0]</code>, primeiro item da lista) e o alvo: negativa antes, positiva depois. Entregue à <code>solve_ivp</code> como <span class="termo">evento</span>, ela é consultada a cada avanço no tempo, e o instante em que troca de sinal é localizado com precisão: é o instante pedido.</p>
-    <div class="armadilha"><p>Mirar em 95% de <span class="param">C<sub>A0</sub></span> em vez de 95% de <span class="var-1">C<sub>A</sub></span> no estacionário. O alvo seria 1,9 mol/L, que o reator nunca alcança porque a reação consome parte do A: o evento não dispara, <code>sol.t_events[0]</code> volta vazio, e a linha seguinte quebra com <code>IndexError</code>.</p></div>
     <p class="agora">O programa sabe onde cada concentração vai parar e tem como reconhecer o instante pedido. Falta avançar no tempo.</p>
   </div>
 
@@ -241,7 +248,7 @@ CA_fim, CB_fim = sol.y[:, -1]</code></pre>
 CA_exata = CA_ss * (1 - np.exp(-(1 / tau + k) * t))
 desvio = np.max(np.abs(sol.sol(t)[0] - CA_exata))</code></pre>
     <p class="como"><code>np.linspace(0, t_fim, 601)</code> cria 601 instantes igualmente espaçados entre 0 e <code>t_fim</code>. A linha seguinte calcula a solução exata de A em todos eles de uma vez: com o NumPy, uma conta feita com uma lista vale para cada elemento dela. <code>sol.sol(t)</code> avalia a solução numérica nos mesmos instantes (é a fórmula guardada pelo <code>dense_output</code>), e o <code>[0]</code> pega a linha de A. <code>np.abs</code> tira o sinal das diferenças, e <code>np.max</code> fica com a maior.</p>
-    <div class="confira"><p>A solução exata é uma exponencial que sobe até <span class="var-1">C<sub>A</sub></span> no estacionário com velocidade 1/<span class="param">τ</span> + <span class="param">k</span>. A <code>solve_ivp</code> não sabe disso. Se as duas concordam em 601 pontos, até a nona casa, o código dos balanços e a integração numérica estão certos, e não só "plausíveis".</p></div>
+    <p class="como">A solução exata é uma exponencial que sobe até <span class="var-1">C<sub>A</sub></span> no estacionário com velocidade 1/<span class="param">τ</span> + <span class="param">k</span>. A <code>solve_ivp</code> não sabe disso. Se as duas concordam em 601 pontos, até a nona casa, o código dos balanços e a integração numérica estão certos, e não só "plausíveis".</p>
     <p class="agora">O programa resolve o exercício e confere o próprio resultado. Falta mostrá-lo.</p>
   </div>
 

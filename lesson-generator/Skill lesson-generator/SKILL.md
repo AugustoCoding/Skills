@@ -57,7 +57,7 @@ A lição tem quatro seções, nesta ordem: abertura, O modelo, O código e O re
 
 ### 4.1 Abertura
 
-Três a cinco frases: o processo, o que o enunciado pede e o que o aluno terá no fim.
+A lição começa pelo **enunciado** (`div.enunciado`), reescrito com clareza: todos os dados do exercício, com unidade e com os símbolos marcados, e, numa lista, o que ele pede, um item por pergunta. Depois, duas ou três frases: o que acontece no processo e o que o aluno terá no fim.
 
 ### 4.2 O modelo
 
@@ -123,7 +123,7 @@ A seção começa pela **resposta**: os números que o exercício pede, com os m
 
 Cada opcional só deve ser usado se ensinar algo que o texto principal não ensina:
 
-- com marcação no template: o erro que parece certo (com o sintoma pelo qual ele aparece na saída), conferência extra, tabela de resultados, nota lateral e termo destacado;
+- com marcação no template: tabela de resultados, nota lateral e termo destacado;
 - como figuras do `pecas.html`: segundo eixo e dados contra modelo.
 
 Você não deve criar componente nem figura que não seja do tipo x contra y: o que não couber nesse formato deve ser explicado em texto.

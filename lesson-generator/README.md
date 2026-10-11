@@ -15,7 +15,7 @@ A lição não entrega apenas a resposta nem é uma aula de teoria: ela deduz o 
 
 A lição tem quatro seções, sempre nesta ordem:
 
-1. **Abertura**: o processo e o que o exercício pede.
+1. **Abertura**: o enunciado reescrito com clareza, com os dados e a lista do que se pede, e duas ou três frases sobre o processo.
 2. **O modelo**: cada balanço deduzido do princípio de conservação até a equação final, em etapas etiquetadas (princípio, tradução, cinética, hipótese, álgebra, definição); a tabela de parâmetros com procedência; e o quadro da técnica, que nomeia o método de solução e justifica a escolha.
 3. **O código**: até seis passos, cada um em três partes (intenção, sintaxe, o que o programa passou a fazer), uma verificação independente e o programa completo.
 4. **O resultado**: a resposta numérica, a figura com até quatro controles e observações ancoradas nos valores deste exercício.

@@ -1206,18 +1206,42 @@ canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
 }
 .tecnica > :last-child { margin-bottom: 0; }
 
-/* ---------- blocos pedagógicos opcionais ---------- */
-/* Todos com a mesma forma — fundo de código, rótulo em versalete — para que o
-   aluno reconheça a função pelo rótulo, não pela cor. O rótulo sai do CSS. */
+/* ---------- o enunciado ---------- */
+/* Abre a lição: o exercício reescrito, com os dados e, numa lista, o que se
+   pede. Neutro, sem a cor de nenhuma seção: é de onde tudo parte. */
+.enunciado {
+  margin: 0 0 1.6rem;
+  padding: 1rem 1.25rem;
+  border-left: 4px solid var(--muted);
+  border-radius: 0 var(--raio) var(--raio) 0;
+  background: var(--code-bg);
+}
+.enunciado::before {
+  content: "O exercício";
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: var(--t-rotulo);
+  font-weight: 600;
+  letter-spacing: var(--esp-rotulo);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.enunciado > p { margin: 0 0 0.6rem; }
+.enunciado > ul { margin: 0; padding-left: 1.3rem; }
+.enunciado > ul > li { margin: 0.25rem 0; }
+.enunciado > :last-child { margin-bottom: 0; }
 
-.armadilha, .confira, .no-seu-codigo {
+/* ---------- blocos pedagógicos ---------- */
+/* O "no seu código" das observações de controle; o rótulo sai do CSS. */
+
+.no-seu-codigo {
   background: var(--code-bg);
   border-radius: var(--raio);
   padding: 0.9rem 1.1rem;
   margin: 1.2rem 0;
   font-size: var(--t-texto);
 }
-.armadilha::before, .confira::before, .no-seu-codigo::before {
+.no-seu-codigo::before {
   display: block;
   font-family: var(--serif);
   font-size: var(--t-rotulo);
@@ -1227,10 +1251,8 @@ canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
   margin-bottom: 0.35rem;
   color: var(--muted);
 }
-.armadilha::before    { content: "O erro que parece certo"; color: var(--err); }
-.confira::before      { content: "Como saber que está certo"; color: var(--mom-codigo); }
 .no-seu-codigo::before { content: "No seu código"; color: var(--mom-resultado); }
-.armadilha > :last-child, .confira > :last-child, .no-seu-codigo > :last-child { margin-bottom: 0; }
+.no-seu-codigo > :last-child { margin-bottom: 0; }
 
 /* Dentro da lista de observações, o "no seu código" é uma linha, não uma caixa. */
 li .no-seu-codigo { display: block; margin: 0.4rem 0 0; padding: 0.4rem 0.8rem; font-size: var(--t-apoio); }
@@ -1536,15 +1558,18 @@ body.com-editor .editor-abrir { display: none; }
   z-index: 20;
   display: flex;
   flex-direction: column;
-  background: var(--code-bg);
-  border-radius: 16px;
-  box-shadow: 0 0 0 1px var(--borda-folha), 0 12px 40px var(--sombra-folha);
+  /* Dois blocos (o código e a saída) com um vão entre eles, onde fica a alça.
+     A sombra segue o desenho de cada bloco (drop-shadow), não a caixa toda. */
+  background: transparent;
+  filter: drop-shadow(0 0 1px var(--borda-folha)) drop-shadow(0 10px 18px var(--sombra-folha));
   transform: translateX(calc(100% + 2 * var(--editor-vao)));
   transition: transform 0.3s ease;
 }
 body.com-editor .editor-painel { transform: none; }
 
 .editor-topo {
+  background: var(--code-bg);
+  border-radius: 16px 16px 0 0;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -1586,7 +1611,7 @@ button.editor-icone {
 
 /* O editor: um textarea transparente por cima do código realçado, com a
    mesma fonte e o mesmo espaçamento, e a numeração das linhas ao lado. */
-.editor-codigo { flex: 1 1 55%; display: flex; min-height: 0; }
+.editor-codigo { flex: 1 1 55%; display: flex; min-height: 0; background: var(--code-bg); border-radius: 0 0 16px 16px; overflow: hidden; }
 .editor-linhas,
 .editor-realce,
 .editor-texto {
@@ -1675,12 +1700,12 @@ body.redimensionando { user-select: none; }
 
 /* A alça entre o código e a saída: um fio fino com a mesma pílula. */
 .editor-divisor {
+  /* No vão entre o bloco do código e o da saída. */
   flex: none;
-  height: 12px;
+  height: max(12px, var(--editor-vao));
   cursor: row-resize;
   touch-action: none;
   position: relative;
-  border-top: 1px solid var(--rule);
 }
 .editor-divisor::after {
   content: "";
@@ -1706,8 +1731,8 @@ body.redimensionando { user-select: none; }
   min-height: 0;
   display: flex;
   flex-direction: column;
-  background: var(--bg);
-  border-radius: 0 0 16px 16px;
+  background: var(--code-bg);
+  border-radius: 16px;
   overflow: hidden;
 }
 .editor-saida-topo {

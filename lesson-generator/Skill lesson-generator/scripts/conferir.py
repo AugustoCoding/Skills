@@ -139,6 +139,8 @@ def conferir_estrutura(doc):
     corpo = doc.achar("body")[0] if doc.achar("body") else doc
     filhos = corpo.filhos_no()
     primeiro_h2 = next((i for i, n in enumerate(filhos) if n.tag == "h2"), None)
+    if primeiro_h2 is None or not any(n.tag == "div" and n.tem("enunciado") for n in filhos[:primeiro_h2]):
+        erro("Falta o enunciado (div.enunciado) antes de \"O modelo\": os dados e o que se pede.")
     if primeiro_h2 is None or not any(n.tag == "p" for n in filhos[:primeiro_h2]):
         erro("Falta a abertura: um parágrafo antes de \"O modelo\", situando o problema.")
 
@@ -179,7 +181,7 @@ def conferir_estrutura(doc):
         if len(h2s) >= 2 and tecnica[0] is not filhos[h2s[1] - 1]:
             erro("A técnica tem de ser o último bloco de \"O modelo\", logo antes de \"O código\".")
 
-    for cls in ("pense", "gancho"):
+    for cls in ("pense", "gancho", "armadilha", "confira"):
         if doc.achar(cls=cls):
             erro(f"A marcação .{cls} saiu da lição: tire-a.")
 
