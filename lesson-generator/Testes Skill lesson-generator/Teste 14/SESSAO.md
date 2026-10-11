@@ -109,4 +109,4 @@ Copiadas para [com-skill-en/](./com-skill-en/) e [com-skill-pt/](./com-skill-pt/
 
 | Commit | O que corrigiu |
 |---|---|
-| {a preencher} | Curva chamada pelo nome da legenda, nunca pela cor (regra e aviso no `check.py`); conta à vista com expoente e com resultado de conta anterior; nome do balanço cortado na primeira vírgula |
+| `01a700b` | Curva chamada pelo nome da legenda, nunca pela cor (regra e aviso no `check.py`); conta à vista com expoente e com resultado de conta anterior; nome do balanço cortado na primeira vírgula |
