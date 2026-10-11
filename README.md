@@ -1,28 +1,26 @@
 # Skills
 
-Coleção de skills para uso com LLMs. Cada skill reúne as instruções, exemplos e recursos necessários para orientar um modelo a resolver um tipo específico de problema, junto com uma área separada para testar essa skill.
+A collection of skills for LLMs. Each skill gathers the instructions, examples and resources needed to guide a model in solving a specific kind of problem, together with a separate area for testing that skill.
 
-## Estrutura
+## Layout
 
-Cada skill vive em sua própria pasta na raiz do repositório, com duas subpastas:
+Each skill lives in its own folder at the root of the repository, with its subfolders:
 
 ```text
-<Nome da Skill>/
-  Skill <Nome da Skill>/     # definição da skill (o que é carregado no contexto do modelo)
-  Testes Skill <Nome da Skill>/   # validação da skill: comparação de saídas com e sem a skill
+<Skill name>/
+  Skill <Skill name>/          # the skill's definition (what is loaded into the model's context)
+  Testes Skill <Skill name>/   # validation of the skill: one recorded run per test
 ```
 
-A separação entre a pasta da skill e a pasta de testes é proposital: a pasta `Skill .../` é o que se carrega no contexto do modelo, então ela não deve conter nada além do que a skill precisa para funcionar. Os testes ficam fora, para não contaminar esse contexto.
+The separation between the skill folder and the test folder is deliberate: the `Skill .../` folder is what gets loaded into the model's context, so it must hold nothing beyond what the skill needs to work. The tests stay outside, so they do not contaminate that context.
 
-## Skills disponíveis
+## Available skills
 
 ### lesson-generator
 
-Transforma um exercício de engenharia química numa lição HTML que ensina o aluno a programar a solução em Python: o modelo e a técnica que o resolve, o código explicado passo a passo com uma verificação, e uma figura interativa para ler o resultado.
+Turns a chemical engineering exercise into an HTML lesson that teaches the student to program the solution in Python: the model and the technique that solves it, the code explained step by step with a check, and an interactive figure to read the result.
 
-- [`lesson-generator/README.md`](lesson-generator/README.md) — a apresentação do projeto: a ideia, a estrutura da lição, como instalar.
-- [`lesson-generator/Skill lesson-generator/`](lesson-generator/Skill%20lesson-generator/) — a skill: o `SKILL.md`, o template e os componentes.
-- [`lesson-generator/Modelo Skill lesson-generator/`](lesson-generator/Modelo%20Skill%20lesson-generator/) — uma lição de exemplo completa, onde a estrutura é revisada ao vivo antes de ir para a skill.
-- [`lesson-generator/Testes Skill lesson-generator/`](lesson-generator/Testes%20Skill%20lesson-generator/) — testes da skill: uma pasta por execução, com o registro de reprodutibilidade e a saída do modelo.
-
-Em desenvolvimento, com sete execuções de teste documentadas, todas com exercícios de fermentação, a área de origem da skill.
+- [`lesson-generator/README.md`](lesson-generator/README.md) — the project's presentation: the idea, the structure of the lesson, how to install it.
+- [`lesson-generator/Skill lesson-generator/`](lesson-generator/Skill%20lesson-generator/) — the skill: `SKILL.md`, the templates and the components.
+- [`lesson-generator/Modelo Skill lesson-generator/`](lesson-generator/Modelo%20Skill%20lesson-generator/) — a complete example lesson, where the structure is revised live before it goes to the skill.
+- [`lesson-generator/Testes Skill lesson-generator/`](lesson-generator/Testes%20Skill%20lesson-generator/) — the skill's tests: one folder per run, with its reproducibility record and the model's output (in Portuguese).

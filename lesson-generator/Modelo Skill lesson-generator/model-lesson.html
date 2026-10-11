@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Start-up of a CSTR — programming the transient in Python</title>
+<!-- The model points to the SKILL's assets: whatever changes there shows up here. -->
+<link rel="stylesheet" href="../Skill%20lesson-generator/assets/lesson.css">
+</head>
+<body>
+
+<header class="lesson">
+  <span class="tag">Reactors · initial value ODE system</span>
+  <h1>The start-up of a CSTR</h1>
+</header>
+
+<div class="problem">
+  <p>A continuous stirred tank reactor (CSTR) with <span class="param">V</span> = 100 L of liquid starts full of pure solvent. From t = 0 on, it receives <span class="param">F</span> = 5 L/min of a feed with <span class="param">C<sub>A0</sub></span> = 2.0 mol/L of reactant A, which turns into product B by a first-order reaction with <span class="param">k</span> = 0.1 min⁻¹. The outlet flow equals the inlet flow. Calculate:</p>
+  <ul>
+    <li>the steady-state concentration of A in the reactor;</li>
+    <li>the time the reactor takes to reach 95% of that concentration.</li>
+  </ul>
+</div>
+
+<p>Right after start-up there is no reactant inside at all; little by little A comes in, part of it reacts, and the concentrations head toward a steady state. You will leave with a program that integrates the balances of A and B, finds that instant by itself and checks its own result against the exact solution.</p>
+
+<h2>The model</h2>
+
+<h3 class="balance balance-mass">Mass balance of component A, in moles</h3>
+
+<ol class="derivation">
+  <li>
+    <div class="equation">
+      <math display="block">
+        <mtext>accumulation of A</mtext><mo>=</mo><mtext>in</mtext><mo>−</mo><mtext>out</mtext><mo>−</mo><mtext>consumption</mtext>
+      </math>
+    </div>
+    <p class="why"><span class="kind kind-principle">principle</span>A does not appear or disappear for no reason. This is a component mass balance, written in moles because the reaction counts molecules. Taking the liquid inside the reactor as the control volume, what accumulates there is what comes in, minus what goes out, minus what the reaction consumes. Each term is measured in moles of A per minute.</p>
+  </li>
+  <li>
+    <div class="equation">
+      <math display="block">
+        <munder><mrow class="brace-under">
+          <mfrac><mrow><mi>d</mi><mo>(</mo><mi class="param">V</mi><mo>⋅</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub><mo>)</mo></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+        </mrow><mtext class="brace">accumulation</mtext></munder>
+        <mo>=</mo>
+        <munder><mrow class="brace-under"><mi class="param">F</mi><mo>⋅</mo><msub class="param"><mi>C</mi><mrow><mi>A</mi><mn>0</mn></mrow></msub></mrow><mtext class="brace">in</mtext></munder>
+        <mo>−</mo>
+        <munder><mrow class="brace-under"><mi class="param">F</mi><mo>⋅</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub></mrow><mtext class="brace">out</mtext></munder>
+        <mo>−</mo>
+        <munder><mrow class="brace-under"><msub><mi>r</mi><mi>A</mi></msub><mo>⋅</mo><mi class="param">V</mi></mrow><mtext class="brace">consumption</mtext></munder>
+      </math>
+    </div>
+    <ul class="symbols">
+      <li><code class="param">V</code> — volume of liquid inside the reactor, L</li>
+      <li><code class="var-1">C<sub>A</sub></code> — concentration of reactant A inside the reactor, which is also that of the outlet stream, because stirring keeps the tank uniform, mol/L</li>
+      <li><code class="param">F</code> — volumetric flow of the feed, equal to that of the outlet, L/min</li>
+      <li><code class="param">C<sub>A0</sub></code> — concentration of A in the feed stream, mol/L</li>
+      <li><code>r<sub>A</sub></code> — rate at which the reaction consumes A: how many moles of A react per liter of liquid every minute, mol/(L·min)</li>
+    </ul>
+    <p class="why"><span class="kind kind-translation">translation</span>Each word becomes a molar flow. The amount of A in the reactor is <span class="param">V</span>·<span class="var-1">C<sub>A</sub></span>. The inlet stream brings <span class="param">F</span>·<span class="param">C<sub>A0</sub></span>, and the outlet takes <span class="param">F</span>·<span class="var-1">C<sub>A</sub></span>, because the liquid leaves with the composition of the tank. The reaction consumes <span class="param">r<sub>A</sub></span> in each liter, and there are <span class="param">V</span> liters.</p>
+  </li>
+  <li>
+    <div class="equation">
+      <math display="block">
+        <msub><mi>r</mi><mi>A</mi></msub><mo>=</mo><mi class="param">k</mi><mo>⋅</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub>
+      </math>
+    </div>
+    <ul class="symbols">
+      <li><code class="param">k</code> — rate constant of the reaction A → B: the fraction of the A present that reacts every minute, 1/min</li>
+    </ul>
+    <p class="why"><span class="kind kind-kinetics">kinetics</span>The reaction is first order, as the problem states: the rate is proportional to the concentration of A. With twice as much A in the tank, twice as much reacts per minute.</p>
+  </li>
+  <li>
+    <div class="equation">
+      <math display="block">
+        <mi class="param">V</mi><mo>⋅</mo><mfrac><mrow><mi>d</mi><msub class="var-1"><mi>C</mi><mi>A</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+        <mo>=</mo><mi class="param">F</mi><mo>⋅</mo><mo>(</mo><msub class="param"><mi>C</mi><mrow><mi>A</mi><mn>0</mn></mrow></msub><mo>−</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub><mo>)</mo>
+        <mo>−</mo><mi class="param">k</mi><mo>⋅</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub><mo>⋅</mo><mi class="param">V</mi>
+      </math>
+    </div>
+    <p class="why"><span class="kind kind-assumption">assumption</span>The volume of liquid does not change, because the same flow <span class="param">F</span> goes in and out. So <span class="param">V</span> comes out of the derivative as a constant. If the tank were filling up, this step would not hold, and the volume would need a balance of its own.</p>
+  </li>
+  <li class="final">
+    <div class="equation">
+      <math display="block">
+        <munder><mrow class="brace-under">
+          <mfrac><mrow><mi>d</mi><msub class="var-1"><mi>C</mi><mi>A</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+        </mrow><mtext class="brace">accumulation of A</mtext></munder>
+        <mo>=</mo>
+        <munder><mrow class="brace-under">
+          <mfrac><mn>1</mn><mi class="param">τ</mi></mfrac><mo>(</mo><msub class="param"><mi>C</mi><mrow><mi>A</mi><mn>0</mn></mrow></msub><mo>−</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub><mo>)</mo>
+        </mrow><mtext class="brace">in minus out</mtext></munder>
+        <mo>−</mo>
+        <munder><mrow class="brace-under">
+          <mi class="param">k</mi><mo>⋅</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub>
+        </mrow><mtext class="brace">consumption by the reaction</mtext></munder>
+      </math>
+    </div>
+    <ul class="symbols">
+      <li><code class="param">τ</code> — residence time: how long, on average, a portion of liquid stays in the reactor before leaving, equal to <span class="param">V</span>/<span class="param">F</span>, min</li>
+    </ul>
+    <p class="why"><span class="kind kind-algebra">algebra</span><span class="kind kind-definition">definition</span>Dividing everything by <span class="param">V</span> and calling <span class="param">V</span>/<span class="param">F</span> <span class="param">τ</span>, we reach the model equation for A.</p>
+    <p>The concentration of A inside the tank changes for two reasons. The stream brings A at <span class="param">C<sub>A0</sub></span> and takes it away at <span class="var-1">C<sub>A</sub></span>, and this exchange, divided by the residence time, pushes the tank toward the feed. At the same time, the reaction consumes A at a rate proportional to what is already there. The steady state is the point where the two effects cancel out.</p>
+  </li>
+</ol>
+
+<h3 class="balance balance-mass">Mass balance of component B, in moles</h3>
+
+<ol class="derivation">
+  <li>
+    <div class="equation">
+      <math display="block">
+        <mtext>accumulation of B</mtext><mo>=</mo><mtext>in</mtext><mo>−</mo><mtext>out</mtext><mo>+</mo><mtext>generation</mtext>
+      </math>
+    </div>
+    <p class="why"><span class="kind kind-principle">principle</span>Another component mass balance, in moles, with the same control volume. For B, the reaction appears with a plus sign, because it produces B.</p>
+  </li>
+  <li>
+    <div class="equation">
+      <math display="block">
+        <munder><mrow class="brace-under">
+          <mfrac><mrow><mi>d</mi><mo>(</mo><mi class="param">V</mi><mo>⋅</mo><msub class="var-2"><mi>C</mi><mi>B</mi></msub><mo>)</mo></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+        </mrow><mtext class="brace">accumulation</mtext></munder>
+        <mo>=</mo>
+        <munder><mrow class="brace-under"><mn>0</mn></mrow><mtext class="brace">in</mtext></munder>
+        <mo>−</mo>
+        <munder><mrow class="brace-under"><mi class="param">F</mi><mo>⋅</mo><msub class="var-2"><mi>C</mi><mi>B</mi></msub></mrow><mtext class="brace">out</mtext></munder>
+        <mo>+</mo>
+        <munder><mrow class="brace-under"><msub><mi>r</mi><mi>A</mi></msub><mo>⋅</mo><mi class="param">V</mi></mrow><mtext class="brace">generation</mtext></munder>
+      </math>
+    </div>
+    <ul class="symbols">
+      <li><code class="var-2">C<sub>B</sub></code> — concentration of product B inside the reactor and at the outlet, mol/L</li>
+    </ul>
+    <p class="why"><span class="kind kind-translation">translation</span>B does not come in with the feed, so the inlet is zero. Since the reaction A → B turns one mole into one mole, the generation of B is exactly the consumption of A, <span class="param">r<sub>A</sub></span>·<span class="param">V</span>.</p>
+  </li>
+  <li class="final">
+    <div class="equation">
+      <math display="block">
+        <munder><mrow class="brace-under">
+          <mfrac><mrow><mi>d</mi><msub class="var-2"><mi>C</mi><mi>B</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+        </mrow><mtext class="brace">accumulation of B</mtext></munder>
+        <mo>=</mo>
+        <munder><mrow class="brace-under">
+          <mo>−</mo><mfrac><msub class="var-2"><mi>C</mi><mi>B</mi></msub><mi class="param">τ</mi></mfrac>
+        </mrow><mtext class="brace">leaves with the stream</mtext></munder>
+        <mo>+</mo>
+        <munder><mrow class="brace-under">
+          <mi class="param">k</mi><mo>⋅</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub>
+        </mrow><mtext class="brace">formation by the reaction</mtext></munder>
+      </math>
+    </div>
+    <p class="why"><span class="kind kind-kinetics">kinetics</span><span class="kind kind-assumption">assumption</span><span class="kind kind-algebra">algebra</span>The same three steps as in the balance of A, at once: <span class="param">r<sub>A</sub></span> = <span class="param">k</span>·<span class="var-1">C<sub>A</sub></span>, constant volume, and everything divided by <span class="param">V</span>.</p>
+    <p>B is only born from the reaction and only leaves with the outlet stream. The formation term is the same <span class="param">k</span>·<span class="var-1">C<sub>A</sub></span> that appears with the opposite sign in the equation of A: it is what ties the two balances together.</p>
+  </li>
+</ol>
+
+<table>
+<thead><tr><th>Parameter</th><th class="num">Value</th><th>Unit</th><th>Source</th></tr></thead>
+<tbody>
+<tr><td><code class="param">V</code></td><td class="num">100</td><td class="unit">L</td><td><span class="source source-given">given</span></td></tr>
+<tr><td><code class="param">F</code></td><td class="num">5.0</td><td class="unit">L/min</td><td><span class="source source-given">given</span></td></tr>
+<tr><td><code class="param">C<sub>A0</sub></code></td><td class="num">2.0</td><td class="unit">mol/L</td><td><span class="source source-given">given</span></td></tr>
+<tr><td><code class="param">k</code></td><td class="num">0.1</td><td class="unit">1/min</td><td><span class="source source-given">given</span></td></tr>
+<tr><td><code class="param">τ</code></td><td class="num">20</td><td class="unit">min</td><td><span class="source source-derived">derived</span><span class="param">V</span>/<span class="param">F</span> = 100/5</td></tr>
+<tr><td><code class="var-1">C<sub>A</sub>(0)</code>, <code class="var-2">C<sub>B</sub>(0)</code></td><td class="num">0</td><td class="unit">mol/L</td><td><span class="source source-given">given</span>the reactor starts with solvent only</td></tr>
+<tr><td><code class="param">t<sub>end</sub></code></td><td class="num">60</td><td class="unit">min</td><td><span class="source source-choice">choice</span>three residence times, enough to see the steady state</td></tr>
+</tbody>
+</table>
+
+<div class="technique">
+  <p class="technique-name">Numerical integration</p>
+  <p>The model says how much each concentration changes at every instant, and we know where they start: from zero, at start-up. To solve this kind of problem, we will use <span class="term">numerical integration</span>: starting from the initial value, the computer advances time in very short steps and, at each one, uses the equations to update the concentrations. It fits here because it only needs the equations and the starting point. In Python, the function that does this is <code>solve_ivp</code>, from the SciPy library. See the next section to learn how to use it.</p>
+</div>
+
+<h2>The code</h2>
+
+<section class="code">
+
+  <div class="step">
+    <h3>Parameters</h3>
+    <p class="purpose">First, store the data of the problem in variables, so the rest of the program uses them by name instead of repeating loose numbers.</p>
+<pre><code>import numpy as np
+from scipy.integrate import solve_ivp
+import matplotlib.pyplot as plt
+
+V = 100.0      # volume of liquid in the reactor, L
+F = 5.0        # feed flow (equal to the outlet), L/min
+CA0 = 2.0      # concentration of A in the feed, mol/L
+k = 0.1        # rate constant of A -> B, 1/min
+tau = V / F    # residence time, min
+t_end = 60.0   # simulation horizon, min</code></pre>
+    <p class="how"><code>import</code> brings in the libraries the program will use: NumPy, for calculations with lists of numbers; the function <code>solve_ivp</code>, from SciPy, which does the numerical integration; and Matplotlib, for the plot. The <code>as np</code> gives the library a short nickname, and <code>from … import</code> brings only the function we need. Each following line creates a variable: the name to the left of the <code>=</code> now holds the value on the right. The <code>#</code> starts a comment, which Python ignores; that is where the unit goes. The residence time is calculated, not typed: if you change <span class="param">V</span> or <span class="param">F</span>, it follows by itself.</p>
+    <p class="so-far">The program knows the reactor: all the data are stored with names, and nothing has been calculated yet.</p>
+  </div>
+
+  <div class="step">
+    <h3>The balances of A and B</h3>
+    <p class="purpose"><code>solve_ivp</code> needs to ask, for any instant and any concentrations, how fast each concentration is changing. That is exactly what the two model equations answer; so we write them in a function.</p>
+<pre><code>def derivatives(t, C):
+    CA, CB = C
+    r = k * CA                   # reaction rate, mol/(L·min)
+    dCA = (CA0 - CA) / tau - r   # in - out - consumption
+    dCB = (0.0 - CB) / tau + r   # no B in - B out + formation
+    return [dCA, dCB]</code></pre>
+    <p class="how"><code>def</code> creates a function: <code>derivatives</code> is its name, and <code>t</code> and <code>C</code> are what it receives, the instant and the list with the two concentrations. The body is the indented block below the colon. <code>CA, CB = C</code> unpacks the list into two variables with the names of the equation. The next three lines are the model, term by term; the <code>0.0</code> makes it visible that no B comes in, instead of looking forgotten. <code>return</code> gives back the two derivatives, in the same order as the concentrations. The order of what the function receives, first <code>t</code> and then <code>C</code>, is the one <code>solve_ivp</code> requires, even though <code>t</code> does not appear in the calculations. The rate <code>r</code> is calculated once and used in both lines: all A consumed shows up as B.</p>
+    <p class="so-far">The model became code: given the concentrations at an instant, the program can tell where they are heading.</p>
+  </div>
+
+  <div class="step">
+    <h3>The target: 95% of the steady state</h3>
+    <p class="purpose">The problem asks for the instant at which A reaches 95% of the steady state. For that, we need the steady-state value and a way for <code>solve_ivp</code> to signal when that value is reached.</p>
+<pre><code>CA_ss = CA0 / (1 + k * tau)      # dCA/dt = 0 solved for CA
+CB_ss = k * tau * CA_ss          # dCB/dt = 0 solved for CB
+
+def reaches_95(t, C):
+    return C[0] - 0.95 * CA_ss</code></pre>
+    <p class="how">The steady state comes from one line of algebra: set the derivative of A to zero and isolate <span class="var-1">C<sub>A</sub></span>; the same for B. The function <code>reaches_95</code> receives the same <code>t</code> and <code>C</code> as the balance function and returns the distance between <span class="var-1">C<sub>A</sub></span> (the <code>C[0]</code>, the first item of the list) and the target: negative before, positive after. Handed to <code>solve_ivp</code> as an <span class="term">event</span>, it is checked at every advance in time, and the instant at which it changes sign is located precisely: it is the instant asked for.</p>
+    <p class="so-far">The program knows where each concentration will settle and has a way to recognize the instant asked for. What remains is to advance in time.</p>
+  </div>
+
+  <div class="step">
+    <h3>The integration</h3>
+    <p class="purpose">Now, the numerical integration itself: take the concentrations from zero to the end of the horizon, recording the instant of the event on the way.</p>
+<pre><code>sol = solve_ivp(derivatives, (0, t_end), [0.0, 0.0],
+                rtol=1e-8, atol=1e-10,
+                events=reaches_95, dense_output=True)
+t95 = sol.t_events[0][0]
+CA_end, CB_end = sol.y[:, -1]</code></pre>
+    <p class="how"><code>solve_ivp</code> receives three arguments in order and the others by name:</p>
+    <ul class="how">
+      <li><code>derivatives</code>: the balance function, handed over without parentheses, because <code>solve_ivp</code> is the one that calls it.</li>
+      <li><code>(0, t_end)</code>: the time interval, from the start to the horizon.</li>
+      <li><code>[0.0, 0.0]</code>: the initial concentrations of A and B.</li>
+      <li><code>rtol</code> and <code>atol</code>: the <span class="term">tolerances</span>, the error it accepts at each advance, relative to the size of the concentration and absolute, in mol/L. The smaller they are, the shorter the advances and the more exact the result; with these values, the instant of the event comes out right far beyond the two decimals the lesson quotes, and the next step measures that.</li>
+      <li><code>events=reaches_95</code>: switches on the event of the previous step.</li>
+      <li><code>dense_output=True</code>: keeps a formula that stitches the calculated points together, to evaluate the solution at any instant without integrating again.</li>
+    </ul>
+    <p class="how">The answer goes into <code>sol</code>: <code>sol.t_events[0][0]</code> is the first instant at which the first event fired, and <code>sol.y[:, -1]</code> is the last column of <code>sol.y</code>, the two concentrations at the end, unpacked into two variables.</p>
+    <p class="so-far">The problem is solved: <code>t95</code> holds the instant asked for. Before trusting it, let us check it.</p>
+  </div>
+
+  <div class="step">
+    <h3>Checking against the exact solution</h3>
+    <p class="purpose">A number that comes from a numerical method needs an independent proof. Here there is one: the equation of A has an exact solution, and the two can be compared.</p>
+<pre><code>t = np.linspace(0, t_end, 601)
+CA_exact = CA_ss * (1 - np.exp(-(1 / tau + k) * t))
+deviation = np.max(np.abs(sol.sol(t)[0] - CA_exact))</code></pre>
+    <p class="how"><code>np.linspace(0, t_end, 601)</code> creates 601 equally spaced instants between 0 and <code>t_end</code>. The next line calculates the exact solution of A at all of them at once: with NumPy, a calculation done with a list applies to each of its elements. <code>sol.sol(t)</code> evaluates the numerical solution at the same instants (it is the formula kept by <code>dense_output</code>), and the <code>[0]</code> takes the row of A. <code>np.abs</code> removes the sign of the differences, and <code>np.max</code> keeps the largest.</p>
+    <p class="how">The exact solution is an exponential that rises to the steady-state <span class="var-1">C<sub>A</sub></span> with rate 1/<span class="param">τ</span> + <span class="param">k</span>. <code>solve_ivp</code> does not know that. If the two agree at 601 points, to the ninth decimal, the code of the balances and the numerical integration are right, and not just "plausible".</p>
+    <p class="so-far">The program solves the problem and checks its own result. What remains is to show it.</p>
+  </div>
+
+  <div class="step">
+    <h3>Printing and drawing</h3>
+    <p class="purpose">Finally, show the numbers the problem asks for and the start-up curve.</p>
+<pre><code>print(f"Steady-state CA: {CA_ss:.3f} mol/L")
+print(f"A reaches 95% of the steady state at t = {t95:.2f} min")
+print(f"At {t_end:.0f} min: CA = {CA_end:.3f} mol/L, CB = {CB_end:.3f} mol/L "
+      f"({CB_end / CB_ss:.0%} of the steady state of B, {CB_ss:.3f} mol/L)")
+print(f"Largest deviation from the exact solution: {deviation:.1e} mol/L")
+
+CA, CB = sol.sol(t)
+plt.plot(t, CA, label="Reactant A")
+plt.plot(t, CB, "--", label="Product B")
+plt.xlabel("Time (min)")
+plt.ylabel("Concentration (mol/L)")
+plt.legend()
+plt.show()</code></pre>
+    <p class="how">A text with <code>f</code> before the quotes inserts the value of each variable written between braces; after the colon comes the format: <code>.3f</code> is three decimals, <code>.2f</code> two, <code>.0%</code> a percentage with no decimals, <code>.1e</code> scientific notation. Two texts side by side inside the parentheses become one, which lets the long line break. In the plot, <code>sol.sol(t)</code> gives the two concentrations at the 601 instants; <code>plt.plot</code> draws each curve, with its name in <code>label</code> and <code>"--"</code> for the dashed one; <code>xlabel</code>, <code>ylabel</code> and <code>legend</code> add the names; and <code>plt.show()</code> shows the figure. The 601 points make the curve smooth: the instants at which <code>solve_ivp</code> stopped are few and uneven, and with them the curve would come out broken right at the start.</p>
+    <p class="so-far">The program is complete: it prints the answers and draws the start-up of the reactor.</p>
+  </div>
+
+  <div class="step">
+    <h3>The complete program</h3>
+<pre><code>import numpy as np
+from scipy.integrate import solve_ivp
+import matplotlib.pyplot as plt
+
+# --- parameters ---
+V = 100.0      # volume of liquid in the reactor, L
+F = 5.0        # feed flow (equal to the outlet), L/min
+CA0 = 2.0      # concentration of A in the feed, mol/L
+k = 0.1        # rate constant of A -> B, 1/min
+tau = V / F    # residence time, min
+t_end = 60.0   # simulation horizon, min
+
+# --- balances of A and B ---
+def derivatives(t, C):
+    CA, CB = C
+    r = k * CA                   # reaction rate, mol/(L·min)
+    dCA = (CA0 - CA) / tau - r   # in - out - consumption
+    dCB = (0.0 - CB) / tau + r   # no B in - B out + formation
+    return [dCA, dCB]
+
+# --- the target: 95% of the steady state of A ---
+CA_ss = CA0 / (1 + k * tau)      # dCA/dt = 0 solved for CA
+CB_ss = k * tau * CA_ss          # dCB/dt = 0 solved for CB
+
+def reaches_95(t, C):
+    return C[0] - 0.95 * CA_ss
+
+# --- integration ---
+sol = solve_ivp(derivatives, (0, t_end), [0.0, 0.0],
+                rtol=1e-8, atol=1e-10,
+                events=reaches_95, dense_output=True)
+t95 = sol.t_events[0][0]
+CA_end, CB_end = sol.y[:, -1]
+
+# --- check against the exact solution of A ---
+t = np.linspace(0, t_end, 601)
+CA_exact = CA_ss * (1 - np.exp(-(1 / tau + k) * t))
+deviation = np.max(np.abs(sol.sol(t)[0] - CA_exact))
+
+# --- results ---
+print(f"Steady-state CA: {CA_ss:.3f} mol/L")
+print(f"A reaches 95% of the steady state at t = {t95:.2f} min")
+print(f"At {t_end:.0f} min: CA = {CA_end:.3f} mol/L, CB = {CB_end:.3f} mol/L "
+      f"({CB_end / CB_ss:.0%} of the steady state of B, {CB_ss:.3f} mol/L)")
+print(f"Largest deviation from the exact solution: {deviation:.1e} mol/L")
+
+CA, CB = sol.sol(t)
+plt.plot(t, CA, label="Reactant A")
+plt.plot(t, CB, "--", label="Product B")
+plt.xlabel("Time (min)")
+plt.ylabel("Concentration (mol/L)")
+plt.legend()
+plt.show()</code></pre>
+    <p>The six steps together, in order, ready to run. It is the same program you build in the editor by bringing in step after step.</p>
+  </div>
+
+</section>
+
+<h2>The result</h2>
+
+<div class="answer">
+  <p>At steady state, <span class="var-1">C<sub>A</sub></span> = 0.667 mol/L: two thirds of the A that comes in is converted.</p>
+  <p>The reactor reaches 95% of that value at t = 19.97 min.</p>
+  <p>The program also prints <span class="var-2">C<sub>B</sub></span> = 1.234 mol/L at 60 min (93% of the 1.333 mol/L steady state of B) and a largest deviation of 1.7·10⁻⁹ mol/L from the exact solution.</p>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  Plot.register("start-up", {
+    xLabel: "Time (min)",
+    yLabel: "Concentration (mol/L)",
+    series: ["Reactant A", "Product B"],
+    defaults: { k: 0.1, F: 5, V: 100, CA0: 2.0, tf: 60 },
+    ranges:   { k: [0.02, 0.40, 0.01], F: [1, 20, 1] },
+    units:    { k: "1/min", F: "L/min" },
+    compute: function (p) {
+      var tau = p.V / p.F;
+      var r = Plot.integrate(function (t, C) {
+        var rr = p.k * C[0];
+        return [(p.CA0 - C[0]) / tau - rr, -C[1] / tau + rr];
+      }, [0, 0], 0, p.tf, p);
+      return { x: r.t, y: r.y };
+    },
+    readout: function (s, p) {
+      var tau = p.V / p.F, CAss = p.CA0 / (1 + p.k * tau);
+      var t95 = -Math.log(0.05) / (1 / tau + p.k);
+      return "Steady-state A: " + Plot.fmt(CAss, 3) + " mol/L · 95% at " +
+        Plot.fmt(t95, 1) + " min · τ = " + Plot.fmt(tau, 0) + " min";
+    }
+  });
+});
+</script>
+
+<div class="plot" data-plot="start-up" data-controls="k, F"></div>
+
+<ol class="observations">
+  <li>
+    <h3>Why does <span class="var-2">product B</span> take longer than <span class="var-1">reactant A</span>?</h3>
+    <p><span class="var-1">Reactant A</span> rises and settles around 20 min, while <span class="var-2">product B</span> keeps rising: at 60 min it is still at 93% of its steady state. The difference lies in the balances. A adjusts through the exchange with the stream and through the reaction at the same time, with rate 1/<span class="param">τ</span> + <span class="param">k</span>. B is only removed by the stream, with rate 1/<span class="param">τ</span>, which in this reactor is three times smaller.</p>
+  </li>
+  <li>
+    <h3>What does <span class="param">C<sub>A0</sub></span> change in the start-up time?</h3>
+    <p>Nothing. Doubling the feed concentration doubles the steady state, but the whole curve scales with it, and the 95% still falls at the same instant, because that instant only depends on 1/<span class="param">τ</span> + <span class="param">k</span>.</p>
+  </li>
+  <li>
+    <h3>Take <code class="param">k</code> up to 0.30 1/min</h3>
+    <p><span class="var-1">Reactant A</span> settles much lower and sooner: the faster reaction consumes more A before it leaves, and the same reaction speeds up the balance between inflow and consumption.</p>
+    <p class="in-your-code">Change <code>k = 0.1</code> to <code>k = 0.3</code> and run: the program prints 0.286 mol/L and 95% at 8.56 min.</p>
+  </li>
+  <li>
+    <h3>Take <code class="param">F</code> down to 2 L/min</h3>
+    <p>The residence time goes to 50 min, and <span class="var-1">reactant A</span> settles lower, because it stays longer inside to react. In exchange, the start-up takes longer. It is the trade-off of every CSTR: more conversion costs a slower response.</p>
+    <p class="in-your-code">Change <code>F = 5.0</code> to <code>F = 2.0</code>: the program prints 0.333 mol/L and 95% at 24.96 min.</p>
+  </li>
+</ol>
+
+<div class="ask">
+  <strong>Something unclear?</strong> Ask in the chat.
+</div>
+
+<script src="../Skill%20lesson-generator/assets/theme.js" defer></script>
+<script src="../Skill%20lesson-generator/assets/lesson.js" defer></script>
+<script src="../Skill%20lesson-generator/assets/plot.js" defer></script>
+<script src="../Skill%20lesson-generator/assets/editor.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,451 @@
+<!doctype html>
+<!--
+  READY-MADE PIECES — not a lesson. It is the catalog of content to copy into
+  one: a complete example derivation, the most common balances in MathML with
+  their braces, the complementary equations and a ready figure for each kind
+  of problem. The template (lesson.html) has only the patterns. Open it in the
+  browser to see each piece working; copy the markup of the one that fits and
+  change symbols, labels and calculations to those of the exercise. Whatever
+  is not here, build in the same pattern.
+
+  The pieces are in English: write their texts in the language of the problem
+  statement when you copy them.
+
+  Color: var-1, var-2… on the quantities the figure shows; param on constants.
+  Recolor when copying: the color follows the order of the series in YOUR figure.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ready-made lesson pieces</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+
+<header class="lesson">
+  <span class="tag">lesson-generator · catalog</span>
+  <h1>Ready-made pieces</h1>
+</header>
+
+<p>Each piece is a ready example to copy and adapt: change symbols, labels, texts and calculations to those of the exercise. The number of steps, balances and figures is whatever the exercise needs; nothing here is a mandatory structure.</p>
+
+<nav class="index">
+  <p><strong>Complete derivation</strong> · <a href="#derivation">one balance from end to end</a></p>
+  <p><strong>Balances</strong> (the translation step, with the braces) · <a href="#b-tank">component in a tank</a> · <a href="#b-overall">overall mass</a> · <a href="#b-tube">component in a tube</a> · <a href="#b-energy-tank">energy in a tank</a> · <a href="#b-energy-tube">energy in a tube</a> · <a href="#b-separator">separator</a></p>
+  <p><strong>Complementary equations</strong> · <a href="#e-power">power law</a> · <a href="#e-arrhenius">Arrhenius</a> · <a href="#e-arrhenius-ref">Arrhenius with a reference temperature</a></p>
+  <p><strong>Figures</strong> · <a href="#f-time">ODEs in time</a> · <a href="#f-profile">profile</a> · <a href="#f-two-axes">two axes</a> · <a href="#f-sweep">sweep</a> · <a href="#f-crossing">crossing curves</a> · <a href="#f-data">data against model</a></p>
+</nav>
+
+<h2 id="derivation">Complete derivation</h2>
+
+<!-- ============ ONE BALANCE FROM END TO END ============ -->
+<!-- The whole example of a derivation (CSTR, first order), to see how the
+     steps chain: principle, translation, kinetics, assumption and the final
+     equation. Another exercise may have more or fewer steps, in another order. -->
+<h3 class="balance balance-mass">Mass balance of component A, in moles</h3>
+<ol class="derivation">
+  <li>
+    <div class="equation">
+      <math display="block"><mtext>accumulation of A</mtext><mo>=</mo><mtext>in</mtext><mo>−</mo><mtext>out</mtext><mo>−</mo><mtext>consumption</mtext></math>
+    </div>
+    <p class="why"><span class="kind kind-principle">principle</span>A does not appear or disappear for no reason. The control volume is the liquid inside the reactor.</p>
+  </li>
+  <li>
+    <div class="equation">
+      <math display="block">
+        <munder><mrow class="brace-under"><mfrac><mrow><mi>d</mi><mo>(</mo><mi class="param">V</mi><mo>⋅</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub><mo>)</mo></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac></mrow><mtext class="brace">accumulation</mtext></munder>
+        <mo>=</mo>
+        <munder><mrow class="brace-under"><mi class="param">F</mi><mo>⋅</mo><msub class="param"><mi>C</mi><mrow><mi>A</mi><mn>0</mn></mrow></msub></mrow><mtext class="brace">in</mtext></munder>
+        <mo>−</mo>
+        <munder><mrow class="brace-under"><mi class="param">F</mi><mo>⋅</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub></mrow><mtext class="brace">out</mtext></munder>
+        <mo>−</mo>
+        <munder><mrow class="brace-under"><msub><mi>r</mi><mi>A</mi></msub><mo>⋅</mo><mi class="param">V</mi></mrow><mtext class="brace">consumption</mtext></munder>
+      </math>
+    </div>
+    <ul class="symbols">
+      <li><code class="var-1">C<sub>A</sub></code> — concentration of A in the reactor and at the outlet, mol/L</li>
+      <li><code class="param">V</code> — volume of liquid in the reactor, L</li>
+    </ul>
+    <p class="why"><span class="kind kind-translation">translation</span>Each word becomes a molar flow of A.</p>
+  </li>
+  <li>
+    <div class="equation">
+      <math display="block"><msub><mi>r</mi><mi>A</mi></msub><mo>=</mo><mi class="param">k</mi><mo>⋅</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub></math>
+    </div>
+    <p class="why"><span class="kind kind-kinetics">kinetics</span>First order, as the problem states.</p>
+  </li>
+  <li>
+    <div class="equation">
+      <math display="block"><mi class="param">V</mi><mo>=</mo><mtext>constant</mtext></math>
+    </div>
+    <p class="why"><span class="kind kind-assumption">assumption</span>The same flow goes in and out. If the tank were filling, the volume would need a balance of its own.</p>
+  </li>
+  <li class="final">
+    <div class="equation">
+      <math display="block">
+        <munder><mrow class="brace-under"><mfrac><mrow><mi>d</mi><msub class="var-1"><mi>C</mi><mi>A</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac></mrow><mtext class="brace">accumulation of A</mtext></munder>
+        <mo>=</mo>
+        <munder><mrow class="brace-under"><mfrac><mn>1</mn><mi class="param">τ</mi></mfrac><mo>(</mo><msub class="param"><mi>C</mi><mrow><mi>A</mi><mn>0</mn></mrow></msub><mo>−</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub><mo>)</mo></mrow><mtext class="brace">in minus out</mtext></munder>
+        <mo>−</mo>
+        <munder><mrow class="brace-under"><mi class="param">k</mi><mo>⋅</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub></mrow><mtext class="brace">consumption</mtext></munder>
+      </math>
+    </div>
+    <p class="why"><span class="kind kind-algebra">algebra</span><span class="kind kind-definition">definition</span>Everything divided by <span class="param">V</span>, with <span class="param">τ</span> = <span class="param">V</span>/<span class="param">F</span>.</p>
+    <p>The stream pulls the tank toward the feed concentration, and the reaction consumes A; the steady state is where the two cancel out.</p>
+  </li>
+</ol>
+
+<h2>Balances</h2>
+
+<!-- ============ MASS · COMPONENT · STIRRED TANK ============ -->
+<!-- For a CSTR, a batch (F0 = F = 0) and a semibatch (F = 0).
+     Principle, in words:
+       <mtext>accumulation of A</mtext><mo>=</mo><mtext>in</mtext><mo>−</mo><mtext>out</mtext><mo>+</mo><mtext>generation</mtext>  -->
+<h3 id="b-tank">Mass of a component in a stirred tank</h3>
+<div class="equation">
+  <math display="block">
+    <munder><mrow class="brace-under">
+      <mfrac><mrow><mi>d</mi><mo>(</mo><mi>V</mi><mo>⋅</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub><mo>)</mo></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac>
+    </mrow><mtext class="brace">accumulation</mtext></munder>
+    <mo>=</mo>
+    <munder><mrow class="brace-under"><msub class="param"><mi>F</mi><mn>0</mn></msub><mo>⋅</mo><msub class="param"><mi>C</mi><mrow><mi>A</mi><mn>0</mn></mrow></msub></mrow><mtext class="brace">in</mtext></munder>
+    <mo>−</mo>
+    <munder><mrow class="brace-under"><mi class="param">F</mi><mo>⋅</mo><msub class="var-1"><mi>C</mi><mi>A</mi></msub></mrow><mtext class="brace">out</mtext></munder>
+    <mo>+</mo>
+    <munder><mrow class="brace-under"><msub class="param"><mi>ν</mi><mi>A</mi></msub><mo>⋅</mo><mi>r</mi><mo>⋅</mo><mi>V</mi></mrow><mtext class="brace">generation</mtext></munder>
+  </math>
+</div>
+<ul class="symbols">
+  <li><code>V</code> — volume of liquid in the tank, L</li>
+  <li><code class="var-1">C<sub>A</sub></code> — concentration of A in the tank, which is also that of the outlet, mol/L</li>
+  <li><code class="param">F<sub>0</sub></code>, <code class="param">F</code> — inlet and outlet volumetric flows, L/min</li>
+  <li><code class="param">C<sub>A0</sub></code> — concentration of A in the feed, mol/L</li>
+  <li><code class="param">ν<sub>A</sub></code> — stoichiometric coefficient of A: negative for a reactant, positive for a product</li>
+  <li><code>r</code> — reaction rate per volume of liquid, mol/(L·min)</li>
+</ul>
+
+<!-- ============ MASS · OVERALL · VOLUME ============ -->
+<!-- When the volume changes (semibatch, filling tank). Constant density. -->
+<h3 id="b-overall">Overall mass, with constant density</h3>
+<div class="equation">
+  <math display="block">
+    <munder><mrow class="brace-under"><mfrac><mrow><mi>d</mi><mi class="var-2">V</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac></mrow><mtext class="brace">accumulation of volume</mtext></munder>
+    <mo>=</mo>
+    <munder><mrow class="brace-under"><msub class="param"><mi>F</mi><mn>0</mn></msub></mrow><mtext class="brace">in</mtext></munder>
+    <mo>−</mo>
+    <munder><mrow class="brace-under"><mi class="param">F</mi></mrow><mtext class="brace">out</mtext></munder>
+  </math>
+</div>
+
+<!-- ============ MASS · COMPONENT · TUBULAR REACTOR ============ -->
+<!-- PFR at steady state; the independent variable is the volume traveled.
+     Principle: "what A loses in molar flow across a slice dV is what reacts in it". -->
+<h3 id="b-tube">Mass of a component in a tubular reactor</h3>
+<div class="equation">
+  <math display="block">
+    <munder><mrow class="brace-under"><mfrac><mrow><mi>d</mi><msub class="var-1"><mi>F</mi><mi>A</mi></msub></mrow><mrow><mi>d</mi><mi>V</mi></mrow></mfrac></mrow><mtext class="brace">change along the tube</mtext></munder>
+    <mo>=</mo>
+    <munder><mrow class="brace-under"><msub class="param"><mi>ν</mi><mi>A</mi></msub><mo>⋅</mo><mi>r</mi></mrow><mtext class="brace">generation per volume</mtext></munder>
+  </math>
+</div>
+<ul class="symbols">
+  <li><code class="var-1">F<sub>A</sub></code> — molar flow of A through the cross-section of the tube, mol/min</li>
+  <li><code>V</code> — reactor volume traveled since the inlet, L</li>
+</ul>
+
+<!-- ============ ENERGY · STIRRED TANK ============ -->
+<!-- Liquid, constant cp, one reactant. Batch: remove the stream term. -->
+<h3 id="b-energy-tank">Energy in a jacketed stirred tank</h3>
+<div class="equation">
+  <math display="block">
+    <munder><mrow class="brace-under"><mi class="param">ρ</mi><mo>⋅</mo><msub class="param"><mi>c</mi><mi>p</mi></msub><mo>⋅</mo><mi class="param">V</mi><mo>⋅</mo><mfrac><mrow><mi>d</mi><mi class="var-2">T</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac></mrow><mtext class="brace">accumulation of energy</mtext></munder>
+    <mo>=</mo>
+    <munder><mrow class="brace-under"><mi class="param">ρ</mi><mo>⋅</mo><msub class="param"><mi>c</mi><mi>p</mi></msub><mo>⋅</mo><mi class="param">F</mi><mo>⋅</mo><mo>(</mo><msub class="param"><mi>T</mi><mn>0</mn></msub><mo>−</mo><mi class="var-2">T</mi><mo>)</mo></mrow><mtext class="brace">the stream heats or cools</mtext></munder>
+    <mo>+</mo>
+    <munder><mrow class="brace-under"><mo>(</mo><mo>−</mo><mi class="param">Δ</mi><msub class="param"><mi>H</mi><mi>r</mi></msub><mo>)</mo><mo>⋅</mo><mi>r</mi><mo>⋅</mo><mi class="param">V</mi></mrow><mtext class="brace">heat of reaction</mtext></munder>
+    <mo>−</mo>
+    <munder><mrow class="brace-under"><mi class="param">U</mi><mo>⋅</mo><mi class="param">A</mi><mo>⋅</mo><mo>(</mo><mi class="var-2">T</mi><mo>−</mo><msub class="param"><mi>T</mi><mi>c</mi></msub><mo>)</mo></mrow><mtext class="brace">exchange with the jacket</mtext></munder>
+  </math>
+</div>
+<ul class="symbols">
+  <li><code class="param">ρ</code>, <code class="param">c<sub>p</sub></code> — density and specific heat of the liquid, kg/L and J/(kg·K)</li>
+  <li><code class="var-2">T</code> — temperature of the liquid in the tank and at the outlet, K</li>
+  <li><code class="param">ΔH<sub>r</sub></code> — heat of reaction per mole reacted, negative if exothermic, J/mol</li>
+  <li><code class="param">U</code>, <code class="param">A</code> — overall heat transfer coefficient and jacket area, W/(m²·K) and m²</li>
+  <li><code class="param">T<sub>c</sub></code> — temperature of the jacket fluid, K</li>
+</ul>
+
+<!-- ============ ENERGY · TUBULAR REACTOR ============ -->
+<h3 id="b-energy-tube">Energy in a tubular reactor</h3>
+<div class="equation">
+  <math display="block">
+    <munder><mrow class="brace-under"><mrow><mo>∑</mo><msub class="param"><mi>F</mi><mi>i</mi></msub><mo>⋅</mo><msub class="param"><mi>c</mi><mrow><mi>p</mi><mo>,</mo><mi>i</mi></mrow></msub></mrow><mo>⋅</mo><mfrac><mrow><mi>d</mi><mi class="var-2">T</mi></mrow><mrow><mi>d</mi><mi>V</mi></mrow></mfrac></mrow><mtext class="brace">heating of the stream</mtext></munder>
+    <mo>=</mo>
+    <munder><mrow class="brace-under"><mo>(</mo><mo>−</mo><mi class="param">Δ</mi><msub class="param"><mi>H</mi><mi>r</mi></msub><mo>)</mo><mo>⋅</mo><mi>r</mi></mrow><mtext class="brace">heat of reaction</mtext></munder>
+    <mo>−</mo>
+    <munder><mrow class="brace-under"><mi class="param">U</mi><mo>⋅</mo><mi class="param">a</mi><mo>⋅</mo><mo>(</mo><mi class="var-2">T</mi><mo>−</mo><msub class="param"><mi>T</mi><mi>a</mi></msub><mo>)</mo></mrow><mtext class="brace">exchange with the wall</mtext></munder>
+  </math>
+</div>
+<ul class="symbols">
+  <li><code class="param">a</code> — heat transfer area per reactor volume, m²/m³</li>
+  <li><code class="param">T<sub>a</sub></code> — temperature outside the tube, K</li>
+</ul>
+
+<!-- ============ SEPARATOR AT STEADY STATE ============ -->
+<!-- Flash, single-stage column, extractor: algebraic equations, no derivative.
+     The problem becomes finding a root (Rachford-Rice, in the flash). -->
+<h3 id="b-separator">Mass in a separator at steady state</h3>
+<div class="equation">
+  <math display="block">
+    <mtable columnalign="right left" columnspacing="0.3em" rowspacing="0.9em">
+      <mtr><mtd><mi class="param">F</mi></mtd><mtd><mo>=</mo>
+        <munder><mrow class="brace-under"><mi class="var-1">V</mi></mrow><mtext class="brace">vapor</mtext></munder><mo>+</mo>
+        <munder><mrow class="brace-under"><mi class="var-2">L</mi></mrow><mtext class="brace">liquid</mtext></munder></mtd></mtr>
+      <mtr><mtd><mi class="param">F</mi><mo>⋅</mo><msub class="param"><mi>z</mi><mi>i</mi></msub></mtd><mtd><mo>=</mo>
+        <munder><mrow class="brace-under"><mi class="var-1">V</mi><mo>⋅</mo><msub><mi>y</mi><mi>i</mi></msub></mrow><mtext class="brace">i in the vapor</mtext></munder><mo>+</mo>
+        <munder><mrow class="brace-under"><mi class="var-2">L</mi><mo>⋅</mo><msub><mi>x</mi><mi>i</mi></msub></mrow><mtext class="brace">i in the liquid</mtext></munder></mtd></mtr>
+      <mtr><mtd><msub><mi>y</mi><mi>i</mi></msub></mtd><mtd><mo>=</mo>
+        <munder><mrow class="brace-under"><msub class="param"><mi>K</mi><mi>i</mi></msub><mo>⋅</mo><msub><mi>x</mi><mi>i</mi></msub></mrow><mtext class="brace">equilibrium</mtext></munder></mtd></mtr>
+    </mtable>
+  </math>
+</div>
+
+<h2>Complementary equations</h2>
+
+<!-- An equation that is not a balance is not derived: it goes in a
+     div.eq-block, with its name in data-title (it becomes the title of the
+     item on the model line). -->
+
+<h3 id="e-power">Power law</h3>
+<div class="eq-block" data-title="Rate law">
+  <div class="equation">
+    <math display="block"><msub><mi>r</mi><mi>A</mi></msub><mo>=</mo><mi class="param">k</mi><mo>⋅</mo><msubsup class="var-1"><mi>C</mi><mi>A</mi><mi class="param">n</mi></msubsup></math>
+  </div>
+  <ul class="symbols">
+    <li><code class="param">k</code> — rate constant, in a unit that depends on the order: (mol/L)<sup>1−n</sup>/min</li>
+    <li><code class="param">n</code> — reaction order with respect to A, dimensionless</li>
+  </ul>
+  <p>The rate grows with the concentration raised to the order: with n = 2, doubling <span class="var-1">C<sub>A</sub></span> quadruples the rate.</p>
+</div>
+
+<h3 id="e-arrhenius">Arrhenius</h3>
+<div class="eq-block" data-title="Arrhenius law">
+  <div class="equation">
+    <math display="block"><mi class="param">k</mi><mo>=</mo><msub class="param"><mi>k</mi><mn>0</mn></msub><mo>⋅</mo><mi>exp</mi><mo>(</mo><mo>−</mo><mfrac><msub class="param"><mi>E</mi><mi>a</mi></msub><mrow><mi class="param">R</mi><mo>⋅</mo><mi class="var-2">T</mi></mrow></mfrac><mo>)</mo></math>
+  </div>
+  <ul class="symbols">
+    <li><code class="param">k<sub>0</sub></code> — pre-exponential factor, in the unit of k</li>
+    <li><code class="param">E<sub>a</sub></code> — activation energy, J/mol</li>
+    <li><code class="param">R</code> — gas constant, 8.314 J/(mol·K)</li>
+  </ul>
+  <p>Use it when the problem gives k₀ and Eₐ. Eₐ and R in the same energy unit, T in kelvin.</p>
+</div>
+
+<h3 id="e-arrhenius-ref">Arrhenius with a reference temperature</h3>
+<div class="eq-block" data-title="Arrhenius law">
+  <div class="equation">
+    <math display="block"><mi class="param">k</mi><mo>(</mo><mi class="var-2">T</mi><mo>)</mo><mo>=</mo><msub class="param"><mi>k</mi><mtext>ref</mtext></msub><mo>⋅</mo><mi>exp</mi><mrow><mo>[</mo><mfrac><msub class="param"><mi>E</mi><mi>a</mi></msub><mi class="param">R</mi></mfrac><mo>(</mo><mfrac><mn>1</mn><msub class="param"><mi>T</mi><mtext>ref</mtext></msub></mfrac><mo>−</mo><mfrac><mn>1</mn><mi class="var-2">T</mi></mfrac><mo>)</mo><mo>]</mo></mrow></math>
+  </div>
+  <ul class="symbols">
+    <li><code class="param">k<sub>ref</sub></code> — rate constant measured at T<sub>ref</sub></li>
+    <li><code class="param">T<sub>ref</sub></code> — temperature at which k<sub>ref</sub> was measured, K</li>
+  </ul>
+  <p>Use it when the problem gives k at one temperature, instead of k₀: at T = T<sub>ref</sub> the bracket vanishes and k = k<sub>ref</sub>.</p>
+</div>
+
+<h2>Figures</h2>
+
+<p>One per kind of problem. Copy the <code>&lt;script&gt;</code> and the <code>div.plot</code>, change the name, axes, series, defaults and the <code>compute</code> calculation, which is the same as the Python one, translated.</p>
+
+<!-- ============ 1. ODEs IN TIME ============ -->
+<!-- Batch, CSTR start-up, any initial value system. Python: solve_ivp. -->
+<h3 id="f-time">ODEs in time: series reactions in a batch</h3>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  Plot.register("time", {
+    xLabel: "Time (min)",
+    yLabel: "Concentration (mol/L)",
+    series: ["Reactant A", "Intermediate B", "Product C"],
+    defaults: { k1: 0.20, k2: 0.10, CA0: 1.0, tf: 40 },
+    ranges:   { k1: [0.02, 0.60, 0.01], k2: [0.02, 0.60, 0.01] },
+    units:    { k1: "1/min", k2: "1/min" },
+    compute: function (p) {
+      var r = Plot.integrate(function (t, C) {
+        var r1 = p.k1 * C[0], r2 = p.k2 * C[1];
+        return [-r1, r1 - r2, r2];
+      }, [p.CA0, 0, 0], 0, p.tf, p);
+      return { x: r.t, y: r.y };
+    },
+    readout: function (s) {                 // the peak of B: time and value
+      var B = s[1].y, i = B.indexOf(Math.max.apply(null, B));
+      return "Maximum B: " + Plot.fmt(B[i], 3) + " mol/L at " + Plot.fmt(s[1].x[i], 1) + " min";
+    }
+  });
+});
+</script>
+<div class="plot" data-plot="time" data-controls="k1, k2"></div>
+
+<!-- ============ 2. PROFILE ALONG THE REACTOR ============ -->
+<!-- The same integration, with the volume (or the length) in place of time. -->
+<h3 id="f-profile">Profile along a tubular reactor</h3>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  Plot.register("profile", {
+    xLabel: "Volume traveled (L)",
+    yLabel: "Conversion of A",
+    series: ["Conversion of A"],
+    defaults: { k: 0.5, CA0: 2.0, FA0: 10, Vt: 50 },   // 2nd order: k in L/(mol·min)
+    ranges:   { k: [0.05, 2, 0.05], FA0: [2, 30, 1] },
+    units:    { k: "L/(mol·min)", FA0: "mol/min" },
+    limits:   { y: [0, 1] },
+    compute: function (p) {
+      var v0 = p.FA0 / p.CA0;                          // volumetric flow, L/min
+      var r = Plot.integrate(function (V, F) {
+        var CA = F[0] / v0;
+        return [-p.k * CA * CA];
+      }, [p.FA0], 0, p.Vt, p);
+      return { x: r.t, y: [r.y[0].map(function (F) { return 1 - F / p.FA0; })] };
+    },
+    readout: function (s) {
+      var X = s[0].y;
+      return "Conversion at the outlet: " + Plot.fmt(X[X.length - 1], 3);
+    }
+  });
+});
+</script>
+<div class="plot" data-plot="profile" data-controls="k, FA0"></div>
+
+<!-- ============ 3. TWO AXES ============ -->
+<!-- Quantities with different units over the same time: { name, axis: 2 } and y2Label. -->
+<h3 id="f-two-axes">Two axes: concentration and temperature in a jacketed batch</h3>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  Plot.register("two-axes", {
+    xLabel: "Time (min)",
+    yLabel: "Concentration of A (mol/L)",
+    y2Label: "Temperature (K)",
+    series: ["Reactant A", { name: "Temperature", axis: 2 }],
+    defaults: { CA0: 2.0, T0: 320, Tc: 320, UA: 0.2, k0: 0.08, Tref: 330, ER: 8000, dT: 30, tf: 60 },
+    ranges:   { Tc: [290, 350, 1], UA: [0, 2, 0.05] },
+    units:    { Tc: "K", UA: "1/min" },
+    labels:   { Tc: "Jacket Tc", UA: "UA/(ρ·cp·V)" },   // the control's label; without it, the key
+    // UA here is U·A/(ρ·cp·V), in 1/min; dT is (−ΔH)/(ρ·cp), in K·L/mol.
+    compute: function (p) {
+      var r = Plot.integrate(function (t, y) {
+        var k = p.k0 * Math.exp(-p.ER * (1 / y[1] - 1 / p.Tref));
+        var rr = k * y[0];
+        return [-rr, p.dT * rr - p.UA * (y[1] - p.Tc)];
+      }, [p.CA0, p.T0], 0, p.tf, p);
+      return { x: r.t, y: r.y };
+    },
+    readout: function (s) {
+      var T = s[1].y;
+      return "Temperature peak: " + Plot.fmt(Math.max.apply(null, T), 1) + " K";
+    }
+  });
+});
+</script>
+<div class="plot" data-plot="two-axes" data-controls="Tc, UA"></div>
+
+<!-- ============ 4. SWEEP WITH A ROOT ============ -->
+<!-- The steady state is an algebraic equation without a formula: for each x of
+     the sweep, Plot.root. Python: scipy.optimize.brentq in a loop. -->
+<h3 id="f-sweep">Sweep of a parameter: conversion of a CSTR against residence time</h3>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  Plot.register("sweep", {
+    xLabel: "Residence time (min)",
+    yLabel: "Conversion of A",
+    series: ["1st order", "2nd order"],
+    defaults: { k1: 0.2, k2: 0.1, CA0: 2.0, taumax: 60 },
+    ranges:   { k2: [0.02, 0.5, 0.01] },
+    units:    { k2: "L/(mol·min)" },
+    limits:   { y: [0, 1] },
+    compute: function (p) {
+      var tau = Plot.linspace(0, p.taumax, 121);
+      var X1 = tau.map(function (t) { return p.k1 * t / (1 + p.k1 * t); });   // closed form
+      var X2 = tau.map(function (t) {                                          // root, point by point
+        return Plot.root(function (X) { return X - t * p.k2 * p.CA0 * (1 - X) * (1 - X); }, 0, 1);
+      });
+      return { x: tau, y: [X1, X2] };
+    }
+  });
+});
+</script>
+<div class="plot" data-plot="sweep" data-controls="k2"></div>
+
+<!-- ============ 5. TWO CROSSING CURVES ============ -->
+<!-- When the answer is "where the curves cross": steady states, operating
+     point, equilibrium. Each crossing comes from Plot.root on the difference
+     of the two, and the readout lists them. -->
+<h3 id="f-crossing">Where the curves cross: steady states of an exothermic CSTR</h3>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  function crossings(f, a, b, n) {               // all roots of f in [a, b]
+    var xs = Plot.linspace(a, b, n), out = [];
+    for (var i = 1; i < xs.length; i++) {
+      var r = Plot.root(f, xs[i - 1], xs[i]);
+      if (isFinite(r)) out.push(r);
+    }
+    return out;
+  }
+  Plot.register("crossing", {
+    xLabel: "Reactor temperature (K)",
+    yLabel: "Heat (J/mol of A fed)",
+    series: ["Heat generated", "Heat removed"],
+    defaults: { dH: 20000, cp: 50, kappa: 1, Tc: 300, tau: 10, kref: 0.1, Tref: 350, ER: 10000 },
+    ranges:   { Tc: [280, 330, 1], tau: [2, 30, 1] },
+    units:    { Tc: "K", tau: "min" },
+    labels:   { tau: "τ" },
+    compute: function (p) {
+      var T = Plot.linspace(290, 520, 231);
+      function G(t) { var k = p.kref * Math.exp(-p.ER * (1 / t - 1 / p.Tref)); return p.dH * p.tau * k / (1 + p.tau * k); }
+      function R(t) { return p.cp * (1 + p.kappa) * (t - p.Tc); }
+      return { x: T, y: [T.map(G), T.map(R)] };
+    },
+    readout: function (s, p) {
+      function G(t) { var k = p.kref * Math.exp(-p.ER * (1 / t - 1 / p.Tref)); return p.dH * p.tau * k / (1 + p.tau * k); }
+      var Ts = crossings(function (t) { return G(t) - p.cp * (1 + p.kappa) * (t - p.Tc); }, 290, 520, 231);
+      return "Steady states: " + Ts.map(function (t) { return Plot.fmt(t, 0) + " K"; }).join(" · ");
+    }
+  });
+});
+</script>
+<div class="plot" data-plot="crossing" data-controls="Tc, tau"></div>
+
+<!-- ============ 6. DATA AGAINST MODEL ============ -->
+<!-- The points are those of the problem (never invented): { type: "points" },
+     each series with its own x. Python: plt.plot(t, C, "o") and the curve on top. -->
+<h3 id="f-data">Data against model: fitting k to the measured points</h3>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var tMeas = [0, 5, 10, 20, 30, 45],
+      CMeas = [2.00, 1.22, 0.75, 0.29, 0.11, 0.03];   // the data of the problem
+  Plot.register("data", {
+    xLabel: "Time (min)",
+    yLabel: "Concentration of A (mol/L)",
+    series: ["Model", { name: "Measurements", type: "points" }],
+    defaults: { k: 0.1, CA0: 2.0 },
+    ranges:   { k: [0.02, 0.2, 0.002] },
+    units:    { k: "1/min" },
+    compute: function (p) {
+      var t = Plot.linspace(0, 45, 181);
+      return [
+        { x: t, y: t.map(function (s) { return p.CA0 * Math.exp(-p.k * s); }) },
+        { x: tMeas, y: CMeas }
+      ];
+    },
+    readout: function (s, p) {                    // the sum of squared residuals
+      var q = tMeas.reduce(function (a, t, i) { var d = CMeas[i] - p.CA0 * Math.exp(-p.k * t); return a + d * d; }, 0);
+      return "Sum of squared residuals: " + Plot.fmt(q, 4) + " (mol/L)²";
+    }
+  });
+});
+</script>
+<div class="plot" data-plot="data" data-controls="k"></div>
+
+<script src="../assets/theme.js" defer></script>
+<script src="../assets/plot.js" defer></script>
+</body>
+</html>
