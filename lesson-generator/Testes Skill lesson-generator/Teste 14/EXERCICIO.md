@@ -30,4 +30,14 @@ O mesmo exercício nos dois idiomas.
 
 ## Gabarito
 
-Guardado fora do repositório até as sessões terminarem; acrescentado aqui depois.
+Calculado com `brentq` na equação de Colebrook e guardado fora do repositório até as sessões terminarem.
+
+| Grandeza | A 5 L/s | Para 50 kPa |
+|---|---|---|
+| Vazão | 5 L/s | **2,926 L/s** |
+| Velocidade média | 2,546 m/s | 1,490 m/s |
+| Reynolds | 126 816 (turbulento) | 74 224 |
+| Fator de atrito de Darcy (Colebrook) | **0,02135** | 0,02255 |
+| Perda de pressão | **138,2 kPa** | 50 kPa |
+
+Conferência: Swamee-Jain dá f = 0,02151 a 5 L/s, 0,7% acima de Colebrook.
