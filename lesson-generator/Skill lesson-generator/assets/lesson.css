@@ -1351,21 +1351,23 @@ body.com-editor { max-width: none; margin-left: var(--editor-vao); }
 
 .sumario-item {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  line-height: 1.35;
   gap: 0.5rem;
   padding: 0.22rem 0.6rem 0.22rem 0.9rem;
   border-radius: var(--raio-p);
   color: var(--muted);
   cursor: pointer;
 }
-.sumario-item > span:first-child { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* O título longo quebra em linhas, sem cortar; as bolinhas ficam na primeira. */
+.sumario-item > span:first-child { flex: 1; min-width: 0; overflow-wrap: anywhere; hyphens: auto; }
 .sumario-secao:hover,
 .sumario-item:hover { background: color-mix(in srgb, var(--fg) 6%, transparent); }
 .sumario-secao.ativo { border-left-color: var(--cor-sec); background: color-mix(in srgb, var(--cor-sec) 12%, transparent); }
 .sumario-item.ativo { color: var(--fg); }
 
 /* Uma bolinha por item (etapa, passo, observação): cheia quando já foi lido. */
-.sumario-pontos { display: inline-flex; gap: 3px; flex: none; }
+.sumario-pontos { display: inline-flex; gap: 3px; flex: none; margin-top: calc(0.675em - 0.19rem); }
 .sumario-pontos i {
   width: 0.38rem;
   height: 0.38rem;
