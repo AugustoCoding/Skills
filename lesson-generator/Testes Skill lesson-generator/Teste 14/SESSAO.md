@@ -99,6 +99,7 @@ Copiadas para [com-skill-en/](./com-skill-en/) e [com-skill-pt/](./com-skill-pt/
 | 1 | Na lição em português, duas observações chamam curvas pela cor: "Por que a curva laranja desce…" e "Onde a curva azul cruza…". A segunda série é rosa, não laranja, e o nome certo é o da legenda | Média: o aluno procura uma curva que não existe | SKILL.md, 4.4; `check.py` |
 | 2 | O `check.py` acusou uma conta à vista certa, "1.709² = 2.92": não entendia expoente, nem que 1.709 tinha acabado de sair de outra conta verificada | Baixa: aviso falso, o modelo o avaliou e entregou | `check.py` |
 | 3 | Um balanço com título fora do padrão ("…, por unidade de massa (J/kg)") aparece inteiro na cabeça da etapa e no sumário, porque o `lesson.js` só cortava ", em …" | Baixa: título longo | `lesson.js` |
+| 5 | Visto pelo Augusto: a saída do editor sumiu nas duas lições. A divisão entre código e saída ficava guardada no navegador em px e era aplicada sem limite ao abrir; numa janela mais baixa que a do arraste, a saída ficava com altura zero. Defeito antigo do editor, não da tradução | Alta: o aluno roda o programa e não vê nada | `editor.js`, `lesson.css` |
 | 4 | A skill em inglês funcionou nos dois idiomas: cada lição saiu inteira no idioma do enunciado, com `lang`, separador decimal, rótulos fixos e resposta no chat coerentes, e os dois modelos seguiram o fluxo inteiro (pasta padrão, conferência no navegador, duas linhas) | Confirmação | — |
 
 ## 8. Veredito
@@ -110,3 +111,4 @@ Copiadas para [com-skill-en/](./com-skill-en/) e [com-skill-pt/](./com-skill-pt/
 | Commit | O que corrigiu |
 |---|---|
 | `01a700b` | Curva chamada pelo nome da legenda, nunca pela cor (regra e aviso no `check.py`); conta à vista com expoente e com resultado de conta anterior; nome do balanço cortado na primeira vírgula |
+| `a9da9d4` | A saída do editor nunca some: a divisão guardada como fração do espaço, reaplicada ao redimensionar, e a saída com altura mínima |
