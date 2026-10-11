@@ -152,6 +152,38 @@ Sessão: "Temperatura ótima reator CSTR" (`claude-sonnet-5-5`, esforço médio,
 
 **Conclusão:** a skill serve bem ao Sonnet 5.5. Com a mesma forma pronta, ele entregou uma lição correta, completa e dentro de todas as regras estruturais, 45 s mais devagar. As diferenças são de julgamento, não de forma: uma verificação menos elegante, nomes de série menos naturais e uma resposta final que ignora o limite de duas linhas. Nada disso pede mudança na skill, exceto talvez reforçar o limite da resposta.
 
+## 11. Execução paralela: Haiku 5.5
+
+A mesma skill (`440c1f7`), o mesmo prompt e o mesmo protocolo, com o menor modelo da família.
+
+| Campo | Valor |
+|---|---|
+| Modelo | `claude-haiku-5-5` |
+| Esforço | médio, o padrão do Haiku 5.5 no Claude Code, pela mesma [documentação](https://code.claude.com/docs/en/model-config): "Opus 5.5, Sonnet 5.5, and Haiku 5.5 default to `medium`" |
+| Diretório de trabalho | `~\testes-lesson-generator\teste-12-haiku`, pasta vazia fora do repositório |
+| Saída | `com-skill-haiku/` |
+
+### Cronômetro
+
+| | Horário |
+|---|---|
+| Início | |
+| Fim do turno 1 | |
+| **Duração** | |
+
+### Avaliação
+
+### Comparação entre os três modelos
+
+| | Opus 5.5 | Sonnet 5.5 | Haiku 5.5 |
+|---|---|---|---|
+| Duração | 4 min 11 s | 4 min 56 s | |
+| Números | todos certos | todos certos | |
+| Problemas do `conferir.py` na entrega | nenhum | nenhum | |
+| Regras novas cumpridas | todas | todas | |
+| Verificação | fórmula fechada do ótimo | varredura fina e conta à mão | |
+| Desvio de regra | nenhum | resposta ao aluno longa | |
+
 ## 9. O que mudou depois deste teste
 
 | Commit | O que corrigiu |
