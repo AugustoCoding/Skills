@@ -283,10 +283,16 @@
       return height;
     }
 
+    // The default: the divider at half the height of the screen. The panel is
+    // centered vertically, so its middle is the screen's; the code block
+    // starts below the top bar.
+    function middle() {
+      split(panel.clientHeight / 2 - top.offsetHeight - divider.offsetHeight / 2);
+    }
+
     function defaultSplit() {
       ratio = null;
-      code.style.flex = "";
-      output.style.flex = "";
+      middle();
       try { localStorage.removeItem("lesson-editor-split"); } catch (e) { /* no storage */ }
     }
 
@@ -295,8 +301,9 @@
       try { localStorage.setItem("lesson-editor-split", ratio.toFixed(4)); } catch (e) { /* idem */ }
     }
 
-    // On every window resize, the saved fraction is applied to the new height.
-    window.addEventListener("resize", function () { if (ratio) split(ratio * free()); });
+    // On every window resize, the saved fraction (or the middle) is applied
+    // to the new height.
+    window.addEventListener("resize", function () { if (ratio) split(ratio * free()); else middle(); });
 
     divider.addEventListener("pointerdown", function (ev) {
       ev.preventDefault();
@@ -327,9 +334,10 @@
     try {
       // Only a fraction counts; a value outside (0, 1) is an old split in px.
       var savedSplit = parseFloat(localStorage.getItem("lesson-editor-split"));
-      if (savedSplit > 0 && savedSplit < 1) { ratio = savedSplit; split(ratio * free()); }
+      if (savedSplit > 0 && savedSplit < 1) ratio = savedSplit;
       else if (savedSplit) localStorage.removeItem("lesson-editor-split");
     } catch (e) { /* no storage: the default split stays */ }
+    if (ratio) split(ratio * free()); else middle();
 
     /* ---------- the editor ---------- */
 
