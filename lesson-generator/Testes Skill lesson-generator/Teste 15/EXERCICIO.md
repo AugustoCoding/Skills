@@ -27,4 +27,9 @@
 
 ## Gabarito
 
-Guardado fora do repositório até a sessão terminar; acrescentado aqui depois.
+Calculado pela fórmula fechada de Rayleigh e conferido com `quad`; guardado fora do repositório até a sessão terminar.
+
+| Pergunta | Resultado |
+|---|---|
+| Parada em xW = 0,20 | W = **24,803 mol** no refervedor; D = 75,197 mol; destilado médio x̄D = **0,5990** |
+| Destilado médio de 0,70 | parar em xW = **0,4646**; W = 84,956 mol; D = 15,044 mol |

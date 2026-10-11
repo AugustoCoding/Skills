@@ -48,18 +48,44 @@
 
 | Início | Fim do turno 1 | Duração |
 |---|---|---|
-| | | |
+| 23:16:36 | 23:21:06 | cerca de 4 min 30 s |
+
+O início é a criação da sessão, um pouco antes do prompt.
 
 ## 5. Saída
 
+| Arquivo entregue (em `lessons/`, a pasta padrão) | Tamanho |
+|---|---|
+| `destilacao-diferencial-de-benzeno-e-tolueno.html` | 133 KB |
+
+Copiada para [com-skill/](./com-skill/). O programa completo, levado ao editor da própria lição e rodado no navegador, imprime os números do gabarito e desenha a figura; a saída aparece, com a divisão no meio da tela.
+
 ## 6. Avaliação
+
+| Critério | Resultado |
+|---|---|
+| Números | certos: W = 24,80 mol, D = 75,20 mol, x̄D = 0,599; para 0,70, xW = 0,465, W = 84,96 mol, D = 15,04 mol |
+| Resposta responde às três perguntas | sim, com os valores impressos pelo programa |
+| Técnica | fórmula fechada de Rayleigh para a primeira pergunta ("uma conta direta nas fórmulas acima"); busca de raiz (`brentq`) para a segunda, que não se isola. O quadro nomeia a busca de raiz, o único método numérico, e diz que a primeira resposta é conta direta |
+| Verificação | a integral de Rayleigh por `quad` dá o mesmo W = 24,80 mol |
+| Dedução | três balanços (global, benzeno no refervedor, benzeno na operação inteira) e o equilíbrio em bloco próprio; nomes curtos no sumário ("Massa global no refervedor") |
+| Idioma | inteira em português, `pt-BR`, vírgula decimal no texto, rótulos fixos em português ("Pronto em 1,9 s") |
+| Curvas | chamadas pelo nome da legenda ("as mols no refervedor", "a fração média no destilado"), nenhuma pela cor |
+| Observações | três de leitura e uma de controle (α), todas com números deste exercício; a de controle confere (α = 3,0: 31,25 mol, 0,636, primeiro vapor 0,750, parada em 0,365) |
+| `check.py` na entrega | nenhum erro nem aviso |
+| Fluxo | pasta padrão, conferência no navegador, resposta de duas linhas em português |
+| Passos / observações / controles | 6 / 4 / α |
+| Linha de código mais longa | 67 caracteres |
 
 ## 7. Achados
 
 | # | Achado | Gravidade | Onde |
 |---|---|---|---|
+| 1 | Nenhum erro. As correções do Teste 14 pegaram: curvas pelo nome, saída do editor, nome curto do balanço | Confirmação | — |
 
 ## 8. Veredito
+
+**Aprovado sem ressalvas.** Números exatos, as três perguntas respondidas com o que o programa imprime, a fórmula fechada usada onde ela existe e a busca de raiz onde não, verificação independente, lição inteira em português e nenhum aviso do `check.py`. É o critério combinado para o merge da `traducao-ingles` na main: o Opus sem erros.
 
 ## 9. O que mudou depois deste teste
 
