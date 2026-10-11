@@ -118,7 +118,7 @@ The section starts with the **answer**, which must answer with a number every qu
 - Two to four observations reading the curve, plus one per control. Each observation must quote a value or a stretch of curve of this exercise; a sentence that would serve another exercise must be cut.
 - The title of each observation is a question or, in the control observations, the action to take; never the conclusion.
 - Each control observation must give the same change in the code and what the program then prints.
-- Each quantity must have a single name in the whole lesson, the same as in the legend.
+- Each quantity must have a single name in the whole lesson, the same as in the legend. A curve is called by that name, never by its color ("the blue curve"): the colors depend on the theme, and the name is what the student finds in the legend.
 - You must not list what the model disregards.
 
 ### 4.5 Optional elements

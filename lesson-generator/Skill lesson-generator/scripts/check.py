@@ -268,6 +268,11 @@ def check_code(doc, folder):
     return r.stdout
 
 
+# Color names next to a curve or line, in the languages of the lessons so far.
+COLOR_WORDS = (r"\b(?:curve|line)s? (?:in )?(?:blue|pink|red|green|orange|cyan|yellow|purple)\b|"
+               r"\b(?:blue|pink|red|green|orange|cyan|yellow|purple) (?:curve|line)s?\b|"
+               r"\b(?:curva|linha)s? (?:em )?(?:azul|azuis|rosa|vermelha|verde|laranja|ciano|amarela|roxa)s?\b")
+
 # A reply that sends the reader elsewhere, in the languages of the lessons so far.
 ELSEWHERE = r"\bsee\b|\bbelow\b|\bobservation|\bveja\b|observaç|mais abaixo|adiante"
 
@@ -304,6 +309,11 @@ def check_result(doc, output):
     in_code = sum(1 for li in obs if li.find(cls="in-your-code"))
     if controls and in_code < controls:
         error(f"The figure has {controls} controls and only {in_code} observation(s) with \"in your code\": each control needs its own.")
+    # A curve is named as in the legend, never by its color.
+    colors = sorted({m.group(0).lower() for li in obs for m in re.finditer(COLOR_WORDS, text_outside_code(li), re.I)})
+    if colors:
+        warning("The observations call curves by their color (" + ", ".join(f"\"{c}\"" for c in colors) +
+                "): call each curve by its name in the legend.")
     reading = len(obs) - in_code
     if obs and not 2 <= reading <= 4:
         warning(f"There are {reading} curve-reading observation(s); the norm is two to four, plus one per control.")
@@ -404,6 +414,10 @@ def check_observations(doc, output):
     def is_known(raw):
         return any(abs(v - w) <= 0.5 * 10 ** -c + 1e-12 for v, c, _, _ in numbers(raw, prose=True) for w, *_ in known)
 
+    # An operand may carry a power ("1.709² = 2.92"); the result of a checked
+    # calculation becomes known, so a later calculation may use it.
+    operand = r"\d+(?:[.,]\d+)?[²³]?"
+    calc_before = re.compile(r"((?:" + operand + r"\s*[-+−×·*/]\s*)*" + operand + r")\s*=\s*$")
     loose = []
     for ol in doc.find("ol", "observations"):
         for li in ol.kids("li"):
@@ -413,15 +427,18 @@ def check_observations(doc, output):
                 text = text_outside_code(p)
                 for m in re.finditer(TEXT_NUMBER, text):
                     # A calculation shown in the text with known numbers: "2.00 − 1.35 = 0.65".
-                    calc = re.search(r"((?:\d+(?:[.,]\d+)?\s*[-+−×·*/]\s*)+\d+(?:[.,]\d+)?)\s*=\s*$", text[:m.start()])
-                    if calc and all(is_known(x) for x in re.findall(r"\d+(?:[.,]\d+)?", calc.group(1))):
+                    calc = calc_before.search(text[:m.start()])
+                    if calc and re.search(r"[-+−×·*/²³]", calc.group(1)) and \
+                            all(is_known(x) for x in re.findall(r"\d+(?:[.,]\d+)?", calc.group(1))):
                         # The calculation must be right, up to the rounding of the result.
                         expr = calc.group(1)
                         expr = (expr.replace(",", ".") if COMMA else expr.replace(",", ""))
-                        expr = expr.replace("−", "-").translate(str.maketrans("×·", "**"))
+                        expr = expr.replace("−", "-").replace("²", "**2").replace("³", "**3")
+                        expr = expr.translate(str.maketrans("×·", "**"))
                         value, decimals, _, raw = numbers(m.group(0), prose=True)[0]
                         if abs(eval(expr, {"__builtins__": {}}) - value) > 0.5 * 10 ** -decimals + 1e-9:
                             warning(f"Wrong calculation in an observation: {calc.group(1).strip()} = {raw}.")
+                        known.append((value, decimals, False, raw))
                         continue
                     for value, decimals, scientific, raw in numbers(m.group(0), prose=True):
                         tol = 0.5 * 10 ** -decimals + 1e-12

@@ -55,19 +55,20 @@
     observations: "Observations"
   };
 
-  // The short name of a balance, from its title, without the unit:
+  // The short name of a balance, from its title, without what follows the
+  // first comma (the unit, "per kilogram"…):
   // "Mass balance of component B, in mol/min" → "mass balance of B";
   // "Balanço de massa do componente B, em mol/min" → "balanço de massa de B".
   function balanceName(title) {
-    var t = title.trim();
-    return PT ? t.replace(/, em .*$/, "").replace(/ do componente /, " de ")
-              : t.replace(/, in .*$/, "").replace(/ (of|for) component /, " of ");
+    var t = title.trim().replace(/,.*$/, "").replace(/\s*\([^)]*\)$/, "");
+    return PT ? t.replace(/ do componente /, " de ")
+              : t.replace(/ (of|for) component /, " of ");
   }
 
   // In the table of contents, without the word "balance": "Mass of B", "Massa de B".
   function tocName(title) {
     var t = balanceName(title);
-    t = PT ? t.replace(/^Balanço de /i, "") : t.replace(/^(.+?) balance (of|for) /i, "$1 of ");
+    t = PT ? t.replace(/^Balanço (global )?de /i, "") : t.replace(/^(.+?) balance (of|for) /i, "$1 of ");
     return t.charAt(0).toUpperCase() + t.slice(1);
   }
 
