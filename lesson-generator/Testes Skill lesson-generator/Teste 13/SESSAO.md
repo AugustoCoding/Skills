@@ -49,11 +49,21 @@
 
 | Modelo | Início | Fim do turno 1 | Duração |
 |---|---|---|---|
-| Opus 5.5 | | | |
-| Sonnet 5.5 | | | |
-| Haiku 5.5 | | | |
+| Opus 5.5 | 01:46:09 | 01:51:26 | 5 min 16 s |
+| Sonnet 5.5 | 01:46:36 | 01:52:41 | 6 min 05 s |
+| Haiku 5.5 | 01:46:58 | 01:50:11 | 3 min 13 s |
+
+As três sessões rodaram ao mesmo tempo, o que pode ter alongado um pouco cada uma.
 
 ## 5. Saída
+
+| Modelo | Arquivo entregue (em `licoes/`, a pasta padrão) | Tamanho |
+|---|---|---|
+| Opus 5.5 | `trocador-de-calor-em-contracorrente.html` | 139 KB |
+| Sonnet 5.5 | `trocador-de-calor-em-contracorrente.html` | 138 KB |
+| Haiku 5.5 | `trocador-de-calor-contracorrente.html` | 123 KB |
+
+Copiadas para [com-skill-opus/](./com-skill-opus/), [com-skill-sonnet/](./com-skill-sonnet/) e [com-skill-haiku/](./com-skill-haiku/). Nas três, o programa completo foi levado ao editor da própria lição e rodado no navegador: imprime os números do gabarito e desenha a figura.
 
 ## 6. Avaliação
 
@@ -61,22 +71,34 @@
 
 | | Opus 5.5 | Sonnet 5.5 | Haiku 5.5 |
 |---|---|---|---|
-| Duração | | | |
-| Números | | | |
-| Resposta responde às três perguntas | | | |
-| Pasta padrão (`licoes/`) | | | |
-| Resposta no chat em até duas linhas | | | |
-| Problemas do `conferir.py` na entrega | | | |
-| Quadro da técnica numa conta direta | | | |
-| Verificação | | | |
-| Desvios de regra | | | |
+| Duração | 5 min 16 s | 6 min 05 s | 3 min 13 s |
+| Números | exatos (128,10 kW; 28,71 °C; 58,31 °C; 1,88 m²) | exatos | exatos |
+| Resposta responde às três perguntas | sim | sim | sim |
+| Pasta padrão (`licoes/`) | sim | sim | sim |
+| Resposta no chat em até duas linhas | sim | não, cerca de oito linhas | não, longa |
+| Problemas do `conferir.py` na entrega | um aviso: técnica com 115 palavras | nenhum | nenhum |
+| Quadro da técnica numa conta direta | "Busca de raiz": resolve a equação da MLDT com `brentq`, embora exista fórmula fechada | "Fórmula fechada": a conta analítica, executada pelo Python | "Fórmula fechada da efetividade": ε-NTU |
+| Verificação | ε-NTU, independente da busca | MLDT com as saídas calculadas, e a área conferida de volta | UA·MLDT com as saídas calculadas |
+| Passos / observações / controles | 7 / 5 / U e vazão | 7 / 4 / U | 7 / 3 / U |
+| Linha de código mais longa | 60 caracteres | 64 | 80 (a recomendação é até 70) |
+| Saída do programa | rotulada, com unidade | rotulada, com unidade | rótulos curtos, a maioria sem unidade |
+| Desvios de regra | técnica acima do tamanho | resposta longa no chat | resposta longa no chat; não abriu a lição no navegador antes de entregar |
 
 ## 7. Achados
 
 | # | Achado | Gravidade | Onde |
 |---|---|---|---|
+| 1 | A regra das duas linhas no chat não pegou no Sonnet nem no Haiku: os dois resumem a lição, a resposta e as escolhas | Baixa: não afeta a lição, só o tempo do aluno | SKILL.md, passo 8 |
+| 2 | O Haiku entregou sem abrir a lição no navegador | Média: o editor funcionou, mas por sorte | SKILL.md, passo da conferência |
+| 3 | O Opus escolheu busca de raiz (`brentq` na MLDT) num problema com fórmula fechada; a lição está certa e a ε-NTU entra como verificação, mas a técnica principal é a menos direta | Baixa: escolha defensável, mas contraria "analítico primeiro" | SKILL.md, técnica |
+| 4 | O quadro da técnica do Opus passou de 110 palavras (aviso do `conferir.py`, não corrigido antes de entregar) | Baixa | Lição do Opus |
+| 5 | O Haiku imprime rótulos curtos sem unidade (`C_q: 2.09`, `área: 1.88 m²` só no fim) e tem uma linha de 80 caracteres | Baixa: o aluno lê a saída com menos contexto | Lição do Haiku |
 
 ## 8. Veredito
+
+**Aprovado nos três.** As correções de `91fe9cd` que dependem da forma pegaram em todos: a resposta responde às três perguntas, com o programa imprimindo cada número, e a lição sai na pasta padrão. Os números são exatos nos três, e o editor roda o programa e mostra a figura nos três.
+
+O que ainda não pega nos modelos menores é o que depende só de julgamento: a resposta curta no chat (Sonnet e Haiku) e a conferência no navegador (Haiku). O Haiku foi o mais rápido (3 min 13 s) e o Sonnet o mais lento (6 min 05 s); o Opus é o único que cumpriu o fluxo inteiro, mas escolheu o caminho numérico onde havia fórmula.
 
 ## 9. O que mudou depois deste teste
 

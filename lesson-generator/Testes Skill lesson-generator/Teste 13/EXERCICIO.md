@@ -27,4 +27,17 @@
 
 ## Gabarito
 
-Guardado fora do repositório até a sessão de teste terminar; acrescentado aqui depois.
+Calculado pelo método ε-NTU (contracorrente) e guardado fora do repositório até as sessões terminarem.
+
+| Grandeza | Valor |
+|---|---|
+| C<sub>q</sub> (quente, C<sub>min</sub>) | 2,090 kW/K |
+| C<sub>f</sub> | 3,344 kW/K |
+| C<sub>r</sub> | 0,625 |
+| NTU | 3,445 |
+| ε | 0,8756 |
+| Calor trocado | 128,1 kW |
+| Saída da quente | 28,7 °C |
+| Saída da fria | 58,3 °C |
+
+Para a quente sair a 50 °C: q = 83,6 kW, ε = 0,5714, NTU = 1,081, **A = 1,88 m²**, e a fria sai a 45,0 °C.
