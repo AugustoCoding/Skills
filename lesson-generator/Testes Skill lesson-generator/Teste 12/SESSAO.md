@@ -204,3 +204,4 @@ Sessão: "Temperatura ótima reator CSTR" (`claude-haiku-5-5`, esforço médio, 
 
 | Commit | O que corrigiu |
 |---|---|
+| `91fe9cd` | Das execuções paralelas: a resposta responde a todas as perguntas, com o programa imprimindo cada número (aviso no `conferir.py` se ela remeter a outra parte); sem pasta indicada, nenhuma pasta ao `nova_licao.py`; resposta ao aluno em duas linhas no máximo |
