@@ -192,7 +192,8 @@
       // In the derivation, the title of a collapsed step is its kind, spelled
       // out: "Principle", "Kinetics, assumption and algebra".
       var kinds = Array.prototype.map.call(item.querySelectorAll(".why .kind"), function (t) {
-        return t.textContent.trim().toLowerCase();
+        // Without trailing punctuation: a label written "Principle." still reads "Principle".
+        return t.textContent.trim().replace(/[.:;,]+$/, "").toLowerCase();
       });
       if (kinds.length) {
         var name = kinds.length > 1 ? kinds.slice(0, -1).join(", ") + TXT.and + kinds[kinds.length - 1] : kinds[0];

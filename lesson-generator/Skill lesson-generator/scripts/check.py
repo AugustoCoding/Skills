@@ -198,7 +198,18 @@ def check_structure(doc):
             error("The technique must be the last block of the model, right before the code section.")
 
 
+def format_specs(code):
+    """The format specs of the f-strings of a piece of code: '.3f', '.0%', '.1e'…"""
+    specs = []
+    for s in re.findall(r"\bf(\"[^\"\n]*\"|'[^'\n]*')", code):
+        for m in re.finditer(r"\{[^{}:!]+(?:![rsa])?:([^{}]+)\}", s):
+            if m.group(1) not in specs:
+                specs.append(m.group(1))
+    return specs
+
+
 def check_code(doc, folder):
+    explained_kinds = set()
     sections = doc.find("section", "code")
     if not sections:
         error("The code section (section.code) is missing.")
@@ -224,6 +235,14 @@ def check_code(doc, folder):
         for name in keyword_arguments(code_of(s)):
             if not re.search(r"\b" + re.escape(name) + r"\b", prose):
                 error(f"Step \"{title}\": the argument {name}= is not explained in the text of the step.")
+        # Every kind of print format ({x:.3f}, {x:.1e}, {x:.0%}) is explained
+        # the first time it appears: once .3f is explained, .2f reads by analogy.
+        explained_kinds.update(spec[-1] for spec in re.findall(r"\.\d+[a-zA-Z%]", prose))
+        missing = [spec for spec in format_specs(code_of(s)) if spec[-1] not in explained_kinds]
+        if missing:
+            warning(f"Step \"{title}\": the print format(s) " + ", ".join(missing) +
+                    " are not explained in the text of the step (what each one prints).")
+            explained_kinds.update(spec[-1] for spec in missing)
 
     if len(steps) - 1 > 6:
         warning(f"The code has {len(steps) - 1} steps before the complete program; the limit is six.")
@@ -251,7 +270,9 @@ def check_code(doc, folder):
             warning(f"The program imports \"{lib}\", which the editor (Pyodide) may not have: say in the step that imports it that this piece only runs on a computer.")
 
     # Runs the pasted steps, which is what the student will run in the editor.
-    with tempfile.TemporaryDirectory() as tmp:
+    # The temporary folder goes next to the lesson, not in the system's temp:
+    # a sandboxed agent (Codex, for one) may only write to its working folder.
+    with tempfile.TemporaryDirectory(dir=folder, prefix=".check-") as tmp:
         f = Path(tmp) / "lesson.py"
         f.write_text(pasted, encoding="utf-8")
         env = dict(os.environ, MPLBACKEND="Agg", PYTHONIOENCODING="utf-8")
