@@ -167,22 +167,38 @@ A mesma skill (`440c1f7`), o mesmo prompt e o mesmo protocolo, com o menor model
 
 | | Horário |
 |---|---|
-| Início | |
-| Fim do turno 1 | |
-| **Duração** | |
+| Início | 01:25:51 UTC |
+| Fim do turno 1 | 01:30:19 UTC |
+| **Duração** | **4 min 29 s** |
+
+Sessão: "Temperatura ótima reator CSTR" (`claude-haiku-5-5`, esforço médio, confirmado nos metadados). Lição copiada para [com-skill-haiku/](./com-skill-haiku/).
 
 ### Avaliação
+
+- [x] Skill invocada; não entrevistou; rascunho apagado; sem commit
+- [x] Quadro "O exercício" com os dados e as três perguntas em lista
+- [x] Dedução em 10 etapas com chaves, três hipóteses (incluindo a da camisa que mantém a temperatura), Arrhenius e van 't Hoff com título
+- [x] Engenharia boa: derivou a condição analítica do ótimo, τ·k₁(T) = (Eₐ/−ΔH)·K(T) = 0,75·K(T) (conferida), e a resolveu com `brentq`; técnica "Busca de raiz", nome curto
+- [x] O "como" em lista em todos os passos; verificação independente por varredura
+- [x] Linhas de até 70 caracteres; `plt.show()`; editor rodou com a figura; números certos (376,6 K, 0,551; com τ = 20 min, 370,9 K e 0,646 na observação)
+- [ ] **A resposta não responde à terceira pergunta**: diz "veja a última observação", e o número de τ = 20 min só aparece lá. O histórico mostra o motivo: o `conferir.py` barrou números de τ = 20 min na resposta, porque o programa só imprimia τ = 10 min, e o modelo tirou o número da resposta em vez de fazer o programa imprimi-lo
+- [ ] Entregou na raiz da pasta de trabalho, e não em `licoes/`: passou a pasta ao `nova_licao.py` sem o aluno ter indicado uma
+- [ ] Não fez a verificação no navegador, e disse isso
+- [ ] Resposta ao aluno com mais de quinze linhas, e com uma afirmação falsa: que o `brentq` "é o método que a skill indica" (a skill não indica métodos)
+- [ ] Um controle só (τ); duas observações de leitura, o mínimo
 
 ### Comparação entre os três modelos
 
 | | Opus 5.5 | Sonnet 5.5 | Haiku 5.5 |
 |---|---|---|---|
-| Duração | 4 min 11 s | 4 min 56 s | |
-| Números | todos certos | todos certos | |
-| Problemas do `conferir.py` na entrega | nenhum | nenhum | |
-| Regras novas cumpridas | todas | todas | |
-| Verificação | fórmula fechada do ótimo | varredura fina e conta à mão | |
-| Desvio de regra | nenhum | resposta ao aluno longa | |
+| Duração | 4 min 11 s | 4 min 56 s | 4 min 29 s |
+| Números | todos certos | todos certos | certos, mas o de τ = 20 min fora da resposta |
+| Problemas do `conferir.py` na entrega | nenhum | nenhum | nenhum |
+| Regras novas cumpridas | todas | todas | todas as estruturais |
+| Verificação | fórmula fechada do ótimo | varredura fina e conta à mão | condição analítica + varredura |
+| Desvio de regra | nenhum | resposta ao aluno longa | resposta incompleta, pasta errada, sem navegador, resposta longa com afirmação falsa |
+
+**Conclusão:** a forma pronta segura até o Haiku: estrutura, regras e números saem certos. O que cai com o modelo menor é o julgamento sobre o conteúdo e o fluxo. O achado mais importante é de skill, não de modelo: a regra "a resposta só cita o que o programa imprime" foi cumprida ao pé da letra, tirando a resposta da pergunta em vez de fazer o programa imprimi-la. A skill deve dizer que a resposta responde a todas as perguntas do enunciado, e que é o programa que deve imprimir cada uma.
 
 ## 9. O que mudou depois deste teste
 

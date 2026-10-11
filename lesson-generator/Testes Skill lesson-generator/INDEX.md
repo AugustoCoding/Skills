@@ -15,7 +15,7 @@ Uma linha por execução. É daqui que se lê a evolução da skill: o que foi t
 | [9](./Teste%209/SESSAO.md) | 2026-10-10 | `fec2854` | Opus 5.5, esforço médio | Prompt de aluno, pasta de aluno, skill em registro técnico | Aprovado: 5 min 02 s, números certos, editor ok; relatório barrado pelo filtro | `574dec5` — vírgula decimal, avisos de formato e de número não impresso, constante física, protocolo |
 | [10](./Teste%2010/SESSAO.md) | 2026-10-10 | `b266a1e` | Opus 5.5, esforço médio | Ajuste de cinética a dados (`curve_fit`): mecanismo explicado e figura no programa | Aprovado: 5 min 09 s, nenhum achado na lição | `ca6a63a` — `conferir.py` aceita dados do programa e contas à vista, refazendo a conta |
 | [11](./Teste%2011/SESSAO.md) | 2026-10-10 | `6503118` | Opus 5.5, esforço médio | Template só com padrões, num problema de valor de contorno (`solve_bvp`) | Aprovado: 4 min 09 s, números exatos, regras novas cumpridas | `547a34d` — nome curto da técnica, "como" em lista |
-| [12](./Teste%2012/SESSAO.md) | 2026-10-11 | `440c1f7` | Opus 5.5, esforço médio | Otimização (`minimize_scalar`), enunciado em quadro, sem caixas de erro | Aprovado sem ressalvas: 4 min 11 s, números exatos. Paralelo com Sonnet 5.5 (esforço médio): 4 min 56 s, números exatos, regras cumpridas; resposta final longa | nenhuma necessária |
+| [12](./Teste%2012/SESSAO.md) | 2026-10-11 | `440c1f7` | Opus 5.5, esforço médio | Otimização (`minimize_scalar`), enunciado em quadro, sem caixas de erro | Aprovado sem ressalvas: 4 min 11 s, números exatos. Paralelo com Sonnet 5.5 (esforço médio): 4 min 56 s, números exatos, regras cumpridas; resposta final longa. Paralelo com Haiku 5.5: 4 min 29 s, números certos, mas a resposta não responde a uma pergunta | {a preencher} |
 
 ## Como usar
 
