@@ -1252,6 +1252,16 @@ canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
   color: var(--muted);
 }
 .no-seu-codigo::before { content: "No seu código"; color: var(--mom-resultado); }
+
+/* Os rótulos acima em inglês: valem para toda lição cujo <html lang> não
+   comece com "pt" (a mesma regra dos scripts). O :where não soma
+   especificidade: onde um rótulo some (content: none), continua sumido. */
+:where(:root:not(:lang(pt))) .eq-bloco .termos::before { content: "where"; }
+:where(:root:not(:lang(pt))) .agora::before { content: "So far"; }
+:where(:root:not(:lang(pt))) div.resposta::before { content: "The answer"; }
+:where(:root:not(:lang(pt))) .tecnica::before { content: "The technique"; }
+:where(:root:not(:lang(pt))) .enunciado::before { content: "The problem"; }
+:where(:root:not(:lang(pt))) .no-seu-codigo::before { content: "In your code"; }
 .no-seu-codigo > :last-child { margin-bottom: 0; }
 
 /* Dentro da lista de observações, o "no seu código" é uma linha, não uma caixa. */

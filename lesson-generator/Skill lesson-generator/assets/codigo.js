@@ -27,6 +27,52 @@
 (function () {
   "use strict";
 
+  // Os textos que o aluno vê, no idioma da lição (<html lang>): português
+  // quando lang começa com "pt"; inglês em qualquer outro caso.
+  var PT = /^pt/i.test(document.documentElement.lang);
+  var TXT = PT ? {
+    copiar: "Copiar o código",
+    e: " e ",
+    doBalanco: " do ",
+    complementar: "Equação complementar",
+    parametros: "Os parâmetros",
+    tecnica: "A técnica",
+    sumario: "Sumário da lição",
+    passos: "Os passos",
+    resposta: "A resposta",
+    figura: "A figura",
+    observacoes: "Observações"
+  } : {
+    copiar: "Copy the code",
+    e: " and ",
+    doBalanco: " of the ",
+    complementar: "Complementary equation",
+    parametros: "The parameters",
+    tecnica: "The technique",
+    sumario: "Lesson contents",
+    passos: "The steps",
+    resposta: "The answer",
+    figura: "The figure",
+    observacoes: "Observations"
+  };
+
+  // O nome curto de um balanço, a partir do título dele, sem a unidade:
+  // "Balanço de massa do componente B, em mol/min" → "balanço de massa de B";
+  // "Mass balance of component B, in mol/min" → "mass balance of B".
+  function nomeDoBalanco(titulo) {
+    var t = titulo.trim();
+    t = PT ? t.replace(/, em .*$/, "").replace(/ do componente /, " de ")
+           : t.replace(/, in .*$/, "").replace(/ (of|for) component /, " of ");
+    return t;
+  }
+
+  // No sumário, sem a palavra "balanço": "Massa de B", "Mass of B".
+  function nomeNoSumario(titulo) {
+    var t = nomeDoBalanco(titulo);
+    t = PT ? t.replace(/^Balanço de /i, "") : t.replace(/^(.+?) balance (of|for) /i, "$1 of ");
+    return t.charAt(0).toUpperCase() + t.slice(1);
+  }
+
   function copiar(texto, botao) {
     // Copiado: o ícone vira um ✓ por um instante.
     function ok() {
@@ -113,8 +159,8 @@
     var btn = document.createElement("button");
     btn.type = "button";
     btn.className = "copiar";
-    btn.title = "Copiar o código";
-    btn.setAttribute("aria-label", "Copiar o código");
+    btn.title = TXT.copiar;
+    btn.setAttribute("aria-label", TXT.copiar);
     var ic = document.createElement("span");
     ic.className = "ic ic-copiar";
     btn.appendChild(ic);
@@ -149,10 +195,10 @@
         return t.textContent.trim().toLowerCase();
       });
       if (tipos.length) {
-        var nome = tipos.length > 1 ? tipos.slice(0, -1).join(", ") + " e " + tipos[tipos.length - 1] : tipos[0];
+        var nome = tipos.length > 1 ? tipos.slice(0, -1).join(", ") + TXT.e + tipos[tipos.length - 1] : tipos[0];
         cabeca = document.createElement("div");
         cabeca.className = "item-cabeca";
-        if (item.dataset.balanco) nome += " do " + item.dataset.balanco;
+        if (item.dataset.balanco) nome += TXT.doBalanco + item.dataset.balanco;
         cabeca.textContent = nome.charAt(0).toUpperCase() + nome.slice(1);
       }
     }
@@ -323,7 +369,7 @@
         g.className = "grupo";
         g.appendChild(el);
         linha.appendChild(g);
-        balanco = el.textContent.trim().replace(/, em .*$/, "").replace(/ do componente /, " de ");
+        balanco = nomeDoBalanco(el.textContent);
         balanco = balanco.charAt(0).toLowerCase() + balanco.slice(1);
       } else if (el.matches("ol.deducao")) {
         Array.prototype.slice.call(el.children).forEach(function (li, i) {
@@ -333,12 +379,12 @@
         balanco = "";
         el.remove();
       } else if (el.matches(".eq-bloco")) {
-        extra(el.dataset.titulo || "Equação complementar", el);
+        extra(el.dataset.titulo || TXT.complementar, el);
       } else if (el.matches("table")) {
-        extra("Os parâmetros", el);
+        extra(TXT.parametros, el);
       } else if (el.matches(".tecnica")) {
         var nome = el.querySelector(".tecnica-nome");
-        extra("A técnica" + (nome ? ": " + nome.textContent.trim() : ""), el);
+        extra(TXT.tecnica + (nome ? ": " + nome.textContent.trim() : ""), el);
       } else {
         var li = document.createElement("li");
         li.className = "solto";
@@ -360,7 +406,7 @@
     var cores = ["s-modelo", "s-codigo", "s-resultado"];
     var nav = document.createElement("nav");
     nav.className = "sumario";
-    nav.setAttribute("aria-label", "Sumário da lição");
+    nav.setAttribute("aria-label", TXT.sumario);
     var alvos = [];
 
     function irPara(h2, alvo) {
@@ -419,19 +465,17 @@
             if (!s.classList.contains("solto")) etapas.push(s);
             s = s.nextElementSibling;
           }
-          var nome = el.textContent.trim().replace(/^Balanço de /, "").replace(/, em .*$/, "").replace(/ do componente /, " de ");
-          nome = nome.charAt(0).toUpperCase() + nome.slice(1);
-          lista.appendChild(item(h2, nome, el, etapas));
+          lista.appendChild(item(h2, nomeNoSumario(el.textContent), el, etapas));
         } else if (el.matches("li.extra")) {
           lista.appendChild(item(h2, el.querySelector("h3").textContent.replace(/: .*$/, ""), el));
         } else if (el.matches("section.codigo")) {
-          lista.appendChild(item(h2, "Os passos", el, Array.prototype.slice.call(el.querySelectorAll(".passo"))));
+          lista.appendChild(item(h2, TXT.passos, el, Array.prototype.slice.call(el.querySelectorAll(".passo"))));
         } else if (el.matches("div.resposta")) {
-          lista.appendChild(item(h2, "A resposta", el));
+          lista.appendChild(item(h2, TXT.resposta, el));
         } else if (el.matches(".grafico")) {
-          lista.appendChild(item(h2, "A figura", el));
+          lista.appendChild(item(h2, TXT.figura, el));
         } else {
-          lista.appendChild(item(h2, "Observações", el, Array.prototype.slice.call(el.children)));
+          lista.appendChild(item(h2, TXT.observacoes, el, Array.prototype.slice.call(el.children)));
         }
       });
       grupo.appendChild(lista);

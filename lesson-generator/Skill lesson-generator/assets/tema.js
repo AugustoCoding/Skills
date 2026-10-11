@@ -16,6 +16,13 @@
 (function () {
   "use strict";
 
+  // Os textos que o aluno vê, no idioma da lição (<html lang>): português
+  // quando lang começa com "pt"; inglês em qualquer outro caso.
+  var PT = /^pt/i.test(document.documentElement.lang);
+  // O valor guardado é sempre "claro" ou "escuro"; só o rótulo muda de idioma.
+  var NOME = PT ? { claro: "claro", escuro: "escuro" } : { claro: "light", escuro: "dark" };
+  var MUDAR = PT ? "Mudar para o tema " : "Switch to the theme: ";
+
   var CHAVE = "licao-tema";
   var raiz = document.documentElement;
 
@@ -63,8 +70,8 @@
       btn.textContent = "";
       var ic = document.createElement("span");
       ic.className = "ic ic-tema";
-      btn.append(ic, document.createTextNode(alvo));
-      btn.setAttribute("aria-label", "Mudar para o tema " + alvo);
+      btn.append(ic, document.createTextNode(NOME[alvo]));
+      btn.setAttribute("aria-label", MUDAR + NOME[alvo]);
     }
 
     btn.addEventListener("click", function () {

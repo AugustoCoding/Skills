@@ -26,10 +26,69 @@
   var PYODIDE = "https://cdn.jsdelivr.net/pyodide/v0.27.2/full/";
   var CHAVE = "licao-editor:" + location.pathname;
   var INDENT = "    ";
-  var VAZIO = "O editor começa vazio.\n\n" +
-    "Em cada bloco de código da lição, o botão  → editor  traz aquele trecho " +
-    "para cá, no fim do programa. Monte o programa passo a passo e aperte " +
-    "Rodar (ou Ctrl+Enter).";
+  // Os textos que o aluno vê, no idioma da lição (<html lang>): português
+  // quando lang começa com "pt"; inglês em qualquer outro caso.
+  var PT = /^pt/i.test(document.documentElement.lang);
+  var TXT = PT ? {
+    vazio: "O editor começa vazio.\n\n" +
+      "Em cada bloco de código da lição, o botão  → editor  traz aquele trecho " +
+      "para cá, no fim do programa. Monte o programa passo a passo e aperte " +
+      "Rodar (ou Ctrl+Enter).",
+    abrir: "Abrir o editor de código",
+    editor: "Editor de código",
+    painel: "Editor de Python",
+    rodar: "Rodar (Ctrl+Enter)",
+    esvaziar: "Esvaziar o editor",
+    fechar: "Fechar o editor",
+    codigo: "Código Python",
+    primeiraVez: "Na primeira vez que você rodar, o Python é baixado (precisa de internet).",
+    apagarSaida: "Apagar a saída, sem mexer no código",
+    saida: "Saída",
+    divisorRotulo: "Arraste para dividir o espaço entre o código e a saída",
+    divisorDica: "Arraste para dividir o espaço · duplo clique volta ao meio",
+    lateralRotulo: "Arraste para dividir a largura entre a lição e o editor",
+    lateralDica: "Arraste para os lados · duplo clique volta ao padrão",
+    levar: "Levar este trecho ao fim do programa no editor",
+    figura: "Figura gerada pelo programa",
+    baixando: "Baixando o Python… (só na primeira vez)",
+    semConexao: "sem conexão",
+    editorVazio: "O editor está vazio: traga os trechos da lição com  → editor.",
+    bibliotecas: "Carregando as bibliotecas que o programa importa…",
+    pronto: function (s) { return "Pronto em " + s.toFixed(1).replace(".", ",") + " s"; },
+    nadaImpresso: "(o programa não imprimiu nada)",
+    semPython: "Não consegui baixar o Python. O editor precisa de internet na primeira vez.",
+    erro: "O programa parou com um erro"
+  } : {
+    vazio: "The editor starts empty.\n\n" +
+      "In each code block of the lesson, the  → editor  button brings that piece " +
+      "here, to the end of the program. Build the program step by step and press " +
+      "Run (or Ctrl+Enter).",
+    abrir: "Open the code editor",
+    editor: "Code editor",
+    painel: "Python editor",
+    rodar: "Run (Ctrl+Enter)",
+    esvaziar: "Empty the editor",
+    fechar: "Close the editor",
+    codigo: "Python code",
+    primeiraVez: "The first time you run, Python is downloaded (needs internet).",
+    apagarSaida: "Clear the output, keeping the code",
+    saida: "Output",
+    divisorRotulo: "Drag to split the space between the code and the output",
+    divisorDica: "Drag to split the space · double-click to reset",
+    lateralRotulo: "Drag to split the width between the lesson and the editor",
+    lateralDica: "Drag sideways · double-click to reset",
+    levar: "Bring this piece to the end of the program in the editor",
+    figura: "Figure made by the program",
+    baixando: "Downloading Python… (first time only)",
+    semConexao: "no connection",
+    editorVazio: "The editor is empty: bring the pieces of the lesson with  → editor.",
+    bibliotecas: "Loading the libraries the program imports…",
+    pronto: function (s) { return "Done in " + s.toFixed(1) + " s"; },
+    nadaImpresso: "(the program printed nothing)",
+    semPython: "Could not download Python. The editor needs internet the first time.",
+    erro: "The program stopped with an error"
+  };
+  var VAZIO = TXT.vazio;
 
   var py = null;          // a instância do Pyodide, quando carregada
   var carregando = null;  // a promessa do carregamento, para não carregar duas vezes
@@ -77,18 +136,18 @@
   }
 
   function montar() {
-    var abrir = botao("editor-abrir", null, "Abrir o editor de código");
-    abrir.setAttribute("aria-label", "Abrir o editor de código");
-    abrir.append(el("span", "editor-abrir-texto", "Editor de código"), el("span", "editor-abrir-seta"));
+    var abrir = botao("editor-abrir", null, TXT.abrir);
+    abrir.setAttribute("aria-label", TXT.abrir);
+    abrir.append(el("span", "editor-abrir-texto", TXT.editor), el("span", "editor-abrir-seta"));
 
     var painel = el("aside", "editor-painel");
-    painel.setAttribute("aria-label", "Editor de Python");
+    painel.setAttribute("aria-label", TXT.painel);
 
     var topo = el("div", "editor-topo");
-    var rodar = botaoIcone("editor-rodar", "play", "Rodar (Ctrl+Enter)");
-    var limpar = botaoIcone("editor-botao editor-limpar", "lixo", "Esvaziar o editor");
-    var fechar = botaoIcone("editor-botao editor-fechar", "x", "Fechar o editor");
-    topo.append(el("span", "editor-titulo", "Editor de código"), rodar, limpar, fechar);
+    var rodar = botaoIcone("editor-rodar", "play", TXT.rodar);
+    var limpar = botaoIcone("editor-botao editor-limpar", "lixo", TXT.esvaziar);
+    var fechar = botaoIcone("editor-botao editor-fechar", "x", TXT.fechar);
+    topo.append(el("span", "editor-titulo", TXT.editor), rodar, limpar, fechar);
 
     var codigo = el("div", "editor-codigo");
     var linhas = el("div", "editor-linhas");
@@ -103,15 +162,15 @@
     texto.placeholder = VAZIO;
     texto.setAttribute("autocapitalize", "off");
     texto.setAttribute("autocomplete", "off");
-    texto.setAttribute("aria-label", "Código Python");
+    texto.setAttribute("aria-label", TXT.codigo);
     campo.append(realce, texto);
     codigo.append(linhas, campo);
 
     var saida = el("div", "editor-saida");
     var saidaTopo = el("div", "editor-saida-topo");
-    var estado = el("span", "editor-estado", "Na primeira vez que você rodar, o Python é baixado (precisa de internet).");
-    var limparSaida = botaoIcone("editor-limpar-saida", "lixo", "Apagar a saída, sem mexer no código");
-    saidaTopo.append(el("span", "", "Saída"), estado, limparSaida);
+    var estado = el("span", "editor-estado", TXT.primeiraVez);
+    var limparSaida = botaoIcone("editor-limpar-saida", "lixo", TXT.apagarSaida);
+    saidaTopo.append(el("span", "", TXT.saida), estado, limparSaida);
     var resultado = el("div", "editor-resultado");
     saida.append(saidaTopo, resultado);
 
@@ -119,16 +178,16 @@
     var divisor = el("div", "editor-divisor");
     divisor.setAttribute("role", "separator");
     divisor.setAttribute("aria-orientation", "horizontal");
-    divisor.setAttribute("aria-label", "Arraste para dividir o espaço entre o código e a saída");
-    divisor.title = "Arraste para dividir o espaço · duplo clique volta ao meio";
+    divisor.setAttribute("aria-label", TXT.divisorRotulo);
+    divisor.title = TXT.divisorDica;
     divisor.tabIndex = 0;
 
     // A divisão entre a lição e o editor: arrasta-se para os lados.
     var lateral = el("div", "editor-divisor-v");
     lateral.setAttribute("role", "separator");
     lateral.setAttribute("aria-orientation", "vertical");
-    lateral.setAttribute("aria-label", "Arraste para dividir a largura entre a lição e o editor");
-    lateral.title = "Arraste para os lados · duplo clique volta ao padrão";
+    lateral.setAttribute("aria-label", TXT.lateralRotulo);
+    lateral.title = TXT.lateralDica;
     lateral.tabIndex = 0;
 
     painel.append(lateral, topo, codigo, divisor, saida);
@@ -351,7 +410,7 @@
     document.querySelectorAll("section.codigo pre").forEach(function (pre) {
       var c = pre.querySelector("code");
       if (!c) return;
-      var b = botaoIcone("para-editor", "enviar", "Levar este trecho ao fim do programa no editor");
+      var b = botaoIcone("para-editor", "enviar", TXT.levar);
       b.addEventListener("click", function (ev) {
         ev.stopPropagation();           // o clique não abre nem fecha o passo ao redor
         if (!document.body.classList.contains("com-editor")) alternar(true);
@@ -377,7 +436,7 @@
 
     function figura(b64) {
       var img = el("img", "saida-figura");
-      img.alt = "Figura gerada pelo programa";
+      img.alt = TXT.figura;
       img.src = "data:image/png;base64," + b64;
       resultado.appendChild(img);
     }
@@ -385,7 +444,7 @@
     function carregar() {
       if (carregando) return carregando;
       carregando = new Promise(function (ok, falha) {
-        estado.textContent = "Baixando o Python… (só na primeira vez)";
+        estado.textContent = TXT.baixando;
         var s = document.createElement("script");
         s.src = PYODIDE + "pyodide.js";
         s.onload = function () {
@@ -401,7 +460,7 @@
             ok(py);
           }, falha);
         };
-        s.onerror = function () { falha(new Error("sem conexão")); };
+        s.onerror = function () { falha(new Error(TXT.semConexao)); };
         document.head.appendChild(s);
       });
       carregando.catch(function () { carregando = null; });
@@ -429,7 +488,7 @@
       if (ocupado) return;
       var codigoPy = texto.value;
       if (!codigoPy.trim()) {
-        estado.textContent = "O editor está vazio: traga os trechos da lição com  → editor.";
+        estado.textContent = TXT.editorVazio;
         return;
       }
       ocupado = true;
@@ -438,7 +497,7 @@
       var t0;
 
       carregar().then(function () {
-        estado.textContent = "Carregando as bibliotecas que o programa importa…";
+        estado.textContent = TXT.bibliotecas;
         return py.loadPackagesFromImports(codigoPy);
       }).then(function () {
         if (py.loadedPackages.matplotlib) py.runPython(PREPARO_MPL);
@@ -451,11 +510,11 @@
       }).then(function () {
         if (py.loadedPackages.matplotlib) py.runPython("_licao_show()");
         var s = (performance.now() - t0) / 1000;
-        estado.textContent = "Pronto em " + s.toFixed(1).replace(".", ",") + " s";
-        if (!resultado.childElementCount) escrever("(o programa não imprimiu nada)", "saida-vazia");
+        estado.textContent = TXT.pronto(s);
+        if (!resultado.childElementCount) escrever(TXT.nadaImpresso, "saida-vazia");
       }).catch(function (err) {
         if (!py) {
-          estado.textContent = "Não consegui baixar o Python. O editor precisa de internet na primeira vez.";
+          estado.textContent = TXT.semPython;
           return;
         }
         // Do traceback, só o que é do programa do aluno: as linhas internas do
@@ -463,7 +522,7 @@
         var msg = String((err && err.message) || err);
         var corte = msg.indexOf('File "<exec>"');
         escrever(corte >= 0 ? "Traceback (most recent call last):\n  " + msg.slice(corte) : msg, "saida-erro");
-        estado.textContent = "O programa parou com um erro";
+        estado.textContent = TXT.erro;
       }).finally(function () {
         ocupado = false;
         rodar.disabled = false;

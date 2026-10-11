@@ -47,7 +47,7 @@
  *                                              → { t: [...], y: [[...], ...] }, uma lista por estado
  *   Grafico.linspace(a, b, n)
  *   Grafico.raiz(f, a, b)                      bisseção; NaN se f não troca de sinal em [a, b]
- *   Grafico.fmt(v, casas)                      número com vírgula decimal
+ *   Grafico.fmt(v, casas)                      número com o separador decimal do idioma
  *
  * AVISOS NO CONSOLE — o autor da lição não enxerga a figura, então ela avisa:
  *   série achatada (varia menos de 8% da altura do eixo que divide com outras)
@@ -60,6 +60,13 @@
 
 (function () {
   "use strict";
+
+  // Os textos que o aluno vê, no idioma da lição (<html lang>): português
+  // quando lang começa com "pt"; inglês em qualquer outro caso.
+  var PT = /^pt/i.test(document.documentElement.lang);
+  var TXT = PT
+    ? { contra: " contra ", direita: "(eixo à direita)", em: " em " }
+    : { contra: " versus ", direita: "(right axis)", em: " in " };
 
   var DEFS = {};
   var REDESENHOS = [];
@@ -113,7 +120,8 @@
 
   function fmt(v, casas) {
     if (!isFinite(v)) return "—";
-    return v.toFixed(casas == null ? 2 : casas).replace(".", ",");
+    var s = v.toFixed(casas == null ? 2 : casas);
+    return PT ? s.replace(".", ",") : s;
   }
 
   /* ---------- escala ---------- */
@@ -387,14 +395,14 @@
 
     var canvas = document.createElement("canvas");
     canvas.setAttribute("role", "img");
-    canvas.setAttribute("aria-label", (def.eixoY || "y") + " contra " + (def.eixoX || "x"));
+    canvas.setAttribute("aria-label", (def.eixoY || "y") + TXT.contra + (def.eixoX || "x"));
     el.appendChild(canvas);
 
     var legenda = document.createElement("div");
     legenda.className = "legenda";
     legenda.innerHTML = specs.map(function (s, i) {
       return '<span class="l-' + (i + 1) + (s.tipo === "pontos" ? " l-pontos" : "") + '">' +
-        s.nome + (s.eixo === 2 ? " <small>(eixo à direita)</small>" : "") + "</span>";
+        s.nome + (s.eixo === 2 ? " <small>" + TXT.direita + "</small>" : "") + "</span>";
     }).join("");
     el.appendChild(legenda);
 
@@ -456,7 +464,7 @@
       range.type = "range";
       range.min = f[0]; range.max = f[1]; range.step = f[2];
       range.value = params[chave];
-      range.setAttribute("aria-label", rotulo + (un ? " em " + un : ""));
+      range.setAttribute("aria-label", rotulo + (un ? TXT.em + un : ""));
       range.addEventListener("input", function () {
         params[chave] = parseFloat(range.value);
         mostrar();
