@@ -11,7 +11,7 @@
 - **Transferência de calor**, uma área que nenhum teste usou.
 - **Conta direta**, sem método numérico obrigatório: o método ε-NTU dá tudo em fórmula fechada. É o caso em que a skill diz que "a técnica é essa conta, e o recurso de Python é o que a executa".
 - **Três perguntas**: testa a regra nova de a resposta responder a todas, com o programa imprimindo cada número.
-- **Rodado com o Haiku 5.5**, o modelo que mostrou os desvios corrigidos em `91fe9cd`: a resposta incompleta, a pasta errada e a resposta longa no chat.
+- **Rodado nos três modelos** (Opus, Sonnet e Haiku 5.5), para comparar e para ver se as correções de `91fe9cd` pegaram, sobretudo no Haiku, que mostrou os desvios: a resposta incompleta, a pasta errada e a resposta longa no chat.
 
 ## Armadilhas plantadas
 
