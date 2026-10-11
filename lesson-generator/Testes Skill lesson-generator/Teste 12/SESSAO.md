@@ -117,22 +117,40 @@ A mesma skill (`440c1f7`), o mesmo prompt e o mesmo protocolo, com um modelo men
 
 | | Horário |
 |---|---|
-| Início | |
-| Fim do turno 1 | |
-| **Duração** | |
+| Início | 01:09:22 UTC |
+| Fim do turno 1 | 01:14:17 UTC |
+| **Duração** | **4 min 56 s** |
+
+Sessão: "Temperatura ótima reator CSTR" (`claude-sonnet-5-5`, esforço médio, confirmado nos metadados da sessão). Lição copiada para [com-skill-sonnet/](./com-skill-sonnet/).
 
 ### Avaliação
+
+- [x] Skill invocada pelo comando; não entrevistou; destino padrão; rascunho apagado; sem commit; verificou no navegador
+- [x] Quadro "O exercício" com os dados e as duas perguntas em lista
+- [x] Dedução em 10 etapas, com três hipóteses que dizem o que mudaria; k₂ = k₁/K deduzido do equilíbrio; Arrhenius e van 't Hoff com título
+- [x] Técnica com nome curto ("Otimização escalar"), explicando por que o sinal é trocado (o `minimize_scalar` só procura mínimos)
+- [x] O "como" em lista em quatro dos cinco passos; o do otimizador explica a `lambda`, quem a chama e com que valores, a tupla, o dicionário de opções, o objeto devolvido e o desempacotamento
+- [x] Verificação: uma varredura fina, independente do otimizador, e a conversão a 350 K calculada à mão
+- [x] Nenhuma caixa de erro; linhas de código com no máximo 67 caracteres; programa termina em `plt.show()`
+- [x] Três controles (τ, Eₐ, ΔH), cada um com a sua observação e o "no seu código"; conferi por fora os oito números dessas observações (τ = 40 e 80 min, Eₐ = 30 kJ/mol, ΔH = −40 kJ/mol), e todos batem
+- [x] Editor: os passos rodaram no Pyodide, com a figura
+- [ ] A resposta ao aluno no chat tem oito linhas (a skill pede até duas): repete os números, a conferência e a verificação
+- [ ] As curvas se chamam "conversão com τ" e "conversão com 2τ": nomes que leem estranho no texto ("a conversão com τ no pico cai")
 
 ### Comparação com o Opus 5.5
 
 | | Opus 5.5 | Sonnet 5.5 |
 |---|---|---|
-| Duração | 4 min 11 s | |
-| Números | todos certos | |
-| Erros e avisos do `conferir.py` | nenhum | |
-| Rodadas do `conferir.py` até zerar | | |
-| Regras novas cumpridas | todas | |
-| Achados | nenhum | |
+| Duração | 4 min 11 s | 4 min 56 s (+18%) |
+| Números | todos certos | todos certos, inclusive os de três controles |
+| Erros e avisos do `conferir.py` na entrega | nenhum | nenhum |
+| Correções antes de entregar | não medido | ao menos uma rodada: encurtou o quadro da técnica e trocou números com ponto (relato da própria sessão) |
+| Regras novas cumpridas | todas | todas |
+| Verificação | fórmula fechada da temperatura ótima (mais forte) | varredura fina e conta à mão (independente, mais simples) |
+| Controles | 1 (τ) | 3 (τ, Eₐ, ΔH) |
+| Desvio de regra | nenhum | resposta ao aluno longa |
+
+**Conclusão:** a skill serve bem ao Sonnet 5.5. Com a mesma forma pronta, ele entregou uma lição correta, completa e dentro de todas as regras estruturais, 45 s mais devagar. As diferenças são de julgamento, não de forma: uma verificação menos elegante, nomes de série menos naturais e uma resposta final que ignora o limite de duas linhas. Nada disso pede mudança na skill, exceto talvez reforçar o limite da resposta.
 
 ## 9. O que mudou depois deste teste
 
