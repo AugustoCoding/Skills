@@ -260,6 +260,8 @@ def conferir_codigo(doc, pasta):
 
 def conferir_resultado(doc, saida):
     resposta = doc.achar("div", "resposta")
+    if resposta and re.search(r"\bveja\b|observaç|mais abaixo|adiante", resposta[0].texto(), re.I):
+        aviso("A resposta remete a outra parte da lição: ela deve responder a todas as perguntas ali mesmo, com os números que o programa imprime.")
     graficos = doc.achar(cls="grafico")
     if not resposta:
         erro("Falta a resposta (div.resposta) no começo de \"O resultado\".")

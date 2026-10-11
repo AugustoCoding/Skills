@@ -40,12 +40,12 @@ Rode os scripts da sua pasta de trabalho, com caminhos completos, sem entrar na 
 
 1. **Diagnóstico.** Leia o enunciado e identifique o que ele pede, os dados que dá, os que faltam e o tipo de problema matemático.
 2. **Números.** Calcule os resultados com contas rápidas, conforme a seção 5.
-3. **Rascunho.** Rode `python <pasta desta skill>/scripts/nova_licao.py "<nome do exercício>" [pasta]`. Passe a pasta só se o aluno indicou uma. O script informa onde está o rascunho e para onde a lição irá.
+3. **Rascunho.** Rode `python <pasta desta skill>/scripts/nova_licao.py "<nome do exercício>" [pasta]`. Passe a pasta só se o aluno indicou uma; sem pasta indicada, não passe nenhuma, nem `.`: o script grava em `./licoes`. Ele informa onde está o rascunho e para onde a lição irá.
 4. **Preenchimento.** O template tem cada elemento uma vez, como padrão: repita-o quantas vezes o exercício pedir (balanços, etapas, passos, observações), troque cada `{…}`, inclusive os de dentro de atributos, e apague o que não for usado. O conteúdo concreto vem de `templates/pecas.html`: uma dedução completa de exemplo, as equações dos balanços, as equações complementares e as figuras.
 5. **Conferência.** Rode `python <pasta desta skill>/scripts/conferir.py <rascunho.html>`. Todo ERRO deve ser corrigido; todo AVISO deve ser avaliado. O script roda os passos colados em ordem, compara a resposta com o que o programa imprime, acusa `{…}` esquecido e lista os números do texto para a revisão de procedência (seção 5).
 6. **Verificação visual, se houver navegador.** Sirva a pasta do rascunho (`python -m http.server 8730 --bind 127.0.0.1`), abra a lição por `http://`, confirme que as figuras desenham e leia o console, onde o `grafico.js` avisa sobre curva achatada, controle sem faixa e valor não finito. Sem navegador, o passo 5 basta.
 7. **Entrega.** Rode `python <pasta desta skill>/scripts/empacotar.py <rascunho.html>`, que gera o arquivo único, grava a lição no destino e apaga o rascunho. Depois disso, a lição não muda.
-8. **Resposta ao aluno.** Em até duas linhas: onde está a lição e o convite a perguntar no chat. A sessão termina na entrega: você não deve fazer commit nem outra ação que o aluno não pediu.
+8. **Resposta ao aluno.** Duas linhas, no máximo: onde está a lição e o convite a perguntar no chat. Não repita a resposta, a dedução nem as suas escolhas: elas estão na lição. A sessão termina na entrega: você não deve fazer commit nem outra ação que o aluno não pediu.
 
 ## 4. Estrutura da lição
 
@@ -110,7 +110,7 @@ O programa é explicado em no máximo seis passos, seguidos de um último passo 
 
 ### 4.4 O resultado
 
-A seção começa pela **resposta**: os números que o exercício pede, com os mesmos valores e casas que o programa imprime. Depois vem a figura que a pergunta exige (no tempo, ao longo do reator, contra um parâmetro, dados contra modelo), registrada no `grafico.js` com a mesma conta do programa. A lição pode ter no máximo duas figuras.
+A seção começa pela **resposta**, que deve responder com número a todas as perguntas do enunciado, uma por uma, com os mesmos valores e casas que o programa imprime. Se uma pergunta não tem o número impresso, é o programa que deve passar a imprimi-lo; a resposta nunca remete a outra parte da lição. Depois vem a figura que a pergunta exige (no tempo, ao longo do reator, contra um parâmetro, dados contra modelo), registrada no `grafico.js` com a mesma conta do programa. A lição pode ter no máximo duas figuras.
 
 - No máximo quatro controles. Cada um deve ser motivado por uma observação própria, e a faixa e o passo do controle devem alcançar o valor que essa observação pede.
 - Duas a quatro observações de leitura da curva, mais uma por controle. Cada observação deve citar um valor ou um trecho de curva deste exercício; uma frase que serviria para outro exercício deve ser cortada.
