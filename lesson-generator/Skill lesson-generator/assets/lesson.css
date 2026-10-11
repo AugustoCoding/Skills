@@ -160,9 +160,9 @@
 
 /* ---------- structure ---------- */
 
-/* Text scale. 19px because the lesson is read up close, in the browser, and
-   the usual 16-17px forced zooming. */
-html { font-size: 19px; }
+/* Text scale. Everything in the lesson is in rem, so this one value sets the
+   size of all of it. 17px: at 19px too little fit on the screen. */
+html { font-size: 17px; }
 
 body {
   background: var(--bg);
