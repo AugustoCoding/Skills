@@ -102,6 +102,38 @@ Nenhum achado.
 
 **Aprovado, sem ressalvas.** 4 min 11 s, números exatos, uma verificação independente melhor que a pedida (a fórmula fechada do ótimo), e todas as mudanças desde o Teste 11 funcionando como previsto: enunciado em quadro, nome curto da técnica, "como" em lista e nenhuma caixa de erro.
 
+## 10. Execução paralela: Sonnet 5.5
+
+A mesma skill (`440c1f7`), o mesmo prompt e o mesmo protocolo, com um modelo menos capaz, para ver o quanto a skill serve a ele.
+
+| Campo | Valor |
+|---|---|
+| Modelo | `claude-sonnet-5-5` |
+| Esforço | médio, o padrão do Sonnet 5.5 no Claude Code, segundo a [documentação de configuração de modelo](https://code.claude.com/docs/en/model-config): "Opus 5.5, Sonnet 5.5, and Haiku 5.5 default to `medium`" |
+| Diretório de trabalho | `~\testes-lesson-generator\teste-12-sonnet`, pasta vazia fora do repositório |
+| Saída | `com-skill-sonnet/` |
+
+### Cronômetro
+
+| | Horário |
+|---|---|
+| Início | |
+| Fim do turno 1 | |
+| **Duração** | |
+
+### Avaliação
+
+### Comparação com o Opus 5.5
+
+| | Opus 5.5 | Sonnet 5.5 |
+|---|---|---|
+| Duração | 4 min 11 s | |
+| Números | todos certos | |
+| Erros e avisos do `conferir.py` | nenhum | |
+| Rodadas do `conferir.py` até zerar | | |
+| Regras novas cumpridas | todas | |
+| Achados | nenhum | |
+
 ## 9. O que mudou depois deste teste
 
 | Commit | O que corrigiu |
