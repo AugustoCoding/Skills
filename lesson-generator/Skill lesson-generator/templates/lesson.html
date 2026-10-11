@@ -1,0 +1,186 @@
+<!doctype html>
+<!--
+  LESSON SKELETON. Each element appears ONCE, as a pattern: repeat it as many
+  times as the exercise needs and delete what you do not use. Replace every
+  {…}. The concrete content (the balance equations, the complementary
+  equations and the figures) comes from pieces.html, next to this file. Style
+  and behavior are ready: write no CSS or JS. The rules are in SKILL.md.
+  Comments are removed on delivery.
+
+  Write the text in the language of the problem statement, and set lang to
+  that language (en, pt-BR, es…).
+-->
+<html lang="{language of the problem statement: en, pt-BR…}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{Title — what the student will be able to program}</title>
+<link rel="stylesheet" href="./assets/lesson.css">
+</head>
+<body>
+
+<header class="lesson">
+  <span class="tag">{Area · kind of mathematical problem}</span>
+  <h1>{Short title}</h1>
+</header>
+
+<!-- ================= OPENING ================= -->
+<!-- The problem statement, rewritten clearly: all the data, with units and
+     marked symbols; and what it asks, one item per question. -->
+<div class="problem">
+  <p>{The exercise, with all its data: the process, the conditions and the values.}</p>
+  <ul>
+    <li>{What it asks, one item per question.}</li>
+  </ul>
+</div>
+
+<p>{Two or three sentences: what happens in the process and what the student will have at the end.}</p>
+
+<!-- ================= MODEL ================= -->
+<h2>{The model}</h2>
+
+<!-- ONE BALANCE = an h3 and its derivation. Repeat the pair for each balance,
+     in the order the derivation requires. On the page, they all become one
+     numbered line. Symbols: var-1, var-2… (the quantities of the figure) or
+     param (no color), in the MathML (<mi>, <msub>), in the list (<code>) and
+     in the text (<span>). -->
+<h3 class="balance balance-{mass|energy}">{Mass balance of component A, in moles}</h3>
+
+<ol class="derivation">
+  <!-- First step: the principle, in words. -->
+  <li>
+    <div class="equation">
+      <math display="block"><mtext>{accumulation of A}</mtext><mo>=</mo><mtext>{in}</mtext><mo>−</mo><mtext>{out}</mtext><mo>−</mo><mtext>{consumption}</mtext></math>
+    </div>
+    <p class="why"><span class="kind kind-principle">{principle}</span>{The conservation law and the control volume.}</p>
+  </li>
+
+  <!-- ONE STEP. Repeat for each operation: translation (the equation from
+       pieces.html, with the braces), kinetics, assumption, algebra,
+       definition. A step may have more than one kind. The symbol list only
+       comes in when the step brings a new symbol. -->
+  <li>
+    <div class="equation">
+      <math display="block"><mtext>{the equation of this step}</mtext></math>
+    </div>
+    <ul class="symbols">
+      <li><code class="var-1">{symbol}</code> — {full sentence: what it is, where, in what unit}</li>
+    </ul>
+    <p class="why"><span class="kind kind-{translation|kinetics|assumption|algebra|definition}">{kind}</span>{What this step does. In an assumption: what would happen if it did not hold.}</p>
+  </li>
+
+  <!-- Last step: the model equation, with the braces, and the paragraph that
+       explains it. -->
+  <li class="final">
+    <div class="equation">
+      <math display="block"><mtext>{the model equation, with the braces}</mtext></math>
+    </div>
+    <p class="why"><span class="kind kind-{algebra}">{algebra}</span>{The last operation.}</p>
+    <p>{What the equation describes in the process and, then, what it implies.}</p>
+  </li>
+</ol>
+
+<!-- COMPLEMENTARY EQUATION (a given rate law, a correlation): not derived.
+     One per block, with its name in data-title; examples in pieces.html. -->
+<div class="eq-block" data-title="{Name of the equation}">
+  <div class="equation">
+    <math display="block"><mtext>{the equation}</mtext></math>
+  </div>
+  <ul class="symbols">
+    <li><code class="param">{symbol}</code> — {full sentence}</li>
+  </ul>
+  <p>{Where it comes from and what it says.}</p>
+</div>
+
+<!-- THE PARAMETER TABLE: one row per parameter. Source:
+     source-given | source-derived (with the calculation) | source-constant |
+     source-choice (with the reason in half a line). -->
+<table>
+<thead><tr><th>{Parameter}</th><th class="num">{Value}</th><th>{Unit}</th><th>{Source}</th></tr></thead>
+<tbody>
+<tr><td><code class="param">{symbol}</code></td><td class="num">{value}</td><td class="unit">{unit}</td><td><span class="source source-{given|derived|constant|choice}">{source}</span>{the calculation or the reason, if any}</td></tr>
+</tbody>
+</table>
+
+<!-- THE TECHNIQUE BOX: closes the model section (SKILL.md, 4.2). -->
+<div class="technique">
+  <p class="technique-name">{Short name of the technique, up to four words}</p>
+  <p>{Four or five sentences: the kind of problem, in plain words; "to solve
+  this kind of problem, we will use" and the name of the technique in
+  span.term; what it does, without jargon; why it fits here; "in Python, the
+  function that does this is" and its name in code, "from the library" such;
+  "See the next section to learn how to use it."}</p>
+</div>
+
+<!-- ================= CODE ================= -->
+<h2>{The code}</h2>
+
+<section class="code">
+
+  <!-- ONE STEP. Repeat up to six, each with a piece of the program; the steps
+       pasted in order form the complete program. The last of them draws the
+       figure with matplotlib and ends with plt.show().
+       With many arguments or new elements, the .how may be a list:
+       <ul class="how"><li>…</li></ul>, one item per argument (it may come
+       after an opening p.how).
+       -->
+  <div class="step">
+    <h3>{Title: what the step does, without giving away the answer}</h3>
+    <p class="purpose">{The intention of the step.}</p>
+<pre><code>{the lines of this step, with units in comments}</code></pre>
+    <p class="how">{The syntax of each new element and each argument of a library function, one by one.}</p>
+    <p class="so-far">{What the program now does.}</p>
+  </div>
+
+  <!-- The last step is always the complete program. -->
+  <div class="step">
+    <h3>{The complete program}</h3>
+<pre><code>{the whole program: the steps pasted together, in order}</code></pre>
+    <p>{One sentence: the steps together, in order, ready to run.}</p>
+  </div>
+
+</section>
+
+<!-- ================= RESULT ================= -->
+<h2>{The result}</h2>
+
+<!-- The answer opens the section, before the figure. -->
+<div class="answer">
+  <p>{the numbers the exercise asks for, with the values the program prints}</p>
+</div>
+
+<!-- THE FIGURE: copy from pieces.html the <script> and the div.plot of the
+     right kind of figure, and change the name, axes, series, defaults and the
+     compute function, which is the same calculation as the program. At most
+     two figures. -->
+{the figure}
+
+<!-- ONE OBSERVATION per <li>. Reading the curve: title as a question. A
+     control (one per control): title as an action, and the p.in-your-code.
+     Repeat: two to four reading ones, plus one per control. -->
+<ol class="observations">
+  <li>
+    <h3>{A question about the curve}</h3>
+    <p>{The answer, anchored on a concrete point of this curve, with the name
+    of the quantity in its color: <span class="var-1">{reactant A}</span>.}</p>
+  </li>
+  <li>
+    <h3>{The action: "Take k up to 0.30 1/min"}</h3>
+    <p>{What happens to the curve, and why.}</p>
+    <p class="in-your-code">{The same change in the program and what it then prints.}</p>
+  </li>
+</ol>
+
+<div class="ask">
+  <strong>{Something unclear?}</strong> {Ask in the chat.}
+</div>
+
+<!-- Optional, with no fixed place: <span class="term">concept</span> ·
+     <aside class="sidenote">a note in the margin</aside> · a results <table>. -->
+
+<script src="./assets/theme.js" defer></script>
+<script src="./assets/lesson.js" defer></script>
+<script src="./assets/plot.js" defer></script>
+<script src="./assets/editor.js" defer></script>
+</body>
+</html>

@@ -1,40 +1,40 @@
-# Modelo da lição
+# The model lesson
 
-Uma lição de exemplo completa, com números reais, onde a estrutura da lição é desenhada e revisada **antes** de ir para a skill e para os testes.
+A complete example lesson, with real numbers, where the structure of the lesson is designed and revised **before** it goes to the skill and to the tests.
 
-O fluxo:
+The workflow:
 
-1. Altera-se a estrutura aqui, em `licao-modelo.html`, olhando a página ao vivo.
-2. O que se firmar como preferência é registrado na skill: a regra no `SKILL.md`, a marcação em `templates/licao.html` e o estilo ou o comportamento em `assets/`.
-3. Se a mudança é de estrutura (classes, ordem das seções, passos, resposta, observações), o `scripts/conferir.py` da skill muda junto, e a lição modelo tem de passar nele sem erro:
+1. The structure is changed here, in `model-lesson.html`, looking at the live page.
+2. Whatever settles as a preference is recorded in the skill: the rule in `SKILL.md`, the markup in `templates/lesson.html` and the style or behavior in `assets/`.
+3. If the change is structural (classes, order of the sections, steps, answer, observations), the skill's `scripts/check.py` changes with it, and the model lesson must pass it without errors:
 
    ```
-   python "../Skill lesson-generator/scripts/conferir.py" licao-modelo.html
+   python "../Skill lesson-generator/scripts/check.py" model-lesson.html
    ```
 
-4. Só então a mudança vai a um teste.
+4. Only then does the change go to a test.
 
-**A lição aponta para os `assets/` da própria skill** (`../Skill lesson-generator/assets/`), e não para uma cópia. Uma mudança de CSS ou de JS aparece aqui na hora, e o modelo nunca fica com componente desatualizado.
+**The lesson points to the skill's own `assets/`** (`../Skill lesson-generator/assets/`), not to a copy. A CSS or JS change shows up here at once, and the model never has an outdated component.
 
-Esta pasta fica fora de `Skill lesson-generator/` de propósito: ela não vai para o contexto do modelo, assim como os testes. A skill leva as regras e o template, não este exemplo, para que o próximo exercício não tente imitá-lo.
+This folder stays outside `Skill lesson-generator/` on purpose: it does not go into the model's context, just like the tests. The skill carries the rules and the template, not this example, so the next exercise does not try to imitate it.
 
-## Ver ao vivo
+## Seeing it live
 
-Por `file://` o navegador não carrega os `assets/`, então é preciso um servidor na raiz do repositório:
+Over `file://` the browser does not load the `assets/`, so a server at the root of the repository is needed:
 
 ```
 python -m http.server 8731 --bind 127.0.0.1
 ```
 
-e abrir `http://localhost:8731/lesson-generator/Modelo%20Skill%20lesson-generator/licao-modelo.html`. No Claude Code, a configuração `modelo-licao` em `.claude/launch.json` faz isso.
+and open `http://localhost:8731/lesson-generator/Modelo%20Skill%20lesson-generator/model-lesson.html`. In Claude Code, the `model-lesson` configuration in `.claude/launch.json` does this.
 
-## O exercício do modelo
+## The model's exercise
 
-A partida de um CSTR isotérmico com reação A → B de primeira ordem, saindo de um tanque cheio de solvente puro. Ele foi escolhido porque é curto e passa por todos os momentos da lição:
+The start-up of an isothermal CSTR with a first-order reaction A → B, starting from a tank full of pure solvent. It was chosen because it is short and goes through every part of the lesson:
 
-- um balanço de três termos, para as chaves;
-- uma solução exata, para a conferência;
-- um evento, para o instante de 95%;
-- dois controles com efeitos opostos;
+- a three-term balance, for the braces;
+- an exact solution, for the check;
+- an event, for the 95% instant;
+- two controls with opposite effects.
 
-Os números da lição saem do programa publicado nela, conferidos rodando.
+The numbers of the lesson come from the program published in it, checked by running it.

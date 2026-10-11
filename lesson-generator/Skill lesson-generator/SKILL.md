@@ -1,159 +1,161 @@
 ---
 name: lesson-generator
-description: Gera uma lição HTML interativa que ensina a programar em Python a solução de um exercício de engenharia química. Use SOMENTE quando o usuário pedir esta skill pelo nome (lesson-generator), por exemplo "use a lesson-generator neste exercício". Não a use por conta própria para exercícios ou dúvidas de engenharia química sem esse pedido.
+description: Generates an interactive HTML lesson that teaches how to program, in Python, the solution of a chemical engineering exercise. Use it ONLY when the user asks for this skill by name (lesson-generator), for example "use lesson-generator on this exercise". Do not use it on your own for chemical engineering exercises or questions without that request.
 disable-model-invocation: true
-argument-hint: "Cole o exercício que você quer aprender a resolver programando"
+argument-hint: "Paste the exercise you want to learn to solve by programming"
 ---
 
 # lesson-generator
 
-## 1. Objetivo
+## 1. Goal
 
-A partir de um exercício de engenharia química, você produz uma **lição**: um arquivo HTML que ensina o aluno a programar a solução em Python. O aluno conhece a engenharia, mas não sabe programar nem tem experiência com simulação.
+From a chemical engineering exercise, you produce a **lesson**: an HTML file that teaches the student to program the solution in Python. The student knows the engineering, but cannot program and has no experience with simulation.
 
-**Critério de qualidade.** A lição deve ensinar o máximo no menor tempo, tanto o de leitura do aluno quanto o de geração. Uma lição correta que exige meia hora para ser gerada falhou tanto quanto uma lição rasa. Quando esta skill não cobrir uma situação, escolha a opção que melhor atende a esse critério.
+**Quality criterion.** The lesson must teach the most in the least time, both the student's reading time and the generation time. A correct lesson that takes half an hour to generate has failed as much as a shallow one. When this skill does not cover a situation, choose the option that best meets this criterion.
 
-**Divisão de responsabilidades.** A engenharia e a programação são suas: você resolve o exercício e escolhe a técnica. A forma é da skill e já está pronta. **Seu trabalho é copiar e preencher**: trocar cada `{…}` do template (`templates/licao.html`) e copiar de `templates/pecas.html` a peça mais próxima do exercício, ajustando símbolos, rótulos e contas. Você não deve escrever CSS, JavaScript além da função `calcular` da figura, nem marcação nova, e não deve ler os arquivos de `assets/`. Só monte uma peça do zero se nenhuma servir, no mesmo padrão das existentes.
+**Division of responsibilities.** The engineering and the programming are yours: you solve the exercise and choose the technique. The form belongs to the skill and is ready. **Your job is to copy and fill in**: replace each `{…}` of the template (`templates/lesson.html`) and copy from `templates/pieces.html` the piece closest to the exercise, adjusting symbols, labels and calculations. You must not write CSS, JavaScript beyond the figure's `compute` function, or new markup, and you must not read the files in `assets/`. Build a piece from scratch only if none fits, in the same pattern as the existing ones.
 
-## 2. Glossário
+**Language.** The lesson is written in the language of the problem statement: all its text, the section titles, the labels of the figure and the comments and printed messages of the program. Set `<html lang>` to that language (`en`, `pt-BR`, `es`…); the fixed interface texts (buttons, table of contents, labels) follow it by themselves, in Portuguese or in English. Your reply to the student is in the same language.
 
-| Termo | Significado |
+## 2. Glossary
+
+| Term | Meaning |
 |---|---|
-| modelo | o modelo matemático do exercício (balanços e equações); quem executa a skill é sempre "você" |
-| lição | o arquivo HTML final, entregue ao aluno |
-| rascunho | a cópia de trabalho, em `.rascunho-<nome>/`, apagada na entrega |
-| seção | uma das quatro divisões da lição: abertura, O modelo, O código, O resultado |
-| etapa | um item da dedução de um balanço (`ol.deducao > li`) |
-| passo | um item da seção O código (`div.passo`) |
-| peça | um trecho pronto de `templates/pecas.html`: um balanço ou uma figura |
-| figura | um gráfico do `grafico.js`, com até quatro controles deslizantes |
+| model | the mathematical model of the exercise (balances and equations); whoever runs the skill is always "you" |
+| lesson | the final HTML file, delivered to the student |
+| draft | the working copy, in `.draft-<name>/`, deleted on delivery |
+| section | one of the four parts of the lesson: opening, the model, the code, the result |
+| derivation step | an item of the derivation of a balance (`ol.derivation > li`) |
+| code step | an item of the code section (`div.step`) |
+| piece | a ready-made excerpt of `templates/pieces.html`: a balance or a figure |
+| figure | a plot of `plot.js`, with up to four sliders |
 
-Os verbos **deve** e **não deve** indicam regras obrigatórias; **pode** indica uma opção; **recomenda-se** indica a escolha preferível, que pode ser contrariada com motivo.
+The verbs **must** and **must not** state mandatory rules; **may** states an option; **should** states the preferred choice, which may be departed from with a reason.
 
-## 3. Fluxo de trabalho
+## 3. Workflow
 
-Se o pedido não traz um exercício concreto (por exemplo, "me ensina reator tubular"), responda em uma linha que a skill precisa de um enunciado e atenda o pedido normalmente, sem gerar lição.
+If the request does not bring a concrete exercise (for example, "teach me tubular reactors"), reply in one line that the skill needs a problem statement and answer the request normally, without generating a lesson.
 
-Você não deve entrevistar o aluno (infira do enunciado o que precisaria perguntar) nem criar arquivos de estado ou anotações sobre ele.
+You must not interview the student (infer from the statement what you would need to ask) nor create state files or notes about them.
 
-Rode os scripts da sua pasta de trabalho, com caminhos completos, sem entrar na pasta do rascunho: no Windows, um terminal dentro dela impede que ela seja apagada.
+Run the scripts from your working folder, with full paths, without entering the draft folder: on Windows, a terminal inside it prevents its deletion.
 
-1. **Diagnóstico.** Leia o enunciado e identifique o que ele pede, os dados que dá, os que faltam e o tipo de problema matemático.
-2. **Números.** Calcule os resultados com contas rápidas, conforme a seção 5.
-3. **Rascunho.** Rode `python <pasta desta skill>/scripts/nova_licao.py "<nome do exercício>" [pasta]`. Passe a pasta só se o aluno indicou uma; sem pasta indicada, não passe nenhuma, nem `.`: o script grava em `./licoes`. Ele informa onde está o rascunho e para onde a lição irá.
-4. **Preenchimento.** O template tem cada elemento uma vez, como padrão: repita-o quantas vezes o exercício pedir (balanços, etapas, passos, observações), troque cada `{…}`, inclusive os de dentro de atributos, e apague o que não for usado. O conteúdo concreto vem de `templates/pecas.html`: uma dedução completa de exemplo, as equações dos balanços, as equações complementares e as figuras.
-5. **Conferência.** Rode `python <pasta desta skill>/scripts/conferir.py <rascunho.html>`. Todo ERRO deve ser corrigido; todo AVISO deve ser avaliado. O script roda os passos colados em ordem, compara a resposta com o que o programa imprime, acusa `{…}` esquecido e lista os números do texto para a revisão de procedência (seção 5).
-6. **Verificação visual, se houver navegador.** Sirva a pasta do rascunho (`python -m http.server 8730 --bind 127.0.0.1`), abra a lição por `http://`, confirme que as figuras desenham e leia o console, onde o `grafico.js` avisa sobre curva achatada, controle sem faixa e valor não finito. Sem navegador, o passo 5 basta.
-7. **Entrega.** Rode `python <pasta desta skill>/scripts/empacotar.py <rascunho.html>`, que gera o arquivo único, grava a lição no destino e apaga o rascunho. Depois disso, a lição não muda.
-8. **Resposta ao aluno.** Duas linhas, no máximo: onde está a lição e o convite a perguntar no chat. Não repita a resposta, a dedução nem as suas escolhas: elas estão na lição. A sessão termina na entrega: você não deve fazer commit nem outra ação que o aluno não pediu.
+1. **Diagnosis.** Read the statement and identify what it asks, the data it gives, the missing data and the kind of mathematical problem.
+2. **Numbers.** Compute the results with quick calculations, as in section 5.
+3. **Draft.** Run `python <this skill's folder>/scripts/new_lesson.py "<exercise name>" [folder]`. Pass the folder only if the student named one; with no folder named, pass none, not even `.`: the script writes to `./lessons`. It reports where the draft is and where the lesson will go.
+4. **Filling in.** The template has each element once, as a pattern: repeat it as many times as the exercise needs (balances, derivation steps, code steps, observations), replace each `{…}`, including those inside attributes, and delete what is not used. The concrete content comes from `templates/pieces.html`: a complete example derivation, the balance equations, the complementary equations and the figures.
+5. **Check.** Run `python <this skill's folder>/scripts/check.py <draft.html>`. Every ERROR must be fixed; every WARNING must be assessed. The script runs the pasted code steps in order, compares the answer with what the program prints, flags any forgotten `{…}` and lists the numbers of the text for the source review (section 5).
+6. **Visual check, if there is a browser.** Serve the draft folder (`python -m http.server 8730 --bind 127.0.0.1`), open the lesson through `http://`, confirm that the figures draw and read the console, where `plot.js` warns about flattened curves, controls without range and non-finite values. Without a browser, step 5 is enough.
+7. **Delivery.** Run `python <this skill's folder>/scripts/pack.py <draft.html>`, which builds the single file, writes the lesson to its destination and deletes the draft. After that, the lesson does not change. The task is only done when this step has run: the numbers alone, without the lesson file, are not a delivery.
+8. **Reply to the student.** Two lines at most: where the lesson is and the invitation to ask in the chat. Do not repeat the answer, the derivation or your choices: they are in the lesson. The session ends at delivery: you must not commit or take any action the student did not ask for.
 
-## 4. Estrutura da lição
+## 4. Structure of the lesson
 
-A lição tem quatro seções, nesta ordem: abertura, O modelo, O código e O resultado. Não há exercício extra no fim.
+The lesson has four sections, in this order: opening, the model, the code and the result. There is no extra exercise at the end.
 
-**Extensão.** Não há limite de palavras. Corte o que não ensina (repetição, contexto histórico, ressalvas sem consequência); nunca abrevie o que ensina (definição de símbolo, contexto de uma equação, motivo de uma decisão).
+**Length.** There is no word limit. Cut what does not teach (repetition, historical context, caveats without consequence); never shorten what teaches (the definition of a symbol, the context of an equation, the reason for a decision).
 
-**Cor.** Cada grandeza mostrada numa figura deve levar a cor da sua série em todos os lugares: equação, lista de símbolos, tabela e texto, inclusive no nome ("o reagente A"). Parâmetros e o restante ficam sem cor. Todo símbolo citado no texto deve ser marcado (`span.var-N` ou, sem cor, `span.param`), para sair em itálico e no tamanho da equação. A marcação está no template.
+**Color.** Each quantity shown in a figure must carry the color of its series everywhere: equation, symbol list, table and text, including in its name ("reactant A"). Parameters and everything else stay uncolored. Every symbol quoted in the text must be marked (`span.var-N` or, uncolored, `span.param`), so it comes out in italics and at the size of the equation. The markup is in the template.
 
-### 4.1 Abertura
+### 4.1 Opening
 
-A lição começa pelo **enunciado** (`div.enunciado`), reescrito com clareza: todos os dados do exercício, com unidade e com os símbolos marcados, e, numa lista, o que ele pede, um item por pergunta. Depois, duas ou três frases: o que acontece no processo e o que o aluno terá no fim.
+The lesson starts with the **problem statement** (`div.problem`), rewritten clearly: all the data of the exercise, with units and marked symbols, and, in a list, what it asks, one item per question. Then, two or three sentences: what happens in the process and what the student will have at the end.
 
-### 4.2 O modelo
+### 4.2 The model
 
-**Todo balanço deve ser deduzido**, do princípio de conservação até a forma usada no código, uma etapa por item. Motivo: ver de onde a equação vem ensina o aluno a montar o balanço do próximo exercício.
+**Every balance must be derived**, from the conservation principle to the form used in the code, one derivation step per item. Reason: seeing where the equation comes from teaches the student to set up the balance of the next exercise.
 
-- O título do balanço deve dizer a natureza (massa ou energia), se é global ou de qual componente, e a unidade. Exemplo: "Balanço de massa do componente A, em mols".
-- A primeira etapa é o princípio, em palavras, com o volume de controle; a segunda, a tradução de cada palavra em símbolos, com uma chave sob cada termo.
-- Cada etapa seguinte deve fazer uma única operação e declarar o tipo: princípio, tradução, cinética, hipótese, álgebra ou definição.
-- Toda hipótese deve dizer o que aconteceria se ela não valesse, porque é a hipótese que muda de um exercício para outro.
-- A última etapa é a equação do modelo, com as chaves, seguida de um parágrafo que descreve o que ela representa no processo e, depois, o que ela implica.
-- Um balanço que repetiria as etapas de outro já deduzido mostra o princípio e a tradução e resume o restante numa etapa.
-- A ordem dos balanços é a que a dedução exige: por exemplo, o global vem antes do de componente quando este depende dele.
+- The title of the balance must state its nature (mass or energy), whether it is overall or of which component, and the unit. Example: "Mass balance of component A, in moles".
+- The first step is the principle, in words, with the control volume; the second, the translation of each word into symbols, with a brace under each term.
+- Each following step must perform a single operation and declare its kind: principle, translation, kinetics, assumption, algebra or definition.
+- Every assumption must say what would happen if it did not hold, because the assumption is what changes from one exercise to another.
+- The last step is the model equation, with the braces, followed by a paragraph that describes what it represents in the process and, then, what it implies.
+- A balance that would repeat the steps of one already derived shows the principle and the translation and sums up the rest in one step.
+- The order of the balances is the one the derivation requires: for example, the overall one comes before the component one when the latter depends on it.
 
-Uma equação que não é balanço (lei de velocidade dada, correlação) não se deduz: ela entra num bloco próprio (`div.eq-bloco`), com o nome dela em `data-titulo`.
+An equation that is not a balance (a given rate law, a correlation) is not derived: it goes in a block of its own (`div.eq-block`), with its name in `data-title`.
 
-- Cada símbolo deve ser definido onde aparece pela primeira vez, numa frase completa, com unidade: "concentração do reagente A dentro do reator, mol/L", e não "concentração, mol/L".
-- Recomenda-se uma chave, de duas a cinco palavras, em cada termo com significado físico próprio; não em etapas de álgebra pura.
-- Equações exibidas devem estar em MathML; código nunca.
+- Each symbol must be defined where it first appears, in a full sentence, with its unit: "concentration of reactant A inside the reactor, mol/L", not "concentration, mol/L".
+- Each term with a physical meaning of its own should have a brace of two to five words; not in pure algebra steps.
+- Displayed equations must be in MathML; code never.
 
-Depois da dedução, a seção O modelo tem apenas mais dois elementos:
+After the derivation, the model section has only two more elements:
 
-1. **A tabela de parâmetros**, com valor, unidade e procedência de cada um.
-2. **O quadro da técnica**, que fecha a seção em quatro ou cinco frases, nesta sequência:
-   - o tipo de problema matemático, em palavras simples;
-   - "para resolver esse tipo de problema, vamos usar" a técnica, com o nome dela destacado também no texto (`span.termo`). O nome da técnica, no título do quadro, é curto: até quatro palavras ("Busca de raiz", "Integração numérica"); os detalhes vão no texto;
-   - por que ela serve neste caso;
-   - "em Python, quem faz isso é a função" tal, "da biblioteca" tal;
-   - "Confira a próxima seção para aprender a usá-la."
+1. **The parameter table**, with the value, unit and source of each one.
+2. **The technique box**, which closes the section in four or five sentences, in this sequence:
+   - the kind of mathematical problem, in plain words;
+   - "to solve this kind of problem, we will use" the technique, with its name also highlighted in the text (`span.term`). The name of the technique, in the title of the box, is short: up to four words ("Root finding", "Numerical integration"); the details go in the text;
+   - why it fits this case;
+   - "in Python, the function that does this is" such, "from the library" such;
+   - "See the next section to learn how to use it."
 
-   Se a resposta sai de uma conta direta, sem método numérico, a técnica é essa conta, e o recurso de Python é o que a executa (as operações do NumPy, por exemplo).
+   If the answer comes from a direct calculation, with no numerical method, the technique is that calculation, and the Python feature is what performs it (NumPy operations, for example). When a closed form exists, it must be the technique; a numerical method then serves as the check.
 
-Todo termo de simulação ou de método numérico (integrador, passo de integração, tolerância, convergência) deve ser explicado em palavras simples na primeira vez que aparece.
+Every simulation or numerical method term (integrator, integration step, tolerance, convergence) must be explained in plain words the first time it appears.
 
-### 4.3 O código
+### 4.3 The code
 
-O programa é explicado em no máximo seis passos, seguidos de um último passo com o programa completo.
+The program is explained in at most six steps, followed by a last step with the complete program.
 
-- O título de cada passo é o que o aluno vê antes de abri-lo: deve anunciar o conteúdo sem revelar a resposta.
-- Cada passo deve ter três partes, nesta ordem:
-  1. **para quê** (`p.para-que`), antes do código: a intenção do passo;
-  2. **como** (`p.como`), depois do código: a sintaxe de cada elemento novo, como o que é um `def`, o que a função recebe e devolve, o que significa cada formato de impressão;
-  3. **até aqui** (`p.agora`), por último: o que o programa passou a fazer.
-- Toda função de biblioteca deve ter todos os argumentos explicados, posicionais e nomeados: o que cada um é e por que tem aquele valor. Quando são muitos, recomenda-se escrever o "como" em lista (`ul.como`), um item por argumento, em vez de um parágrafo longo; um passo que ainda fique pesado pode ser dividido em dois.
-- Quando uma função sua é entregue a uma função de biblioteca (a função dos balanços ao `solve_ivp`, a de resíduo ao `brentq`), explique o mecanismo: quem a chama, quantas vezes, com que valores em cada argumento, e o que é feito com o que ela devolve. É isso que dá sentido à ordem dos argumentos, a `y[0]` (o estado chega sempre como lista, mesmo com uma só variável) e a `args=(…,)` (o caminho pelo qual um valor extra chega a cada chamada, e por que a vírgula).
-- Toda construção que um iniciante não reconheceria (índice de lista, tupla, desempacotamento, função como argumento, atributo como `.terminal`) deve ser explicada com o que ela é e o que faz neste programa.
-- A verificação é obrigatória: uma conta independente que confere o resultado (caso analítico, balanço que fecha, caso-limite).
-- O critério de precisão de um resultado numérico deve ser explicado no passo em que o método é usado.
-- Os passos, colados em ordem, devem formar exatamente o programa completo e rodar sem erro.
-- O programa deve terminar com uma figura do matplotlib (`plt.show()`): a mesma da seção O resultado, ou uma versão simples dela. É o que o aluno vê ao rodar o código no editor.
+- The title of each step is what the student sees before opening it: it must announce the content without revealing the answer.
+- Each step must have three parts, in this order:
+  1. **purpose** (`p.purpose`), before the code: the intention of the step;
+  2. **how** (`p.how`), after the code: the syntax of each new element, such as what a `def` is, what the function receives and returns, what each print format means;
+  3. **so far** (`p.so-far`), last: what the program now does.
+- Every library function must have all its arguments explained, positional and keyword: what each one is and why it has that value. When there are many, the "how" should be written as a list (`ul.how`), one item per argument, instead of a long paragraph; a step that is still heavy may be split in two.
+- When one of your functions is handed to a library function (the balance function to `solve_ivp`, the residual one to `brentq`), explain the mechanism: who calls it, how many times, with what values in each argument, and what is done with what it returns. That is what gives meaning to the order of the arguments, to `y[0]` (the state always arrives as a list, even with a single variable) and to `args=(…,)` (the path by which an extra value reaches each call, and why the comma).
+- Every construct a beginner would not recognize (list index, tuple, unpacking, function as argument, an attribute such as `.terminal`) must be explained with what it is and what it does in this program.
+- The check is mandatory: an independent calculation that confirms the result (analytical case, a balance that closes, a limiting case). Independent means it does not reuse the relation that produced the result: putting a value back into the very equation it was solved from proves nothing.
+- The precision criterion of a numerical result must be explained in the step where the method is used.
+- The code steps, pasted in order, must form exactly the complete program and run without errors.
+- The program must end with a matplotlib figure (`plt.show()`): the same as in the result section, or a simple version of it. It is what the student sees when running the code in the editor.
 
-### 4.4 O resultado
+### 4.4 The result
 
-A seção começa pela **resposta**, que deve responder com número a todas as perguntas do enunciado, uma por uma, com os mesmos valores e casas que o programa imprime. Se uma pergunta não tem o número impresso, é o programa que deve passar a imprimi-lo; a resposta nunca remete a outra parte da lição. Depois vem a figura que a pergunta exige (no tempo, ao longo do reator, contra um parâmetro, dados contra modelo), registrada no `grafico.js` com a mesma conta do programa. A lição pode ter no máximo duas figuras.
+The section starts with the **answer**, which must answer with a number every question of the statement, one by one, with the same values and decimals the program prints. If a question has no printed number, the program must start printing it; the answer never refers to another part of the lesson. Then comes the figure the question requires (in time, along the reactor, against a parameter, data against model), registered in `plot.js` with the same calculation as the program. The lesson may have at most two figures.
 
-- No máximo quatro controles. Cada um deve ser motivado por uma observação própria, e a faixa e o passo do controle devem alcançar o valor que essa observação pede.
-- Duas a quatro observações de leitura da curva, mais uma por controle. Cada observação deve citar um valor ou um trecho de curva deste exercício; uma frase que serviria para outro exercício deve ser cortada.
-- O título de cada observação é uma pergunta ou, nas observações de controle, a ação a fazer; nunca a conclusão.
-- Cada observação de controle deve indicar a mesma mudança no código e o que o programa passa a imprimir.
-- Cada grandeza deve ter um único nome na lição inteira, igual ao da legenda.
-- Você não deve listar o que o modelo desconsidera.
+- At most four controls. Each one must be motivated by an observation of its own, and the range and step of the control must reach the value that observation asks for.
+- Two to four observations reading the curve, plus one per control. Each observation must quote a value or a stretch of curve of this exercise; a sentence that would serve another exercise must be cut.
+- The title of each observation is a question or, in the control observations, the action to take; never the conclusion.
+- Each control observation must give the same change in the code and what the program then prints.
+- Each quantity must have a single name in the whole lesson, the same as in the legend. A curve is called by that name, never by its color ("the blue curve"): the colors depend on the theme, and the name is what the student finds in the legend.
+- You must not list what the model disregards.
 
-### 4.5 Elementos opcionais
+### 4.5 Optional elements
 
-Cada opcional só deve ser usado se ensinar algo que o texto principal não ensina:
+Each optional element must only be used if it teaches something the main text does not:
 
-- com marcação no template: tabela de resultados, nota lateral e termo destacado;
-- como figuras do `pecas.html`: segundo eixo e dados contra modelo.
+- with markup in the template: a results table, a side note and a highlighted term;
+- as figures from `pieces.html`: a second axis and data against model.
 
-Você não deve criar componente nem figura que não seja do tipo x contra y: o que não couber nesse formato deve ser explicado em texto.
+You must not create a component or a figure that is not of the x versus y kind: whatever does not fit that format must be explained in text.
 
-## 5. Números e procedência
+## 5. Numbers and sources
 
-**Cálculo prévio.** Antes de escrever, calcule os resultados com contas rápidas, só para saber o que a lição vai afirmar. Se existir solução analítica, mesmo de um caso particular ou de um limite, use-a para confirmar o resultado numérico. Se os dois discordarem, encontre o erro antes de prosseguir, sem presumir qual está certo. O programa deve rodar em menos de 30 s; se demorar mais, revise o método.
+**Prior calculation.** Before writing, compute the results with quick calculations, only to know what the lesson will state. If an analytical solution exists, even for a particular case or a limit, use it to confirm the numerical result. If the two disagree, find the error before going on, without presuming which one is right. The program must run in under 30 s; if it takes longer, revise the method.
 
-**Todo número citado na lição deve ser impresso pelo programa entregue**, inclusive os instantes, picos e cruzamentos mencionados nas observações. Valem também os dados do enunciado e uma conta simples feita à vista no texto com números já citados ("2,00 − 1,35 = 0,65 mol/L"). Se um número exigiria um passo a mais para ser calculado, não o cite.
+**Every number quoted in the lesson must be printed by the delivered program**, including the instants, peaks and crossings mentioned in the observations. The data of the statement also count, and a simple calculation shown in the text with numbers already quoted ("2.00 − 1.35 = 0.65 mol/L"). If a number would need an extra step to be calculated, do not quote it.
 
-**Procedência.** Revise cada número da lista impressa pelo `conferir.py`, inclusive faixas e percentuais no meio de frases. Todo número deve ser de um destes tipos:
+**Source.** Review each number of the list printed by `check.py`, including ranges and percentages in the middle of sentences. Every number must be of one of these kinds:
 
-- **dado do enunciado**;
-- **derivado**, com a conta visível;
-- **constante física** (a constante dos gases, por exemplo), sem fonte;
-- **escolha sua**, marcada na tabela com o motivo em meia linha (condições iniciais, horizontes de tempo, tolerâncias).
+- **given** in the statement;
+- **derived**, with the calculation shown;
+- **physical constant** (the gas constant, for example), with no reference;
+- **your choice**, marked in the table with the reason in half a line (initial conditions, time horizons, tolerances).
 
-A faixa de um controle não precisa de procedência, mas deve fazer sentido físico. Você não deve citar literatura.
+The range of a control needs no source, but must make physical sense. You must not cite literature.
 
-**Formato.** No texto da lição, os números usam vírgula decimal ("350,4 L"), inclusive quando reproduzem a saída do programa; o ponto decimal fica só dentro do código.
+**Format.** In the lesson text, numbers follow the convention of the lesson's language: a decimal comma in Portuguese ("350,4 L"), a point in English ("350.4 L"), even when they reproduce the program's output. Inside the code, the point is always the decimal separator.
 
-## 6. Restrições técnicas
+## 6. Technical constraints
 
-- A lição deve abrir sem internet. A exceção é o editor, que baixa o Python na primeira execução.
-- Use apenas bibliotecas disponíveis no Pyodide (numpy, scipy, matplotlib, pandas, sympy). Se outra for indispensável, o passo que a importa deve avisar que aquele trecho só roda no computador.
-- Todo código deve rodar; todo parâmetro e todo eixo devem ter unidade.
-- Um bloco de código que não seja Python deve levar a classe `sem-realce`.
-- Recomenda-se linhas de código de até 70 caracteres: numa folha estreita, a fonte do bloco encolhe para caber, e linha curta encolhe menos.
-- A lição não deve ter links externos nem prometer continuação.
+- The lesson must open without internet. The exception is the editor, which downloads Python on first run.
+- Use only libraries available in Pyodide (numpy, scipy, matplotlib, pandas, sympy). If another is indispensable, the step that imports it must warn that this piece only runs on a computer.
+- All code must run; every parameter and every axis must have a unit.
+- A code block that is not Python must take the class `no-highlight`.
+- Code lines should be at most 70 characters: on a narrow sheet, the font of the block shrinks to fit, and a short line shrinks less.
+- The lesson must not have external links nor promise a continuation.
 
-## 7. Após a entrega
+## 7. After delivery
 
-A lição não é editada depois de entregue. Dúvidas do aluno são respondidas no chat. Se o aluno pedir explicitamente uma lição com algo a mais, ela é uma lição nova, com outro nome.
+The lesson is not edited after delivery. The student's questions are answered in the chat. If the student explicitly asks for a lesson with something more, it is a new lesson, with another name.

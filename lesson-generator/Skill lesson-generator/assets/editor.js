@@ -1,46 +1,106 @@
-/* editor.js — um editor de Python ao lado da lição, que roda o código ali mesmo.
+/* editor.js — a Python editor beside the lesson, which runs the code right there.
  *
- * Injeta sozinho uma bolinha "‹" na borda direita, que vira o botão "Editor de
- * código ›" com o mouse em cima e abre o painel. Aberto, o painel ocupa a
- * direita da página e a lição desliza para a esquerda. Em cima, o editor;
- * embaixo, a saída: o que o print escreve, os erros e as figuras do matplotlib.
+ * It injects by itself a small "‹" dot on the right edge, which turns into the
+ * "Code editor ›" button on hover and opens the panel. Open, the panel takes
+ * the right of the page and the lesson slides to the left. On top, the editor;
+ * below, the output: what print writes, the errors and the matplotlib figures.
  *
- * O editor começa VAZIO. Cada bloco de código da seção de código ganha, ao lado
- * do "copiar", um botão "→ editor" que acrescenta aquele trecho ao fim do
- * programa: o aluno monta o programa ele mesmo, passo a passo.
+ * The editor starts EMPTY. Each code block of the code section gets, next to
+ * "copy", a "→ editor" button that appends that piece to the end of the
+ * program: the student builds the program, step by step.
  *
- * O Python é o Pyodide (CPython compilado para WebAssembly), baixado do CDN
- * só no primeiro "Rodar": a lição continua abrindo sem internet, e só o editor
- * precisa dela, uma vez. Depois o navegador guarda tudo.
+ * Python is Pyodide (CPython compiled to WebAssembly), downloaded from the CDN
+ * only on the first "Run": the lesson still opens without internet, and only
+ * the editor needs it, once. After that the browser caches everything.
  *
- * A lição não precisa de marcação nenhuma: basta carregar este arquivo depois
- * do codigo.js, de quem ele usa o realce de sintaxe.
+ * The lesson needs no markup: just load this file after lesson.js, whose
+ * syntax highlighting it uses.
  *
- * Atalhos: Ctrl+Enter roda · Tab indenta · Enter mantém a indentação.
- * O que o aluno montou fica guardado no navegador, por lição; "Limpar" esvazia.
+ * Shortcuts: Ctrl+Enter runs · Tab indents · Enter keeps the indentation.
+ * What the student built is kept in the browser, per lesson; "Empty" clears it.
  */
 
 (function () {
   "use strict";
 
   var PYODIDE = "https://cdn.jsdelivr.net/pyodide/v0.27.2/full/";
-  var CHAVE = "licao-editor:" + location.pathname;
+  var KEY = "lesson-editor:" + location.pathname;
   var INDENT = "    ";
-  var VAZIO = "O editor começa vazio.\n\n" +
-    "Em cada bloco de código da lição, o botão  → editor  traz aquele trecho " +
-    "para cá, no fim do programa. Monte o programa passo a passo e aperte " +
-    "Rodar (ou Ctrl+Enter).";
+  // The texts the student sees, in the lesson's language (<html lang>):
+  // Portuguese when lang starts with "pt"; English otherwise.
+  var PT = /^pt/i.test(document.documentElement.lang);
+  var TXT = PT ? {
+    empty: "O editor começa vazio.\n\n" +
+      "Em cada bloco de código da lição, o botão  → editor  traz aquele trecho " +
+      "para cá, no fim do programa. Monte o programa passo a passo e aperte " +
+      "Rodar (ou Ctrl+Enter).",
+    open: "Abrir o editor de código",
+    editor: "Editor de código",
+    panel: "Editor de Python",
+    run: "Rodar (Ctrl+Enter)",
+    clear: "Esvaziar o editor",
+    close: "Fechar o editor",
+    code: "Código Python",
+    firstTime: "Na primeira vez que você rodar, o Python é baixado (precisa de internet).",
+    clearOutput: "Apagar a saída, sem mexer no código",
+    output: "Saída",
+    dividerLabel: "Arraste para dividir o espaço entre o código e a saída",
+    dividerHint: "Arraste para dividir o espaço · duplo clique volta ao meio",
+    sideLabel: "Arraste para dividir a largura entre a lição e o editor",
+    sideHint: "Arraste para os lados · duplo clique volta ao padrão",
+    send: "Levar este trecho ao fim do programa no editor",
+    figure: "Figura gerada pelo programa",
+    downloading: "Baixando o Python… (só na primeira vez)",
+    noConnection: "sem conexão",
+    editorEmpty: "O editor está vazio: traga os trechos da lição com  → editor.",
+    libraries: "Carregando as bibliotecas que o programa importa…",
+    running: "Rodando…",
+    done: function (s) { return "Pronto em " + s.toFixed(1).replace(".", ",") + " s"; },
+    nothingPrinted: "(o programa não imprimiu nada)",
+    noPython: "Não consegui baixar o Python. O editor precisa de internet na primeira vez.",
+    error: "O programa parou com um erro"
+  } : {
+    empty: "The editor starts empty.\n\n" +
+      "In each code block of the lesson, the  → editor  button brings that piece " +
+      "here, to the end of the program. Build the program step by step and press " +
+      "Run (or Ctrl+Enter).",
+    open: "Open the code editor",
+    editor: "Code editor",
+    panel: "Python editor",
+    run: "Run (Ctrl+Enter)",
+    clear: "Empty the editor",
+    close: "Close the editor",
+    code: "Python code",
+    firstTime: "The first time you run, Python is downloaded (needs internet).",
+    clearOutput: "Clear the output, keeping the code",
+    output: "Output",
+    dividerLabel: "Drag to split the space between the code and the output",
+    dividerHint: "Drag to split the space · double-click to reset",
+    sideLabel: "Drag to split the width between the lesson and the editor",
+    sideHint: "Drag sideways · double-click to reset",
+    send: "Bring this piece to the end of the program in the editor",
+    figure: "Figure made by the program",
+    downloading: "Downloading Python… (first time only)",
+    noConnection: "no connection",
+    editorEmpty: "The editor is empty: bring the pieces of the lesson with  → editor.",
+    libraries: "Loading the libraries the program imports…",
+    running: "Running…",
+    done: function (s) { return "Done in " + s.toFixed(1) + " s"; },
+    nothingPrinted: "(the program printed nothing)",
+    noPython: "Could not download Python. The editor needs internet the first time.",
+    error: "The program stopped with an error"
+  };
 
-  var py = null;          // a instância do Pyodide, quando carregada
-  var carregando = null;  // a promessa do carregamento, para não carregar duas vezes
+  var py = null;          // the Pyodide instance, once loaded
+  var loading = null;     // the loading promise, so it never loads twice
 
-  function guardar(txt) { try { localStorage.setItem(CHAVE, txt); } catch (e) { /* sem armazenamento */ } }
-  function lido() { try { return localStorage.getItem(CHAVE); } catch (e) { return null; } }
-  function esquecer() { try { localStorage.removeItem(CHAVE); } catch (e) { /* idem */ } }
+  function save(txt) { try { localStorage.setItem(KEY, txt); } catch (e) { /* no storage */ } }
+  function saved() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+  function forget() { try { localStorage.removeItem(KEY); } catch (e) { /* idem */ } }
 
-  function realcar(txt) {
-    return window.Codigo && window.Codigo.realcarTexto
-      ? window.Codigo.realcarTexto(txt)
+  function highlight(txt) {
+    return window.Lesson && window.Lesson.highlightText
+      ? window.Lesson.highlightText(txt)
       : txt.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
@@ -51,426 +111,450 @@
     return e;
   }
 
-  // Um ícone desenhado (lesson.css, "ícones desenhados"): nunca um caractere
-  // como ▶ ou ✕, que cada fonte põe numa altura e sai torto ao lado do texto.
-  function icone(nome) { return el("span", "ic ic-" + nome); }
+  // A drawn icon (lesson.css, "drawn icons"): never a character like ▶ or ✕,
+  // which each font places at a different height, crooked beside the text.
+  function icon(name) { return el("span", "ic ic-" + name); }
 
-  // O conteúdo de um botão: texto e ícones, na ordem dada.
-  function rotular(b, partes) {
+  // The content of a button: text and icons, in the given order.
+  function label(b, parts) {
     b.textContent = "";
-    partes.forEach(function (p) { b.append(typeof p === "string" ? document.createTextNode(p) : p); });
+    parts.forEach(function (p) { b.append(typeof p === "string" ? document.createTextNode(p) : p); });
   }
 
-  function botao(cls, partes, titulo) {
+  function button(cls, parts, title) {
     var b = el("button", cls);
     b.type = "button";
-    if (partes) rotular(b, [].concat(partes));
-    if (titulo) b.title = titulo;
+    if (parts) label(b, [].concat(parts));
+    if (title) b.title = title;
     return b;
   }
 
-  // Botão só de ícone: o nome fica na dica (title) e no leitor de tela.
-  function botaoIcone(cls, nome, titulo) {
-    var b = botao(cls + " editor-icone", [icone(nome)], titulo);
-    b.setAttribute("aria-label", titulo);
+  // Icon-only button: the name goes in the tooltip (title) and the screen reader.
+  function iconButton(cls, name, title) {
+    var b = button(cls + " editor-icon", [icon(name)], title);
+    b.setAttribute("aria-label", title);
     return b;
   }
 
-  function montar() {
-    var abrir = botao("editor-abrir", null, "Abrir o editor de código");
-    abrir.setAttribute("aria-label", "Abrir o editor de código");
-    abrir.append(el("span", "editor-abrir-texto", "Editor de código"), el("span", "editor-abrir-seta"));
+  function build() {
+    var open = button("editor-open", null, TXT.open);
+    open.setAttribute("aria-label", TXT.open);
+    open.append(el("span", "editor-open-text", TXT.editor), el("span", "editor-open-arrow"));
 
-    var painel = el("aside", "editor-painel");
-    painel.setAttribute("aria-label", "Editor de Python");
+    var panel = el("aside", "editor-panel");
+    panel.setAttribute("aria-label", TXT.panel);
 
-    var topo = el("div", "editor-topo");
-    var rodar = botaoIcone("editor-rodar", "play", "Rodar (Ctrl+Enter)");
-    var limpar = botaoIcone("editor-botao editor-limpar", "lixo", "Esvaziar o editor");
-    var fechar = botaoIcone("editor-botao editor-fechar", "x", "Fechar o editor");
-    topo.append(el("span", "editor-titulo", "Editor de código"), rodar, limpar, fechar);
+    var top = el("div", "editor-top");
+    var run = iconButton("editor-run", "play", TXT.run);
+    var clear = iconButton("editor-button editor-clear", "trash", TXT.clear);
+    var close = iconButton("editor-button editor-close", "x", TXT.close);
+    top.append(el("span", "editor-title", TXT.editor), run, clear, close);
 
-    var codigo = el("div", "editor-codigo");
-    var linhas = el("div", "editor-linhas");
-    linhas.setAttribute("aria-hidden", "true");
-    var campo = el("div", "editor-campo");
-    var realce = el("pre", "editor-realce");
-    realce.setAttribute("aria-hidden", "true");
-    var realceCode = el("code", "sem-realce");
-    realce.appendChild(realceCode);
-    var texto = el("textarea", "editor-texto");
-    texto.spellcheck = false;
-    texto.placeholder = VAZIO;
-    texto.setAttribute("autocapitalize", "off");
-    texto.setAttribute("autocomplete", "off");
-    texto.setAttribute("aria-label", "Código Python");
-    campo.append(realce, texto);
-    codigo.append(linhas, campo);
+    var code = el("div", "editor-code");
+    var lines = el("div", "editor-lines");
+    lines.setAttribute("aria-hidden", "true");
+    var field = el("div", "editor-field");
+    var shade = el("pre", "editor-highlight");
+    shade.setAttribute("aria-hidden", "true");
+    var shadeCode = el("code", "no-highlight");
+    shade.appendChild(shadeCode);
+    var text = el("textarea", "editor-text");
+    text.spellcheck = false;
+    text.placeholder = TXT.empty;
+    text.setAttribute("autocapitalize", "off");
+    text.setAttribute("autocomplete", "off");
+    text.setAttribute("aria-label", TXT.code);
+    field.append(shade, text);
+    code.append(lines, field);
 
-    var saida = el("div", "editor-saida");
-    var saidaTopo = el("div", "editor-saida-topo");
-    var estado = el("span", "editor-estado", "Na primeira vez que você rodar, o Python é baixado (precisa de internet).");
-    var limparSaida = botaoIcone("editor-limpar-saida", "lixo", "Apagar a saída, sem mexer no código");
-    saidaTopo.append(el("span", "", "Saída"), estado, limparSaida);
-    var resultado = el("div", "editor-resultado");
-    saida.append(saidaTopo, resultado);
+    var output = el("div", "editor-output");
+    var outputTop = el("div", "editor-output-top");
+    var status = el("span", "editor-status", TXT.firstTime);
+    var clearOutput = iconButton("editor-clear-output", "trash", TXT.clearOutput);
+    outputTop.append(el("span", "", TXT.output), status, clearOutput);
+    var result = el("div", "editor-result");
+    output.append(outputTop, result);
 
-    // A divisão entre o código e a saída: arrasta-se para ver a saída inteira.
-    var divisor = el("div", "editor-divisor");
-    divisor.setAttribute("role", "separator");
-    divisor.setAttribute("aria-orientation", "horizontal");
-    divisor.setAttribute("aria-label", "Arraste para dividir o espaço entre o código e a saída");
-    divisor.title = "Arraste para dividir o espaço · duplo clique volta ao meio";
-    divisor.tabIndex = 0;
+    // The divider between the code and the output: drag it to see the whole output.
+    var divider = el("div", "editor-divider");
+    divider.setAttribute("role", "separator");
+    divider.setAttribute("aria-orientation", "horizontal");
+    divider.setAttribute("aria-label", TXT.dividerLabel);
+    divider.title = TXT.dividerHint;
+    divider.tabIndex = 0;
 
-    // A divisão entre a lição e o editor: arrasta-se para os lados.
-    var lateral = el("div", "editor-divisor-v");
-    lateral.setAttribute("role", "separator");
-    lateral.setAttribute("aria-orientation", "vertical");
-    lateral.setAttribute("aria-label", "Arraste para dividir a largura entre a lição e o editor");
-    lateral.title = "Arraste para os lados · duplo clique volta ao padrão";
-    lateral.tabIndex = 0;
+    // The divider between the lesson and the editor: drag it sideways.
+    var side = el("div", "editor-divider-v");
+    side.setAttribute("role", "separator");
+    side.setAttribute("aria-orientation", "vertical");
+    side.setAttribute("aria-label", TXT.sideLabel);
+    side.title = TXT.sideHint;
+    side.tabIndex = 0;
 
-    painel.append(lateral, topo, codigo, divisor, saida);
-    document.body.append(abrir, painel);
+    panel.append(side, top, code, divider, output);
+    document.body.append(open, panel);
 
-    /* ---------- a divisão entre a lição e o editor ---------- */
+    /* ---------- the split between the lesson and the editor ---------- */
 
-    var raiz = document.documentElement;
-    var MIN_EDITOR = 360;   // px: o editor ainda mostra uma linha de código inteira
-    var MIN_LICAO = 420;    // px: a lição ainda é uma coluna legível
+    var root = document.documentElement;
+    var MIN_EDITOR = 360;   // px: the editor still shows a whole line of code
+    var MIN_LESSON = 420;   // px: the lesson is still a readable column
 
-    function redesenharLicao() { window.dispatchEvent(new Event("resize")); }
+    function redrawLesson() { window.dispatchEvent(new Event("resize")); }
 
-    function larguraEditor(w) {
-      w = Math.max(MIN_EDITOR, Math.min(window.innerWidth - MIN_LICAO, w));
-      raiz.style.setProperty("--editor-w", w + "px");
+    function editorWidth(w) {
+      w = Math.max(MIN_EDITOR, Math.min(window.innerWidth - MIN_LESSON, w));
+      root.style.setProperty("--editor-w", w + "px");
       return w;
     }
 
-    function larguraPadrao() {
-      raiz.style.removeProperty("--editor-w");
-      try { localStorage.removeItem("licao-editor-largura"); } catch (e) { /* sem armazenamento */ }
-      redesenharLicao();
+    function defaultWidth() {
+      root.style.removeProperty("--editor-w");
+      try { localStorage.removeItem("lesson-editor-width"); } catch (e) { /* no storage */ }
+      redrawLesson();
     }
 
-    function guardarLargura(w) {
-      try { localStorage.setItem("licao-editor-largura", String(Math.round(w))); } catch (e) { /* idem */ }
+    function saveWidth(w) {
+      try { localStorage.setItem("lesson-editor-width", String(Math.round(w))); } catch (e) { /* idem */ }
     }
 
-    lateral.addEventListener("pointerdown", function (ev) {
+    side.addEventListener("pointerdown", function (ev) {
       ev.preventDefault();
-      lateral.setPointerCapture(ev.pointerId);
-      lateral.classList.add("arrastando");
-      // Sem as transições enquanto arrasta: a lição acompanha o dedo, não atrasa.
-      document.body.classList.add("redimensionando");
-      var ultima = painel.offsetWidth, quadro = 0;
-      function mover(e) {
-        // O editor fica a um vão da borda direita, e a alça no meio do vão
-        // entre as folhas: a largura desconta o vão e meio, para a alça seguir
-        // o ponteiro.
-        var vao = parseFloat(getComputedStyle(painel).right) || 0;
-        ultima = larguraEditor(window.innerWidth - vao - e.clientX - vao / 2);
-        if (!quadro) quadro = requestAnimationFrame(function () { quadro = 0; redesenharLicao(); });
+      side.setPointerCapture(ev.pointerId);
+      side.classList.add("dragging");
+      // No transitions while dragging: the lesson follows the pointer, without lag.
+      document.body.classList.add("resizing");
+      var last = panel.offsetWidth, frame = 0;
+      function move(e) {
+        // The editor sits one gap from the right edge, and the handle in the
+        // middle of the gap between the sheets: the width discounts a gap and
+        // a half, so the handle follows the pointer.
+        var gap = parseFloat(getComputedStyle(panel).right) || 0;
+        last = editorWidth(window.innerWidth - gap - e.clientX - gap / 2);
+        if (!frame) frame = requestAnimationFrame(function () { frame = 0; redrawLesson(); });
       }
-      function soltar() {
-        lateral.classList.remove("arrastando");
-        document.body.classList.remove("redimensionando");
-        lateral.removeEventListener("pointermove", mover);
-        lateral.removeEventListener("pointerup", soltar);
-        lateral.removeEventListener("pointercancel", soltar);
-        guardarLargura(ultima);
-        redesenharLicao();
+      function release() {
+        side.classList.remove("dragging");
+        document.body.classList.remove("resizing");
+        side.removeEventListener("pointermove", move);
+        side.removeEventListener("pointerup", release);
+        side.removeEventListener("pointercancel", release);
+        saveWidth(last);
+        redrawLesson();
       }
-      lateral.addEventListener("pointermove", mover);
-      lateral.addEventListener("pointerup", soltar);
-      lateral.addEventListener("pointercancel", soltar);
+      side.addEventListener("pointermove", move);
+      side.addEventListener("pointerup", release);
+      side.addEventListener("pointercancel", release);
     });
-    lateral.addEventListener("dblclick", larguraPadrao);
-    lateral.addEventListener("keydown", function (ev) {
-      var passo = ev.shiftKey ? 120 : 40;
+    side.addEventListener("dblclick", defaultWidth);
+    side.addEventListener("keydown", function (ev) {
+      var step = ev.shiftKey ? 120 : 40;
       if (ev.key === "ArrowLeft" || ev.key === "ArrowRight") {
         ev.preventDefault();
-        guardarLargura(larguraEditor(painel.offsetWidth + (ev.key === "ArrowLeft" ? passo : -passo)));
-        redesenharLicao();
+        saveWidth(editorWidth(panel.offsetWidth + (ev.key === "ArrowLeft" ? step : -step)));
+        redrawLesson();
       }
     });
 
     try {
-      var largura = parseFloat(localStorage.getItem("licao-editor-largura"));
-      if (largura) larguraEditor(largura);
-    } catch (e) { /* sem armazenamento: fica a largura padrão */ }
+      var width = parseFloat(localStorage.getItem("lesson-editor-width"));
+      if (width) editorWidth(width);
+    } catch (e) { /* no storage: the default width stays */ }
 
-    /* ---------- a divisão entre código e saída ---------- */
+    /* ---------- the split between code and output ---------- */
 
-    var MINIMO = 90;   // px: nenhuma das duas some de vez
+    var MINIMUM = 90;   // px: neither of the two disappears completely
+    // The split is kept as the code's FRACTION of the free height, not in px:
+    // the same choice then fits a smaller window, a phone, another lesson. (In
+    // px, a split saved on a tall screen once left the output with no height.)
+    var ratio = null;
 
-    function dividir(altura) {
-      // A altura que sobra para código + saída, descontados o topo e a barra.
-      var livre = painel.clientHeight - topo.offsetHeight - divisor.offsetHeight;
-      altura = Math.max(MINIMO, Math.min(livre - MINIMO, altura));
-      codigo.style.flex = "0 0 " + altura + "px";
-      saida.style.flex = "1 1 0";
-      return altura;
+    function free() {
+      // The height left for code + output, minus the top bar and the divider.
+      return panel.clientHeight - top.offsetHeight - divider.offsetHeight;
     }
 
-    function divisaoPadrao() {
-      codigo.style.flex = "";
-      saida.style.flex = "";
-      try { localStorage.removeItem("licao-editor-divisao"); } catch (e) { /* sem armazenamento */ }
+    function split(height) {
+      height = Math.max(MINIMUM, Math.min(free() - MINIMUM, height));
+      // flex-shrink 1: whatever happens, the code yields before the output
+      // goes below its min-height (lesson.css).
+      code.style.flex = "0 1 " + height + "px";
+      output.style.flex = "1 1 0";
+      return height;
     }
 
-    function guardarDivisao(altura) {
-      try { localStorage.setItem("licao-editor-divisao", String(Math.round(altura))); } catch (e) { /* idem */ }
+    // The default: the divider at half the height of the screen. The panel is
+    // centered vertically, so its middle is the screen's; the code block
+    // starts below the top bar.
+    function middle() {
+      split(panel.clientHeight / 2 - top.offsetHeight - divider.offsetHeight / 2);
     }
 
-    divisor.addEventListener("pointerdown", function (ev) {
+    function defaultSplit() {
+      ratio = null;
+      middle();
+      try { localStorage.removeItem("lesson-editor-split"); } catch (e) { /* no storage */ }
+    }
+
+    function saveSplit(height) {
+      ratio = height / free();
+      try { localStorage.setItem("lesson-editor-split", ratio.toFixed(4)); } catch (e) { /* idem */ }
+    }
+
+    // On every window resize, the saved fraction (or the middle) is applied
+    // to the new height.
+    window.addEventListener("resize", function () { if (ratio) split(ratio * free()); else middle(); });
+
+    divider.addEventListener("pointerdown", function (ev) {
       ev.preventDefault();
-      divisor.setPointerCapture(ev.pointerId);
-      divisor.classList.add("arrastando");
-      var y0 = ev.clientY, h0 = codigo.offsetHeight, ultima = h0;
-      function mover(e) { ultima = dividir(h0 + e.clientY - y0); }
-      function soltar() {
-        divisor.classList.remove("arrastando");
-        divisor.removeEventListener("pointermove", mover);
-        divisor.removeEventListener("pointerup", soltar);
-        divisor.removeEventListener("pointercancel", soltar);
-        guardarDivisao(ultima);
+      divider.setPointerCapture(ev.pointerId);
+      divider.classList.add("dragging");
+      var y0 = ev.clientY, h0 = code.offsetHeight, last = h0;
+      function move(e) { last = split(h0 + e.clientY - y0); }
+      function release() {
+        divider.classList.remove("dragging");
+        divider.removeEventListener("pointermove", move);
+        divider.removeEventListener("pointerup", release);
+        divider.removeEventListener("pointercancel", release);
+        saveSplit(last);
       }
-      divisor.addEventListener("pointermove", mover);
-      divisor.addEventListener("pointerup", soltar);
-      divisor.addEventListener("pointercancel", soltar);
+      divider.addEventListener("pointermove", move);
+      divider.addEventListener("pointerup", release);
+      divider.addEventListener("pointercancel", release);
     });
-    divisor.addEventListener("dblclick", divisaoPadrao);
-    divisor.addEventListener("keydown", function (ev) {
-      var passo = ev.shiftKey ? 80 : 24;
+    divider.addEventListener("dblclick", defaultSplit);
+    divider.addEventListener("keydown", function (ev) {
+      var step = ev.shiftKey ? 80 : 24;
       if (ev.key === "ArrowUp" || ev.key === "ArrowDown") {
         ev.preventDefault();
-        guardarDivisao(dividir(codigo.offsetHeight + (ev.key === "ArrowDown" ? passo : -passo)));
+        saveSplit(split(code.offsetHeight + (ev.key === "ArrowDown" ? step : -step)));
       }
     });
 
     try {
-      var salva = parseFloat(localStorage.getItem("licao-editor-divisao"));
-      if (salva) codigo.style.flex = "0 0 " + salva + "px";
-    } catch (e) { /* sem armazenamento: fica a divisão padrão */ }
+      // Only a fraction counts; a value outside (0, 1) is an old split in px.
+      var savedSplit = parseFloat(localStorage.getItem("lesson-editor-split"));
+      if (savedSplit > 0 && savedSplit < 1) ratio = savedSplit;
+      else if (savedSplit) localStorage.removeItem("lesson-editor-split");
+    } catch (e) { /* no storage: the default split stays */ }
+    if (ratio) split(ratio * free()); else middle();
 
-    /* ---------- o editor ---------- */
+    /* ---------- the editor ---------- */
 
-    function sincronizar() {
-      realce.scrollTop = texto.scrollTop;
-      realce.scrollLeft = texto.scrollLeft;
-      linhas.scrollTop = texto.scrollTop;
+    function sync() {
+      shade.scrollTop = text.scrollTop;
+      shade.scrollLeft = text.scrollLeft;
+      lines.scrollTop = text.scrollTop;
     }
 
-    function pintar() {
-      // A linha em branco no fim mantém a altura do realce igual à do textarea.
-      realceCode.innerHTML = realcar(texto.value) + "\n";
-      var n = texto.value ? texto.value.split("\n").length : 1;
+    function paint() {
+      // The blank line at the end keeps the highlight as tall as the textarea.
+      shadeCode.innerHTML = highlight(text.value) + "\n";
+      var n = text.value ? text.value.split("\n").length : 1;
       var nums = "";
       for (var i = 1; i <= n; i++) nums += i + "\n";
-      linhas.textContent = nums;
-      sincronizar();
+      lines.textContent = nums;
+      sync();
     }
 
-    function aoEditar() { pintar(); guardar(texto.value); }
+    function onEdit() { paint(); save(text.value); }
 
-    function inserir(txt) {
-      // execCommand mantém o desfazer (Ctrl+Z) do navegador; o fallback não.
+    function insert(txt) {
+      // execCommand keeps the browser's undo (Ctrl+Z); the fallback does not.
       if (!document.execCommand || !document.execCommand("insertText", false, txt)) {
-        var a = texto.selectionStart, b = texto.selectionEnd;
-        texto.value = texto.value.slice(0, a) + txt + texto.value.slice(b);
-        texto.selectionStart = texto.selectionEnd = a + txt.length;
+        var a = text.selectionStart, b = text.selectionEnd;
+        text.value = text.value.slice(0, a) + txt + text.value.slice(b);
+        text.selectionStart = text.selectionEnd = a + txt.length;
       }
-      aoEditar();
+      onEdit();
     }
 
-    texto.addEventListener("input", aoEditar);
-    texto.addEventListener("scroll", sincronizar);
-    texto.addEventListener("keydown", function (ev) {
+    text.addEventListener("input", onEdit);
+    text.addEventListener("scroll", sync);
+    text.addEventListener("keydown", function (ev) {
       if (ev.key === "Enter" && (ev.ctrlKey || ev.metaKey)) {
         ev.preventDefault();
-        executar();
+        execute();
       } else if (ev.key === "Tab" && !ev.shiftKey) {
         ev.preventDefault();
-        inserir(INDENT);
+        insert(INDENT);
       } else if (ev.key === "Enter") {
-        // Mantém a indentação da linha atual, e acrescenta um nível depois de ":".
-        var antes = texto.value.slice(0, texto.selectionStart);
-        var linha = antes.slice(antes.lastIndexOf("\n") + 1);
-        var recuo = linha.match(/^[ \t]*/)[0];
-        if (/:[ \t]*(#.*)?$/.test(linha)) recuo += INDENT;
+        // Keeps the indentation of the current line, and adds a level after ":".
+        var before = text.value.slice(0, text.selectionStart);
+        var line = before.slice(before.lastIndexOf("\n") + 1);
+        var indent = line.match(/^[ \t]*/)[0];
+        if (/:[ \t]*(#.*)?$/.test(line)) indent += INDENT;
         ev.preventDefault();
-        inserir("\n" + recuo);
+        insert("\n" + indent);
       }
     });
 
-    texto.value = lido() || "";
-    pintar();
+    text.value = saved() || "";
+    paint();
 
-    /* ---------- abrir e fechar ---------- */
+    /* ---------- open and close ---------- */
 
-    function alternar(aberto) {
-      document.body.classList.toggle("com-editor", aberto);
-      // A coluna muda de largura: os gráficos se redesenham na nova medida.
+    function toggle(isOpen) {
+      document.body.classList.toggle("with-editor", isOpen);
+      // The column changes width: the figures redraw at the new size.
       setTimeout(function () { window.dispatchEvent(new Event("resize")); }, 320);
     }
-    abrir.addEventListener("click", function () {
-      alternar(true);
-      setTimeout(function () { texto.focus(); }, 320);
+    open.addEventListener("click", function () {
+      toggle(true);
+      setTimeout(function () { text.focus(); }, 320);
     });
-    fechar.addEventListener("click", function () { alternar(false); });
-    limpar.addEventListener("click", function () {
-      texto.value = "";
-      esquecer();
-      pintar();
-      resultado.textContent = "";
-      texto.focus();
+    close.addEventListener("click", function () { toggle(false); });
+    clear.addEventListener("click", function () {
+      text.value = "";
+      forget();
+      paint();
+      result.textContent = "";
+      text.focus();
     });
-    rodar.addEventListener("click", executar);
-    limparSaida.addEventListener("click", function () {
-      resultado.textContent = "";
-      estado.textContent = "";
+    run.addEventListener("click", execute);
+    clearOutput.addEventListener("click", function () {
+      result.textContent = "";
+      status.textContent = "";
     });
 
-    /* ---------- "→ editor" em cada bloco de código ---------- */
+    /* ---------- "→ editor" on each code block ---------- */
 
-    // Acrescenta um trecho ao fim do programa, separado por uma linha em branco.
-    function acrescentar(trecho) {
-      trecho = trecho.replace(/\s+$/, "") + "\n";
-      var atual = texto.value.replace(/\s+$/, "");
-      texto.value = atual ? atual + "\n\n" + trecho : trecho;
-      aoEditar();
-      texto.scrollTop = texto.scrollHeight;
-      sincronizar();
-      codigo.classList.remove("recebeu");
-      void codigo.offsetWidth;          // reinicia o lampejo
-      codigo.classList.add("recebeu");
+    // Appends a piece to the end of the program, separated by a blank line.
+    function append(piece) {
+      piece = piece.replace(/\s+$/, "") + "\n";
+      var current = text.value.replace(/\s+$/, "");
+      text.value = current ? current + "\n\n" + piece : piece;
+      onEdit();
+      text.scrollTop = text.scrollHeight;
+      sync();
+      code.classList.remove("received");
+      void code.offsetWidth;          // restarts the flash
+      code.classList.add("received");
     }
 
-    document.querySelectorAll("section.codigo pre").forEach(function (pre) {
+    document.querySelectorAll("section.code pre").forEach(function (pre) {
       var c = pre.querySelector("code");
       if (!c) return;
-      var b = botaoIcone("para-editor", "enviar", "Levar este trecho ao fim do programa no editor");
+      var b = iconButton("to-editor", "send", TXT.send);
       b.addEventListener("click", function (ev) {
-        ev.stopPropagation();           // o clique não abre nem fecha o passo ao redor
-        if (!document.body.classList.contains("com-editor")) alternar(true);
-        acrescentar(c.textContent);
-        rotular(b, [icone("check")]);
-        b.classList.add("enviado");
-        setTimeout(function () { rotular(b, [icone("enviar")]); b.classList.remove("enviado"); }, 1600);
+        ev.stopPropagation();           // the click neither opens nor closes the step around it
+        if (!document.body.classList.contains("with-editor")) toggle(true);
+        append(c.textContent);
+        label(b, [icon("check")]);
+        b.classList.add("sent");
+        setTimeout(function () { label(b, [icon("send")]); b.classList.remove("sent"); }, 1600);
       });
-      pre.classList.add("com-copia");
+      pre.classList.add("has-copy");
       pre.appendChild(b);
     });
 
-    /* ---------- rodar ---------- */
+    /* ---------- run ---------- */
 
-    function escrever(txt, cls) {
-      var ultimo = resultado.lastElementChild;
-      if (ultimo && ultimo.tagName === "PRE" && ultimo.className === cls) {
-        ultimo.textContent += txt + "\n";
+    function write(txt, cls) {
+      var last = result.lastElementChild;
+      if (last && last.tagName === "PRE" && last.className === cls) {
+        last.textContent += txt + "\n";
       } else {
-        resultado.appendChild(el("pre", cls, txt + "\n"));
+        result.appendChild(el("pre", cls, txt + "\n"));
       }
     }
 
-    function figura(b64) {
-      var img = el("img", "saida-figura");
-      img.alt = "Figura gerada pelo programa";
+    function figure(b64) {
+      var img = el("img", "out-figure");
+      img.alt = TXT.figure;
       img.src = "data:image/png;base64," + b64;
-      resultado.appendChild(img);
+      result.appendChild(img);
     }
 
-    function carregar() {
-      if (carregando) return carregando;
-      carregando = new Promise(function (ok, falha) {
-        estado.textContent = "Baixando o Python… (só na primeira vez)";
+    function load() {
+      if (loading) return loading;
+      loading = new Promise(function (ok, fail) {
+        status.textContent = TXT.downloading;
         var s = document.createElement("script");
         s.src = PYODIDE + "pyodide.js";
         s.onload = function () {
           window.loadPyodide({ indexURL: PYODIDE }).then(function (p) {
             py = p;
-            py.setStdout({ batched: function (t) { escrever(t, "saida-texto"); } });
+            py.setStdout({ batched: function (t) { write(t, "out-text"); } });
             py.setStderr({ batched: function (t) {
-              // Aviso de bastidor do matplotlib na primeira vez: não é erro do aluno.
+              // A matplotlib backstage notice on first use: not the student's error.
               if (/building the font cache/i.test(t)) return;
-              escrever(t, "saida-erro");
+              write(t, "out-error");
             } });
-            py.globals.set("_licao_figura", figura);
+            py.globals.set("_lesson_figure", figure);
             ok(py);
-          }, falha);
+          }, fail);
         };
-        s.onerror = function () { falha(new Error("sem conexão")); };
+        s.onerror = function () { fail(new Error(TXT.noConnection)); };
         document.head.appendChild(s);
       });
-      carregando.catch(function () { carregando = null; });
-      return carregando;
+      loading.catch(function () { loading = null; });
+      return loading;
     }
 
-    // O matplotlib desenha em memória, e o plt.show() vira imagem na saída.
-    var PREPARO_MPL = [
+    // matplotlib draws in memory, and plt.show() becomes an image in the output.
+    var MPL_SETUP = [
       "import io, base64",
       "import matplotlib",
       "matplotlib.use('Agg')",
       "import matplotlib.pyplot as plt",
-      "def _licao_show(*a, **k):",
+      "def _lesson_show(*a, **k):",
       "    for n in plt.get_fignums():",
       "        b = io.BytesIO()",
       "        plt.figure(n).savefig(b, format='png', dpi=110, bbox_inches='tight')",
-      "        _licao_figura(base64.b64encode(b.getvalue()).decode())",
+      "        _lesson_figure(base64.b64encode(b.getvalue()).decode())",
       "    plt.close('all')",
-      "plt.show = _licao_show"
+      "plt.show = _lesson_show"
     ].join("\n");
 
-    var ocupado = false;
+    var busy = false;
 
-    function executar() {
-      if (ocupado) return;
-      var codigoPy = texto.value;
-      if (!codigoPy.trim()) {
-        estado.textContent = "O editor está vazio: traga os trechos da lição com  → editor.";
+    function execute() {
+      if (busy) return;
+      var source = text.value;
+      if (!source.trim()) {
+        status.textContent = TXT.editorEmpty;
         return;
       }
-      ocupado = true;
-      rodar.disabled = true;
-      resultado.textContent = "";
+      busy = true;
+      run.disabled = true;
+      result.textContent = "";
       var t0;
 
-      carregar().then(function () {
-        estado.textContent = "Carregando as bibliotecas que o programa importa…";
-        return py.loadPackagesFromImports(codigoPy);
+      load().then(function () {
+        status.textContent = TXT.libraries;
+        return py.loadPackagesFromImports(source);
       }).then(function () {
-        if (py.loadedPackages.matplotlib) py.runPython(PREPARO_MPL);
-        estado.textContent = "Rodando…";
+        if (py.loadedPackages.matplotlib) py.runPython(MPL_SETUP);
+        status.textContent = TXT.running;
         t0 = performance.now();
-        // Cada execução começa num espaço de nomes limpo, como rodar o arquivo
-        // de novo no terminal.
+        // Each run starts in a clean namespace, like running the file again
+        // in the terminal.
         var ns = py.globals.get("dict")();
-        return py.runPythonAsync(codigoPy, { globals: ns }).finally(function () { ns.destroy(); });
+        return py.runPythonAsync(source, { globals: ns }).finally(function () { ns.destroy(); });
       }).then(function () {
-        if (py.loadedPackages.matplotlib) py.runPython("_licao_show()");
+        if (py.loadedPackages.matplotlib) py.runPython("_lesson_show()");
         var s = (performance.now() - t0) / 1000;
-        estado.textContent = "Pronto em " + s.toFixed(1).replace(".", ",") + " s";
-        if (!resultado.childElementCount) escrever("(o programa não imprimiu nada)", "saida-vazia");
+        status.textContent = TXT.done(s);
+        if (!result.childElementCount) write(TXT.nothingPrinted, "out-empty");
       }).catch(function (err) {
         if (!py) {
-          estado.textContent = "Não consegui baixar o Python. O editor precisa de internet na primeira vez.";
+          status.textContent = TXT.noPython;
           return;
         }
-        // Do traceback, só o que é do programa do aluno: as linhas internas do
-        // Pyodide não ajudam ninguém.
+        // Of the traceback, only what belongs to the student's program: the
+        // internal Pyodide lines help no one.
         var msg = String((err && err.message) || err);
-        var corte = msg.indexOf('File "<exec>"');
-        escrever(corte >= 0 ? "Traceback (most recent call last):\n  " + msg.slice(corte) : msg, "saida-erro");
-        estado.textContent = "O programa parou com um erro";
+        var cut = msg.indexOf('File "<exec>"');
+        write(cut >= 0 ? "Traceback (most recent call last):\n  " + msg.slice(cut) : msg, "out-error");
+        status.textContent = TXT.error;
       }).finally(function () {
-        ocupado = false;
-        rodar.disabled = false;
+        busy = false;
+        run.disabled = false;
       });
     }
   }
 
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", montar);
-  else montar();
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", build);
+  else build();
 })();

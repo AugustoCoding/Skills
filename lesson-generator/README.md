@@ -1,76 +1,82 @@
 # lesson-generator
 
-Skill para assistentes de IA (Claude Code, claude.ai, ChatGPT/Codex) que transforma um exercício de engenharia química numa **lição HTML interativa**, que ensina o aluno a programar a solução em Python.
+A skill for AI assistants (Claude Code, claude.ai, ChatGPT/Codex) that turns a chemical engineering exercise into an **interactive HTML lesson**, which teaches the student to program the solution in Python.
 
-A lição não entrega apenas a resposta nem é uma aula de teoria: ela deduz o modelo, constrói o programa passo a passo, verifica o resultado e deixa o aluno explorá-lo numa figura interativa e num editor de Python embutido.
+The lesson does not just hand over the answer, nor is it a theory class: it derives the model, builds the program step by step, checks the result and lets the student explore it in an interactive figure and in a built-in Python editor.
 
-## Princípios de projeto
+The lesson is written in the language of the problem statement. The skill's instructions are in English; the fixed interface texts of the lesson exist in English and Portuguese.
 
-1. **O conhecimento técnico é do modelo de linguagem; a forma é da skill.** O modelo de linguagem já domina engenharia química e sabe escolher a técnica numérica adequada (integrar, achar raiz, ajustar, otimizar). Por isso a skill não contém teoria nem um catálogo de métodos, que limitaria as soluções ao que estivesse listado. Ela define apenas a forma pedagógica: a estrutura da lição, os critérios de cada seção e o tratamento dos números. No Teste 7, a remoção de todo o conteúdo de domínio que a skill carregava não reduziu a correção das simulações.
-2. **Copiar e preencher, em vez de gerar.** Página, estilo e comportamento estão prontos em templates e componentes. O modelo de linguagem preenche um esqueleto e copia peças de um catálogo, o que reduz o tempo e o custo de geração e uniformiza as lições.
-3. **Regras verificáveis ficam em scripts.** O que pode ser garantido por script, componente ou template não fica como instrução em texto. Toda mudança na estrutura da lição atualiza o verificador (`conferir.py`) no mesmo commit, e a lição de referência deve passar nele sem erro.
-4. **Todo número é rastreável.** Cada valor citado na lição é impresso pelo programa entregue e tem procedência declarada: dado do enunciado, derivado ou escolha justificada.
+## Design principles
 
-## Estrutura da lição
+1. **The technical knowledge belongs to the language model; the form belongs to the skill.** The language model already masters chemical engineering and can choose the right numerical technique (integrating, finding a root, fitting, optimizing). So the skill holds no theory and no catalog of methods, which would limit the solutions to whatever was listed. It only defines the pedagogical form: the structure of the lesson, the criteria of each section and the handling of numbers. In Test 7, removing all the domain content the skill carried did not reduce the correctness of the simulations.
+2. **Copy and fill in, instead of generating.** Page, style and behavior are ready in templates and components. The language model fills in a skeleton and copies pieces from a catalog, which cuts the time and cost of generation and makes the lessons uniform.
+3. **Verifiable rules live in scripts.** Whatever a script, a component or the template can guarantee does not stay as a text instruction. Every change to the structure of the lesson updates the checker (`check.py`) in the same commit, and the reference lesson must pass it without errors.
+4. **Every number is traceable.** Each value quoted in the lesson is printed by the delivered program and has a declared source: given in the statement, derived, or a justified choice.
 
-A lição tem quatro seções, sempre nesta ordem:
+## Structure of the lesson
 
-1. **Abertura**: o enunciado reescrito com clareza, com os dados e a lista do que se pede, e duas ou três frases sobre o processo.
-2. **O modelo**: cada balanço deduzido do princípio de conservação até a equação final, em etapas etiquetadas (princípio, tradução, cinética, hipótese, álgebra, definição); a tabela de parâmetros com procedência; e o quadro da técnica, que nomeia o método de solução e justifica a escolha.
-3. **O código**: até seis passos, cada um em três partes (intenção, sintaxe, o que o programa passou a fazer), uma verificação independente e o programa completo.
-4. **O resultado**: a resposta numérica, a figura com até quatro controles e observações ancoradas nos valores deste exercício.
+The lesson has four sections, always in this order:
 
-Ao lado da lição há um **editor de Python** que roda no próprio navegador: o aluno monta o programa trazendo os passos da lição, executa e vê a saída e os gráficos.
+1. **Opening**: the problem statement rewritten clearly, with the data and the list of what is asked, and two or three sentences about the process.
+2. **The model**: each balance derived from the conservation principle to the final equation, in labeled steps (principle, translation, kinetics, assumption, algebra, definition); the parameter table with sources; and the technique box, which names the solution method and justifies the choice.
+3. **The code**: up to six steps, each in three parts (intention, syntax, what the program now does), an independent check and the complete program.
+4. **The result**: the numerical answer, the figure with up to four controls and observations anchored on the values of this exercise.
 
-## Organização do repositório
+Beside the lesson there is a **Python editor** that runs in the browser itself: the student builds the program by bringing in the steps of the lesson, runs it and sees the output and the plots.
+
+## Repository layout
 
 ```
 lesson-generator/
-  README.md                        este documento
-  publicar_claude_ai.py            gera o .zip para enviar ao claude.ai
-  Skill lesson-generator/          a skill: apenas o que o modelo de linguagem usa
-  Modelo Skill lesson-generator/   a lição de referência, onde a estrutura é revisada
-  Testes Skill lesson-generator/   as execuções de teste, com o registro de cada uma
+  README.md                        this document
+  publish_claude_ai.py             builds the .zip to upload to claude.ai
+  Skill lesson-generator/          the skill: only what the language model uses
+  Modelo Skill lesson-generator/   the reference lesson, where the structure is revised
+  Testes Skill lesson-generator/   the test runs, with the record of each one (in Portuguese)
 ```
 
-A pasta da skill contém apenas o que entra no contexto do modelo de linguagem. Este README, a lição de referência e os testes ficam fora dela por servirem ao desenvolvimento, e não à geração.
+The skill folder holds only what enters the language model's context. This README, the reference lesson and the tests stay outside it because they serve development, not generation.
 
-### A skill (`Skill lesson-generator/`)
+### The skill (`Skill lesson-generator/`)
 
-| Arquivo | Função |
+| File | Role |
 |---|---|
-| `SKILL.md` | As instruções que o modelo de linguagem segue: objetivo, glossário, fluxo de trabalho, estrutura da lição, tratamento dos números e restrições técnicas. |
-| `agents/openai.yaml` | Configuração para Codex/ChatGPT: a skill só é ativada quando o usuário a chama. |
-| `templates/licao.html` | O esqueleto da lição: cada elemento uma vez, como padrão a repetir, com marcadores `{…}` a preencher. Sem conteúdo de um exercício específico. |
-| `templates/pecas.html` | O catálogo de conteúdo pronto, com índice: uma dedução completa de exemplo, balanços de massa e de energia (tanque, tubo, separador), equações complementares (lei de potência, Arrhenius) e uma figura por tipo de problema (EDOs no tempo, perfil, dois eixos, varredura, cruzamento de curvas, dados contra modelo). Abre no navegador com todas as peças funcionando. |
-| `scripts/nova_licao.py` | Cria o rascunho da lição (o template e a cópia dos componentes) e registra o destino da entrega. |
-| `scripts/conferir.py` | Verifica o rascunho: executa os passos do código em ordem, compara a resposta com o que o programa imprime, checa a estrutura de cada seção, acusa marcadores não preenchidos e lista os números do texto para a revisão de procedência. |
-| `scripts/empacotar.py` | Gera a lição como arquivo HTML único, sem comentários, grava no destino e apaga o rascunho. |
+| `SKILL.md` | The instructions the language model follows: goal, glossary, workflow, structure of the lesson, handling of numbers and technical constraints. |
+| `agents/openai.yaml` | Configuration for Codex/ChatGPT: the skill only runs when the user calls it. |
+| `templates/lesson.html` | The lesson skeleton: each element once, as a pattern to repeat, with `{…}` placeholders to fill. No content of a specific exercise. |
+| `templates/pieces.html` | The catalog of ready content, with an index: a complete example derivation, mass and energy balances (tank, tube, separator), complementary equations (power law, Arrhenius) and one figure per kind of problem (ODEs in time, profile, two axes, sweep, crossing curves, data against model). It opens in the browser with every piece working. |
+| `scripts/new_lesson.py` | Creates the lesson's draft (the template and a copy of the components) and records the delivery destination. |
+| `scripts/check.py` | Checks the draft: runs the code steps in order, compares the answer with what the program prints, checks the structure of each section, flags unfilled placeholders and lists the numbers of the text for the source review. |
+| `scripts/pack.py` | Builds the lesson as a single HTML file, without comments, writes it to the destination and deletes the draft. |
 
-### Componentes (`Skill lesson-generator/assets/`)
+### Components (`Skill lesson-generator/assets/`)
 
-| Arquivo | Função |
+| File | Role |
 |---|---|
-| `lesson.css` | A folha sobre o fundo da página, tipografia (escala única de tamanhos; fonte monoespaçada só em código), equações, blocos pedagógicos, temas claro e escuro, impressão, e o sistema de cores: uma cor por seção, uma por grandeza da figura, vermelho reservado a erros. |
-| `codigo.js` | Junta a seção O modelo numa só linha do tempo, numerada em sequência (o título de cada balanço dá nome à primeira etapa dele; a tabela e a técnica são os itens do fim). As linhas do tempo da dedução, do código e das observações: tudo começa recolhido, cada item recolhido é uma faixa alinhada, o próximo a ler é sinalizado e cada item se recolhe pelo marcador ou pelo título. O sumário à esquerda, montado da estrutura, com o progresso de cada parte e a seção atual. Também o botão de copiar e o realce de sintaxe do Python. |
-| `grafico.js` | Figuras do tipo x contra y: a lição registra a conta e o componente desenha, com controles, segundo eixo, pontos experimentais e leitura sob o cursor. Inclui integrador (RK4), busca de raiz e `linspace`, e emite avisos no console sobre problemas que o autor não vê, como uma curva achatada. |
-| `editor.js` | O editor de Python (Pyodide, baixado no primeiro uso). Começa vazio; cada bloco de código da lição tem um botão que o acrescenta ao editor. A saída mostra texto, erros e figuras. |
-| `tema.js` | O botão de tema claro ou escuro. |
+| `lesson.css` | The sheet over the page background, typography (a single size scale; monospace only in code), equations, teaching blocks, light and dark themes, printing, and the color system: one color per section, one per quantity of the figure, red reserved for errors. |
+| `lesson.js` | Joins the model section into a single timeline, numbered in sequence (the title of each balance names its first step; the table and the technique are the last items). The timelines of the derivation, the code and the observations: everything starts collapsed, each collapsed item is an aligned band, the next one to read is signaled and each item collapses by its dot or its title. The table of contents on the left, built from the structure, with the progress of each part and the current section. Also the copy button and Python syntax highlighting. |
+| `plot.js` | Figures of the x versus y kind: the lesson registers the calculation and the component draws it, with controls, a second axis, experimental points and a readout under the cursor. It includes an integrator (RK4), root finding and `linspace`, and warns in the console about problems the author cannot see, such as a flattened curve. |
+| `editor.js` | The Python editor (Pyodide, downloaded on first use). It starts empty; each code block of the lesson has a button that appends it to the editor. The output shows text, errors and figures. |
+| `theme.js` | The light or dark theme button. |
 
-## Entrega
+The fixed texts the student sees (buttons, table of contents, the labels of the boxes) live in a small Portuguese/English dictionary at the top of each script and at the end of the labels in `lesson.css`, chosen by `<html lang>`: Portuguese when it starts with `pt`, English otherwise.
 
-O aluno recebe **um único arquivo HTML**, com todos os componentes embutidos: abre com dois cliques, sem pastas auxiliares. A entrega é a mesma em todos os ambientes. Apenas o editor requer internet, para baixar o Python na primeira execução.
+## Delivery
 
-A lição não é editada depois de entregue e a skill não guarda estado entre sessões. Dúvidas são respondidas no chat; uma lição ampliada, se pedida, é uma lição nova.
+The student receives **a single HTML file**, with all components inlined: it opens with a double click, with no auxiliary folders. The delivery is the same in every environment. Only the editor needs internet, to download Python on first run.
 
-## Uso
+The lesson is not edited after delivery and the skill keeps no state between sessions. Questions are answered in the chat; an expanded lesson, if asked for, is a new lesson.
 
-**Claude Code.** Instale a pasta `Skill lesson-generator/` como skill pessoal em `~/.claude/skills/lesson-generator/` (uma junção ou link simbólico mantém a instalação sincronizada com o repositório), abra uma sessão nova e chame `/lesson-generator` seguido do exercício. A skill tem `disable-model-invocation: true` e nunca é ativada por iniciativa do modelo.
+## Usage
 
-**claude.ai.** Rode `python publicar_claude_ai.py`, que gera `dist/lesson-generator.zip` com o frontmatter aceito pelo claude.ai, e envie o arquivo em Configurações › Recursos › Skills. Lá não há bloqueio de ativação automática; a descrição da skill restringe o uso a pedidos explícitos.
+**Claude Code.** Install the folder `Skill lesson-generator/` as a personal skill in `~/.claude/skills/lesson-generator/` (a junction or symbolic link keeps the installation in sync with the repository), open a new session and call `/lesson-generator` followed by the exercise. The skill has `disable-model-invocation: true` and is never triggered on the model's own initiative.
 
-**Codex/ChatGPT.** O arquivo `agents/openai.yaml` desativa a invocação implícita; a skill é chamada pelo nome.
+**claude.ai.** Run `python publish_claude_ai.py`, which builds `dist/lesson-generator.zip` with the frontmatter claude.ai accepts, and upload the file in Settings › Capabilities › Skills. There is no lock against automatic triggering there; the skill's description restricts its use to explicit requests.
 
-## Desenvolvimento e validação
+**Codex/ChatGPT.** The file `agents/openai.yaml` disables implicit invocation; the skill is called by name.
 
-Mudanças na estrutura da lição são feitas sobre a lição de referência (`Modelo Skill lesson-generator/`), cujo README descreve o fluxo. Cada versão relevante da skill é validada por uma execução registrada em `Testes Skill lesson-generator/`, com o exercício, as armadilhas planejadas, o gabarito, a avaliação e as correções resultantes.
+## Development and validation
+
+Changes to the structure of the lesson are made on the reference lesson (`Modelo Skill lesson-generator/`), whose README describes the workflow. Each relevant version of the skill is validated by a recorded run in `Testes Skill lesson-generator/`, with the exercise, the planned traps, the answer key, the evaluation and the resulting fixes.
+
+The Portuguese version of the skill, as it was before the translation, is kept in the tag [`versao-pt`](https://github.com/AugustoCoding/Skills/tree/versao-pt).
