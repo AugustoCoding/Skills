@@ -1,0 +1,5 @@
+# Codex / ChatGPT: a skill só roda quando o usuário a chama ($lesson-generator ou @),
+# nunca por iniciativa do modelo. O equivalente no Claude Code é o
+# disable-model-invocation do SKILL.md.
+policy:
+  allow_implicit_invocation: false

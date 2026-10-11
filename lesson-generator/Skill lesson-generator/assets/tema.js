@@ -59,7 +59,11 @@
       var alvo = atual() === "escuro" ? "claro" : "escuro";
       // O rótulo diz para onde o clique leva, não onde se está: é o que
       // um botão de duas posições precisa responder.
-      btn.textContent = alvo === "escuro" ? "◐ escuro" : "◑ claro";
+      // Ícone desenhado (lesson.css), não ◐/◑: alinha com o texto em qualquer fonte.
+      btn.textContent = "";
+      var ic = document.createElement("span");
+      ic.className = "ic ic-tema";
+      btn.append(ic, document.createTextNode(alvo));
       btn.setAttribute("aria-label", "Mudar para o tema " + alvo);
     }
 

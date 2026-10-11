@@ -4,36 +4,82 @@
    para notas laterais, régua horizontal escassa, cor usada com parcimônia. */
 
 :root {
-  --bg: #fffff8;
-  --fg: #1a1a18;
-  --muted: #6b6b63;
-  --rule: #d8d8cc;
+  --bg: #dcd6c7;
+  --fg: #23211c;
+  --muted: #5d594e;
+  --rule: #c5bdaa;
   --accent: #8a3324;
-  --code-bg: #f4f4ea;
+  --code-bg: #d1cab9;
+  --fundo: #c4bca8;
+  --borda-folha: #b9b09b;
+  --sombra-folha: rgba(60, 55, 30, 0.08);
 
-  /* Nota de dúvida: marca-texto suave onde uma pergunta do aluno foi respondida.
-     Amarelo dessaturado, para destacar sem gritar ao lado do texto serifado. */
-  --nota-bg: #fdf6d8;
-  --nota-borda: #c9a227;
 
-  /* Termo destacado no meio do texto: contraste sem gritar. */
-  --acento-termo: #1f5c8b;
+  /* CADA COR TEM UM SÓ PAPEL.
+       · As cores de MOMENTO (amarelo, roxo, verde) são da estrutura: títulos,
+         bolinhas, rótulos e caixas de cada seção.
+       · As cores de SÉRIE (azul, rosa, ciano, areia) são das grandezas que o
+         gráfico mostra, e de nada mais: no texto, na equação e na legenda.
+       · O amarelo-claro (--aviso) é só do hover de limpar; o vermelho (--err),
+         só de erro.
+       · Parâmetro e termo destacado não têm cor: negrito, na cor do texto.
 
-  /* Cores das variáveis de estado. Usadas nos gráficos e no texto.
-     Mantenha estáveis entre lições: a cor vira parte do vocabulário. */
-  --cor-x: #1f5c8b;   /* biomassa  */
-  --cor-s: #8a6d1f;   /* substrato */
-  --cor-p: #2e6b3f;   /* produto   */
+     Cores das séries do gráfico, na ordem em que a lição as declara. A mesma
+     cor marca a grandeza no texto (.var-1 … .var-4): a cor vira vocabulário. */
+  --serie-1: #2f5fa8;   /* azul  */
+  --serie-2: #b23a68;   /* rosa  */
+  --serie-3: #0f7c8a;   /* ciano */
+  --serie-4: #6b6250;   /* areia */
+
+  /* Parâmetro (k, τ, C_A0…): sem cor própria, só negrito. Na equação, ficam
+     coloridas só as grandezas que variam; as constantes ficam neutras. */
+  --param: var(--fg);
+
+  /* Aviso que não é erro (o hover do Limpar do editor). */
+  --aviso: #b08410;
+
+  /* Cor de cada momento da lição, no título. */
+  --mom-modelo: #8a6510;
+  --mom-codigo: #7a3d82;
+  --mom-resultado: #2e6b3f;
+
+  /* Realce de sintaxe do Python, no tom do VS Code claro. */
+  --hl-kw: #af00db;
+  --hl-def: #0000ff;
+  --hl-str: #a31515;
+  --hl-com: #008000;
+  --hl-num: #098658;
+  --hl-fn: #795e26;
+  --hl-builtin: #267f99;
+  --hl-op: #4a4a44;
 
   --ok: #2e6b3f;
-  --err: #8a3324;
+  --err: #b3261e;
 
   /* Raio único para todo bloco: caixa quadrada deixa a página dura. */
+  /* Barras de rolagem e controles nativos acompanham o tema. */
+  color-scheme: light;
+
   --raio: 10px;
   --raio-p: 6px;
 
   --serif: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Times New Roman", serif;
   --mono: "SF Mono", "Cascadia Mono", Consolas, "Liberation Mono", Menlo, monospace;
+
+  /* A ESCALA DO TEXTO: sete tamanhos, e cada coisa da lição usa um deles.
+       · serifada: tudo, inclusive os rótulos (etiquetas, botões, números das
+         bolinhas), que vão em maiúsculas espaçadas;
+       · mono: SÓ código de verdade, o que o aluno digita ou lê no editor. Um
+         símbolo (k, τ, C_A) não é código: fica em serifada, como na equação.
+     Nada de tamanho solto: um elemento novo escolhe o papel dele aqui. */
+  --t-h1: 2.1rem;       /* título da lição */
+  --t-h2: 1.35rem;      /* seção: o modelo, o código, o resultado */
+  --t-h3: 1.05rem;      /* balanço, passo, observação: todo h3 igual */
+  --t-texto: 1rem;      /* tudo o que ensina: parágrafos, porquês, caixas */
+  --t-apoio: 0.9rem;    /* o que se consulta: símbolos, tabela, legenda, controles */
+  --t-codigo: 0.85rem;  /* código, na lição e no editor */
+  --t-rotulo: 0.78rem;  /* rótulos e botões, em maiúsculas */
+  --esp-rotulo: 0.08em;
 }
 
 /* Tema escuro em dois caminhos, com a mesma paleta:
@@ -46,46 +92,74 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-tema="claro"]) {
+    color-scheme: dark;
     --bg: #16161a;
     --fg: #e6e4dd;
     --muted: #9a978d;
     --rule: #34343c;
     --accent: #e08b6f;
     --code-bg: #1f1f26;
+    --fundo: #0e0e11;
+    --borda-folha: #26262d;
+    --sombra-folha: rgba(0, 0, 0, 0.45);
 
-    --nota-bg: #2b2718;
-    --nota-borda: #8a7526;
 
-    --acento-termo: #7fb2dd;
 
-    --cor-x: #6fb2e0;
-    --cor-s: #d9b45c;
-    --cor-p: #7fc394;
+    --serie-1: #7aa7f2;
+    --serie-2: #f093b4;
+    --serie-3: #5fc8d4;
+    --serie-4: #cfc6b0;
+    --aviso: #f2d478;
+    --mom-modelo: #e2bb5c;
+    --mom-codigo: #c99bd2;
+    --mom-resultado: #7fc394;
+    --hl-kw: #c586c0;
+    --hl-def: #569cd6;
+    --hl-str: #ce9178;
+    --hl-com: #6a9955;
+    --hl-num: #b5cea8;
+    --hl-fn: #dcdcaa;
+    --hl-builtin: #4ec9b0;
+    --hl-op: #d4d4d4;
 
     --ok: #7fc394;
-    --err: #e08b6f;
+    --err: #ff7b72;
   }
 }
 
 :root[data-tema="escuro"] {
+  color-scheme: dark;
   --bg: #16161a;
   --fg: #e6e4dd;
   --muted: #9a978d;
   --rule: #34343c;
   --accent: #e08b6f;
   --code-bg: #1f1f26;
+  --fundo: #0e0e11;
+  --borda-folha: #26262d;
+  --sombra-folha: rgba(0, 0, 0, 0.45);
 
-  --nota-bg: #2b2718;
-  --nota-borda: #8a7526;
 
-  --acento-termo: #7fb2dd;
 
-  --cor-x: #6fb2e0;
-  --cor-s: #d9b45c;
-  --cor-p: #7fc394;
+  --serie-1: #7aa7f2;
+  --serie-2: #f093b4;
+  --serie-3: #5fc8d4;
+  --serie-4: #cfc6b0;
+  --aviso: #f2d478;
+  --mom-modelo: #e2bb5c;
+  --mom-codigo: #c99bd2;
+  --mom-resultado: #7fc394;
+  --hl-kw: #c586c0;
+  --hl-def: #569cd6;
+  --hl-str: #ce9178;
+  --hl-com: #6a9955;
+  --hl-num: #b5cea8;
+  --hl-fn: #dcdcaa;
+  --hl-builtin: #4ec9b0;
+  --hl-op: #d4d4d4;
 
   --ok: #7fc394;
-  --err: #e08b6f;
+  --err: #ff7b72;
 }
 
 /* ---------- estrutura ---------- */
@@ -105,48 +179,49 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Cabeçalho da lição: etiqueta (tema · degrau), título, uma linha de gancho.
-   Sem numeração de lição: a ordem vive em lessons/INDEX.md, não no cabeçalho. */
+/* Cabeçalho da lição: etiqueta (área · tipo de problema) e título. */
 header.licao { margin-bottom: 3rem; }
 
 header.licao .etiqueta {
-  font-family: var(--mono);
-  font-size: 0.8rem;
-  letter-spacing: 0.12em;
+  font-family: var(--serif);
+  font-size: var(--t-rotulo);
+  font-weight: 600;
+  letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
   color: var(--muted);
 }
 
 h1 {
-  font-size: 2.1rem;
-  font-weight: 400;
+  font-size: var(--t-h1);
+  font-weight: 600;
   line-height: 1.15;
   margin: 0.4rem 0 0.8rem;
 }
 
 h2 {
-  font-size: 1.35rem;
-  font-weight: 400;
-  font-style: italic;
+  font-size: var(--t-h2);
+  font-weight: 600;
   margin: 3rem 0 0.8rem;
 }
 
+/* Cada momento tem a sua cor, no título: o aluno sabe onde está pela cor.
+   A ordem dos h2 da lição é fixa: modelo, código, resultado. */
+body > h2 { padding-left: 0.7rem; border-left: 4px solid var(--rule); }
+body > h2:nth-of-type(1) { color: var(--mom-modelo);    border-left-color: var(--mom-modelo); }
+body > h2:nth-of-type(2) { color: var(--mom-codigo);    border-left-color: var(--mom-codigo); }
+body > h2:nth-of-type(3) { color: var(--mom-resultado); border-left-color: var(--mom-resultado); }
+
 h3 {
-  font-size: 1.05rem;
+  font-size: var(--t-h3);
   font-weight: 600;
   margin: 2rem 0 0.6rem;
 }
 
 p { margin: 0 0 1.1rem; }
 
-/* O gancho: por que esta lição, por que agora. */
-.gancho {
-  font-style: italic;
-  color: var(--muted);
-  border-left: 2px solid var(--rule);
-  padding-left: 1rem;
-  margin: 0 0 2rem;
-}
+/* Subscrito e sobrescrito não aumentam a altura da linha: um título com C_A0
+   fica da mesma altura que os outros, e a bolinha continua alinhada a ele. */
+sub, sup { line-height: 0; }
 
 a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
 
@@ -161,7 +236,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
   clear: right;
   width: 14rem;
   margin: 0.3rem -16rem 1rem 0;
-  font-size: 0.82rem;
+  font-size: var(--t-apoio);
   line-height: 1.4;
   color: var(--muted);
 }
@@ -183,10 +258,10 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
   padding: 1rem 1.2rem;
   background: var(--code-bg);
   border-radius: var(--raio);
-  font-family: var(--mono);
+  font-family: var(--serif);
   font-size: 0.92rem;
   overflow-x: auto;
-  /* Sistemas de EDOs são escritos em várias linhas: preserve as quebras.
+  /* Sistemas de equações são escritos em várias linhas: preserve as quebras.
      pre-wrap, e não pre, para que a linha longa quebre em tela estreita. */
   white-space: pre-wrap;
   line-height: 1.7;
@@ -206,7 +281,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
   list-style: none;
   padding: 0;
   margin: -0.6rem 0 1.6rem;
-  font-size: 0.88rem;
+  font-size: var(--t-apoio);
   color: var(--muted);
 }
 .termos li { margin: 0.45rem 0; }
@@ -214,38 +289,236 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
 /* O símbolo definido é o que o olho procura ao voltar para conferir: ele fica
    em destaque, e o resto da linha é prosa normal. */
 .termos code {
+  font-family: var(--serif);
+  font-style: italic;
   background: none;
-  color: var(--accent);
+  color: var(--fg);
   font-weight: 700;
-  font-size: 1.02em;
+  font-size: 1.1em;
 }
 
-/* Termo importante no meio da explicação. Sem caixa nem fundo: só peso e cor,
-   para destacar sem quebrar a linha de leitura. */
+/* Termo importante no meio da explicação: peso e um sublinhado discreto, sem
+   matiz — as cores da lição já têm dono (seção, grandeza, erro). */
 .termo {
   font-weight: 600;
-  color: var(--acento-termo);
+  text-decoration: underline;
+  text-decoration-color: var(--rule);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
 }
 
 /* Unidade. Nenhum parâmetro aparece sem uma. */
 .un {
-  font-family: var(--mono);
+  font-family: var(--serif);
   font-size: 0.85em;
   color: var(--muted);
   white-space: nowrap;
 }
 
-.var-x { color: var(--cor-x); }
-.var-s { color: var(--cor-s); }
-.var-p { color: var(--cor-p); }
+/* Símbolo no meio do texto ou da tabela (C_A, τ, k): em itálico e um pouco
+   maior que a letra em volta, como na equação, para o olho reconhecer a mesma
+   grandeza. Por isso todo símbolo do texto vai marcado, colorido ou não. */
+span.var-1, span.var-2, span.var-3, span.var-4, span.param { font-size: 1.1em; font-style: italic; }
+.var-1 { color: var(--serie-1); }
+.var-2 { color: var(--serie-2); }
+.var-3 { color: var(--serie-3); }
+.var-4 { color: var(--serie-4); }
+.param { color: var(--param); }
+
+/* A cor da grandeza vale em toda a lição: equação, lista de símbolos, tabela,
+   texto. Dentro da lista e da tabela, o <code> do símbolo herda a cor dela. */
+code.var-1, code.var-2, code.var-3, code.var-4, code.param {
+  font-family: var(--serif);
+  font-size: 1.1em;
+  font-style: italic;
+  font-weight: 700;
+  background: none;
+  padding: 0;
+}
+.termos code.var-1, td code.var-1 { color: var(--serie-1); }
+.termos code.var-2, td code.var-2 { color: var(--serie-2); }
+.termos code.var-3, td code.var-3 { color: var(--serie-3); }
+.termos code.var-4, td code.var-4 { color: var(--serie-4); }
+.termos code.param, td code.param { color: var(--param); }
 
 /* Valor sem procedência. Obrigatório marcar. */
 .ilustrativo {
-  font-size: 0.8rem;
+  font-size: var(--t-apoio);
   color: var(--muted);
-  font-style: italic;
 }
-.ilustrativo::before { content: "⚠ "; font-style: normal; }
+.ilustrativo::before { content: "⚠"; font-style: normal; display: inline-block; margin-right: 0.35em; vertical-align: -0.05em; }
+
+/* ---------- dedução de um balanço ---------- */
+/* Do princípio de conservação até a equação do modelo, um passo por linha.
+   Cada passo diz que TIPO de passo é — princípio, tradução, cinética, hipótese,
+   álgebra, definição —, porque as hipóteses são o que muda de um exercício
+   para o outro, e o aluno precisa enxergá-las separadas da álgebra.
+
+     <h3 class="balanco">Balanço de A</h3>
+     <ol class="deducao">
+       <li><div class="equacao">…</div>
+           <p class="porque"><span class="tipo tipo-hipotese">hipótese</span>…</p></li>
+       <li class="final">…</li>      ← a equação do modelo, em destaque
+     </ol>                                                                     */
+
+h3.balanco {
+  font-size: var(--t-h3);
+  margin: 2.4rem 0 0.4rem;
+  color: var(--mom-modelo);
+}
+
+/* A natureza do balanço (massa, energia) vem escrita no próprio título, que
+   a skill exige: "Balanço de massa do componente A, em mols". As classes
+   balanco-massa e balanco-energia ficam como marcação, sem desenho próprio. */
+
+/* Dedução e observações são a mesma linha do tempo, cada uma na cor do seu
+   momento: --cor-linha. */
+ol.deducao     { --cor-linha: var(--mom-modelo); }
+ol.observacoes { --cor-linha: var(--mom-resultado); }
+
+ol.deducao,
+ol.observacoes {
+  list-style: none;
+  counter-reset: item;
+  padding: 0;
+  margin: 1rem 0 2rem;
+  position: relative;
+}
+/* O fio que liga os passos: a sequência se lê de cima para baixo. */
+ol.deducao::before,
+ol.observacoes::before {
+  content: "";
+  position: absolute;
+  left: 0.85rem;
+  top: 0.9rem;
+  bottom: 0.9rem;
+  width: 2px;
+  background: color-mix(in srgb, var(--cor-linha) 35%, transparent);
+}
+/* O pé do fio: com o último item aberto, o fio desce além da bolinha dele, e
+   um traço na ponta diz que a sequência acabou ali. */
+ol.deducao::after,
+ol.observacoes::after {
+  content: "";
+  position: absolute;
+  left: calc(0.85rem + 1px - 0.4rem);
+  bottom: 0.9rem;
+  width: 0.8rem;
+  height: 2px;
+  border-radius: 1px;
+  background: color-mix(in srgb, var(--cor-linha) 60%, transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+ol.deducao:has(> li:last-child.recolhido)::before,
+ol.observacoes:has(> li:last-child.recolhido)::before { bottom: calc(var(--faixa-gap) + var(--faixa-h) / 2); }
+ol.deducao:has(> li:last-child:not(.recolhido))::after,
+ol.observacoes:has(> li:last-child:not(.recolhido))::after { opacity: 1; }
+ol.deducao > li,
+ol.observacoes > li {
+  counter-increment: item;
+  position: relative;
+  padding-left: 2.6rem;
+  margin: 0 0 1rem;
+}
+ol.deducao > li::before,
+ol.observacoes > li::before {
+  content: counter(item);
+  position: absolute;
+  left: 0;
+  top: 0.75rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  border-radius: 50%;
+  font-family: var(--serif);
+  font-size: var(--t-rotulo);
+  color: var(--bg);
+  background: var(--cor-linha);
+  z-index: 1;
+}
+ol.observacoes > li::before { top: 0; }
+ol.observacoes > li > h3 { margin: 0.1rem 0 0.4rem; font-size: var(--t-h3); }
+ol.observacoes .item-dentro > p { margin: 0 0 0.4rem; }
+
+ol.deducao .equacao { margin: 0 0 0.4rem; }
+ol.deducao .termos { margin: 0.6rem 0 0.4rem; }
+ol.deducao p.porque { font-size: var(--t-texto); margin: 0 0 0.3rem; color: var(--fg); }
+
+/* O último passo é a equação do modelo: caixa com a cor do momento. */
+ol.deducao > li.final .equacao {
+  background: color-mix(in srgb, var(--cor-linha) 10%, var(--code-bg));
+  border: 2px solid var(--cor-linha);
+}
+/* O parágrafo que explica a equação do modelo vive dentro do passo final:
+   aparece junto com ela, não antes. */
+ol.deducao > li.final .item-dentro > p:not(.porque) { margin: 0.9rem 0 0.3rem; }
+
+/* O tipo da etapa: um rótulo em versalete no começo do parágrafo, sem caixa.
+   Vários tipos seguidos se separam por um ponto. */
+.tipo {
+  font-size: var(--t-rotulo);
+  font-weight: 600;
+  letter-spacing: var(--esp-rotulo);
+  text-transform: uppercase;
+  color: var(--mom-modelo);
+  margin-right: 0.55rem;
+}
+.tipo + .tipo::before { content: "· "; margin-left: -0.3rem; }
+/* A hipótese é a etapa que muda de um exercício para outro: sublinhada. */
+.tipo-hipotese { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+
+/* ---------- chave sobre um termo da equação ---------- */
+/* Uma chave horizontal sob (ou sobre) um termo, com o significado dele em
+   poucas palavras. Desenhada por CSS, e não com o caractere ⏟ do MathML:
+   esse só estica se a fonte tiver tabela matemática, e a da lição não tem.
+   Pontas e bico têm tamanho fixo; só os trechos retos esticam. O cinza é o
+   mesmo nos dois temas: um data URI não lê variável de CSS.
+
+     <munder><mrow class="chave-sob">…termo…</mrow><mtext class="chave">rótulo</mtext></munder>
+     <mover><mrow class="chave-sobre">…termo…</mrow><mtext class="chave">rótulo</mtext></mover>  */
+
+mrow.chave-sob,
+mrow.chave-sobre {
+  --chave-cor: #8a877f;
+  /* Folga dos lados: as pontas e o bico somam 24 px fixos, e um termo de um
+     caractere só (um "0", um "V") é mais estreito que isso — sem a folga, as
+     peças se sobrepõem e a chave sai embolada. */
+  padding-left: 0.4em;
+  padding-right: 0.4em;
+}
+
+mrow.chave-sob {
+  padding-bottom: 9px;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='8'%3E%3Cpath d='M0.6 0 Q0.6 4 6 4' fill='none' stroke='%238a877f' stroke-width='1.1'/%3E%3C/svg%3E") left bottom / 6px 8px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='8'%3E%3Cpath d='M5.4 0 Q5.4 4 0 4' fill='none' stroke='%238a877f' stroke-width='1.1'/%3E%3C/svg%3E") right bottom / 6px 8px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 4 Q6 4 6 8 Q6 4 12 4' fill='none' stroke='%238a877f' stroke-width='1.1'/%3E%3C/svg%3E") center bottom / 12px 8px no-repeat,
+    linear-gradient(var(--chave-cor), var(--chave-cor)) left 6px bottom 3.45px / calc(50% - 12px) 1.1px no-repeat,
+    linear-gradient(var(--chave-cor), var(--chave-cor)) right 6px bottom 3.45px / calc(50% - 12px) 1.1px no-repeat;
+}
+
+mrow.chave-sobre {
+  padding-top: 9px;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='8'%3E%3Cpath d='M0.6 8 Q0.6 4 6 4' fill='none' stroke='%238a877f' stroke-width='1.1'/%3E%3C/svg%3E") left top / 6px 8px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='8'%3E%3Cpath d='M5.4 8 Q5.4 4 0 4' fill='none' stroke='%238a877f' stroke-width='1.1'/%3E%3C/svg%3E") right top / 6px 8px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 4 Q6 4 6 0 Q6 4 12 4' fill='none' stroke='%238a877f' stroke-width='1.1'/%3E%3C/svg%3E") center top / 12px 8px no-repeat,
+    linear-gradient(var(--chave-cor), var(--chave-cor)) left 6px top 3.45px / calc(50% - 12px) 1.1px no-repeat,
+    linear-gradient(var(--chave-cor), var(--chave-cor)) right 6px top 3.45px / calc(50% - 12px) 1.1px no-repeat;
+}
+
+/* O rótulo: prosa miúda, sem o itálico da matemática. */
+mtext.chave {
+  font-family: var(--serif);
+  font-size: 0.66em;
+  font-style: normal;
+  color: var(--muted);
+  padding: 0 0.2em;
+}
 
 /* ---------- código ---------- */
 
@@ -259,13 +532,25 @@ code {
 
 pre {
   background: var(--code-bg);
-  padding: 1rem 1.2rem;
+  /* Em em, e não em rem: o respiro encolhe junto com a fonte quando o bloco
+     precisa caber numa folha estreita (codigo.js). */
+  padding: 1.15em 1.4em;
   border-radius: var(--raio);
   overflow-x: auto;
-  font-size: 0.85rem;
+  font-size: var(--t-codigo);
   line-height: 1.5;
 }
 pre code { background: none; padding: 0; }
+
+/* Realce de sintaxe — o codigo.js marca os tokens; as cores vêm daqui. */
+.hl-kw  { color: var(--hl-kw); }
+.hl-def { color: var(--hl-def); }
+.hl-str { color: var(--hl-str); }
+.hl-com { color: var(--hl-com); font-style: italic; }
+.hl-num { color: var(--hl-num); }
+.hl-fn  { color: var(--hl-fn); }
+.hl-bi  { color: var(--hl-builtin); }
+.hl-op  { color: var(--hl-op); }
 
 /* ---------- tabelas ---------- */
 
@@ -273,11 +558,46 @@ table {
   border-collapse: collapse;
   width: 100%;
   margin: 1.6rem 0;
-  font-size: 0.9rem;
+  font-size: var(--t-apoio);
 }
-th, td { text-align: left; padding: 0.45rem 0.7rem; border-bottom: 1px solid var(--rule); }
-th { font-weight: 600; border-bottom: 2px solid var(--rule); }
-td.num, th.num { text-align: right; font-family: var(--mono); }
+th, td { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--rule); }
+th {
+  font-weight: 600;
+  background: color-mix(in srgb, var(--mom-modelo) 14%, transparent);
+  border-bottom: 2px solid var(--mom-modelo);
+}
+thead th:first-child { border-top-left-radius: var(--raio-p); }
+thead th:last-child  { border-top-right-radius: var(--raio-p); }
+tbody tr:nth-child(even) { background: color-mix(in srgb, var(--code-bg) 75%, transparent); }
+td code { font-family: var(--serif); font-style: italic; font-size: 1.1em; background: none; padding: 0; }
+
+/* Procedência: o mesmo rótulo em versalete, sem caixa. */
+.proc {
+  font-size: var(--t-rotulo);
+  font-weight: 600;
+  letter-spacing: var(--esp-rotulo);
+  text-transform: uppercase;
+  color: var(--mom-modelo);
+  margin-right: 0.5rem;
+}
+/* A escolha sua é o número que o enunciado não deu: sublinhada. */
+.proc-escolha { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* A TABELA DE PARÂMETROS (a que tem procedência): colunas de largura fixa,
+   todas as células alinhadas pela linha de base, valor colado à unidade, e a
+   procedência em duas linhas — o rótulo em cima, a conta ou o motivo embaixo,
+   em tom de nota. Assim nenhuma linha quebra de um jeito diferente da outra. */
+table:has(.proc) { table-layout: fixed; }
+table:has(.proc) th:nth-child(1) { width: 24%; }
+table:has(.proc) th:nth-child(2) { width: 15%; }
+table:has(.proc) th:nth-child(3) { width: 17%; }
+table:has(.proc) td { vertical-align: baseline; }
+/* Tudo centrado na coluna, cabeçalho inclusive. */
+table:has(.proc) th,
+table:has(.proc) td { text-align: center; }
+td:has(> .proc) { color: var(--muted); line-height: 1.4; }
+td > .proc { display: block; margin: 0.1rem 0 0.15rem; }
 
 /* ---------- blocos pedagógicos ---------- */
 
@@ -287,14 +607,14 @@ td.num, th.num { text-align: right; font-family: var(--mono); }
   border-radius: var(--raio);
   padding: 1rem 1.2rem;
   margin: 2.5rem 0 0;
-  font-size: 0.92rem;
+  font-size: var(--t-apoio);
 }
 
 /* ---------- equações em MathML ---------- */
 /* O navegador renderiza MathML nativamente. Só ajustamos escala e respiro:
    o padrão sai pequeno demais ao lado de uma serifada de 17px. */
 
-math { font-size: 1.12em; }
+math { font-size: 1.25em; }
 
 /* Não sobrescreva o display do <math>: o navegador usa "block math", e trocar
    por "block" comum faz o mfrac virar caixa CSS — a barra de fração estica
@@ -328,40 +648,193 @@ math[display="block"] {
 
 .eq-bloco > p {
   margin: 0.7rem 0 0;
-  font-size: 0.95rem;
+  font-size: var(--t-texto);
 }
 
 /* ---------- seção de código (assets/codigo.js) ---------- */
 /* O centro da lição. Passos revelados um a um: o aluno não vê quantos faltam,
    e cada clique é uma expectativa pequena. */
 
-section.codigo { margin: 2.5rem 0; }
+section.codigo { margin: 2.5rem 0; counter-reset: passo; }
 
+/* Os passos são uma linha do tempo, como a dedução do modelo: bolinha
+   numerada, e um fio descendo até a próxima. O próximo passo aparece FECHADO —
+   só a bolinha e o título apagado —, e abre com um clique nele. */
 .passo {
-  border-left: 2px solid var(--rule);
-  padding: 0 0 0 1.2rem;
-  margin: 1.8rem 0;
+  --cor-linha: var(--mom-codigo);
+  position: relative;
+  counter-increment: passo;
+  padding: 0 0 0 2.8rem;
+  margin: 0 0 1.6rem;
 }
+.passo::before {
+  content: counter(passo);
+  position: absolute;
+  left: 0;
+  top: -0.05rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  border-radius: 50%;
+  font-family: var(--serif);
+  font-size: var(--t-rotulo);
+  color: var(--bg);
+  background: var(--mom-codigo);
+  z-index: 1;
+}
+/* O fio: do centro da bolinha até a bolinha do passo seguinte. */
+.passo::after {
+  content: "";
+  position: absolute;
+  left: 0.85rem;
+  top: 1.7rem;
+  bottom: -1.6rem;
+  width: 2px;
+  background: color-mix(in srgb, var(--mom-codigo) 35%, transparent);
+}
+.passo.sem-fio::after { display: none; }
 
 .passo h3 {
-  margin: 0 0 0.6rem;
-  font-size: 1rem;
+  margin: 0.1rem 0 0.6rem;
+  font-size: var(--t-h3);
   font-weight: 600;
-  letter-spacing: 0.01em;
 }
 
-/* Numeração automática: o passo se conta sozinho, sem o autor escrever o número. */
-section.codigo { counter-reset: passo; }
+/* ---------- recolher: itens e seções ---------- */
+/* O que um item ou uma seção esconde fica dentro de .x-corpo, uma grade de uma
+   linha que desliza de 1fr a 0fr, e de .x-dentro, que corta o que passa: a
+   altura anima, em vez de o conteúdo sumir e aparecer de uma vez (codigo.js). */
 
-.passo h3::before {
-  counter-increment: passo;
-  content: counter(passo) " · ";
-  font-family: var(--mono);
-  font-size: 0.8rem;
-  color: var(--accent);
+.item-corpo,
+.secao-corpo {
+  display: grid;
+  grid-template-rows: 1fr;
+  opacity: 1;
+  transition: grid-template-rows 0.38s ease, opacity 0.3s ease;
+}
+.item-dentro { min-height: 0; overflow: hidden; }
+/* A seção corta o que passa, mas com folga dos lados: o anel que pulsa em
+   volta da bolinha sai da coluna, e sem a folga ele seria cortado. */
+.secao-dentro { min-height: 0; overflow: hidden; margin: 0 -0.8rem; padding: 0 0.8rem; }
+
+/* A lição abre com tudo RECOLHIDO: cada item mostra só a bolinha e a cabeça,
+   e o aluno vê de saída quantos passos tem cada parte. O próximo a ler CHAMA:
+   a bolinha fica vazada e pulsa, e passa ao seguinte quando ele é aberto. */
+.recolhido > .item-corpo { grid-template-rows: 0fr; opacity: 0; }
+
+.recolhido { cursor: pointer; }
+.recolhido:focus-visible { outline: none; }
+.recolhido:focus-visible > h3,
+.recolhido:focus-visible > .item-cabeca { text-decoration: underline; }
+
+/* A cabeça: o título no código e nas observações; as etiquetas de tipo na
+   dedução, que só aparecem com o passo recolhido (aberto, elas estão no texto). */
+.passo > h3,
+ol.observacoes > li > h3 { cursor: pointer; transition: color 0.2s ease; }
+.recolhido > h3 { color: var(--muted); }
+.recolhido:hover > h3 { color: var(--fg); }
+
+.item-cabeca { display: flex; gap: 0.4rem; align-items: center; font-weight: 600; font-size: var(--t-h3); cursor: pointer; transition: color 0.2s ease; }
+.recolhido > .item-cabeca { color: var(--muted); }
+.recolhido:hover > .item-cabeca { color: var(--fg); }
+.item-cabeca .tipo { margin-right: 0; }
+
+/* A bolinha que chama: vazada, pulsando de leve. */
+.chamando::before {
+  color: var(--cor-linha) !important;
+  background: var(--bg) !important;
+  box-shadow: inset 0 0 0 2px var(--cor-linha);
+  animation: chamar 1.8s ease-in-out infinite;
+}
+.chamando:hover::before,
+.chamando:focus-visible::before { color: var(--bg) !important; background: var(--cor-linha) !important; animation: none; }
+
+/* A bolinha de todo item é a alça que recolhe. */
+.passo::before,
+ol.deducao > li::before,
+ol.observacoes > li::before { cursor: pointer; transition: top 0.3s ease; }
+
+.passo.recolhido,
+ol.observacoes > li.recolhido { margin-bottom: 1.2rem; }
+/* Na dedução, a bolinha aberta se alinha à caixa da equação; recolhida, à cabeça. */
+ol.deducao > li.recolhido::before { top: 0; }
+ol.deducao > li.recolhido { min-height: 1.75rem; margin-bottom: 0.8rem; }
+ol.deducao > li > .item-cabeca { min-height: 1.75rem; }
+/* Aberta, a etapa tem o título no topo, como um passo do código: a bolinha se
+   alinha a ele, e o rótulo de tipo sai do começo do parágrafo, porque o
+   título já o diz. */
+ol.deducao > li:not(.recolhido) > .item-cabeca { margin: 0 0 0.6rem; }
+ol.deducao > li::before { top: 0; }
+ol.deducao .porque > .tipo { display: none; }
+
+/* AS SEÇÕES: o título recolhe a seção inteira; a setinha diz o estado. A
+   primeira seção ainda não aberta chama, com a setinha pulsando. */
+.secao-titulo { cursor: pointer; display: flex; align-items: center; gap: 0.7rem; }
+.secao-titulo::after {
+  content: "";
+  flex: none;
+  width: 0.42rem;
+  height: 0.42rem;
+  margin-top: -0.2rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  opacity: 0.55;
+  transform: rotate(45deg);
+  transition: transform 0.3s ease, margin 0.3s ease, opacity 0.2s ease;
+}
+.secao-titulo:hover::after,
+.secao-titulo:focus-visible::after { opacity: 1; }
+.secao-titulo:focus-visible { outline: none; text-decoration: underline; }
+.secao-titulo.secao-recolhida::after { transform: rotate(-45deg); margin-top: 0; }
+.secao-titulo.chamando::after { animation: chamar-seta 1.8s ease-in-out infinite; }
+.secao-titulo.chamando:hover::after { animation: none; }
+.secao-corpo.secao-recolhida { grid-template-rows: 0fr; opacity: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .item-corpo, .secao-corpo, .secao-titulo::after { transition: none; }
 }
 
-.passo > p { margin: 0.7rem 0 0; font-size: 0.95rem; }
+@keyframes chamar {
+  0%, 100% { box-shadow: inset 0 0 0 2px var(--cor-linha), 0 0 0 0 color-mix(in srgb, var(--cor-linha) 45%, transparent); }
+  50%      { box-shadow: inset 0 0 0 2px var(--cor-linha), 0 0 0 6px color-mix(in srgb, var(--cor-linha) 0%, transparent); }
+}
+@keyframes chamar-seta {
+  0%, 100% { opacity: 0.55; translate: 0 0; }
+  50%      { opacity: 1;    translate: 0.25rem 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chamando::before, .secao-titulo.chamando::after { animation: none; }
+}
+
+.passo .item-dentro > p { margin: 0.7rem 0 0; font-size: var(--t-texto); }
+/* O "como" em lista: um item por argumento ou por elemento novo, quando um
+   parágrafo só ficaria pesado. */
+.passo .item-dentro > ul.como { margin: 0.5rem 0 0; padding-left: 1.3rem; }
+.passo .item-dentro > ul.como > li { margin: 0.35rem 0; }
+.passo .item-dentro > ul.como > li::marker { color: var(--mom-codigo); }
+
+/* A explicação de um passo tem três tempos: PARA QUÊ (a intenção, antes do
+   código), COMO (a sintaxe de cada elemento, depois dele) e ATÉ AQUI (o que o
+   programa ganhou). O "até aqui" fecha o passo, com rótulo próprio. */
+.passo .item-dentro > p.para-que { margin: 0 0 0.9rem; }
+.passo .item-dentro > p.agora {
+  margin: 0.9rem 0 0;
+  padding-left: 0.8rem;
+  border-left: 3px solid var(--mom-codigo);
+  color: var(--muted);
+}
+.agora::before {
+  content: "Até aqui";
+  margin-right: 0.5rem;
+  font-size: var(--t-rotulo);
+  letter-spacing: var(--esp-rotulo);
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--mom-codigo);
+}
 
 .oculto { display: none; }
 
@@ -378,23 +851,6 @@ section.codigo { counter-reset: passo; }
   .revelado { animation: none; }
 }
 
-.revelar-passo {
-  display: block;
-  width: 100%;
-  margin: 1.5rem 0;
-  padding: 0.6rem 1rem;
-  font-family: var(--mono);
-  font-size: 0.8rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
-  background: var(--bg);
-  border: 1px dashed var(--rule);
-  border-radius: var(--raio);
-  cursor: pointer;
-}
-
-.revelar-passo:hover { border-color: var(--accent); border-style: solid; }
 
 /* Programa completo e resposta: fechados, e só existem depois do último passo. */
 details.programa,
@@ -404,14 +860,37 @@ details.resposta {
   margin: 1.4rem 0;
 }
 
+details > summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+}
+details > summary::-webkit-details-marker { display: none; }
+/* O marcador é desenhado, como os outros ícones: aponta para a direita, e
+   para baixo quando o bloco está aberto. */
+details > summary::before {
+  content: "";
+  flex: none;
+  width: 0.4em;
+  height: 0.4em;
+  margin-left: 0.1em;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform 0.2s ease;
+}
+details[open] > summary::before { transform: rotate(45deg); }
+
 details.programa > summary,
 details.resposta > summary {
   cursor: pointer;
-  font-family: var(--mono);
-  font-size: 0.8rem;
-  letter-spacing: 0.06em;
+  font-family: var(--serif);
+  font-size: var(--t-rotulo);
+  font-weight: 600;
+  letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--mom-codigo);
   padding: 0.2rem 0;
 }
 
@@ -420,16 +899,42 @@ details.resposta[open] > summary { color: var(--muted); margin-bottom: 0.8rem; }
 
 details.resposta p { margin: 0 0 0.6rem; }
 
+/* A resposta: a primeira coisa da seção do resultado, antes da figura. Os
+   números que o exercício pede, como o programa os imprime. */
+div.resposta {
+  margin: 1.2rem 0 2rem;
+  padding: 1rem 1.25rem;
+  border: 2px solid var(--mom-resultado);
+  border-radius: var(--raio);
+  background: color-mix(in srgb, var(--mom-resultado) 8%, var(--code-bg));
+}
+div.resposta::before {
+  content: "A resposta";
+  display: block;
+  margin-bottom: 0.45rem;
+  font-family: var(--serif);
+  font-size: var(--t-rotulo);
+  font-weight: 600;
+  letter-spacing: var(--esp-rotulo);
+  text-transform: uppercase;
+  color: var(--mom-resultado);
+}
+div.resposta > :last-child { margin-bottom: 0; }
+
 /* Botão de copiar, no canto de cada bloco de código. */
-pre.com-copia { position: relative; }
+/* Os botões do canto têm uma faixa própria no topo do bloco: não cobrem a
+   primeira linha do código, por mais estreita que fique a folha. */
+pre.com-copia { position: relative; padding-top: 2.6rem; }
+/* Copiar e levar ao editor: só ícone, quadrados e iguais, no canto do código. */
+pre > button.copiar, pre > button.para-editor { width: 1.75rem; height: 1.75rem; padding: 0; justify-content: center; font-size: 0.85rem; }
 
 .copiar {
   position: absolute;
   top: 0.4rem;
   right: 0.4rem;
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.06em;
+  font-family: var(--serif);
+  font-size: var(--t-rotulo);
+  letter-spacing: var(--esp-rotulo);
   padding: 0.2rem 0.5rem;
   color: var(--muted);
   background: var(--bg);
@@ -443,6 +948,27 @@ pre.com-copia:hover .copiar { opacity: 1; }
 .copiar:hover { color: var(--fg); border-color: var(--accent); }
 .copiar.copiado { color: var(--ok); border-color: var(--ok); opacity: 1; }
 
+/* "→ editor", ao lado do copiar (assets/editor.js): manda o trecho para o fim
+   do programa que o aluno está montando no editor. */
+.para-editor {
+  position: absolute;
+  top: 0.4rem;
+  right: calc(0.4rem + 1.75rem + 0.3rem);
+  font-family: var(--serif);
+  font-size: var(--t-rotulo);
+  letter-spacing: var(--esp-rotulo);
+  padding: 0.2rem 0.5rem;
+  color: var(--mom-codigo);
+  background: var(--bg);
+  border: 1px solid color-mix(in srgb, var(--mom-codigo) 50%, var(--rule));
+  border-radius: var(--raio-p);
+  cursor: pointer;
+  opacity: 0.8;
+}
+pre.com-copia:hover .para-editor { opacity: 1; }
+.para-editor:hover { color: var(--bg); background: var(--mom-codigo); }
+.para-editor.enviado { color: var(--ok); border-color: var(--ok); background: var(--bg); opacity: 1; }
+
 /* ---------- botão de tema ---------- */
 /* Dois estados, claro e escuro. Fica fora do fluxo do texto: é ferramenta,
    não conteúdo. Some na impressão. */
@@ -450,11 +976,12 @@ pre.com-copia:hover .copiar { opacity: 1; }
 .tema {
   position: fixed;
   top: 1rem;
-  right: 1rem;
+  left: 1rem;
   z-index: 10;
-  font-family: var(--mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.06em;
+  font-family: var(--serif);
+  font-size: var(--t-rotulo);
+  font-weight: 600;
+  letter-spacing: var(--esp-rotulo);
   text-transform: uppercase;
   padding: 0.35rem 0.7rem;
   background: var(--bg);
@@ -468,55 +995,121 @@ pre.com-copia:hover .copiar { opacity: 1; }
 .tema:hover { opacity: 1; color: var(--fg); }
 
 @media (max-width: 40rem) {
-  .tema { top: 0.5rem; right: 0.5rem; }
+  .tema { top: 0.5rem; left: 0.5rem; }
 }
 
 
-/* Nota de dúvida: a explicação escrita depois, no ponto exato do texto onde o
-   aluno travou. Marca-texto suave — o aluno tem que reconhecer, ao reabrir a
-   lição, que aquele trecho nasceu de uma pergunta dele.
 
-   Duas formas, mesma marca:
-     <p class="nota-duvida"> … </p>            bloco, para uma explicação inteira
-     <mark class="nota-duvida"> … </mark>      em linha, para uma frase enxertada
+/* ---------- ícones desenhados ---------- */
+/* Todo ícone ao lado de texto é desenhado por CSS, e não um caractere (▶ ✕ →
+   ✓ ◐): cada fonte põe um caractere numa altura diferente, e o ícone sai torto
+   ao lado do texto. Desenhado, ele fica no centro exato, e o botão que o
+   contém alinha os dois pelo meio (inline-flex, align-items: center).
 
-   Convenção documentada em LESSON-FORMAT.md. Não invente outra classe para isto:
-   o valor está em ser o mesmo destaque em toda lição de todo aluno. */
+     <span class="ic ic-play"></span>  ic-x · ic-seta · ic-check · ic-tema      */
 
-p.nota-duvida,
-div.nota-duvida {
-  background: var(--nota-bg);
-  border-left: 3px solid var(--nota-borda);
-  border-radius: 0 var(--raio) var(--raio) 0;
-  padding: 0.9rem 1.1rem;
-  margin: 1.4rem 0;
-  font-size: 0.95rem;
+.ic {
+  display: inline-block;
+  position: relative;
+  flex: none;
+  width: 0.8em;
+  height: 0.8em;
+}
+.ic-play {
+  width: 0.62em;
+  height: 0.72em;
+  background: currentColor;
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+.ic-x::before,
+.ic-x::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.9em;
+  height: 2px;
+  margin: -1px 0 0 -0.45em;
+  border-radius: 1px;
+  background: currentColor;
+}
+.ic-x::before { transform: rotate(45deg); }
+.ic-x::after  { transform: rotate(-45deg); }
+.ic-seta { width: 0.95em; }
+.ic-seta::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 1px;
+  top: 50%;
+  height: 2px;
+  margin-top: -1px;
+  border-radius: 1px;
+  background: currentColor;
+}
+.ic-seta::after {
+  content: "";
+  position: absolute;
+  right: 1px;
+  top: 50%;
+  width: 0.38em;
+  height: 0.38em;
+  border-top: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  transform: translateY(-50%) rotate(45deg);
+}
+/* A lixeira: tampa com alça, corpo afunilado e dois frisos. Desenhada em SVG
+   e usada como máscara, para tomar a cor do botão (currentColor). */
+.ic-lixo {
+  width: 1.05em;
+  height: 1.05em;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 6.5h17'/%3E%3Cpath d='M9 6.5V4.8A1.8 1.8 0 0 1 10.8 3h2.4A1.8 1.8 0 0 1 15 4.8v1.7'/%3E%3Cpath d='M18.5 6.5l-.9 12.6A2 2 0 0 1 15.6 21H8.4a2 2 0 0 1-2-1.9L5.5 6.5'/%3E%3Cpath d='M10 10.5v6M14 10.5v6'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 6.5h17'/%3E%3Cpath d='M9 6.5V4.8A1.8 1.8 0 0 1 10.8 3h2.4A1.8 1.8 0 0 1 15 4.8v1.7'/%3E%3Cpath d='M18.5 6.5l-.9 12.6A2 2 0 0 1 15.6 21H8.4a2 2 0 0 1-2-1.9L5.5 6.5'/%3E%3Cpath d='M10 10.5v6M14 10.5v6'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+/* Copiar (duas folhas) e levar ao editor (seta até a barra, à direita, onde
+   o editor fica). */
+.ic-copiar, .ic-enviar { width: 1.05em; height: 1.05em; background: currentColor; }
+.ic-copiar { -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='8.5' y='8.5' width='12' height='12' rx='2.2'/%3E%3Cpath d='M15.5 8.5V5.7A2.2 2.2 0 0 0 13.3 3.5H5.7A2.2 2.2 0 0 0 3.5 5.7v7.6a2.2 2.2 0 0 0 2.2 2.2h2.8'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='8.5' y='8.5' width='12' height='12' rx='2.2'/%3E%3Cpath d='M15.5 8.5V5.7A2.2 2.2 0 0 0 13.3 3.5H5.7A2.2 2.2 0 0 0 3.5 5.7v7.6a2.2 2.2 0 0 0 2.2 2.2h2.8'/%3E%3C/svg%3E") center / contain no-repeat; }
+.ic-enviar { -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 12h13'/%3E%3Cpath d='M11.5 6l6 6-6 6'/%3E%3Cpath d='M20.5 4.5v15'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 12h13'/%3E%3Cpath d='M11.5 6l6 6-6 6'/%3E%3Cpath d='M20.5 4.5v15'/%3E%3C/svg%3E") center / contain no-repeat; }
+.ic-check::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  width: 0.3em;
+  height: 0.58em;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.ic-tema {
+  width: 0.85em;
+  height: 0.85em;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  background: linear-gradient(90deg, currentColor 50%, transparent 50%);
 }
 
-/* Rótulo opcional, com a data da pergunta. Útil quando a lição já acumulou
-   várias notas: mostra a ordem em que as dúvidas apareceram. */
-.nota-duvida > .rotulo {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-  display: block;
-  margin-bottom: 0.4rem;
-}
-
-mark.nota-duvida {
-  background: var(--nota-bg);
-  color: var(--fg);
-  box-shadow: 0 -0.35em 0 0 var(--nota-bg), 0 0.12em 0 0 var(--nota-borda);
-  padding: 0 0.15em;
+/* Os botões com ícone alinham ícone e texto pelo meio — e o "copiar", vizinho
+   do "→ editor", entra na mesma regra para os dois terem a mesma altura. */
+.editor-topo button,
+.editor-limpar-saida,
+.para-editor,
+.copiar,
+.tema {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  line-height: 1;
 }
 
 /* ---------- botões ---------- */
 
 button {
   font-family: var(--serif);
-  font-size: 0.9rem;
+  font-size: var(--t-apoio);
   padding: 0.4rem 0.9rem;
   background: var(--bg);
   color: var(--fg);
@@ -527,71 +1120,691 @@ button {
 button:hover { border-color: var(--muted); }
 button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-/* ---------- simulador (assets/simulador.js) ---------- */
+/* ---------- gráfico (assets/grafico.js) ---------- */
 
-/* A moldura de qualquer gráfico. O .sim-moldura o componente se põe sozinho, para
-   que dois gráficos da mesma lição tenham a MESMA largura — um com moldura e outro
-   sem sai desalinhado, e o olho lê isso como gráfico torto. */
-.simulador,
-.sim-moldura {
+/* A moldura de toda figura. O grafico.js a põe sozinho; componente que você
+   escrever usa a mesma classe, para duas figuras da lição terem a MESMA largura. */
+.moldura {
   border: 1px solid var(--rule);
   border-radius: var(--raio);
   padding: 1.2rem;
   margin: 2rem 0;
 }
-/* Vale para QUALQUER gráfico, não só para o .simulador. Componente novo usa
-   outra classe, e um <canvas> sem largura em CSS cai na largura intrínseca dele,
-   que é 300px — gráfico minúsculo no meio da coluna. Já aconteceu duas vezes. */
-canvas { width: 100%; height: auto; display: block; }
+/* Canvas sem largura em CSS cai nos 300 px intrínsecos: gráfico minúsculo no
+   meio da coluna. Vale para qualquer canvas, inclusive o de componente novo. */
+canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
 
-.sim-controles {
+.controles {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
   gap: 0.6rem 1.2rem;
   margin-top: 1rem;
-  font-size: 0.85rem;
+  font-size: var(--t-apoio);
 }
-.sim-controle label { display: flex; justify-content: space-between; gap: 0.5rem; }
-.sim-controle .valor { font-family: var(--mono); color: var(--muted); }
-.sim-controle input[type="range"] { width: 100%; accent-color: var(--accent); }
+.controle label { display: flex; justify-content: space-between; gap: 0.5rem; }
+.controle .valor { color: var(--muted); font-variant-numeric: tabular-nums; }
+.controle input[type="range"] { width: 100%; accent-color: var(--mom-resultado); }
 
-.sim-legenda {
+.legenda {
   display: flex;
   gap: 1.2rem;
   flex-wrap: wrap;
-  font-size: 0.82rem;
+  font-size: var(--t-apoio);
   margin-top: 0.6rem;
 }
-.sim-legenda span::before {
-  content: "—— ";
-  font-family: var(--mono);
-  font-weight: bold;
+.legenda span { display: inline-flex; align-items: center; gap: 0.5em; }
+/* A amostra da legenda é desenhada com o mesmo traço da curva no gráfico:
+   sólida, tracejada, pontilhada, traço-ponto — não um "——" de texto. */
+.legenda span::before {
+  content: "";
+  flex: none;
+  width: 1.7em;
+  height: 2px;
+  background: currentColor;
 }
-.sim-legenda .l-x { color: var(--cor-x); }
-.sim-legenda .l-s { color: var(--cor-s); }
-.sim-legenda .l-p { color: var(--cor-p); }
+.legenda .l-2::before { background: repeating-linear-gradient(90deg, currentColor 0 7px, transparent 7px 11px); }
+.legenda .l-3::before { background: repeating-linear-gradient(90deg, currentColor 0 2px, transparent 2px 5px); }
+.legenda .l-4::before { background: repeating-linear-gradient(90deg, currentColor 0 9px, transparent 9px 12px, currentColor 12px 14px, transparent 14px 17px); }
+.legenda span.l-pontos::before { width: 0.6em; height: 0.6em; border-radius: 50%; background: currentColor; }
+.legenda small { color: var(--muted); font-size: 0.9em; }
+.legenda .l-1 { color: var(--serie-1); }
+.legenda .l-2 { color: var(--serie-2); }
+.legenda .l-3 { color: var(--serie-3); }
+.legenda .l-4 { color: var(--serie-4); }
 
-.sim-acoes { display: flex; gap: 0.6rem; margin-top: 0.9rem; flex-wrap: wrap; }
-.sim-leitura { font-size: 0.85rem; color: var(--muted); margin-top: 0.6rem; }
+.leitura { font-size: var(--t-apoio); color: var(--muted); margin: 0.6rem 0 0; }
+.leitura:empty { display: none; }
+
+/* A TÉCNICA: o fecho do modelo. Diz o nome da ferramenta que vai resolver o
+   exercício e por que ela serve, e passa a palavra para a seção do código,
+   que ensina a usá-la. Na cor do modelo, a seção que ela fecha.
+
+     <div class="tecnica"><p class="tecnica-nome">…</p><p>…</p></div>          */
+.tecnica {
+  margin: 2.2rem 0 1rem;
+  padding: 1rem 1.25rem;
+  border: 2px solid var(--mom-modelo);
+  border-radius: var(--raio);
+  background: color-mix(in srgb, var(--mom-modelo) 8%, var(--code-bg));
+}
+.tecnica::before {
+  content: "A técnica";
+  display: block;
+  margin-bottom: 0.3rem;
+  font-family: var(--serif);
+  font-size: var(--t-rotulo);
+  font-weight: 600;
+  letter-spacing: var(--esp-rotulo);
+  text-transform: uppercase;
+  color: var(--mom-modelo);
+}
+.tecnica .tecnica-nome {
+  font-size: var(--t-h3);
+  font-weight: 600;
+  color: var(--mom-modelo);
+  margin: 0 0 0.5rem;
+}
+.tecnica > :last-child { margin-bottom: 0; }
+
+/* ---------- o enunciado ---------- */
+/* Abre a lição: o exercício reescrito, com os dados e, numa lista, o que se
+   pede. Neutro, sem a cor de nenhuma seção: é de onde tudo parte. */
+.enunciado {
+  margin: 0 0 1.6rem;
+  padding: 1rem 1.25rem;
+  border-left: 4px solid var(--muted);
+  border-radius: 0 var(--raio) var(--raio) 0;
+  background: var(--code-bg);
+}
+.enunciado::before {
+  content: "O exercício";
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: var(--t-rotulo);
+  font-weight: 600;
+  letter-spacing: var(--esp-rotulo);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.enunciado > p { margin: 0 0 0.6rem; }
+.enunciado > ul { margin: 0; padding-left: 1.3rem; }
+.enunciado > ul > li { margin: 0.25rem 0; }
+.enunciado > :last-child { margin-bottom: 0; }
+
+/* ---------- blocos pedagógicos ---------- */
+/* O "no seu código" das observações de controle; o rótulo sai do CSS. */
+
+.no-seu-codigo {
+  background: var(--code-bg);
+  border-radius: var(--raio);
+  padding: 0.9rem 1.1rem;
+  margin: 1.2rem 0;
+  font-size: var(--t-texto);
+}
+.no-seu-codigo::before {
+  display: block;
+  font-family: var(--serif);
+  font-size: var(--t-rotulo);
+  font-weight: 600;
+  letter-spacing: var(--esp-rotulo);
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+  color: var(--muted);
+}
+.no-seu-codigo::before { content: "No seu código"; color: var(--mom-resultado); }
+.no-seu-codigo > :last-child { margin-bottom: 0; }
+
+/* Dentro da lista de observações, o "no seu código" é uma linha, não uma caixa. */
+li .no-seu-codigo { display: block; margin: 0.4rem 0 0; padding: 0.4rem 0.8rem; font-size: var(--t-apoio); }
+li .no-seu-codigo::before { display: inline; margin-right: 0.5rem; }
+
+/* ---------- a folha, a medida e o sumário ---------- */
+/* A lição fica numa FOLHA, um tom acima do fundo da página, para o texto não
+   encostar na tela. Texto e blocos ocupam a largura toda da folha. À
+   esquerda, quando há espaço, o SUMÁRIO (codigo.js). */
+
+:root {
+  --folha-w: 42rem;        /* largura útil da folha */
+  --folha-pad: 3rem;       /* respiro dos lados da folha */
+  --sumario-w: 13.5rem;
+  --sumario-gap: 1.6rem;
+}
+
+/* A folha tem a altura da tela, com um vão em volta, como o editor: os cantos
+   arredondados ficam sempre à vista, e o texto rola DENTRO dela. */
+html { background: var(--fundo); height: 100%; overflow: hidden; }
+
+/* AS BARRAS DE ROLAGEM, em toda a página (folha, código e saída do editor,
+   equações e blocos largos): finas e invisíveis até o mouse entrar na área
+   que rola; somem de novo quando ele sai. Propriedades padrão, e não
+   ::-webkit-scrollbar, porque o Chrome não redesenha esta ao sair o mouse. */
+* { scrollbar-width: thin; scrollbar-color: transparent transparent; }
+*:hover { scrollbar-color: color-mix(in srgb, var(--muted) 55%, transparent) transparent; }
+/* O editor, o sumário e a bolinha do editor ficam dentro do body, mas não são
+   a folha: o mouse sobre eles não mostra a barra da folha. */
+body:has(.editor-painel:hover, .sumario:hover, .editor-abrir:hover) { scrollbar-color: transparent transparent; }
+
+
+
+body {
+  position: relative;
+  box-sizing: border-box;
+  height: calc(100vh - 2 * var(--editor-vao));
+  overflow-y: auto;
+  max-width: calc(var(--folha-w) + 2 * var(--folha-pad));
+  margin: var(--editor-vao) auto;
+  padding: calc(3.4rem - 14px) var(--folha-pad) calc(4.5rem - 14px);
+  /* A barra de rolagem não entra nos cantos arredondados: ela corre entre
+     estas bordas transparentes, sob as quais o fundo da folha continua. */
+  border-top: 14px solid transparent;
+  border-bottom: 14px solid transparent;
+  line-height: 1.65;
+  border-radius: 16px;
+  box-shadow: 0 0 0 1px var(--borda-folha), 0 12px 40px var(--sombra-folha);
+}
+
+
+/* A bolinha do editor não cobre a folha. */
+body:not(.com-editor) { max-width: min(calc(var(--folha-w) + 2 * var(--folha-pad)), calc(100vw - 2 * 2.8rem)); }
+/* Com o editor aberto, a folha ocupa todo o espaço que sobra ao lado dele, e
+   acompanha a largura do editor quando a divisão é arrastada. */
+body.com-editor { max-width: none; margin-left: var(--editor-vao); }
+
+/* Com espaço, folha e sumário formam um conjunto centrado na tela. */
+@media (min-width: 1240px) {
+  body:not(.com-editor).com-sumario {
+    margin-left: calc((100vw - var(--folha-w) - 2 * var(--folha-pad) - var(--sumario-w) - var(--sumario-gap)) / 2
+                      + var(--sumario-w) + var(--sumario-gap));
+  }
+}
+
+.sumario {
+  position: fixed;
+  top: 5rem;
+  left: calc((100vw - var(--folha-w) - 2 * var(--folha-pad) - var(--sumario-w) - var(--sumario-gap)) / 2);
+  width: var(--sumario-w);
+  max-height: calc(100vh - 7rem);
+  overflow-y: auto;
+  display: none;
+  font-size: var(--t-apoio);
+  line-height: 1.35;
+}
+@media (min-width: 1240px) {
+  body:not(.com-editor) .sumario { display: block; }
+}
+
+.sumario-secao {
+  --cor-sec: var(--muted);
+  display: block;
+  margin: 0 0 0.25rem;
+  padding: 0.35rem 0.6rem;
+  border-left: 3px solid color-mix(in srgb, var(--cor-sec) 35%, transparent);
+  border-radius: 0 var(--raio-p) var(--raio-p) 0;
+  color: var(--cor-sec);
+  font-size: var(--t-texto);
+  cursor: pointer;
+}
+.sumario-secao.s-modelo    { --cor-sec: var(--mom-modelo); }
+.sumario-secao.s-codigo    { --cor-sec: var(--mom-codigo); }
+.sumario-secao.s-resultado { --cor-sec: var(--mom-resultado); }
+.sumario-grupo { margin: 0 0 1.1rem; }
+
+.sumario-item {
+  display: flex;
+  align-items: flex-start;
+  line-height: 1.35;
+  gap: 0.5rem;
+  padding: 0.22rem 0.6rem 0.22rem 0.9rem;
+  border-radius: var(--raio-p);
+  color: var(--muted);
+  cursor: pointer;
+}
+/* O título longo quebra em linhas, sem cortar; as bolinhas ficam na primeira. */
+.sumario-item > span:first-child { flex: 1; min-width: 0; overflow-wrap: anywhere; hyphens: auto; }
+.sumario-secao:hover,
+.sumario-item:hover { background: color-mix(in srgb, var(--fg) 6%, transparent); }
+.sumario-secao.ativo { border-left-color: var(--cor-sec); background: color-mix(in srgb, var(--cor-sec) 12%, transparent); }
+.sumario-item.ativo { color: var(--fg); }
+
+/* Uma bolinha por item (etapa, passo, observação): cheia quando já foi lido. */
+.sumario-pontos { display: inline-flex; gap: 3px; flex: none; margin-top: calc(0.675em - 0.19rem); }
+.sumario-pontos i {
+  width: 0.38rem;
+  height: 0.38rem;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--cor-sec) 70%, transparent);
+}
+.sumario-pontos i.lido { background: var(--cor-sec); box-shadow: none; }
+
+/* O botão de tema: na margem acima da folha, rolando com a página, para nunca
+   cobrir o texto; com o sumário à vista, fixo no topo dele. */
+.tema { position: absolute; top: 1rem; right: 1.2rem; left: auto; z-index: 12; }
+@media (min-width: 1240px) {
+  body.com-sumario:not(.com-editor) .tema {
+    position: fixed;
+    right: auto;
+    top: 1.6rem;
+    left: calc((100vw - var(--folha-w) - 2 * var(--folha-pad) - var(--sumario-w) - var(--sumario-gap)) / 2 + 0.6rem);
+  }
+}
+
+/* ---------- itens recolhidos: uma linha com apoio ---------- */
+/* Recolhido, cada item é uma faixa da largura da folha, na altura da bolinha,
+   com fundo leve na cor da sua parte e uma setinha à direita: a lista inteira
+   fica alinhada, como as linhas de uma tabela, em vez de etiquetas soltas. */
+
+:root { --faixa-h: 2.3rem; --faixa-gap: 0.55rem; }
+
+.recolhido > .item-cabeca,
+.passo.recolhido > h3,
+ol.observacoes > li.recolhido > h3,
+ol.modelo-linha > li.recolhido > h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: var(--faixa-h);
+  margin: 0;
+  padding: 0.25rem 2.2rem 0.25rem 0.85rem;
+  position: relative;
+  box-sizing: border-box;
+  background: color-mix(in srgb, var(--cor-linha) 7%, var(--bg));
+  border: 1px solid color-mix(in srgb, var(--cor-linha) 22%, transparent);
+  border-radius: var(--raio);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+/* Um título com palavras coloridas é texto corrido, não uma fileira de peças:
+   no h3, bloco comum, com a altura vinda do respiro. */
+.passo.recolhido > h3,
+ol.observacoes > li.recolhido > h3,
+ol.modelo-linha > li.recolhido > h3 { display: block; padding-top: 0.45rem; padding-bottom: 0.45rem; line-height: 1.4; }
+.recolhido:hover > .item-cabeca,
+.passo.recolhido:hover > h3,
+ol.observacoes > li.recolhido:hover > h3,
+ol.modelo-linha > li.recolhido:hover > h3 {
+  border-color: color-mix(in srgb, var(--cor-linha) 60%, transparent);
+  background: color-mix(in srgb, var(--cor-linha) 12%, var(--bg));
+}
+/* A setinha: › para abrir. */
+.recolhido > .item-cabeca::after,
+.passo.recolhido > h3::after,
+ol.observacoes > li.recolhido > h3::after,
+ol.modelo-linha > li.recolhido > h3::after {
+  content: "";
+  position: absolute;
+  right: 0.95rem;
+  top: 50%;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-right: 2px solid color-mix(in srgb, var(--cor-linha) 70%, transparent);
+  border-bottom: 2px solid color-mix(in srgb, var(--cor-linha) 70%, transparent);
+  transform: translateY(-60%) rotate(-45deg);
+}
+
+/* A bolinha centrada na faixa, e o mesmo espaço entre todas as faixas. */
+.passo.recolhido::before,
+ol.deducao > li.recolhido::before,
+ol.observacoes > li.recolhido::before { top: calc((var(--faixa-h) - 1.75rem) / 2); }
+.passo.recolhido,
+ol.deducao > li.recolhido,
+ol.observacoes > li.recolhido { margin-bottom: var(--faixa-gap); min-height: var(--faixa-h); }
+/* O fio do código desce do centro de uma bolinha até a próxima. */
+.passo.recolhido::after { top: calc(var(--faixa-h) / 2); bottom: calc(-1 * var(--faixa-gap) - var(--faixa-h) / 2); }
+.passo.recolhido.sem-fio::after { display: none; }
+
+@media (max-width: 760px) {
+  html { height: auto; overflow: visible; }
+  body, body:not(.com-editor) { height: auto; overflow: visible; margin: 0 auto; padding: 3.2rem 1.1rem 4rem; border-radius: 0; box-shadow: none; }
+}
+
+/* ---------- o modelo numa linha só (codigo.js, unificarModelo) ---------- */
+/* As etapas de todos os balanços numa só sequência numerada. O título de cada
+   balanço não aparece: ele dá nome à primeira etapa do balanço. A tabela e a
+   técnica são os itens do fim, com título como os passos. */
+ol.modelo-linha > li.grupo,
+ol.modelo-linha > li.solto { counter-increment: none; cursor: default; }
+ol.modelo-linha > li.grupo { display: none; }
+ol.modelo-linha > li.solto::before { display: none; }
+ol.modelo-linha > li.extra > h3 { font-size: var(--t-h3); }
+ol.modelo-linha > li.extra:not(.recolhido) > h3 { margin: 0.1rem 0 0.5rem; }
+ol.modelo-linha > li.extra:not(.recolhido)::before { top: 0; }
+ol.modelo-linha > li.extra .item-dentro > table,
+ol.modelo-linha > li.extra .item-dentro > .tecnica,
+ol.modelo-linha > li.extra .item-dentro > .eq-bloco { margin: 0.3rem 0 0.5rem; }
+/* Sem o título de fora, a técnica não repete o nome dentro da caixa. */
+ol.modelo-linha .tecnica .tecnica-nome { display: none; }
+ol.modelo-linha .tecnica::before { content: none; }
+
+/* ---------- editor de Python (assets/editor.js) ---------- */
+/* Aberto, o painel ocupa a direita e a lição desliza para a esquerda, centrada
+   no espaço que sobra. Em cima o código, embaixo a saída. */
+
+:root { --editor-w: min(50vw, 52rem); --editor-vao: 0.8rem; }
+
+body { transition: margin 0.3s ease; }
+body.com-editor { margin-right: calc(var(--editor-w) + 2 * var(--editor-vao)); }
+/* Com o editor aberto, o respiro dos lados da folha encolhe junto com ela. */
+body.com-editor { padding-left: clamp(1.1rem, 3vw, var(--folha-pad)); padding-right: clamp(1.1rem, 3vw, var(--folha-pad)); }
+
+.editor-abrir {
+  /* Uma bolinha presa à borda direita, no meio da altura, com "‹": há algo
+     recolhido ali. Com o mouse em cima ela se transforma no botão "Editor de
+     código ›", da largura do texto. */
+  position: fixed;
+  top: 50%;
+  right: 0.6rem;
+  z-index: 15;
+  display: inline-flex;
+  align-items: center;
+  height: 2rem;
+  padding: 0 0.25rem 0 0.25rem;
+  transform: translateY(-50%);
+  font-family: var(--serif);
+  font-size: var(--t-rotulo);
+  letter-spacing: var(--esp-rotulo);
+  white-space: nowrap;
+  color: var(--bg);
+  background: var(--mom-codigo);
+  border: none;
+  border-radius: 999px;
+  box-shadow: 0 0 0 3px var(--bg), 0 3px 12px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: padding 0.22s ease;
+}
+/* O texto mora dentro do botão desde sempre, com largura zero: no hover ele
+   se abre, e o botão cresce na medida exata dele. */
+.editor-abrir-texto {
+  display: inline-block;
+  line-height: 1;
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-width 0.25s ease, opacity 0.15s ease, margin 0.25s ease;
+}
+.editor-abrir-seta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+/* A seta é desenhada (duas bordas de um quadrado girado), não um caractere:
+   assim fica no centro exato, em qualquer fonte, e alinhada ao texto. */
+.editor-abrir-seta::before {
+  content: "";
+  width: 0.42rem;
+  height: 0.42rem;
+  border-left: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  /* Aponta para a esquerda: ‹. A mesma lista de funções nos dois estados faz a
+     transição só mexer no scaleX: a seta se espelha em vez de girar. */
+  transform: scaleX(1) translateX(0.08rem) rotate(45deg);
+  transition: transform 0.22s ease;
+}
+.editor-abrir:hover,
+.editor-abrir:focus-visible { padding: 0 0.3rem 0 0.95rem; outline: none; }
+.editor-abrir:hover .editor-abrir-texto,
+.editor-abrir:focus-visible .editor-abrir-texto { max-width: 12rem; opacity: 1; margin-right: 0.3rem; }
+.editor-abrir:hover .editor-abrir-seta::before,
+.editor-abrir:focus-visible .editor-abrir-seta::before { transform: scaleX(-1) translateX(0.08rem) rotate(45deg); }   /* › */
+body.com-editor .editor-abrir { display: none; }
+
+.editor-painel {
+  /* Uma folha própria, como a da lição: cantos arredondados, a mesma borda e
+     sombra, e um vão entre as duas — elas ficam lado a lado, nunca uma por
+     cima da outra. */
+  position: fixed;
+  top: var(--editor-vao);
+  right: var(--editor-vao);
+  bottom: var(--editor-vao);
+  width: var(--editor-w);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  /* Dois blocos (o código e a saída) com um vão entre eles, onde fica a alça.
+     A sombra segue o desenho de cada bloco (drop-shadow), não a caixa toda. */
+  background: transparent;
+  filter: drop-shadow(0 0 1px var(--borda-folha)) drop-shadow(0 10px 18px var(--sombra-folha));
+  transform: translateX(calc(100% + 2 * var(--editor-vao)));
+  transition: transform 0.3s ease;
+}
+body.com-editor .editor-painel { transform: none; }
+
+.editor-topo {
+  background: var(--code-bg);
+  border-radius: 16px 16px 0 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid var(--rule);
+}
+.editor-titulo {
+  font-family: var(--serif);
+  font-size: var(--t-rotulo);
+  font-weight: 600;
+  letter-spacing: var(--esp-rotulo);
+  text-transform: uppercase;
+  color: var(--mom-codigo);
+  margin-right: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.editor-topo button { font-family: var(--serif); font-size: var(--t-rotulo); padding: 0.3rem 0.8rem; }
+/* Os botões do editor são só ícone: quadrados, do mesmo tamanho, para
+   ocupar o mínimo da barra. */
+button.editor-icone {
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+/* Os três botões no mesmo padrão: neutros, e com o mouse em cima o ícone
+   ganha a cor do botão, sobre um véu dela. O ▶ já vem verde, por ser a ação
+   principal. */
+.editor-rodar { color: var(--mom-resultado); }
+.editor-rodar:hover:not(:disabled) { color: var(--mom-resultado); background: color-mix(in srgb, var(--mom-resultado) 22%, var(--bg)); border-color: color-mix(in srgb, var(--mom-resultado) 45%, var(--bg)); }
+.editor-rodar:disabled { opacity: 0.5; cursor: wait; }
+.editor-limpar:hover { color: var(--aviso); background: color-mix(in srgb, var(--aviso) 22%, var(--bg)); border-color: color-mix(in srgb, var(--aviso) 45%, var(--bg)); }
+/* O fechar não é um erro: um vermelho suave, só um véu da cor de erro. */
+.editor-fechar:hover { color: var(--err); background: color-mix(in srgb, var(--err) 22%, var(--bg)); border-color: color-mix(in srgb, var(--err) 45%, var(--bg)); }
+
+/* O editor: um textarea transparente por cima do código realçado, com a
+   mesma fonte e o mesmo espaçamento, e a numeração das linhas ao lado. */
+.editor-codigo { flex: 1 1 55%; display: flex; min-height: 0; background: var(--code-bg); border-radius: 0 0 16px 16px; overflow: hidden; }
+.editor-linhas,
+.editor-realce,
+.editor-texto {
+  font-family: var(--mono);
+  font-size: var(--t-codigo);
+  line-height: 1.55;
+  tab-size: 4;
+}
+.editor-linhas {
+  flex: none;
+  padding: 0.9rem 0.6rem 0.9rem 0.9rem;
+  color: var(--muted);
+  opacity: 0.6;
+  text-align: right;
+  white-space: pre;
+  overflow: hidden;
+  user-select: none;
+}
+.editor-campo { position: relative; flex: 1; min-width: 0; }
+.editor-realce,
+.editor-texto {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0.9rem 1rem 0.9rem 0.4rem;
+  border: 0;
+  border-radius: 0;
+  white-space: pre;
+  overflow: auto;
+}
+.editor-realce { background: none; overflow: hidden; pointer-events: none; }
+.editor-realce code { font: inherit; background: none; padding: 0; }
+.editor-texto {
+  color: transparent;
+  caret-color: var(--fg);
+  background: transparent;
+  resize: none;
+  outline: none;
+}
+.editor-texto::placeholder { color: var(--muted); opacity: 0.8; white-space: pre-wrap; }
+/* Um lampejo quando um trecho chega: o olho vê que algo entrou. */
+.editor-codigo.recebeu { animation: recebeu 0.7s ease-out; }
+@keyframes recebeu {
+  from { background: color-mix(in srgb, var(--mom-codigo) 22%, transparent); }
+  to   { background: transparent; }
+}
+.editor-texto::selection { background: color-mix(in srgb, var(--mom-codigo) 30%, transparent); }
+
+/* A barra entre a lição e o editor, na borda esquerda do painel: arrasta-se
+   para os lados. Mais larga que a linha que se vê, para ser fácil de pegar. */
+.editor-divisor-v {
+  /* No vão entre a folha da lição e a do editor, não dentro de uma delas. */
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(-1 * var(--editor-vao));
+  width: var(--editor-vao);
+  z-index: 2;
+  cursor: col-resize;
+  touch-action: none;
+}
+/* As duas alças de arrastar têm o mesmo desenho: uma pílula pequena e
+   discreta, na cor das barras de rolagem, mais firme com o mouse em cima. */
+.editor-divisor-v::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 2.2rem;
+  margin: -1.1rem 0 0 -2px;
+  border-radius: 999px;
+  background: var(--muted);
+  opacity: 0.35;
+  transition: opacity 0.15s ease, background 0.15s ease;
+}
+.editor-divisor-v:hover::after,
+.editor-divisor-v:focus-visible::after,
+.editor-divisor-v.arrastando::after { opacity: 1; background: color-mix(in srgb, var(--muted) 55%, transparent); }
+.editor-divisor-v:focus-visible { outline: none; }
+
+/* Enquanto se arrasta a divisão, nada anima: a lição acompanha o ponteiro. */
+body.redimensionando,
+body.redimensionando .editor-painel { transition: none; }
+body.redimensionando { user-select: none; }
+
+/* A alça entre o código e a saída: um fio fino com a mesma pílula. */
+.editor-divisor {
+  /* No vão entre o bloco do código e o da saída. */
+  flex: none;
+  height: max(12px, var(--editor-vao));
+  cursor: row-resize;
+  touch-action: none;
+  position: relative;
+}
+.editor-divisor::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2.2rem;
+  height: 4px;
+  margin: -2.5px 0 0 -1.1rem;
+  border-radius: 999px;
+  background: var(--muted);
+  opacity: 0.35;
+  transition: opacity 0.15s ease, background 0.15s ease;
+}
+.editor-divisor:focus-visible { outline: none; }
+.editor-divisor:hover::after,
+.editor-divisor:focus-visible::after,
+.editor-divisor.arrastando::after { opacity: 1; background: color-mix(in srgb, var(--muted) 55%, transparent); }
+
+/* A saída: texto do print, erros e figuras. */
+.editor-saida {
+  flex: 1 1 45%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--code-bg);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.editor-saida-topo {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  padding: 0.5rem 0.9rem;
+  font-family: var(--serif);
+  font-size: var(--t-rotulo);
+  letter-spacing: var(--esp-rotulo);
+  border-bottom: 1px solid var(--rule);
+}
+.editor-saida-topo > span:first-child { text-transform: uppercase; font-weight: 600; color: var(--mom-resultado); }
+.editor-estado { color: var(--muted); }
+.editor-limpar-saida {
+  margin-left: auto;
+  flex: none;
+  font-family: var(--serif);
+  font-size: var(--t-rotulo);
+  letter-spacing: var(--esp-rotulo);
+  padding: 0.2rem 0.65rem;
+}
+.editor-limpar-saida:hover { color: var(--aviso); background: color-mix(in srgb, var(--aviso) 22%, var(--bg)); border-color: color-mix(in srgb, var(--aviso) 45%, var(--bg)); }
+.editor-resultado { flex: 1; overflow: auto; padding: 0.6rem 0.9rem; }
+.editor-resultado pre {
+  margin: 0 0 0.6rem;
+  padding: 0;
+  background: none;
+  font-size: var(--t-codigo);
+  white-space: pre-wrap;
+}
+.saida-erro { color: var(--err); }
+.saida-vazia { color: var(--muted); }
+.saida-figura { display: block; max-width: 100%; max-height: calc(100% - 1rem); width: auto; height: auto; object-fit: contain; margin: 0.4rem auto 0.8rem; border-radius: var(--raio-p); background: #fff; }
+
+/* Celular: não há lado para dividir — o editor ocupa a tela. Acima disso, a
+   lição e o editor ficam sempre lado a lado. */
+@media (max-width: 760px) {
+  :root { --editor-w: 100vw !important; --editor-vao: 0px; }
+  .editor-painel { border-radius: 0; }
+  .editor-divisor-v { display: none; }
+  body.com-editor { margin-right: 0; }
+}
 
 /* ---------- impressão ---------- */
 /* O aluno pode querer estudar no papel. Controles somem, cor vira preto. */
 
 @media print {
+  .sumario { display: none !important; }
+  html { background: #fff; }
+  html { height: auto; overflow: visible; }
+  body { box-shadow: none !important; margin: 0 auto !important; height: auto !important; overflow: visible !important; }
   :root {
     --bg: #fff; --fg: #000; --muted: #444;
     --rule: #bbb; --code-bg: #f3f3f3; --accent: #000;
-    --nota-bg: #f2f2f2; --nota-borda: #888;
   }
   html { font-size: 11pt; }
   body { max-width: none; padding: 0; }
   .lateral { float: none; width: auto; margin: 0.8rem 0; padding-left: 0.8rem; border-left: 1px solid var(--rule); }
-  button, .sim-controles, .sim-acoes { display: none; }
-  .simulador, .passo, .nota-duvida, pre, table, figure { break-inside: avoid; }
-  .tema, .revelar-passo, .copiar { display: none; }
+  button, .controles { display: none; }
+  .moldura, .passo, pre, table, figure, ol.deducao > li, ol.observacoes > li { break-inside: avoid; }
+  .tema, .copiar, .para-editor, .editor-abrir, .editor-painel { display: none; }
+  body.com-editor { margin: 0; }
   /* No papel não há clique: tudo que a tela esconde por etapas aparece. */
   .oculto { display: revert; }
-  .nota-duvida { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .item-corpo, .secao-corpo { grid-template-rows: 1fr !important; opacity: 1 !important; }
+  .item-cabeca { display: none !important; }
+  ol.deducao .porque > .tipo { display: inline !important; }
+  .secao-titulo::after { display: none; }
+  mrow.chave-sob, mrow.chave-sobre { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   h1, h2, h3 { break-after: avoid; }
   a::after { content: " (" attr(href) ")"; font-size: 0.75em; color: var(--muted); word-break: break-all; }
   a[href^="#"]::after { content: ""; }

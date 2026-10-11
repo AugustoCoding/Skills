@@ -1,0 +1,3 @@
+# Saídas geradas por scripts: o zip de publicação e caches do Python.
+dist/
+__pycache__/
