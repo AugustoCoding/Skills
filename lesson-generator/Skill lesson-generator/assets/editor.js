@@ -264,25 +264,39 @@
     /* ---------- the split between code and output ---------- */
 
     var MINIMUM = 90;   // px: neither of the two disappears completely
+    // The split is kept as the code's FRACTION of the free height, not in px:
+    // the same choice then fits a smaller window, a phone, another lesson. (In
+    // px, a split saved on a tall screen once left the output with no height.)
+    var ratio = null;
+
+    function free() {
+      // The height left for code + output, minus the top bar and the divider.
+      return panel.clientHeight - top.offsetHeight - divider.offsetHeight;
+    }
 
     function split(height) {
-      // The height left for code + output, minus the top bar and the divider.
-      var free = panel.clientHeight - top.offsetHeight - divider.offsetHeight;
-      height = Math.max(MINIMUM, Math.min(free - MINIMUM, height));
-      code.style.flex = "0 0 " + height + "px";
+      height = Math.max(MINIMUM, Math.min(free() - MINIMUM, height));
+      // flex-shrink 1: whatever happens, the code yields before the output
+      // goes below its min-height (lesson.css).
+      code.style.flex = "0 1 " + height + "px";
       output.style.flex = "1 1 0";
       return height;
     }
 
     function defaultSplit() {
+      ratio = null;
       code.style.flex = "";
       output.style.flex = "";
       try { localStorage.removeItem("lesson-editor-split"); } catch (e) { /* no storage */ }
     }
 
     function saveSplit(height) {
-      try { localStorage.setItem("lesson-editor-split", String(Math.round(height))); } catch (e) { /* idem */ }
+      ratio = height / free();
+      try { localStorage.setItem("lesson-editor-split", ratio.toFixed(4)); } catch (e) { /* idem */ }
     }
+
+    // On every window resize, the saved fraction is applied to the new height.
+    window.addEventListener("resize", function () { if (ratio) split(ratio * free()); });
 
     divider.addEventListener("pointerdown", function (ev) {
       ev.preventDefault();
@@ -311,8 +325,10 @@
     });
 
     try {
+      // Only a fraction counts; a value outside (0, 1) is an old split in px.
       var savedSplit = parseFloat(localStorage.getItem("lesson-editor-split"));
-      if (savedSplit) code.style.flex = "0 0 " + savedSplit + "px";
+      if (savedSplit > 0 && savedSplit < 1) { ratio = savedSplit; split(ratio * free()); }
+      else if (savedSplit) localStorage.removeItem("lesson-editor-split");
     } catch (e) { /* no storage: the default split stays */ }
 
     /* ---------- the editor ---------- */
