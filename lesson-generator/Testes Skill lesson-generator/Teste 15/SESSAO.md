@@ -91,3 +91,48 @@ Copiada para [com-skill/](./com-skill/). O programa completo, levado ao editor d
 
 | Commit | O que corrigiu |
 |---|---|
+| `fc03748` | Da execução no Codex (seção 10): pasta temporária do `check.py` ao lado da lição; aviso de formato de impressão não explicado; rótulo de tipo sem pontuação; entrega obrigatória e verificação que não reusa a própria relação |
+
+## 10. Execução paralela: Codex
+
+O Augusto instalou a skill no Codex (cópia idêntica à da branch, `ae7e1c7`) e rodou o mesmo prompt, na subpasta `teste-15\Luna 6 medium`. Avaliação pelo registro da sessão do Codex (`~\.codex\sessions`) e pela lição.
+
+| Campo | Valor |
+|---|---|
+| Cliente | Codex Desktop, `cli_version` 0.162.0-alpha.17.2 |
+| Modelo | `gpt-6-luna`, esforço médio |
+| Chamada | `$lesson-generator` com o enunciado |
+
+### Duas execuções
+
+| Execução | Início | Fim | Resultado |
+|---|---|---|---|
+| 1 | 20:36:32 | 20:37:21 | **Não entregou.** Leu a skill, o template e as peças, fez as contas certas (24,80 mol; 0,599; 0,4646) e parou, respondendo só com os números. Perguntado, admitiu: "Não houve bloqueio técnico — foi um erro meu." |
+| 2 | 20:40:13 | 20:42:15 | **Entregou em cerca de 2 min.** Rascunho com `new_lesson.py`, a lição inteira escrita de uma vez, `check.py` (um erro de argumento não explicado, corrigido), `pack.py`. Sem navegador, não fez a conferência visual, o que a skill permite |
+
+### O ambiente do Codex
+
+O `check.py` falhou na primeira tentativa: ele rodava os passos numa pasta temporária do sistema, e o sandbox do Codex só deixa escrever na pasta de trabalho. O modelo contornou sozinho (`$env:TEMP` apontado para a pasta de trabalho).
+
+### A lição da execução 2
+
+Copiada para [com-skill-codex/](./com-skill-codex/).
+
+| Critério | Resultado |
+|---|---|
+| Números | certos: 24,803 mol; 0,598953; parar em 0,464585 (casas demais: seis decimais na resposta) |
+| Idioma | inteira em português, `pt-BR`, vírgula decimal |
+| Tamanho | 1.573 palavras, contra 3.439 da lição do Opus; 3 passos e o programa completo, contra 6 |
+| Dedução | três balanços e o equilíbrio em bloco; o resultado integrado de Rayleigh aparece numa etapa marcada como "hipótese", e o bloco do equilíbrio vem depois da etapa que o usa |
+| Técnica | fórmula fechada para a primeira pergunta e busca de raiz para a segunda, como a regra pede |
+| Verificação | **circular**: recalcula W·x + D·x̄ com o x̄ que saiu dessa mesma conta, e dá 50 mol sempre. Nenhuma conferência independente (a do Opus foi a integral numérica) |
+| Explicação do código | rasa: o passo 2 tem `def`, `brentq` e seis `print` com formatos `.2f`, `.3f` e `.6f`, e o "como" explica só o `brentq` |
+| Rótulos de tipo | escritos com ponto ("Princípio."), e a etapa aparece como "Princípio. do balanço…" |
+| Figura | uma curva (fração média no destilado) com os dois pontos de parada; sem controles e com duas observações, o mínimo |
+| Resposta no chat | três linhas em português |
+| `check.py` na entrega | nenhum erro nem aviso (os avisos novos de `fc03748` acusariam os formatos) |
+
+### Veredito da execução no Codex
+
+**Funciona, mas com uma lição mais pobre.** A skill roda no Codex sem adaptação, e a segunda execução entregou a lição certa em metade do tempo do Opus. A primeira desistiu antes de escrever a lição, a verificação é circular e a explicação do código é rasa. O que dava para garantir por script entrou em `fc03748`; o resto (verificação independente, profundidade da explicação) é julgamento do modelo e ficou como regra no SKILL.md.
+
