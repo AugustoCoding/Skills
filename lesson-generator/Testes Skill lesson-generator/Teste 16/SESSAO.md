@@ -50,13 +50,13 @@ No Claude Code, com `/lesson-generator`; no Codex, com `$lesson-generator`. O en
 
 O início do Opus é a criação da sessão, um pouco antes do prompt; as duas rodaram ao mesmo tempo.
 
-**Diferença no prompt do Codex:** o projeto selecionado no Codex continuava sendo o "Skillzona", que aponta para a pasta do Teste 15. O Augusto acrescentou ao fim do prompt "Faça na pasta \~	estes-lesson-generator	este-16-codex". O Codex passou essa pasta ao `new_lesson.py`, como a skill manda quando o aluno indica uma pasta, e a lição saiu direto nela (sem `lessons/`). Para escrever lá, fora da pasta do projeto, ele pediu permissão a cada comando, e o revisor automático do Codex aprovou.
+**Diferença no prompt do Codex:** o projeto selecionado no Codex continuava sendo o "Skillzona", que aponta para a pasta do Teste 15. O Augusto acrescentou ao fim do prompt "Faça na pasta ~\testes-lesson-generator\teste-16-codex". O Codex passou essa pasta ao `new_lesson.py`, como a skill manda quando o aluno indica uma pasta, e a lição saiu direto nela (sem `lessons/`). Para escrever lá, fora da pasta do projeto, ele pediu permissão a cada comando, e o revisor automático do Codex aprovou.
 
 ## 5. Saída
 
 | Agente | Arquivo entregue | Tamanho |
 |---|---|---|
-| Opus | `teste-16-opus\lessonsdiabatic-pfr-first-order.html` | 137 KB |
+| Opus | `teste-16-opus\lessons\adiabatic-pfr-first-order.html` | 137 KB |
 | Codex | `teste-16-codexdiabatic-pfr.html` | 112 KB |
 
 Copiadas para [com-skill-opus/](./com-skill-opus/) e [com-skill-codex/](./com-skill-codex/). Nas duas, o programa completo, levado ao editor da própria lição e rodado no navegador, imprime os números do gabarito e desenha a figura.
