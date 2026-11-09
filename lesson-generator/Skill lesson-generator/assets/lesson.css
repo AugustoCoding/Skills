@@ -1235,7 +1235,7 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
   background:
     linear-gradient(var(--trail-fill), var(--trail-fill)) left / var(--reach, 0%) 100% no-repeat,
     var(--trail-rail);
-  transition: background-size 0.3s ease;
+  transition: background-size 0.3s ease-in;
 }
 :root {
   --trail-fill: color-mix(in srgb, var(--fg) 15%, var(--bg));
@@ -1261,8 +1261,33 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
   color: var(--muted);
   transition: background 0.15s ease, box-shadow 0.2s ease;
 }
-/* Reached: the filled line goes round the circle, flush with it. */
-.tab.reached .tab-dot { background: var(--bg); color: var(--fg); box-shadow: 0 0 0 var(--ring-out) var(--trail-fill); }
+/* Reached: the filled line goes round the circle, flush with it. It is
+   drawn in two beats: the line first runs up to the circle, then splits at
+   the circle's left and closes round it — one half over the top, the other
+   under the bottom, meeting on the right. Going back, the ring opens first. */
+@property --wrap { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+.tab.reached .tab-dot { background: var(--bg); color: var(--fg); }
+.tab-dot::after {
+  content: "";
+  position: absolute;
+  inset: calc(-1 * var(--ring-out));
+  border-radius: 50%;
+  pointer-events: none;
+  /* From the left point (270deg), --wrap degrees each way. */
+  background: conic-gradient(from 270deg,
+    var(--trail-fill) 0 var(--wrap),
+    transparent var(--wrap) calc(360deg - var(--wrap)),
+    var(--trail-fill) calc(360deg - var(--wrap)));
+  /* Only a ring as thick as the line. */
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - var(--ring-out)), #000 calc(100% - var(--ring-out) + 0.5px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - var(--ring-out)), #000 calc(100% - var(--ring-out) + 0.5px));
+  --wrap: 0deg;
+  transition: --wrap 0.25s ease;
+}
+.tab.reached .tab-dot::after { --wrap: 180deg; transition: --wrap 0.35s ease 0.3s; }
+@media (prefers-reduced-motion: reduce) {
+  .tab-dot::after, .tab.reached .tab-dot::after, .tab + .tab::before { transition: none; }
+}
 .tab-check { display: none; }
 .tab-name { font-size: var(--t-small); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 
