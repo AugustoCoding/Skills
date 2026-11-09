@@ -1221,9 +1221,10 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
   font-family: var(--serif);
   cursor: pointer;
 }
-/* The line from the previous step to this one: a neutral rail, filled in a
-   darker neutral with the previous step's progress (--reach, set by
-   lesson.js). The color stays in the circles. */
+/* The line from the previous step to this one: a neutral rail, filled with
+   the previous step's progress (--reach, set by lesson.js). The fill fades in
+   from the rail's tone to the darker neutral, so the tip, where the student
+   is, is always the most intense. The color stays in the circles. */
 .tab + .tab::before {
   content: "";
   position: absolute;
@@ -1233,7 +1234,7 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
   height: 4px;
   border-radius: 2px;
   background:
-    linear-gradient(var(--trail-fill), var(--trail-fill)) left / var(--reach, 0%) 100% no-repeat,
+    linear-gradient(to right, var(--trail-rail), var(--trail-fill)) left / var(--reach, 0%) 100% no-repeat,
     var(--trail-rail);
   transition: background-size 0.3s ease-in;
 }
