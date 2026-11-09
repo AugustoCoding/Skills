@@ -1245,7 +1245,7 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
 .tab.complete .tab-dot { background: var(--sec-color); border-color: var(--sec-color); color: var(--bg); }
 .tab.complete .tab-number { display: none; }
 .tab.complete .tab-check { display: inline-block; }
-/* Open: solid circle and the pressable edge; the name in the text color. */
+/* Open: a solid circle; the name in the text color. */
 .tab.active .tab-dot {
   background: var(--sec-color);
   border-color: var(--sec-color);
@@ -1259,7 +1259,7 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
 /* The problem has no color of its own: its circle uses the text color. */
 .tab[data-sec="problem"] { --sec-color: var(--fg); }
 
-/* "Continue": a solid button with a pressable edge, in the next part's color. */
+/* "Continue": a solid button in the next part's color, flat. */
 .continue {
   display: flex;
   align-items: center;
@@ -1270,7 +1270,6 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
   border-radius: var(--radius);
   color: var(--bg);
   background: var(--sec-color);
-  box-shadow: 0 4px 0 color-mix(in srgb, var(--sec-color) 60%, #000);
   font-family: var(--serif);
   font-size: var(--t-text);
   font-weight: 600;
@@ -1280,7 +1279,6 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
 .continue[data-sec="code"]   { --sec-color: var(--sec-code); }
 .continue[data-sec="result"] { --sec-color: var(--sec-result); }
 .continue:hover { background: color-mix(in srgb, var(--sec-color) 88%, var(--fg)); }
-.continue:active { translate: 0 3px; box-shadow: 0 1px 0 color-mix(in srgb, var(--sec-color) 60%, #000); }
 
 /* In the table of contents, only the open part lists its items. */
 .toc-group:not(.current) .toc-group-items { display: none; }
@@ -1544,12 +1542,9 @@ body.with-editor { padding-left: clamp(1.1rem, 3vw, var(--sheet-pad)); padding-r
   background: var(--sec-code);
   border: none;
   border-radius: 999px;
-  /* The pressable edge, instead of a glow: a darker band under the button. */
-  box-shadow: 0 3px 0 color-mix(in srgb, var(--sec-code) 60%, #000);
   cursor: pointer;
   transition: padding 0.22s ease;
 }
-.editor-open:active { translate: 0 2px; box-shadow: 0 1px 0 color-mix(in srgb, var(--sec-code) 60%, #000); }
 /* The text lives inside the button from the start, with zero width: on hover
    it opens, and the button grows to its exact size. */
 .editor-open-text {
@@ -1643,15 +1638,13 @@ button.editor-icon {
 /* The three buttons follow one pattern: neutral, and on hover the icon takes
    the button's color, over a veil of it. ▶ is already green, as the main
    action. */
-/* Run is the main action: a solid button with a pressable edge. */
+/* Run is the main action: a solid button, flat. */
 .editor-run {
   color: var(--bg);
   background: var(--sec-result);
   border: none;
-  box-shadow: 0 3px 0 color-mix(in srgb, var(--sec-result) 60%, #000);
 }
 .editor-run:hover:not(:disabled) { background: color-mix(in srgb, var(--sec-result) 88%, var(--fg)); }
-.editor-run:active:not(:disabled) { translate: 0 2px; box-shadow: 0 1px 0 color-mix(in srgb, var(--sec-result) 60%, #000); }
 .editor-run:disabled { opacity: 0.5; cursor: wait; }
 .editor-clear:hover { color: var(--warn); background: color-mix(in srgb, var(--warn) 22%, var(--bg)); border-color: color-mix(in srgb, var(--warn) 45%, var(--bg)); }
 /* Closing is not an error: a soft red, only a veil of the error color. */
