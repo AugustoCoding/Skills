@@ -1210,8 +1210,9 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
   font-family: var(--serif);
   cursor: pointer;
 }
-/* The line from the previous step to this one: a neutral rail, filled in the
-   previous step's progress (--reach, set by lesson.js). */
+/* The line from the previous step to this one: a neutral rail, filled in a
+   darker neutral with the previous step's progress (--reach, set by
+   lesson.js). The color stays in the circles. */
 .tab + .tab::before {
   content: "";
   position: absolute;
@@ -1221,10 +1222,11 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
   height: 4px;
   border-radius: 2px;
   background:
-    linear-gradient(var(--sec-result), var(--sec-result)) left / var(--reach, 0%) 100% no-repeat,
+    linear-gradient(var(--trail-fill), var(--trail-fill)) left / var(--reach, 0%) 100% no-repeat,
     var(--card-edge);
   transition: background-size 0.3s ease;
 }
+:root { --trail-fill: color-mix(in srgb, var(--fg) 45%, var(--bg)); }
 .tab-dot {
   /* Always a circle: never shrunk by the flex layout, always 1:1. */
   flex: none;
