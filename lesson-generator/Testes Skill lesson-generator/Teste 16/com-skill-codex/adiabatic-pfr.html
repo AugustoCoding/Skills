@@ -1,0 +1,3100 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Adiabatic PFR design with Python</title><style>
+
+:root {
+  --bg: #dcd6c7;
+  --fg: #23211c;
+  --muted: #5d594e;
+  --rule: #c5bdaa;
+  --accent: #8a3324;
+  --code-bg: #d1cab9;
+  --backdrop: #c4bca8;
+  --sheet-border: #b9b09b;
+  --sheet-shadow: rgba(60, 55, 30, 0.08);
+
+  --series-1: #2f5fa8;   
+  --series-2: #b23a68;   
+  --series-3: #0f7c8a;   
+  --series-4: #6b6250;   
+
+  --param: var(--fg);
+
+  --warn: #b08410;
+
+  --sec-model: #8a6510;
+  --sec-code: #7a3d82;
+  --sec-result: #2e6b3f;
+
+  --hl-kw: #af00db;
+  --hl-def: #0000ff;
+  --hl-str: #a31515;
+  --hl-com: #008000;
+  --hl-num: #098658;
+  --hl-fn: #795e26;
+  --hl-builtin: #267f99;
+  --hl-op: #4a4a44;
+
+  --ok: #2e6b3f;
+  --err: #b3261e;
+
+  color-scheme: light;
+
+  --radius: 10px;
+  --radius-s: 6px;
+
+  --serif: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Times New Roman", serif;
+  --mono: "SF Mono", "Cascadia Mono", Consolas, "Liberation Mono", Menlo, monospace;
+
+  --t-h1: 2.1rem;       
+  --t-h2: 1.35rem;      
+  --t-h3: 1.05rem;      
+  --t-text: 1rem;       
+  --t-small: 0.9rem;    
+  --t-code: 0.85rem;    
+  --t-label: 0.78rem;   
+  --label-spacing: 0.08em;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #16161a;
+    --fg: #e6e4dd;
+    --muted: #9a978d;
+    --rule: #34343c;
+    --accent: #e08b6f;
+    --code-bg: #1f1f26;
+    --backdrop: #0e0e11;
+    --sheet-border: #26262d;
+    --sheet-shadow: rgba(0, 0, 0, 0.45);
+
+    --series-1: #7aa7f2;
+    --series-2: #f093b4;
+    --series-3: #5fc8d4;
+    --series-4: #cfc6b0;
+    --warn: #f2d478;
+    --sec-model: #e2bb5c;
+    --sec-code: #c99bd2;
+    --sec-result: #7fc394;
+    --hl-kw: #c586c0;
+    --hl-def: #569cd6;
+    --hl-str: #ce9178;
+    --hl-com: #6a9955;
+    --hl-num: #b5cea8;
+    --hl-fn: #dcdcaa;
+    --hl-builtin: #4ec9b0;
+    --hl-op: #d4d4d4;
+
+    --ok: #7fc394;
+    --err: #ff7b72;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #16161a;
+  --fg: #e6e4dd;
+  --muted: #9a978d;
+  --rule: #34343c;
+  --accent: #e08b6f;
+  --code-bg: #1f1f26;
+  --backdrop: #0e0e11;
+  --sheet-border: #26262d;
+  --sheet-shadow: rgba(0, 0, 0, 0.45);
+
+  --series-1: #7aa7f2;
+  --series-2: #f093b4;
+  --series-3: #5fc8d4;
+  --series-4: #cfc6b0;
+  --warn: #f2d478;
+  --sec-model: #e2bb5c;
+  --sec-code: #c99bd2;
+  --sec-result: #7fc394;
+  --hl-kw: #c586c0;
+  --hl-def: #569cd6;
+  --hl-str: #ce9178;
+  --hl-com: #6a9955;
+  --hl-num: #b5cea8;
+  --hl-fn: #dcdcaa;
+  --hl-builtin: #4ec9b0;
+  --hl-op: #d4d4d4;
+
+  --ok: #7fc394;
+  --err: #ff7b72;
+}
+
+html { font-size: 17px; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--serif);
+  line-height: 1.55;
+  margin: 0 auto;
+  padding: 3.5rem 1.8rem 6rem;
+  max-width: 46rem;
+  text-rendering: optimizeLegibility;
+}
+
+header.lesson { margin-bottom: 3rem; }
+
+header.lesson .tag {
+  font-family: var(--serif);
+  font-size: var(--t-label);
+  font-weight: 600;
+  letter-spacing: var(--label-spacing);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+h1 {
+  font-size: var(--t-h1);
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0.4rem 0 0.8rem;
+}
+
+h2 {
+  font-size: var(--t-h2);
+  font-weight: 600;
+  margin: 3rem 0 0.8rem;
+}
+
+body > h2 { padding-left: 0.7rem; border-left: 4px solid var(--rule); }
+body > h2:nth-of-type(1) { color: var(--sec-model);  border-left-color: var(--sec-model); }
+body > h2:nth-of-type(2) { color: var(--sec-code);   border-left-color: var(--sec-code); }
+body > h2:nth-of-type(3) { color: var(--sec-result); border-left-color: var(--sec-result); }
+
+h3 {
+  font-size: var(--t-h3);
+  font-weight: 600;
+  margin: 2rem 0 0.6rem;
+}
+
+p { margin: 0 0 1.1rem; }
+
+sub, sup { line-height: 0; }
+
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
+
+.sidenote {
+  float: right;
+  clear: right;
+  width: 14rem;
+  margin: 0.3rem -16rem 1rem 0;
+  font-size: var(--t-small);
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+@media (max-width: 82rem) {
+  .sidenote {
+    float: none;
+    width: auto;
+    margin: 1rem 0;
+    padding-left: 1rem;
+    border-left: 1px solid var(--rule);
+  }
+}
+
+.equation {
+  margin: 1.6rem 0;
+  padding: 1rem 1.2rem;
+  background: var(--code-bg);
+  border-radius: var(--radius);
+  font-family: var(--serif);
+  font-size: 0.92rem;
+  overflow-x: auto;
+  
+  white-space: pre-wrap;
+  line-height: 1.7;
+}
+
+.equation:has(math),
+.eq-block .equation {
+  white-space: normal;
+  line-height: 1.4;
+}
+
+.symbols {
+  list-style: none;
+  padding: 0;
+  margin: -0.6rem 0 1.6rem;
+  font-size: var(--t-small);
+  color: var(--muted);
+}
+.symbols li { margin: 0.45rem 0; }
+
+.symbols code {
+  font-family: var(--serif);
+  font-style: italic;
+  background: none;
+  color: var(--fg);
+  font-weight: 700;
+  font-size: 1.1em;
+}
+
+.term {
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--rule);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.unit {
+  font-family: var(--serif);
+  font-size: 0.85em;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+span.var-1, span.var-2, span.var-3, span.var-4, span.param { font-size: 1.1em; font-style: italic; }
+.var-1 { color: var(--series-1); }
+.var-2 { color: var(--series-2); }
+.var-3 { color: var(--series-3); }
+.var-4 { color: var(--series-4); }
+.param { color: var(--param); }
+
+code.var-1, code.var-2, code.var-3, code.var-4, code.param {
+  font-family: var(--serif);
+  font-size: 1.1em;
+  font-style: italic;
+  font-weight: 700;
+  background: none;
+  padding: 0;
+}
+.symbols code.var-1, td code.var-1 { color: var(--series-1); }
+.symbols code.var-2, td code.var-2 { color: var(--series-2); }
+.symbols code.var-3, td code.var-3 { color: var(--series-3); }
+.symbols code.var-4, td code.var-4 { color: var(--series-4); }
+.symbols code.param, td code.param { color: var(--param); }
+
+.illustrative {
+  font-size: var(--t-small);
+  color: var(--muted);
+}
+.illustrative::before { content: "⚠"; font-style: normal; display: inline-block; margin-right: 0.35em; vertical-align: -0.05em; }
+
+h3.balance {
+  font-size: var(--t-h3);
+  margin: 2.4rem 0 0.4rem;
+  color: var(--sec-model);
+}
+
+ol.derivation   { --line-color: var(--sec-model); }
+ol.observations { --line-color: var(--sec-result); }
+
+ol.derivation,
+ol.observations {
+  list-style: none;
+  counter-reset: item;
+  padding: 0;
+  margin: 1rem 0 2rem;
+  position: relative;
+}
+
+ol.derivation::before,
+ol.observations::before {
+  content: "";
+  position: absolute;
+  left: 0.85rem;
+  top: 0.9rem;
+  bottom: 0.9rem;
+  width: 2px;
+  background: color-mix(in srgb, var(--line-color) 35%, transparent);
+}
+
+ol.derivation::after,
+ol.observations::after {
+  content: "";
+  position: absolute;
+  left: calc(0.85rem + 1px - 0.4rem);
+  bottom: 0.9rem;
+  width: 0.8rem;
+  height: 2px;
+  border-radius: 1px;
+  background: color-mix(in srgb, var(--line-color) 60%, transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+ol.derivation:has(> li:last-child.collapsed)::before,
+ol.observations:has(> li:last-child.collapsed)::before { bottom: calc(var(--band-gap) + var(--band-h) / 2); }
+ol.derivation:has(> li:last-child:not(.collapsed))::after,
+ol.observations:has(> li:last-child:not(.collapsed))::after { opacity: 1; }
+ol.derivation > li,
+ol.observations > li {
+  counter-increment: item;
+  position: relative;
+  padding-left: 2.6rem;
+  margin: 0 0 1rem;
+}
+ol.derivation > li::before,
+ol.observations > li::before {
+  content: counter(item);
+  position: absolute;
+  left: 0;
+  top: 0.75rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  border-radius: 50%;
+  font-family: var(--serif);
+  font-size: var(--t-label);
+  color: var(--bg);
+  background: var(--line-color);
+  z-index: 1;
+}
+ol.observations > li::before { top: 0; }
+ol.observations > li > h3 { margin: 0.1rem 0 0.4rem; font-size: var(--t-h3); }
+ol.observations .item-inner > p { margin: 0 0 0.4rem; }
+
+ol.derivation .equation { margin: 0 0 0.4rem; }
+ol.derivation .symbols { margin: 0.6rem 0 0.4rem; }
+ol.derivation p.why { font-size: var(--t-text); margin: 0 0 0.3rem; color: var(--fg); }
+
+ol.derivation > li.final .equation {
+  background: color-mix(in srgb, var(--line-color) 10%, var(--code-bg));
+  border: 2px solid var(--line-color);
+}
+
+ol.derivation > li.final .item-inner > p:not(.why) { margin: 0.9rem 0 0.3rem; }
+
+.kind {
+  font-size: var(--t-label);
+  font-weight: 600;
+  letter-spacing: var(--label-spacing);
+  text-transform: uppercase;
+  color: var(--sec-model);
+  margin-right: 0.55rem;
+}
+.kind + .kind::before { content: "· "; margin-left: -0.3rem; }
+
+.kind-assumption { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+
+mrow.brace-under,
+mrow.brace-over {
+  --brace-color: #8a877f;
+  
+  padding-left: 0.4em;
+  padding-right: 0.4em;
+}
+
+mrow.brace-under {
+  padding-bottom: 9px;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='8'%3E%3Cpath d='M0.6 0 Q0.6 4 6 4' fill='none' stroke='%238a877f' stroke-width='1.1'/%3E%3C/svg%3E") left bottom / 6px 8px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='8'%3E%3Cpath d='M5.4 0 Q5.4 4 0 4' fill='none' stroke='%238a877f' stroke-width='1.1'/%3E%3C/svg%3E") right bottom / 6px 8px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 4 Q6 4 6 8 Q6 4 12 4' fill='none' stroke='%238a877f' stroke-width='1.1'/%3E%3C/svg%3E") center bottom / 12px 8px no-repeat,
+    linear-gradient(var(--brace-color), var(--brace-color)) left 6px bottom 3.45px / calc(50% - 12px) 1.1px no-repeat,
+    linear-gradient(var(--brace-color), var(--brace-color)) right 6px bottom 3.45px / calc(50% - 12px) 1.1px no-repeat;
+}
+
+mrow.brace-over {
+  padding-top: 9px;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='8'%3E%3Cpath d='M0.6 8 Q0.6 4 6 4' fill='none' stroke='%238a877f' stroke-width='1.1'/%3E%3C/svg%3E") left top / 6px 8px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='8'%3E%3Cpath d='M5.4 8 Q5.4 4 0 4' fill='none' stroke='%238a877f' stroke-width='1.1'/%3E%3C/svg%3E") right top / 6px 8px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 4 Q6 4 6 0 Q6 4 12 4' fill='none' stroke='%238a877f' stroke-width='1.1'/%3E%3C/svg%3E") center top / 12px 8px no-repeat,
+    linear-gradient(var(--brace-color), var(--brace-color)) left 6px top 3.45px / calc(50% - 12px) 1.1px no-repeat,
+    linear-gradient(var(--brace-color), var(--brace-color)) right 6px top 3.45px / calc(50% - 12px) 1.1px no-repeat;
+}
+
+mtext.brace {
+  font-family: var(--serif);
+  font-size: 0.66em;
+  font-style: normal;
+  color: var(--muted);
+  padding: 0 0.2em;
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  background: var(--code-bg);
+  padding: 0.1em 0.3em;
+  border-radius: var(--radius-s);
+}
+
+pre {
+  background: var(--code-bg);
+  
+  padding: 1.15em 1.4em;
+  border-radius: var(--radius);
+  overflow-x: auto;
+  font-size: var(--t-code);
+  line-height: 1.5;
+}
+pre code { background: none; padding: 0; }
+
+.hl-kw  { color: var(--hl-kw); }
+.hl-def { color: var(--hl-def); }
+.hl-str { color: var(--hl-str); }
+.hl-com { color: var(--hl-com); font-style: italic; }
+.hl-num { color: var(--hl-num); }
+.hl-fn  { color: var(--hl-fn); }
+.hl-bi  { color: var(--hl-builtin); }
+.hl-op  { color: var(--hl-op); }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.6rem 0;
+  font-size: var(--t-small);
+}
+th, td { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--rule); }
+th {
+  font-weight: 600;
+  background: color-mix(in srgb, var(--sec-model) 14%, transparent);
+  border-bottom: 2px solid var(--sec-model);
+}
+thead th:first-child { border-top-left-radius: var(--radius-s); }
+thead th:last-child  { border-top-right-radius: var(--radius-s); }
+tbody tr:nth-child(even) { background: color-mix(in srgb, var(--code-bg) 75%, transparent); }
+td code { font-family: var(--serif); font-style: italic; font-size: 1.1em; background: none; padding: 0; }
+
+.source {
+  font-size: var(--t-label);
+  font-weight: 600;
+  letter-spacing: var(--label-spacing);
+  text-transform: uppercase;
+  color: var(--sec-model);
+  margin-right: 0.5rem;
+}
+
+.source-choice { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+table:has(.source) { table-layout: fixed; }
+table:has(.source) th:nth-child(1) { width: 24%; }
+table:has(.source) th:nth-child(2) { width: 15%; }
+table:has(.source) th:nth-child(3) { width: 17%; }
+table:has(.source) td { vertical-align: baseline; }
+
+table:has(.source) th,
+table:has(.source) td { text-align: center; }
+td:has(> .source) { color: var(--muted); line-height: 1.4; }
+td > .source { display: block; margin: 0.1rem 0 0.15rem; }
+
+.ask {
+  background: var(--code-bg);
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  margin: 2.5rem 0 0;
+  font-size: var(--t-small);
+}
+
+math { font-size: 1.25em; }
+
+math[display="block"] {
+  margin: 0.5rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.equation math[display="block"] { margin: 0; }
+
+.eq-block { margin: 2rem 0; }
+
+.eq-block .equation { margin-bottom: 0.5rem; }
+
+.eq-block .symbols::before {
+  content: "where";
+  display: block;
+  font-style: italic;
+  color: var(--muted);
+  margin-bottom: 0.35rem;
+}
+
+.eq-block > p {
+  margin: 0.7rem 0 0;
+  font-size: var(--t-text);
+}
+
+section.code { margin: 2.5rem 0; counter-reset: step; }
+
+.step {
+  --line-color: var(--sec-code);
+  position: relative;
+  counter-increment: step;
+  padding: 0 0 0 2.8rem;
+  margin: 0 0 1.6rem;
+}
+.step::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: -0.05rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  border-radius: 50%;
+  font-family: var(--serif);
+  font-size: var(--t-label);
+  color: var(--bg);
+  background: var(--sec-code);
+  z-index: 1;
+}
+
+.step::after {
+  content: "";
+  position: absolute;
+  left: 0.85rem;
+  top: 1.7rem;
+  bottom: -1.6rem;
+  width: 2px;
+  background: color-mix(in srgb, var(--sec-code) 35%, transparent);
+}
+.step.no-thread::after { display: none; }
+
+.step h3 {
+  margin: 0.1rem 0 0.6rem;
+  font-size: var(--t-h3);
+  font-weight: 600;
+}
+
+.item-body,
+.section-body {
+  display: grid;
+  grid-template-rows: 1fr;
+  opacity: 1;
+  transition: grid-template-rows 0.38s ease, opacity 0.3s ease;
+}
+.item-inner { min-height: 0; overflow: hidden; }
+
+.section-inner { min-height: 0; overflow: hidden; margin: 0 -0.8rem; padding: 0 0.8rem; }
+
+.collapsed > .item-body { grid-template-rows: 0fr; opacity: 0; }
+
+.collapsed { cursor: pointer; }
+.collapsed:focus-visible { outline: none; }
+.collapsed:focus-visible > h3,
+.collapsed:focus-visible > .item-head { text-decoration: underline; }
+
+.step > h3,
+ol.observations > li > h3 { cursor: pointer; transition: color 0.2s ease; }
+.collapsed > h3 { color: var(--muted); }
+.collapsed:hover > h3 { color: var(--fg); }
+
+.item-head { display: flex; gap: 0.4rem; align-items: center; font-weight: 600; font-size: var(--t-h3); cursor: pointer; transition: color 0.2s ease; }
+.collapsed > .item-head { color: var(--muted); }
+.collapsed:hover > .item-head { color: var(--fg); }
+.item-head .kind { margin-right: 0; }
+
+.calling::before {
+  color: var(--line-color) !important;
+  background: var(--bg) !important;
+  box-shadow: inset 0 0 0 2px var(--line-color);
+  animation: call 1.8s ease-in-out infinite;
+}
+.calling:hover::before,
+.calling:focus-visible::before { color: var(--bg) !important; background: var(--line-color) !important; animation: none; }
+
+.step::before,
+ol.derivation > li::before,
+ol.observations > li::before { cursor: pointer; transition: top 0.3s ease; }
+
+.step.collapsed,
+ol.observations > li.collapsed { margin-bottom: 1.2rem; }
+
+ol.derivation > li.collapsed::before { top: 0; }
+ol.derivation > li.collapsed { min-height: 1.75rem; margin-bottom: 0.8rem; }
+ol.derivation > li > .item-head { min-height: 1.75rem; }
+
+ol.derivation > li:not(.collapsed) > .item-head { margin: 0 0 0.6rem; }
+ol.derivation > li::before { top: 0; }
+ol.derivation .why > .kind { display: none; }
+
+.section-title { cursor: pointer; display: flex; align-items: center; gap: 0.7rem; }
+.section-title::after {
+  content: "";
+  flex: none;
+  width: 0.42rem;
+  height: 0.42rem;
+  margin-top: -0.2rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  opacity: 0.55;
+  transform: rotate(45deg);
+  transition: transform 0.3s ease, margin 0.3s ease, opacity 0.2s ease;
+}
+.section-title:hover::after,
+.section-title:focus-visible::after { opacity: 1; }
+.section-title:focus-visible { outline: none; text-decoration: underline; }
+.section-title.section-collapsed::after { transform: rotate(-45deg); margin-top: 0; }
+.section-title.calling::after { animation: call-arrow 1.8s ease-in-out infinite; }
+.section-title.calling:hover::after { animation: none; }
+.section-body.section-collapsed { grid-template-rows: 0fr; opacity: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .item-body, .section-body, .section-title::after { transition: none; }
+}
+
+@keyframes call {
+  0%, 100% { box-shadow: inset 0 0 0 2px var(--line-color), 0 0 0 0 color-mix(in srgb, var(--line-color) 45%, transparent); }
+  50%      { box-shadow: inset 0 0 0 2px var(--line-color), 0 0 0 6px color-mix(in srgb, var(--line-color) 0%, transparent); }
+}
+@keyframes call-arrow {
+  0%, 100% { opacity: 0.55; translate: 0 0; }
+  50%      { opacity: 1;    translate: 0.25rem 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .calling::before, .section-title.calling::after { animation: none; }
+}
+
+.step .item-inner > p { margin: 0.7rem 0 0; font-size: var(--t-text); }
+
+.step .item-inner > ul.how { margin: 0.5rem 0 0; padding-left: 1.3rem; }
+.step .item-inner > ul.how > li { margin: 0.35rem 0; }
+.step .item-inner > ul.how > li::marker { color: var(--sec-code); }
+
+.step .item-inner > p.purpose { margin: 0 0 0.9rem; }
+.step .item-inner > p.so-far {
+  margin: 0.9rem 0 0;
+  padding-left: 0.8rem;
+  border-left: 3px solid var(--sec-code);
+  color: var(--muted);
+}
+.so-far::before {
+  content: "So far";
+  margin-right: 0.5rem;
+  font-size: var(--t-label);
+  letter-spacing: var(--label-spacing);
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--sec-code);
+}
+
+div.answer {
+  margin: 1.2rem 0 2rem;
+  padding: 1rem 1.25rem;
+  border: 2px solid var(--sec-result);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--sec-result) 8%, var(--code-bg));
+}
+div.answer::before {
+  content: "The answer";
+  display: block;
+  margin-bottom: 0.45rem;
+  font-family: var(--serif);
+  font-size: var(--t-label);
+  font-weight: 600;
+  letter-spacing: var(--label-spacing);
+  text-transform: uppercase;
+  color: var(--sec-result);
+}
+div.answer > :last-child { margin-bottom: 0; }
+
+pre.has-copy { position: relative; padding-top: 2.6rem; }
+
+pre > button.copy, pre > button.to-editor { width: 1.75rem; height: 1.75rem; padding: 0; justify-content: center; font-size: 0.85rem; }
+
+.copy {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  font-family: var(--serif);
+  font-size: var(--t-label);
+  letter-spacing: var(--label-spacing);
+  padding: 0.2rem 0.5rem;
+  color: var(--muted);
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-s);
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+pre.has-copy:hover .copy { opacity: 1; }
+.copy:hover { color: var(--fg); border-color: var(--accent); }
+.copy.copied { color: var(--ok); border-color: var(--ok); opacity: 1; }
+
+.to-editor {
+  position: absolute;
+  top: 0.4rem;
+  right: calc(0.4rem + 1.75rem + 0.3rem);
+  font-family: var(--serif);
+  font-size: var(--t-label);
+  letter-spacing: var(--label-spacing);
+  padding: 0.2rem 0.5rem;
+  color: var(--sec-code);
+  background: var(--bg);
+  border: 1px solid color-mix(in srgb, var(--sec-code) 50%, var(--rule));
+  border-radius: var(--radius-s);
+  cursor: pointer;
+  opacity: 0.8;
+}
+pre.has-copy:hover .to-editor { opacity: 1; }
+.to-editor:hover { color: var(--bg); background: var(--sec-code); }
+.to-editor.sent { color: var(--ok); border-color: var(--ok); background: var(--bg); opacity: 1; }
+
+.theme {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 10;
+  font-family: var(--serif);
+  font-size: var(--t-label);
+  font-weight: 600;
+  letter-spacing: var(--label-spacing);
+  text-transform: uppercase;
+  padding: 0.35rem 0.7rem;
+  background: var(--bg);
+  color: var(--muted);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  cursor: pointer;
+  opacity: 0.65;
+}
+
+.theme:hover { opacity: 1; color: var(--fg); }
+
+@media (max-width: 40rem) {
+  .theme { top: 0.5rem; left: 0.5rem; }
+}
+
+.ic {
+  display: inline-block;
+  position: relative;
+  flex: none;
+  width: 0.8em;
+  height: 0.8em;
+}
+.ic-play {
+  width: 0.62em;
+  height: 0.72em;
+  background: currentColor;
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+.ic-x::before,
+.ic-x::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.9em;
+  height: 2px;
+  margin: -1px 0 0 -0.45em;
+  border-radius: 1px;
+  background: currentColor;
+}
+.ic-x::before { transform: rotate(45deg); }
+.ic-x::after  { transform: rotate(-45deg); }
+.ic-arrow { width: 0.95em; }
+.ic-arrow::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 1px;
+  top: 50%;
+  height: 2px;
+  margin-top: -1px;
+  border-radius: 1px;
+  background: currentColor;
+}
+.ic-arrow::after {
+  content: "";
+  position: absolute;
+  right: 1px;
+  top: 50%;
+  width: 0.38em;
+  height: 0.38em;
+  border-top: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.ic-trash {
+  width: 1.05em;
+  height: 1.05em;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 6.5h17'/%3E%3Cpath d='M9 6.5V4.8A1.8 1.8 0 0 1 10.8 3h2.4A1.8 1.8 0 0 1 15 4.8v1.7'/%3E%3Cpath d='M18.5 6.5l-.9 12.6A2 2 0 0 1 15.6 21H8.4a2 2 0 0 1-2-1.9L5.5 6.5'/%3E%3Cpath d='M10 10.5v6M14 10.5v6'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 6.5h17'/%3E%3Cpath d='M9 6.5V4.8A1.8 1.8 0 0 1 10.8 3h2.4A1.8 1.8 0 0 1 15 4.8v1.7'/%3E%3Cpath d='M18.5 6.5l-.9 12.6A2 2 0 0 1 15.6 21H8.4a2 2 0 0 1-2-1.9L5.5 6.5'/%3E%3Cpath d='M10 10.5v6M14 10.5v6'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.ic-copy, .ic-send { width: 1.05em; height: 1.05em; background: currentColor; }
+.ic-copy { -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='8.5' y='8.5' width='12' height='12' rx='2.2'/%3E%3Cpath d='M15.5 8.5V5.7A2.2 2.2 0 0 0 13.3 3.5H5.7A2.2 2.2 0 0 0 3.5 5.7v7.6a2.2 2.2 0 0 0 2.2 2.2h2.8'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='8.5' y='8.5' width='12' height='12' rx='2.2'/%3E%3Cpath d='M15.5 8.5V5.7A2.2 2.2 0 0 0 13.3 3.5H5.7A2.2 2.2 0 0 0 3.5 5.7v7.6a2.2 2.2 0 0 0 2.2 2.2h2.8'/%3E%3C/svg%3E") center / contain no-repeat; }
+.ic-send { -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 12h13'/%3E%3Cpath d='M11.5 6l6 6-6 6'/%3E%3Cpath d='M20.5 4.5v15'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 12h13'/%3E%3Cpath d='M11.5 6l6 6-6 6'/%3E%3Cpath d='M20.5 4.5v15'/%3E%3C/svg%3E") center / contain no-repeat; }
+.ic-check::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  width: 0.3em;
+  height: 0.58em;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.ic-theme {
+  width: 0.85em;
+  height: 0.85em;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  background: linear-gradient(90deg, currentColor 50%, transparent 50%);
+}
+
+.editor-top button,
+.editor-clear-output,
+.to-editor,
+.copy,
+.theme {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  line-height: 1;
+}
+
+button {
+  font-family: var(--serif);
+  font-size: var(--t-small);
+  padding: 0.4rem 0.9rem;
+  background: var(--bg);
+  color: var(--fg);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+button:hover { border-color: var(--muted); }
+button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.frame {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 1.2rem;
+  margin: 2rem 0;
+}
+
+canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
+
+.controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 0.6rem 1.2rem;
+  margin-top: 1rem;
+  font-size: var(--t-small);
+}
+.control label { display: flex; justify-content: space-between; gap: 0.5rem; }
+.control .value { color: var(--muted); font-variant-numeric: tabular-nums; }
+.control input[type="range"] { width: 100%; accent-color: var(--sec-result); }
+
+.legend {
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  font-size: var(--t-small);
+  margin-top: 0.6rem;
+}
+.legend span { display: inline-flex; align-items: center; gap: 0.5em; }
+
+.legend span::before {
+  content: "";
+  flex: none;
+  width: 1.7em;
+  height: 2px;
+  background: currentColor;
+}
+.legend .l-2::before { background: repeating-linear-gradient(90deg, currentColor 0 7px, transparent 7px 11px); }
+.legend .l-3::before { background: repeating-linear-gradient(90deg, currentColor 0 2px, transparent 2px 5px); }
+.legend .l-4::before { background: repeating-linear-gradient(90deg, currentColor 0 9px, transparent 9px 12px, currentColor 12px 14px, transparent 14px 17px); }
+.legend span.l-points::before { width: 0.6em; height: 0.6em; border-radius: 50%; background: currentColor; }
+.legend small { color: var(--muted); font-size: 0.9em; }
+.legend .l-1 { color: var(--series-1); }
+.legend .l-2 { color: var(--series-2); }
+.legend .l-3 { color: var(--series-3); }
+.legend .l-4 { color: var(--series-4); }
+
+.readout { font-size: var(--t-small); color: var(--muted); margin: 0.6rem 0 0; }
+.readout:empty { display: none; }
+
+.technique {
+  margin: 2.2rem 0 1rem;
+  padding: 1rem 1.25rem;
+  border: 2px solid var(--sec-model);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--sec-model) 8%, var(--code-bg));
+}
+.technique::before {
+  content: "The technique";
+  display: block;
+  margin-bottom: 0.3rem;
+  font-family: var(--serif);
+  font-size: var(--t-label);
+  font-weight: 600;
+  letter-spacing: var(--label-spacing);
+  text-transform: uppercase;
+  color: var(--sec-model);
+}
+.technique .technique-name {
+  font-size: var(--t-h3);
+  font-weight: 600;
+  color: var(--sec-model);
+  margin: 0 0 0.5rem;
+}
+.technique > :last-child { margin-bottom: 0; }
+
+.problem {
+  margin: 0 0 1.6rem;
+  padding: 1rem 1.25rem;
+  border-left: 4px solid var(--muted);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  background: var(--code-bg);
+}
+.problem::before {
+  content: "The problem";
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: var(--t-label);
+  font-weight: 600;
+  letter-spacing: var(--label-spacing);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.problem > p { margin: 0 0 0.6rem; }
+.problem > ul { margin: 0; padding-left: 1.3rem; }
+.problem > ul > li { margin: 0.25rem 0; }
+.problem > :last-child { margin-bottom: 0; }
+
+.in-your-code {
+  background: var(--code-bg);
+  border-radius: var(--radius);
+  padding: 0.9rem 1.1rem;
+  margin: 1.2rem 0;
+  font-size: var(--t-text);
+}
+.in-your-code::before {
+  content: "In your code";
+  display: block;
+  font-family: var(--serif);
+  font-size: var(--t-label);
+  font-weight: 600;
+  letter-spacing: var(--label-spacing);
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+  color: var(--sec-result);
+}
+.in-your-code > :last-child { margin-bottom: 0; }
+
+li .in-your-code { display: block; margin: 0.4rem 0 0; padding: 0.4rem 0.8rem; font-size: var(--t-small); }
+li .in-your-code::before { display: inline; margin-right: 0.5rem; }
+
+:where(:root:lang(pt)) .eq-block .symbols::before { content: "onde"; }
+:where(:root:lang(pt)) .so-far::before { content: "Até aqui"; }
+:where(:root:lang(pt)) div.answer::before { content: "A resposta"; }
+:where(:root:lang(pt)) .technique::before { content: "A técnica"; }
+:where(:root:lang(pt)) .problem::before { content: "O exercício"; }
+:where(:root:lang(pt)) .in-your-code::before { content: "No seu código"; }
+
+:root {
+  --sheet-w: 42rem;        
+  --sheet-pad: 3rem;       
+  --toc-w: 13.5rem;
+  --toc-gap: 1.6rem;
+}
+
+html { background: var(--backdrop); height: 100%; overflow: hidden; }
+
+* { scrollbar-width: thin; scrollbar-color: transparent transparent; }
+*:hover { scrollbar-color: color-mix(in srgb, var(--muted) 55%, transparent) transparent; }
+
+body:has(.editor-panel:hover, .toc:hover, .editor-open:hover) { scrollbar-color: transparent transparent; }
+
+body {
+  position: relative;
+  box-sizing: border-box;
+  height: calc(100vh - 2 * var(--editor-gap));
+  overflow-y: auto;
+  max-width: calc(var(--sheet-w) + 2 * var(--sheet-pad));
+  margin: var(--editor-gap) auto;
+  padding: calc(3.4rem - 14px) var(--sheet-pad) calc(4.5rem - 14px);
+  
+  border-top: 14px solid transparent;
+  border-bottom: 14px solid transparent;
+  line-height: 1.65;
+  border-radius: 16px;
+  box-shadow: 0 0 0 1px var(--sheet-border), 0 12px 40px var(--sheet-shadow);
+}
+
+body:not(.with-editor) { max-width: min(calc(var(--sheet-w) + 2 * var(--sheet-pad)), calc(100vw - 2 * 2.8rem)); }
+
+body.with-editor { max-width: none; margin-left: var(--editor-gap); }
+
+@media (min-width: 1240px) {
+  body:not(.with-editor).with-toc {
+    margin-left: calc((100vw - var(--sheet-w) - 2 * var(--sheet-pad) - var(--toc-w) - var(--toc-gap)) / 2
+                      + var(--toc-w) + var(--toc-gap));
+  }
+}
+
+.toc {
+  position: fixed;
+  top: 5rem;
+  left: calc((100vw - var(--sheet-w) - 2 * var(--sheet-pad) - var(--toc-w) - var(--toc-gap)) / 2);
+  width: var(--toc-w);
+  max-height: calc(100vh - 7rem);
+  overflow-y: auto;
+  display: none;
+  font-size: var(--t-small);
+  line-height: 1.35;
+}
+@media (min-width: 1240px) {
+  body:not(.with-editor) .toc { display: block; }
+}
+
+.toc-section {
+  --sec-color: var(--muted);
+  display: block;
+  margin: 0 0 0.25rem;
+  padding: 0.35rem 0.6rem;
+  border-left: 3px solid color-mix(in srgb, var(--sec-color) 35%, transparent);
+  border-radius: 0 var(--radius-s) var(--radius-s) 0;
+  color: var(--sec-color);
+  font-size: var(--t-text);
+  cursor: pointer;
+}
+.toc-section.s-model  { --sec-color: var(--sec-model); }
+.toc-section.s-code   { --sec-color: var(--sec-code); }
+.toc-section.s-result { --sec-color: var(--sec-result); }
+.toc-group { margin: 0 0 1.1rem; }
+
+.toc-item {
+  display: flex;
+  align-items: flex-start;
+  line-height: 1.35;
+  gap: 0.5rem;
+  padding: 0.22rem 0.6rem 0.22rem 0.9rem;
+  border-radius: var(--radius-s);
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.toc-item > span:first-child { flex: 1; min-width: 0; overflow-wrap: anywhere; hyphens: auto; }
+.toc-section:hover,
+.toc-item:hover { background: color-mix(in srgb, var(--fg) 6%, transparent); }
+.toc-section.active { border-left-color: var(--sec-color); background: color-mix(in srgb, var(--sec-color) 12%, transparent); }
+.toc-item.active { color: var(--fg); }
+
+.toc-dots { display: inline-flex; gap: 3px; flex: none; margin-top: calc(0.675em - 0.19rem); }
+.toc-dots i {
+  width: 0.38rem;
+  height: 0.38rem;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--sec-color) 70%, transparent);
+}
+.toc-dots i.read { background: var(--sec-color); box-shadow: none; }
+
+.theme { position: absolute; top: 1rem; right: 1.2rem; left: auto; z-index: 12; }
+@media (min-width: 1240px) {
+  body.with-toc:not(.with-editor) .theme {
+    position: fixed;
+    right: auto;
+    top: 1.6rem;
+    left: calc((100vw - var(--sheet-w) - 2 * var(--sheet-pad) - var(--toc-w) - var(--toc-gap)) / 2 + 0.6rem);
+  }
+}
+
+:root { --band-h: 2.3rem; --band-gap: 0.55rem; }
+
+.collapsed > .item-head,
+.step.collapsed > h3,
+ol.observations > li.collapsed > h3,
+ol.model-line > li.collapsed > h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: var(--band-h);
+  margin: 0;
+  padding: 0.25rem 2.2rem 0.25rem 0.85rem;
+  position: relative;
+  box-sizing: border-box;
+  background: color-mix(in srgb, var(--line-color) 7%, var(--bg));
+  border: 1px solid color-mix(in srgb, var(--line-color) 22%, transparent);
+  border-radius: var(--radius);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.step.collapsed > h3,
+ol.observations > li.collapsed > h3,
+ol.model-line > li.collapsed > h3 { display: block; padding-top: 0.45rem; padding-bottom: 0.45rem; line-height: 1.4; }
+.collapsed:hover > .item-head,
+.step.collapsed:hover > h3,
+ol.observations > li.collapsed:hover > h3,
+ol.model-line > li.collapsed:hover > h3 {
+  border-color: color-mix(in srgb, var(--line-color) 60%, transparent);
+  background: color-mix(in srgb, var(--line-color) 12%, var(--bg));
+}
+
+.collapsed > .item-head::after,
+.step.collapsed > h3::after,
+ol.observations > li.collapsed > h3::after,
+ol.model-line > li.collapsed > h3::after {
+  content: "";
+  position: absolute;
+  right: 0.95rem;
+  top: 50%;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-right: 2px solid color-mix(in srgb, var(--line-color) 70%, transparent);
+  border-bottom: 2px solid color-mix(in srgb, var(--line-color) 70%, transparent);
+  transform: translateY(-60%) rotate(-45deg);
+}
+
+.step.collapsed::before,
+ol.derivation > li.collapsed::before,
+ol.observations > li.collapsed::before { top: calc((var(--band-h) - 1.75rem) / 2); }
+.step.collapsed,
+ol.derivation > li.collapsed,
+ol.observations > li.collapsed { margin-bottom: var(--band-gap); min-height: var(--band-h); }
+
+.step.collapsed::after { top: calc(var(--band-h) / 2); bottom: calc(-1 * var(--band-gap) - var(--band-h) / 2); }
+.step.collapsed.no-thread::after { display: none; }
+
+@media (max-width: 760px) {
+  html { height: auto; overflow: visible; }
+  body, body:not(.with-editor) { height: auto; overflow: visible; margin: 0 auto; padding: 3.2rem 1.1rem 4rem; border-radius: 0; box-shadow: none; }
+}
+
+ol.model-line > li.group,
+ol.model-line > li.loose { counter-increment: none; cursor: default; }
+ol.model-line > li.group { display: none; }
+ol.model-line > li.loose::before { display: none; }
+ol.model-line > li.extra > h3 { font-size: var(--t-h3); }
+ol.model-line > li.extra:not(.collapsed) > h3 { margin: 0.1rem 0 0.5rem; }
+ol.model-line > li.extra:not(.collapsed)::before { top: 0; }
+ol.model-line > li.extra .item-inner > table,
+ol.model-line > li.extra .item-inner > .technique,
+ol.model-line > li.extra .item-inner > .eq-block { margin: 0.3rem 0 0.5rem; }
+
+ol.model-line .technique .technique-name { display: none; }
+ol.model-line .technique::before { content: none; }
+
+:root { --editor-w: min(50vw, 52rem); --editor-gap: 0.8rem; }
+
+body { transition: margin 0.3s ease; }
+body.with-editor { margin-right: calc(var(--editor-w) + 2 * var(--editor-gap)); }
+
+body.with-editor { padding-left: clamp(1.1rem, 3vw, var(--sheet-pad)); padding-right: clamp(1.1rem, 3vw, var(--sheet-pad)); }
+
+.editor-open {
+  
+  position: fixed;
+  top: 50%;
+  right: 0.6rem;
+  z-index: 15;
+  display: inline-flex;
+  align-items: center;
+  height: 2rem;
+  padding: 0 0.25rem 0 0.25rem;
+  transform: translateY(-50%);
+  font-family: var(--serif);
+  font-size: var(--t-label);
+  letter-spacing: var(--label-spacing);
+  white-space: nowrap;
+  color: var(--bg);
+  background: var(--sec-code);
+  border: none;
+  border-radius: 999px;
+  box-shadow: 0 0 0 3px var(--bg), 0 3px 12px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: padding 0.22s ease;
+}
+
+.editor-open-text {
+  display: inline-block;
+  line-height: 1;
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-width 0.25s ease, opacity 0.15s ease, margin 0.25s ease;
+}
+.editor-open-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.editor-open-arrow::before {
+  content: "";
+  width: 0.42rem;
+  height: 0.42rem;
+  border-left: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  
+  transform: scaleX(1) translateX(0.08rem) rotate(45deg);
+  transition: transform 0.22s ease;
+}
+.editor-open:hover,
+.editor-open:focus-visible { padding: 0 0.3rem 0 0.95rem; outline: none; }
+.editor-open:hover .editor-open-text,
+.editor-open:focus-visible .editor-open-text { max-width: 12rem; opacity: 1; margin-right: 0.3rem; }
+.editor-open:hover .editor-open-arrow::before,
+.editor-open:focus-visible .editor-open-arrow::before { transform: scaleX(-1) translateX(0.08rem) rotate(45deg); }   
+body.with-editor .editor-open { display: none; }
+
+.editor-panel {
+  
+  position: fixed;
+  top: var(--editor-gap);
+  right: var(--editor-gap);
+  bottom: var(--editor-gap);
+  width: var(--editor-w);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  
+  background: transparent;
+  filter: drop-shadow(0 0 1px var(--sheet-border)) drop-shadow(0 10px 18px var(--sheet-shadow));
+  transform: translateX(calc(100% + 2 * var(--editor-gap)));
+  transition: transform 0.3s ease;
+}
+body.with-editor .editor-panel { transform: none; }
+
+.editor-top {
+  background: var(--code-bg);
+  border-radius: 16px 16px 0 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid var(--rule);
+}
+.editor-title {
+  font-family: var(--serif);
+  font-size: var(--t-label);
+  font-weight: 600;
+  letter-spacing: var(--label-spacing);
+  text-transform: uppercase;
+  color: var(--sec-code);
+  margin-right: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.editor-top button { font-family: var(--serif); font-size: var(--t-label); padding: 0.3rem 0.8rem; }
+
+button.editor-icon {
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+
+.editor-run { color: var(--sec-result); }
+.editor-run:hover:not(:disabled) { color: var(--sec-result); background: color-mix(in srgb, var(--sec-result) 22%, var(--bg)); border-color: color-mix(in srgb, var(--sec-result) 45%, var(--bg)); }
+.editor-run:disabled { opacity: 0.5; cursor: wait; }
+.editor-clear:hover { color: var(--warn); background: color-mix(in srgb, var(--warn) 22%, var(--bg)); border-color: color-mix(in srgb, var(--warn) 45%, var(--bg)); }
+
+.editor-close:hover { color: var(--err); background: color-mix(in srgb, var(--err) 22%, var(--bg)); border-color: color-mix(in srgb, var(--err) 45%, var(--bg)); }
+
+.editor-code { flex: 1 1 55%; display: flex; min-height: 0; background: var(--code-bg); border-radius: 0 0 16px 16px; overflow: hidden; }
+.editor-lines,
+.editor-highlight,
+.editor-text {
+  font-family: var(--mono);
+  font-size: var(--t-code);
+  line-height: 1.55;
+  tab-size: 4;
+}
+.editor-lines {
+  flex: none;
+  padding: 0.9rem 0.6rem 0.9rem 0.9rem;
+  color: var(--muted);
+  opacity: 0.6;
+  text-align: right;
+  white-space: pre;
+  overflow: hidden;
+  user-select: none;
+}
+.editor-field { position: relative; flex: 1; min-width: 0; }
+.editor-highlight,
+.editor-text {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0.9rem 1rem 0.9rem 0.4rem;
+  border: 0;
+  border-radius: 0;
+  white-space: pre;
+  overflow: auto;
+}
+.editor-highlight { background: none; overflow: hidden; pointer-events: none; }
+.editor-highlight code { font: inherit; background: none; padding: 0; }
+.editor-text {
+  color: transparent;
+  caret-color: var(--fg);
+  background: transparent;
+  resize: none;
+  outline: none;
+}
+.editor-text::placeholder { color: var(--muted); opacity: 0.8; white-space: pre-wrap; }
+
+.editor-code.received { animation: received 0.7s ease-out; }
+@keyframes received {
+  from { background: color-mix(in srgb, var(--sec-code) 22%, transparent); }
+  to   { background: transparent; }
+}
+.editor-text::selection { background: color-mix(in srgb, var(--sec-code) 30%, transparent); }
+
+.editor-divider-v {
+  
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(-1 * var(--editor-gap));
+  width: var(--editor-gap);
+  z-index: 2;
+  cursor: col-resize;
+  touch-action: none;
+}
+
+.editor-divider-v::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 2.2rem;
+  margin: -1.1rem 0 0 -2px;
+  border-radius: 999px;
+  background: var(--muted);
+  opacity: 0.35;
+  transition: opacity 0.15s ease, background 0.15s ease;
+}
+.editor-divider-v:hover::after,
+.editor-divider-v:focus-visible::after,
+.editor-divider-v.dragging::after { opacity: 1; background: color-mix(in srgb, var(--muted) 55%, transparent); }
+.editor-divider-v:focus-visible { outline: none; }
+
+body.resizing,
+body.resizing .editor-panel { transition: none; }
+body.resizing { user-select: none; }
+
+.editor-divider {
+  
+  flex: none;
+  height: max(12px, var(--editor-gap));
+  cursor: row-resize;
+  touch-action: none;
+  position: relative;
+}
+.editor-divider::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2.2rem;
+  height: 4px;
+  margin: -2.5px 0 0 -1.1rem;
+  border-radius: 999px;
+  background: var(--muted);
+  opacity: 0.35;
+  transition: opacity 0.15s ease, background 0.15s ease;
+}
+.editor-divider:focus-visible { outline: none; }
+.editor-divider:hover::after,
+.editor-divider:focus-visible::after,
+.editor-divider.dragging::after { opacity: 1; background: color-mix(in srgb, var(--muted) 55%, transparent); }
+
+.editor-output {
+  flex: 1 1 45%;
+  
+  min-height: 90px;
+  display: flex;
+  flex-direction: column;
+  background: var(--code-bg);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.editor-output-top {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  padding: 0.5rem 0.9rem;
+  font-family: var(--serif);
+  font-size: var(--t-label);
+  letter-spacing: var(--label-spacing);
+  border-bottom: 1px solid var(--rule);
+}
+.editor-output-top > span:first-child { text-transform: uppercase; font-weight: 600; color: var(--sec-result); }
+.editor-status { color: var(--muted); }
+.editor-clear-output {
+  margin-left: auto;
+  flex: none;
+  font-family: var(--serif);
+  font-size: var(--t-label);
+  letter-spacing: var(--label-spacing);
+  padding: 0.2rem 0.65rem;
+}
+.editor-clear-output:hover { color: var(--warn); background: color-mix(in srgb, var(--warn) 22%, var(--bg)); border-color: color-mix(in srgb, var(--warn) 45%, var(--bg)); }
+.editor-result { flex: 1; overflow: auto; padding: 0.6rem 0.9rem; }
+.editor-result pre {
+  margin: 0 0 0.6rem;
+  padding: 0;
+  background: none;
+  font-size: var(--t-code);
+  white-space: pre-wrap;
+}
+.out-error { color: var(--err); }
+.out-empty { color: var(--muted); }
+.out-figure { display: block; max-width: 100%; max-height: calc(100% - 1rem); width: auto; height: auto; object-fit: contain; margin: 0.4rem auto 0.8rem; border-radius: var(--radius-s); background: #fff; }
+
+@media (max-width: 760px) {
+  :root { --editor-w: 100vw !important; --editor-gap: 0px; }
+  .editor-panel { border-radius: 0; }
+  .editor-divider-v { display: none; }
+  body.with-editor { margin-right: 0; }
+}
+
+@media print {
+  .toc { display: none !important; }
+  html { background: #fff; }
+  html { height: auto; overflow: visible; }
+  body { box-shadow: none !important; margin: 0 auto !important; height: auto !important; overflow: visible !important; }
+  :root {
+    --bg: #fff; --fg: #000; --muted: #444;
+    --rule: #bbb; --code-bg: #f3f3f3; --accent: #000;
+  }
+  html { font-size: 11pt; }
+  body { max-width: none; padding: 0; }
+  .sidenote { float: none; width: auto; margin: 0.8rem 0; padding-left: 0.8rem; border-left: 1px solid var(--rule); }
+  button, .controls { display: none; }
+  .frame, .step, pre, table, figure, ol.derivation > li, ol.observations > li { break-inside: avoid; }
+  .theme, .copy, .to-editor, .editor-open, .editor-panel { display: none; }
+  body.with-editor { margin: 0; }
+  
+  .item-body, .section-body { grid-template-rows: 1fr !important; opacity: 1 !important; }
+  .item-head { display: none !important; }
+  ol.derivation .why > .kind { display: inline !important; }
+  .section-title::after { display: none; }
+  mrow.brace-under, mrow.brace-over { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  h1, h2, h3 { break-after: avoid; }
+  a::after { content: " (" attr(href) ")"; font-size: 0.75em; color: var(--muted); word-break: break-all; }
+  a[href^="#"]::after { content: ""; }
+}
+
+</style></head><body>
+<header class="lesson"><span class="tag">Chemical reaction engineering · differential equations</span><h1>Designing an adiabatic PFR</h1></header>
+<div class="problem"><p>A liquid first-order irreversible reaction A → B runs in an adiabatic tubular reactor. The feed is 10 L/min with 2.0 mol/L of A at 300 K. The rate constant is 0.05 min⁻¹ at 300 K, the activation energy is 60 kJ/mol, the heat of reaction is −50 kJ/mol, and the liquid volumetric heat capacity is 4.0 kJ/(L·K). These properties are constant.</p><ul><li>Find the reactor volume for 80% conversion and the outlet temperature.</li><li>Find the isothermal reactor volume at 300 K for the same conversion.</li></ul></div>
+<p>As A reacts, heat release raises the liquid temperature and increases the rate constant. We will integrate the material balance along reactor volume and compare it with the closed-form isothermal design.</p>
+<h2>The model</h2>
+<h3 class="balance balance-mass">Mass balance of component A, in moles</h3><ol class="derivation">
+<li><div class="equation"><math display="block"><mtext>accumulation</mtext><mo>=</mo><mtext>in</mtext><mo>−</mo><mtext>out</mtext><mo>−</mo><mtext>consumption</mtext></math></div><p class="why"><span class="kind kind-principle">principle</span>For A in a reactor control volume, accumulation equals flow in minus flow out minus reaction consumption.</p></li>
+<li><div class="equation"><math display="block"><mfrac><mrow><mi>d</mi><msub><mi>F</mi><mi>A</mi></msub></mrow><mrow><mi>d</mi><mi>V</mi></mrow></mfrac><mo>=</mo><msub><mi>r</mi><mi>A</mi></msub></math></div><ul class="symbols"><li><code class="var-1">F_A</code> — molar flow of A at reactor volume V, mol/min</li><li><code class="param">r_A</code> — rate of consumption of A per volume, mol/(L·min)</li><li><code class="param">V</code> — reactor volume, L</li></ul><p class="why"><span class="kind kind-translation">translation</span>For a steady-flow differential slice, accumulation is zero and the change in A flow equals negative consumption.</p></li>
+<li><div class="equation"><math display="block"><msub><mi>F</mi><mi>A</mi></msub><mo>=</mo><msub><mi>F</mi><mrow><mi>A</mi><mn>0</mn></mrow></msub><mo>(</mo><mn>1</mn><mo>−</mo><mi>X</mi><mo>)</mo><mo>,</mo><mspace/><mfrac><mrow><mi>d</mi><mi>X</mi></mrow><mrow><mi>d</mi><mi>V</mi></mrow></mfrac><mo>=</mo><mfrac><mi>k</mi><msub><mi>v</mi><mn>0</mn></msub></mfrac><mo>(</mo><mn>1</mn><mo>−</mo><mi>X</mi><mo>)</mo></math></div><p class="why"><span class="kind kind-kinetics">kinetics</span>Using first-order rate r_A=kC_A, constant liquid flow gives C_A=C_A0(1−X), and F_A0=v₀C_A0.</p></li>
+<li class="final"><div class="equation"><math display="block"><mfrac><mrow><mi>d</mi><mi>X</mi></mrow><mrow><mi>d</mi><mi>V</mi></mrow></mfrac><mo>=</mo><mfrac><mrow><mi>k</mi><mo>(</mo><mi>T</mi><mo>)</mo></mrow><mn>10</mn></mfrac><mo>(</mo><mn>1</mn><mo>−</mo><mi>X</mi><mo>)</mo></math></div><p class="why"><span class="kind kind-algebra">algebra</span>Substitute the rate law and the given feed flow v₀=10 L/min.</p><p>This equation tracks conversion along the reactor. Temperature is supplied by the energy balance, so the changing rate is included.</p></li></ol>
+<h3 class="balance balance-energy">Energy balance, in kJ/min</h3><ol class="derivation"><li><div class="equation"><math display="block"><mtext>energy in − energy out + heat generated = accumulation</mtext></math></div><p class="why"><span class="kind kind-principle">principle</span>Apply energy conservation to a steady differential slice of the adiabatic reactor.</p></li><li><div class="equation"><math display="block"><mi>T</mi><mo>=</mo><msub><mi>T</mi><mn>0</mn></msub><mo>+</mo><mfrac><mrow><mo>−</mo><mi>ΔH</mi><msub><mi>C</mi><mrow><mi>A</mi><mn>0</mn></mrow></msub></mrow><mrow><mi>ρ</mi><msub><mi>C</mi><mi>p</mi></msub></mrow></mfrac><mi>X</mi></math></div><p class="why"><span class="kind kind-translation">translation</span>With no heat exchange, sensible heating of the liquid equals the heat released by consumed A.</p></li><li class="final"><div class="equation"><math display="block"><mi>T</mi><mo>=</mo><mn>300</mn><mo>+</mo><mn>25</mn><mi>X</mi><mspace/><mi>K</mi></math></div><p class="why"><span class="kind kind-algebra">algebra</span>Using the given values, (50 kJ/mol × 2.0 mol/L)/(4.0 kJ/(L·K))=25 K.</p><p>The temperature rises with conversion; at X=0.80, the energy balance gives 320 K.</p></li></ol>
+<div class="eq-block" data-title="Rate law and Arrhenius equation"><div class="equation"><math display="block"><mi>r</mi><mo>=</mo><mi>k</mi><msub><mi>C</mi><mi>A</mi></msub><mo>,</mo><mspace/><mi>k</mi><mo>(</mo><mi>T</mi><mo>)</mo><mo>=</mo><msub><mi>k</mi><mtext>ref</mtext></msub><mi>exp</mi><mo>[</mo><mfrac><msub><mi>E</mi><mi>a</mi></msub><mi>R</mi></mfrac><mo>(</mo><mfrac><mn>1</mn><msub><mi>T</mi><mtext>ref</mtext></msub></mfrac><mo>−</mo><mfrac><mn>1</mn><mi>T</mi></mfrac><mo>)</mo><mo>]</mo></math></div><ul class="symbols"><li><code class="param">k_ref</code> — rate constant at reference temperature, min⁻¹</li><li><code class="param">E_a</code> — activation energy, J/mol</li><li><code class="param">R</code> — gas constant, 8.314 J/(mol·K)</li></ul><p>The reference form uses the given k at 300 K and accounts for faster kinetics at higher temperature.</p></div>
+<table><thead><tr><th>Parameter</th><th class="num">Value</th><th>Unit</th><th>Source</th></tr></thead><tbody><tr><td>v₀</td><td class="num">10</td><td>L/min</td><td>given</td></tr><tr><td>C_A0</td><td class="num">2.0</td><td>mol/L</td><td>given</td></tr><tr><td>T₀=T_ref</td><td class="num">300</td><td>K</td><td>given</td></tr><tr><td>k_ref</td><td class="num">0.05</td><td>min⁻¹</td><td>given</td></tr><tr><td>E_a</td><td class="num">60,000</td><td>J/mol</td><td>given; converted from kJ</td></tr><tr><td>ΔH</td><td class="num">−50</td><td>kJ/mol</td><td>given</td></tr><tr><td>ρC_p</td><td class="num">4.0</td><td>kJ/(L·K)</td><td>given</td></tr><tr><td>X_target</td><td class="num">0.80</td><td>dimensionless</td><td>given</td></tr><tr><td>R</td><td class="num">8.314</td><td>J/(mol·K)</td><td>physical constant</td></tr></tbody></table>
+<div class="technique"><p class="technique-name">Numerical integration</p><p>This is an initial-value problem: conversion changes as reactor volume increases. We use <span class="term">numerical integration</span>, which advances the balance in small adaptive steps. The rate depends on temperature, so integration captures the feedback between reaction and heating. Python's <code>solve_ivp</code> function from SciPy performs it. See the next section to learn how to use it.</p></div>
+<h2>The code</h2><section class="code"><div class="step"><h3>Set properties and write the balances</h3><p class="purpose">Store the data in consistent units and define the conversion balance.</p><pre><code>import numpy as np
+import matplotlib.pyplot as plt
+from scipy.integrate import solve_ivp
+from scipy.optimize import brentq
+
+v0 = 10.0                 # L/min
+T0 = 300.0                # K
+kref = 0.05               # 1/min at Tref
+Tref = 300.0              # K
+Ea = 60000.0              # J/mol
+R = 8.314                 # J/(mol K)
+delta_h = -50.0           # kJ/mol
+ca0 = 2.0                 # mol/L
+rho_cp = 4.0              # kJ/(L K)
+target = 0.80             # conversion
+
+def temperature(x):
+    return T0 - delta_h * ca0 * x / rho_cp
+
+def rhs(volume, y):
+    x = y[0]
+    temp = temperature(x)
+    k = kref * np.exp(Ea / R * (1 / Tref - 1 / temp))
+    return [k * (1 - x) / v0]</code></pre><p class="how"><code>rhs</code> receives reactor volume and a state list <code>y</code>; its first element is conversion. It returns the conversion derivative as a one-item list, as required by SciPy. The Arrhenius exponent uses J/mol and kelvin.</p><p class="so-far">The program now expresses the coupled adiabatic model as an ordinary differential equation.</p></div><div class="step"><h3>Integrate to the target and compare designs</h3><p class="purpose">Stop the adiabatic calculation at the target conversion, then calculate the isothermal volume independently.</p><pre><code>def reached_target(volume, y):
+    return y[0] - target
+
+reached_target.terminal = True
+reached_target.direction = 1
+result = solve_ivp(
+    rhs, (0, 1000), [0.0], events=reached_target,
+    rtol=1e-9, atol=1e-11, dense_output=True
+)
+volume_ad = result.t_events[0][0]
+t_out = temperature(target)
+volume_iso = v0 / kref * np.log(1 / (1 - target))
+print(f"Adiabatic volume: {volume_ad:.2f} L")
+print(f"Outlet temperature: {t_out:.2f} K")
+print(f"Isothermal volume: {volume_iso:.2f} L")</code></pre><p class="how">SciPy calls <code>rhs</code> repeatedly with volume and state values. The event function returns zero at the target; <code>terminal</code> stops integration and <code>direction</code> accepts an upward crossing. <code>rtol</code> and <code>atol</code> set relative and absolute error targets for each step. The closed form is V=v₀ ln(1/(1−X))/k at fixed k; this is an independent analytic check for the isothermal case.</p><p class="so-far">The program finds the adiabatic reactor size and evaluates the isothermal design without numerical integration.</p></div><div class="step"><h3>Plot the conversion profile</h3><p class="purpose">Show conversion from the inlet through the adiabatic reactor.</p><pre><code>volumes = np.linspace(0, volume_ad, 150)
+profile = result.sol(volumes)[0]
+plt.plot(volumes, profile, label="Conversion of A")
+plt.axhline(target, color="gray", linestyle="--")
+plt.xlabel("Reactor volume (L)")
+plt.ylabel("Conversion of A")
+plt.ylim(0, 1)
+plt.grid(True)
+plt.legend()
+plt.show()</code></pre><p class="how"><code>linspace</code> creates evenly spaced plot positions. Dense output evaluates the computed solution at those positions. The dashed line marks the requested conversion.</p><p class="so-far">The full program prints both reactor sizes and the outlet temperature, then displays the conversion profile.</p></div><div class="step"><h3>The complete program</h3><pre><code>import numpy as np
+import matplotlib.pyplot as plt
+from scipy.integrate import solve_ivp
+
+v0, T0, kref, Tref = 10.0, 300.0, 0.05, 300.0
+Ea, R = 60000.0, 8.314
+delta_h, ca0, rho_cp = -50.0, 2.0, 4.0
+target = 0.80
+
+def temperature(x):
+    return T0 - delta_h * ca0 * x / rho_cp
+
+def rhs(volume, y):
+    x = y[0]
+    temp = temperature(x)
+    k = kref * np.exp(Ea / R * (1 / Tref - 1 / temp))
+    return [k * (1 - x) / v0]
+
+def reached_target(volume, y):
+    return y[0] - target
+
+reached_target.terminal = True
+reached_target.direction = 1
+result = solve_ivp(rhs, (0, 1000), [0.0],
+                   events=reached_target, rtol=1e-9,
+                   atol=1e-11, dense_output=True)
+volume_ad = result.t_events[0][0]
+t_out = temperature(target)
+volume_iso = v0 / kref * np.log(1 / (1 - target))
+print(f"Adiabatic volume: {volume_ad:.2f} L")
+print(f"Outlet temperature: {t_out:.2f} K")
+print(f"Isothermal volume: {volume_iso:.2f} L")
+volumes = np.linspace(0, volume_ad, 150)
+profile = result.sol(volumes)[0]
+plt.plot(volumes, profile, label="Conversion of A")
+plt.axhline(target, color="gray", linestyle="--")
+plt.xlabel("Reactor volume (L)")
+plt.ylabel("Conversion of A")
+plt.ylim(0, 1)
+plt.grid(True)
+plt.legend()
+plt.show()</code></pre><p>These statements define the model, integrate to the target, print the requested results and draw the conversion profile.</p></div></section>
+<h2>The result</h2><div class="answer"><p>For the adiabatic PFR, the required reactor volume is 135.55 L and the outlet temperature is 320.00 K. At 300 K under isothermal conditions, the required volume is 321.89 L.</p></div>
+<script>document.addEventListener("DOMContentLoaded", function () { Plot.register("profile", {xLabel:"Reactor volume (L)", yLabel:"Conversion of A", series:["Conversion of A"], defaults:{v0:10,T0:300,kref:0.05,Tref:300,Ea:60000,R:8.314,dh:-50,ca0:2,rhocp:4,vt:135.5536}, limits:{y:[0,1]}, compute:function(p){var r=Plot.integrate(function(v,y){var T=p.T0-p.dh*p.ca0*y[0]/p.rhocp;var k=p.kref*Math.exp(p.Ea/p.R*(1/p.Tref-1/T));return [k*(1-y[0])/p.v0];},[0],0,p.vt,p);return {x:r.t,y:r.y};}});});</script><div class="plot" data-plot="profile"></div>
+<ol class="observations"><li><h3>How does conversion change along the reactor?</h3><p>Conversion starts at zero and reaches 0.80 at the 135.55 L outlet.</p></li><li><h3>Why is the adiabatic reactor smaller?</h3><p>The exothermic reaction raises the stream to 320.00 K, increasing k above its 300 K reference value; consequently the adiabatic design needs 135.55 L versus 321.89 L isothermally.</p></li></ol><div class="ask"><strong>Something unclear?</strong> Ask in the chat.</div>
+<script>
+
+(function () {
+  "use strict";
+
+  var PT = /^pt/i.test(document.documentElement.lang);
+  var NAME = PT ? { light: "claro", dark: "escuro" } : { light: "light", dark: "dark" };
+  var SWITCH = PT ? "Mudar para o tema " : "Switch to the theme: ";
+
+  var KEY = "lesson-theme";
+  var root = document.documentElement;
+
+  function stored() {
+    try {
+      var v = localStorage.getItem(KEY);
+      return v === "light" || v === "dark" ? v : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function store(v) {
+    try {
+      localStorage.setItem(KEY, v);
+    } catch (e) {
+    }
+  }
+
+  function fromSystem() {
+    return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  }
+
+  function current() {
+    return root.getAttribute("data-theme") || fromSystem();
+  }
+
+  function apply(theme) {
+    root.setAttribute("data-theme", theme);
+  }
+
+  function build() {
+    var btn = document.createElement("button");
+    btn.className = "theme";
+    btn.type = "button";
+
+    function label() {
+      var target = current() === "dark" ? "light" : "dark";
+      btn.textContent = "";
+      var ic = document.createElement("span");
+      ic.className = "ic ic-theme";
+      btn.append(ic, document.createTextNode(NAME[target]));
+      btn.setAttribute("aria-label", SWITCH + NAME[target]);
+    }
+
+    btn.addEventListener("click", function () {
+      var target = current() === "dark" ? "light" : "dark";
+      apply(target);
+      store(target);
+      label();
+      document.dispatchEvent(new CustomEvent("theme-changed"));
+    });
+
+    label();
+    document.body.appendChild(btn);
+  }
+
+  var saved = stored();
+  if (saved) apply(saved);
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", build);
+  } else {
+    build();
+  }
+
+  window.Theme = { current: current, apply: apply };
+})();
+
+</script><script>
+
+(function () {
+  "use strict";
+
+  var PT = /^pt/i.test(document.documentElement.lang);
+  var TXT = PT ? {
+    copy: "Copiar o código",
+    and: " e ",
+    ofBalance: " do ",
+    complementary: "Equação complementar",
+    parameters: "Os parâmetros",
+    technique: "A técnica",
+    toc: "Sumário da lição",
+    steps: "Os passos",
+    answer: "A resposta",
+    figure: "A figura",
+    observations: "Observações"
+  } : {
+    copy: "Copy the code",
+    and: " and ",
+    ofBalance: " of the ",
+    complementary: "Complementary equation",
+    parameters: "The parameters",
+    technique: "The technique",
+    toc: "Lesson contents",
+    steps: "The steps",
+    answer: "The answer",
+    figure: "The figure",
+    observations: "Observations"
+  };
+
+  function balanceName(title) {
+    var t = title.trim().replace(/,.*$/, "").replace(/\s*\([^)]*\)$/, "");
+    return PT ? t.replace(/ do componente /, " de ")
+              : t.replace(/ (of|for) component /, " of ");
+  }
+
+  function tocName(title) {
+    var t = balanceName(title);
+    t = PT ? t.replace(/^Balanço (global )?de /i, "") : t.replace(/^(.+?) balance (of|for) /i, "$1 of ");
+    return t.charAt(0).toUpperCase() + t.slice(1);
+  }
+
+  function copy(text, button) {
+    function ok() {
+      var ic = button.querySelector(".ic");
+      if (ic) ic.className = "ic ic-check";
+      button.classList.add("copied");
+      setTimeout(function () {
+        if (ic) ic.className = "ic ic-copy";
+        button.classList.remove("copied");
+      }, 1400);
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(ok, function () { legacy(text, ok); });
+    } else {
+      legacy(text, ok);
+    }
+  }
+
+  function legacy(text, ok) {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand("copy");
+      ok();
+    } catch (e) {
+      console.warn("[lesson] could not copy:", e);
+    }
+    ta.remove();
+  }
+
+  var KEYWORDS = /^(if|elif|else|for|while|return|import|from|as|in|not|and|or|is|with|try|except|finally|raise|break|continue|pass|lambda|yield|global|nonlocal|del|assert|async|await)$/;
+  var DEFINE = /^(def|class|None|True|False)$/;
+  var BUILTINS = /^(print|range|len|abs|min|max|sum|float|int|str|bool|list|dict|tuple|set|zip|enumerate|round|sorted|reversed|map|filter|open|isinstance|type|any|all)$/;
+  var TOKEN = /(#[^\n]*)|((?:[rRbBfFuU]{1,2})?(?:"""[\s\S]*?"""|'''[\s\S]*?'''|"(?:\.|[^"\\n])*"|'(?:\.|[^'\\n])*'))|(\b\d+\.?\d*(?:[eE][+-]?\d+)?\b|\.\d+(?:[eE][+-]?\d+)?\b)|([A-Za-z_\u00C0-\u024F]\w*)|(\*\*=?|\/\/=?|[-+*\/%=<>!@&|^~]=?)/g;
+
+  function esc(t) {
+    return t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  function highlightText(txt) {
+    var out = "", end = 0, previous = "", m;
+    TOKEN.lastIndex = 0;
+    while ((m = TOKEN.exec(txt))) {
+      out += esc(txt.slice(end, m.index));
+      end = TOKEN.lastIndex;
+      var t = m[0], cls = "";
+      if (m[1]) cls = "hl-com";
+      else if (m[2]) cls = "hl-str";
+      else if (m[3]) cls = "hl-num";
+      else if (m[4]) {
+        if (previous === "def" || previous === "class") cls = "hl-fn";
+        else if (DEFINE.test(t)) cls = "hl-def";
+        else if (KEYWORDS.test(t)) cls = "hl-kw";
+        else if (/^\s*\(/.test(txt.slice(end))) cls = BUILTINS.test(t) ? "hl-bi" : "hl-fn";
+        previous = t;
+      } else if (m[5]) cls = "hl-op";
+      out += cls ? '<span class="' + cls + '">' + esc(t) + "</span>" : esc(t);
+    }
+    return out + esc(txt.slice(end));
+  }
+
+  function highlight(code) {
+    if (code.dataset.highlighted || code.classList.contains("no-highlight")) return;
+    code.dataset.highlighted = "1";
+    code.innerHTML = highlightText(code.textContent);
+  }
+
+  function copyButton(pre) {
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "copy";
+    btn.title = TXT.copy;
+    btn.setAttribute("aria-label", TXT.copy);
+    var ic = document.createElement("span");
+    ic.className = "ic ic-copy";
+    btn.appendChild(ic);
+    btn.addEventListener("click", function () {
+      copy(pre.querySelector("code") ? pre.querySelector("code").textContent : pre.textContent, btn);
+    });
+    pre.appendChild(btn);
+  }
+
+  function collapsibleBody(nodes, prefix) {
+    var body = document.createElement("div");
+    body.className = prefix + "-body";
+    var inner = document.createElement("div");
+    inner.className = prefix + "-inner";
+    nodes.forEach(function (n) { inner.appendChild(n); });
+    body.appendChild(inner);
+    return body;
+  }
+
+  function buildItem(item) {
+    var head = item.querySelector(":scope > h3");
+    if (!head) {
+      var kinds = Array.prototype.map.call(item.querySelectorAll(".why .kind"), function (t) {
+        return t.textContent.trim().replace(/[.:;,]+$/, "").toLowerCase();
+      });
+      if (kinds.length) {
+        var name = kinds.length > 1 ? kinds.slice(0, -1).join(", ") + TXT.and + kinds[kinds.length - 1] : kinds[0];
+        head = document.createElement("div");
+        head.className = "item-head";
+        if (item.dataset.balance) name += TXT.ofBalance + item.dataset.balance;
+        head.textContent = name.charAt(0).toUpperCase() + name.slice(1);
+      }
+    }
+    var rest = Array.prototype.filter.call(item.childNodes, function (n) { return n !== head; });
+    var body = collapsibleBody(rest, "item");
+    item.textContent = "";
+    if (head) item.appendChild(head);
+    item.appendChild(body);
+  }
+
+  function timeline(items, onEnd) {
+    if (!items.length) { if (onEnd) onEnd(); return; }
+
+    function update() {
+      var next = null;
+      items.forEach(function (p) {
+        if (!next && !p.dataset.read) next = p;
+        p.classList.remove("calling");
+      });
+      if (next) next.classList.add("calling");
+      else if (onEnd) { onEnd(); onEnd = null; }
+      items.forEach(function (p, i) { p.classList.toggle("no-thread", !items[i + 1]); });
+    }
+
+    function toggle(p) {
+      var collapse = !p.classList.contains("collapsed");
+      p.classList.toggle("collapsed", collapse);
+      if (collapse) {
+        p.setAttribute("tabindex", "0");
+        p.setAttribute("role", "button");
+        p.setAttribute("aria-expanded", "false");
+        return;
+      }
+      p.removeAttribute("tabindex");
+      p.removeAttribute("role");
+      p.removeAttribute("aria-expanded");
+      if (!p.dataset.read) {
+        p.dataset.read = "1";
+        document.dispatchEvent(new CustomEvent("lesson-changed"));
+        update();
+      }
+      setTimeout(function () { p.scrollIntoView({ behavior: "smooth", block: "nearest" }); }, 380);
+    }
+
+    function onHandle(p, ev) {
+      var r = p.getBoundingClientRect();
+      var gutter = parseFloat(getComputedStyle(p).paddingLeft) || 0;
+      if (ev.clientX - r.left < gutter) return true;
+      var head = ev.target.closest && ev.target.closest("h3, .item-head");
+      return !!head && head.parentElement === p;
+    }
+
+    items.forEach(function (p) {
+      buildItem(p);
+      p.classList.add("collapsed");
+      p.setAttribute("tabindex", "0");
+      p.setAttribute("role", "button");
+      p.setAttribute("aria-expanded", "false");
+      p.addEventListener("click", function (ev) {
+        if (p.classList.contains("collapsed") || onHandle(p, ev)) toggle(p);
+      });
+      p.addEventListener("keydown", function (ev) {
+        if ((ev.key === "Enter" || ev.key === " ") && p.classList.contains("collapsed")) {
+          ev.preventDefault();
+          toggle(p);
+        }
+      });
+    });
+    update();
+  }
+
+  function buildSections() {
+    var titles = Array.prototype.slice.call(document.querySelectorAll("body > h2"));
+
+    function call() {
+      var next = null;
+      titles.forEach(function (h2) {
+        if (!next && !h2.dataset.read) next = h2;
+        h2.classList.remove("calling");
+      });
+      if (next) next.classList.add("calling");
+    }
+
+    titles.forEach(function (h2) {
+      if (h2.dataset.section) return;
+      h2.dataset.section = "1";
+      var nodes = [], n = h2.nextSibling;
+      while (n && !(n.nodeType === 1 && (n.tagName === "H2" || n.classList.contains("ask") ||
+               (n.tagName === "SCRIPT" && n.src)))) {
+        nodes.push(n);
+        n = n.nextSibling;
+      }
+      var body = collapsibleBody(nodes, "section");
+      h2.parentNode.insertBefore(body, n);
+      h2.classList.add("section-title");
+      h2.setAttribute("tabindex", "0");
+      h2.setAttribute("role", "button");
+      function collapse(yes) {
+        h2.classList.toggle("section-collapsed", yes);
+        body.classList.toggle("section-collapsed", yes);
+        h2.setAttribute("aria-expanded", String(!yes));
+        if (!yes && !h2.dataset.read) { h2.dataset.read = "1"; call(); }
+        document.dispatchEvent(new CustomEvent("lesson-changed"));
+      }
+      collapse(true);
+      h2._open = function () { if (h2.classList.contains("section-collapsed")) collapse(false); };
+      function toggle() { collapse(!h2.classList.contains("section-collapsed")); }
+      h2.addEventListener("click", toggle);
+      h2.addEventListener("keydown", function (ev) {
+        if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); toggle(); }
+      });
+    });
+    call();
+  }
+
+  function unifyModel() {
+    var h2 = document.querySelector("body > h2");
+    if (!h2 || h2.dataset.unified) return null;
+    var nodes = [], n = h2.nextElementSibling;
+    while (n && n.tagName !== "H2" && !n.classList.contains("ask") && !(n.tagName === "SCRIPT" && n.src)) {
+      nodes.push(n);
+      n = n.nextElementSibling;
+    }
+    if (!nodes.some(function (e) { return e.matches("ol.derivation"); })) return null;
+    h2.dataset.unified = "1";
+
+    var line = document.createElement("ol"), balance = "";
+    line.className = "derivation model-line";
+    nodes[0].parentNode.insertBefore(line, nodes[0]);
+
+    function extra(title, el) {
+      var li = document.createElement("li");
+      li.className = "extra";
+      var h3 = document.createElement("h3");
+      h3.textContent = title;
+      li.appendChild(h3);
+      li.appendChild(el);
+      line.appendChild(li);
+    }
+
+    nodes.forEach(function (el) {
+      if (el.matches("h3.balance")) {
+        var g = document.createElement("li");
+        g.className = "group";
+        g.appendChild(el);
+        line.appendChild(g);
+        balance = balanceName(el.textContent);
+        balance = balance.charAt(0).toLowerCase() + balance.slice(1);
+      } else if (el.matches("ol.derivation")) {
+        Array.prototype.slice.call(el.children).forEach(function (li, i) {
+          if (i === 0 && balance) li.dataset.balance = balance;
+          line.appendChild(li);
+        });
+        balance = "";
+        el.remove();
+      } else if (el.matches(".eq-block")) {
+        extra(el.dataset.title || TXT.complementary, el);
+      } else if (el.matches("table")) {
+        extra(TXT.parameters, el);
+      } else if (el.matches(".technique")) {
+        var name = el.querySelector(".technique-name");
+        extra(TXT.technique + (name ? ": " + name.textContent.trim() : ""), el);
+      } else {
+        var li = document.createElement("li");
+        li.className = "loose";
+        li.appendChild(el);
+        line.appendChild(li);
+      }
+    });
+    return line;
+  }
+
+  function buildToc() {
+    var titles = Array.prototype.slice.call(document.querySelectorAll("body > h2.section-title"));
+    if (!titles.length || document.querySelector("nav.toc")) return;
+    var colors = ["s-model", "s-code", "s-result"];
+    var nav = document.createElement("nav");
+    nav.className = "toc";
+    nav.setAttribute("aria-label", TXT.toc);
+    var targets = [];
+
+    function goTo(h2, target) {
+      if (h2._open) h2._open();
+      setTimeout(function () {
+        var scroller = document.body.scrollHeight > document.body.clientHeight ? document.body : document.scrollingElement;
+        var y = target.getBoundingClientRect().top - scroller.getBoundingClientRect().top + scroller.scrollTop - 24;
+        if (scroller === document.scrollingElement) y = target.getBoundingClientRect().top + window.scrollY - 24;
+        scroller.scrollTo({ top: y, behavior: "smooth" });
+      }, h2._open ? 120 : 0);
+    }
+
+    function dots(items) {
+      var s = document.createElement("span");
+      s.className = "toc-dots";
+      items.forEach(function (it) {
+        var i = document.createElement("i");
+        s.appendChild(i);
+        it._dot = i;
+      });
+      return s;
+    }
+
+    function entry(h2, text, target, items) {
+      var a = document.createElement("div");
+      a.className = "toc-item";
+      var t = document.createElement("span");
+      t.textContent = text;
+      a.appendChild(t);
+      if (items && items.length) a.appendChild(dots(items));
+      a.addEventListener("click", function () { goTo(h2, target); });
+      targets.push({ el: target, link: a });
+      return a;
+    }
+
+    titles.forEach(function (h2, i) {
+      var body = h2.nextElementSibling;
+      var group = document.createElement("div");
+      group.className = "toc-group";
+      var sec = document.createElement("div");
+      sec.className = "toc-section " + (colors[i] || "");
+      sec.textContent = h2.textContent.trim();
+      sec.addEventListener("click", function () { goTo(h2, h2); });
+      targets.push({ el: h2, link: sec, section: true });
+      group.appendChild(sec);
+      var list = document.createElement("div");
+      list.className = "toc-group-items";
+      list.style.setProperty("--sec-color", "var(--sec-" + ["model", "code", "result"][i] + ")");
+
+      body.querySelectorAll("ol.model-line > li.group, ol.model-line > li.extra, section.code, div.answer, .plot, ol.observations").forEach(function (el) {
+        if (el.matches("li.group")) {
+          var steps = [], s = el.nextElementSibling;
+          while (s && !s.classList.contains("group") && !s.classList.contains("extra")) {
+            if (!s.classList.contains("loose")) steps.push(s);
+            s = s.nextElementSibling;
+          }
+          list.appendChild(entry(h2, tocName(el.textContent), el, steps));
+        } else if (el.matches("li.extra")) {
+          list.appendChild(entry(h2, el.querySelector("h3").textContent.replace(/: .*$/, ""), el));
+        } else if (el.matches("section.code")) {
+          list.appendChild(entry(h2, TXT.steps, el, Array.prototype.slice.call(el.querySelectorAll(".step"))));
+        } else if (el.matches("div.answer")) {
+          list.appendChild(entry(h2, TXT.answer, el));
+        } else if (el.matches(".plot")) {
+          list.appendChild(entry(h2, TXT.figure, el));
+        } else {
+          list.appendChild(entry(h2, TXT.observations, el, Array.prototype.slice.call(el.children)));
+        }
+      });
+      group.appendChild(list);
+      nav.appendChild(group);
+    });
+
+    function update() {
+      document.querySelectorAll("[data-read]").forEach(function (el) {
+        if (el._dot) el._dot.classList.add("read");
+      });
+      var line = window.innerHeight / 3, active = null, activeSec = null;
+      targets.forEach(function (a) {
+        if (!a.el.offsetParent && !a.section) return;
+        if (a.el.getBoundingClientRect().top < line) {
+          if (a.section) { activeSec = a; active = null; } else { active = a; }
+        }
+      });
+      targets.forEach(function (a) { a.link.classList.toggle("active", a === active || a === activeSec); });
+    }
+
+    document.body.appendChild(nav);
+    document.body.classList.add("with-toc");
+    var pending = false;
+    function scrolled() {
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(function () { pending = false; update(); });
+    }
+    document.body.addEventListener("scroll", scrolled, { passive: true });
+    window.addEventListener("scroll", scrolled, { passive: true });
+    document.addEventListener("lesson-changed", update);
+    update();
+  }
+
+  var SMALLEST_SCALE = 0.5;
+
+  function fit(box, target) {
+    if (!box.clientWidth) return;               // hidden: redone when it appears
+    target.style.fontSize = "";
+    var excess = box.scrollWidth - box.clientWidth;
+    if (excess <= 1) return;
+    var base = parseFloat(getComputedStyle(target).fontSize);
+    var scale = Math.max(SMALLEST_SCALE, (box.clientWidth - 2) / box.scrollWidth);
+    target.style.fontSize = (base * scale).toFixed(2) + "px";
+    for (var i = 0; i < 6 && box.scrollWidth > box.clientWidth + 1 && scale > SMALLEST_SCALE; i++) {
+      scale = Math.max(SMALLEST_SCALE, scale * (box.clientWidth - 2) / box.scrollWidth - 0.01);
+      target.style.fontSize = (base * scale).toFixed(2) + "px";
+    }
+  }
+
+  function fitWidth() {
+    var pairs = [];
+    document.querySelectorAll(".equation math").forEach(function (m) { pairs.push([m, m]); });
+    document.querySelectorAll("section.code pre").forEach(function (pre) { pairs.push([pre, pre]); });
+    function redo() { pairs.forEach(function (p) { fit(p[0], p[1]); }); }
+    redo();
+    if (window.ResizeObserver) {
+      var pending = false;
+      var ro = new ResizeObserver(function () {
+        if (pending) return;
+        pending = true;
+        requestAnimationFrame(function () { pending = false; redo(); });
+      });
+      pairs.forEach(function (p) { ro.observe(p[0]); });
+    } else {
+      window.addEventListener("resize", redo);
+    }
+  }
+
+  function buildCode(sec) {
+    Array.prototype.forEach.call(sec.querySelectorAll("pre"), function (pre) {
+      pre.classList.add("has-copy");
+      copyButton(pre);
+    });
+    timeline(Array.prototype.slice.call(sec.querySelectorAll(".step")));
+  }
+
+  function init() {
+    document.querySelectorAll("pre > code").forEach(highlight);
+    document.querySelectorAll("section.code").forEach(buildCode);
+    unifyModel();
+    document.querySelectorAll("ol.derivation, ol.observations").forEach(function (ol) {
+      timeline(Array.prototype.filter.call(ol.children, function (li) {
+        return !li.classList.contains("group") && !li.classList.contains("loose");
+      }));
+    });
+    buildSections();
+    buildToc();
+    fitWidth();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+
+  window.Lesson = { init: init, highlightText: highlightText };
+})();
+
+</script><script>
+
+(function () {
+  "use strict";
+
+  var PT = /^pt/i.test(document.documentElement.lang);
+  var TXT = PT
+    ? { versus: " contra ", right: "(eixo à direita)", in: " em " }
+    : { versus: " versus ", right: "(right axis)", in: " in " };
+
+  var DEFS = {};
+  var REDRAWS = [];
+
+  function register(name, def) {
+    DEFS[name] = def;
+    if (document.body) init();
+  }
+
+  function linspace(a, b, n) {
+    var v = [];
+    for (var i = 0; i < n; i++) v.push(n === 1 ? a : a + ((b - a) * i) / (n - 1));
+    return v;
+  }
+
+  function rk4(f, t, y, h, p) {
+    var k1 = f(t, y, p);
+    var k2 = f(t + h / 2, y.map(function (v, i) { return v + (h / 2) * k1[i]; }), p);
+    var k3 = f(t + h / 2, y.map(function (v, i) { return v + (h / 2) * k2[i]; }), p);
+    var k4 = f(t + h, y.map(function (v, i) { return v + h * k3[i]; }), p);
+    return y.map(function (v, i) { return v + (h / 6) * (k1[i] + 2 * k2[i] + 2 * k3[i] + k4[i]); });
+  }
+
+  function integrate(deriv, y0, t0, tf, p, n) {
+    n = n || 2000;
+    var h = (tf - t0) / n;
+    var y = y0.slice();
+    var out = { t: [t0], y: y.map(function (v) { return [v]; }) };
+    for (var k = 1; k <= n; k++) {
+      y = rk4(deriv, t0 + (k - 1) * h, y, h, p);
+      out.t.push(t0 + k * h);
+      y.forEach(function (v, i) { out.y[i].push(v); });
+    }
+    return out;
+  }
+
+  function root(f, a, b) {
+    var fa = f(a), fb = f(b);
+    if (!(isFinite(fa) && isFinite(fb)) || fa * fb > 0) return NaN;
+    for (var i = 0; i < 200; i++) {
+      var m = (a + b) / 2, fm = f(m);
+      if (fm === 0 || (b - a) / 2 < 1e-12 * Math.max(1, Math.abs(m))) return m;
+      if (fa * fm < 0) { b = m; } else { a = m; fa = fm; }
+    }
+    return (a + b) / 2;
+  }
+
+  function fmt(v, decimals) {
+    if (!isFinite(v)) return "—";
+    var s = v.toFixed(decimals == null ? 2 : decimals);
+    return PT ? s.replace(".", ",") : s;
+  }
+
+  function niceStep(span) {
+    var raw = span / 5;
+    var mag = Math.pow(10, Math.floor(Math.log10(raw)));
+    var r = raw / mag;
+    return (r < 1.5 ? 1 : r < 3 ? 2 : r < 7 ? 5 : 10) * mag;
+  }
+
+  function decimalsOf(step) {
+    return Math.max(0, -Math.floor(Math.log10(step) + 1e-9));
+  }
+
+  function scaleY(min, max, fixed) {
+    if (fixed) return { min: fixed[0], max: fixed[1], step: niceStep(fixed[1] - fixed[0]) };
+    if (!(isFinite(min) && isFinite(max))) { min = 0; max = 1; }
+    if (min >= 0 && min < 0.3 * max) min = 0;
+    if (max === min) max = min + (Math.abs(min) || 1);
+    var step = niceStep(max - min);
+    return { min: Math.floor(min / step + 1e-9) * step, max: Math.ceil(max / step - 1e-9) * step, step: step };
+  }
+
+  function scaleX(min, max, fixed) {
+    if (fixed) { min = fixed[0]; max = fixed[1]; }
+    if (!(isFinite(min) && isFinite(max))) { min = 0; max = 1; }
+    if (max === min) max = min + 1;
+    return { min: min, max: max, step: niceStep(max - min) };
+  }
+
+  function normalize(raw, n) {
+    if (Array.isArray(raw)) return raw;
+    return (raw.y || []).slice(0, n).map(function (y) { return { x: raw.x, y: y }; });
+  }
+
+  function seriesSpec(s) {
+    return typeof s === "string" ? { name: s, axis: 1, type: "line" }
+      : { name: s.name, axis: s.axis || 1, type: s.type || "line" };
+  }
+
+  function color(name) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || "#888";
+  }
+
+  var DASHES = [[], [7, 4], [2, 3], [9, 3, 2, 3]];
+
+  function draw(state) {
+    var canvas = state.canvas, def = state.def, series = state.series, specs = state.specs;
+    var parent = canvas.parentElement;
+    var w = canvas.clientWidth || (parent && parent.clientWidth) || 600;
+    var h = state.height;
+    var dpr = window.devicePixelRatio || 1;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.height = h + "px";
+
+    var ctx = canvas.getContext("2d");
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+
+    var hasY2 = specs.some(function (s) { return s.axis === 2; });
+    var m = { left: 60, right: hasY2 ? 60 : 14, top: 12, bottom: 46 };
+    var lw = w - m.left - m.right, lh = h - m.top - m.bottom;
+
+    var xs = { min: Infinity, max: -Infinity };
+    var ys = [null, { min: Infinity, max: -Infinity }, { min: Infinity, max: -Infinity }];
+    series.forEach(function (s, i) {
+      var e = ys[specs[i].axis];
+      s.x.forEach(function (x, k) {
+        var y = s.y[k];
+        if (!isFinite(x) || !isFinite(y)) return;
+        if (x < xs.min) xs.min = x; if (x > xs.max) xs.max = x;
+        if (y < e.min) e.min = y; if (y > e.max) e.max = y;
+      });
+    });
+
+    var lim = def.limits || {};
+    var ex = scaleX(xs.min, xs.max, lim.x);
+    var ey = [null, scaleY(ys[1].min, ys[1].max, lim.y), hasY2 ? scaleY(ys[2].min, ys[2].max, lim.y2) : null];
+    state.scales = { x: ex, y: ey, m: m, lw: lw, lh: lh };
+
+    function px(x) { return m.left + ((x - ex.min) / (ex.max - ex.min)) * lw; }
+    function py(y, e) { var s = ey[e]; return m.top + lh - ((y - s.min) / (s.max - s.min)) * lh; }
+    state.px = px; state.py = py;
+
+    var colRule = color("--rule"), colMuted = color("--muted"), colFg = color("--fg");
+    ctx.lineWidth = 1;
+    ctx.font = "13px " + color("--serif");
+
+    var cy = decimalsOf(ey[1].step), v;
+    for (v = ey[1].min; v <= ey[1].max + ey[1].step / 2; v += ey[1].step) {
+      var yp = py(v, 1);
+      ctx.strokeStyle = colRule;
+      ctx.globalAlpha = Math.abs(v - ey[1].min) < 1e-12 ? 1 : 0.35;
+      ctx.beginPath(); ctx.moveTo(m.left - 4, yp); ctx.lineTo(m.left + lw, yp); ctx.stroke();
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = colMuted; ctx.textAlign = "right"; ctx.textBaseline = "middle";
+      ctx.fillText(fmt(v, cy), m.left - 7, yp);
+    }
+    if (hasY2) {
+      var c2 = decimalsOf(ey[2].step);
+      for (v = ey[2].min; v <= ey[2].max + ey[2].step / 2; v += ey[2].step) {
+        var y2p = py(v, 2);
+        ctx.strokeStyle = colRule;
+        ctx.beginPath(); ctx.moveTo(m.left + lw, y2p); ctx.lineTo(m.left + lw + 4, y2p); ctx.stroke();
+        ctx.fillStyle = colMuted; ctx.textAlign = "left"; ctx.textBaseline = "middle";
+        ctx.fillText(fmt(v, c2), m.left + lw + 7, y2p);
+      }
+    }
+    var cx = decimalsOf(ex.step);
+    for (v = Math.ceil(ex.min / ex.step - 1e-9) * ex.step; v <= ex.max + 1e-9 * Math.abs(ex.max || 1); v += ex.step) {
+      var xp = px(v);
+      ctx.strokeStyle = colRule;
+      ctx.beginPath(); ctx.moveTo(xp, m.top + lh); ctx.lineTo(xp, m.top + lh + 4); ctx.stroke();
+      ctx.fillStyle = colMuted; ctx.textAlign = "center"; ctx.textBaseline = "top";
+      ctx.fillText(fmt(v, cx), xp, m.top + lh + 7);
+    }
+
+    ctx.strokeStyle = colRule;
+    ctx.beginPath();
+    ctx.moveTo(m.left, m.top); ctx.lineTo(m.left, m.top + lh); ctx.lineTo(m.left + lw, m.top + lh);
+    if (hasY2) ctx.lineTo(m.left + lw, m.top);
+    ctx.stroke();
+
+    ctx.fillStyle = colFg;
+    ctx.font = "14px " + color("--serif");
+    ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
+    ctx.fillText(def.xLabel || "x", m.left + lw / 2, h - 10);
+    ctx.save(); ctx.translate(14, m.top + lh / 2); ctx.rotate(-Math.PI / 2);
+    ctx.fillText(def.yLabel || "y", 0, 0); ctx.restore();
+    if (hasY2) {
+      ctx.save(); ctx.translate(w - 8, m.top + lh / 2); ctx.rotate(Math.PI / 2);
+      ctx.fillText(def.y2Label || "y₂", 0, 0); ctx.restore();
+    }
+
+    ctx.save();
+    ctx.beginPath(); ctx.rect(m.left - 5, m.top - 5, lw + 10, lh + 10); ctx.clip();
+    series.forEach(function (s, i) {
+      var sp = specs[i], c = color("--series-" + (i + 1)) || colFg;
+      ctx.strokeStyle = c; ctx.fillStyle = c; ctx.lineWidth = 2;
+      if (sp.type === "points") {
+        s.x.forEach(function (x, k) {
+          if (!isFinite(x) || !isFinite(s.y[k])) return;
+          ctx.beginPath(); ctx.arc(px(x), py(s.y[k], sp.axis), 3.5, 0, 2 * Math.PI); ctx.fill();
+        });
+        return;
+      }
+      ctx.setLineDash(DASHES[i] || []);
+      ctx.beginPath();
+      var open = false;
+      s.x.forEach(function (x, k) {
+        var y = s.y[k];
+        if (!isFinite(x) || !isFinite(y)) { open = false; return; }
+        if (!open) { ctx.moveTo(px(x), py(y, sp.axis)); open = true; }
+        else ctx.lineTo(px(x), py(y, sp.axis));
+      });
+      ctx.stroke(); ctx.setLineDash([]);
+    });
+    ctx.restore();
+
+    if (state.cursor != null) drawCursor(ctx, state);
+  }
+
+  function drawCursor(ctx, state) {
+    var e = state.scales, m = e.m;
+    var x = e.x.min + ((state.cursor - m.left) / e.lw) * (e.x.max - e.x.min);
+    if (x < e.x.min || x > e.x.max) return;
+    var lines = [state.def.xLabel.replace(/\s*\(.*\)$/, "") + " = " + fmt(x, decimalsOf(e.x.step) + 1)];
+    state.series.forEach(function (s, i) {
+      var sp = state.specs[i];
+      if (sp.type === "points") return;
+      var y = interpolate(s, x);
+      if (!isFinite(y)) return;
+      lines.push(sp.name + ": " + fmt(y, decimalsOf(e.y[sp.axis].step) + 1));
+      ctx.fillStyle = color("--series-" + (i + 1));
+      ctx.beginPath(); ctx.arc(state.px(x), state.py(y, sp.axis), 4, 0, 2 * Math.PI); ctx.fill();
+    });
+
+    var xp = state.px(x);
+    ctx.strokeStyle = color("--muted"); ctx.setLineDash([3, 3]); ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(xp, m.top); ctx.lineTo(xp, m.top + e.lh); ctx.stroke(); ctx.setLineDash([]);
+
+    ctx.font = "13px " + color("--serif");
+    var width = Math.max.apply(null, lines.map(function (l) { return ctx.measureText(l).width; })) + 16;
+    var height = lines.length * 15 + 10;
+    var bx = xp + 10 + width > m.left + e.lw ? xp - 10 - width : xp + 10;
+    ctx.fillStyle = color("--bg"); ctx.strokeStyle = color("--rule");
+    ctx.fillRect(bx, m.top + 6, width, height); ctx.strokeRect(bx, m.top + 6, width, height);
+    ctx.fillStyle = color("--fg"); ctx.textAlign = "left"; ctx.textBaseline = "top";
+    lines.forEach(function (l, k) { ctx.fillText(l, bx + 8, m.top + 11 + k * 15); });
+  }
+
+  function interpolate(s, x) {
+    for (var k = 1; k < s.x.length; k++) {
+      var a = s.x[k - 1], b = s.x[k];
+      if ((a <= x && x <= b) || (b <= x && x <= a)) {
+        if (a === b) return s.y[k];
+        return s.y[k - 1] + ((x - a) / (b - a)) * (s.y[k] - s.y[k - 1]);
+      }
+    }
+    return NaN;
+  }
+
+  function check(state) {
+    var name = state.name, warned = state.warned;
+    var byAxis = {};
+    state.series.forEach(function (s, i) {
+      var sp = state.specs[i];
+      (byAxis[sp.axis] = byAxis[sp.axis] || []).push(i);
+      var bad = s.y.filter(function (v) { return !isFinite(v); }).length;
+      if (bad && !warned["nan" + i]) {
+        warned["nan" + i] = 1;
+        console.warn("[plot] " + name + ': series "' + sp.name + '" has ' + bad + " non-finite values — the curve will have gaps.");
+      }
+    });
+    Object.keys(byAxis).forEach(function (e) {
+      if (byAxis[e].length < 2) return;
+      var sc = state.scales.y[e], span = sc.max - sc.min;
+      byAxis[e].forEach(function (i) {
+        var ys = state.series[i].y.filter(isFinite);
+        if (!ys.length || state.specs[i].type === "points") return;
+        var amp = Math.max.apply(null, ys) - Math.min.apply(null, ys);
+        if (amp > 0 && amp < 0.08 * span && !warned["flat" + i]) {
+          warned["flat" + i] = 1;
+          console.warn("[plot] " + name + ': series "' + state.specs[i].name + '" varies only ' +
+            Math.round((100 * amp) / span) + "% of the height of axis " + e + " — on the plot it is a flat line. " +
+            "Put it on axis 2 ({ name, axis: 2 }) or in a figure of its own.");
+        }
+      });
+    });
+  }
+
+  function pairs(txt) {
+    var p = {};
+    (txt || "").split(",").forEach(function (pair) {
+      var kv = pair.split("=");
+      if (kv.length === 2) p[kv[0].trim()] = parseFloat(kv[1].trim());
+    });
+    return p;
+  }
+
+  function mount(el, name) {
+    var def = DEFS[name];
+    el.classList.add("frame");
+    var params = Object.assign({}, def.defaults || {}, pairs(el.dataset.params));
+    var specs = (def.series || []).map(seriesSpec);
+    var height = Math.min(420, Math.max(320, parseFloat(el.dataset.height) || 340));
+
+    var canvas = document.createElement("canvas");
+    canvas.setAttribute("role", "img");
+    canvas.setAttribute("aria-label", (def.yLabel || "y") + TXT.versus + (def.xLabel || "x"));
+    el.appendChild(canvas);
+
+    var legend = document.createElement("div");
+    legend.className = "legend";
+    legend.innerHTML = specs.map(function (s, i) {
+      return '<span class="l-' + (i + 1) + (s.type === "points" ? " l-points" : "") + '">' +
+        s.name + (s.axis === 2 ? " <small>" + TXT.right + "</small>" : "") + "</span>";
+    }).join("");
+    el.appendChild(legend);
+
+    var readout = document.createElement("p");
+    readout.className = "readout";
+    el.appendChild(readout);
+
+    var controls = document.createElement("div");
+    controls.className = "controls";
+    el.appendChild(controls);
+
+    var state = { name: name, def: def, canvas: canvas, specs: specs, height: height, cursor: null, warned: {} };
+
+    function recompute() {
+      state.series = normalize(def.compute(params), specs.length);
+      if (state.series.length !== specs.length) {
+        console.error("[plot] " + name + ": compute() returned " + state.series.length +
+          " series, and `series` declares " + specs.length + ".");
+      }
+      state.series = state.series.slice(0, specs.length);
+      draw(state);
+      check(state);
+      readout.textContent = typeof def.readout === "function" ? def.readout(state.series, params) : "";
+    }
+    function redraw() { if (state.series) draw(state); }
+
+    var requested = (el.dataset.controls || "").split(",").map(function (s) { return s.trim(); }).filter(Boolean);
+    if (requested.length > 4) console.warn("[plot] " + name + ": " + requested.length + " controls — the limit is four.");
+    requested.forEach(function (spec) {
+      var q = spec.split(":"), key = q[0].trim();
+      var f = q.length === 4 ? q.slice(1).map(parseFloat) : (def.ranges || {})[key];
+      if (!f) {
+        console.error("[plot] " + name + ': control "' + key + '" has no range — declare it in ranges or as "' + key + ':min:max:step".');
+        return;
+      }
+      if (!(key in params)) {
+        console.error("[plot] " + name + ': control "' + key + '" is not in defaults, and compute() never reads it.');
+        return;
+      }
+      if (params[key] < f[0] || params[key] > f[1]) {
+        console.warn("[plot] " + name + ": " + key + " = " + params[key] + " is outside the range [" + f[0] + ", " + f[1] + "].");
+      }
+      var unit = (def.units || {})[key] || "";
+      var decimals = decimalsOf(f[2]);
+
+      var block = document.createElement("div");
+      block.className = "control";
+      var labelEl = document.createElement("label");
+      var nameSpan = document.createElement("span");
+      var text = (def.labels || {})[key] || key;
+      nameSpan.textContent = text;
+      var value = document.createElement("span");
+      value.className = "value";
+      function show() { value.textContent = fmt(params[key], decimals) + (unit ? " " + unit : ""); }
+      show();
+      labelEl.appendChild(nameSpan); labelEl.appendChild(value);
+
+      var range = document.createElement("input");
+      range.type = "range";
+      range.min = f[0]; range.max = f[1]; range.step = f[2];
+      range.value = params[key];
+      range.setAttribute("aria-label", text + (unit ? TXT.in + unit : ""));
+      range.addEventListener("input", function () {
+        params[key] = parseFloat(range.value);
+        show();
+        recompute();
+      });
+      block.appendChild(labelEl); block.appendChild(range);
+      controls.appendChild(block);
+    });
+
+    canvas.addEventListener("pointermove", function (ev) {
+      state.cursor = ev.clientX - canvas.getBoundingClientRect().left;
+      redraw();
+    });
+    canvas.addEventListener("pointerleave", function () { state.cursor = null; redraw(); });
+
+    recompute();
+    REDRAWS.push(redraw);
+  }
+
+  function init() {
+    document.querySelectorAll(".plot[data-plot]").forEach(function (el) {
+      var name = el.dataset.plot;
+      if (el.dataset.mounted || !DEFS[name]) return;   // idempotent; waits for register
+      el.dataset.mounted = "1";
+      mount(el, name);
+    });
+  }
+
+  function redrawAll() { REDRAWS.forEach(function (f) { f(); }); }
+
+  window.addEventListener("resize", redrawAll);
+  document.addEventListener("theme-changed", redrawAll);
+  if (window.matchMedia) {
+    var mq = window.matchMedia("(prefers-color-scheme: dark)");
+    if (mq.addEventListener) mq.addEventListener("change", redrawAll);
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+  else init();
+
+  window.addEventListener("load", function () {
+    document.querySelectorAll(".plot[data-plot]").forEach(function (el) {
+      if (!el.dataset.mounted) console.error('[plot] no Plot.register("' + el.dataset.plot + '") — the figure is empty.');
+    });
+  });
+
+  window.Plot = {
+    register: register,
+    init: init,
+    integrate: integrate,
+    linspace: linspace,
+    root: root,
+    fmt: fmt
+  };
+})();
+
+</script><script>
+
+(function () {
+  "use strict";
+
+  var PYODIDE = "https://cdn.jsdelivr.net/pyodide/v0.27.2/full/";
+  var KEY = "lesson-editor:" + location.pathname;
+  var INDENT = "    ";
+  var PT = /^pt/i.test(document.documentElement.lang);
+  var TXT = PT ? {
+    empty: "O editor começa vazio.\n\n" +
+      "Em cada bloco de código da lição, o botão  → editor  traz aquele trecho " +
+      "para cá, no fim do programa. Monte o programa passo a passo e aperte " +
+      "Rodar (ou Ctrl+Enter).",
+    open: "Abrir o editor de código",
+    editor: "Editor de código",
+    panel: "Editor de Python",
+    run: "Rodar (Ctrl+Enter)",
+    clear: "Esvaziar o editor",
+    close: "Fechar o editor",
+    code: "Código Python",
+    firstTime: "Na primeira vez que você rodar, o Python é baixado (precisa de internet).",
+    clearOutput: "Apagar a saída, sem mexer no código",
+    output: "Saída",
+    dividerLabel: "Arraste para dividir o espaço entre o código e a saída",
+    dividerHint: "Arraste para dividir o espaço · duplo clique volta ao meio",
+    sideLabel: "Arraste para dividir a largura entre a lição e o editor",
+    sideHint: "Arraste para os lados · duplo clique volta ao padrão",
+    send: "Levar este trecho ao fim do programa no editor",
+    figure: "Figura gerada pelo programa",
+    downloading: "Baixando o Python… (só na primeira vez)",
+    noConnection: "sem conexão",
+    editorEmpty: "O editor está vazio: traga os trechos da lição com  → editor.",
+    libraries: "Carregando as bibliotecas que o programa importa…",
+    running: "Rodando…",
+    done: function (s) { return "Pronto em " + s.toFixed(1).replace(".", ",") + " s"; },
+    nothingPrinted: "(o programa não imprimiu nada)",
+    noPython: "Não consegui baixar o Python. O editor precisa de internet na primeira vez.",
+    error: "O programa parou com um erro"
+  } : {
+    empty: "The editor starts empty.\n\n" +
+      "In each code block of the lesson, the  → editor  button brings that piece " +
+      "here, to the end of the program. Build the program step by step and press " +
+      "Run (or Ctrl+Enter).",
+    open: "Open the code editor",
+    editor: "Code editor",
+    panel: "Python editor",
+    run: "Run (Ctrl+Enter)",
+    clear: "Empty the editor",
+    close: "Close the editor",
+    code: "Python code",
+    firstTime: "The first time you run, Python is downloaded (needs internet).",
+    clearOutput: "Clear the output, keeping the code",
+    output: "Output",
+    dividerLabel: "Drag to split the space between the code and the output",
+    dividerHint: "Drag to split the space · double-click to reset",
+    sideLabel: "Drag to split the width between the lesson and the editor",
+    sideHint: "Drag sideways · double-click to reset",
+    send: "Bring this piece to the end of the program in the editor",
+    figure: "Figure made by the program",
+    downloading: "Downloading Python… (first time only)",
+    noConnection: "no connection",
+    editorEmpty: "The editor is empty: bring the pieces of the lesson with  → editor.",
+    libraries: "Loading the libraries the program imports…",
+    running: "Running…",
+    done: function (s) { return "Done in " + s.toFixed(1) + " s"; },
+    nothingPrinted: "(the program printed nothing)",
+    noPython: "Could not download Python. The editor needs internet the first time.",
+    error: "The program stopped with an error"
+  };
+
+  var py = null;          // the Pyodide instance, once loaded
+  var loading = null;     // the loading promise, so it never loads twice
+
+  function save(txt) { try { localStorage.setItem(KEY, txt); } catch (e) { /* no storage */ } }
+  function saved() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+  function forget() { try { localStorage.removeItem(KEY); } catch (e) { /* idem */ } }
+
+  function highlight(txt) {
+    return window.Lesson && window.Lesson.highlightText
+      ? window.Lesson.highlightText(txt)
+      : txt.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  function el(tag, cls, txt) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (txt != null) e.textContent = txt;
+    return e;
+  }
+
+  function icon(name) { return el("span", "ic ic-" + name); }
+
+  function label(b, parts) {
+    b.textContent = "";
+    parts.forEach(function (p) { b.append(typeof p === "string" ? document.createTextNode(p) : p); });
+  }
+
+  function button(cls, parts, title) {
+    var b = el("button", cls);
+    b.type = "button";
+    if (parts) label(b, [].concat(parts));
+    if (title) b.title = title;
+    return b;
+  }
+
+  function iconButton(cls, name, title) {
+    var b = button(cls + " editor-icon", [icon(name)], title);
+    b.setAttribute("aria-label", title);
+    return b;
+  }
+
+  function build() {
+    var open = button("editor-open", null, TXT.open);
+    open.setAttribute("aria-label", TXT.open);
+    open.append(el("span", "editor-open-text", TXT.editor), el("span", "editor-open-arrow"));
+
+    var panel = el("aside", "editor-panel");
+    panel.setAttribute("aria-label", TXT.panel);
+
+    var top = el("div", "editor-top");
+    var run = iconButton("editor-run", "play", TXT.run);
+    var clear = iconButton("editor-button editor-clear", "trash", TXT.clear);
+    var close = iconButton("editor-button editor-close", "x", TXT.close);
+    top.append(el("span", "editor-title", TXT.editor), run, clear, close);
+
+    var code = el("div", "editor-code");
+    var lines = el("div", "editor-lines");
+    lines.setAttribute("aria-hidden", "true");
+    var field = el("div", "editor-field");
+    var shade = el("pre", "editor-highlight");
+    shade.setAttribute("aria-hidden", "true");
+    var shadeCode = el("code", "no-highlight");
+    shade.appendChild(shadeCode);
+    var text = el("textarea", "editor-text");
+    text.spellcheck = false;
+    text.placeholder = TXT.empty;
+    text.setAttribute("autocapitalize", "off");
+    text.setAttribute("autocomplete", "off");
+    text.setAttribute("aria-label", TXT.code);
+    field.append(shade, text);
+    code.append(lines, field);
+
+    var output = el("div", "editor-output");
+    var outputTop = el("div", "editor-output-top");
+    var status = el("span", "editor-status", TXT.firstTime);
+    var clearOutput = iconButton("editor-clear-output", "trash", TXT.clearOutput);
+    outputTop.append(el("span", "", TXT.output), status, clearOutput);
+    var result = el("div", "editor-result");
+    output.append(outputTop, result);
+
+    var divider = el("div", "editor-divider");
+    divider.setAttribute("role", "separator");
+    divider.setAttribute("aria-orientation", "horizontal");
+    divider.setAttribute("aria-label", TXT.dividerLabel);
+    divider.title = TXT.dividerHint;
+    divider.tabIndex = 0;
+
+    var side = el("div", "editor-divider-v");
+    side.setAttribute("role", "separator");
+    side.setAttribute("aria-orientation", "vertical");
+    side.setAttribute("aria-label", TXT.sideLabel);
+    side.title = TXT.sideHint;
+    side.tabIndex = 0;
+
+    panel.append(side, top, code, divider, output);
+    document.body.append(open, panel);
+
+    var root = document.documentElement;
+    var MIN_EDITOR = 360;   // px: the editor still shows a whole line of code
+    var MIN_LESSON = 420;   // px: the lesson is still a readable column
+
+    function redrawLesson() { window.dispatchEvent(new Event("resize")); }
+
+    function editorWidth(w) {
+      w = Math.max(MIN_EDITOR, Math.min(window.innerWidth - MIN_LESSON, w));
+      root.style.setProperty("--editor-w", w + "px");
+      return w;
+    }
+
+    function defaultWidth() {
+      root.style.removeProperty("--editor-w");
+      try { localStorage.removeItem("lesson-editor-width"); } catch (e) { /* no storage */ }
+      redrawLesson();
+    }
+
+    function saveWidth(w) {
+      try { localStorage.setItem("lesson-editor-width", String(Math.round(w))); } catch (e) { /* idem */ }
+    }
+
+    side.addEventListener("pointerdown", function (ev) {
+      ev.preventDefault();
+      side.setPointerCapture(ev.pointerId);
+      side.classList.add("dragging");
+      document.body.classList.add("resizing");
+      var last = panel.offsetWidth, frame = 0;
+      function move(e) {
+        var gap = parseFloat(getComputedStyle(panel).right) || 0;
+        last = editorWidth(window.innerWidth - gap - e.clientX - gap / 2);
+        if (!frame) frame = requestAnimationFrame(function () { frame = 0; redrawLesson(); });
+      }
+      function release() {
+        side.classList.remove("dragging");
+        document.body.classList.remove("resizing");
+        side.removeEventListener("pointermove", move);
+        side.removeEventListener("pointerup", release);
+        side.removeEventListener("pointercancel", release);
+        saveWidth(last);
+        redrawLesson();
+      }
+      side.addEventListener("pointermove", move);
+      side.addEventListener("pointerup", release);
+      side.addEventListener("pointercancel", release);
+    });
+    side.addEventListener("dblclick", defaultWidth);
+    side.addEventListener("keydown", function (ev) {
+      var step = ev.shiftKey ? 120 : 40;
+      if (ev.key === "ArrowLeft" || ev.key === "ArrowRight") {
+        ev.preventDefault();
+        saveWidth(editorWidth(panel.offsetWidth + (ev.key === "ArrowLeft" ? step : -step)));
+        redrawLesson();
+      }
+    });
+
+    try {
+      var width = parseFloat(localStorage.getItem("lesson-editor-width"));
+      if (width) editorWidth(width);
+    } catch (e) { /* no storage: the default width stays */ }
+
+    var MINIMUM = 90;   // px: neither of the two disappears completely
+    var ratio = null;
+
+    function free() {
+      return panel.clientHeight - top.offsetHeight - divider.offsetHeight;
+    }
+
+    function split(height) {
+      height = Math.max(MINIMUM, Math.min(free() - MINIMUM, height));
+      code.style.flex = "0 1 " + height + "px";
+      output.style.flex = "1 1 0";
+      return height;
+    }
+
+    function middle() {
+      split(panel.clientHeight / 2 - top.offsetHeight - divider.offsetHeight / 2);
+    }
+
+    function defaultSplit() {
+      ratio = null;
+      middle();
+      try { localStorage.removeItem("lesson-editor-split"); } catch (e) { /* no storage */ }
+    }
+
+    function saveSplit(height) {
+      ratio = height / free();
+      try { localStorage.setItem("lesson-editor-split", ratio.toFixed(4)); } catch (e) { /* idem */ }
+    }
+
+    window.addEventListener("resize", function () { if (ratio) split(ratio * free()); else middle(); });
+
+    divider.addEventListener("pointerdown", function (ev) {
+      ev.preventDefault();
+      divider.setPointerCapture(ev.pointerId);
+      divider.classList.add("dragging");
+      var y0 = ev.clientY, h0 = code.offsetHeight, last = h0;
+      function move(e) { last = split(h0 + e.clientY - y0); }
+      function release() {
+        divider.classList.remove("dragging");
+        divider.removeEventListener("pointermove", move);
+        divider.removeEventListener("pointerup", release);
+        divider.removeEventListener("pointercancel", release);
+        saveSplit(last);
+      }
+      divider.addEventListener("pointermove", move);
+      divider.addEventListener("pointerup", release);
+      divider.addEventListener("pointercancel", release);
+    });
+    divider.addEventListener("dblclick", defaultSplit);
+    divider.addEventListener("keydown", function (ev) {
+      var step = ev.shiftKey ? 80 : 24;
+      if (ev.key === "ArrowUp" || ev.key === "ArrowDown") {
+        ev.preventDefault();
+        saveSplit(split(code.offsetHeight + (ev.key === "ArrowDown" ? step : -step)));
+      }
+    });
+
+    try {
+      var savedSplit = parseFloat(localStorage.getItem("lesson-editor-split"));
+      if (savedSplit > 0 && savedSplit < 1) ratio = savedSplit;
+      else if (savedSplit) localStorage.removeItem("lesson-editor-split");
+    } catch (e) { /* no storage: the default split stays */ }
+    if (ratio) split(ratio * free()); else middle();
+
+    function sync() {
+      shade.scrollTop = text.scrollTop;
+      shade.scrollLeft = text.scrollLeft;
+      lines.scrollTop = text.scrollTop;
+    }
+
+    function paint() {
+      shadeCode.innerHTML = highlight(text.value) + "\n";
+      var n = text.value ? text.value.split("\n").length : 1;
+      var nums = "";
+      for (var i = 1; i <= n; i++) nums += i + "\n";
+      lines.textContent = nums;
+      sync();
+    }
+
+    function onEdit() { paint(); save(text.value); }
+
+    function insert(txt) {
+      if (!document.execCommand || !document.execCommand("insertText", false, txt)) {
+        var a = text.selectionStart, b = text.selectionEnd;
+        text.value = text.value.slice(0, a) + txt + text.value.slice(b);
+        text.selectionStart = text.selectionEnd = a + txt.length;
+      }
+      onEdit();
+    }
+
+    text.addEventListener("input", onEdit);
+    text.addEventListener("scroll", sync);
+    text.addEventListener("keydown", function (ev) {
+      if (ev.key === "Enter" && (ev.ctrlKey || ev.metaKey)) {
+        ev.preventDefault();
+        execute();
+      } else if (ev.key === "Tab" && !ev.shiftKey) {
+        ev.preventDefault();
+        insert(INDENT);
+      } else if (ev.key === "Enter") {
+        var before = text.value.slice(0, text.selectionStart);
+        var line = before.slice(before.lastIndexOf("\n") + 1);
+        var indent = line.match(/^[ \t]*/)[0];
+        if (/:[ \t]*(#.*)?$/.test(line)) indent += INDENT;
+        ev.preventDefault();
+        insert("\n" + indent);
+      }
+    });
+
+    text.value = saved() || "";
+    paint();
+
+    function toggle(isOpen) {
+      document.body.classList.toggle("with-editor", isOpen);
+      setTimeout(function () { window.dispatchEvent(new Event("resize")); }, 320);
+    }
+    open.addEventListener("click", function () {
+      toggle(true);
+      setTimeout(function () { text.focus(); }, 320);
+    });
+    close.addEventListener("click", function () { toggle(false); });
+    clear.addEventListener("click", function () {
+      text.value = "";
+      forget();
+      paint();
+      result.textContent = "";
+      text.focus();
+    });
+    run.addEventListener("click", execute);
+    clearOutput.addEventListener("click", function () {
+      result.textContent = "";
+      status.textContent = "";
+    });
+
+    function append(piece) {
+      piece = piece.replace(/\s+$/, "") + "\n";
+      var current = text.value.replace(/\s+$/, "");
+      text.value = current ? current + "\n\n" + piece : piece;
+      onEdit();
+      text.scrollTop = text.scrollHeight;
+      sync();
+      code.classList.remove("received");
+      void code.offsetWidth;          // restarts the flash
+      code.classList.add("received");
+    }
+
+    document.querySelectorAll("section.code pre").forEach(function (pre) {
+      var c = pre.querySelector("code");
+      if (!c) return;
+      var b = iconButton("to-editor", "send", TXT.send);
+      b.addEventListener("click", function (ev) {
+        ev.stopPropagation();           // the click neither opens nor closes the step around it
+        if (!document.body.classList.contains("with-editor")) toggle(true);
+        append(c.textContent);
+        label(b, [icon("check")]);
+        b.classList.add("sent");
+        setTimeout(function () { label(b, [icon("send")]); b.classList.remove("sent"); }, 1600);
+      });
+      pre.classList.add("has-copy");
+      pre.appendChild(b);
+    });
+
+    function write(txt, cls) {
+      var last = result.lastElementChild;
+      if (last && last.tagName === "PRE" && last.className === cls) {
+        last.textContent += txt + "\n";
+      } else {
+        result.appendChild(el("pre", cls, txt + "\n"));
+      }
+    }
+
+    function figure(b64) {
+      var img = el("img", "out-figure");
+      img.alt = TXT.figure;
+      img.src = "data:image/png;base64," + b64;
+      result.appendChild(img);
+    }
+
+    function load() {
+      if (loading) return loading;
+      loading = new Promise(function (ok, fail) {
+        status.textContent = TXT.downloading;
+        var s = document.createElement("script");
+        s.src = PYODIDE + "pyodide.js";
+        s.onload = function () {
+          window.loadPyodide({ indexURL: PYODIDE }).then(function (p) {
+            py = p;
+            py.setStdout({ batched: function (t) { write(t, "out-text"); } });
+            py.setStderr({ batched: function (t) {
+              if (/building the font cache/i.test(t)) return;
+              write(t, "out-error");
+            } });
+            py.globals.set("_lesson_figure", figure);
+            ok(py);
+          }, fail);
+        };
+        s.onerror = function () { fail(new Error(TXT.noConnection)); };
+        document.head.appendChild(s);
+      });
+      loading.catch(function () { loading = null; });
+      return loading;
+    }
+
+    var MPL_SETUP = [
+      "import io, base64",
+      "import matplotlib",
+      "matplotlib.use('Agg')",
+      "import matplotlib.pyplot as plt",
+      "def _lesson_show(*a, **k):",
+      "    for n in plt.get_fignums():",
+      "        b = io.BytesIO()",
+      "        plt.figure(n).savefig(b, format='png', dpi=110, bbox_inches='tight')",
+      "        _lesson_figure(base64.b64encode(b.getvalue()).decode())",
+      "    plt.close('all')",
+      "plt.show = _lesson_show"
+    ].join("\n");
+
+    var busy = false;
+
+    function execute() {
+      if (busy) return;
+      var source = text.value;
+      if (!source.trim()) {
+        status.textContent = TXT.editorEmpty;
+        return;
+      }
+      busy = true;
+      run.disabled = true;
+      result.textContent = "";
+      var t0;
+
+      load().then(function () {
+        status.textContent = TXT.libraries;
+        return py.loadPackagesFromImports(source);
+      }).then(function () {
+        if (py.loadedPackages.matplotlib) py.runPython(MPL_SETUP);
+        status.textContent = TXT.running;
+        t0 = performance.now();
+        var ns = py.globals.get("dict")();
+        return py.runPythonAsync(source, { globals: ns }).finally(function () { ns.destroy(); });
+      }).then(function () {
+        if (py.loadedPackages.matplotlib) py.runPython("_lesson_show()");
+        var s = (performance.now() - t0) / 1000;
+        status.textContent = TXT.done(s);
+        if (!result.childElementCount) write(TXT.nothingPrinted, "out-empty");
+      }).catch(function (err) {
+        if (!py) {
+          status.textContent = TXT.noPython;
+          return;
+        }
+        var msg = String((err && err.message) || err);
+        var cut = msg.indexOf('File "<exec>"');
+        write(cut >= 0 ? "Traceback (most recent call last):\n  " + msg.slice(cut) : msg, "out-error");
+        status.textContent = TXT.error;
+      }).finally(function () {
+        busy = false;
+        run.disabled = false;
+      });
+    }
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", build);
+  else build();
+})();
+
+</script></body></html>
