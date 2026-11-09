@@ -1249,7 +1249,9 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
   background: var(--sec-color);
   border-color: var(--sec-color);
   color: var(--bg);
-  box-shadow: 0 3px 0 color-mix(in srgb, var(--sec-color) 60%, #000);
+  /* The pressable edge, toward the southeast: straight down, a circle's edge
+     reads as a squashed ball. */
+  box-shadow: 2px 2px 0 color-mix(in srgb, var(--sec-color) 60%, #000);
 }
 .tab.active .tab-name { color: var(--fg); }
 .tab:not(.active):hover .tab-dot { border-color: var(--sec-color); }
