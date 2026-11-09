@@ -57,7 +57,7 @@ O início do Opus é a criação da sessão, um pouco antes do prompt; as duas r
 | Agente | Arquivo entregue | Tamanho |
 |---|---|---|
 | Opus | `teste-16-opus\lessons\adiabatic-pfr-first-order.html` | 137 KB |
-| Codex | `teste-16-codexdiabatic-pfr.html` | 112 KB |
+| Codex | `teste-16-codex\adiabatic-pfr.html` | 112 KB |
 
 Copiadas para [com-skill-opus/](./com-skill-opus/) e [com-skill-codex/](./com-skill-codex/). Nas duas, o programa completo, levado ao editor da própria lição e rodado no navegador, imprime os números do gabarito e desenha a figura.
 
