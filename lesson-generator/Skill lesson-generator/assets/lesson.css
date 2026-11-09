@@ -1163,8 +1163,9 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
 /* ---------- the trail of steps (lesson.js, buildTabs) ---------- */
 /* One part of the lesson on screen at a time. The parts are the steps of a
    trail, as on a course map: numbered circles joined by a line, the name
-   under each. Open step: a solid circle in its part's color, with the
-   pressable edge of the buttons. Finished: a check. Not reached: a hollow,
+   under each. Open step: a solid circle in its part's color, with no
+   shadow (any edge under a circle reads as a squashed ball). Finished: a
+   check. Not reached: a hollow,
    neutral circle. The line between two steps fills as the first is read. */
 
 .tab-panel { --sec-color: var(--muted); }
@@ -1249,9 +1250,6 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
   background: var(--sec-color);
   border-color: var(--sec-color);
   color: var(--bg);
-  /* The pressable edge, toward the southeast: straight down, a circle's edge
-     reads as a squashed ball. */
-  box-shadow: 2px 2px 0 color-mix(in srgb, var(--sec-color) 60%, #000);
 }
 .tab.active .tab-name { color: var(--fg); }
 .tab:not(.active):hover .tab-dot { border-color: var(--sec-color); }
