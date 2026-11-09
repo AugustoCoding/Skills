@@ -37,12 +37,12 @@
     and: " e ",
     ofBalance: " do ",
     complementary: "Equação complementar",
-    parameters: "Os parâmetros",
-    technique: "A técnica",
+    parameters: "Parâmetros",
+    technique: "Técnica",
     toc: "Sumário da lição",
-    steps: "Os passos",
-    answer: "A resposta",
-    figure: "A figura",
+    steps: "Passos",
+    answer: "Resposta",
+    figure: "Figura",
     observations: "Observações",
     problem: "Exercício",
     parts: "As partes da lição",
@@ -52,12 +52,12 @@
     and: " and ",
     ofBalance: " of the ",
     complementary: "Complementary equation",
-    parameters: "The parameters",
-    technique: "The technique",
+    parameters: "Parameters",
+    technique: "Technique",
     toc: "Lesson contents",
-    steps: "The steps",
-    answer: "The answer",
-    figure: "The figure",
+    steps: "Steps",
+    answer: "Answer",
+    figure: "Figure",
     observations: "Observations",
     problem: "Problem",
     parts: "The parts of the lesson",
@@ -354,6 +354,8 @@
       panel._label = part.label;
       if (part.h2) {
         part.h2.classList.add("part-title");
+        // The heading without its article, as on the trail ("The model" → "Model").
+        if (!part.h2.children.length) part.h2.textContent = part.label;
         var body = document.createElement("div");
         body.className = "part-body";
         part.nodes.forEach(function (x) { body.appendChild(x); });

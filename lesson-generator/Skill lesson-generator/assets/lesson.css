@@ -823,7 +823,7 @@ div.answer {
   background: color-mix(in srgb, var(--sec-result) 12%, var(--code-bg));
 }
 div.answer::before {
-  content: "The answer";
+  content: "Answer";
   display: block;
   margin-bottom: 0.45rem;
   font-family: var(--serif);
@@ -1098,7 +1098,7 @@ canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
   background: color-mix(in srgb, var(--sec-model) 12%, var(--code-bg));
 }
 .technique::before {
-  content: "The technique";
+  content: "Technique";
   display: block;
   margin-bottom: 0.3rem;
   font-family: var(--serif);
@@ -1125,7 +1125,7 @@ canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
   background: var(--code-bg);
 }
 .problem::before {
-  content: "The problem";
+  content: "Problem";
   display: block;
   margin-bottom: 0.4rem;
   font-size: var(--t-label);
@@ -1169,9 +1169,9 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
    a label is hidden (content: none), it stays hidden. */
 :where(:root:lang(pt)) .eq-block .symbols::before { content: "onde"; }
 :where(:root:lang(pt)) .so-far::before { content: "Até aqui"; }
-:where(:root:lang(pt)) div.answer::before { content: "A resposta"; }
-:where(:root:lang(pt)) .technique::before { content: "A técnica"; }
-:where(:root:lang(pt)) .problem::before { content: "O exercício"; }
+:where(:root:lang(pt)) div.answer::before { content: "Resposta"; }
+:where(:root:lang(pt)) .technique::before { content: "Técnica"; }
+:where(:root:lang(pt)) .problem::before { content: "Exercício"; }
 :where(:root:lang(pt)) .in-your-code::before { content: "No seu código"; }
 
 /* ---------- the trail of steps (lesson.js, buildTabs) ---------- */

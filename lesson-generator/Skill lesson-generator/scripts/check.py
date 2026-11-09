@@ -148,6 +148,17 @@ def numbers(text, prose=False):
     return out
 
 
+# A title that starts with an article ("The model", "O modelo").
+ARTICLE = re.compile(r"^(the|o|a|os|as|el|la|los|las|le|les|der|die|das)\s", re.I)
+
+
+def check_titles(doc):
+    titles = doc.find("h1") + doc.find("h2") + [h for s in doc.find("div", "step") for h in s.kids("h3")]
+    found = [t.text().strip() for t in titles if ARTICLE.match(t.text().strip())]
+    if found:
+        warning("Titles that start with an article (" + "; ".join(found[:4]) + "): drop it, as in \"Model\" or \"Integration\".")
+
+
 def check_structure(doc):
     body = doc.find("body")[0] if doc.find("body") else doc
     kids = body.kids()
@@ -510,6 +521,7 @@ def main():
     COMMA = lang.split("-")[0].lower() in COMMA_LANGS
 
     check_structure(doc)
+    check_titles(doc)
     output = check_code(doc, path.parent)
     check_result(doc, output)
     check_assets(doc, path.parent)
