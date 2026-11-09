@@ -1160,10 +1160,12 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
 :where(:root:lang(pt)) .problem::before { content: "O exercício"; }
 :where(:root:lang(pt)) .in-your-code::before { content: "No seu código"; }
 
-/* ---------- the tabs (lesson.js, buildTabs) ---------- */
-/* One part of the lesson on screen at a time. Each tab has its part's color,
-   used only in the line under the active tab, in the check of a finished part
-   and in the "Continue" button; the rest is neutral. */
+/* ---------- the trail of steps (lesson.js, buildTabs) ---------- */
+/* One part of the lesson on screen at a time. The parts are the steps of a
+   trail, as on a course map: numbered circles joined by a line, the name
+   under each. Open step: a solid circle in its part's color, with the
+   pressable edge of the buttons. Finished: a check. Not reached: a hollow,
+   neutral circle. The line between two steps fills as the first is read. */
 
 .tab-panel { --sec-color: var(--muted); }
 [data-sec="model"]  { --sec-color: var(--sec-model); }
@@ -1171,7 +1173,7 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
 [data-sec="result"] { --sec-color: var(--sec-result); }
 .tab-panel > h2.part-title { color: var(--sec-color); margin-top: 1.8rem; }
 
-/* The bar sticks to the top of the sheet while the part scrolls under it.
+/* The trail sticks to the top of the sheet while the part scrolls under it.
    The sheet scrolls inside itself, and the browser sticks the bar below the
    sheet's top padding: the negative top takes it up to the very edge, so no
    text shows above it. (On a phone the window scrolls, and top is 0.) */
@@ -1180,44 +1182,80 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
   top: calc(14px - 3.4rem);
   z-index: 5;
   margin: 0 0 1.4rem;
-  padding-top: 0.4rem;
+  padding: 0.7rem 0 0.6rem;
   background: var(--bg);
+  border-bottom: 1px solid var(--rule);
 }
-.tabs-list {
-  display: flex;
-  gap: 0.25rem;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
+.tabs-list { display: flex; }
 .tab {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
+  --dot: 2.1rem;
+  position: relative;
   flex: 1 1 0;
-  justify-content: center;
-  min-width: max-content;
-  padding: 0.6rem 0.8rem 0.55rem;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0 0.2rem 0.2rem;
   background: none;
   border: 0;
-  border-bottom: 3px solid transparent;
-  border-radius: var(--radius-s) var(--radius-s) 0 0;
   color: var(--muted);
   font-family: var(--serif);
-  font-size: var(--t-small);
-  font-weight: 600;
-  white-space: nowrap;
   cursor: pointer;
 }
-.tab:hover { color: var(--fg); background: var(--card-bg); }
-.tab.active { color: var(--fg); border-bottom-color: var(--sec-color); }
-.tab:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-.tab-count { font-weight: 400; font-size: 0.9em; color: var(--muted); font-variant-numeric: tabular-nums; }
-.tab-count:empty { display: none; }
-.tab-check { display: none; color: var(--sec-color); }
+/* The line from the previous step to this one: a neutral rail, filled in the
+   previous step's progress (--reach, set by lesson.js). */
+.tab + .tab::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--dot) / 2 - 2px);
+  right: calc(50% + var(--dot) / 2 + 0.3rem);
+  left: calc(-50% + var(--dot) / 2 + 0.3rem);
+  height: 4px;
+  border-radius: 2px;
+  background:
+    linear-gradient(var(--sec-result), var(--sec-result)) left / var(--reach, 0%) 100% no-repeat,
+    var(--card-edge);
+  transition: background-size 0.3s ease;
+}
+.tab-dot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--dot);
+  height: var(--dot);
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 2px solid var(--card-edge);
+  background: var(--bg);
+  font-size: var(--t-small);
+  font-weight: 700;
+  color: var(--muted);
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.tab-check { display: none; }
+.tab-name { font-size: var(--t-small); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.tab-count { font-size: 0.78rem; font-variant-numeric: tabular-nums; min-height: 1em; line-height: 1; }
+
+/* Finished: the circle filled in the part's color, with a check. */
+.tab.complete .tab-dot { background: var(--sec-color); border-color: var(--sec-color); color: var(--bg); }
+.tab.complete .tab-number { display: none; }
 .tab.complete .tab-check { display: inline-block; }
-/* The progress of the whole lesson: a thin neutral rail, filled in green. */
-.tabs-progress { height: 3px; background: var(--card-edge); border-radius: 2px; overflow: hidden; }
-.tabs-progress > span { display: block; height: 100%; width: 0; background: var(--sec-result); transition: width 0.3s ease; }
+/* Open: solid circle and the pressable edge; the name in the text color. */
+.tab.active .tab-dot {
+  background: var(--sec-color);
+  border-color: var(--sec-color);
+  color: var(--bg);
+  box-shadow: 0 3px 0 color-mix(in srgb, var(--sec-color) 60%, #000);
+}
+.tab.active .tab-name { color: var(--fg); }
+.tab:not(.active):hover .tab-dot { border-color: var(--sec-color); }
+.tab:not(.active):hover .tab-name { color: var(--fg); }
+.tab:focus-visible { outline: none; }
+.tab:focus-visible .tab-dot { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* The problem has no color of its own: its circle uses the text color. */
+.tab[data-sec="problem"] { --sec-color: var(--fg); }
 
 /* "Continue": a solid button with a pressable edge, in the next part's color. */
 .continue {

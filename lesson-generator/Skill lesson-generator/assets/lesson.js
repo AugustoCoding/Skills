@@ -44,7 +44,7 @@
     answer: "A resposta",
     figure: "A figura",
     observations: "Observações",
-    problem: "O exercício",
+    problem: "Exercício",
     parts: "As partes da lição",
     next: "Continuar: "
   } : {
@@ -59,7 +59,7 @@
     answer: "The answer",
     figure: "The figure",
     observations: "Observations",
-    problem: "The problem",
+    problem: "Problem",
     parts: "The parts of the lesson",
     next: "Continue: "
   };
@@ -291,15 +291,23 @@
     update();
   }
 
-  /* THE TABS — the lesson's parts become tabs: the problem (the statement and
-     the opening paragraph) and one tab per h2 (the model, the code, the
-     result). One part is on screen at a time. Each tab shows how many of its
-     items were opened ("3/5") and a check once all were; a thin bar under the
-     tabs shows the progress of the whole lesson. At the end of each part, a
-     "Continue" button leads to the next. Every tab can be clicked at any
+  /* THE TABS — the lesson's parts become the steps of a trail: the problem
+     (the statement and the opening paragraph) and one step per h2 (the model,
+     the code, the result), as numbered circles joined by a line. One part is
+     on screen at a time. The open step has a solid circle; a finished one, a
+     check; the line between two steps fills as the first is read; under each
+     name, how many of its items were opened ("3/10"). At the end of each part,
+     a "Continue" button leads to the next. Every step can be clicked at any
      time: the order is a guide, not a lock. The lesson's markup does not
-     change: the tabs come from its h2s. */
+     change: the steps come from its h2s. */
   var SECTIONS = ["model", "code", "result"];
+
+  // On the trail, a part's name goes without its article: "The model" →
+  // "Model", "O código" → "Código". The numbered circle already says which.
+  function stepName(title) {
+    var t = title.trim().replace(/^(the|o|a|os|as)\s+/i, "");
+    return t.charAt(0).toUpperCase() + t.slice(1);
+  }
 
   function buildTabs() {
     var titles = Array.prototype.slice.call(document.querySelectorAll("body > h2"));
@@ -322,7 +330,7 @@
       var own = [], m = h2.nextSibling;
       while (m && !ends(m)) { own.push(m); m = m.nextSibling; }
       end = m;
-      parts.push({ label: h2.textContent.trim(), sec: SECTIONS[i] || "result", nodes: own, h2: h2 });
+      parts.push({ label: stepName(h2.textContent), sec: SECTIONS[i] || "result", nodes: own, h2: h2 });
     });
 
     var nav = document.createElement("nav");
@@ -331,11 +339,7 @@
     list.className = "tabs-list";
     list.setAttribute("role", "tablist");
     list.setAttribute("aria-label", TXT.parts);
-    var bar = document.createElement("div");
-    bar.className = "tabs-progress";
-    var fill = document.createElement("span");
-    bar.appendChild(fill);
-    nav.append(list, bar);
+    nav.appendChild(list);
     document.body.insertBefore(nav, first);
 
     var tabs = [], panels = [], items = [], visited = [], current = 0;
@@ -378,14 +382,21 @@
       tab.dataset.sec = part.sec;
       tab.setAttribute("role", "tab");
       tab.setAttribute("aria-controls", panel.id);
+      // The circle holds the step's number, or a check once it is finished.
+      var dot = document.createElement("span");
+      dot.className = "tab-dot";
+      var number = document.createElement("span");
+      number.className = "tab-number";
+      number.textContent = String(i + 1);
+      var check = document.createElement("span");
+      check.className = "ic ic-check tab-check";
+      dot.append(number, check);
       var name = document.createElement("span");
       name.className = "tab-name";
       name.textContent = part.label;
       var count = document.createElement("span");
       count.className = "tab-count";
-      var check = document.createElement("span");
-      check.className = "ic ic-check tab-check";
-      tab.append(name, count, check);
+      tab.append(dot, name, count);
       tab.addEventListener("click", function () { show(i, true); });
       tab.addEventListener("keydown", function (ev) {
         var k = ev.key === "ArrowRight" ? 1 : ev.key === "ArrowLeft" ? -1 : 0;
@@ -400,16 +411,15 @@
     });
 
     function update() {
-      var total = 0, done = 0;
       items.forEach(function (its, j) {
         var read = its.filter(function (x) { return x.dataset.read; }).length;
         var complete = its.length ? read === its.length : !!visited[j];
-        total += its.length || 1;
-        done += its.length ? read : (visited[j] ? 1 : 0);
         tabs[j].classList.toggle("complete", complete);
-        tabs[j].querySelector(".tab-count").textContent = its.length && !complete ? read + "/" + its.length : "";
+        tabs[j].querySelector(".tab-count").textContent = its.length ? read + "/" + its.length : "";
+        // The line toward the next step fills with this step's progress.
+        var share = its.length ? read / its.length : (visited[j] ? 1 : 0);
+        if (tabs[j + 1]) tabs[j + 1].style.setProperty("--reach", (100 * share).toFixed(0) + "%");
       });
-      fill.style.width = (100 * done / total).toFixed(1) + "%";
     }
 
     function show(k, scroll) {
