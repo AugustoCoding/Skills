@@ -1259,26 +1259,47 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
 /* The problem has no color of its own: its circle uses the text color. */
 .tab[data-sec="problem"] { --sec-color: var(--fg); }
 
-/* "Continue": a solid button in the next part's color, flat. */
+/* "Next": a card for the next step, at the end of each part. Neutral, like
+   the collapsed items; the next step's numbered circle, as on the trail, is
+   the only color; on hover, the border takes that color too. */
 .continue {
   display: flex;
   align-items: center;
-  gap: 0.55rem;
-  margin: 2.4rem 0 0 auto;
-  padding: 0.75rem 1.3rem;
-  border: none;
+  gap: 0.9rem;
+  width: 100%;
+  margin: 2.4rem 0 0;
+  padding: 0.8rem 1.1rem;
+  background: var(--card-bg);
+  border: 2px solid var(--card-edge);
   border-radius: var(--radius);
-  color: var(--bg);
-  background: var(--sec-color);
+  color: var(--fg);
   font-family: var(--serif);
-  font-size: var(--t-text);
-  font-weight: 600;
+  text-align: left;
   cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
 }
 .continue[data-sec="model"]  { --sec-color: var(--sec-model); }
 .continue[data-sec="code"]   { --sec-color: var(--sec-code); }
 .continue[data-sec="result"] { --sec-color: var(--sec-result); }
-.continue:hover { background: color-mix(in srgb, var(--sec-color) 88%, var(--fg)); }
+.continue:hover { border-color: var(--sec-color); background: color-mix(in srgb, var(--fg) 6%, var(--bg)); }
+.continue-dot {
+  flex: none;
+  aspect-ratio: 1;
+  width: 2.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--sec-color);
+  color: var(--bg);
+  font-size: var(--t-small);
+  font-weight: 700;
+}
+.continue-text { flex: 1; display: flex; flex-direction: column; line-height: 1.25; }
+.continue-label { font-size: var(--t-small); color: var(--muted); }
+.continue-name { font-size: var(--t-h3); font-weight: 600; }
+.continue .ic-arrow { color: var(--muted); font-size: 1.1rem; transition: color 0.15s ease, translate 0.15s ease; }
+.continue:hover .ic-arrow { color: var(--sec-color); translate: 0.15rem 0; }
 
 /* In the table of contents, only the open part lists its items. */
 .toc-group:not(.current) .toc-group-items { display: none; }

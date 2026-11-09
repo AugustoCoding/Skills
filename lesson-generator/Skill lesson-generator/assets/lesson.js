@@ -46,7 +46,7 @@
     observations: "Observações",
     problem: "Exercício",
     parts: "As partes da lição",
-    next: "Continuar: "
+    next: "Próximo"
   } : {
     copy: "Copy the code",
     and: " and ",
@@ -61,7 +61,7 @@
     observations: "Observations",
     problem: "Problem",
     parts: "The parts of the lesson",
-    next: "Continue: "
+    next: "Next"
   };
 
   // The short name of a balance, from its title, without what follows the
@@ -365,9 +365,23 @@
         next.type = "button";
         next.className = "continue";
         next.dataset.sec = parts[i + 1].sec;
+        // A card for the next step: its numbered circle, as on the trail,
+        // "Next" and its name, and an arrow.
+        var circle = document.createElement("span");
+        circle.className = "continue-dot";
+        circle.textContent = String(i + 2);
+        var words = document.createElement("span");
+        words.className = "continue-text";
+        var small = document.createElement("span");
+        small.className = "continue-label";
+        small.textContent = TXT.next;
+        var big = document.createElement("span");
+        big.className = "continue-name";
+        big.textContent = parts[i + 1].label;
+        words.append(small, big);
         var arrow = document.createElement("span");
         arrow.className = "ic ic-arrow";
-        next.append(document.createTextNode(TXT.next + parts[i + 1].label), arrow);
+        next.append(circle, words, arrow);
         next.addEventListener("click", function () { show(i + 1, true); });
         panel.appendChild(next);
       }
