@@ -1230,8 +1230,8 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
   transition: background-size 0.3s ease;
 }
 :root {
-  --trail-fill: color-mix(in srgb, var(--fg) 21%, var(--bg));
-  --trail-rail: color-mix(in srgb, var(--fg) 9%, var(--bg));
+  --trail-fill: color-mix(in srgb, var(--fg) 15%, var(--bg));
+  --trail-rail: color-mix(in srgb, var(--fg) 6%, var(--bg));
 }
 .tab-dot {
   /* Always a circle: never shrunk by the flex layout, always 1:1. */
