@@ -1229,7 +1229,7 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
     var(--card-edge);
   transition: background-size 0.3s ease;
 }
-:root { --trail-fill: color-mix(in srgb, var(--fg) 45%, var(--bg)); }
+:root { --trail-fill: color-mix(in srgb, var(--fg) 28%, var(--bg)); }
 .tab-dot {
   /* Always a circle: never shrunk by the flex layout, always 1:1. */
   flex: none;
