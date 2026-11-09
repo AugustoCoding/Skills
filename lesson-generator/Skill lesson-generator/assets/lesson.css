@@ -163,6 +163,12 @@
 
 /* ---------- structure ---------- */
 
+/* No gray box over what is tapped: on a touch screen, Chrome paints a
+   translucent rectangle over every clickable element (the trail's steps, the
+   timeline items). The lesson marks its own states; keyboard focus keeps its
+   outline. */
+* { -webkit-tap-highlight-color: transparent; }
+
 /* Text scale. Everything in the lesson is in rem, so this one value sets the
    size of all of it. 17px: at 19px too little fit on the screen. */
 html { font-size: 17px; }
