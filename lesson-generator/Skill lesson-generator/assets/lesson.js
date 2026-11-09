@@ -295,8 +295,8 @@
      (the statement and the opening paragraph) and one step per h2 (the model,
      the code, the result), as numbered circles joined by a line. One part is
      on screen at a time. The open step has a solid circle; a finished one, a
-     check; the line between two steps fills as the first is read; under each
-     name, how many of its items were opened ("3/10"). At the end of each part,
+     check; the line between two steps fills as the first is read. At the end
+     of each part,
      a "Continue" button leads to the next. Every step can be clicked at any
      time: the order is a guide, not a lock. The lesson's markup does not
      change: the steps come from its h2s. */
@@ -394,9 +394,7 @@
       var name = document.createElement("span");
       name.className = "tab-name";
       name.textContent = part.label;
-      var count = document.createElement("span");
-      count.className = "tab-count";
-      tab.append(dot, name, count);
+      tab.append(dot, name);
       tab.addEventListener("click", function () { show(i, true); });
       tab.addEventListener("keydown", function (ev) {
         var k = ev.key === "ArrowRight" ? 1 : ev.key === "ArrowLeft" ? -1 : 0;
@@ -415,7 +413,6 @@
         var read = its.filter(function (x) { return x.dataset.read; }).length;
         var complete = its.length ? read === its.length : !!visited[j];
         tabs[j].classList.toggle("complete", complete);
-        tabs[j].querySelector(".tab-count").textContent = its.length ? read + "/" + its.length : "";
         // The line toward the next step fills with this step's progress.
         var share = its.length ? read / its.length : (visited[j] ? 1 : 0);
         if (tabs[j + 1]) tabs[j + 1].style.setProperty("--reach", (100 * share).toFixed(0) + "%");

@@ -1219,6 +1219,9 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
   transition: background-size 0.3s ease;
 }
 .tab-dot {
+  /* Always a circle: never shrunk by the flex layout, always 1:1. */
+  flex: none;
+  aspect-ratio: 1;
   position: relative;
   display: flex;
   align-items: center;
@@ -1236,7 +1239,6 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
 }
 .tab-check { display: none; }
 .tab-name { font-size: var(--t-small); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
-.tab-count { font-size: 0.78rem; font-variant-numeric: tabular-nums; min-height: 1em; line-height: 1; }
 
 /* Finished: the circle filled in the part's color, with a check. */
 .tab.complete .tab-dot { background: var(--sec-color); border-color: var(--sec-color); color: var(--bg); }
@@ -1485,6 +1487,9 @@ ol.observations > li.collapsed { margin-bottom: var(--band-gap); min-height: var
 
 @media (max-width: 760px) {
   .tabs { top: 0; }
+  .tab { --dot: 1.75rem; padding: 0; }
+  .tab-name { font-size: 0.78rem; }
+  .tab + .tab::before { right: calc(50% + var(--dot) / 2 + 0.15rem); left: calc(-50% + var(--dot) / 2 + 0.15rem); }
   html { height: auto; overflow: visible; }
   body, body:not(.with-editor) { height: auto; overflow: visible; margin: 0 auto; padding: 3.2rem 1.1rem 4rem; border-radius: 0; box-shadow: none; }
 }
