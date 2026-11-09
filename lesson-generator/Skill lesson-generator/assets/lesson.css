@@ -1196,6 +1196,9 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
 .tabs-list { display: flex; }
 .tab {
   --dot: 2.1rem;
+  /* The ring around a reached circle: the line itself, split in two to go
+     round the number — the same 4 px, flush with the circle. */
+  --ring-out: 4px;
   position: relative;
   flex: 1 1 0;
   min-width: 0;
@@ -1216,9 +1219,9 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
 .tab + .tab::before {
   content: "";
   position: absolute;
-  top: calc(var(--dot) / 2 - 2px);
-  right: calc(50% + var(--dot) / 2 + 0.3rem);
-  left: calc(-50% + var(--dot) / 2 + 0.3rem);
+  top: calc(var(--ring-out) + var(--dot) / 2 - 2px);
+  right: calc(50% + var(--dot) / 2);
+  left: calc(-50% + var(--dot) / 2);
   height: 4px;
   border-radius: 2px;
   background:
@@ -1237,30 +1240,32 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
   justify-content: center;
   width: var(--dot);
   height: var(--dot);
+  margin: var(--ring-out) 0 calc(var(--ring-out) - 0.1rem);
   box-sizing: border-box;
   border-radius: 50%;
-  border: 2px solid var(--card-edge);
-  background: var(--bg);
+  /* Not reached yet: a disc in the rail's tone, where the light line ends. */
+  background: var(--card-edge);
   font-size: var(--t-small);
   font-weight: 700;
   color: var(--muted);
-  transition: background 0.15s ease, border-color 0.15s ease;
+  transition: background 0.15s ease, box-shadow 0.2s ease;
 }
+/* Reached: the filled line goes round the circle, flush with it. */
+.tab.reached .tab-dot { background: var(--bg); color: var(--fg); box-shadow: 0 0 0 var(--ring-out) var(--trail-fill); }
 .tab-check { display: none; }
 .tab-name { font-size: var(--t-small); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 
 /* Finished: the circle filled in the part's color, with a check. */
-.tab.complete .tab-dot { background: var(--sec-color); border-color: var(--sec-color); color: var(--bg); }
+.tab.complete .tab-dot { background: var(--sec-color); color: var(--bg); }
 .tab.complete .tab-number { display: none; }
 .tab.complete .tab-check { display: inline-block; }
 /* Open: a solid circle; the name in the text color. */
 .tab.active .tab-dot {
   background: var(--sec-color);
-  border-color: var(--sec-color);
   color: var(--bg);
 }
 .tab.active .tab-name { color: var(--fg); }
-.tab:not(.active):hover .tab-dot { border-color: var(--sec-color); }
+.tab:not(.active):hover .tab-dot { color: var(--fg); }
 .tab:not(.active):hover .tab-name { color: var(--fg); }
 .tab:focus-visible { outline: none; }
 .tab:focus-visible .tab-dot { outline: 2px solid var(--accent); outline-offset: 2px; }
@@ -1516,7 +1521,6 @@ ol.observations > li.collapsed { margin-bottom: var(--band-gap); min-height: var
   .tabs { top: 0; }
   .tab { --dot: 1.75rem; padding: 0; }
   .tab-name { font-size: 0.78rem; }
-  .tab + .tab::before { right: calc(50% + var(--dot) / 2 + 0.15rem); left: calc(-50% + var(--dot) / 2 + 0.15rem); }
   html { height: auto; overflow: visible; }
   body, body:not(.with-editor) { height: auto; overflow: visible; margin: 0 auto; padding: 3.2rem 1.1rem 4rem; border-radius: 0; box-shadow: none; }
 }

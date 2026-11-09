@@ -429,8 +429,13 @@
         tabs[j].classList.toggle("complete", complete);
         // The line toward the next step fills with this step's progress.
         var share = its.length ? read / its.length : (visited[j] ? 1 : 0);
-        if (tabs[j + 1]) tabs[j + 1].style.setProperty("--reach", (100 * share).toFixed(0) + "%");
+        if (tabs[j + 1]) {
+          tabs[j + 1].style.setProperty("--reach", (100 * share).toFixed(0) + "%");
+          // The line goes round the next circle once it has reached it.
+          tabs[j + 1].classList.toggle("reached", share === 1);
+        }
       });
+      tabs[0].classList.add("reached");
     }
 
     function show(k, scroll) {
