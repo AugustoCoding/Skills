@@ -1242,10 +1242,12 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
   --trail-rail: color-mix(in srgb, var(--fg) 6%, var(--bg));
 }
 .tab-dot {
-  /* Always a circle: never shrunk by the flex layout, always 1:1. */
+  /* Always a circle: never shrunk by the flex layout, always 1:1. Above the
+     lines, so a line never crosses the circle or its ring. */
   flex: none;
   aspect-ratio: 1;
   position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
