@@ -70,7 +70,8 @@
 
   /* THE TYPE SCALE: seven sizes, and every element of the lesson uses one.
        · serif: everything, including labels (tags, buttons, the numbers in
-         the dots), which go in spaced capitals;
+         the dots), which go in bold, in sentence case — never in spaced
+         capitals, the most common tell of a generated page;
        · mono: ONLY real code, what the student types or reads in the editor.
          A symbol (k, τ, C_A) is not code: it stays serif, as in the equation.
      No loose sizes: a new element picks its role here. */
@@ -80,8 +81,8 @@
   --t-text: 1rem;       /* everything that teaches: paragraphs, whys, boxes */
   --t-small: 0.9rem;    /* what is consulted: symbols, table, legend, controls */
   --t-code: 0.85rem;    /* code, in the lesson and in the editor */
-  --t-label: 0.78rem;   /* labels and buttons, in capitals */
-  --label-spacing: 0.08em;
+  --t-label: 0.85rem;   /* labels and buttons: bold, sentence case */
+  --label-spacing: 0;
 }
 
 /* Dark theme, two ways, with the same palette:
@@ -185,7 +186,6 @@ header.lesson .tag {
   font-size: var(--t-label);
   font-weight: 600;
   letter-spacing: var(--label-spacing);
-  text-transform: uppercase;
   color: var(--muted);
 }
 
@@ -204,10 +204,9 @@ h2 {
 
 /* Each section has its color, in its title: the student knows where they are
    by the color. The order of the lesson's h2s is fixed: model, code, result. */
-body > h2 { padding-left: 0.7rem; border-left: 4px solid var(--rule); }
-body > h2:nth-of-type(1) { color: var(--sec-model);  border-left-color: var(--sec-model); }
-body > h2:nth-of-type(2) { color: var(--sec-code);   border-left-color: var(--sec-code); }
-body > h2:nth-of-type(3) { color: var(--sec-result); border-left-color: var(--sec-result); }
+body > h2:nth-of-type(1) { color: var(--sec-model); }
+body > h2:nth-of-type(2) { color: var(--sec-code); }
+body > h2:nth-of-type(3) { color: var(--sec-result); }
 
 h3 {
   font-size: var(--t-h3);
@@ -464,11 +463,12 @@ ol.derivation > li.final .item-inner > p:not(.why) { margin: 0.9rem 0 0.3rem; }
   font-size: var(--t-label);
   font-weight: 600;
   letter-spacing: var(--label-spacing);
-  text-transform: uppercase;
   color: var(--sec-model);
   margin-right: 0.55rem;
 }
 .kind + .kind::before { content: "· "; margin-left: -0.3rem; }
+.kind, .source { display: inline-block; }
+.kind::first-letter, .source::first-letter { text-transform: uppercase; }
 /* The assumption is the step that changes from one exercise to the next: underlined. */
 .kind-assumption { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
 
@@ -577,7 +577,6 @@ td code { font-family: var(--serif); font-style: italic; font-size: 1.1em; backg
   font-size: var(--t-label);
   font-weight: 600;
   letter-spacing: var(--label-spacing);
-  text-transform: uppercase;
   color: var(--sec-model);
   margin-right: 0.5rem;
 }
@@ -604,12 +603,13 @@ td > .source { display: block; margin: 0.1rem 0 0.15rem; }
 
 /* A reminder that the teacher is available. Closes every lesson. */
 .ask {
-  background: var(--code-bg);
-  border-radius: var(--radius);
-  padding: 1rem 1.2rem;
+  border-top: 1px solid var(--rule);
+  padding: 1rem 0 0;
   margin: 2.5rem 0 0;
   font-size: var(--t-small);
+  color: var(--muted);
 }
+.ask strong { color: var(--fg); }
 
 /* ---------- MathML equations ---------- */
 /* The browser renders MathML natively. We only adjust scale and spacing: the
@@ -815,8 +815,6 @@ ol.derivation .why > .kind { display: none; }
 .step .item-inner > p.purpose { margin: 0 0 0.9rem; }
 .step .item-inner > p.so-far {
   margin: 0.9rem 0 0;
-  padding-left: 0.8rem;
-  border-left: 3px solid var(--sec-code);
   color: var(--muted);
 }
 .so-far::before {
@@ -824,7 +822,6 @@ ol.derivation .why > .kind { display: none; }
   margin-right: 0.5rem;
   font-size: var(--t-label);
   letter-spacing: var(--label-spacing);
-  text-transform: uppercase;
   font-weight: 600;
   color: var(--sec-code);
 }
@@ -845,7 +842,6 @@ div.answer::before {
   font-size: var(--t-label);
   font-weight: 600;
   letter-spacing: var(--label-spacing);
-  text-transform: uppercase;
   color: var(--sec-result);
 }
 div.answer > :last-child { margin-bottom: 0; }
@@ -911,7 +907,6 @@ pre.has-copy:hover .to-editor { opacity: 1; }
   font-size: var(--t-label);
   font-weight: 600;
   letter-spacing: var(--label-spacing);
-  text-transform: uppercase;
   padding: 0.35rem 0.7rem;
   background: var(--bg);
   color: var(--muted);
@@ -1122,7 +1117,6 @@ canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
   font-size: var(--t-label);
   font-weight: 600;
   letter-spacing: var(--label-spacing);
-  text-transform: uppercase;
   color: var(--sec-model);
 }
 .technique .technique-name {
@@ -1139,8 +1133,7 @@ canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
 .problem {
   margin: 0 0 1.6rem;
   padding: 1rem 1.25rem;
-  border-left: 4px solid var(--muted);
-  border-radius: 0 var(--radius) var(--radius) 0;
+  border-radius: var(--radius);
   background: var(--code-bg);
 }
 .problem::before {
@@ -1150,7 +1143,6 @@ canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
   font-size: var(--t-label);
   font-weight: 600;
   letter-spacing: var(--label-spacing);
-  text-transform: uppercase;
   color: var(--muted);
 }
 .problem > p { margin: 0 0 0.6rem; }
@@ -1175,7 +1167,6 @@ canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
   font-size: var(--t-label);
   font-weight: 600;
   letter-spacing: var(--label-spacing);
-  text-transform: uppercase;
   margin-bottom: 0.35rem;
   color: var(--sec-result);
 }
@@ -1236,7 +1227,7 @@ body {
   border-bottom: 14px solid transparent;
   line-height: 1.65;
   border-radius: 16px;
-  box-shadow: 0 0 0 1px var(--sheet-border), 0 12px 40px var(--sheet-shadow);
+  box-shadow: 0 0 0 1px var(--sheet-border), 0 1px 3px var(--sheet-shadow);
 }
 
 /* The editor dot does not cover the sheet. */
@@ -1508,7 +1499,7 @@ body.with-editor .editor-open { display: none; }
   /* Two blocks (the code and the output) with a gap between them, where the
      handle sits. The shadow follows each block (drop-shadow), not the whole box. */
   background: transparent;
-  filter: drop-shadow(0 0 1px var(--sheet-border)) drop-shadow(0 10px 18px var(--sheet-shadow));
+  filter: drop-shadow(0 0 1px var(--sheet-border)) drop-shadow(0 1px 2px var(--sheet-shadow));
   transform: translateX(calc(100% + 2 * var(--editor-gap)));
   transition: transform 0.3s ease;
 }
@@ -1528,7 +1519,6 @@ body.with-editor .editor-panel { transform: none; }
   font-size: var(--t-label);
   font-weight: 600;
   letter-spacing: var(--label-spacing);
-  text-transform: uppercase;
   color: var(--sec-code);
   margin-right: auto;
   white-space: nowrap;
@@ -1700,7 +1690,7 @@ body.resizing { user-select: none; }
   letter-spacing: var(--label-spacing);
   border-bottom: 1px solid var(--rule);
 }
-.editor-output-top > span:first-child { text-transform: uppercase; font-weight: 600; color: var(--sec-result); }
+.editor-output-top > span:first-child { font-weight: 600; color: var(--sec-result); }
 .editor-status { color: var(--muted); }
 .editor-clear-output {
   margin-left: auto;
