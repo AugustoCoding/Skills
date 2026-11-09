@@ -44,6 +44,10 @@
   --sec-model: #6b4f0e;
   --sec-code: #6c3573;
   --sec-result: #265c35;
+  /* The model's yellow in FILLS (circles, read dots): a lighter tone with dark
+     numbers on it (6.2:1). The dark tone above stays for text. */
+  --fill-model: #c99a2e;
+  --ink-model: var(--fg);
 
   /* Python syntax highlighting, in the tone of light VS Code. */
   --hl-kw: #af00db;
@@ -114,6 +118,8 @@
     --sec-model: #d1b878;
     --sec-code: #c3a6c8;
     --sec-result: #94bd9f;
+    --fill-model: var(--sec-model);
+    --ink-model: var(--bg);
     --hl-kw: #c586c0;
     --hl-def: #569cd6;
     --hl-str: #ce9178;
@@ -148,6 +154,8 @@
   --sec-model: #d1b878;
   --sec-code: #c3a6c8;
   --sec-result: #94bd9f;
+  --fill-model: var(--sec-model);
+  --ink-model: var(--bg);
   --hl-kw: #c586c0;
   --hl-def: #569cd6;
   --hl-str: #ce9178;
@@ -379,7 +387,7 @@ h3.balance {
 
 /* Derivation and observations are the same timeline, each in its section's
    color: --line-color. */
-ol.derivation   { --line-color: var(--sec-model); }
+ol.derivation   { --line-color: var(--sec-model); --line-fill: var(--fill-model); --line-ink: var(--ink-model); }
 ol.observations { --line-color: var(--sec-result); }
 
 ol.derivation,
@@ -750,11 +758,11 @@ ol.observations > li > h3 { cursor: pointer; transition: color 0.2s ease; }
    The next one to read: a fixed ring in that color — it marks the place
    without blinking. */
 :root { --dot-bg: color-mix(in srgb, var(--muted) 20%, var(--bg)); }
-[data-read]::before { color: var(--bg) !important; background: var(--line-color) !important; }
+[data-read]::before { color: var(--line-ink, var(--bg)) !important; background: var(--line-fill, var(--line-color)) !important; }
 .calling::before {
   color: var(--line-color) !important;
   background: var(--bg) !important;
-  box-shadow: inset 0 0 0 2px var(--line-color);
+  box-shadow: inset 0 0 0 2px var(--line-fill, var(--line-color));
 }
 .calling:hover::before,
 .calling:focus-visible::before { color: var(--bg) !important; background: var(--line-color) !important; }
@@ -1175,7 +1183,7 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
    neutral circle. The line between two steps fills as the first is read. */
 
 .tab-panel { --sec-color: var(--muted); }
-[data-sec="model"]  { --sec-color: var(--sec-model); }
+[data-sec="model"]  { --sec-color: var(--sec-model); --sec-fill: var(--fill-model); --sec-ink: var(--ink-model); }
 [data-sec="code"]   { --sec-color: var(--sec-code); }
 [data-sec="result"] { --sec-color: var(--sec-result); }
 .tab-panel > h2.part-title { color: var(--sec-color); margin-top: 1.8rem; }
@@ -1259,13 +1267,13 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
 .tab-name { font-size: var(--t-small); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 
 /* Finished: the circle filled in the part's color, with a check. */
-.tab.complete .tab-dot { background: var(--sec-color); color: var(--bg); }
+.tab.complete .tab-dot { background: var(--sec-fill, var(--sec-color)); color: var(--sec-ink, var(--bg)); }
 .tab.complete .tab-number { display: none; }
 .tab.complete .tab-check { display: inline-block; }
 /* Open: a solid circle; the name in the text color. */
 .tab.active .tab-dot {
-  background: var(--sec-color);
-  color: var(--bg);
+  background: var(--sec-fill, var(--sec-color));
+  color: var(--sec-ink, var(--bg));
 }
 .tab.active .tab-name { color: var(--fg); }
 .tab:not(.active):hover .tab-dot { color: var(--fg); }
@@ -1294,7 +1302,6 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
   cursor: pointer;
   transition: border-color 0.15s ease, background 0.15s ease;
 }
-.continue[data-sec="model"]  { --sec-color: var(--sec-model); }
 .continue[data-sec="code"]   { --sec-color: var(--sec-code); }
 .continue[data-sec="result"] { --sec-color: var(--sec-result); }
 .continue:hover { border-color: var(--sec-color); background: color-mix(in srgb, var(--fg) 6%, var(--bg)); }
@@ -1306,8 +1313,8 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: var(--sec-color);
-  color: var(--bg);
+  background: var(--sec-fill, var(--sec-color));
+  color: var(--sec-ink, var(--bg));
   font-size: var(--t-small);
   font-weight: 700;
 }
