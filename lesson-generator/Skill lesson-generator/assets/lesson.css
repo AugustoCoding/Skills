@@ -703,22 +703,18 @@ section.code { margin: 2.5rem 0; counter-reset: step; }
   font-weight: 600;
 }
 
-/* ---------- collapsing: items and sections ---------- */
-/* What an item or a section hides goes inside .x-body, a one-row grid that
-   slides from 1fr to 0fr, and .x-inner, which clips the overflow: the height
-   animates, instead of the content vanishing and appearing at once (lesson.js). */
+/* ---------- collapsing items ---------- */
+/* What an item hides goes inside .item-body, a one-row grid that slides from
+   1fr to 0fr, and .item-inner, which clips the overflow: the height animates,
+   instead of the content vanishing and appearing at once (lesson.js). */
 
-.item-body,
-.section-body {
+.item-body {
   display: grid;
   grid-template-rows: 1fr;
   opacity: 1;
   transition: grid-template-rows 0.38s ease, opacity 0.3s ease;
 }
 .item-inner { min-height: 0; overflow: hidden; }
-/* The section clips the overflow, but with side slack: the ring pulsing around
-   the dot leaves the column, and without the slack it would be cut. */
-.section-inner { min-height: 0; overflow: hidden; margin: 0 -0.8rem; padding: 0 0.8rem; }
 
 /* The lesson opens with everything COLLAPSED: each item shows only its dot and
    head, and the student sees at once how many steps each part has. The next
@@ -775,30 +771,8 @@ ol.derivation > li:not(.collapsed) > .item-head { margin: 0 0 0.6rem; }
 ol.derivation > li::before { top: 0; }
 ol.derivation .why > .kind { display: none; }
 
-/* THE SECTIONS: the title collapses the whole section; the small arrow tells
-   the state. The first section not yet opened calls, with its arrow pulsing. */
-.section-title { cursor: pointer; display: flex; align-items: center; gap: 0.7rem; }
-.section-title::after {
-  content: "";
-  flex: none;
-  width: 0.42rem;
-  height: 0.42rem;
-  margin-top: -0.2rem;
-  border-right: 2px solid currentColor;
-  border-bottom: 2px solid currentColor;
-  opacity: 0.55;
-  transform: rotate(45deg);
-  transition: transform 0.3s ease, margin 0.3s ease, opacity 0.2s ease;
-}
-.section-title:hover::after,
-.section-title:focus-visible::after { opacity: 1; }
-.section-title:focus-visible { outline: none; text-decoration: underline; }
-.section-title.section-collapsed::after { transform: rotate(-45deg); margin-top: 0; }
-.section-title.calling::after { opacity: 1; }
-.section-body.section-collapsed { grid-template-rows: 0fr; opacity: 0; }
-
 @media (prefers-reduced-motion: reduce) {
-  .item-body, .section-body, .section-title::after { transition: none; }
+  .item-body { transition: none; }
 }
 
 
@@ -1186,6 +1160,92 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
 :where(:root:lang(pt)) .problem::before { content: "O exercício"; }
 :where(:root:lang(pt)) .in-your-code::before { content: "No seu código"; }
 
+/* ---------- the tabs (lesson.js, buildTabs) ---------- */
+/* One part of the lesson on screen at a time. Each tab has its part's color,
+   used only in the line under the active tab, in the check of a finished part
+   and in the "Continue" button; the rest is neutral. */
+
+.tab-panel { --sec-color: var(--muted); }
+[data-sec="model"]  { --sec-color: var(--sec-model); }
+[data-sec="code"]   { --sec-color: var(--sec-code); }
+[data-sec="result"] { --sec-color: var(--sec-result); }
+.tab-panel > h2.part-title { color: var(--sec-color); margin-top: 1.8rem; }
+
+/* The bar sticks to the top of the sheet while the part scrolls under it.
+   The sheet scrolls inside itself, and the browser sticks the bar below the
+   sheet's top padding: the negative top takes it up to the very edge, so no
+   text shows above it. (On a phone the window scrolls, and top is 0.) */
+.tabs {
+  position: sticky;
+  top: calc(14px - 3.4rem);
+  z-index: 5;
+  margin: 0 0 1.4rem;
+  padding-top: 0.4rem;
+  background: var(--bg);
+}
+.tabs-list {
+  display: flex;
+  gap: 0.25rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex: 1 1 0;
+  justify-content: center;
+  min-width: max-content;
+  padding: 0.6rem 0.8rem 0.55rem;
+  background: none;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  border-radius: var(--radius-s) var(--radius-s) 0 0;
+  color: var(--muted);
+  font-family: var(--serif);
+  font-size: var(--t-small);
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.tab:hover { color: var(--fg); background: var(--card-bg); }
+.tab.active { color: var(--fg); border-bottom-color: var(--sec-color); }
+.tab:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.tab-count { font-weight: 400; font-size: 0.9em; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tab-count:empty { display: none; }
+.tab-check { display: none; color: var(--sec-color); }
+.tab.complete .tab-check { display: inline-block; }
+/* The progress of the whole lesson: a thin neutral rail, filled in green. */
+.tabs-progress { height: 3px; background: var(--card-edge); border-radius: 2px; overflow: hidden; }
+.tabs-progress > span { display: block; height: 100%; width: 0; background: var(--sec-result); transition: width 0.3s ease; }
+
+/* "Continue": a solid button with a pressable edge, in the next part's color. */
+.continue {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 2.4rem 0 0 auto;
+  padding: 0.75rem 1.3rem;
+  border: none;
+  border-radius: var(--radius);
+  color: var(--bg);
+  background: var(--sec-color);
+  box-shadow: 0 4px 0 color-mix(in srgb, var(--sec-color) 60%, #000);
+  font-family: var(--serif);
+  font-size: var(--t-text);
+  font-weight: 600;
+  cursor: pointer;
+}
+.continue[data-sec="model"]  { --sec-color: var(--sec-model); }
+.continue[data-sec="code"]   { --sec-color: var(--sec-code); }
+.continue[data-sec="result"] { --sec-color: var(--sec-result); }
+.continue:hover { background: color-mix(in srgb, var(--sec-color) 88%, var(--fg)); }
+.continue:active { translate: 0 3px; box-shadow: 0 1px 0 color-mix(in srgb, var(--sec-color) 60%, #000); }
+
+/* In the table of contents, only the open part lists its items. */
+.toc-group:not(.current) .toc-group-items { display: none; }
+.toc-group:not(.current) { margin-bottom: 0.5rem; }
+
 /* ---------- the sheet, the measure and the table of contents ---------- */
 /* The lesson sits on a SHEET, one tone above the page background, so the text
    does not touch the screen. Text and blocks take the whole width of the
@@ -1386,6 +1446,7 @@ ol.observations > li.collapsed { margin-bottom: var(--band-gap); min-height: var
 .step.collapsed.no-thread::after { display: none; }
 
 @media (max-width: 760px) {
+  .tabs { top: 0; }
   html { height: auto; overflow: visible; }
   body, body:not(.with-editor) { height: auto; overflow: visible; margin: 0 auto; padding: 3.2rem 1.1rem 4rem; border-radius: 0; box-shadow: none; }
 }
@@ -1742,10 +1803,11 @@ body.resizing { user-select: none; }
   .theme, .copy, .to-editor, .editor-open, .editor-panel { display: none; }
   body.with-editor { margin: 0; }
   /* On paper there is no clicking: everything the screen hides in stages shows. */
-  .item-body, .section-body { grid-template-rows: 1fr !important; opacity: 1 !important; }
+  .item-body { grid-template-rows: 1fr !important; opacity: 1 !important; }
+  .tab-panel[hidden] { display: block !important; }
+  .tabs, .continue { display: none !important; }
   .item-head { display: none !important; }
   ol.derivation .why > .kind { display: inline !important; }
-  .section-title::after { display: none; }
   mrow.brace-under, mrow.brace-over { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   h1, h2, h3 { break-after: avoid; }
   a::after { content: " (" attr(href) ")"; font-size: 0.75em; color: var(--muted); word-break: break-all; }
