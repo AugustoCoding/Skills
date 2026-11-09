@@ -429,8 +429,11 @@
         var read = its.filter(function (x) { return x.dataset.read; }).length;
         var complete = its.length ? read === its.length : !!visited[j];
         tabs[j].classList.toggle("complete", complete);
-        // The line toward the next step fills with this step's progress.
-        var share = its.length ? read / its.length : (visited[j] ? 1 : 0);
+        // The line toward the next step fills with this step's progress; the
+        // steps before the open one count as gone through, so the line runs
+        // full up to where the student is (back on an earlier step, its real
+        // progress shows again).
+        var share = j < current ? 1 : its.length ? read / its.length : (visited[j] ? 1 : 0);
         if (tabs[j + 1]) {
           tabs[j + 1].style.setProperty("--reach", (100 * share).toFixed(0) + "%");
           // The line goes round the next circle once it has reached it.
