@@ -350,6 +350,8 @@
       panel.id = "part-" + i;
       panel.dataset.sec = part.sec;
       panel.setAttribute("role", "tabpanel");
+      panel._show = function () { show(i); };
+      panel._label = part.label;
       if (part.h2) {
         part.h2.classList.add("part-title");
         var body = document.createElement("div");
@@ -535,35 +537,40 @@
   }
 
   /* THE TABLE OF CONTENTS — to the left of the sheet, when the screen has room
-     (lesson.css). It comes from the lesson's structure: the three sections
-     and, inside them, the balances, the technique, the code steps, the answer,
-     the figures and the observations. Each item shows one dot per step or
-     observation, filled once read; a click opens the section, if needed, and
-     scrolls there. */
+     (lesson.css). It mirrors the trail: the same four parts, with the same
+     names, and the open part is always the one shown. Only the open part
+     lists its items (the balances, the technique, the code steps, the answer,
+     the figure, the observations), each with one dot per step or observation,
+     filled once read; among them, scrolling marks where the student is. A
+     click opens the part, if needed, and scrolls there. */
   function buildToc() {
-    var titles = Array.prototype.slice.call(document.querySelectorAll(".tab-panel > h2.part-title"));
-    if (!titles.length || document.querySelector("nav.toc")) return;
-    var colors = ["s-model", "s-code", "s-result"];
+    var panels = Array.prototype.slice.call(document.querySelectorAll(".tab-panel"));
+    if (!panels.length || document.querySelector("nav.toc")) return;
     var nav = document.createElement("nav");
     nav.className = "toc";
     nav.setAttribute("aria-label", TXT.toc);
-    var targets = [], groups = [];
+    var groups = [], items = [];
 
-    function goTo(h2, target) {
-      if (h2._open) h2._open();
+    function goTo(panel, target) {
+      var opening = panel.hidden;
+      if (opening) panel._show();
       setTimeout(function () {
-        // The sheet scrolls inside itself (lesson.css); on a phone, the whole page.
-        var scroller = document.body.scrollHeight > document.body.clientHeight ? document.body : document.scrollingElement;
-        var y = target.getBoundingClientRect().top - scroller.getBoundingClientRect().top + scroller.scrollTop - 24;
-        if (scroller === document.scrollingElement) y = target.getBoundingClientRect().top + window.scrollY - 24;
-        scroller.scrollTo({ top: y, behavior: "smooth" });
-      }, h2._open ? 120 : 0);
+        // Just under the trail, which sticks to the top. The sheet scrolls
+        // inside itself (lesson.css); on a phone, the whole page.
+        var trail = document.querySelector("nav.tabs");
+        var below = (trail ? trail.offsetHeight : 0) + 12;
+        var inside = document.body.scrollHeight > document.body.clientHeight;
+        var scroller = inside ? document.body : document.scrollingElement;
+        var y = target.getBoundingClientRect().top - (inside ? scroller.getBoundingClientRect().top : 0)
+          + (inside ? scroller.scrollTop : window.scrollY) - below;
+        scroller.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+      }, opening ? 120 : 0);
     }
 
-    function dots(items) {
+    function dots(list) {
       var s = document.createElement("span");
       s.className = "toc-dots";
-      items.forEach(function (it) {
+      list.forEach(function (it) {
         var i = document.createElement("i");
         s.appendChild(i);
         it._dot = i;
@@ -571,35 +578,34 @@
       return s;
     }
 
-    function entry(h2, text, target, items) {
+    function entry(panel, text, target, list) {
       var a = document.createElement("div");
       a.className = "toc-item";
       var t = document.createElement("span");
       t.textContent = text;
       a.appendChild(t);
-      if (items && items.length) a.appendChild(dots(items));
-      a.addEventListener("click", function () { goTo(h2, target); });
-      targets.push({ el: target, link: a });
+      if (list && list.length) a.appendChild(dots(list));
+      a.addEventListener("click", function () { goTo(panel, target); });
+      items.push({ el: target, link: a });
       return a;
     }
 
-    titles.forEach(function (h2, i) {
-      var body = h2.nextElementSibling;
+    panels.forEach(function (panel) {
       var group = document.createElement("div");
       group.className = "toc-group";
-      group._panel = h2.parentNode;
+      group._panel = panel;
       groups.push(group);
       var sec = document.createElement("div");
-      sec.className = "toc-section " + (colors[i] || "");
-      sec.textContent = h2.textContent.trim();
-      sec.addEventListener("click", function () { goTo(h2, h2); });
-      targets.push({ el: h2, link: sec, section: true });
+      sec.className = "toc-section s-" + panel.dataset.sec;
+      sec.textContent = panel._label;
+      sec.addEventListener("click", function () { goTo(panel, panel); });
+      group._link = sec;
       group.appendChild(sec);
       var list = document.createElement("div");
       list.className = "toc-group-items";
-      list.style.setProperty("--sec-color", "var(--sec-" + ["model", "code", "result"][i] + ")");
+      if (panel.dataset.sec !== "problem") list.style.setProperty("--sec-color", "var(--sec-" + panel.dataset.sec + ")");
 
-      body.querySelectorAll("ol.model-line > li.group, ol.model-line > li.extra, section.code, div.answer, .plot, ol.observations").forEach(function (el) {
+      panel.querySelectorAll("ol.model-line > li.group, ol.model-line > li.extra, section.code, div.answer, .plot, ol.observations").forEach(function (el) {
         if (el.matches("li.group")) {
           // The balance's steps: the items up to the next group or final item.
           var steps = [], s = el.nextElementSibling;
@@ -607,38 +613,40 @@
             if (!s.classList.contains("loose")) steps.push(s);
             s = s.nextElementSibling;
           }
-          list.appendChild(entry(h2, tocName(el.textContent), el, steps));
+          list.appendChild(entry(panel, tocName(el.textContent), el, steps));
         } else if (el.matches("li.extra")) {
-          list.appendChild(entry(h2, el.querySelector("h3").textContent.replace(/: .*$/, ""), el));
+          list.appendChild(entry(panel, el.querySelector("h3").textContent.replace(/: .*$/, ""), el));
         } else if (el.matches("section.code")) {
-          list.appendChild(entry(h2, TXT.steps, el, Array.prototype.slice.call(el.querySelectorAll(".step"))));
+          list.appendChild(entry(panel, TXT.steps, el, Array.prototype.slice.call(el.querySelectorAll(".step"))));
         } else if (el.matches("div.answer")) {
-          list.appendChild(entry(h2, TXT.answer, el));
+          list.appendChild(entry(panel, TXT.answer, el));
         } else if (el.matches(".plot")) {
-          list.appendChild(entry(h2, TXT.figure, el));
+          list.appendChild(entry(panel, TXT.figure, el));
         } else {
-          list.appendChild(entry(h2, TXT.observations, el, Array.prototype.slice.call(el.children)));
+          list.appendChild(entry(panel, TXT.observations, el, Array.prototype.slice.call(el.children)));
         }
       });
-      group.appendChild(list);
+      if (list.children.length) group.appendChild(list);
       nav.appendChild(group);
     });
 
     function update() {
-      // Only the open part shows its items; the other parts show their title.
-      groups.forEach(function (g) { g.classList.toggle("current", !g._panel.hidden); });
+      // The open part, as on the trail.
+      groups.forEach(function (g) {
+        var open = !g._panel.hidden;
+        g.classList.toggle("current", open);
+        g._link.classList.toggle("active", open);
+      });
       document.querySelectorAll("[data-read]").forEach(function (el) {
         if (el._dot) el._dot.classList.add("read");
       });
-      // The active part: the last one whose top has passed a third of the screen.
-      var line = window.innerHeight / 3, active = null, activeSec = null;
-      targets.forEach(function (a) {
-        if (!a.el.offsetParent && !a.section) return;
-        if (a.el.getBoundingClientRect().top < line) {
-          if (a.section) { activeSec = a; active = null; } else { active = a; }
-        }
+      // Among the open part's items: the last one whose top has passed a third
+      // of the screen. Items of the closed parts are hidden, and do not count.
+      var line = window.innerHeight / 3, active = null;
+      items.forEach(function (a) {
+        if (a.el.offsetParent && a.el.getBoundingClientRect().top < line) active = a;
       });
-      targets.forEach(function (a) { a.link.classList.toggle("active", a === active || a === activeSec); });
+      items.forEach(function (a) { a.link.classList.toggle("active", a === active); });
     }
 
     document.body.appendChild(nav);
