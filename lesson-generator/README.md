@@ -47,7 +47,7 @@ The skill folder holds only what enters the language model's context. This READM
 | `templates/pieces.html` | The catalog of ready content, with an index: a complete example derivation, mass and energy balances (tank, tube, separator), complementary equations (power law, Arrhenius) and one figure per kind of problem (ODEs in time, profile, two axes, sweep, crossing curves, data against model). It opens in the browser with every piece working. |
 | `scripts/new_lesson.py` | Creates the lesson's draft (the template and a copy of the components) and records the delivery destination. |
 | `scripts/check.py` | Checks the draft: runs the code steps in order, compares the answer with what the program prints, checks the structure of each section, flags unfilled placeholders and lists the numbers of the text for the source review. |
-| `scripts/pack.py` | Builds the lesson as a single HTML file, without comments, writes it to the destination and deletes the draft. |
+| `scripts/pack.py` | Runs `check.py` and refuses to pack a draft with errors; then builds the lesson as a single HTML file, without comments, writes it to the destination and deletes the draft. |
 
 ### Components (`Skill lesson-generator/assets/`)
 

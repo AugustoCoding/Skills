@@ -7,6 +7,8 @@ the file's content, inlined, and removes the comments. The result opens with a
 double click, anywhere, without an assets/ folder next to it. Only the editor
 uses the internet, to download Python the first time.
 
+It runs check.py first and refuses to pack a draft with any ERROR.
+
 Without --output, it writes where new_lesson.py noted (delivery.txt, next to
 the draft) and, once the lesson is delivered, deletes the draft: the lesson is
 not edited afterwards.
@@ -17,6 +19,7 @@ import os
 import re
 import shutil
 import stat
+import subprocess
 import sys
 from pathlib import Path
 from urllib.parse import unquote
@@ -62,6 +65,7 @@ def local(url):
 def main():
     # On Windows, redirected output is cp1252 and breaks accented characters.
     sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
     ap = argparse.ArgumentParser(description="Packs the lesson into a single file.")
     ap.add_argument("draft", help="the written lesson, with the components in ./assets/")
     ap.add_argument("--output", help="where to write (default: what new_lesson.py noted)")
@@ -69,6 +73,16 @@ def main():
 
     source = Path(a.draft).resolve()
     base = source.parent
+
+    # No lesson leaves with an ERROR: check.py runs first, and its errors stop
+    # the delivery. (A model once saw the errors and packed anyway.)
+    check = subprocess.run([sys.executable, str(Path(__file__).with_name("check.py")), str(source)],
+                           capture_output=True, text=True, encoding="utf-8")
+    if check.returncode != 0:
+        found = [l for l in check.stdout.splitlines() if l.startswith("ERROR")]
+        sys.exit("ERROR: check.py still finds errors in the draft; fix them, then run pack.py again.\n"
+                 + "\n".join(found or [check.stderr.strip()]))
+
     page = source.read_text(encoding="utf-8")
 
     overwrite = False

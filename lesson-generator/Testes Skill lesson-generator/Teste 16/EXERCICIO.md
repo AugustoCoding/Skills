@@ -27,4 +27,11 @@
 
 ## Gabarito
 
-Guardado fora do repositório até as sessões terminarem; acrescentado aqui depois.
+Calculado com `quad` na equação de projeto e conferido com `solve_ivp`; guardado fora do repositório até as sessões terminarem.
+
+| Grandeza | Valor |
+|---|---|
+| ΔT_ad | 25,0 K |
+| Volume do PFR adiabático para X = 0,80 | **135,55 L** |
+| Temperatura de saída | **320,0 K** |
+| Volume do PFR isotérmico a 300 K | **321,89 L** (fórmula fechada: (v₀/k₀)·ln 5) |
