@@ -6,7 +6,7 @@
 :root {
   --bg: #dcd6c7;
   --fg: #23211c;
-  --muted: #5d594e;
+  --muted: #4f4b42;
   --rule: #c5bdaa;
   --accent: #8a3324;
   --code-bg: #d1cab9;
@@ -38,10 +38,16 @@
   /* A warning that is not an error (the hover of the editor's Clear). */
   --warn: #b08410;
 
-  /* The color of each section of the lesson, in its title. */
-  --sec-model: #8a6510;
-  --sec-code: #7a3d82;
-  --sec-result: #2e6b3f;
+  /* The color of each section of the lesson, in its title. Sober tones, each
+     with a contrast of at least 4.5:1 on the sheet and on the code blocks,
+     in both themes: color marks the section, it does not shout. */
+  --sec-model: #6b4f0e;
+  --sec-code: #6c3573;
+  --sec-result: #265c35;
+  /* The model's yellow in FILLS (circles, read dots): a lighter tone with dark
+     numbers on it (6.2:1). The dark tone above stays for text. */
+  --fill-model: #c99a2e;
+  --ink-model: var(--fg);
 
   /* Python syntax highlighting, in the tone of light VS Code. */
   --hl-kw: #af00db;
@@ -68,7 +74,8 @@
 
   /* THE TYPE SCALE: seven sizes, and every element of the lesson uses one.
        · serif: everything, including labels (tags, buttons, the numbers in
-         the dots), which go in spaced capitals;
+         the dots), which go in bold, in sentence case — never in spaced
+         capitals, the most common tell of a generated page;
        · mono: ONLY real code, what the student types or reads in the editor.
          A symbol (k, τ, C_A) is not code: it stays serif, as in the equation.
      No loose sizes: a new element picks its role here. */
@@ -78,8 +85,8 @@
   --t-text: 1rem;       /* everything that teaches: paragraphs, whys, boxes */
   --t-small: 0.9rem;    /* what is consulted: symbols, table, legend, controls */
   --t-code: 0.85rem;    /* code, in the lesson and in the editor */
-  --t-label: 0.78rem;   /* labels and buttons, in capitals */
-  --label-spacing: 0.08em;
+  --t-label: 0.85rem;   /* labels and buttons: bold, sentence case */
+  --label-spacing: 0;
 }
 
 /* Dark theme, two ways, with the same palette:
@@ -108,9 +115,11 @@
     --series-3: #5fc8d4;
     --series-4: #cfc6b0;
     --warn: #f2d478;
-    --sec-model: #e2bb5c;
-    --sec-code: #c99bd2;
-    --sec-result: #7fc394;
+    --sec-model: #d1b878;
+    --sec-code: #c3a6c8;
+    --sec-result: #94bd9f;
+    --fill-model: var(--sec-model);
+    --ink-model: var(--bg);
     --hl-kw: #c586c0;
     --hl-def: #569cd6;
     --hl-str: #ce9178;
@@ -142,9 +151,11 @@
   --series-3: #5fc8d4;
   --series-4: #cfc6b0;
   --warn: #f2d478;
-  --sec-model: #e2bb5c;
-  --sec-code: #c99bd2;
-  --sec-result: #7fc394;
+  --sec-model: #d1b878;
+  --sec-code: #c3a6c8;
+  --sec-result: #94bd9f;
+  --fill-model: var(--sec-model);
+  --ink-model: var(--bg);
   --hl-kw: #c586c0;
   --hl-def: #569cd6;
   --hl-str: #ce9178;
@@ -159,6 +170,12 @@
 }
 
 /* ---------- structure ---------- */
+
+/* No gray box over what is tapped: on a touch screen, Chrome paints a
+   translucent rectangle over every clickable element (the trail's steps, the
+   timeline items). The lesson marks its own states; keyboard focus keeps its
+   outline. */
+* { -webkit-tap-highlight-color: transparent; }
 
 /* Text scale. Everything in the lesson is in rem, so this one value sets the
    size of all of it. 17px: at 19px too little fit on the screen. */
@@ -183,7 +200,6 @@ header.lesson .tag {
   font-size: var(--t-label);
   font-weight: 600;
   letter-spacing: var(--label-spacing);
-  text-transform: uppercase;
   color: var(--muted);
 }
 
@@ -202,10 +218,9 @@ h2 {
 
 /* Each section has its color, in its title: the student knows where they are
    by the color. The order of the lesson's h2s is fixed: model, code, result. */
-body > h2 { padding-left: 0.7rem; border-left: 4px solid var(--rule); }
-body > h2:nth-of-type(1) { color: var(--sec-model);  border-left-color: var(--sec-model); }
-body > h2:nth-of-type(2) { color: var(--sec-code);   border-left-color: var(--sec-code); }
-body > h2:nth-of-type(3) { color: var(--sec-result); border-left-color: var(--sec-result); }
+body > h2:nth-of-type(1) { color: var(--sec-model); }
+body > h2:nth-of-type(2) { color: var(--sec-code); }
+body > h2:nth-of-type(3) { color: var(--sec-result); }
 
 h3 {
   font-size: var(--t-h3);
@@ -372,7 +387,7 @@ h3.balance {
 
 /* Derivation and observations are the same timeline, each in its section's
    color: --line-color. */
-ol.derivation   { --line-color: var(--sec-model); }
+ol.derivation   { --line-color: var(--sec-model); --line-fill: var(--fill-model); --line-ink: var(--ink-model); }
 ol.observations { --line-color: var(--sec-result); }
 
 ol.derivation,
@@ -392,7 +407,7 @@ ol.observations::before {
   top: 0.9rem;
   bottom: 0.9rem;
   width: 2px;
-  background: color-mix(in srgb, var(--line-color) 35%, transparent);
+  background: var(--rule);
 }
 /* The foot of the thread: with the last item open, the thread runs past its
    dot, and a dash at the end says the sequence ends there. */
@@ -405,7 +420,7 @@ ol.observations::after {
   width: 0.8rem;
   height: 2px;
   border-radius: 1px;
-  background: color-mix(in srgb, var(--line-color) 60%, transparent);
+  background: var(--rule);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -435,8 +450,9 @@ ol.observations > li::before {
   border-radius: 50%;
   font-family: var(--serif);
   font-size: var(--t-label);
-  color: var(--bg);
-  background: var(--line-color);
+  font-weight: 600;
+  color: var(--fg);
+  background: var(--dot-bg);
   z-index: 1;
 }
 ol.observations > li::before { top: 0; }
@@ -449,8 +465,7 @@ ol.derivation p.why { font-size: var(--t-text); margin: 0 0 0.3rem; color: var(-
 
 /* The last step is the model equation: a box in the section's color. */
 ol.derivation > li.final .equation {
-  background: color-mix(in srgb, var(--line-color) 10%, var(--code-bg));
-  border: 2px solid var(--line-color);
+  background: color-mix(in srgb, var(--line-color) 12%, var(--code-bg));
 }
 /* The paragraph that explains the model equation lives inside the final
    step: it appears with it, not before. */
@@ -462,11 +477,12 @@ ol.derivation > li.final .item-inner > p:not(.why) { margin: 0.9rem 0 0.3rem; }
   font-size: var(--t-label);
   font-weight: 600;
   letter-spacing: var(--label-spacing);
-  text-transform: uppercase;
   color: var(--sec-model);
   margin-right: 0.55rem;
 }
 .kind + .kind::before { content: "· "; margin-left: -0.3rem; }
+.kind, .source { display: inline-block; }
+.kind::first-letter, .source::first-letter { text-transform: uppercase; }
 /* The assumption is the step that changes from one exercise to the next: underlined. */
 .kind-assumption { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
 
@@ -575,7 +591,6 @@ td code { font-family: var(--serif); font-style: italic; font-size: 1.1em; backg
   font-size: var(--t-label);
   font-weight: 600;
   letter-spacing: var(--label-spacing);
-  text-transform: uppercase;
   color: var(--sec-model);
   margin-right: 0.5rem;
 }
@@ -602,12 +617,13 @@ td > .source { display: block; margin: 0.1rem 0 0.15rem; }
 
 /* A reminder that the teacher is available. Closes every lesson. */
 .ask {
-  background: var(--code-bg);
-  border-radius: var(--radius);
-  padding: 1rem 1.2rem;
+  border-top: 1px solid var(--rule);
+  padding: 1rem 0 0;
   margin: 2.5rem 0 0;
   font-size: var(--t-small);
+  color: var(--muted);
 }
+.ask strong { color: var(--fg); }
 
 /* ---------- MathML equations ---------- */
 /* The browser renders MathML natively. We only adjust scale and spacing: the
@@ -678,8 +694,9 @@ section.code { margin: 2.5rem 0; counter-reset: step; }
   border-radius: 50%;
   font-family: var(--serif);
   font-size: var(--t-label);
-  color: var(--bg);
-  background: var(--sec-code);
+  font-weight: 600;
+  color: var(--fg);
+  background: var(--dot-bg);
   z-index: 1;
 }
 /* The thread: from the center of the dot to the dot of the next step. */
@@ -690,7 +707,7 @@ section.code { margin: 2.5rem 0; counter-reset: step; }
   top: 1.7rem;
   bottom: -1.6rem;
   width: 2px;
-  background: color-mix(in srgb, var(--sec-code) 35%, transparent);
+  background: var(--rule);
 }
 .step.no-thread::after { display: none; }
 
@@ -700,22 +717,18 @@ section.code { margin: 2.5rem 0; counter-reset: step; }
   font-weight: 600;
 }
 
-/* ---------- collapsing: items and sections ---------- */
-/* What an item or a section hides goes inside .x-body, a one-row grid that
-   slides from 1fr to 0fr, and .x-inner, which clips the overflow: the height
-   animates, instead of the content vanishing and appearing at once (lesson.js). */
+/* ---------- collapsing items ---------- */
+/* What an item hides goes inside .item-body, a one-row grid that slides from
+   1fr to 0fr, and .item-inner, which clips the overflow: the height animates,
+   instead of the content vanishing and appearing at once (lesson.js). */
 
-.item-body,
-.section-body {
+.item-body {
   display: grid;
   grid-template-rows: 1fr;
   opacity: 1;
   transition: grid-template-rows 0.38s ease, opacity 0.3s ease;
 }
 .item-inner { min-height: 0; overflow: hidden; }
-/* The section clips the overflow, but with side slack: the ring pulsing around
-   the dot leaves the column, and without the slack it would be cut. */
-.section-inner { min-height: 0; overflow: hidden; margin: 0 -0.8rem; padding: 0 0.8rem; }
 
 /* The lesson opens with everything COLLAPSED: each item shows only its dot and
    head, and the student sees at once how many steps each part has. The next
@@ -741,15 +754,18 @@ ol.observations > li > h3 { cursor: pointer; transition: color 0.2s ease; }
 .collapsed:hover > .item-head { color: var(--fg); }
 .item-head .kind { margin-right: 0; }
 
-/* The calling dot: hollow, pulsing gently. */
+/* THE DOTS. Not read yet: neutral. Read: filled with the section's color.
+   The next one to read: a fixed ring in that color — it marks the place
+   without blinking. */
+:root { --dot-bg: color-mix(in srgb, var(--muted) 20%, var(--bg)); }
+[data-read]::before { color: var(--line-ink, var(--bg)) !important; background: var(--line-fill, var(--line-color)) !important; }
 .calling::before {
   color: var(--line-color) !important;
   background: var(--bg) !important;
-  box-shadow: inset 0 0 0 2px var(--line-color);
-  animation: call 1.8s ease-in-out infinite;
+  box-shadow: inset 0 0 0 2px var(--line-fill, var(--line-color));
 }
 .calling:hover::before,
-.calling:focus-visible::before { color: var(--bg) !important; background: var(--line-color) !important; animation: none; }
+.calling:focus-visible::before { color: var(--bg) !important; background: var(--line-color) !important; }
 
 /* Every item's dot is the handle that collapses it. */
 .step::before,
@@ -769,44 +785,10 @@ ol.derivation > li:not(.collapsed) > .item-head { margin: 0 0 0.6rem; }
 ol.derivation > li::before { top: 0; }
 ol.derivation .why > .kind { display: none; }
 
-/* THE SECTIONS: the title collapses the whole section; the small arrow tells
-   the state. The first section not yet opened calls, with its arrow pulsing. */
-.section-title { cursor: pointer; display: flex; align-items: center; gap: 0.7rem; }
-.section-title::after {
-  content: "";
-  flex: none;
-  width: 0.42rem;
-  height: 0.42rem;
-  margin-top: -0.2rem;
-  border-right: 2px solid currentColor;
-  border-bottom: 2px solid currentColor;
-  opacity: 0.55;
-  transform: rotate(45deg);
-  transition: transform 0.3s ease, margin 0.3s ease, opacity 0.2s ease;
-}
-.section-title:hover::after,
-.section-title:focus-visible::after { opacity: 1; }
-.section-title:focus-visible { outline: none; text-decoration: underline; }
-.section-title.section-collapsed::after { transform: rotate(-45deg); margin-top: 0; }
-.section-title.calling::after { animation: call-arrow 1.8s ease-in-out infinite; }
-.section-title.calling:hover::after { animation: none; }
-.section-body.section-collapsed { grid-template-rows: 0fr; opacity: 0; }
-
 @media (prefers-reduced-motion: reduce) {
-  .item-body, .section-body, .section-title::after { transition: none; }
+  .item-body { transition: none; }
 }
 
-@keyframes call {
-  0%, 100% { box-shadow: inset 0 0 0 2px var(--line-color), 0 0 0 0 color-mix(in srgb, var(--line-color) 45%, transparent); }
-  50%      { box-shadow: inset 0 0 0 2px var(--line-color), 0 0 0 6px color-mix(in srgb, var(--line-color) 0%, transparent); }
-}
-@keyframes call-arrow {
-  0%, 100% { opacity: 0.55; translate: 0 0; }
-  50%      { opacity: 1;    translate: 0.25rem 0; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .calling::before, .section-title.calling::after { animation: none; }
-}
 
 .step .item-inner > p { margin: 0.7rem 0 0; font-size: var(--t-text); }
 /* The "how" as a list: one item per argument or new element, when a single
@@ -821,8 +803,6 @@ ol.derivation .why > .kind { display: none; }
 .step .item-inner > p.purpose { margin: 0 0 0.9rem; }
 .step .item-inner > p.so-far {
   margin: 0.9rem 0 0;
-  padding-left: 0.8rem;
-  border-left: 3px solid var(--sec-code);
   color: var(--muted);
 }
 .so-far::before {
@@ -830,7 +810,6 @@ ol.derivation .why > .kind { display: none; }
   margin-right: 0.5rem;
   font-size: var(--t-label);
   letter-spacing: var(--label-spacing);
-  text-transform: uppercase;
   font-weight: 600;
   color: var(--sec-code);
 }
@@ -840,19 +819,17 @@ ol.derivation .why > .kind { display: none; }
 div.answer {
   margin: 1.2rem 0 2rem;
   padding: 1rem 1.25rem;
-  border: 2px solid var(--sec-result);
   border-radius: var(--radius);
-  background: color-mix(in srgb, var(--sec-result) 8%, var(--code-bg));
+  background: color-mix(in srgb, var(--sec-result) 12%, var(--code-bg));
 }
 div.answer::before {
-  content: "The answer";
+  content: "Answer";
   display: block;
   margin-bottom: 0.45rem;
   font-family: var(--serif);
   font-size: var(--t-label);
   font-weight: 600;
   letter-spacing: var(--label-spacing);
-  text-transform: uppercase;
   color: var(--sec-result);
 }
 div.answer > :last-child { margin-bottom: 0; }
@@ -918,7 +895,6 @@ pre.has-copy:hover .to-editor { opacity: 1; }
   font-size: var(--t-label);
   font-weight: 600;
   letter-spacing: var(--label-spacing);
-  text-transform: uppercase;
   padding: 0.35rem 0.7rem;
   background: var(--bg);
   color: var(--muted);
@@ -1118,19 +1094,17 @@ canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
 .technique {
   margin: 2.2rem 0 1rem;
   padding: 1rem 1.25rem;
-  border: 2px solid var(--sec-model);
   border-radius: var(--radius);
-  background: color-mix(in srgb, var(--sec-model) 8%, var(--code-bg));
+  background: color-mix(in srgb, var(--sec-model) 12%, var(--code-bg));
 }
 .technique::before {
-  content: "The technique";
+  content: "Technique";
   display: block;
   margin-bottom: 0.3rem;
   font-family: var(--serif);
   font-size: var(--t-label);
   font-weight: 600;
   letter-spacing: var(--label-spacing);
-  text-transform: uppercase;
   color: var(--sec-model);
 }
 .technique .technique-name {
@@ -1147,18 +1121,16 @@ canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
 .problem {
   margin: 0 0 1.6rem;
   padding: 1rem 1.25rem;
-  border-left: 4px solid var(--muted);
-  border-radius: 0 var(--radius) var(--radius) 0;
+  border-radius: var(--radius);
   background: var(--code-bg);
 }
 .problem::before {
-  content: "The problem";
+  content: "Problem";
   display: block;
   margin-bottom: 0.4rem;
   font-size: var(--t-label);
   font-weight: 600;
   letter-spacing: var(--label-spacing);
-  text-transform: uppercase;
   color: var(--muted);
 }
 .problem > p { margin: 0 0 0.6rem; }
@@ -1183,7 +1155,6 @@ canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
   font-size: var(--t-label);
   font-weight: 600;
   letter-spacing: var(--label-spacing);
-  text-transform: uppercase;
   margin-bottom: 0.35rem;
   color: var(--sec-result);
 }
@@ -1198,10 +1169,192 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
    a label is hidden (content: none), it stays hidden. */
 :where(:root:lang(pt)) .eq-block .symbols::before { content: "onde"; }
 :where(:root:lang(pt)) .so-far::before { content: "Até aqui"; }
-:where(:root:lang(pt)) div.answer::before { content: "A resposta"; }
-:where(:root:lang(pt)) .technique::before { content: "A técnica"; }
-:where(:root:lang(pt)) .problem::before { content: "O exercício"; }
+:where(:root:lang(pt)) div.answer::before { content: "Resposta"; }
+:where(:root:lang(pt)) .technique::before { content: "Técnica"; }
+:where(:root:lang(pt)) .problem::before { content: "Exercício"; }
 :where(:root:lang(pt)) .in-your-code::before { content: "No seu código"; }
+
+/* ---------- the trail of steps (lesson.js, buildTabs) ---------- */
+/* One part of the lesson on screen at a time. The parts are the steps of a
+   trail, as on a course map: numbered circles joined by a line, the name
+   under each. Open step: a solid circle in its part's color, with no
+   shadow (any edge under a circle reads as a squashed ball). Finished: a
+   check. Not reached: a hollow,
+   neutral circle. The line between two steps fills as the first is read. */
+
+.tab-panel { --sec-color: var(--muted); }
+[data-sec="model"]  { --sec-color: var(--sec-model); --sec-fill: var(--fill-model); --sec-ink: var(--ink-model); }
+[data-sec="code"]   { --sec-color: var(--sec-code); }
+[data-sec="result"] { --sec-color: var(--sec-result); }
+.tab-panel > h2.part-title { color: var(--sec-color); margin-top: 1.8rem; }
+
+/* The trail sticks to the top of the sheet while the part scrolls under it.
+   The sheet scrolls inside itself, and the browser sticks the bar below the
+   sheet's top padding: the negative top takes it up to the very edge, so no
+   text shows above it. (On a phone the window scrolls, and top is 0.) */
+.tabs {
+  position: sticky;
+  top: calc(14px - 3.4rem);
+  z-index: 5;
+  margin: 0 0 1.4rem;
+  padding: 0.7rem 0 0.6rem;
+  background: var(--bg);
+  border-bottom: 1px solid var(--rule);
+}
+.tabs-list { display: flex; }
+.tab {
+  --dot: 2.1rem;
+  /* The ring around a reached circle: the line itself, split in two to go
+     round the number — the same 4 px, flush with the circle. */
+  --ring-out: 4px;
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0 0.2rem 0.2rem;
+  background: none;
+  border: 0;
+  color: var(--muted);
+  font-family: var(--serif);
+  cursor: pointer;
+}
+/* The line from the previous step to this one: a neutral rail, filled with
+   the previous step's progress (--reach, set by lesson.js). The fill fades in
+   from the rail's tone to the darker neutral, so the tip, where the student
+   is, is always the most intense. The color stays in the circles. */
+.tab + .tab::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--ring-out) + var(--dot) / 2 - 2px);
+  right: calc(50% + var(--dot) / 2);
+  left: calc(-50% + var(--dot) / 2);
+  height: 4px;
+  border-radius: 2px;
+  background:
+    linear-gradient(to right, var(--trail-rail), var(--trail-fill)) left / var(--reach, 0%) 100% no-repeat,
+    var(--trail-rail);
+  transition: background-size 0.3s ease-in;
+}
+:root {
+  --trail-fill: color-mix(in srgb, var(--fg) 15%, var(--bg));
+  --trail-rail: color-mix(in srgb, var(--fg) 6%, var(--bg));
+}
+.tab-dot {
+  /* Always a circle: never shrunk by the flex layout, always 1:1. Above the
+     lines, so a line never crosses the circle or its ring. */
+  flex: none;
+  aspect-ratio: 1;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--dot);
+  height: var(--dot);
+  margin: var(--ring-out) 0 calc(var(--ring-out) - 0.1rem);
+  box-sizing: border-box;
+  border-radius: 50%;
+  /* Not reached yet: a disc in the rail's tone, where the light line ends. */
+  background: var(--trail-rail);
+  font-size: var(--t-small);
+  font-weight: 700;
+  color: var(--muted);
+  transition: background 0.15s ease, box-shadow 0.2s ease;
+}
+/* Reached: the filled line goes round the circle, flush with it. It is
+   drawn in two beats: the line first runs up to the circle, then splits at
+   the circle's left and closes round it — one half over the top, the other
+   under the bottom, meeting on the right. Going back, the ring opens first. */
+@property --wrap { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+.tab.reached .tab-dot { background: var(--bg); color: var(--fg); }
+.tab-dot::after {
+  content: "";
+  position: absolute;
+  inset: calc(-1 * var(--ring-out));
+  border-radius: 50%;
+  pointer-events: none;
+  /* From the left point (270deg), --wrap degrees each way. */
+  background: conic-gradient(from 270deg,
+    var(--trail-fill) 0 var(--wrap),
+    transparent var(--wrap) calc(360deg - var(--wrap)),
+    var(--trail-fill) calc(360deg - var(--wrap)));
+  /* Only a ring as thick as the line. */
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - var(--ring-out)), #000 calc(100% - var(--ring-out) + 0.5px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - var(--ring-out)), #000 calc(100% - var(--ring-out) + 0.5px));
+  --wrap: 0deg;
+  transition: --wrap 0.25s ease;
+}
+.tab.reached .tab-dot::after { --wrap: 180deg; transition: --wrap 0.35s ease 0.3s; }
+@media (prefers-reduced-motion: reduce) {
+  .tab-dot::after, .tab.reached .tab-dot::after, .tab + .tab::before { transition: none; }
+}
+.tab-check { display: none; }
+.tab-name { font-size: var(--t-small); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+
+/* Finished: the circle filled in the part's color, with a check. */
+.tab.complete .tab-dot { background: var(--sec-fill, var(--sec-color)); color: var(--sec-ink, var(--bg)); }
+.tab.complete .tab-number { display: none; }
+.tab.complete .tab-check { display: inline-block; }
+/* Open: a solid circle; the name in the text color. */
+.tab.active .tab-dot {
+  background: var(--sec-fill, var(--sec-color));
+  color: var(--sec-ink, var(--bg));
+}
+.tab.active .tab-name { color: var(--fg); }
+.tab:not(.active):hover .tab-dot { color: var(--fg); }
+.tab:not(.active):hover .tab-name { color: var(--fg); }
+.tab:focus-visible { outline: none; }
+.tab:focus-visible .tab-dot { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* The problem has no color of its own: its circle uses the text color. */
+.tab[data-sec="problem"] { --sec-color: var(--fg); }
+
+/* "Next": a card for the next step, at the end of each part. Neutral, like
+   the collapsed items; the next step's numbered circle, as on the trail, is
+   the only color; on hover, the border takes that color too. */
+.continue {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  width: 100%;
+  margin: 2.4rem 0 0;
+  padding: 0.8rem 1.1rem;
+  background: var(--card-bg);
+  border: 2px solid var(--card-edge);
+  border-radius: var(--radius);
+  color: var(--fg);
+  font-family: var(--serif);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.continue[data-sec="code"]   { --sec-color: var(--sec-code); }
+.continue[data-sec="result"] { --sec-color: var(--sec-result); }
+.continue:hover { border-color: var(--sec-color); background: color-mix(in srgb, var(--fg) 6%, var(--bg)); }
+.continue-dot {
+  flex: none;
+  aspect-ratio: 1;
+  width: 2.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--sec-fill, var(--sec-color));
+  color: var(--sec-ink, var(--bg));
+  font-size: var(--t-small);
+  font-weight: 700;
+}
+.continue-text { flex: 1; display: flex; flex-direction: column; line-height: 1.25; }
+.continue-label { font-size: var(--t-small); color: var(--muted); }
+.continue-name { font-size: var(--t-h3); font-weight: 600; }
+.continue .ic-arrow { color: var(--muted); font-size: 1.1rem; transition: color 0.15s ease, translate 0.15s ease; }
+.continue:hover .ic-arrow { color: var(--sec-color); translate: 0.15rem 0; }
+
+/* In the table of contents, only the open part lists its items. */
+.toc-group:not(.current) .toc-group-items { display: none; }
+.toc-group:not(.current) { margin-bottom: 0.5rem; }
 
 /* ---------- the sheet, the measure and the table of contents ---------- */
 /* The lesson sits on a SHEET, one tone above the page background, so the text
@@ -1244,7 +1397,7 @@ body {
   border-bottom: 14px solid transparent;
   line-height: 1.65;
   border-radius: 16px;
-  box-shadow: 0 0 0 1px var(--sheet-border), 0 12px 40px var(--sheet-shadow);
+  box-shadow: 0 0 0 1px var(--sheet-border), 0 1px 3px var(--sheet-shadow);
 }
 
 /* The editor dot does not cover the sheet. */
@@ -1351,10 +1504,17 @@ ol.model-line > li.collapsed > h3 {
   padding: 0.25rem 2.2rem 0.25rem 0.85rem;
   position: relative;
   box-sizing: border-box;
-  background: color-mix(in srgb, var(--line-color) 7%, var(--bg));
-  border: 1px solid color-mix(in srgb, var(--line-color) 22%, transparent);
+  /* A card: neutral, with a thicker bottom edge that gives it volume. The
+     section's color stays in the dot; the card itself does not compete. */
+  background: var(--card-bg);
+  border: 2px solid var(--card-edge);
+  border-bottom-width: 4px;
   border-radius: var(--radius);
-  transition: border-color 0.2s ease, background 0.2s ease;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.08s ease;
+}
+:root {
+  --card-bg: color-mix(in srgb, var(--fg) 3%, var(--bg));
+  --card-edge: color-mix(in srgb, var(--fg) 13%, var(--bg));
 }
 /* A title with colored words is running text, not a row of pieces: in the
    h3, an ordinary block, with its height from the padding. */
@@ -1365,8 +1525,8 @@ ol.model-line > li.collapsed > h3 { display: block; padding-top: 0.45rem; paddin
 .step.collapsed:hover > h3,
 ol.observations > li.collapsed:hover > h3,
 ol.model-line > li.collapsed:hover > h3 {
-  border-color: color-mix(in srgb, var(--line-color) 60%, transparent);
-  background: color-mix(in srgb, var(--line-color) 12%, var(--bg));
+  border-color: color-mix(in srgb, var(--fg) 24%, var(--bg));
+  background: color-mix(in srgb, var(--fg) 6%, var(--bg));
 }
 /* The small arrow: › to open. */
 .collapsed > .item-head::after,
@@ -1379,8 +1539,8 @@ ol.model-line > li.collapsed > h3::after {
   top: 50%;
   width: 0.4rem;
   height: 0.4rem;
-  border-right: 2px solid color-mix(in srgb, var(--line-color) 70%, transparent);
-  border-bottom: 2px solid color-mix(in srgb, var(--line-color) 70%, transparent);
+  border-right: 2px solid var(--muted);
+  border-bottom: 2px solid var(--muted);
   transform: translateY(-60%) rotate(-45deg);
 }
 
@@ -1396,6 +1556,9 @@ ol.observations > li.collapsed { margin-bottom: var(--band-gap); min-height: var
 .step.collapsed.no-thread::after { display: none; }
 
 @media (max-width: 760px) {
+  .tabs { top: 0; }
+  .tab { --dot: 1.75rem; padding: 0; }
+  .tab-name { font-size: 0.78rem; }
   html { height: auto; overflow: visible; }
   body, body:not(.with-editor) { height: auto; overflow: visible; margin: 0 auto; padding: 3.2rem 1.1rem 4rem; border-radius: 0; box-shadow: none; }
 }
@@ -1450,7 +1613,6 @@ body.with-editor { padding-left: clamp(1.1rem, 3vw, var(--sheet-pad)); padding-r
   background: var(--sec-code);
   border: none;
   border-radius: 999px;
-  box-shadow: 0 0 0 3px var(--bg), 0 3px 12px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   transition: padding 0.22s ease;
 }
@@ -1507,7 +1669,7 @@ body.with-editor .editor-open { display: none; }
   /* Two blocks (the code and the output) with a gap between them, where the
      handle sits. The shadow follows each block (drop-shadow), not the whole box. */
   background: transparent;
-  filter: drop-shadow(0 0 1px var(--sheet-border)) drop-shadow(0 10px 18px var(--sheet-shadow));
+  filter: drop-shadow(0 0 1px var(--sheet-border)) drop-shadow(0 1px 2px var(--sheet-shadow));
   transform: translateX(calc(100% + 2 * var(--editor-gap)));
   transition: transform 0.3s ease;
 }
@@ -1527,7 +1689,6 @@ body.with-editor .editor-panel { transform: none; }
   font-size: var(--t-label);
   font-weight: 600;
   letter-spacing: var(--label-spacing);
-  text-transform: uppercase;
   color: var(--sec-code);
   margin-right: auto;
   white-space: nowrap;
@@ -1548,8 +1709,13 @@ button.editor-icon {
 /* The three buttons follow one pattern: neutral, and on hover the icon takes
    the button's color, over a veil of it. ▶ is already green, as the main
    action. */
-.editor-run { color: var(--sec-result); }
-.editor-run:hover:not(:disabled) { color: var(--sec-result); background: color-mix(in srgb, var(--sec-result) 22%, var(--bg)); border-color: color-mix(in srgb, var(--sec-result) 45%, var(--bg)); }
+/* Run is the main action: a solid button, flat. */
+.editor-run {
+  color: var(--bg);
+  background: var(--sec-result);
+  border: none;
+}
+.editor-run:hover:not(:disabled) { background: color-mix(in srgb, var(--sec-result) 88%, var(--fg)); }
 .editor-run:disabled { opacity: 0.5; cursor: wait; }
 .editor-clear:hover { color: var(--warn); background: color-mix(in srgb, var(--warn) 22%, var(--bg)); border-color: color-mix(in srgb, var(--warn) 45%, var(--bg)); }
 /* Closing is not an error: a soft red, only a veil of the error color. */
@@ -1692,7 +1858,7 @@ body.resizing { user-select: none; }
   letter-spacing: var(--label-spacing);
   border-bottom: 1px solid var(--rule);
 }
-.editor-output-top > span:first-child { text-transform: uppercase; font-weight: 600; color: var(--sec-result); }
+.editor-output-top > span:first-child { font-weight: 600; color: var(--sec-result); }
 .editor-status { color: var(--muted); }
 .editor-clear-output {
   margin-left: auto;
@@ -1744,10 +1910,11 @@ body.resizing { user-select: none; }
   .theme, .copy, .to-editor, .editor-open, .editor-panel { display: none; }
   body.with-editor { margin: 0; }
   /* On paper there is no clicking: everything the screen hides in stages shows. */
-  .item-body, .section-body { grid-template-rows: 1fr !important; opacity: 1 !important; }
+  .item-body { grid-template-rows: 1fr !important; opacity: 1 !important; }
+  .tab-panel[hidden] { display: block !important; }
+  .tabs, .continue { display: none !important; }
   .item-head { display: none !important; }
   ol.derivation .why > .kind { display: inline !important; }
-  .section-title::after { display: none; }
   mrow.brace-under, mrow.brace-over { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   h1, h2, h3 { break-after: avoid; }
   a::after { content: " (" attr(href) ")"; font-size: 0.75em; color: var(--muted); word-break: break-all; }

@@ -11,7 +11,7 @@
 
 <header class="lesson">
   <span class="tag">Reactors · initial value ODE system</span>
-  <h1>The start-up of a CSTR</h1>
+  <h1>Start-up of a CSTR</h1>
 </header>
 
 <div class="problem">
@@ -24,7 +24,7 @@
 
 <p>Right after start-up there is no reactant inside at all; little by little A comes in, part of it reacts, and the concentrations head toward a steady state. You will leave with a program that integrates the balances of A and B, finds that instant by itself and checks its own result against the exact solution.</p>
 
-<h2>The model</h2>
+<h2>Model</h2>
 
 <h3 class="balance balance-mass">Mass balance of component A, in moles</h3>
 
@@ -174,7 +174,7 @@
   <p>The model says how much each concentration changes at every instant, and we know where they start: from zero, at start-up. To solve this kind of problem, we will use <span class="term">numerical integration</span>: starting from the initial value, the computer advances time in very short steps and, at each one, uses the equations to update the concentrations. It fits here because it only needs the equations and the starting point. In Python, the function that does this is <code>solve_ivp</code>, from the SciPy library. See the next section to learn how to use it.</p>
 </div>
 
-<h2>The code</h2>
+<h2>Code</h2>
 
 <section class="code">
 
@@ -196,7 +196,7 @@ t_end = 60.0   # simulation horizon, min</code></pre>
   </div>
 
   <div class="step">
-    <h3>The balances of A and B</h3>
+    <h3>Balances of A and B</h3>
     <p class="purpose"><code>solve_ivp</code> needs to ask, for any instant and any concentrations, how fast each concentration is changing. That is exactly what the two model equations answer; so we write them in a function.</p>
 <pre><code>def derivatives(t, C):
     CA, CB = C
@@ -209,7 +209,7 @@ t_end = 60.0   # simulation horizon, min</code></pre>
   </div>
 
   <div class="step">
-    <h3>The target: 95% of the steady state</h3>
+    <h3>Target: 95% of the steady state</h3>
     <p class="purpose">The problem asks for the instant at which A reaches 95% of the steady state. For that, we need the steady-state value and a way for <code>solve_ivp</code> to signal when that value is reached.</p>
 <pre><code>CA_ss = CA0 / (1 + k * tau)      # dCA/dt = 0 solved for CA
 CB_ss = k * tau * CA_ss          # dCB/dt = 0 solved for CB
@@ -221,7 +221,7 @@ def reaches_95(t, C):
   </div>
 
   <div class="step">
-    <h3>The integration</h3>
+    <h3>Integration</h3>
     <p class="purpose">Now, the numerical integration itself: take the concentrations from zero to the end of the horizon, recording the instant of the event on the way.</p>
 <pre><code>sol = solve_ivp(derivatives, (0, t_end), [0.0, 0.0],
                 rtol=1e-8, atol=1e-10,
@@ -273,7 +273,7 @@ plt.show()</code></pre>
   </div>
 
   <div class="step">
-    <h3>The complete program</h3>
+    <h3>Complete program</h3>
 <pre><code>import numpy as np
 from scipy.integrate import solve_ivp
 import matplotlib.pyplot as plt
@@ -332,7 +332,7 @@ plt.show()</code></pre>
 
 </section>
 
-<h2>The result</h2>
+<h2>Result</h2>
 
 <div class="answer">
   <p>At steady state, <span class="var-1">C<sub>A</sub></span> = 0.667 mol/L: two thirds of the A that comes in is converted.</p>

@@ -55,6 +55,8 @@ The lesson has four sections, in this order: opening, the model, the code and th
 
 **Length.** There is no word limit. Cut what does not teach (repetition, historical context, caveats without consequence); never shorten what teaches (the definition of a symbol, the context of an equation, the reason for a decision).
 
+**Titles.** No title starts with an article: the lesson's title, the section titles, the step titles and the names of the boxes ("Start-up of a CSTR", "Model", "Integration"; in Portuguese, "Partida de um CSTR", "Modelo", "Integração"). Observation titles that are questions are sentences, and keep their words.
+
 **Color.** Each quantity shown in a figure must carry the color of its series everywhere: equation, symbol list, table and text, including in its name ("reactant A"). Parameters and everything else stay uncolored. Every symbol quoted in the text must be marked (`span.var-N` or, uncolored, `span.param`), so it comes out in italics and at the size of the equation. The markup is in the template.
 
 ### 4.1 Opening

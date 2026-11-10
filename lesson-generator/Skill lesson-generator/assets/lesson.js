@@ -4,10 +4,13 @@
  *
  * It does five things, and the lesson needs no markup beyond its structure:
  *
- *   1. turns the code steps (.step), the derivation steps (ol.derivation) and
- *      the observations (ol.observations) into timelines. The lesson opens with
- *      every section and item collapsed, so the student sees at once how many
- *      steps each part has. The next one to read calls (its dot pulses);
+ *   1. turns the lesson's parts (the problem, the model, the code, the
+ *      result) into tabs, one part on screen at a time, with each part's
+ *      progress and a "Continue" button at the end of each;
+ *      and turns the code steps (.step), the derivation steps
+ *      (ol.derivation) and the observations (ol.observations) into
+ *      timelines. Every item starts collapsed, so the student sees at once
+ *      how many steps each part has; the next one to read is marked;
  *   2. adds a copy button to every code block;
  *   3. highlights the Python of every <pre><code> with IDE colors. A block that
  *      is not Python takes class="no-highlight";
@@ -34,25 +37,31 @@
     and: " e ",
     ofBalance: " do ",
     complementary: "Equação complementar",
-    parameters: "Os parâmetros",
-    technique: "A técnica",
+    parameters: "Parâmetros",
+    technique: "Técnica",
     toc: "Sumário da lição",
-    steps: "Os passos",
-    answer: "A resposta",
-    figure: "A figura",
-    observations: "Observações"
+    steps: "Passos",
+    answer: "Resposta",
+    figure: "Figura",
+    observations: "Observações",
+    problem: "Exercício",
+    parts: "As partes da lição",
+    next: "Próximo"
   } : {
     copy: "Copy the code",
     and: " and ",
     ofBalance: " of the ",
     complementary: "Complementary equation",
-    parameters: "The parameters",
-    technique: "The technique",
+    parameters: "Parameters",
+    technique: "Technique",
     toc: "Lesson contents",
-    steps: "The steps",
-    answer: "The answer",
-    figure: "The figure",
-    observations: "Observations"
+    steps: "Steps",
+    answer: "Answer",
+    figure: "Figure",
+    observations: "Observations",
+    problem: "Problem",
+    parts: "The parts of the lesson",
+    next: "Next"
   };
 
   // The short name of a balance, from its title, without what follows the
@@ -282,52 +291,191 @@
     update();
   }
 
-  /* THE SECTIONS — each h2 of the lesson body (the model, the code, the
-     result) collapses the whole section: everything after it up to the next
-     h2, or up to the invitation to ask. They start collapsed; the first one
-     not yet opened calls, with its small arrow pulsing. */
-  function buildSections() {
-    var titles = Array.prototype.slice.call(document.querySelectorAll("body > h2"));
+  /* THE TABS — the lesson's parts become the steps of a trail: the problem
+     (the statement and the opening paragraph) and one step per h2 (the model,
+     the code, the result), as numbered circles joined by a line. One part is
+     on screen at a time. The open step has a solid circle; a finished one, a
+     check; the line between two steps fills as the first is read. At the end
+     of each part,
+     a "Continue" button leads to the next. Every step can be clicked at any
+     time: the order is a guide, not a lock. The lesson's markup does not
+     change: the steps come from its h2s. */
+  var SECTIONS = ["model", "code", "result"];
 
-    function call() {
-      var next = null;
-      titles.forEach(function (h2) {
-        if (!next && !h2.dataset.read) next = h2;
-        h2.classList.remove("calling");
-      });
-      if (next) next.classList.add("calling");
+  // On the trail, a part's name goes without its article: "The model" →
+  // "Model", "O código" → "Código". The numbered circle already says which.
+  function stepName(title) {
+    var t = title.trim().replace(/^(the|o|a|os|as)\s+/i, "");
+    return t.charAt(0).toUpperCase() + t.slice(1);
+  }
+
+  function buildTabs() {
+    var titles = Array.prototype.slice.call(document.querySelectorAll("body > h2"));
+    if (!titles.length || document.querySelector("nav.tabs")) return;
+
+    function ends(n) {
+      return n.nodeType === 1 && (n.tagName === "H2" || n.classList.contains("ask") ||
+        (n.tagName === "SCRIPT" && n.src));
     }
 
-    titles.forEach(function (h2) {
-      if (h2.dataset.section) return;
-      h2.dataset.section = "1";
-      var nodes = [], n = h2.nextSibling;
-      while (n && !(n.nodeType === 1 && (n.tagName === "H2" || n.classList.contains("ask") ||
-               (n.tagName === "SCRIPT" && n.src)))) {
-        nodes.push(n);
-        n = n.nextSibling;
-      }
-      var body = collapsibleBody(nodes, "section");
-      h2.parentNode.insertBefore(body, n);
-      h2.classList.add("section-title");
-      h2.setAttribute("tabindex", "0");
-      h2.setAttribute("role", "button");
-      function collapse(yes) {
-        h2.classList.toggle("section-collapsed", yes);
-        body.classList.toggle("section-collapsed", yes);
-        h2.setAttribute("aria-expanded", String(!yes));
-        if (!yes && !h2.dataset.read) { h2.dataset.read = "1"; call(); }
-        document.dispatchEvent(new CustomEvent("lesson-changed"));
-      }
-      collapse(true);
-      h2._open = function () { if (h2.classList.contains("section-collapsed")) collapse(false); };
-      function toggle() { collapse(!h2.classList.contains("section-collapsed")); }
-      h2.addEventListener("click", toggle);
-      h2.addEventListener("keydown", function (ev) {
-        if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); toggle(); }
-      });
+    // The parts: the opening (everything between the header and the first
+    // h2), then each h2 with what follows it.
+    var header = document.querySelector("body > header");
+    var first = header ? header.nextSibling : document.body.firstChild;
+    var parts = [], nodes = [], n = first;
+    while (n && n !== titles[0]) { nodes.push(n); n = n.nextSibling; }
+    parts.push({ label: TXT.problem, sec: "problem", nodes: nodes, h2: null });
+    var end = null;
+    titles.forEach(function (h2, i) {
+      var own = [], m = h2.nextSibling;
+      while (m && !ends(m)) { own.push(m); m = m.nextSibling; }
+      end = m;
+      parts.push({ label: stepName(h2.textContent), sec: SECTIONS[i] || "result", nodes: own, h2: h2 });
     });
-    call();
+
+    var nav = document.createElement("nav");
+    nav.className = "tabs";
+    var list = document.createElement("div");
+    list.className = "tabs-list";
+    list.setAttribute("role", "tablist");
+    list.setAttribute("aria-label", TXT.parts);
+    nav.appendChild(list);
+    document.body.insertBefore(nav, first);
+
+    var tabs = [], panels = [], items = [], visited = [], current = 0;
+
+    parts.forEach(function (part, i) {
+      var panel = document.createElement("div");
+      panel.className = "tab-panel";
+      panel.id = "part-" + i;
+      panel.dataset.sec = part.sec;
+      panel.setAttribute("role", "tabpanel");
+      panel._show = function () { show(i); };
+      panel._label = part.label;
+      if (part.h2) {
+        part.h2.classList.add("part-title");
+        // The heading without its article, as on the trail ("The model" → "Model").
+        if (!part.h2.children.length) part.h2.textContent = part.label;
+        var body = document.createElement("div");
+        body.className = "part-body";
+        part.nodes.forEach(function (x) { body.appendChild(x); });
+        panel.append(part.h2, body);
+        part.h2._open = function () { show(i); };
+      } else {
+        part.nodes.forEach(function (x) { panel.appendChild(x); });
+      }
+      if (i < parts.length - 1) {
+        var next = document.createElement("button");
+        next.type = "button";
+        next.className = "continue";
+        next.dataset.sec = parts[i + 1].sec;
+        // A card for the next step: its numbered circle, as on the trail,
+        // "Next" and its name, and an arrow.
+        var circle = document.createElement("span");
+        circle.className = "continue-dot";
+        circle.textContent = String(i + 2);
+        var words = document.createElement("span");
+        words.className = "continue-text";
+        var small = document.createElement("span");
+        small.className = "continue-label";
+        small.textContent = TXT.next;
+        var big = document.createElement("span");
+        big.className = "continue-name";
+        big.textContent = parts[i + 1].label;
+        words.append(small, big);
+        var arrow = document.createElement("span");
+        arrow.className = "ic ic-arrow";
+        next.append(circle, words, arrow);
+        next.addEventListener("click", function () { show(i + 1, true); });
+        panel.appendChild(next);
+      }
+      document.body.insertBefore(panel, end);
+      panels.push(panel);
+      items.push(Array.prototype.slice.call(panel.querySelectorAll(
+        ".step, ol.derivation > li:not(.group):not(.loose), ol.observations > li")));
+
+      var tab = document.createElement("button");
+      tab.type = "button";
+      tab.className = "tab";
+      tab.dataset.sec = part.sec;
+      tab.setAttribute("role", "tab");
+      tab.setAttribute("aria-controls", panel.id);
+      // The circle holds the step's number, or a check once it is finished.
+      var dot = document.createElement("span");
+      dot.className = "tab-dot";
+      var number = document.createElement("span");
+      number.className = "tab-number";
+      number.textContent = String(i + 1);
+      var check = document.createElement("span");
+      check.className = "ic ic-check tab-check";
+      dot.append(number, check);
+      var name = document.createElement("span");
+      name.className = "tab-name";
+      name.textContent = part.label;
+      tab.append(dot, name);
+      tab.addEventListener("click", function () { show(i, true); });
+      tab.addEventListener("keydown", function (ev) {
+        var k = ev.key === "ArrowRight" ? 1 : ev.key === "ArrowLeft" ? -1 : 0;
+        if (!k) return;
+        ev.preventDefault();
+        var j = (i + k + parts.length) % parts.length;
+        show(j, true);
+        tabs[j].focus();
+      });
+      list.appendChild(tab);
+      tabs.push(tab);
+    });
+
+    function update() {
+      items.forEach(function (its, j) {
+        var read = its.filter(function (x) { return x.dataset.read; }).length;
+        // A part with no items (the problem) is done once the student has
+        // moved on to a later part, not merely by being open.
+        var movedOn = visited.slice(j + 1).some(Boolean);
+        var complete = its.length ? read === its.length : movedOn;
+        tabs[j].classList.toggle("complete", complete);
+        // The line toward the next step fills with this step's progress; the
+        // steps before the open one count as gone through, so the line runs
+        // full up to where the student is (back on an earlier step, its real
+        // progress shows again).
+        var share = j < current ? 1 : its.length ? read / its.length : 0;
+        if (tabs[j + 1]) {
+          tabs[j + 1].style.setProperty("--reach", (100 * share).toFixed(0) + "%");
+          // The line goes round the next circle once it has reached it.
+          tabs[j + 1].classList.toggle("reached", share === 1);
+        }
+      });
+      tabs[0].classList.add("reached");
+    }
+
+    function show(k, scroll) {
+      current = k;
+      visited[k] = true;
+      panels.forEach(function (p, j) {
+        p.hidden = j !== k;
+        tabs[j].classList.toggle("active", j === k);
+        tabs[j].setAttribute("aria-selected", String(j === k));
+        tabs[j].tabIndex = j === k ? 0 : -1;
+      });
+      update();
+      if (scroll) {
+        // Only when the part's start is hidden behind the bar: then it goes up
+        // to just under the bar. (The bar sticks, so its own offset is where
+        // it is stuck; the distance is measured on screen.) The sheet scrolls
+        // inside itself (lesson.css); on a phone, the window.
+        var gap = panels[k].getBoundingClientRect().top - nav.getBoundingClientRect().bottom - 12;
+        if (gap < 0) {
+          var inside = document.body.scrollHeight > document.body.clientHeight;
+          (inside ? document.body : window).scrollBy({ top: gap });
+        }
+      }
+      // The new part becomes visible: figures and equations measure again.
+      window.dispatchEvent(new Event("resize"));
+      document.dispatchEvent(new CustomEvent("lesson-changed"));
+    }
+
+    document.addEventListener("lesson-changed", update);
+    show(0);
   }
 
   /* THE MODEL AS ONE LINE — the lesson writes each balance as a title and its
@@ -397,35 +545,40 @@
   }
 
   /* THE TABLE OF CONTENTS — to the left of the sheet, when the screen has room
-     (lesson.css). It comes from the lesson's structure: the three sections
-     and, inside them, the balances, the technique, the code steps, the answer,
-     the figures and the observations. Each item shows one dot per step or
-     observation, filled once read; a click opens the section, if needed, and
-     scrolls there. */
+     (lesson.css). It mirrors the trail: the same four parts, with the same
+     names, and the open part is always the one shown. Only the open part
+     lists its items (the balances, the technique, the code steps, the answer,
+     the figure, the observations), each with one dot per step or observation,
+     filled once read; among them, scrolling marks where the student is. A
+     click opens the part, if needed, and scrolls there. */
   function buildToc() {
-    var titles = Array.prototype.slice.call(document.querySelectorAll("body > h2.section-title"));
-    if (!titles.length || document.querySelector("nav.toc")) return;
-    var colors = ["s-model", "s-code", "s-result"];
+    var panels = Array.prototype.slice.call(document.querySelectorAll(".tab-panel"));
+    if (!panels.length || document.querySelector("nav.toc")) return;
     var nav = document.createElement("nav");
     nav.className = "toc";
     nav.setAttribute("aria-label", TXT.toc);
-    var targets = [];
+    var groups = [], items = [];
 
-    function goTo(h2, target) {
-      if (h2._open) h2._open();
+    function goTo(panel, target) {
+      var opening = panel.hidden;
+      if (opening) panel._show();
       setTimeout(function () {
-        // The sheet scrolls inside itself (lesson.css); on a phone, the whole page.
-        var scroller = document.body.scrollHeight > document.body.clientHeight ? document.body : document.scrollingElement;
-        var y = target.getBoundingClientRect().top - scroller.getBoundingClientRect().top + scroller.scrollTop - 24;
-        if (scroller === document.scrollingElement) y = target.getBoundingClientRect().top + window.scrollY - 24;
-        scroller.scrollTo({ top: y, behavior: "smooth" });
-      }, h2._open ? 120 : 0);
+        // Just under the trail, which sticks to the top. The sheet scrolls
+        // inside itself (lesson.css); on a phone, the whole page.
+        var trail = document.querySelector("nav.tabs");
+        var below = (trail ? trail.offsetHeight : 0) + 12;
+        var inside = document.body.scrollHeight > document.body.clientHeight;
+        var scroller = inside ? document.body : document.scrollingElement;
+        var y = target.getBoundingClientRect().top - (inside ? scroller.getBoundingClientRect().top : 0)
+          + (inside ? scroller.scrollTop : window.scrollY) - below;
+        scroller.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+      }, opening ? 120 : 0);
     }
 
-    function dots(items) {
+    function dots(list) {
       var s = document.createElement("span");
       s.className = "toc-dots";
-      items.forEach(function (it) {
+      list.forEach(function (it) {
         var i = document.createElement("i");
         s.appendChild(i);
         it._dot = i;
@@ -433,33 +586,34 @@
       return s;
     }
 
-    function entry(h2, text, target, items) {
+    function entry(panel, text, target, list) {
       var a = document.createElement("div");
       a.className = "toc-item";
       var t = document.createElement("span");
       t.textContent = text;
       a.appendChild(t);
-      if (items && items.length) a.appendChild(dots(items));
-      a.addEventListener("click", function () { goTo(h2, target); });
-      targets.push({ el: target, link: a });
+      if (list && list.length) a.appendChild(dots(list));
+      a.addEventListener("click", function () { goTo(panel, target); });
+      items.push({ el: target, link: a });
       return a;
     }
 
-    titles.forEach(function (h2, i) {
-      var body = h2.nextElementSibling;
+    panels.forEach(function (panel) {
       var group = document.createElement("div");
       group.className = "toc-group";
+      group._panel = panel;
+      groups.push(group);
       var sec = document.createElement("div");
-      sec.className = "toc-section " + (colors[i] || "");
-      sec.textContent = h2.textContent.trim();
-      sec.addEventListener("click", function () { goTo(h2, h2); });
-      targets.push({ el: h2, link: sec, section: true });
+      sec.className = "toc-section s-" + panel.dataset.sec;
+      sec.textContent = panel._label;
+      sec.addEventListener("click", function () { goTo(panel, panel); });
+      group._link = sec;
       group.appendChild(sec);
       var list = document.createElement("div");
       list.className = "toc-group-items";
-      list.style.setProperty("--sec-color", "var(--sec-" + ["model", "code", "result"][i] + ")");
+      if (panel.dataset.sec !== "problem") list.style.setProperty("--sec-color", "var(--sec-" + panel.dataset.sec + ")");
 
-      body.querySelectorAll("ol.model-line > li.group, ol.model-line > li.extra, section.code, div.answer, .plot, ol.observations").forEach(function (el) {
+      panel.querySelectorAll("ol.model-line > li.group, ol.model-line > li.extra, section.code, div.answer, .plot, ol.observations").forEach(function (el) {
         if (el.matches("li.group")) {
           // The balance's steps: the items up to the next group or final item.
           var steps = [], s = el.nextElementSibling;
@@ -467,36 +621,40 @@
             if (!s.classList.contains("loose")) steps.push(s);
             s = s.nextElementSibling;
           }
-          list.appendChild(entry(h2, tocName(el.textContent), el, steps));
+          list.appendChild(entry(panel, tocName(el.textContent), el, steps));
         } else if (el.matches("li.extra")) {
-          list.appendChild(entry(h2, el.querySelector("h3").textContent.replace(/: .*$/, ""), el));
+          list.appendChild(entry(panel, el.querySelector("h3").textContent.replace(/: .*$/, ""), el));
         } else if (el.matches("section.code")) {
-          list.appendChild(entry(h2, TXT.steps, el, Array.prototype.slice.call(el.querySelectorAll(".step"))));
+          list.appendChild(entry(panel, TXT.steps, el, Array.prototype.slice.call(el.querySelectorAll(".step"))));
         } else if (el.matches("div.answer")) {
-          list.appendChild(entry(h2, TXT.answer, el));
+          list.appendChild(entry(panel, TXT.answer, el));
         } else if (el.matches(".plot")) {
-          list.appendChild(entry(h2, TXT.figure, el));
+          list.appendChild(entry(panel, TXT.figure, el));
         } else {
-          list.appendChild(entry(h2, TXT.observations, el, Array.prototype.slice.call(el.children)));
+          list.appendChild(entry(panel, TXT.observations, el, Array.prototype.slice.call(el.children)));
         }
       });
-      group.appendChild(list);
+      if (list.children.length) group.appendChild(list);
       nav.appendChild(group);
     });
 
     function update() {
+      // The open part, as on the trail.
+      groups.forEach(function (g) {
+        var open = !g._panel.hidden;
+        g.classList.toggle("current", open);
+        g._link.classList.toggle("active", open);
+      });
       document.querySelectorAll("[data-read]").forEach(function (el) {
         if (el._dot) el._dot.classList.add("read");
       });
-      // The active part: the last one whose top has passed a third of the screen.
-      var line = window.innerHeight / 3, active = null, activeSec = null;
-      targets.forEach(function (a) {
-        if (!a.el.offsetParent && !a.section) return;
-        if (a.el.getBoundingClientRect().top < line) {
-          if (a.section) { activeSec = a; active = null; } else { active = a; }
-        }
+      // Among the open part's items: the last one whose top has passed a third
+      // of the screen. Items of the closed parts are hidden, and do not count.
+      var line = window.innerHeight / 3, active = null;
+      items.forEach(function (a) {
+        if (a.el.offsetParent && a.el.getBoundingClientRect().top < line) active = a;
       });
-      targets.forEach(function (a) { a.link.classList.toggle("active", a === active || a === activeSec); });
+      items.forEach(function (a) { a.link.classList.toggle("active", a === active); });
     }
 
     document.body.appendChild(nav);
@@ -575,7 +733,7 @@
         return !li.classList.contains("group") && !li.classList.contains("loose");
       }));
     });
-    buildSections();
+    buildTabs();
     buildToc();
     fitWidth();
   }

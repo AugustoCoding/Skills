@@ -19,7 +19,7 @@
   // Portuguese when lang starts with "pt"; English otherwise.
   var PT = /^pt/i.test(document.documentElement.lang);
   // The stored value is always "light" or "dark"; only the label changes language.
-  var NAME = PT ? { light: "claro", dark: "escuro" } : { light: "light", dark: "dark" };
+  var NAME = PT ? { light: "Claro", dark: "Escuro" } : { light: "Light", dark: "Dark" };
   var SWITCH = PT ? "Mudar para o tema " : "Switch to the theme: ";
 
   var KEY = "lesson-theme";
