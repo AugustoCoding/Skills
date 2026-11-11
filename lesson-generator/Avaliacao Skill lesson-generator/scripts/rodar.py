@@ -7,13 +7,17 @@
     python rodar.py --max 12              no maximo 12 execucoes nesta rodada
     python rodar.py --etapa fable         bloco A no Fable 5.2
     python rodar.py --juiz                so julga os pacotes pendentes (itens e pares)
+    python rodar.py --ate nunca --esperar a noite toda: sem horario de fim, esperando a janela
+                                          de 5 horas voltar; so o limite semanal encerra
 
 Cada execucao e uma sessao nova do Claude Code sem interface (claude -p), numa
 pasta vazia fora do repositorio, em esforco medio, so com as ferramentas de
 arquivo e de terminal. A rodada segue a fila de onde ela parou e termina
 sozinha em tres casos: a fila acabou, o limite do plano acabou, ou chegou o
-fim do horario (--ate, 22:00). Ela nunca espera o limite voltar: a rodada
-seguinte e iniciada a mao. O que ja foi registrado nao roda de novo.
+fim do horario (--ate, 22:00). Sem --esperar, ela nunca espera o limite
+voltar: a rodada seguinte e iniciada a mao. Com --esperar, a janela de 5 horas
+que acaba so pausa a rodada; o limite semanal a encerra. O que ja foi
+registrado nao roda de novo.
 Biblioteca padrao apenas.
 """
 
@@ -137,26 +141,50 @@ def hoje_as(hhmm):
 
 
 def no_horario(ate):
+    if ate == "nunca":
+        return
     if (hoje_as(ate) - datetime.now()).total_seconds() < MARGEM:
         raise Parar(f"fim do horário ({ate})")
 
 
+# --esperar: quando a janela de 5 horas acaba, espera ela voltar em vez de encerrar a rodada.
+# Um limite que so volta depois de ESPERA_MAX (o semanal) encerra a rodada do mesmo jeito.
+ESPERAR = False
+ESPERA_MAX = 6 * 3600
+LOG = None
+SEM_HORA = []   # tentativas seguidas sem saber quando o limite volta; zera a cada chamada que passa
+
+
 def sem_limite(res):
-    """O limite do plano acabou: a rodada para, e a mensagem diz quando ele volta, se o servico informou."""
+    """O limite do plano acabou. Com --esperar, dorme ate ele voltar, se for logo; senao, a rodada para."""
     m = re.search(r"\|(\d{10})\b", str(res.get("result", "")))
-    volta = f"; volta em {datetime.fromtimestamp(int(m.group(1))):%d/%m %H:%M}" if m else ""
-    raise Parar(f"limite do plano atingido{volta} ({str(res.get('result', ''))[:120]!r})")
+    volta = datetime.fromtimestamp(int(m.group(1))) if m else None
+    falta = (volta - datetime.now()).total_seconds() if volta else None
+    if ESPERAR and falta is not None and falta < ESPERA_MAX:
+        anotar(LOG, f"LIMITE da janela atingido; esperando até {volta:%d/%m %H:%M} para continuar")
+        time.sleep(max(0, falta) + 180)
+        return
+    # Sem a hora da volta na mensagem: tenta de novo a cada meia hora, por ate ESPERA_MAX.
+    if ESPERAR and volta is None and len(SEM_HORA) * 1800 < ESPERA_MAX:
+        SEM_HORA.append(1)
+        anotar(LOG, "LIMITE atingido, sem a hora da volta; nova tentativa em 30 min")
+        time.sleep(1800)
+        return
+    texto = f"; volta em {volta:%d/%m %H:%M}" if volta else ""
+    raise Parar(f"limite do plano atingido{texto} ({str(res.get('result', ''))[:120]!r})")
 
 
 def com_segunda_chance(tentar, descartar):
-    """Uma chamada. O limite do plano encerra a rodada; um erro de outro tipo ganha uma segunda tentativa."""
+    """Uma chamada. O limite do plano encerra a rodada (ou espera, com --esperar); outro erro ganha uma segunda tentativa."""
     erros = 0
     while True:
         estado, res = tentar()
         if estado == "limite":
             descartar()
             sem_limite(res)
-        elif estado == "erro" and erros == 0:
+            continue
+        SEM_HORA.clear()
+        if estado == "erro" and erros == 0:
             erros += 1
             print(f"  erro: {str(res.get('result', ''))[:200]!r}; tentando de novo em 2 min", flush=True)
             descartar()
@@ -272,9 +300,13 @@ def main():
     ap.add_argument("--juiz", action="store_true")
     ap.add_argument("--sem-juiz", action="store_true")
     ap.add_argument("--modelo-juiz", choices=sorted(MODELOS), default="opus")
+    ap.add_argument("--esperar", action="store_true",
+                    help="quando a janela de 5 horas acaba, espera ela voltar e continua")
     a = ap.parse_args()
     raiz = Path(a.pastas).expanduser()
     raiz.mkdir(parents=True, exist_ok=True)
+    global ESPERAR, LOG
+    ESPERAR, LOG = a.esperar, raiz
 
     if a.lista:
         todas = fila(a.etapa)
