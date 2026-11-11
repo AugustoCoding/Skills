@@ -44,7 +44,9 @@ FERRAMENTAS = "Bash,Read,Write,Edit,Glob,Grep"
 FERRAMENTAS_JUIZ = "Read,Write,Glob"
 T_MAX = 30 * 60          # a skill da meia hora como falha: passou disso, a sessao e encerrada
 MARGEM = 15 * 60         # nenhuma sessao comeca a menos disso do fim do horario
-LIMITE = re.compile(r"usage limit|hit your limit|limit reached|rate.?limit|out of (extra )?usage", re.I)
+# "Credit balance is too low" apareceu as 23h14 de 10/11, perto do fim da janela de 5 horas.
+LIMITE = re.compile(r"usage limit|hit your limit|limit reached|rate.?limit|out of (extra )?usage|"
+                    r"credit balance is too low", re.I)
 TRES = ["haiku", "sonnet", "opus"]
 
 
