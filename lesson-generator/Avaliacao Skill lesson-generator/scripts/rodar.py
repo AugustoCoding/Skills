@@ -32,7 +32,7 @@ import sys
 import threading
 import time
 import uuid
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 from comum import EXECUCOES, JUIZ, MODELOS, RAIZ, ler_json, questoes
@@ -140,11 +140,25 @@ def hoje_as(hhmm):
     return datetime.now().replace(hour=int(h), minute=int(m), second=0, microsecond=0)
 
 
-def no_horario(ate):
+PRAZO = None   # o fim do horario (--ate), fixado no inicio da rodada; None com --ate nunca
+
+
+def fixar_prazo(ate):
+    """O horario de fim como data e hora. Um horario que ja passou ha mais de 12 horas e o de amanha:
+    iniciada as 23h, --ate 06:00 vai ate as 6h do dia seguinte; --ate 22:00 continua encerrando logo."""
+    global PRAZO
     if ate == "nunca":
+        PRAZO = None
         return
-    if (hoje_as(ate) - datetime.now()).total_seconds() < MARGEM:
-        raise Parar(f"fim do horário ({ate})")
+    PRAZO = hoje_as(ate)
+    if (datetime.now() - PRAZO).total_seconds() > 12 * 3600:
+        PRAZO += timedelta(days=1)
+
+
+def no_horario(ate=None, daqui=0):
+    """Nenhuma sessao comeca a menos de MARGEM do fim do horario; o que ja comecou termina."""
+    if PRAZO and (PRAZO - datetime.now()).total_seconds() - daqui < MARGEM:
+        raise Parar(f"fim do horário ({PRAZO:%d/%m %H:%M})")
 
 
 # --esperar: quando a janela de 5 horas acaba, espera ela voltar em vez de encerrar a rodada.
@@ -161,11 +175,13 @@ def sem_limite(res):
     volta = datetime.fromtimestamp(int(m.group(1))) if m else None
     falta = (volta - datetime.now()).total_seconds() if volta else None
     if ESPERAR and falta is not None and falta < ESPERA_MAX:
+        no_horario(daqui=max(0, falta) + 180)   # se so volta depois do fim do horario, encerra agora
         anotar(LOG, f"LIMITE da janela atingido; esperando até {volta:%d/%m %H:%M} para continuar")
         time.sleep(max(0, falta) + 180)
         return
     # Sem a hora da volta na mensagem: tenta de novo a cada meia hora, por ate ESPERA_MAX.
     if ESPERAR and volta is None and len(SEM_HORA) * 1800 < ESPERA_MAX:
+        no_horario(daqui=1800)
         SEM_HORA.append(1)
         anotar(LOG, "LIMITE atingido, sem a hora da volta; nova tentativa em 30 min")
         time.sleep(1800)
@@ -307,6 +323,7 @@ def main():
     raiz.mkdir(parents=True, exist_ok=True)
     global ESPERAR, LOG
     ESPERAR, LOG = a.esperar, raiz
+    fixar_prazo(a.ate)
 
     if a.lista:
         todas = fila(a.etapa)
@@ -335,7 +352,8 @@ def main():
         versao = subprocess.run([shutil.which("claude") or "claude", "--version"], capture_output=True,
                                 text=True, encoding="utf-8", errors="replace").stdout.strip()
         anotar(raiz, f"RODADA: etapas {' '.join(a.etapa)}, skill {skill['skill_commit']}, "
-                     f"Claude Code {versao}, até {a.ate}")
+                     f"Claude Code {versao}, até {f'{PRAZO:%d/%m %H:%M}' if PRAZO else 'sem horário'}"
+                     + (", esperando a janela voltar" if ESPERAR else ""))
         # Etapa por etapa: as execucoes que faltam e, em seguida, o juiz do que ficou pendente.
         for e in a.etapa:
             for q, m in fila([e]):
