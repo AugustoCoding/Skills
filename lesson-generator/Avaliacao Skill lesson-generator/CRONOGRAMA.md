@@ -30,7 +30,7 @@ Em reserva: uma redefinição do Fable 5.2 (devolve o que ele gastou do semanal)
 | Para o juiz | `juiz/pendentes/<código>.md`; a resposta vai para `juiz/respostas/<código>.json` |
 | Histórico | `~/avaliacao-lesson-generator/rodar.log`; tentativas interrompidas vão para `descartadas/` |
 
-O juiz também é uma sessão nova por pacote (Opus 5.5, só ler e gravar arquivos, na pasta desta avaliação). Ele roda dentro da rodada, sempre que uma etapa termina.
+O juiz também é uma sessão nova por pacote (Opus 5.5, só ler e gravar arquivos, na pasta desta avaliação). Ele roda dentro da rodada, sempre que uma etapa termina: primeiro os pacotes de itens, depois os de comparação direta (`juiz/pares/`, um por par de modelos em cada questão).
 
 ## A fila
 
@@ -39,13 +39,13 @@ A ordem é fixa. Os modelos se revezam a cada questão, para nenhum rodar sempre
 | # | Etapa | Questões | Ordem dos modelos |
 |---|---|---|---|
 | 1–3 | Piloto | Q01 | haiku, sonnet, opus |
-| — | Juiz | os 3 pacotes do piloto | |
+| — | Juiz | os 3 pacotes do piloto e as 3 comparações | |
 | 4–36 | Bloco A | Q02 a Q12 | Q02 sonnet, opus, haiku · Q03 opus, haiku, sonnet · Q04 haiku, sonnet, opus · e assim por diante |
-| — | Juiz | os 33 pacotes do bloco A | |
+| — | Juiz | os 33 pacotes do bloco A e as 33 comparações | |
 | 37–72 | Bloco B | Q13 a Q24 | Q13 haiku, sonnet, opus · Q14 sonnet, opus, haiku · … |
-| — | Juiz | os 36 pacotes do bloco B | |
+| — | Juiz | os 36 pacotes do bloco B e as 36 comparações | |
 | 73–84 | Fable 5.2 | Q01 a Q12 | fable (`--etapa fable`) |
-| — | Juiz | os 12 pacotes do Fable | |
+| — | Juiz | os 12 pacotes do Fable e as 36 comparações (Fable contra cada um) | |
 
 `python scripts/rodar.py --lista --etapa piloto A B fable` mostra as 84 linhas, com o que já foi feito.
 

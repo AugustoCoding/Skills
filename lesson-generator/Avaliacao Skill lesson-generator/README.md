@@ -146,8 +146,20 @@ O que depende de leitura (uma explicação existe? está certa?) é decidido por
 - **Cego.** O pacote traz um código no lugar do modelo, e o juiz só lê a pasta `juiz/`.
 - **Item a item.** O juiz não dá nota: marca cada item do inventário como ok, errado, faltou ou na, e lista erros factuais fora dos itens. A nota é conta do `nota.py`.
 - **Barato.** Um pacote tem perto de 15 mil tokens, contra mais de um milhão de uma geração.
+- **Pode anular itens.** A lista é montada por um script que não entende a lição; o juiz marca `na`, com nota, o item que não cabe nela (no piloto, "chute inicial" virou item porque a lição dizia "sem chute inicial nem iterações").
 
-Para julgar, `python scripts/rodar.py --juiz` abre uma sessão por pacote pendente (Opus 5.5 por padrão; `--modelo-juiz sonnet` troca), com acesso só a ler e gravar arquivos. À mão, abra uma sessão na pasta desta avaliação e peça: *"Julgue os pacotes pendentes conforme juiz/JUIZ.md."*
+### 5.1 A comparação direta
+
+Uma segunda medida, independente da lista: para cada questão e cada par de modelos, o juiz lê as duas lições, sem saber quem escreveu cada uma, e diz qual ensinaria melhor um iniciante, em duas a quatro frases ([`juiz/COMPARACAO.md`](./juiz/COMPARACAO.md)). Ela capta o que uma lista não enxerga: se o raciocínio se encadeia, se a explicação ajuda ou só ocupa espaço.
+
+- **Par, e não nota.** Escolher entre duas lições é bem mais estável para um modelo do que dar nota de 0 a 10, que tende a se amontoar no meio.
+- **Contra os vieses conhecidos.** A ordem 1 e 2 é sorteada por par (fixa pelo código), e o resumo confere se a primeira posição vence mais do que a metade. As instruções dizem que tamanho não é qualidade, porque juízes de modelo tendem a premiar o texto mais longo.
+- **Fora do índice.** O resumo traz o placar dela ao lado das comparações pareadas do índice: se as duas concordam, uma confirma a outra; se discordam, isso já é um resultado.
+- Um modelo que não entregou lição perde o par sem pacote. São 3 pacotes por questão (6 com o Fable), cada um com as duas lições, perto de 25 a 30 mil tokens.
+
+Os pacotes ficam em `juiz/pares/pendentes/` (montados por `scripts/pares.py`, a partir dos pacotes de itens); quem é 1 e quem é 2 fica em `execucoes/Qnn/pares.json`, fora do alcance do juiz.
+
+Para julgar, `python scripts/rodar.py --juiz` abre uma sessão por pacote pendente, primeiro os de itens e depois os de pares (Opus 5.5 por padrão; `--modelo-juiz sonnet` troca), com acesso só a ler e gravar arquivos. À mão, abra uma sessão na pasta desta avaliação e peça: *"Julgue os pacotes pendentes conforme juiz/JUIZ.md."*
 
 **Conferência do juiz.** Sorteie cinco pacotes, julgue você mesmo uns vinte itens de cada e compare. Concordância abaixo de 85% pede ajuste no `JUIZ.md` e novo julgamento de todos.
 
@@ -157,7 +169,7 @@ Para julgar, `python scripts/rodar.py --juiz` abre uma sessão por pacote penden
 python scripts/nota.py
 ```
 
-Escreve `resultados/execucoes.csv` (uma linha por execução, com todas as medidas) e `resultados/RESUMO.md`: por modelo, o tempo mediano, a completude, o erro, as respostas certas, a qualidade e o índice, com intervalo de 95% por reamostragem das questões; a completude por seção, em "tantos de tantos"; as comparações pareadas, com o placar e o teste dos sinais; e o índice de cada questão. Pode ser rodado a qualquer momento: sem o juiz, a conta usa só os itens decididos por regra e o resumo avisa que é parcial.
+Escreve `resultados/execucoes.csv` (uma linha por execução, com todas as medidas) e `resultados/RESUMO.md`: por modelo, o tempo mediano, a completude, o erro, as respostas certas, a qualidade e o índice, com intervalo de 95% por reamostragem das questões; a completude por seção, em "tantos de tantos"; as comparações pareadas, com o placar e o teste dos sinais; o placar da comparação direta, com a conferência do viés de posição e o porquê de cada decisão; e o índice de cada questão. Pode ser rodado a qualquer momento: sem o juiz, a conta usa só os itens decididos por regra e o resumo avisa que é parcial.
 
 ## 7. Limites conhecidos
 

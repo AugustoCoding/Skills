@@ -1,0 +1,5 @@
+Ácido residual:              556.5 kg
+Ácido nítrico concentrado:   330.6 kg
+Ácido sulfúrico concentrado: 612.9 kg
+Água (conferência):          180.0 kg
+Água esperada:               180.0 kg

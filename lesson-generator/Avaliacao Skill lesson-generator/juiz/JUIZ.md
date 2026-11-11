@@ -20,7 +20,17 @@ Para cada item da lista, um destes:
 | `ok` | A lição explica o que o item pede, e a explicação está certa |
 | `errado` | A lição explica, mas a explicação afirma algo falso: unidade errada, descrição errada do que um argumento faz, número que contradiz o programa, conceito de engenharia ou de Python errado |
 | `faltou` | A lição não explica, ou só menciona sem explicar |
-| `na` | O item não se aplica: o "símbolo" é um operador ou um índice, a construção não existe de fato no programa |
+| `na` | O item não se aplica a esta lição (veja abaixo) |
+
+## Itens que não cabem
+
+A lista de itens é montada por um script, que lê a lição sem entendê-la. Às vezes ele pede uma explicação que não faz sentido para esta lição. Você tem autoridade para anular esses itens com `na`, sempre com uma nota que diga por quê. Os casos típicos:
+
+- **O termo aparece só para dizer que não se usa.** "É um cálculo direto, sem chute inicial nem iterações" não deve uma explicação de "chute inicial": a frase já explica o que importa ao aluno, que o método não precisa disso. O mesmo vale para "não há tolerância a escolher", "sem malha" etc.
+- **A palavra não é o termo técnico.** "Residual" como nome de uma corrente (ácido residual), "malha" como malha de controle quando o item pergunta pelo termo numérico.
+- **A coisa não existe de fato.** O "símbolo" é um operador ou um índice; a construção apontada não está no programa (uma tupla que é só desempacotamento, por exemplo).
+
+Anule só o que, lido o contexto, não deveria ser cobrado de **nenhuma** lição que resolvesse este exercício do jeito que esta resolveu. Uma explicação que a lição devia dar e não deu é `faltou`, por mais curta ou óbvia que pareça.
 
 ## A régua
 
@@ -59,4 +69,4 @@ Grave `juiz/respostas/<código>.json`, com **todos** os itens do pacote:
 }
 ```
 
-Em `notas`, uma linha para cada item `errado` (obrigatória) e para cada `na` (opcional). Nada além do JSON no arquivo.
+Em `notas`, uma linha para cada item `errado` e para cada `na`, as duas obrigatórias. Nada além do JSON no arquivo.

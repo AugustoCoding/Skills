@@ -1,0 +1,4 @@
+{
+ "melhor": "2",
+ "por_que": "As duas estão corretas em todos os números (556,45/330,65/612,90 kg, limites de 33,75% e 31,1%, casos alterados). A lição 2 explica melhor o modelo: substitui os dados em cada balanço (420 e 900 kg), mostra por que o balanço de água é global − HNO₃ − H₂SO₄ em vez de só afirmar que é combinação, e justifica a hipótese de mistura sem evaporação pelo calor de diluição. No código, a lição 2 explica o que cada argumento de np.linalg.solve representa, a leitura linha × vetor de A·x = b e a exigência de matriz quadrada e equações independentes, enquanto a lição 1 só diz que a função devolve o resultado de solve. A lição 1 tem a seu favor a função reutilizável e uma leitura do resultado mais rica (tabela de três casos e dois experimentos), mas isso não compensa a explicação mais rasa do modelo e da resolução."
+}

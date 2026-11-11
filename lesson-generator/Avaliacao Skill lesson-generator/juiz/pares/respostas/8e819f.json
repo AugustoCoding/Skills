@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "As duas chegam às mesmas massas corretas (556,5, 330,6 e 612,9 kg) e conferem com o balanço da água, mas a lição 1 explica melhor o modelo: escreve as frações como símbolos, mostra os termos nulos (0·mS, 0·mN) e diz por que o balanço da água é redundante antes de usá-lo como conferência. No código, a lição 1 explica def, a desempacotagem, os formatos e o recorte massas[:, 0]; a lição 2 deixa os números fixos na matriz e explica menos. No resultado, a lição 1 varia o teor de HNO3, acha e deduz o limite de 33,75 % em que o residual zera e dá números verificáveis para 62 % de H2SO4 e 3000 kg; a figura da lição 2 (massas contra P) só mostra retas proporcionais, e a explicação de por que o sulfúrico é a maior corrente é fraca."
+}

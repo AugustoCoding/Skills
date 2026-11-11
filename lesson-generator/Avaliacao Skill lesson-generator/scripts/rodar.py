@@ -6,7 +6,7 @@
     python rodar.py --inicio 18:21        espera esse horario para comecar
     python rodar.py --max 12              no maximo 12 execucoes nesta rodada
     python rodar.py --etapa fable         bloco A no Fable 5.2
-    python rodar.py --juiz                so julga os pacotes pendentes
+    python rodar.py --juiz                so julga os pacotes pendentes (itens e pares)
 
 Cada execucao e uma sessao nova do Claude Code sem interface (claude -p), numa
 pasta vazia fora do repositorio, em esforco medio, so com as ferramentas de
@@ -25,12 +25,14 @@ import re
 import shutil
 import subprocess
 import sys
+import threading
 import time
 import uuid
 from datetime import datetime
 from pathlib import Path
 
 from comum import EXECUCOES, JUIZ, MODELOS, RAIZ, ler_json, questoes
+from pares import montar as montar_pares
 from registrar import ler_sessao, pasta_do_registro, versao_da_skill
 
 PASTAS = "~/avaliacao-lesson-generator"
@@ -76,24 +78,57 @@ def chamar(prompt, modelo, pasta, sessao, ferramentas, limite_s):
     claude = shutil.which("claude")
     if not claude:
         sys.exit("Não achei o comando `claude` no PATH.")
-    cmd = [claude, "-p", "--model", MODELOS[modelo], "--effort", "medium", "--output-format", "json",
+    cmd = [claude, "-p", "--model", MODELOS[modelo], "--effort", "medium",
+           "--output-format", "stream-json", "--verbose",
            "--session-id", sessao, "--tools", ferramentas, "--allowedTools", ferramentas,
            "--permission-mode", "acceptEdits", "--strict-mcp-config", "--no-chrome"]
     # A sessao filha nao pode herdar o que identifica a sessao de quem chamou o script.
     amb = {k: v for k, v in os.environ.items() if not k.upper().startswith(("CLAUDE", "ANTHROPIC"))}
+    p = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                         text=True, encoding="utf-8", errors="replace", cwd=pasta, env=amb)
+    estourou = []
+    relogio = threading.Timer(limite_s, lambda: (estourou.append(1), p.kill()))
+    relogio.start()
+    inicio, res, solto = time.time(), None, []
     try:
-        r = subprocess.run(cmd, input=prompt, capture_output=True, text=True, encoding="utf-8",
-                           errors="replace", cwd=pasta, env=amb, timeout=limite_s)
-    except subprocess.TimeoutExpired:
+        p.stdin.write(prompt)
+        p.stdin.close()
+        # A sessao conta o que faz, linha a linha: cada ferramenta usada aparece no terminal.
+        for linha in p.stdout:
+            try:
+                ev = json.loads(linha)
+            except ValueError:
+                solto.append(linha.strip())
+                continue
+            if not isinstance(ev, dict):
+                continue
+            if ev.get("type") == "result":
+                res = ev
+            elif ev.get("type") == "assistant":
+                for b in (ev.get("message") or {}).get("content") or []:
+                    if isinstance(b, dict) and b.get("type") == "tool_use":
+                        mostrar(time.time() - inicio, b)
+        p.wait()
+    finally:
+        relogio.cancel()
+    if estourou:
         return "tempo", {}
-    try:
-        res = json.loads(r.stdout.strip().splitlines()[-1])
-    except (ValueError, IndexError):
-        res = {"is_error": True, "result": (r.stdout + r.stderr).strip()[-600:]}
-    if r.returncode != 0 or res.get("is_error"):
-        texto = str(res.get("result", "")) + r.stderr
+    if res is None:
+        res = {"is_error": True, "result": " ".join(solto)[-600:]}
+    if p.returncode != 0 or res.get("is_error"):
+        texto = str(res.get("result", "")) + " ".join(solto)
         return ("limite" if LIMITE.search(texto) else "erro"), res
     return "ok", res
+
+
+def mostrar(t, bloco):
+    """Uma linha por ferramenta usada pela sessao: o minuto, a ferramenta e em que."""
+    e = bloco.get("input") or {}
+    alvo = e.get("command") or e.get("file_path") or e.get("pattern") or ""
+    alvo = " ".join(str(alvo).split())
+    if e.get("file_path"):
+        alvo = Path(alvo).name
+    print(f"    {int(t // 60):2d}:{int(t % 60):02d}  {bloco.get('name', '?'):5s} {alvo[:90]}", flush=True)
 
 
 def hoje_as(hhmm):
@@ -156,8 +191,7 @@ def executar(q, m, raiz, banco):
 
     estado, res = com_segunda_chance(tentar, lambda: esvaziar(pasta, raiz))
     if estado == "erro":
-        anotar(raiz, f"{q} {m}: ERRO, não registrada: {str(res.get('result', ''))[:200]!r}")
-        return False
+        raise Parar(f"{q} {m} deu erro duas vezes e não foi registrada: {str(res.get('result', ''))[:200]!r}")
     registro = pasta_do_registro(pasta.resolve()) / f"{sessao['id']}.jsonl"
     cmd = [sys.executable, str(Path(__file__).with_name("registrar.py")), q, m, "--pasta", str(pasta)]
     cmd += ["--sessao", str(registro)] if registro.exists() else ["--tempo", f"{T_MAX // 60}:00"]
@@ -168,24 +202,42 @@ def executar(q, m, raiz, banco):
 
 
 def julgar(modelo, maximo, raiz, ate):
-    pendentes = [p for p in sorted((JUIZ / "pendentes").glob("*.md"))
-                 if not (JUIZ / "respostas" / f"{p.stem}.json").exists()]
-    print(f"{len(pendentes)} pacote(s) sem resposta; juiz: {MODELOS[modelo]}.", flush=True)
-    (JUIZ / "respostas").mkdir(parents=True, exist_ok=True)
+    """Os dois julgamentos: item a item (JUIZ.md) e, depois, a comparacao direta dos pares (COMPARACAO.md)."""
+    julgar_pasta(JUIZ, "JUIZ.md", "julgue", "juiz", lambda r: f"{len(r['itens'])} itens julgados",
+                 modelo, maximo, raiz, ate)
+    # Os pacotes de pares saem do texto dos pacotes de itens; um par so se monta com as duas licoes.
+    montar_pares()
+    julgar_pasta(JUIZ / "pares", "COMPARACAO.md", "compare", "comparação", resumo_do_par,
+                 modelo, maximo, raiz, ate)
+
+
+def resumo_do_par(r):
+    if str(r["melhor"]) not in ("1", "2", "empate"):
+        raise ValueError(r["melhor"])
+    return f"melhor: lição {r['melhor']}" if r["melhor"] != "empate" else "empate"
+
+
+def julgar_pasta(pasta, instrucoes, verbo, rotulo, resumo, modelo, maximo, raiz, ate):
+    pendentes = [p for p in sorted((pasta / "pendentes").glob("*.md"))
+                 if not (pasta / "respostas" / f"{p.stem}.json").exists()]
+    print(f"{len(pendentes)} pacote(s) de {rotulo} sem resposta; juiz: {MODELOS[modelo]}.", flush=True)
+    (pasta / "respostas").mkdir(parents=True, exist_ok=True)
+    rel = pasta.relative_to(RAIZ).as_posix()
     for p in pendentes[:maximo]:
         no_horario(ate)
-        resposta = JUIZ / "respostas" / f"{p.stem}.json"
-        prompt = (f"Leia juiz/JUIZ.md e julgue somente o pacote juiz/pendentes/{p.name}, sem abrir os outros. "
-                  f"Grave a resposta em juiz/respostas/{p.stem}.json e responda apenas: feito.")
+        resposta = pasta / "respostas" / f"{p.stem}.json"
+        prompt = (f"Leia juiz/{instrucoes} e {verbo} somente o pacote {rel}/pendentes/{p.name}, sem abrir os outros. "
+                  f"Grave a resposta em {rel}/respostas/{p.stem}.json e responda apenas: feito.")
         estado, res = com_segunda_chance(
             lambda: chamar(prompt, modelo, RAIZ, str(uuid.uuid4()), FERRAMENTAS_JUIZ, T_MAX),
             lambda: resposta.unlink(missing_ok=True))
+        if estado == "erro":
+            raise Parar(f"o juiz deu erro duas vezes no pacote {p.stem}: {str(res.get('result', ''))[:200]!r}")
         try:
-            n = len(ler_json(resposta)["itens"])
-            anotar(raiz, f"juiz {p.stem}: {n} itens julgados")
-        except (OSError, ValueError, KeyError):
+            anotar(raiz, f"{rotulo} {p.stem}: {resumo(ler_json(resposta))}")
+        except (OSError, ValueError, KeyError, TypeError):
             resposta.unlink(missing_ok=True)
-            anotar(raiz, f"juiz {p.stem}: SEM RESPOSTA VÁLIDA ({estado}); fica pendente")
+            anotar(raiz, f"{rotulo} {p.stem}: SEM RESPOSTA VÁLIDA ({estado}); fica pendente")
 
 
 def testar(raiz):
@@ -248,7 +300,10 @@ def main():
             sys.exit(f"Há execuções feitas com outra versão da skill ({', '.join(sorted(outras))}); "
                      f"a atual é {skill['skill_commit']}. Todas precisam da mesma.")
         banco = questoes()
-        anotar(raiz, f"RODADA: etapas {' '.join(a.etapa)}, skill {skill['skill_commit']}, até {a.ate}")
+        versao = subprocess.run([shutil.which("claude") or "claude", "--version"], capture_output=True,
+                                text=True, encoding="utf-8", errors="replace").stdout.strip()
+        anotar(raiz, f"RODADA: etapas {' '.join(a.etapa)}, skill {skill['skill_commit']}, "
+                     f"Claude Code {versao}, até {a.ate}")
         # Etapa por etapa: as execucoes que faltam e, em seguida, o juiz do que ficou pendente.
         for e in a.etapa:
             for q, m in fila([e]):

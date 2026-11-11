@@ -16,6 +16,7 @@ from math import comb
 from statistics import mean, median
 
 from comum import EXECUCOES, JUIZ, MODELOS, RESULTADOS, SECOES, ler_json, questoes
+from pares import resultados as pares_resultados
 
 # Fator de tempo: vale 1 ate T_ALVO e cai em linha reta ate zero em T_ZERO.
 # O alvo de 5 min e o dos testes da skill; aos 12 min a licao ja nao vale a espera.
@@ -105,6 +106,43 @@ def minutos(t):
     return f"{int(t // 60)} min {int(t % 60):02d} s"
 
 
+def comparacao_direta(modelos):
+    """O placar da comparacao direta do juiz, fora do indice, e a conferencia do vies de posicao."""
+    pares = pares_resultados()
+    julgados = [p for p in pares if p["vencedor"]]
+    if not julgados:
+        return []
+    out = ["", "## Comparação direta", "",
+           "O juiz lê as duas lições da mesma questão, sem saber os modelos, e diz qual ensinaria melhor um "
+           "iniciante ([COMPARACAO.md](../juiz/COMPARACAO.md)). É um juízo de conjunto, sem lista de itens, "
+           "e fica fora do índice: se concordar com as comparações pareadas acima, uma confirma a outra.", "",
+           "| Par | Questões julgadas | Placar (vitórias–empates–derrotas) | p (teste dos sinais) |",
+           "|---|---|---|---|"]
+    for i, a in enumerate(modelos):
+        for b in modelos[i + 1:]:
+            ps = [p for p in julgados if {p["a"], p["b"]} == {a, b}]
+            if not ps:
+                continue
+            v = sum(p["vencedor"] == a for p in ps)
+            d = sum(p["vencedor"] == b for p in ps)
+            e = len(ps) - v - d
+            out.append(f"| {a} × {b} | {len(ps)} | {v}–{e}–{d} | {p_sinais(v, d):.3f} |".replace(".", ","))
+    pos = [p["posicao"] for p in julgados if p["posicao"]]
+    if pos:
+        n1 = pos.count("1")
+        out += ["", f"Viés de posição: a lição mostrada em primeiro venceu {n1} de {len(pos)} comparações "
+                    f"com vencedor (p = {p_sinais(n1, len(pos) - n1):.3f}; perto de metade é o esperado).".replace(".", ",", 1)]
+    falta = len(pares) - len(julgados)
+    if falta:
+        out += ["", f"> {falta} comparação(ões) ainda sem resposta do juiz."]
+    out += ["", "<details><summary>Por que o juiz decidiu cada par</summary>", ""]
+    for p in julgados:
+        ordem = f" ({p['ordem']})" if p.get("ordem") else ""
+        out.append(f"- **{p['questao']} {p['a']} × {p['b']}**: {p['vencedor']}{ordem}. {p['por_que']}")
+    out += ["", "</details>"]
+    return out
+
+
 def main():
     sys.stdout.reconfigure(encoding="utf-8")
     banco = questoes()
@@ -172,6 +210,8 @@ def main():
                     dif += f" ({100 * ic[0]:+.1f} a {100 * ic[1]:+.1f})".replace(".", ",")
                 valor_p = f"{p_sinais(v, p):.3f}".replace(".", ",")
                 out.append(f"| {a} × {b} | {len(comuns)} | {dif} | {v}–{e}–{p} | {valor_p} |")
+
+    out += comparacao_direta(modelos)
 
     out += ["", "## Por questão", "",
             "Índice de cada execução (qualidade × fator de tempo) e, entre parênteses, o tempo.", "",

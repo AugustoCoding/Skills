@@ -1,0 +1,4 @@
+﻿modelo;questao;check_avisos;check_erros;completude;completude_C;completude_M;completude_R;entregou;erro;explicados_C;explicados_M;explicados_R;fator_tempo;indice;itens;itens_C;itens_M;itens_R;julgado;palavras;pendentes;qualidade;respostas_certas;tempo_s;tokens_saida
+haiku;Q01;0;0;0,8519;0,7955;0,9032;0,8571;1;0,0000;35;28;6;1,0000;0,8519;82;44;31;7;1;1901;0;0,8519;1,0000;179,0000;40775
+opus;Q01;2;0;0,9683;0,9298;0,9750;1,0000;1;0,0000;53;39;8;1,0000;0,9683;105;57;40;8;1;2999;0;0,9683;1,0000;200,1000;22849
+sonnet;Q01;1;0;0,9708;0,9123;1,0000;1,0000;1;0,0098;52;39;11;1,0000;0,9649;107;57;39;11;1;3043;0;0,9649;1,0000;177,9000;25204

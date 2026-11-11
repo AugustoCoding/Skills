@@ -1,0 +1,6 @@
+Ácido residual (R): 556.45 kg
+Ácido nítrico concentrado (N): 330.65 kg
+Ácido sulfúrico concentrado (S): 612.90 kg
+Água que entra: 180.00 kg
+Água no produto: 180.00 kg
+N = 0 quando o residual tem 31.1% de HNO3 (R = 1350 kg)
