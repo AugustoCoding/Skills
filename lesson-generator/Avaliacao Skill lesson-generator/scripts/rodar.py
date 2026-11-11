@@ -45,8 +45,31 @@ FERRAMENTAS_JUIZ = "Read,Write,Glob"
 T_MAX = 30 * 60          # a skill da meia hora como falha: passou disso, a sessao e encerrada
 MARGEM = 15 * 60         # nenhuma sessao comeca a menos disso do fim do horario
 # "Credit balance is too low" apareceu as 23h14 de 10/11, perto do fim da janela de 5 horas.
-LIMITE = re.compile(r"usage limit|hit your limit|limit reached|rate.?limit|out of (extra )?usage|"
+# A mensagem do plano Pro as 01h49 de 11/11: "You've hit your 5-hour limit · resets 4:20am (America/Sao_Paulo)".
+LIMITE = re.compile(r"usage limit|hit your [\w -]{0,20}limit|limit reached|rate.?limit|out of (extra )?usage|"
                     r"credit balance is too low", re.I)
+MESES = {m: i for i, m in enumerate(["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct",
+                                     "nov", "dec"], 1)}
+
+
+def hora_da_volta(texto):
+    """Quando o limite volta, pela mensagem: o carimbo |1234567890 ou "resets 4:20am" / "resets Nov 13, 3pm"."""
+    m = re.search(r"\|(\d{10})\b", texto)
+    if m:
+        return datetime.fromtimestamp(int(m.group(1)))
+    m = re.search(r"resets\s+(?:([A-Za-z]{3})[a-z]*\.?\s+(\d{1,2}),?\s+(?:at\s+)?)?(\d{1,2})(?::(\d{2}))?\s*([ap]m)",
+                  texto, re.I)
+    if not m:
+        return None
+    mes, dia, h, mi, ap = m.groups()
+    h = int(h) % 12 + (12 if ap.lower() == "pm" else 0)
+    agora = datetime.now()
+    if mes and mes.lower() in MESES:
+        volta = agora.replace(month=MESES[mes.lower()], day=int(dia), hour=h, minute=int(mi or 0),
+                              second=0, microsecond=0)
+        return volta if volta > agora - timedelta(days=1) else volta.replace(year=agora.year + 1)
+    volta = agora.replace(hour=h, minute=int(mi or 0), second=0, microsecond=0)
+    return volta if volta > agora else volta + timedelta(days=1)
 TRES = ["haiku", "sonnet", "opus"]
 
 
@@ -173,9 +196,10 @@ SEM_HORA = []   # tentativas seguidas sem saber quando o limite volta; zera a ca
 
 def sem_limite(res):
     """O limite do plano acabou. Com --esperar, dorme ate ele voltar, se for logo; senao, a rodada para."""
-    m = re.search(r"\|(\d{10})\b", str(res.get("result", "")))
-    volta = datetime.fromtimestamp(int(m.group(1))) if m else None
+    volta = hora_da_volta(str(res.get("result", "")))
     falta = (volta - datetime.now()).total_seconds() if volta else None
+    if re.search(r"week", str(res.get("result", "")), re.I) and falta is not None:
+        falta = max(falta, ESPERA_MAX)   # o semanal encerra a rodada, mesmo que a mensagem traga so a hora
     if ESPERAR and falta is not None and falta < ESPERA_MAX:
         no_horario(daqui=max(0, falta) + 180)   # se so volta depois do fim do horario, encerra agora
         anotar(LOG, f"LIMITE da janela atingido; esperando até {volta:%d/%m %H:%M} para continuar")
