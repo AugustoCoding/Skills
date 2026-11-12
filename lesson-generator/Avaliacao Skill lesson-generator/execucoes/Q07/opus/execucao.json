@@ -1,0 +1,31 @@
+{
+ "questao": "Q07",
+ "modelo": "opus",
+ "skill_commit": "2467fe7",
+ "skill_alterada": false,
+ "tempo_s": 334.7,
+ "fonte_do_tempo": "registro da sessão",
+ "inicio": "2026-11-11T03:31:31.080Z",
+ "modelos_no_registro": [
+  "claude-opus-5-5"
+ ],
+ "esforco": [
+  "medium"
+ ],
+ "turnos_do_usuario": 2,
+ "chamadas_ao_modelo": 9,
+ "ferramentas_usadas": 10,
+ "tokens_saida": 23206,
+ "tokens_entrada": 18,
+ "tokens_cache_escrita": 49640,
+ "tokens_cache_leitura": 258779,
+ "entregou": true,
+ "codigo_juiz": "f7dbe5",
+ "arquivo_original": "absorcao-em-coluna-de-recheio.html",
+ "tamanho_kb": 138,
+ "idioma": "pt-BR",
+ "idioma_esperado": "pt-BR",
+ "palavras": 3322,
+ "check_erros": [],
+ "check_avisos": []
+}

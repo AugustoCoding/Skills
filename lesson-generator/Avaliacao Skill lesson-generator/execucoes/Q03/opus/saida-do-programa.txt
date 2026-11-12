@@ -1,0 +1,18 @@
+Avanço da reação 1: 0.8260 mol
+Avanço da reação 2: 0.3854 mol
+Conversão do CH4: 82.6 %
+Fração molar de H2: 0.5066
+Mols totais: 5.6519 mol
+  CH4  0.1740 mol   y = 0.0308
+  H2O  1.7887 mol   y = 0.3165
+  CO   0.4406 mol   y = 0.0780
+  H2   2.8632 mol   y = 0.5066
+  CO2  0.3854 mol   y = 0.0682
+C: sai 1.000000, entrou 1.000000 mol
+H: sai 10.000000, entrou 10.000000 mol
+O: sai 3.000000, entrou 3.000000 mol
+P =  1.0 bar: xi1 = 0.985 mol, xi2 = 0.397 mol, yH2 = 0.562
+P =  5.0 bar: xi1 = 0.826 mol, xi2 = 0.385 mol, yH2 = 0.507
+P = 10.0 bar: xi1 = 0.686 mol, xi2 = 0.364 mol, yH2 = 0.451
+P = 20.0 bar: xi1 = 0.544 mol, xi2 = 0.328 mol, yH2 = 0.385
+P = 30.0 bar: xi1 = 0.469 mol, xi2 = 0.303 mol, yH2 = 0.346

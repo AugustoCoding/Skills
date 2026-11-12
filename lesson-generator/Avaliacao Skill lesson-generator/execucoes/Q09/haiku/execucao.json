@@ -1,0 +1,31 @@
+{
+ "questao": "Q09",
+ "modelo": "haiku",
+ "skill_commit": "2467fe7",
+ "skill_alterada": false,
+ "tempo_s": 476.4,
+ "fonte_do_tempo": "registro da sessão",
+ "inicio": "2026-11-11T04:04:57.549Z",
+ "modelos_no_registro": [
+  "claude-haiku-5-5"
+ ],
+ "esforco": [
+  "medium"
+ ],
+ "turnos_do_usuario": 2,
+ "chamadas_ao_modelo": 26,
+ "ferramentas_usadas": 33,
+ "tokens_saida": 62732,
+ "tokens_entrada": 52,
+ "tokens_cache_escrita": 98776,
+ "tokens_cache_leitura": 1515269,
+ "entregou": true,
+ "codigo_juiz": "c80c9f",
+ "arquivo_original": "exothermic-batch-reactor-maximum-temperature-and-conversion.html",
+ "tamanho_kb": 137,
+ "idioma": "en",
+ "idioma_esperado": "en",
+ "palavras": 3295,
+ "check_erros": [],
+ "check_avisos": []
+}

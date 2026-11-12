@@ -1,0 +1,31 @@
+{
+ "questao": "Q02",
+ "modelo": "sonnet",
+ "skill_commit": "2467fe7",
+ "skill_alterada": false,
+ "tempo_s": 201.3,
+ "fonte_do_tempo": "registro da sessão",
+ "inicio": "2026-11-11T01:16:30.410Z",
+ "modelos_no_registro": [
+  "claude-sonnet-5-5"
+ ],
+ "esforco": [
+  "medium"
+ ],
+ "turnos_do_usuario": 1,
+ "chamadas_ao_modelo": 10,
+ "ferramentas_usadas": 10,
+ "tokens_saida": 31194,
+ "tokens_entrada": 20,
+ "tokens_cache_escrita": 59823,
+ "tokens_cache_leitura": 369409,
+ "entregou": true,
+ "codigo_juiz": "57c4b6",
+ "arquivo_original": "peng-robinson-co2.html",
+ "tamanho_kb": 133,
+ "idioma": "en",
+ "idioma_esperado": "en",
+ "palavras": 2766,
+ "check_erros": [],
+ "check_avisos": []
+}

@@ -1,0 +1,16 @@
+Período de taxa constante:   2.00 h
+Período de taxa decrescente: 6.10 h
+Tempo total:                 8.10 h
+
+Trecho de X     Δt (h)   t acumulado (h)
+0.40 → 0.35    0.67     0.67
+0.35 → 0.30    0.67     1.33
+0.30 → 0.25    0.67     2.00
+0.25 → 0.20    0.75     2.75
+0.20 → 0.15    0.97     3.72
+0.15 → 0.10    1.46     5.19
+0.10 → 0.05    2.91     8.10
+
+Taxa constante, fórmula fechada: 2.00 h
+Taxa decrescente, Simpson: 5.83 h
+Trapézios acima de Simpson em 4.5 %

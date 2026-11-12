@@ -1,0 +1,8 @@
+A = 1.1310 m²   a = 4.9087e-04 m²   k = 1.3481e-03 m^2.5/s
+Saída em h0: 0.953 L/s
+Saída em 1,00 m: 1.348 L/s
+Nível estacionário: 1.238 m
+Tempo até 1,00 m: 31.66 min
+Nível após 10 min: 0.731 m
+EDO: nível em 10 min = 0.731 m, tempo até 1,00 m = 31.66 min
+EDO: nível em 60 min = 1.145 m

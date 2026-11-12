@@ -1,0 +1,9 @@
+Difusividade: 3.797e-06 m²/s
+Número de Biot: 0.533
+Centro em 120 s: 342.8 °C
+Superfície em 120 s: 281.4 °C
+Centro chega a 150 °C em: 387.6 s
+Centro em 400 s: 145.3 °C
+Verificação, centro em 120 s: 342.8 °C
+Verificação, superfície em 120 s: 281.4 °C
+Verificação, tempo até 150 °C: 387.6 s

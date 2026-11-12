@@ -1,0 +1,34 @@
+{
+ "questao": "Q08",
+ "modelo": "opus",
+ "skill_commit": "2467fe7",
+ "skill_alterada": false,
+ "tempo_s": 300.4,
+ "fonte_do_tempo": "registro da sessão",
+ "inicio": "2026-11-11T03:50:09.807Z",
+ "modelos_no_registro": [
+  "claude-opus-5-5"
+ ],
+ "esforco": [
+  "medium"
+ ],
+ "turnos_do_usuario": 1,
+ "chamadas_ao_modelo": 11,
+ "ferramentas_usadas": 11,
+ "tokens_saida": 34588,
+ "tokens_entrada": 22,
+ "tokens_cache_escrita": 63873,
+ "tokens_cache_leitura": 420035,
+ "entregou": true,
+ "codigo_juiz": "8e36af",
+ "arquivo_original": "destilacao-mccabe-thiele-benzeno-tolueno.html",
+ "tamanho_kb": 152,
+ "idioma": "pt-BR",
+ "idioma_esperado": "pt-BR",
+ "palavras": 4795,
+ "check_erros": [],
+ "check_avisos": [
+  "The technique has 129 words: the norm is four or five sentences, up to about 100.",
+  "Step \"Degraus do topo ao fundo\": the print format(s) 2d are not explained in the text of the step (what each one prints)."
+ ]
+}

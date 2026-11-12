@@ -1,0 +1,7 @@
+Maximum temperature: 341.3 K
+Time of the maximum: 13.7 min
+Conversion at the maximum: 86.9 %
+Temperature after 30 min: 328.8 K
+Conversion after 30 min: 99.2 %
+Time to 95% conversion: 17.97 min
+Conversion from the rate integral: 99.2 %

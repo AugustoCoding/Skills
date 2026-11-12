@@ -1,0 +1,7 @@
+inclinação = -8898.6 K
+Ea  = 73.98 kJ/mol
+ln A = 24.5447
+R²  = 0.99987
+k(85 °C) = 0.7399 1/min
+linregress: Ea = 73.98 kJ/mol, R² = 0.99987
+Ea (extremos) = 73.98 kJ/mol

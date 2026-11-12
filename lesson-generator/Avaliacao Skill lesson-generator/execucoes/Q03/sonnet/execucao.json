@@ -1,0 +1,31 @@
+{
+ "questao": "Q03",
+ "modelo": "sonnet",
+ "skill_commit": "2467fe7",
+ "skill_alterada": false,
+ "tempo_s": 247.3,
+ "fonte_do_tempo": "registro da sessão",
+ "inicio": "2026-11-11T01:48:39.566Z",
+ "modelos_no_registro": [
+  "claude-sonnet-5-5"
+ ],
+ "esforco": [
+  "medium"
+ ],
+ "turnos_do_usuario": 1,
+ "chamadas_ao_modelo": 9,
+ "ferramentas_usadas": 9,
+ "tokens_saida": 34512,
+ "tokens_entrada": 18,
+ "tokens_cache_escrita": 64080,
+ "tokens_cache_leitura": 345918,
+ "entregou": true,
+ "codigo_juiz": "1c9e54",
+ "arquivo_original": "reforma-a-vapor-do-metano.html",
+ "tamanho_kb": 144,
+ "idioma": "pt-BR",
+ "idioma_esperado": "pt-BR",
+ "palavras": 3831,
+ "check_erros": [],
+ "check_avisos": []
+}

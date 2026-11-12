@@ -1,0 +1,8 @@
+alfa = 3.797e-06 m²/s,  Bi = 0.5333
+zeta_1 = 0.6713,  C_1 = 1.0740
+Fo em 120 s = 1.139
+T no centro em 120 s = 342.8 °C
+T na superfície em 120 s = 281.4 °C
+Tempo para o centro chegar a 150 °C = 387.6 s
+T na superfície nesse instante = 130.5 °C
+Verificação em 120 s: centro = 342.8 °C, superfície = 281.4 °C

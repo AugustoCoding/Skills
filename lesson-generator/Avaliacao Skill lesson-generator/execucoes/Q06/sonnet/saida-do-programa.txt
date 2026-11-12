@@ -1,0 +1,9 @@
+Espessura ótima: 9.43 cm
+Perda de calor: 4.45 kW
+Custo anual mínimo: R$ 7411/ano
+  calor perdido: R$ 5339/ano
+  isolante: R$ 2072/ano
+Sem isolante: R$ 58434/ano
+Redução da perda de calor: 90.9 %
+Varredura: 9.43 cm, R$ 7411/ano
+Tubo nu, h·A·dT: 48.69 kW, R$ 58434/ano

@@ -1,0 +1,13 @@
+xi1 = 0.8260 mol
+xi2 = 0.3854 mol
+conversão de CH4 = 82.6 %
+fração molar de H2 = 0.5066
+mols totais = 5.6519 mol
+C: 1.0000 mol (alimentado: 1.0000)
+H: 10.0000 mol (alimentado: 10.0000)
+O: 3.0000 mol (alimentado: 3.0000)
+outro chute: 0.8260 e 0.3854 mol
+menor quantidade: 0.1740 mol
+P = 1 bar: conversão = 98.5 %, y_H2 = 0.562
+P = 5 bar: conversão = 82.6 %, y_H2 = 0.507
+P = 20 bar: conversão = 54.4 %, y_H2 = 0.385

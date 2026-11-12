@@ -1,0 +1,7 @@
+A = 1.131 m², a = 4.909e-04 m², k = 1.348e-03 m^2,5/s
+Nível de estado estacionário: 1.238 m
+Nível após 10 min: 0.731 m
+Nível após 60 min: 1.145 m
+Tempo para h = 1,00 m: 31.66 min
+Analítico: h = 0.731 m em 10.00 min
+Analítico: h = 1,00 m em 31.66 min

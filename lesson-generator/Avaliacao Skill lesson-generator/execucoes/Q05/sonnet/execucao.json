@@ -1,0 +1,33 @@
+{
+ "questao": "Q05",
+ "modelo": "sonnet",
+ "skill_commit": "2467fe7",
+ "skill_alterada": false,
+ "tempo_s": 319.0,
+ "fonte_do_tempo": "registro da sessão",
+ "inicio": "2026-11-11T02:52:03.929Z",
+ "modelos_no_registro": [
+  "claude-sonnet-5-5"
+ ],
+ "esforco": [
+  "medium"
+ ],
+ "turnos_do_usuario": 1,
+ "chamadas_ao_modelo": 10,
+ "ferramentas_usadas": 10,
+ "tokens_saida": 47060,
+ "tokens_entrada": 20,
+ "tokens_cache_escrita": 76365,
+ "tokens_cache_leitura": 405327,
+ "entregou": true,
+ "codigo_juiz": "248155",
+ "arquivo_original": "resfriamento-de-uma-placa-de-aco.html",
+ "tamanho_kb": 143,
+ "idioma": "pt-BR",
+ "idioma_esperado": "pt-BR",
+ "palavras": 3846,
+ "check_erros": [],
+ "check_avisos": [
+  "The technique has 112 words: the norm is four or five sentences, up to about 100."
+ ]
+}

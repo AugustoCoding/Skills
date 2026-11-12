@@ -1,0 +1,9 @@
+Perda sem isolante: 48.69 kW
+Conferência, h·A·ΔT: 48.69 kW
+Espessura ótima: 9.43 cm
+Perda com essa espessura: 4.45 kW
+Custo da energia: R$ 5339/ano
+Custo do isolante: R$ 2072/ano
+Custo anual total mínimo: R$ 7411/ano
+Custo anual sem isolamento: R$ 58434/ano
+Conferência, varredura: 9.43 cm

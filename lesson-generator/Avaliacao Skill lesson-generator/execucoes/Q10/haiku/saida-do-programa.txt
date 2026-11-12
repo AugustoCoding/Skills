@@ -1,0 +1,6 @@
+Inclinação: -8898.57 K
+Energia de ativação: 73.98 kJ/mol
+ln A: 24.54
+k a 85 °C: 0.7399 1/min
+R² pelos resíduos: 0.99987
+R² do linregress: 0.99987

@@ -1,0 +1,6 @@
+Temperatura máxima: 62.08 °C
+Instante do máximo: 5.84 min
+Sobressinal: 20.8 % do degrau
+Temperatura 3 min após o degrau: 59.62 °C
+Máximo pela integração numérica: 62.08 °C
+Maior diferença entre as soluções: 1.5e-07 °C

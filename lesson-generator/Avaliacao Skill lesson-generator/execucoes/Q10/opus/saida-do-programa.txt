@@ -1,0 +1,14 @@
+T = 303.15 K   1/T = 3.298697e-03 1/K   ln k = -4.8036
+T = 313.15 K   1/T = 3.193358e-03 1/K   ln k = -3.8873
+T = 323.15 K   1/T = 3.094538e-03 1/K   ln k = -2.9720
+T = 333.15 K   1/T = 3.001651e-03 1/K   ln k = -2.1804
+T = 343.15 K   1/T = 2.914177e-03 1/K   ln k = -1.3823
+Inclinação = -8898.6 K
+Ea = 73.98 kJ/mol
+ln A = 24.545   (A = 4.567e+10 1/min)
+Maior resíduo em ln k = 0.0202
+R² = 0.99987
+k a 85 °C = 0.740 1/min
+k(85 °C)/k(70 °C) = 2.95
+Verificação: Ea pelos pontos extremos = 73.98 kJ/mol
+Verificação: R² = r² de Pearson = 0.99987

@@ -1,0 +1,11 @@
+X_out = 0.03273 mol/mol
+X em equilíbrio com Y_in = 0.04032 mol/mol
+(L/G) mínima = 1.786 mol/mol
+Força motriz no topo = 0.00800
+Força motriz no fundo = 0.01806
+N_OG = 4.997
+Altura de recheio = 2.998 m
+N_OG por quad = 4.997 (erro estimado 7.6e-10)
+Diferença entre os dois = 1.8e-15
+Mínima força motriz com 1,01 (L/G)min = 0.00098
+Mínima força motriz com 0,99 (L/G)min = -0.00101
