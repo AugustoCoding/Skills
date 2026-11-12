@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "As duas chegam aos mesmos números corretos com o mesmo modelo, mas a lição 1 justifica o intervalo do brentq pelo comportamento físico (a área do efeito 2 explode perto de 50 °C e a do efeito 1 perto de 120 °C) e explica o xtol, enquanto a lição 2 dá o intervalo 70–100 °C sem dizer como o aluno chegaria a ele. A lição 1 verifica a solução por um caminho de fato independente (fsolve no sistema completo, com cada argumento explicado); a verificação da lição 2 é um balanço global que ela mesma admite ser a soma dos dois já usados. Na leitura do resultado, a lição 1 explica por que V2 > V1 (o flash do líquido quente), por que a economia fica abaixo de 2 e mostra valores das áreas a 70 e 110 °C, enquanto a lição 2 se limita ao cruzamento e a um único teste de U2."
+}

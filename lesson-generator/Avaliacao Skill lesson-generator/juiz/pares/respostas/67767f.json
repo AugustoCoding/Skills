@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "As duas estão corretas e todos os números conferem; a lição 2 deduz D_ót passo a passo até a equação do segundo grau, enquanto a lição 1 só resume a derivada, o que é a vantagem real da 2. Em compensação, a lição 1 justifica melhor cada hipótese (o balanço global que dá V constante, o que mudaria com células na alimentação ou com manutenção) e confere o estado estacionário também por integração no tempo, explicando cada argumento de solve_ivp. Na leitura do resultado a lição 1 interpreta S, X e P deste exercício (S de 1,60 a 3,28 g/L, X caindo de 9,20 para 8,36 g/L compensado pela vazão, o motivo da lavagem) e testa duas variações, enquanto a lição 2 quase só repete os números e ainda escreve que 'a alimentação tem S = S0' quando quer dizer o reator."
+}

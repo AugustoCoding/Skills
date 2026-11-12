@@ -1,0 +1,4 @@
+{
+ "melhor": "2",
+ "por_que": "As duas chegam aos mesmos números corretos (83,48 °C, 0,6215, 89,61 °C, 0,2169) e têm estrutura parecida. A lição 2 explica melhor o código para quem nunca programou: diz por que a função vai ao brentq sem parênteses, o que significa o sinal do resíduo abaixo e acima da bolha, por que o sinal se inverte no orvalho e por que a composição entra como argumento. No modelo, ela acrescenta o balanço global F = V + L e o que mudaria se a fração vaporizada não fosse desprezível (um flash). A lição 1 tem uma verificação mais independente (Antoine isolada em T) e a exploração da pressão, mas justifica o intervalo de 0 a 200 °C dizendo que Antoine vale nessa faixa, o que é duvidoso, enquanto a única falha da lição 2 é uma frase confusa sobre a 'borda direita' em z = 0."
+}

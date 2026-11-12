@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "A lição 1 deduz a equação de Michaelis–Menten pelo balanço do complexo com a hipótese de estado quase estacionário, justifica quando ela vale e, no resultado, explica por que Lineweaver–Burk discorda (a inversão dá peso aos pontos de S baixo), com a SSE das duas curvas e o resíduo em 32 mM; tem um deslize de unidade (diz que mM·L = µmol, quando é mmol), numa nota auxiliar. A lição 2 está correta e acrescenta os erros-padrão e a tabela medido × modelo, mas apresenta a lei sem nenhum raciocínio, não desenha nem interpreta a reta de Lineweaver–Burk e deixa a comparação pedida no enunciado sem explicação além de uma frase genérica. A diferença no raciocínio e na leitura da comparação pesa mais que o deslize de unidade."
+}

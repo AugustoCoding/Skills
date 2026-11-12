@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "A lição 2 dá aos coeficientes c1 e c2 a unidade m^1,5/min, o que é falso (q = c·√h exige m^2,5/min, como a lição 1 escreve corretamente). A lição 1 explica melhor as hipóteses, dizendo o que mudaria num tanque cônico ou esférico e por que a subida de h2 freia q1. A conferência dela pelo balanço global de volume, em que a vazão da válvula se cancela, testa a trajetória nos 10 min de fato, enquanto a lição 2 só confere o estado final e repete a explicação de args e das tolerâncias. As duas acertam todos os números e leem a figura de forma específica para o exercício."
+}

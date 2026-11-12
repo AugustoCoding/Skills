@@ -1,0 +1,4 @@
+{
+ "melhor": "2",
+ "por_que": "As duas estão corretas e chegam aos mesmos números, mas a lição 2 explica melhor o modelo: mostra a eliminação de T2 somando as diferenças de temperatura, diz o que mudaria se a parede ou a radiação contassem e por que °C e K dão a mesma diferença, e o programa imprime o raio crítico. Na leitura do resultado, a lição 2 é mais específica deste exercício: mostra que o vale do custo é largo (8711 R$/ano com 5 cm e 8382 com 15 cm, contra 7411 no ótimo) e explica por que a espessura não dobra quando o preço da energia dobra. A lição 1 explica bem cada linha de código e faz uma conferência por varredura, mas a lição 2 confere o ótimo por um caminho que também ensina: a derivada do custo deduzida à mão e zerada com brentq."
+}

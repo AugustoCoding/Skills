@@ -1,0 +1,8 @@
+Temperatura de bolha: 83.48 °C
+n-hexano no primeiro vapor: y = 0.6215
+Temperatura de orvalho: 89.61 °C
+n-hexano na primeira gota: x = 0.2169
+Bolha do líquido x = 0.2169: 89.61 °C
+Orvalho do vapor y = 0.6215: 83.48 °C
+Ebulição do n-hexano puro: 68.74 °C
+Ebulição do n-heptano puro: 98.43 °C

@@ -1,0 +1,7 @@
+CA0 = 240.56 mol/m³   eps = 1
+Massa com perda de carga: 56.5 kg
+Pressão na saída: 7.49 bar (y = 0.749)
+Massa sem perda de carga (fórmula): 50.3 kg
+Massa sem perda de carga (integrada): 50.3 kg
+Catalisador a mais pela perda de carga: 12.4 %
+Conversão do leito real com 50.3 kg: 0.773

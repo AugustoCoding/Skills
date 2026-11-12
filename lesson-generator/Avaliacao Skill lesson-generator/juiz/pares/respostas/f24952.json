@@ -1,0 +1,4 @@
+{
+ "melhor": "2",
+ "por_que": "As duas estão corretas e chegam aos mesmos números, mas a lição 2 escreve a solução analítica t(h) no modelo, mostra como sai (separação de variáveis e troca u = √h) e explica por que o tempo até he é infinito; a lição 1 só cita que existe uma fórmula fechada e a joga no código sem dedução. No código, a lição 2 explica cada argumento de brentq (inclusive por que os sinais opostos nos limites garantem o zero) e de solve_ivp (args, events, tolerâncias), enquanto a lição 1 é mais sumária. Na leitura do resultado, a lição 2 interpreta com números deste exercício (saída de 1,348 L/s a 1,00 m, nível de 1,145 m em 60 min, he crescendo com Qe² e com 1/d⁴), e a lição 1 se limita a repetir os valores."
+}

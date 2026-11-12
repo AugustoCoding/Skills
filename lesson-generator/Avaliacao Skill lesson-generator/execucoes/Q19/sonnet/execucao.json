@@ -1,0 +1,31 @@
+{
+ "questao": "Q19",
+ "modelo": "sonnet",
+ "skill_commit": "2467fe7",
+ "skill_alterada": false,
+ "tempo_s": 408.3,
+ "fonte_do_tempo": "registro da sessão",
+ "inicio": "2026-11-12T02:27:40.242Z",
+ "modelos_no_registro": [
+  "claude-sonnet-5-5"
+ ],
+ "esforco": [
+  "medium"
+ ],
+ "turnos_do_usuario": 1,
+ "chamadas_ao_modelo": 27,
+ "ferramentas_usadas": 29,
+ "tokens_saida": 56822,
+ "tokens_entrada": 54,
+ "tokens_cache_escrita": 92153,
+ "tokens_cache_leitura": 1904607,
+ "entregou": true,
+ "codigo_juiz": "5657b4",
+ "arquivo_original": "cstr-multiplos-estados-estacionarios.html",
+ "tamanho_kb": 148,
+ "idioma": "pt-BR",
+ "idioma_esperado": "pt-BR",
+ "palavras": 4150,
+ "check_erros": [],
+ "check_avisos": []
+}

@@ -1,0 +1,15 @@
+Fator de absorção A = 1.500
+Estágios teóricos N = 4.914
+Estágios a instalar = 5
+Recuperação com 5 estágios = 95.19 %
+L/G mínima = 1.140 mol/mol
+Prato a prato: recuperação = 95.19 %
+Balanço global: L/G mínima = 1.140 mol/mol
+N = 1: recuperação = 60.00 %
+N = 2: recuperação = 78.95 %
+N = 3: recuperação = 87.69 %
+N = 4: recuperação = 92.42 %
+N = 5: recuperação = 95.19 %
+N = 6: recuperação = 96.89 %
+N = 7: recuperação = 97.97 %
+N = 8: recuperação = 98.66 %

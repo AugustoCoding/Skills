@@ -1,0 +1,7 @@
+Estados estacionários encontrados: 3
+Estado 1: T = 324.5 K, conversão de A = 12.3 %
+Estado 2: T = 350.0 K, conversão de A = 50.0 %
+Estado 3: T = 369.7 K, conversão de A = 79.1 %
+Verificação em T = 350 K:
+  k = 0.9999 1/min
+  G = 2499.9 kJ/min, R = 2500.0 kJ/min

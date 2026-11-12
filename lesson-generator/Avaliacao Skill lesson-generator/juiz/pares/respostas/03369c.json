@@ -1,0 +1,4 @@
+{
+ "melhor": "2",
+ "por_que": "As duas chegam às mesmas respostas corretas (0,01644 kg/kg, 21,8 °C, 74,3 kJ/kg, 5,84 g/kg), mas a lição 2 explica melhor de onde vêm as fórmulas: deduz W = 0,622·pv/(P − pv) pela lei de Dalton, mostra o que cada termo da entalpia representa e explica o balanço de ar seco, que justifica tudo ser dado por kg de ar seco; a lição 1 só cita a razão das massas molares e a fórmula da entalpia. No código, a lição 2 explica cada argumento do brentq e o porquê do intervalo, e usa min() para tratar o caso em que nada condensa. A lição 1 diz que o brentq 'recebe quatro coisas' e lista só três. Nos resultados, a lição 2 explora o caso com UR = 30%, em que a hipótese de saída saturada deixa de valer, e por isso ensina o limite do modelo."
+}

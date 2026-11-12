@@ -1,0 +1,4 @@
+{
+ "melhor": "2",
+ "por_que": "As duas chegam às mesmas respostas corretas (1,238 m, 0,731 m, 31,66 min), mas a lição 1 apoia o caminho principal numa fórmula fechada de t(h) que só anuncia ('separando as variáveis e integrando, chega-se'), sem mostrar a dedução, e o aluno não consegue refazê-la; a lição 2 resolve pelo integrador, cujo funcionamento explica, e deixa a fórmula analítica só como conferência. A lição 2 também explica melhor o código: cada argumento de solve_ivp (args, events, dense_output, tolerâncias), por que t entra na função mesmo sem uso, o max(h, 0) e o tratamento do evento que não ocorre. A leitura do resultado da lição 2 é mais deste exercício (0,231 m nos primeiros 10 min contra 0,269 m nos 21,66 min seguintes, 1,145 m em 60 min ainda abaixo do estacionário) e as variações exploram casos em que o nível desce ou nunca chega a 1,00 m, enquanto a lição 1 fica em frases mais genéricas."
+}

@@ -1,0 +1,4 @@
+{
+ "melhor": "2",
+ "por_que": "As duas chegam aos mesmos números corretos (341,3 K a 13,7 min, 99,2 %, ~18 min) com modelos equivalentes, mas a lição 2 declara a hipótese de mistura perfeita, que justifica uma única temperatura no balanço de energia e que a lição 1 omite. Na leitura do resultado, a lição 2 é mais deste exercício: mostra que 86,9 % de A já reagiu no pico e que a 30 min o líquido está em 328,8 K, ligando a queda de temperatura ao esgotamento do reagente com números, enquanto a lição 1 explica o pico e os 95 % de modo mais genérico. A lição 1 tem vantagens no código (explica args, dense_output e usa trapezoid pronto) e no horizonte de 2 h, mas a lição 2 também explica cada argumento (t_eval, method, terminal) e o trapézio passo a passo, e a pequena imprecisão de chamar a queda de 'exponencial' ela mesma corrige na frase seguinte."
+}

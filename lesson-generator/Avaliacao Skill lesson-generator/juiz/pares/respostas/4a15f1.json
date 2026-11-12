@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "A lição 1 escreve o critério de mínimos quadrados como equação e explica por que a linearização de Lineweaver–Burk distorce os erros: o ponto em 1/S = 2 funciona como alavanca. Na leitura dos resultados ela compara as duas somas de quadrados (0,095 contra 0,386), mostra as duas curvas nos dois tipos de eixo e propõe alterar um único dado para ver o Lineweaver–Burk saltar, o que responde à parte de comparação do enunciado. A lição 2 calcula os valores de Lineweaver–Burk e a soma de quadrados, mas nunca interpreta a diferença nem desenha essa reta; as perguntas do resultado tratam só do ajuste não linear, e ela afirma sem mostrar que o ajuste não depende do chute inicial. As duas estão corretas e explicam bem o curve_fit, então a diferença está no raciocínio e na leitura dos resultados da comparação."
+}

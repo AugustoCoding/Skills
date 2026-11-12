@@ -1,0 +1,17 @@
+Vmax = 11.93 ± 0.14 µmol/min
+Km   = 2.94 ± 0.12 mM
+v at S = 5.0 mM: 7.51 µmol/min
+S =  0.5  measured   1.65  model   1.73
+S =  1.0  measured   3.10  model   3.03
+S =  2.0  measured   4.70  model   4.83
+S =  4.0  measured   7.05  model   6.88
+S =  8.0  measured   8.60  model   8.72
+S = 16.0  measured  10.20  model  10.08
+S = 32.0  measured  10.85  model  10.92
+Sum of squared residuals: 0.0954
+Trial values give: 0.0954
+Check, both near 0: 4.7e-10 -8.3e-10
+Lineweaver-Burk: Vmax = 12.47 µmol/min
+Lineweaver-Burk: Km = 3.23 mM
+v at S = 5.0 mM: 7.57 µmol/min
+Lineweaver-Burk sum of squares: 0.3863

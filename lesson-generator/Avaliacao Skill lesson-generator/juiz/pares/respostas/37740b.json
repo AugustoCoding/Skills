@@ -1,0 +1,4 @@
+{
+ "melhor": "2",
+ "por_que": "As duas estão corretas e chegam aos mesmos números (516,6 K e 18,32 W; 551,4 K e 10,08 W). A lição 2 justifica melhor o modelo: apresenta as três leis de taxa antes do balanço, substitui Fourier nas duas faces com o sinal de cada uma, passa ao limite Δx→0 e confere a hipótese unidimensional calculando Bi ≈ 3·10⁻⁴ (o programa também imprime esse valor), enquanto a lição 1 só argumenta essa hipótese em termos qualitativos. No código, a lição 2 torna o método do tiro intuitivo e explica por que o intervalo do brentq precisa conter uma troca de sinal e o que é a tupla (eps,). A lição 1 interpreta melhor o resultado (a radiação pesa tanto quanto a convecção por causa de T⁴; as variações de ε e de h), mas, na ordem de pesos pedida, essa vantagem não compensa o raciocínio mais completo da lição 2."
+}

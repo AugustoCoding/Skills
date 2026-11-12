@@ -1,0 +1,8 @@
+Estado 1: T = 324.48 K, X = 12.3 %
+Estado 2: T = 350.01 K, X = 50.0 %
+Estado 3: T = 369.70 K, X = 79.1 %
+k(350 K) = 0.9999 1/min
+Calor gerado em 350 K: 2.500e+06 J/min
+Troca com a camisa:    2.500e+06 J/min
+Simulação de 340 K (sinal 1): T final = 324.48 K
+Simulação de 360 K (sinal -1): T final = 369.70 K

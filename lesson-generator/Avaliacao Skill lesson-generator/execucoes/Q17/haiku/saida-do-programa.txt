@@ -1,0 +1,7 @@
+Fator de absorção A = 1.50
+Estágios teóricos = 4.91
+Estágios a instalar = 5
+Recuperação com 5 estágios = 95.19 %
+L/G mínimo = 1.14
+Verificação: recuperação = 95.19 %
+Limite com 1000 estágios: 95.00 %

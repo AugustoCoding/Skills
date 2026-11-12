@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "As duas chegam aos mesmos números corretos (Ea = 73,98 kJ/mol, ln A ≈ 24,54, R² = 0,99987, k(85 °C) = 0,7399 min⁻¹). A lição 1 ensina mais do modelo: dá a fórmula fechada de mínimos quadrados e a de R² explicando o que o numerador e o denominador medem, rotula intercepto e inclinação na forma linearizada, e explica cada argumento de np.polyfit, inclusive a ordem dos coeficientes devolvidos e o desempacotamento. A lição 2 usa linregress sem mostrar o que é o critério além de uma frase e menciona R² só no código de conferência. Na leitura do resultado, a lição 1 faz uma verificação própria do exercício (Ea pelos dois extremos coincide com o ajuste) e discute a extrapolação a 100 °C; a lição 2 traz leituras corretas, mas mais genéricas, como a de que k a 70 °C é 'mais de vinte vezes' o de 30 °C."
+}

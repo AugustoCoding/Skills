@@ -1,0 +1,9 @@
+L2 = 2500 kg/h; V = 7500 kg/h
+lam(Ts) = 2213 kJ/kg; lam(T2) = 2381 kJ/kg
+T1 = 91.38 °C
+A1 = 36.79 m2; A2 = 36.79 m2
+S = 4282 kg/h; V1 = 3603 kg/h; V2 = 3897 kg/h
+Economia = 1.752 kg de água/kg de vapor
+Diferença relativa máxima = 8.3e-13
+T1 = 70 °C: A1 = 20.0 m2; A2 = 79.5 m2
+T1 = 110 °C: A1 = 110.0 m2; A2 = 24.4 m2

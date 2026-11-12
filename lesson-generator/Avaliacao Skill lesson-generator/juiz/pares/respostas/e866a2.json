@@ -1,0 +1,4 @@
+{
+ "melhor": "2",
+ "por_que": "As duas chegam a Rmin = 1,10, R = 1,65, 12 estágios e alimentação no 6, mas só a lição 2 deduz a fórmula do refluxo mínimo (reta de retificação passando por (zF, y*)) e explica por que ali os degraus ficam infinitamente pequenos; na lição 1 a fórmula aparece no código sem origem, e o equilíbrio é descrito de forma imprecisa ('mais rico por um fator α'). A lição 2 também explica cada construção do laço e do desenho da escada (while True/break, índices, desempacotamento) e verifica o cruzamento das linhas em zF. No resultado, a lição 2 lê números deste caso (folga 0,6698 contra 0,7143, Fenske 6,4 contra N = 12, efeitos de α e de R/Rmin), enquanto a lição 1 calcula Fenske sem nunca informar ou interpretar o valor."
+}

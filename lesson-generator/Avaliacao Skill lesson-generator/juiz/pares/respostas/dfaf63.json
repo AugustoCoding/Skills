@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "As duas chegam aos números certos (A = 1,5, N = 4,91, 5 estágios, 95,19 %, L/G mín = 1,14), mas a lição 1 justifica melhor o modelo: introduz o equilíbrio do prato ideal no ponto em que ele é usado, diz o que mudaria se cada hipótese falhasse, trata o caso A = 1 e explica por que L/G mínimo = Rd·m. A lição 2 usa xn = yn/m antes de apresentar a reta de equilíbrio e deixa a dedução do L/G mínimo comprimida num parágrafo. No código, a lição 1 explica cada argumento (por que arredondar para cima, int(np.ceil), axhline, o marcador da coluna instalada), e a verificação dela é um laço simples. A lição 2 acrescenta brentq e lambda só para conferir o resultado e não explica plt.subplots nem np.ones_like. A leitura da figura na lição 1 também é mais deste exercício: por que a curva se achata e o que acontece em L/G = 1,14, inclusive o OverflowError, que está correto."
+}

@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "A lição 2 afirma que, ao subir Tc, 'a reta do calor removido sobe' e por isso somem os cruzamentos frios, o que é falso: UA·(T − Tc) diminui e a reta desce, como a lição 1 diz corretamente; o erro ensina a intuição física ao contrário. A lição 2 tem mais profundidade (balanço global, conversão deduzida, conta à mão em 350 K, inclinação e saturação numéricas na leitura), mas a verificação por tempo invertido é um recurso difícil para quem nunca programou. A lição 1 é correta do início ao fim, explica cada argumento de linspace, brentq e solve_ivp, e verifica os estados de forma direta (resíduo, partida fria, perturbação), mostrando que o estado quente é instável."
+}

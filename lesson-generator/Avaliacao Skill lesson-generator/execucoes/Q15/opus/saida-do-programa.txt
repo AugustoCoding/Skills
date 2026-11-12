@@ -1,0 +1,9 @@
+Psat a 32 °C: 4.743 kPa
+Pressão parcial do vapor: 2.608 kPa
+Umidade absoluta: 0.01644 kg água/kg ar seco
+Entalpia: 74.27 kJ/kg ar seco
+Temperatura de orvalho: 21.84 °C
+Umidade de saturação a 15 °C: 0.01060 kg/kg
+Água condensada: 5.84 g/kg ar seco
+Orvalho por brentq: 21.84 °C
+Diferença: 3.6e-14 °C

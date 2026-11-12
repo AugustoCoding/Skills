@@ -1,0 +1,6 @@
+Estado inicial: h1 = 1.5625 m, h2 = 1.0000 m
+Novo estado estacionário: h1 = 3.5156 m, h2 = 2.2500 m
+Em 10 min: h1 = 2.4166 m, h2 = 1.4541 m
+Tempo para h2 = 2.0 m: 33.33 min
+Em 60 min: h2 = 2.1805 m
+Após 300 min: h1 = 3.5156 m, h2 = 2.2500 m

@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "A lição 1 deduz cada passo que o aluno precisa refazer: o balanço por espécie, o total 4 + 2ξ1 com a soma dos coeficientes mostrada, o fator P² e a forma de resíduo sem denominadores. Também explica com cuidado o chute, os args e quem chama a função residuos. A lição 2 resolve ξ2 por uma equação de segundo grau cujos coeficientes a, b e c aparecem prontos, sem dedução, e não justifica por que a raiz de brentq está entre 0 e 0,999. Ela ainda tem frases imprecisas ('o produto dos coeficientes é 4 − 2', 'a vírgula faz de args uma tupla, mesmo com dois valores') e fixa 1 mol de CH4 no código; as duas chegam aos mesmos números e leem a figura de modo equivalente."
+}

@@ -1,0 +1,4 @@
+{
+ "melhor": "2",
+ "por_que": "A lição 2 deduz do balanço de mols por que xi = zi na bolha e yi = zi no orvalho, justifica a lei de Raoult para hexano e heptano e explica que a raiz é única porque Psat cresce sempre com T. A lição 1 apenas afirma essas condições e diz que não dá para isolar T na equação de Antoine, o que é falso para um componente puro e é contradito pela própria fórmula que ela usa no teste. A lição 2 também verifica mais (o vapor y1 tem orvalho em Tb, a gota x1 tem bolha em Td), marca as linhas de amarração no gráfico e interpreta as pontas do diagrama. Os blocos de explicação do código da lição 2 são mais densos que os da lição 1, que vai linha a linha, mas isso não compensa a diferença no raciocínio do modelo."
+}

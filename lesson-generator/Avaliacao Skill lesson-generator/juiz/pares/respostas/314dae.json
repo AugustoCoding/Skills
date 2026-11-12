@@ -1,0 +1,4 @@
+{
+ "melhor": "2",
+ "por_que": "As duas lições estão corretas e chegam aos mesmos números, mas a lição 2 explica melhor o raciocínio do modelo: diz por que o toque da L/G mínima é no fundo (a curva de equilíbrio se encurva para cima), confere isso no programa com a folga mínima e mostra de onde sai a fórmula fechada, por frações parciais com as raízes u+ e u−. A lição 1 deduz bem dY/dz = (Y − Y*)/HOG pelo balanço na fatia, mas usa a L/G mínima no fundo sem justificar e entrega a primitiva com logaritmo sem dizer de onde ela vem. No resultado, a lição 2 lê o diagrama Y–X deste caso (força motriz 0,0080 no topo e 0,0181 no fundo, operação a 1,23 vezes o mínimo, efeito de L/G = 1,8 na altura), enquanto a leitura da lição 1 é correta, mas mais rasa."
+}

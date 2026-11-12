@@ -1,0 +1,31 @@
+{
+ "questao": "Q21",
+ "modelo": "opus",
+ "skill_commit": "2467fe7",
+ "skill_alterada": false,
+ "tempo_s": 213.5,
+ "fonte_do_tempo": "registro da sessão",
+ "inicio": "2026-11-12T06:12:29.632Z",
+ "modelos_no_registro": [
+  "claude-opus-5-5"
+ ],
+ "esforco": [
+  "medium"
+ ],
+ "turnos_do_usuario": 1,
+ "chamadas_ao_modelo": 8,
+ "ferramentas_usadas": 8,
+ "tokens_saida": 23733,
+ "tokens_entrada": 16,
+ "tokens_cache_escrita": 53163,
+ "tokens_cache_leitura": 268409,
+ "entregou": true,
+ "codigo_juiz": "d78603",
+ "arquivo_original": "michaelis-menten-fit.html",
+ "tamanho_kb": 136,
+ "idioma": "en",
+ "idioma_esperado": "en",
+ "palavras": 3028,
+ "check_erros": [],
+ "check_avisos": []
+}

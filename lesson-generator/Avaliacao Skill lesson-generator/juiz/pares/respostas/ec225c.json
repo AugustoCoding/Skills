@@ -1,0 +1,4 @@
+{
+ "melhor": "2",
+ "por_que": "As duas estão corretas e chegam aos mesmos números, confirmados pela conta: 2,00, 6,10 e 8,10 h, e Simpson dá 5,83 h. A lição 2 explica melhor o modelo: diz por que a taxa é constante e depois cai (superfície molhada e, depois, umidade crítica), escreve a fórmula dos trapézios como equação antes do código e liga o sinal negativo de trapezoid com X decrescente ao dt = −(ms/A)dX/R da dedução. A lição 1 é mais enxuta, mas só justifica a inversão [::-1] dizendo que trapezoid 'espera X crescente', e não explica a física dos dois períodos. A leitura dos resultados da lição 2 também é mais deste exercício: mostra que o último trecho sozinho supera todo o período constante e quantifica a diferença para Simpson em 4,5 %."
+}

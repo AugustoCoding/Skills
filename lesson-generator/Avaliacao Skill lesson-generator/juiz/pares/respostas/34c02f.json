@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "As duas chegam aos mesmos números corretos (9,43 cm, 4,45 kW, 7411 e 58434 R$/ano), mas a lição 2 contém duas afirmações falsas: diz que o custo do tubo nu sai do alcance vertical do gráfico, embora o código não fixe ylim e o eixo se ajuste a ele, e diz que as verificações não usam a equação das resistências, quando a varredura chama custo_total, que usa essas resistências. A lição 1 explica o raio crítico (k/h = 0,5 cm < r1) para justificar que qualquer espessura reduz a perda, e verifica o ótimo de forma realmente independente, com a derivada deduzida à mão e brentq, explicando por que os sinais nas pontas são opostos. A lição 1 também interpreta a largura do vale com os custos a 5 e 15 cm, uma leitura própria deste exercício."
+}

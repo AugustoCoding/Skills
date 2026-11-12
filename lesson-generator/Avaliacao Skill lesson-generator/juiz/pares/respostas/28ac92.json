@@ -1,0 +1,4 @@
+{
+ "melhor": "2",
+ "por_que": "As duas estão corretas e chegam aos mesmos números. A lição 2 explica melhor o raciocínio: rotula cada termo da equação de segunda ordem (inércia, amortecimento, ação integral), mostra por que o PI zera o erro permanente e monta C1 e C2 a partir das condições iniciais com np.roots e np.linalg.solve, explicando cada argumento e o uso de números complexos. A lição 1 joga no código a fórmula de B e a inclinação inicial sem explicar, comenta um f-string da conferência antes de ela aparecer e explica 'T, I = y' quando o código usa Tq. Na leitura do resultado, a lição 2 interpreta a inclinação inicial, o tempo de decaimento das oscilações (4 min) e o caso τI = 10 min, em que a dinâmica do tanque é cancelada, tudo próprio deste exercício."
+}

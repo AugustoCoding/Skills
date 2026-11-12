@@ -1,0 +1,7 @@
+Níveis iniciais: h1 = 1.5625 m, h2 = 1.0000 m
+Novos níveis estacionários: h1 = 3.5156 m, h2 = 2.2500 m
+Após 10 min: h1 = 2.4166 m, h2 = 1.4541 m
+Tempo para h2 chegar a 2.0 m: 33.3 min
+Em 150 min: h2 = 2.2490 m
+Volume acumulado nos tanques: 2.3895 m³
+Entrada menos saída:          2.3895 m³

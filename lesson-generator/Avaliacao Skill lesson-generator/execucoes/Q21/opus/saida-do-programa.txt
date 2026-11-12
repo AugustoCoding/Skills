@@ -1,0 +1,20 @@
+Nonlinear fit: Vmax = 11.93 +/- 0.14 µmol/min
+               Km   = 2.94 +/- 0.12 mM
+Rate at S = 5.0 mM: 7.51 µmol/min
+Sum of squared residuals: 0.095 (µmol/min)^2
+
+Lineweaver-Burk: slope = 0.2591 mM.min/µmol, intercept = 0.0802 min/µmol
+  Vmax = 12.47 µmol/min, Km = 3.23 mM
+  Rate at S = 5.0 mM: 7.57 µmol/min
+  Sum of squared residuals: 0.386 (µmol/min)^2
+
+  S (mM)  v meas  v NLS  v LB  (µmol/min)
+     0.5    1.65   1.73  1.67
+     1.0    3.10   3.03  2.95
+     2.0    4.70   4.83  4.77
+     4.0    7.05   6.88  6.90
+     8.0    8.60   8.72  8.88
+    16.0   10.20  10.08 10.37
+    32.0   10.85  10.92 11.32
+
+Check (scan of Km): Vmax = 11.93 µmol/min, Km = 2.94 mM

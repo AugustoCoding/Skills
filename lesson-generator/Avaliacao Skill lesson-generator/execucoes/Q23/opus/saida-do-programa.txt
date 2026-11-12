@@ -1,0 +1,11 @@
+Com D = 0.30 1/h:
+  substrato S = 1.60 g/L
+  células   X = 9.20 g/L
+  produtividade D*X = 2.760 g/(L.h)
+Lavagem: Dc = 0.4327 1/h
+Ótimo: D_opt = 0.3617 1/h
+Produtividade máxima: 3.024 g/(L.h)
+Verificação 1, fermentador após 100 h de partida:
+  S = 1.60 g/L   X = 9.20 g/L
+Verificação 2, busca numérica do máximo:
+  D_opt = 0.3617 1/h   P_max = 3.024 g/(L.h)

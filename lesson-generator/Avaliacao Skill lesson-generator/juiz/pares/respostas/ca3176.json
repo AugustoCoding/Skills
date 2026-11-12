@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "As duas estão corretas em todos os números (A = 1,5, N = 4,914, 5 estágios, 95,19%, 1,14 mol/mol). O que decide é o raciocínio do modelo: a lição 1 tira a equação de Kremser de um balanço do topo até o prato n, aplica y_{n+1} = y1 + A·y_n prato a prato e chega a uma soma geométrica que o aluno consegue acompanhar e refazer; a lição 2 monta uma equação de diferenças de segunda ordem e apresenta a solução geral y_n = c1 + c2·A^n como algo para 'conferir substituindo', com o artifício de y0 = m·x0, o que um iniciante não saberia reproduzir sozinho. A lição 2 tem a leitura de resultado mais rica (92,42% com 4 estágios, ganho por prato, caso L/G = 2,4) e uma verificação por sistema linear bem explicada, mas isso pesa menos que a dedução mais clara da lição 1, que também interpreta a figura com números deste exercício."
+}

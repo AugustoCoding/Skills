@@ -1,0 +1,4 @@
+{
+ "melhor": "2",
+ "por_que": "As duas estão corretas e chegam a 56,5 kg, 7,49 bar e 50,3 kg, mas a lição 2 explica de onde vem o fator (1 + εX) na concentração: deduz v = v0(1 + εX)/y do gás ideal, calcula ε por yA0·δ e justifica o regime permanente. A lição 1 apresenta C_A com (1 + εX) só como 'hipótese de gás ideal', sem mostrar a expansão. A lição 1 compensa com a dedução fechada de y(X) e com etapas de código explicadas linha a linha, com números em cada [so-far], enquanto a lição 2 usa parágrafos densos e um comentário confuso sobre a vírgula da tupla. Ainda assim, a lição 2 interpreta melhor o resultado deste exercício: mostra numericamente por que a conversão desacelera e por que a pressão cai cada vez mais depressa, e explica que dobrar k equivale a reduzir α à metade."
+}

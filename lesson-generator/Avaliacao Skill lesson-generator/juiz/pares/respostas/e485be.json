@@ -1,0 +1,4 @@
+{
+ "melhor": "2",
+ "por_que": "As duas chegam aos mesmos números corretos (0,0327; 1,786; 4,997; 2,998 m) com primitivas corretas, mas a lição 2 deduz no modelo a passagem de dY/dz para Z = HOG·NOG separando variáveis, enquanto a lição 1 para na equação diferencial e só multiplica HOG·NOG no código. A lição 2 explica por que o L/G mínimo é o ponto de equilíbrio com o gás de entrada (força motriz nula, altura infinita, concavidade para cima garante que o encontro é no fundo) e confere isso no programa com 0,99 e 1,01 do mínimo; a lição 1 só calcula X_eq 'na base' sem justificar. A lição 2 também explica lambda, a tupla devolvida por quad e a ordem dos argumentos, e o gráfico X–Y com a linha mínima ilustra o próprio exercício; a lição 1 acrescenta solve_ivp, que não é pedido e dispersa a atenção, embora sua leitura da inclinação do perfil seja boa."
+}

@@ -1,0 +1,4 @@
+{
+ "melhor": "2",
+ "por_que": "As duas estão corretas e chegam aos mesmos números; a lição 1 tem o bom achado de que a razão Stokes/terminal é exatamente 1 + 0,15·Re^0,687 e a checagem por Arquimedes. A lição 2 explica melhor o modelo (hipótese de esfera isolada em água infinita, de onde sai a lei de Stokes e que ela só vale para Re ≪ 1) e o código: diz por que o resíduo é positivo em 10⁻⁶ m/s e negativo em 10 m/s, o que o sinal significa fisicamente, a busca de raiz dentro de outra e o motivo do ylim. Na leitura do resultado, a lição 2 é mais deste exercício: mostra as curvas coincidindo a 0,02 mm (razão 0,995), o Re = 3,64 no diâmetro de 0,183 mm, onde Stokes já erra (2,73 cm/s), e explica por que a curva cresce mais devagar que d²."
+}

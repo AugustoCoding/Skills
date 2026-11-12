@@ -1,0 +1,7 @@
+CA0 = 240.6 mol/m3, v0 = 0.02079 m3/s
+k/v0 = 0.04811 1/kg, eps = 1
+Massa para X = 80%: 56.5 kg
+Pressão na saída: 7.49 bar
+Massa sem perda de carga: 50.3 kg
+Verificação, sem perda de carga: 50.3 kg
+Verificação da pressão de saída: 7.49 bar

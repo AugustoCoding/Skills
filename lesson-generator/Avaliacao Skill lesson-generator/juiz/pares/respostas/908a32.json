@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "As duas chegam aos mesmos números corretos (9,43 cm, 4,45 kW, R$ 7411/ano, R$ 58434/ano) e explicam bem minimize_scalar e seus argumentos. A lição 1 responde à dúvida central deste problema, se o isolante sempre reduz a perda, comparando o raio do tubo (5 cm) com o raio crítico k/h = 0,5 cm, e assim justifica que a escolha é econômica; a lição 2 não toca no raio crítico. A lição 2 afirma que as duas verificações não usam a equação das resistências, mas a varredura chama custo_total, que usa justamente essa equação. Em compensação, a lição 2 nomeia R_cond e R_conv no modelo e no código e explica melhor o porquê do mínimo (logaritmo contra quadrado do raio), mas isso não compensa a afirmação falsa nem a falta do raio crítico."
+}

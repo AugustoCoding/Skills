@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "As duas chegam a respostas corretas (2,00; 6,10; 8,10 h), mas a lição 1 monta a regra dos trapézios à mão, intervalo por intervalo, explicando as fatias X[:-1] e X[1:]. Só depois usa trapezoid como conferência, então o aluno vê a fórmula virar código e consegue refazê-la. A lição 2 chama trapezoid direto e apresenta a fórmula de verificação com ln sem dizer de onde ela sai. A lição 1 também lê melhor os resultados deste exercício: mostra que o último intervalo, com 2,909 h, vale quase metade do período decrescente, explica por que os trapézios superestimam com 1/R convexo (Simpson dá 5,832 h) e traz uma figura do tempo acumulado. A figura da lição 2 só repete a tabela de R."
+}

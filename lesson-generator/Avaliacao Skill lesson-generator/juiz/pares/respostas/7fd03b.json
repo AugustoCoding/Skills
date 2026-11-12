@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "A lição 1 deduz a lei de Stokes do próprio modelo (CD = 24/Re torna a equação linear em v), justifica a troca de sinal nos intervalos de busca de v e de d e interpreta a figura com números deste exercício (razão 2,78, Re 3,64 em 0,183 mm, verificação 0,9989 em 0,010 mm). A lição 2 tem boas verificações (c = 0 e número de Arquimedes) e a observação correta de que a razão vale 1 + 0,15·Re^0,687, mas comete erros pequenos: lista Re como argumento de residuo_v, diz que rho_p está na primeira linha de dados (é d), e usa Stokes e Arquimedes sem explicar de onde vêm. A interpretação final da lição 2 também é mais rasa (ρp = 3000 só com 'a curva sobe'), enquanto a lição 1 explica por que o desvio de Stokes cresce com a velocidade."
+}

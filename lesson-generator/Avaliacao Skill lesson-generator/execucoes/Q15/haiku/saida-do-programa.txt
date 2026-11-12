@@ -1,0 +1,7 @@
+Psat a 32 °C: 35.57 mmHg
+Umidade absoluta: 0.01644 kg/kg
+Temperatura de orvalho: 21.8 °C
+Conferência por raiz: 21.8 °C
+Entalpia: 74.3 kJ/kg ar seco
+Umidade de saturação a 15 °C: 0.01060 kg/kg
+Água condensada: 5.84 g/kg ar seco

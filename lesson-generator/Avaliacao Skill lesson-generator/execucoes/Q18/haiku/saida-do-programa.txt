@@ -1,0 +1,9 @@
+Produto: 2500.0 kg/h
+Temperatura do efeito 1: 91.38 °C
+Área do efeito 1: 36.79 m²
+Área do efeito 2: 36.79 m²
+Vapor de aquecimento: 4281.8 kg/h
+Água evaporada no efeito 1: 3602.8 kg/h
+Água evaporada no efeito 2: 3897.2 kg/h
+Economia: 1.75 kg/kg
+Erro do balanço de energia: 0.00 kJ/h

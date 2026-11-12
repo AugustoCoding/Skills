@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "As duas chegam às mesmas respostas corretas (1,238 m, 0,731 m, 31,66 min), mas a lição 1 deduz no Modelo a solução analítica t(h) passo a passo (separação de variáveis, troca u = √h), explica por que o tempo para atingir he é infinito e justifica a busca de raiz pela monotonia de t(h), detalhando cada argumento de brentq e o sinal do resíduo. A lição 2 justifica a integração numérica dizendo que não dá para isolar h(t), e depois apresenta a fórmula analítica só no código, sem dedução no modelo. A lição 2 tem méritos no código (max(h, 0.0), o if para evento vazio) e no cenário de vazão menor, mas a lição 1 ensina melhor de onde sai cada passo e lê os números do exercício com o mesmo grau de detalhe (saída de 0,953 e 1,348 L/s, dependência de he com Qe² e d⁻⁴)."
+}

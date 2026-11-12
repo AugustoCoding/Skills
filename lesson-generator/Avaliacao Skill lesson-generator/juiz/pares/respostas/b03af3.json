@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "As duas chegam às mesmas respostas corretas (516,6 K e 18,32 W; 551,4 K e 10,08 W) e conferem o resultado pela integral da perda lateral e pela solução analítica. A lição 1 deriva o modelo em passos mais explícitos (Taylor para q_x+dx, dq_sup separado, divisão por k·A·dx) e explica melhor o código: por que y chega como tabela e vstack devolve o mesmo formato, por que o lambda é passado sem parênteses e o que tol controla. A lição 2 tem um deslize na introdução ('o pino esfria do meio para a ponta', quando o pino esfria a partir da base) e rotula Fourier como cinética. Ela tem a seu favor a divisão 9,18 W/9,14 W entre convecção e radiação e as explorações de ε e h, mas a lição 1 dá uma leitura equivalente, comparando os fluxos na base (4500 contra 5511 W/m²)."
+}

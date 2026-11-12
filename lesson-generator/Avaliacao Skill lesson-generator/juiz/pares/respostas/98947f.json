@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "As duas chegam às mesmas respostas corretas (2066.4 K, 1486.4 K, 97.2%), mas a lição 1 escreve o balanço de massa de uma vez, na forma geral n_i = n_i,0 + ν_i ξ, enquanto a lição 2 repete cinco balanços quase idênticos, um por espécie, o que só alonga o texto. No código, a lição 1 explica melhor brentq e quad: cada argumento, por que o intervalo precisa trocar de sinal, a vírgula da tupla, o xtol, e ainda confere as três respostas com um balanço de energia independente; a lição 2 passa mais depressa pelos imports e confere a integral só para o N2 a 1000 K. Na leitura dos resultados, a lição 1 é própria deste exercício: temperatura máxima com ar estequiométrico, por que a curva achata em excesso alto, cruzamento coerente com os 1486.4 K. A lição 2 traz apenas o cruzamento, a queda de 580 K e um exemplo a 1800 K."
+}

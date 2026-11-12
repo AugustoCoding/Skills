@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "As duas estão corretas e os números conferem com o programa. A lição 1 mostra explicitamente que o estado estacionário tem duas soluções (X = 0 ou μ = D) e embute essa condição de lavagem na função com um if explicado, de modo que o gráfico e a busca por minimize_scalar cobrem também a região além de Dc; a lição 2 deixa a função sem esse tratamento e corta a curva em Dlav. A notação da lição 1 (SF, XF) evita a confusão da lição 2 entre S0/X0 da alimentação e S(0)/X(0) da condição inicial, e sua leitura do resultado é mais própria do exercício (margem de 0,0710 h⁻¹ até a lavagem, troca entre produtividade e concentração do caldo). A lição 2 tem a seu favor o balanço de volume e duas explorações de parâmetros, mas isso não compensa essas diferenças."
+}

@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "As duas chegam aos mesmos números corretos. A lição 2 justifica mais o modelo (hipótese de só duas reações e T constante, definição da conversão, soma dos coeficientes mostrada), mas afirma que os três testes de verificação não usam as constantes de equilíbrio, o que é falso para o teste do outro chute, e repete fora de lugar a explicação de args. A lição 1 explica melhor o código: diz como o fsolve itera, numa variação de Newton, e por que a vírgula em (P,) é necessária. Também lê os resultados de um jeito próprio deste exercício: mostra por que o avanço da reação 2 cai mesmo sem depender da pressão (menos CO vindo da reação 1) e dá a composição completa, que fecha os átomos."
+}

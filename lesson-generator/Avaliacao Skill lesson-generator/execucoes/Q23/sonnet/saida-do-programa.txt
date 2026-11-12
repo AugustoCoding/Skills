@@ -1,0 +1,7 @@
+D = 0.30 1/h: S = 1.60 g/L, X = 9.20 g/L
+D de lavagem = 0.4327 1/h
+D ótimo = 0.3617 1/h
+No ótimo: S = 3.28 g/L, X = 8.36 g/L
+P máxima = 3.0244 g/(L h)
+Malha: D = 0.3617 1/h, P = 3.0244 g/(L h)
+Integração: S = 1.60 g/L, X = 9.20 g/L

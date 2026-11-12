@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "As duas chegam corretamente a 2,00 h, 6,10 h e 8,10 h, e as verificações de ambas conferem (Simpson 5,83 h na lição 1, R linear 5,74 h na lição 2). A lição 1 ensina mais do raciocínio: confere o período constante pela fórmula fechada (ms/A)(X0 − Xc)/Rc, explica por que o trapézio é exato onde 1/R é constante e por que superestima a área onde 1/R é côncava, e explica o sinal negativo que aparece ao integrar com X decrescente. A leitura dos resultados da lição 1 é própria do exercício: mostra que o último trecho sozinho leva 2,91 h, mais que todo o período constante, e calcula os tempos com carga de 30 kg/m². A lição 2 é correta e clara no código, mas sua interpretação é mais rasa e o gráfico só repete a tabela de R contra X."
+}

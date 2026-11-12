@@ -1,0 +1,4 @@
+{
+ "melhor": "2",
+ "por_que": "As duas chegam às mesmas respostas corretas (341,3 K, 13,7 min, 99,2 %, 18,0 min) e deduzem os balanços da mesma forma, mas a lição 2 explica melhor o modelo: mostra por que a alta energia de ativação permite o autoaquecimento e define a conversão (95 % = 100 mol/m³). No código, a lição 2 captura o pico com um evento dT/dt = 0 e explica peak.direction, sol.y_events e o tuple (UAV,); além disso, sua verificação adiabática (T = T0 + 40·X) é independente pela física, enquanto a verificação da lição 1 reusa a temperatura integrada. Na leitura dos resultados, a lição 2 é quantitativa e própria deste exercício (40 000 W/m³ removidos no início, 86,9 % convertidos no pico, os últimos 4,2 pontos levando 12 min); a lição 1 fica em frases qualitativas."
+}

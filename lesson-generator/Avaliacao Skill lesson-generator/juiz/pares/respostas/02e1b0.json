@@ -1,0 +1,4 @@
+{
+ "melhor": "2",
+ "por_que": "As duas estão corretas e chegam a 56,5 kg, 7,49 bar e 50,3 kg. A lição 2 explica de onde vêm os fatores (1 + εX) e y na concentração, pela vazão volumétrica, e de onde sai a fórmula sem perda de carga. A lição 1 apresenta essa concentração e o W_sem sem justificar, e põe no caminho uma separação de variáveis com integral fechada, pesada para um iniciante. A lição 2 também explica com mais cuidado o evento, args=(alfa,) e a leitura de t_events/y_events, e lê o resultado de forma própria deste exercício: com 50,3 kg o leito real só chega a 0,773, e o 1 + εX vai de 1 a 1,8. Já a lição 1 atribui a queda de pressão mais rápida no fim só ao fator 1/(2y)."
+}

@@ -1,0 +1,35 @@
+{
+ "questao": "Q24",
+ "modelo": "sonnet",
+ "skill_commit": "2467fe7",
+ "skill_alterada": false,
+ "tempo_s": 284.7,
+ "fonte_do_tempo": "registro da sessão",
+ "inicio": "2026-11-12T06:58:06.858Z",
+ "modelos_no_registro": [
+  "claude-sonnet-5-5"
+ ],
+ "esforco": [
+  "medium"
+ ],
+ "turnos_do_usuario": 1,
+ "chamadas_ao_modelo": 14,
+ "ferramentas_usadas": 14,
+ "tokens_saida": 41923,
+ "tokens_entrada": 28,
+ "tokens_cache_escrita": 73114,
+ "tokens_cache_leitura": 566866,
+ "entregou": true,
+ "codigo_juiz": "52ce59",
+ "arquivo_original": "adiabatic-flame-temperature-of-methane.html",
+ "tamanho_kb": 139,
+ "idioma": "en",
+ "idioma_esperado": "en",
+ "palavras": 3501,
+ "check_erros": [],
+ "check_avisos": [
+  "The technique has 115 words: the norm is four or five sentences, up to about 100.",
+  "Step \"Solving for the flame temperature\": the print format(s) 3d are not explained in the text of the step (what each one prints).",
+  "Numbers in the observations that the program does not print, that are not in the table or the program's data, and that do not come from a calculation shown in the text: 13.6, 244.8, 346.1."
+ ]
+}

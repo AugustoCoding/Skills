@@ -1,0 +1,8 @@
+Estado 1: T = 324.5 K, conversão = 12.3 %
+Estado 2: T = 350.0 K, conversão = 50.0 %
+Estado 3: T = 369.7 K, conversão = 79.1 %
+Estado 1: resíduo = 5.5e-09
+Estado 2: resíduo = 6.3e-09
+Estado 3: resíduo = 3.1e-09
+Partida a 300 K: T após 30 min = 324.5 K
+Perturbação de 0.01 K: T após 30 min = 324.5 K
