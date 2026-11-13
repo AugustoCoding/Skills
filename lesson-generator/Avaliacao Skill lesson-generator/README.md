@@ -1,5 +1,7 @@
 # Avaliação da skill lesson-generator por modelo
 
+> **Resultado:** use o Claude Opus 5.5; o Sonnet 5.5 é a alternativa quando o limite ou o custo pesar. A análise e os limites estão em [resultados/CONCLUSAO.md](./resultados/CONCLUSAO.md).
+
 A última fase do trabalho: medir a qualidade da lição que cada modelo entrega com a skill, no mesmo conjunto de exercícios. Os [testes](../Testes%20Skill%20lesson-generator/) anteriores serviram para corrigir a skill; aqui a skill fica **congelada** e o que varia é o modelo.
 
 ```
