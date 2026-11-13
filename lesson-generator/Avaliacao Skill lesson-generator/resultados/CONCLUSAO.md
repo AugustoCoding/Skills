@@ -6,7 +6,7 @@ Escrita em 13/11/2026, a partir dos blocos A e B completos: 24 questões, três 
 
 **Use o Claude Opus 5.5.** Ele entrega a melhor lição nas duas medidas, é o mais rápido e o mais previsível, e nunca passou de 6 minutos.
 
-**Se o limite do plano ou o custo pesar, use o Claude Sonnet 5.5.** A lição dele cumpre quase a mesma lista de itens, por cerca de dois terços do custo; perde na leitura de conjunto.
+**Melhor custo-benefício: Claude Sonnet 5.5.** A lição dele cumpre quase a mesma lista de itens que a do Opus (qualidade de 96,2% contra 96,6%, índice de 94,6% contra 96,3%), no mesmo tempo, por cerca de dois terços do custo; perde na leitura de conjunto do juiz, a medida mais sujeita ao viés do juiz ser um Opus (veja os limites).
 
 **Não use o Claude Haiku 5.5 para gerar lições**, a não ser que o custo seja decisivo. As respostas saem certas, mas a lição explica menos, demora mais e, em 4 de 24 sessões, ele travou com um programa deixado rodando em segundo plano.
 
