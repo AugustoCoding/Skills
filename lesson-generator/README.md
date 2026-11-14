@@ -28,17 +28,19 @@ Beside the lesson there is a **Python editor** that runs in the browser itself: 
 
 ```
 lesson-generator/
-  README.md                        this document
-  publish_claude_ai.py             builds the two .zip files of the release
-  Skill lesson-generator/          the skill: only what the language model uses
-  Modelo Skill lesson-generator/   the reference lesson, where the structure is revised
-  Testes Skill lesson-generator/   the test runs, with the record of each one (in Portuguese)
-  Avaliacao Skill lesson-generator/  the evaluation of the frozen skill across models (in Portuguese)
+  README.md          this document
+  skill/             the skill: only what the language model uses
+  model/             the reference lesson, where the structure is revised
+  development/       research and development
+    tests/             the test runs, with the record of each one (in Portuguese)
+    evaluation/        the evaluation of the frozen skill across models (in Portuguese)
+    build_zip.py       builds the .zip of the release
+    INSTALL.md         the installation instructions that go inside the .zip
 ```
 
 The skill folder holds only what enters the language model's context. This README, the reference lesson, the tests and the evaluation stay outside it because they serve development, not generation.
 
-### The skill (`Skill lesson-generator/`)
+### The skill (`skill/`)
 
 | File | Role |
 |---|---|
@@ -50,7 +52,7 @@ The skill folder holds only what enters the language model's context. This READM
 | `scripts/check.py` | Checks the draft: runs the code steps in order, compares the answer with what the program prints, checks the structure of each section, flags unfilled placeholders and lists the numbers of the text for the source review. |
 | `scripts/pack.py` | Runs `check.py` and refuses to pack a draft with errors; then builds the lesson as a single HTML file, without comments, writes it to the destination and deletes the draft. |
 
-### Components (`Skill lesson-generator/assets/`)
+### Components (`skill/assets/`)
 
 | File | Role |
 |---|---|
@@ -70,20 +72,22 @@ The lesson is not edited after delivery and the skill keeps no state between ses
 
 ## Usage
 
-The ready-made files are on the [latest release](https://github.com/AugustoCoding/Skills/releases/latest): `lesson-generator.zip` for claude.ai and `lesson-generator-claude-code.zip` for Claude Code and Codex. What follows is how to install from the repository itself.
+Download [lesson-generator.zip](https://github.com/AugustoCoding/Skills/releases/latest/download/lesson-generator.zip), attach it to a message to your AI agent and ask it to install the skill. The zip carries the instructions the agent needs for each environment (`development/INSTALL.md`), so there is a single file for all of them. Then call the skill by name, with the exercise.
 
-**Claude Code.** Install the folder `Skill lesson-generator/` as a personal skill in `~/.claude/skills/lesson-generator/` (a junction or symbolic link keeps the installation in sync with the repository), open a new session and call `/lesson-generator` followed by the exercise. The skill has `disable-model-invocation: true` and is never triggered on the model's own initiative.
+What follows is how each environment is handled, and how to install from the repository itself.
 
-**claude.ai.** Run `python publish_claude_ai.py`, which builds `dist/lesson-generator.zip` with the frontmatter claude.ai accepts (and `dist/lesson-generator-claude-code.zip`, the folder as it is), and upload the first file in Settings › Capabilities › Skills. There is no lock against automatic triggering there; the skill's description restricts its use to explicit requests.
+**Claude Code.** Install the folder `skill/` as a personal skill in `~/.claude/skills/lesson-generator/` (a junction or symbolic link keeps the installation in sync with the repository), open a new session and call `/lesson-generator` followed by the exercise. The skill has `disable-model-invocation: true` and is never triggered on the model's own initiative.
+
+**claude.ai.** Upload the release's zip, without unzipping, in Settings › Capabilities › Skills, with code execution turned on. To build it from the repository, run `python development/build_zip.py`, which writes `dist/lesson-generator.zip` with the frontmatter claude.ai accepts. There is no lock against automatic triggering there; the skill's description restricts its use to explicit requests.
 
 **Codex/ChatGPT.** The file `agents/openai.yaml` disables implicit invocation; the skill is called by name.
 
 ## Development and validation
 
-Changes to the structure of the lesson are made on the reference lesson (`Modelo Skill lesson-generator/`), whose README describes the workflow. Each relevant version of the skill is validated by a recorded run in `Testes Skill lesson-generator/`, with the exercise, the planned traps, the answer key, the evaluation and the resulting fixes.
+Changes to the structure of the lesson are made on the reference lesson (`model/`), whose README describes the workflow. Each relevant version of the skill is validated by a recorded run in `development/tests/`, with the exercise, the planned traps, the answer key, the evaluation and the resulting fixes.
 
-The Portuguese version of the skill, as it was before the translation, is kept in the tag [`versao-pt`](https://github.com/AugustoCoding/Skills/tree/versao-pt).
+The Portuguese version of the skill, as it was before the translation, is kept in the tag [`versao-pt`](https://github.com/AugustoCoding/Skills/tree/versao-pt), with the folder names of that time.
 
 ## Evaluation across models
 
-With the skill frozen, it was run on 24 new exercises by Claude Opus 5.5, Sonnet 5.5 and Haiku 5.5 (72 runs), each lesson scored item by item and compared in pairs. All 72 lessons got every answer of the key right; the models differ in how much the lesson explains and how long it takes. Opus 5.5 delivers the best lesson, Sonnet 5.5 is the best value, and Haiku 5.5 is not recommended. The method, the data and the limits are in [`Avaliacao Skill lesson-generator/`](Avaliacao%20Skill%20lesson-generator/), with the result in [`resultados/CONCLUSAO.md`](Avaliacao%20Skill%20lesson-generator/resultados/CONCLUSAO.md).
+With the skill frozen, it was run on 24 new exercises by Claude Opus 5.5, Sonnet 5.5 and Haiku 5.5 (72 runs), each lesson scored item by item and compared in pairs. All 72 lessons got every answer of the key right; the models differ in how much the lesson explains and how long it takes. Opus 5.5 delivers the best lesson, Sonnet 5.5 is the best value, and Haiku 5.5 is not recommended. The method, the data and the limits are in [`development/evaluation/`](development/evaluation/), with the result in [`resultados/CONCLUSAO.md`](development/evaluation/resultados/CONCLUSAO.md).

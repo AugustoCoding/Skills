@@ -24,12 +24,14 @@ If something sensitive was already committed, stop and tell the user before push
 
 ## What is here
 
-- `lesson-generator/Skill lesson-generator/` is the skill itself, and only what the model needs in context goes there. It is frozen at the version that was evaluated: change it only when the user asks.
-- `lesson-generator/Modelo Skill lesson-generator/`, `Testes Skill lesson-generator/` and `Avaliacao Skill lesson-generator/` are the reference lesson, the test records and the evaluation. They are a research record: do not rewrite past results.
-- `lesson-generator/publish_claude_ai.py` builds the two `.zip` files attached to the GitHub release; `dist/` is not versioned.
+Each skill has a folder at the root, with the same layout: `skill/` and `model/` on one side, `development/` on the other. A new skill follows it, and gets a row in the table of the root `README.md`.
+
+- `lesson-generator/skill/` is the skill itself, and only what the model needs in context goes there. It is frozen at the version that was evaluated: change it only when the user asks.
+- `lesson-generator/model/` is the reference lesson. `lesson-generator/development/tests/` and `development/evaluation/` are the test records and the evaluation. They are a research record, and the older ones cite the folder names of their time: do not rewrite past results.
+- `lesson-generator/development/build_zip.py` builds the single `.zip` attached to the GitHub release, with `development/INSTALL.md` inside it: the instructions for the agent that installs the skill. `dist/` is not versioned.
 
 A change to the structure of the lesson updates `scripts/check.py` in the same commit, and the reference lesson must pass it:
 
 ```bash
-python "lesson-generator/Skill lesson-generator/scripts/check.py" "lesson-generator/Modelo Skill lesson-generator/model-lesson.html"
+python lesson-generator/skill/scripts/check.py lesson-generator/model/model-lesson.html
 ```

@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parents[1]
-SKILL = RAIZ.parent / "Skill lesson-generator"
+SKILL = RAIZ.parents[1] / "skill"
 QUESTOES = RAIZ / "questoes"
 EXECUCOES = RAIZ / "execucoes"
 JUIZ = RAIZ / "juiz"

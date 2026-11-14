@@ -9,14 +9,14 @@ The workflow:
 3. If the change is structural (classes, order of the sections, steps, answer, observations), the skill's `scripts/check.py` changes with it, and the model lesson must pass it without errors:
 
    ```
-   python "../Skill lesson-generator/scripts/check.py" model-lesson.html
+   python ../skill/scripts/check.py model-lesson.html
    ```
 
 4. Only then does the change go to a test.
 
-**The lesson points to the skill's own `assets/`** (`../Skill lesson-generator/assets/`), not to a copy. A CSS or JS change shows up here at once, and the model never has an outdated component.
+**The lesson points to the skill's own `assets/`** (`../skill/assets/`), not to a copy. A CSS or JS change shows up here at once, and the model never has an outdated component.
 
-This folder stays outside `Skill lesson-generator/` on purpose: it does not go into the model's context, just like the tests. The skill carries the rules and the template, not this example, so the next exercise does not try to imitate it.
+This folder stays outside `skill/` on purpose: it does not go into the model's context, just like the tests. The skill carries the rules and the template, not this example, so the next exercise does not try to imitate it.
 
 ## Seeing it live
 
@@ -26,7 +26,7 @@ Over `file://` the browser does not load the `assets/`, so a server at the root 
 python -m http.server 8731 --bind 127.0.0.1
 ```
 
-and open `http://localhost:8731/lesson-generator/Modelo%20Skill%20lesson-generator/model-lesson.html`. In Claude Code, the `model-lesson` configuration in `.claude/launch.json` does this.
+and open `http://localhost:8731/lesson-generator/model/model-lesson.html`. In Claude Code, the `model-lesson` configuration in `.claude/launch.json` does this.
 
 ## The model's exercise
 

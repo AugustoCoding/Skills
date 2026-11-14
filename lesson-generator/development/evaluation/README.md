@@ -2,16 +2,18 @@
 
 > **Resultado:** use o Claude Opus 5.5; o Sonnet 5.5 é a alternativa quando o limite ou o custo pesar. A análise e os limites estão em [resultados/CONCLUSAO.md](./resultados/CONCLUSAO.md).
 
-A última fase do trabalho: medir a qualidade da lição que cada modelo entrega com a skill, no mesmo conjunto de exercícios. Os [testes](../Testes%20Skill%20lesson-generator/) anteriores serviram para corrigir a skill; aqui a skill fica **congelada** e o que varia é o modelo.
+A última fase do trabalho: medir a qualidade da lição que cada modelo entrega com a skill, no mesmo conjunto de exercícios. Os [testes](../tests/) anteriores serviram para corrigir a skill; aqui a skill fica **congelada** e o que varia é o modelo.
 
 ```
-Avaliacao Skill lesson-generator/
+development/evaluation/
   questoes/     o banco: questoes.json, o gabarito (gabarito.py → gabarito.json) e PROMPTS.md
   scripts/      rodar.py, registrar.py, nota.py, preparar.py (e inventario.py, comum.py)
   execucoes/    Qnn/modelo/: a lição entregue, o tempo, o inventário
   juiz/         JUIZ.md, os pacotes a julgar (pendentes/) e as respostas (respostas/)
   resultados/   execucoes.csv e RESUMO.md
 ```
+
+> **Nota de 2026-11-14.** Depois da avaliação, as pastas do repositório foram renomeadas para a publicação: a skill passou de `Skill lesson-generator/` para `skill/`, e esta pasta, de `Avaliacao Skill lesson-generator/` para `development/evaluation/`. O conteúdo da skill não mudou. O `skill_commit` gravado em cada execução (`b650790`) continua sendo o commit da versão avaliada; o `registrar.py`, rodado hoje, devolveria o commit da renomeação.
 
 ## 1. Modelos
 

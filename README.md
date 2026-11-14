@@ -1,67 +1,53 @@
 # Skills
 
-Skills for LLMs, each with its tests and evaluation. There is one so far: **lesson-generator**.
+Skills for LLMs, each in its own folder with its development record. There is one so far: **lesson-generator**.
 
-## lesson-generator
+| Skill | What it does | Download |
+|---|---|---|
+| [lesson-generator](lesson-generator/) | Turns a chemical engineering exercise into an interactive HTML lesson that teaches the student to program the solution in Python | [lesson-generator.zip](https://github.com/AugustoCoding/Skills/releases/latest/download/lesson-generator.zip) |
 
-A skill for AI assistants (claude.ai, Claude Code, Codex/ChatGPT) that turns a chemical engineering exercise into an **interactive HTML lesson**, which teaches the student to program the solution in Python: the model and the technique that solves it, the code explained step by step with a check, and an interactive figure to read the result.
+## Installing a skill
 
-### Download
+1. Download the skill's `.zip` from the table above.
+2. Attach the file to a message to your AI agent (Claude Code, Codex, claude.ai or another) and ask:
 
-| Where you use it | File |
-|---|---|
-| **claude.ai** | [**lesson-generator.zip**](https://github.com/AugustoCoding/Skills/releases/latest/download/lesson-generator.zip) |
-| **Claude Code** or **Codex** | [**lesson-generator-claude-code.zip**](https://github.com/AugustoCoding/Skills/releases/latest/download/lesson-generator-claude-code.zip) |
+   ```text
+   Install this skill for me.
+   ```
 
-Both are on the [latest release](https://github.com/AugustoCoding/Skills/releases/latest).
+The zip carries installation instructions written for the agent, which installs the skill in the right place and adapts it to your environment. There is one file for every environment.
 
-### Install
-
-**claude.ai.** Open Settings › Capabilities › Skills and upload `lesson-generator.zip` as it is, without unzipping. Code execution must be turned on.
-
-**Claude Code.** Unzip `lesson-generator-claude-code.zip` into `~/.claude/skills/`, so that `~/.claude/skills/lesson-generator/SKILL.md` exists, and open a new session.
-
-**Codex.** Unzip the same file into `~/.codex/skills/`.
-
-### Use
-
-Call the skill by name and paste the exercise:
-
-```text
-/lesson-generator <the problem statement>
-```
-
-On claude.ai, write "use lesson-generator on this exercise" followed by the statement. The skill only runs when asked for by name. The lesson comes out as a single HTML file, in the language of the statement, and opens with a double click.
-
-### Learn more
-
-- [`lesson-generator/README.md`](lesson-generator/README.md): the idea, the structure of the lesson and the role of each file.
-- [`lesson-generator/Skill lesson-generator/`](lesson-generator/Skill%20lesson-generator/): the skill's source, which is what the downloads contain.
-- [`lesson-generator/Modelo Skill lesson-generator/`](lesson-generator/Modelo%20Skill%20lesson-generator/): a complete example lesson.
-
-## Research record
-
-The skill was developed and evaluated as a research project, and the repository keeps the record of it (in Portuguese).
-
-- [`lesson-generator/Testes Skill lesson-generator/`](lesson-generator/Testes%20Skill%20lesson-generator/): the tests that shaped the skill, one folder per run, with the reproducibility record and the model's output.
-- [`lesson-generator/Avaliacao Skill lesson-generator/`](lesson-generator/Avaliacao%20Skill%20lesson-generator/): the final evaluation, with the frozen skill run on 24 new exercises by three Claude models (72 runs): the metric, the scripts, every delivered lesson and the [conclusion](lesson-generator/Avaliacao%20Skill%20lesson-generator/resultados/CONCLUSAO.md).
-
-The research is finished and the skill is frozen at the version that was evaluated. The Portuguese version of the skill, from before the translation to English, is at the tag [`versao-pt`](https://github.com/AugustoCoding/Skills/tree/versao-pt).
+On claude.ai the agent cannot change your account, so it will point you to the manual step: upload the same zip, without unzipping, in Settings › Capabilities › Skills.
 
 ## Repository layout
 
-Each skill lives in its own folder at the root of the repository:
+Each skill has a folder at the root, split in two sides: the skill and its reference output, and the record of how it was developed.
 
 ```text
 <skill name>/
-  Skill <skill name>/            # the skill: what is loaded into the model's context
-  Modelo Skill <skill name>/     # a reference output
-  Testes Skill <skill name>/     # one recorded run per test
-  Avaliacao Skill <skill name>/  # evaluation of the finished skill across models
+  README.md        the skill's presentation
+  skill/           the skill itself: what the download contains and the model loads
+  model/           a reference output of the skill
+  development/     research and development
+    tests/           one recorded run per test
+    evaluation/      evaluation of the finished skill across models
+    build_zip.py     builds the download
+    INSTALL.md       the installation instructions that go inside the zip
 ```
 
-The `Skill .../` folder holds nothing beyond what the skill needs to work. The tests and the evaluation stay outside it, so they do not contaminate the model's context.
+`skill/` holds nothing beyond what the skill needs to work. Everything else stays outside it, so it does not enter the model's context.
+
+## lesson-generator
+
+The lesson derives the model, builds the program step by step with a check, and ends with an interactive figure and a Python editor that runs in the browser. It comes out as a single HTML file, in the language of the problem statement.
+
+- [`lesson-generator/README.md`](lesson-generator/README.md): the idea, the structure of the lesson and the role of each file.
+- [`lesson-generator/skill/`](lesson-generator/skill/): the skill's source.
+- [`lesson-generator/model/`](lesson-generator/model/): a complete example lesson.
+- [`lesson-generator/development/`](lesson-generator/development/): the tests that shaped the skill and the final evaluation, in which the frozen skill was run on 24 new exercises by three Claude models (72 runs). The records are in Portuguese; the result is in the [conclusion](lesson-generator/development/evaluation/resultados/CONCLUSAO.md).
+
+The research is finished and the skill is frozen at the version that was evaluated. The Portuguese version of the skill, from before the translation to English, is at the tag [`versao-pt`](https://github.com/AugustoCoding/Skills/tree/versao-pt), with the folder names of that time.
 
 ## License
 
-[MIT](LICENSE). It covers the skill, the scripts and the test and evaluation records in this repository.
+[MIT](LICENSE). It covers the skills, the scripts and the development records in this repository.

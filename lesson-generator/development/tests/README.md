@@ -5,10 +5,16 @@
 > época — eles documentam o que foi rodado, e reescrevê-los falsificaria o histórico.
 > Para repetir um teste antigo, troque o caminho pelo atual.
 
+> **Nota de 2026-11-14.** Na preparação para publicar o repositório, as pastas foram
+> renomeadas: `Skill lesson-generator/` virou `skill/`, `Modelo Skill lesson-generator/`
+> virou `model/`, `Testes Skill lesson-generator/` virou `development/tests/` e
+> `Avaliacao Skill lesson-generator/` virou `development/evaluation/`. Os registros dos
+> testes 5 a 16 preservam os caminhos da época, pelo mesmo motivo.
+
 Cada execução de teste tem sua própria pasta aqui, com a documentação do teste e a saída do modelo lado a lado. O objetivo não é só saber se funcionou: é conseguir **reproduzir** a execução meses depois e enxergar a evolução da skill entre uma versão e outra.
 
 ```
-Testes Skill lesson-generator/
+development/tests/
   INDEX.md            histórico: uma linha por teste
   TEMPLATE-SESSAO.md  o registro em branco, para copiar
   Teste 1/
@@ -16,7 +22,7 @@ Testes Skill lesson-generator/
   ...
 ```
 
-A pasta da skill (`../Skill lesson-generator/`) é somente leitura durante o teste. Se aparecer arquivo novo lá depois de uma execução, o teste falhou numa regra estrutural da skill — vale registrar como achado.
+A pasta da skill (`../../skill/`) é somente leitura durante o teste. Se aparecer arquivo novo lá depois de uma execução, o teste falhou numa regra estrutural da skill — vale registrar como achado.
 
 ## O que fica em cada `Teste N/`
 
