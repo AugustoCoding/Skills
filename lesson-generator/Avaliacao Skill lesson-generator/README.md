@@ -15,7 +15,7 @@ Avaliacao Skill lesson-generator/
 
 ## 1. Modelos
 
-Haiku 5.5, Sonnet 5.5 e Opus 5.5, todos em esforço médio, no Claude Code. Fable 5.2 entra por último, só no bloco A, se sobrar cota.
+Haiku 5.5, Sonnet 5.5 e Opus 5.5, todos em esforço médio, no Claude Code. Fable 5.2 entra por último, só no bloco A, se sobrar cota. (Não sobrou: o Fable 5.2 não foi avaliado.)
 
 ## 2. A métrica
 

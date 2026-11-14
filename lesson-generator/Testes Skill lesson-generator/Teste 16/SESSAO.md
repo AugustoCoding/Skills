@@ -9,20 +9,20 @@
 | Teste | 16 |
 | Data | montado em 2026-10-15; rodado em 2026-11-09 |
 | Quem rodou | Augusto, à mão; avaliação pela sessão de desenvolvimento |
-| Foco | Confirmar as correções de `fc03748` (vindas da execução no Codex do Teste 15) no Opus e no Codex, com o mesmo prompt em inglês, num problema com balanço de massa e de energia. |
+| Foco | Confirmar as correções de `4ec059e` (vindas da execução no Codex do Teste 15) no Opus e no Codex, com o mesmo prompt em inglês, num problema com balanço de massa e de energia. |
 
 ## 2. Versão da skill
 
 | Campo | Valor |
 |---|---|
-| Commit da skill | `fc03748` — Skill no Codex: pasta temporaria local, formatos de impressao e entrega obrigatoria |
-| Branch | `traducao-ingles` (igual à main, `a94d6fc`) |
+| Commit da skill | `4ec059e` — Skill no Codex: pasta temporaria local, formatos de impressao e entrega obrigatoria |
+| Branch | `traducao-ingles` (igual à main, `dfd73a3`) |
 | Alterações locais não commitadas | não |
 | Como a skill foi carregada | *junction* nos dois: `~/.claude/skills/lesson-generator` e `~/.codex/skills/lesson-generator` → `lesson-generator/Skill lesson-generator/` |
 
 ### O que mudou desde o Teste 15
 
-- `fc03748`: `check.py` com a pasta temporária ao lado da lição e o aviso de formato de impressão não explicado; `lesson.js` tira a pontuação final dos rótulos de tipo; `SKILL.md`: a tarefa só termina com o `pack.py`, e a verificação não pode reaproveitar a relação que produziu o resultado.
+- `4ec059e`: `check.py` com a pasta temporária ao lado da lição e o aviso de formato de impressão não explicado; `lesson.js` tira a pontuação final dos rótulos de tipo; `SKILL.md`: a tarefa só termina com o `pack.py`, e a verificação não pode reaproveitar a relação que produziu o resultado.
 
 ## 3. Ambiente
 
@@ -87,17 +87,17 @@ Copiadas para [com-skill-opus/](./com-skill-opus/) e [com-skill-codex/](./com-sk
 
 | # | Achado | Gravidade | Onde |
 |---|---|---|---|
-| 1 | Opus sem erros: números, duas verificações independentes, todos os argumentos e formatos explicados, observações de controle conferidas. As correções de `fc03748` não pioraram nada | Confirmação | — |
+| 1 | Opus sem erros: números, duas verificações independentes, todos os argumentos e formatos explicados, observações de controle conferidas. As correções de `4ec059e` não pioraram nada | Confirmação | — |
 | 2 | O Codex rodou o `check.py`, viu 6 ERROs, tentou corrigir com um comando que falhou por aspas no PowerShell e rodou o `pack.py` mesmo assim. A skill diz que todo ERRO deve ser corrigido, mas nada impedia a entrega | Alta: a lição saiu com o programa dos passos diferente do completo | `pack.py` |
 | 3 | A lição do Codex não tem verificação do resultado principal e explica pouco o código, os mesmos problemas do Teste 15. São julgamento do modelo; a regra já está no SKILL.md | Média | — |
 | 4 | No Codex, a pasta de trabalho é a do projeto selecionado; o projeto "Skillzona" ainda apontava para o Teste 15. Indicar a pasta no prompt funcionou, com pedidos de permissão a cada comando | Ambiente | — |
 
 ## 8. Veredito
 
-**Opus aprovado sem ressalvas; Codex reprovado.** O Opus entregou uma lição completa e certa, com o fluxo inteiro. O Codex acertou os números em metade do tempo, mas entregou com 6 ERROs do `check.py`, sem verificação e com explicação rasa. O que dava para garantir por script entrou em `29c477a`: o `pack.py` agora roda o `check.py` e se recusa a entregar com ERRO.
+**Opus aprovado sem ressalvas; Codex reprovado.** O Opus entregou uma lição completa e certa, com o fluxo inteiro. O Codex acertou os números em metade do tempo, mas entregou com 6 ERROs do `check.py`, sem verificação e com explicação rasa. O que dava para garantir por script entrou em `88defc2`: o `pack.py` agora roda o `check.py` e se recusa a entregar com ERRO.
 
 ## 9. O que mudou depois deste teste
 
 | Commit | O que corrigiu |
 |---|---|
-| `29c477a` | O `pack.py` roda o `check.py` antes e se recusa a empacotar um rascunho com ERRO |
+| `88defc2` | O `pack.py` roda o `check.py` antes e se recusa a empacotar um rascunho com ERRO |

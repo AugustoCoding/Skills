@@ -8,7 +8,7 @@
 
 ## Por que este exercício
 
-- **Confirmar as correções da execução no Codex do Teste 15** (`fc03748`): a pasta temporária do `check.py` ao lado da lição, o aviso de formato de impressão não explicado, os rótulos de tipo sem pontuação, a entrega obrigatória e a verificação que não reaproveita a própria relação.
+- **Confirmar as correções da execução no Codex do Teste 15** (`4ec059e`): a pasta temporária do `check.py` ao lado da lição, o aviso de formato de impressão não explicado, os rótulos de tipo sem pontuação, a entrega obrigatória e a verificação que não reaproveita a própria relação.
 - **Opus e Codex lado a lado**, agora que os dois leem a skill pela junction.
 - **Em inglês**, alternando com o Teste 15.
 - **Balanço de massa e de energia juntos**, uma área nova: o balanço de energia adiabático dá T como função linear de X, e o volume sai de uma integral sem fórmula fechada (a temperatura entra na exponencial de Arrhenius). A comparação com o isotérmico tem fórmula fechada.

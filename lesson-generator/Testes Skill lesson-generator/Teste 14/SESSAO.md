@@ -15,16 +15,16 @@
 
 | Campo | Valor |
 |---|---|
-| Commit da skill | `6997737` — Skill inteira em ingles, com nomes, classes e API traduzidos |
+| Commit da skill | `015c3a9` — Skill inteira em ingles, com nomes, classes e API traduzidos |
 | Branch | `traducao-ingles` |
 | Alterações locais não commitadas | não |
 | Como a skill foi carregada | *junction* `~/.claude/skills/lesson-generator` → `lesson-generator/Skill lesson-generator/` |
 
 ### O que mudou desde o Teste 13
 
-- `5dceb9d`: título longo no sumário quebra em linhas.
-- `0f9f6c8`: rótulos fixos dos assets em português e inglês, pelo `lang`.
-- `6997737`: a skill inteira em inglês, com arquivos, classes e API das figuras renomeados; a lição no idioma do enunciado; o `check.py` escolhe o separador decimal pelo `lang`; pasta padrão `lessons/`; regra nova: com fórmula fechada, ela é a técnica.
+- `18f3959`: título longo no sumário quebra em linhas.
+- `8e0f9ac`: rótulos fixos dos assets em português e inglês, pelo `lang`.
+- `015c3a9`: a skill inteira em inglês, com arquivos, classes e API das figuras renomeados; a lição no idioma do enunciado; o `check.py` escolhe o separador decimal pelo `lang`; pasta padrão `lessons/`; regra nova: com fórmula fechada, ela é a técnica.
 
 ## 3. Ambiente
 
@@ -110,5 +110,5 @@ Copiadas para [com-skill-en/](./com-skill-en/) e [com-skill-pt/](./com-skill-pt/
 
 | Commit | O que corrigiu |
 |---|---|
-| `01a700b` | Curva chamada pelo nome da legenda, nunca pela cor (regra e aviso no `check.py`); conta à vista com expoente e com resultado de conta anterior; nome do balanço cortado na primeira vírgula |
-| `a9da9d4` | A saída do editor nunca some: a divisão guardada como fração do espaço, reaplicada ao redimensionar, e a saída com altura mínima |
+| `fac11f6` | Curva chamada pelo nome da legenda, nunca pela cor (regra e aviso no `check.py`); conta à vista com expoente e com resultado de conta anterior; nome do balanço cortado na primeira vírgula |
+| `6d2b2a0` | A saída do editor nunca some: a divisão guardada como fração do espaço, reaplicada ao redimensionar, e a saída com altura mínima |

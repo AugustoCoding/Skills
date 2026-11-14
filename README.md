@@ -30,3 +30,7 @@ Turns a chemical engineering exercise into an HTML lesson that teaches the stude
 ## Status
 
 The research this repository was built for is finished: the skill is frozen at the version that was evaluated, and the repository is kept as its record. The Portuguese version of the skill, from before the translation to English, is at the tag [`versao-pt`](https://github.com/AugustoCoding/Skills/tree/versao-pt).
+
+## License
+
+[MIT](LICENSE). It covers the skill, the scripts and the test and evaluation records in this repository.

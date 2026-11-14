@@ -18,7 +18,7 @@ Os dados foram gerados de uma reação de segunda ordem com ruído de cerca de 2
 
 - **Outro tipo de problema**: ajuste de modelo a dados (regressão), não integração nem raiz.
 - **Exercita a peça "dados contra modelo"** e uma figura de pontos medidos, que nenhum teste usou.
-- **Exercita as duas mudanças de `b266a1e`**: explicar o mecanismo de uma função entregue a uma biblioteca (o modelo entregue ao `curve_fit`) e terminar o programa com uma figura.
+- **Exercita as duas mudanças de `e40221d`**: explicar o mecanismo de uma função entregue a uma biblioteca (o modelo entregue ao `curve_fit`) e terminar o programa com uma figura.
 
 ## Armadilhas plantadas
 

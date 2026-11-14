@@ -15,7 +15,7 @@
 
 | Campo | Valor |
 |---|---|
-| Commit da skill | `6503118` — Equacoes: medir o proprio math, que e quem rola, para encolher a fonte |
+| Commit da skill | `815ce59` — Equacoes: medir o proprio math, que e quem rola, para encolher a fonte |
 | Branch | `skill-geral` |
 | Alterações locais não commitadas | não |
 | Como a skill foi carregada | *junction* `~/.claude/skills/lesson-generator` → `lesson-generator/Skill lesson-generator/` |
@@ -113,4 +113,4 @@ Copiada para [com-skill/](./com-skill/). `conferir.py` na entrega: nenhum erro; 
 
 | Commit | O que corrigiu |
 |---|---|
-| `547a34d` | Achado 1: nome da técnica com até quatro palavras (SKILL.md, template, aviso no conferir.py). Achado 2: o "como" pode ser uma lista, um item por argumento (ul.como), e um passo pesado pode virar dois; a lição modelo mostra a lista no passo da integração |
+| `d3a2d77` | Achado 1: nome da técnica com até quatro palavras (SKILL.md, template, aviso no conferir.py). Achado 2: o "como" pode ser uma lista, um item por argumento (ul.como), e um passo pesado pode virar dois; a lição modelo mostra a lista no passo da integração |
