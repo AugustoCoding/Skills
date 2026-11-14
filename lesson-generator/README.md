@@ -29,7 +29,7 @@ Beside the lesson there is a **Python editor** that runs in the browser itself: 
 ```
 lesson-generator/
   README.md                        this document
-  publish_claude_ai.py             builds the .zip to upload to claude.ai
+  publish_claude_ai.py             builds the two .zip files of the release
   Skill lesson-generator/          the skill: only what the language model uses
   Modelo Skill lesson-generator/   the reference lesson, where the structure is revised
   Testes Skill lesson-generator/   the test runs, with the record of each one (in Portuguese)
@@ -70,9 +70,11 @@ The lesson is not edited after delivery and the skill keeps no state between ses
 
 ## Usage
 
+The ready-made files are on the [latest release](https://github.com/AugustoCoding/Skills/releases/latest): `lesson-generator.zip` for claude.ai and `lesson-generator-claude-code.zip` for Claude Code and Codex. What follows is how to install from the repository itself.
+
 **Claude Code.** Install the folder `Skill lesson-generator/` as a personal skill in `~/.claude/skills/lesson-generator/` (a junction or symbolic link keeps the installation in sync with the repository), open a new session and call `/lesson-generator` followed by the exercise. The skill has `disable-model-invocation: true` and is never triggered on the model's own initiative.
 
-**claude.ai.** Run `python publish_claude_ai.py`, which builds `dist/lesson-generator.zip` with the frontmatter claude.ai accepts, and upload the file in Settings › Capabilities › Skills. There is no lock against automatic triggering there; the skill's description restricts its use to explicit requests.
+**claude.ai.** Run `python publish_claude_ai.py`, which builds `dist/lesson-generator.zip` with the frontmatter claude.ai accepts (and `dist/lesson-generator-claude-code.zip`, the folder as it is), and upload the first file in Settings › Capabilities › Skills. There is no lock against automatic triggering there; the skill's description restricts its use to explicit requests.
 
 **Codex/ChatGPT.** The file `agents/openai.yaml` disables implicit invocation; the skill is called by name.
 

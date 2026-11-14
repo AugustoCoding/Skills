@@ -1,35 +1,66 @@
 # Skills
 
-A collection of skills for LLMs. Each skill gathers the instructions, examples and resources needed to guide a model in solving a specific kind of problem, together with a separate area for testing that skill.
+Skills for LLMs, each with its tests and evaluation. There is one so far: **lesson-generator**.
 
-## Layout
+## lesson-generator
 
-Each skill lives in its own folder at the root of the repository, with its subfolders:
+A skill for AI assistants (claude.ai, Claude Code, Codex/ChatGPT) that turns a chemical engineering exercise into an **interactive HTML lesson**, which teaches the student to program the solution in Python: the model and the technique that solves it, the code explained step by step with a check, and an interactive figure to read the result.
+
+### Download
+
+| Where you use it | File |
+|---|---|
+| **claude.ai** | [**lesson-generator.zip**](https://github.com/AugustoCoding/Skills/releases/latest/download/lesson-generator.zip) |
+| **Claude Code** or **Codex** | [**lesson-generator-claude-code.zip**](https://github.com/AugustoCoding/Skills/releases/latest/download/lesson-generator-claude-code.zip) |
+
+Both are on the [latest release](https://github.com/AugustoCoding/Skills/releases/latest).
+
+### Install
+
+**claude.ai.** Open Settings › Capabilities › Skills and upload `lesson-generator.zip` as it is, without unzipping. Code execution must be turned on.
+
+**Claude Code.** Unzip `lesson-generator-claude-code.zip` into `~/.claude/skills/`, so that `~/.claude/skills/lesson-generator/SKILL.md` exists, and open a new session.
+
+**Codex.** Unzip the same file into `~/.codex/skills/`.
+
+### Use
+
+Call the skill by name and paste the exercise:
 
 ```text
-<Skill name>/
-  Skill <Skill name>/          # the skill's definition (what is loaded into the model's context)
-  Testes Skill <Skill name>/   # validation of the skill: one recorded run per test
-  Avaliacao Skill <Skill name>/  # evaluation of the finished skill across models
+/lesson-generator <the problem statement>
 ```
 
-The separation between the skill folder and the test folder is deliberate: the `Skill .../` folder is what gets loaded into the model's context, so it must hold nothing beyond what the skill needs to work. The tests stay outside, so they do not contaminate that context. The same holds for the evaluation folder.
+On claude.ai, write "use lesson-generator on this exercise" followed by the statement. The skill only runs when asked for by name. The lesson comes out as a single HTML file, in the language of the statement, and opens with a double click.
 
-## Available skills
+### Learn more
 
-### lesson-generator
+- [`lesson-generator/README.md`](lesson-generator/README.md): the idea, the structure of the lesson and the role of each file.
+- [`lesson-generator/Skill lesson-generator/`](lesson-generator/Skill%20lesson-generator/): the skill's source, which is what the downloads contain.
+- [`lesson-generator/Modelo Skill lesson-generator/`](lesson-generator/Modelo%20Skill%20lesson-generator/): a complete example lesson.
 
-Turns a chemical engineering exercise into an HTML lesson that teaches the student to program the solution in Python: the model and the technique that solves it, the code explained step by step with a check, and an interactive figure to read the result.
+## Research record
 
-- [`lesson-generator/README.md`](lesson-generator/README.md) — the project's presentation: the idea, the structure of the lesson, how to install it.
-- [`lesson-generator/Skill lesson-generator/`](lesson-generator/Skill%20lesson-generator/) — the skill: `SKILL.md`, the templates and the components.
-- [`lesson-generator/Modelo Skill lesson-generator/`](lesson-generator/Modelo%20Skill%20lesson-generator/) — a complete example lesson, where the structure is revised live before it goes to the skill.
-- [`lesson-generator/Testes Skill lesson-generator/`](lesson-generator/Testes%20Skill%20lesson-generator/) — the skill's tests: one folder per run, with its reproducibility record and the model's output (in Portuguese).
-- [`lesson-generator/Avaliacao Skill lesson-generator/`](lesson-generator/Avaliacao%20Skill%20lesson-generator/) — the final evaluation: the frozen skill run on 24 new exercises by three Claude models (72 runs), with the metric, the scripts, every delivered lesson and the [conclusion](lesson-generator/Avaliacao%20Skill%20lesson-generator/resultados/CONCLUSAO.md) (in Portuguese).
+The skill was developed and evaluated as a research project, and the repository keeps the record of it (in Portuguese).
 
-## Status
+- [`lesson-generator/Testes Skill lesson-generator/`](lesson-generator/Testes%20Skill%20lesson-generator/): the tests that shaped the skill, one folder per run, with the reproducibility record and the model's output.
+- [`lesson-generator/Avaliacao Skill lesson-generator/`](lesson-generator/Avaliacao%20Skill%20lesson-generator/): the final evaluation, with the frozen skill run on 24 new exercises by three Claude models (72 runs): the metric, the scripts, every delivered lesson and the [conclusion](lesson-generator/Avaliacao%20Skill%20lesson-generator/resultados/CONCLUSAO.md).
 
-The research this repository was built for is finished: the skill is frozen at the version that was evaluated, and the repository is kept as its record. The Portuguese version of the skill, from before the translation to English, is at the tag [`versao-pt`](https://github.com/AugustoCoding/Skills/tree/versao-pt).
+The research is finished and the skill is frozen at the version that was evaluated. The Portuguese version of the skill, from before the translation to English, is at the tag [`versao-pt`](https://github.com/AugustoCoding/Skills/tree/versao-pt).
+
+## Repository layout
+
+Each skill lives in its own folder at the root of the repository:
+
+```text
+<skill name>/
+  Skill <skill name>/            # the skill: what is loaded into the model's context
+  Modelo Skill <skill name>/     # a reference output
+  Testes Skill <skill name>/     # one recorded run per test
+  Avaliacao Skill <skill name>/  # evaluation of the finished skill across models
+```
+
+The `Skill .../` folder holds nothing beyond what the skill needs to work. The tests and the evaluation stay outside it, so they do not contaminate the model's context.
 
 ## License
 
