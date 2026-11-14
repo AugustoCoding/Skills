@@ -41,6 +41,19 @@ Each skill has a folder at the root, split in two sides: the skill and its refer
 
 The lesson derives the model, builds the program step by step with a check, and ends with an interactive figure and a Python editor that runs in the browser. It comes out as a single HTML file, in the language of the problem statement.
 
+<table>
+<tr>
+<td><img src="lesson-generator/model/screenshots/problem.png" alt="The lesson's opening: the problem statement"></td>
+<td><img src="lesson-generator/model/screenshots/model.png" alt="The model section: the balances derived step by step"></td>
+</tr>
+<tr>
+<td><img src="lesson-generator/model/screenshots/code.png" alt="The code section: the program built in steps"></td>
+<td><img src="lesson-generator/model/screenshots/result.png" alt="The result section: the answer and the interactive figure"></td>
+</tr>
+</table>
+
+The [example lesson](lesson-generator/model/model-lesson.html) in its four parts: the problem, the model, the code and the result.
+
 - [`lesson-generator/README.md`](lesson-generator/README.md): the idea, the structure of the lesson and the role of each file.
 - [`lesson-generator/skill/`](lesson-generator/skill/): the skill's source.
 - [`lesson-generator/model/`](lesson-generator/model/): a complete example lesson.

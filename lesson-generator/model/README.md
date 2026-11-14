@@ -18,6 +18,10 @@ The workflow:
 
 This folder stays outside `skill/` on purpose: it does not go into the model's context, just like the tests. The skill carries the rules and the template, not this example, so the next exercise does not try to imitate it.
 
+## Screenshots
+
+`screenshots/` holds the four images shown in the READMEs, one per part of the lesson. When the lesson's look changes, take them again.
+
 ## Seeing it live
 
 Over `file://` the browser does not load the `assets/`, so a server at the root of the repository is needed:

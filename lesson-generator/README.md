@@ -6,6 +6,19 @@ The lesson does not just hand over the answer, nor is it a theory class: it deri
 
 The lesson is written in the language of the problem statement. The skill's instructions are in English; the fixed interface texts of the lesson exist in English and Portuguese.
 
+<table>
+<tr>
+<td><img src="model/screenshots/problem.png" alt="The lesson's opening: the problem statement"></td>
+<td><img src="model/screenshots/model.png" alt="The model section: the balances derived step by step"></td>
+</tr>
+<tr>
+<td><img src="model/screenshots/code.png" alt="The code section: the program built in steps"></td>
+<td><img src="model/screenshots/result.png" alt="The result section: the answer and the interactive figure"></td>
+</tr>
+</table>
+
+The [example lesson](model/model-lesson.html) in its four parts: the problem, the model, the code and the result.
+
 ## Design principles
 
 1. **The technical knowledge belongs to the language model; the form belongs to the skill.** The language model already masters chemical engineering and can choose the right numerical technique (integrating, finding a root, fitting, optimizing). So the skill holds no theory and no catalog of methods, which would limit the solutions to whatever was listed. It only defines the pedagogical form: the structure of the lesson, the criteria of each section and the handling of numbers. In Test 7, removing all the domain content the skill carried did not reduce the correctness of the simulations.
