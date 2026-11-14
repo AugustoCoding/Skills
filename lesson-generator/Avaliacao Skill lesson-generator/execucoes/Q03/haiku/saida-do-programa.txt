@@ -1,0 +1,13 @@
+Grau de avanço da reação 1: 0.826 mol
+Grau de avanço da reação 2: 0.385 mol
+Conversão do CH4: 82.6 %
+Fração molar de H2: 0.507
+  CH4: 0.174 mol
+  H2O: 1.789 mol
+  CO: 0.441 mol
+  H2: 2.863 mol
+  CO2: 0.385 mol
+  total: 5.652 mol
+Átomos de C, H e O: 1.000, 10.000, 3.000
+Conversão do CH4 a 1 bar e a 20 bar: 98.5 % e 54.4 %
+Fração molar de H2 a 1 bar e a 20 bar: 56.2 % e 38.5 %

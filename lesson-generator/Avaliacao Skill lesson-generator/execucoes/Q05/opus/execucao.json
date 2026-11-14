@@ -1,0 +1,33 @@
+{
+ "questao": "Q05",
+ "modelo": "opus",
+ "skill_commit": "b650790",
+ "skill_alterada": false,
+ "tempo_s": 244.2,
+ "fonte_do_tempo": "registro da sessão",
+ "inicio": "2026-11-11T02:57:35.448Z",
+ "modelos_no_registro": [
+  "claude-opus-5-5"
+ ],
+ "esforco": [
+  "medium"
+ ],
+ "turnos_do_usuario": 1,
+ "chamadas_ao_modelo": 9,
+ "ferramentas_usadas": 16,
+ "tokens_saida": 27777,
+ "tokens_entrada": 18,
+ "tokens_cache_escrita": 58034,
+ "tokens_cache_leitura": 315517,
+ "entregou": true,
+ "codigo_juiz": "bc4661",
+ "arquivo_original": "resfriamento-transiente-de-uma-placa.html",
+ "tamanho_kb": 144,
+ "idioma": "pt-BR",
+ "idioma_esperado": "pt-BR",
+ "palavras": 4066,
+ "check_erros": [],
+ "check_avisos": [
+  "The technique has 111 words: the norm is four or five sentences, up to about 100."
+ ]
+}

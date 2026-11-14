@@ -1,0 +1,9 @@
+Produto: 2500 kg/h; água evaporada: 7500 kg/h
+λs = 2213 kJ/kg; λ2 = 2381 kJ/kg
+T1 = 91.4 °C
+Área de cada efeito: A1 = 36.8 m², A2 = 36.8 m²
+Vapor de aquecimento: S = 4282 kg/h
+Água evaporada: V1 = 3603 kg/h, V2 = 3897 kg/h
+Economia: 1.75 kg de água por kg de vapor
+ΔT1 = 28.6 K; ΔT2 = 41.4 K
+Global: entra 2743.2 kW, sai 2743.2 kW

@@ -1,0 +1,9 @@
+Velocidade terminal: 7.35 cm/s
+Número de Reynolds: 36.7
+Velocidade de Stokes: 20.46 cm/s
+Reynolds da lei de Stokes: 102.1
+Razão Stokes/terminal: 2.78
+Teste de Stokes, diferença: 1.4e-13 m/s
+C_D·Re² = 2450.86
+4/3·Ar = 2450.86
+Diâmetro para 2,0 cm/s: 0.183 mm

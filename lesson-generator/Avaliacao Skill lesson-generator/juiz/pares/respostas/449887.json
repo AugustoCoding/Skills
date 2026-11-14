@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "As duas chegam aos mesmos números corretos, mas a lição 2 erra ao justificar a hipótese: diz que, num tanque cônico, A1 'sairia da derivada e teria de ficar dentro dela', frase contraditória. A lição 1 deriva os balanços explicitando o cancelamento de ρ e o porquê da área constante, explica direction do evento, o NumPy e cada argumento de solve_ivp, e confere com um balanço global de volume em que a válvula se cancela; a lição 2 não explica o import do NumPy e só confere pela tendência ao estacionário. Na leitura do resultado, a lição 1 interpreta deste exercício a saída horizontal de h2, o formato em S e por que h1 sobe mais (diferença de níveis de 0,5625 para 1,2656 m), enquanto a lição 2 fica em observações mais genéricas."
+}

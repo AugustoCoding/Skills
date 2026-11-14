@@ -15,17 +15,17 @@
 
 | Campo | Valor |
 |---|---|
-| Commit da skill | `ae7e1c7` — Fonte base da licao de 19 para 17 px |
+| Commit da skill | `09381cf` — Fonte base da licao de 19 para 17 px |
 | Branch | `traducao-ingles` |
 | Alterações locais não commitadas | não |
 | Como a skill foi carregada | *junction* `~/.claude/skills/lesson-generator` → `lesson-generator/Skill lesson-generator/` |
 
 ### O que mudou desde o Teste 14
 
-- `01a700b`: curva chamada pelo nome da legenda, nunca pela cor (regra e aviso no `check.py`); contas à vista com expoente; nome do balanço cortado na primeira vírgula.
-- `a9da9d4`: a saída do editor nunca some (divisão guardada como fração, altura mínima da saída).
-- `fcf428b`: a divisão entre código e saída abre no meio da altura da tela.
-- `ae7e1c7`: fonte base de 19 para 17 px.
+- `fac11f6`: curva chamada pelo nome da legenda, nunca pela cor (regra e aviso no `check.py`); contas à vista com expoente; nome do balanço cortado na primeira vírgula.
+- `6d2b2a0`: a saída do editor nunca some (divisão guardada como fração, altura mínima da saída).
+- `bb4c717`: a divisão entre código e saída abre no meio da altura da tela.
+- `09381cf`: fonte base de 19 para 17 px.
 
 ## 3. Ambiente
 
@@ -91,11 +91,11 @@ Copiada para [com-skill/](./com-skill/). O programa completo, levado ao editor d
 
 | Commit | O que corrigiu |
 |---|---|
-| `fc03748` | Da execução no Codex (seção 10): pasta temporária do `check.py` ao lado da lição; aviso de formato de impressão não explicado; rótulo de tipo sem pontuação; entrega obrigatória e verificação que não reusa a própria relação |
+| `4ec059e` | Da execução no Codex (seção 10): pasta temporária do `check.py` ao lado da lição; aviso de formato de impressão não explicado; rótulo de tipo sem pontuação; entrega obrigatória e verificação que não reusa a própria relação |
 
 ## 10. Execução paralela: Codex
 
-O Augusto instalou a skill no Codex (cópia idêntica à da branch, `ae7e1c7`) e rodou o mesmo prompt, na subpasta `teste-15\Luna 6 medium`. Avaliação pelo registro da sessão do Codex (`~\.codex\sessions`) e pela lição.
+O Augusto instalou a skill no Codex (cópia idêntica à da branch, `09381cf`) e rodou o mesmo prompt, na subpasta `teste-15\Luna 6 medium`. Avaliação pelo registro da sessão do Codex (`~\.codex\sessions`) e pela lição.
 
 | Campo | Valor |
 |---|---|
@@ -130,9 +130,9 @@ Copiada para [com-skill-codex/](./com-skill-codex/).
 | Rótulos de tipo | escritos com ponto ("Princípio."), e a etapa aparece como "Princípio. do balanço…" |
 | Figura | uma curva (fração média no destilado) com os dois pontos de parada; sem controles e com duas observações, o mínimo |
 | Resposta no chat | três linhas em português |
-| `check.py` na entrega | nenhum erro nem aviso (os avisos novos de `fc03748` acusariam os formatos) |
+| `check.py` na entrega | nenhum erro nem aviso (os avisos novos de `4ec059e` acusariam os formatos) |
 
 ### Veredito da execução no Codex
 
-**Funciona, mas com uma lição mais pobre.** A skill roda no Codex sem adaptação, e a segunda execução entregou a lição certa em metade do tempo do Opus. A primeira desistiu antes de escrever a lição, a verificação é circular e a explicação do código é rasa. O que dava para garantir por script entrou em `fc03748`; o resto (verificação independente, profundidade da explicação) é julgamento do modelo e ficou como regra no SKILL.md.
+**Funciona, mas com uma lição mais pobre.** A skill roda no Codex sem adaptação, e a segunda execução entregou a lição certa em metade do tempo do Opus. A primeira desistiu antes de escrever a lição, a verificação é circular e a explicação do código é rasa. O que dava para garantir por script entrou em `4ec059e`; o resto (verificação independente, profundidade da explicação) é julgamento do modelo e ficou como regra no SKILL.md.
 

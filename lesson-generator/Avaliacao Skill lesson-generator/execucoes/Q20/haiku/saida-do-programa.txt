@@ -1,0 +1,7 @@
+C_A0 = 240.56 mol/m3
+k' = 0.04811 1/kg
+Pressão na saída: 7.49 bar
+Massa para 80%: 56.51 kg
+Massa sem perda de carga: 50.28 kg
+Verificação, massa: 56.51 kg
+Verificação, pressão: 7.49 bar

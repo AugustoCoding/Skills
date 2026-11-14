@@ -12,7 +12,7 @@ O mesmo exercício nos dois idiomas.
 
 ## Por que este exercício
 
-- **A skill em inglês, pela primeira vez** (`6997737`): o modelo lê instruções em inglês e escreve a lição no idioma do enunciado. Os dois enunciados mostram se a lição em português sai inteira em português (texto, `lang`, vírgula decimal, rótulos) e se a em inglês sai inteira em inglês.
+- **A skill em inglês, pela primeira vez** (`015c3a9`): o modelo lê instruções em inglês e escreve a lição no idioma do enunciado. Os dois enunciados mostram se a lição em português sai inteira em português (texto, `lang`, vírgula decimal, rótulos) e se a em inglês sai inteira em inglês.
 - **Mecânica dos fluidos**, uma área que nenhum teste usou, e sem balanço de massa com reação: testa se a dedução se adapta a um balanço de energia mecânica.
 - **Raiz dentro de raiz**: Colebrook é implícita em f, e a vazão para 50 kPa é outra raiz. Não há fórmula fechada exata, mas há a aproximação explícita de Swamee-Jain, boa como conferência. Testa a regra nova de que, havendo fórmula fechada, ela é a técnica: aqui ela não é exata, então a técnica é a busca de raiz.
 

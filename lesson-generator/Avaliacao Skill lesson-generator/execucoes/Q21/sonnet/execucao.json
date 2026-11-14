@@ -1,0 +1,33 @@
+{
+ "questao": "Q21",
+ "modelo": "sonnet",
+ "skill_commit": "b650790",
+ "skill_alterada": false,
+ "tempo_s": 242.5,
+ "fonte_do_tempo": "registro da sessão",
+ "inicio": "2026-11-12T06:19:24.930Z",
+ "modelos_no_registro": [
+  "claude-sonnet-5-5"
+ ],
+ "esforco": [
+  "medium"
+ ],
+ "turnos_do_usuario": 1,
+ "chamadas_ao_modelo": 12,
+ "ferramentas_usadas": 12,
+ "tokens_saida": 37470,
+ "tokens_entrada": 24,
+ "tokens_cache_escrita": 66047,
+ "tokens_cache_leitura": 491086,
+ "entregou": true,
+ "codigo_juiz": "4ffffc",
+ "arquivo_original": "michaelis-menten-fit.html",
+ "tamanho_kb": 136,
+ "idioma": "en",
+ "idioma_esperado": "en",
+ "palavras": 3067,
+ "check_erros": [],
+ "check_avisos": [
+  "The technique has 111 words: the norm is four or five sentences, up to about 100."
+ ]
+}

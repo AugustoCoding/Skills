@@ -1,0 +1,34 @@
+{
+ "questao": "Q01",
+ "modelo": "opus",
+ "skill_commit": "b650790",
+ "skill_alterada": false,
+ "tempo_s": 200.1,
+ "fonte_do_tempo": "registro da sessão",
+ "inicio": "2026-11-10T21:54:51.868Z",
+ "modelos_no_registro": [
+  "claude-opus-5-5"
+ ],
+ "esforco": [
+  "medium"
+ ],
+ "turnos_do_usuario": 1,
+ "chamadas_ao_modelo": 8,
+ "ferramentas_usadas": 11,
+ "tokens_saida": 22849,
+ "tokens_entrada": 16,
+ "tokens_cache_escrita": 51647,
+ "tokens_cache_leitura": 275534,
+ "entregou": true,
+ "codigo_juiz": "3fc565",
+ "arquivo_original": "mistura-de-acidos-de-nitracao.html",
+ "tamanho_kb": 136,
+ "idioma": "pt-BR",
+ "idioma_esperado": "pt-BR",
+ "palavras": 2999,
+ "check_erros": [],
+ "check_avisos": [
+  "The technique has 111 words: the norm is four or five sentences, up to about 100.",
+  "Numbers in the observations that the program does not print, that are not in the table or the program's data, and that do not come from a calculation shown in the text: 22, 28."
+ ]
+}

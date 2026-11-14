@@ -1,0 +1,898 @@
+[
+ {
+  "id": "M.balanco1.principio",
+  "secao": "M",
+  "texto": "balanço 1: o primeiro passo é o princípio de conservação",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "M.balanco1.traducao",
+  "secao": "M",
+  "texto": "balanço 1: há o passo de tradução das palavras em símbolos",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "M.balanco1.final",
+  "secao": "M",
+  "texto": "balanço 1: o último passo é a equação do modelo",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "M.balanco1.leitura",
+  "secao": "M",
+  "texto": "balanço 1: a equação final vem com o parágrafo do que ela representa e do que implica",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": "o parágrafo existe; diga se descreve o processo e uma implicação"
+ },
+ {
+  "id": "M.balanco1.hipotese3",
+  "secao": "M",
+  "texto": "balanço 1, passo 3 (hipótese): diz o que aconteceria se ela não valesse",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": "hipótese A alimentação é estéril, então não entram células. Se houvesse células na entrad…"
+ },
+ {
+  "id": "M.balanco1.hipotese4",
+  "secao": "M",
+  "texto": "balanço 1, passo 4 (hipótese): diz o que aconteceria se ela não valesse",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": "hipótese Não há morte celular, então não aparece um termo de perda de células. Se houvess…"
+ },
+ {
+  "id": "M.balanco1.hipotese5",
+  "secao": "M",
+  "texto": "balanço 1, passo 5 (hipótese): diz o que aconteceria se ela não valesse",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": "hipótese A vazão de entrada é igual à de saída, então o volume não muda. Se o volume vari…"
+ },
+ {
+  "id": "M.balanco2.principio",
+  "secao": "M",
+  "texto": "balanço 2: o primeiro passo é o princípio de conservação",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "M.balanco2.traducao",
+  "secao": "M",
+  "texto": "balanço 2: há o passo de tradução das palavras em símbolos",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "M.balanco2.final",
+  "secao": "M",
+  "texto": "balanço 2: o último passo é a equação do modelo",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "M.balanco2.leitura",
+  "secao": "M",
+  "texto": "balanço 2: a equação final vem com o parágrafo do que ela representa e do que implica",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": "o parágrafo existe; diga se descreve o processo e uma implicação"
+ },
+ {
+  "id": "M.balanco3.principio",
+  "secao": "M",
+  "texto": "balanço 3: o primeiro passo é o princípio de conservação",
+  "estado": "faltou",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "M.balanco3.traducao",
+  "secao": "M",
+  "texto": "balanço 3: há o passo de tradução das palavras em símbolos",
+  "estado": "faltou",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "M.balanco3.final",
+  "secao": "M",
+  "texto": "balanço 3: o último passo é a equação do modelo",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "M.balanco3.leitura",
+  "secao": "M",
+  "texto": "balanço 3: a equação final vem com o parágrafo do que ela representa e do que implica",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": "o parágrafo existe; diga se descreve o processo e uma implicação"
+ },
+ {
+  "id": "M.balanco3.hipotese1",
+  "secao": "M",
+  "texto": "balanço 3, passo 1 (hipótese): diz o que aconteceria se ela não valesse",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": "hipótese Em regime permanente, nada muda no tempo. Se não fosse assim, as derivadas seria…"
+ },
+ {
+  "id": "M.balanco4.principio",
+  "secao": "M",
+  "texto": "balanço 4: o primeiro passo é o princípio de conservação",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "M.balanco4.traducao",
+  "secao": "M",
+  "texto": "balanço 4: há o passo de tradução das palavras em símbolos",
+  "estado": "faltou",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "M.balanco4.final",
+  "secao": "M",
+  "texto": "balanço 4: o último passo é a equação do modelo",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "M.balanco4.leitura",
+  "secao": "M",
+  "texto": "balanço 4: a equação final vem com o parágrafo do que ela representa e do que implica",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": "o parágrafo existe; diga se descreve o processo e uma implicação"
+ },
+ {
+  "id": "M.bloco1.nome",
+  "secao": "M",
+  "texto": "equação complementar 1: tem nome",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "M.bloco1.origem",
+  "secao": "M",
+  "texto": "equação complementar 1: diz de onde vem e o que afirma",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": "Lei de Monod"
+ },
+ {
+  "id": "M.simbolo.V",
+  "secao": "M",
+  "texto": "símbolo V: definido onde aparece pela primeira vez, em frase completa e com unidade",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": "marque na se não for uma grandeza (operador, índice, número)"
+ },
+ {
+  "id": "M.simbolo.X",
+  "secao": "M",
+  "texto": "símbolo X: definido onde aparece pela primeira vez, em frase completa e com unidade",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": "marque na se não for uma grandeza (operador, índice, número)"
+ },
+ {
+  "id": "M.simbolo.t",
+  "secao": "M",
+  "texto": "símbolo t: definido onde aparece pela primeira vez, em frase completa e com unidade",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": "marque na se não for uma grandeza (operador, índice, número)"
+ },
+ {
+  "id": "M.simbolo.F",
+  "secao": "M",
+  "texto": "símbolo F: definido onde aparece pela primeira vez, em frase completa e com unidade",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": "marque na se não for uma grandeza (operador, índice, número)"
+ },
+ {
+  "id": "M.simbolo.X_0",
+  "secao": "M",
+  "texto": "símbolo X_0: definido onde aparece pela primeira vez, em frase completa e com unidade",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": "marque na se não for uma grandeza (operador, índice, número)"
+ },
+ {
+  "id": "M.simbolo.μ",
+  "secao": "M",
+  "texto": "símbolo μ: definido onde aparece pela primeira vez, em frase completa e com unidade",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": "marque na se não for uma grandeza (operador, índice, número)"
+ },
+ {
+  "id": "M.simbolo.D",
+  "secao": "M",
+  "texto": "símbolo D: definido onde aparece pela primeira vez, em frase completa e com unidade",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": "marque na se não for uma grandeza (operador, índice, número)"
+ },
+ {
+  "id": "M.simbolo.S",
+  "secao": "M",
+  "texto": "símbolo S: definido onde aparece pela primeira vez, em frase completa e com unidade",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": "marque na se não for uma grandeza (operador, índice, número)"
+ },
+ {
+  "id": "M.simbolo.S_0",
+  "secao": "M",
+  "texto": "símbolo S_0: definido onde aparece pela primeira vez, em frase completa e com unidade",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": "marque na se não for uma grandeza (operador, índice, número)"
+ },
+ {
+  "id": "M.simbolo.r_S",
+  "secao": "M",
+  "texto": "símbolo r_S: definido onde aparece pela primeira vez, em frase completa e com unidade",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": "marque na se não for uma grandeza (operador, índice, número)"
+ },
+ {
+  "id": "M.simbolo.Y",
+  "secao": "M",
+  "texto": "símbolo Y: definido onde aparece pela primeira vez, em frase completa e com unidade",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": "marque na se não for uma grandeza (operador, índice, número)"
+ },
+ {
+  "id": "M.simbolo.K_s",
+  "secao": "M",
+  "texto": "símbolo K_s: definido onde aparece pela primeira vez, em frase completa e com unidade",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": "marque na se não for uma grandeza (operador, índice, número)"
+ },
+ {
+  "id": "M.simbolo.μ_max",
+  "secao": "M",
+  "texto": "símbolo μ_max: definido onde aparece pela primeira vez, em frase completa e com unidade",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": "marque na se não for uma grandeza (operador, índice, número)"
+ },
+ {
+  "id": "M.simbolo.D_opt",
+  "secao": "M",
+  "texto": "símbolo D_opt: definido onde aparece pela primeira vez, em frase completa e com unidade",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": "marque na se não for uma grandeza (operador, índice, número)"
+ },
+ {
+  "id": "M.parametro1",
+  "secao": "M",
+  "texto": "parâmetro S0: valor, unidade e procedência na tabela",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "M.parametro2",
+  "secao": "M",
+  "texto": "parâmetro μmax: valor, unidade e procedência na tabela",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "M.parametro3",
+  "secao": "M",
+  "texto": "parâmetro Ks: valor, unidade e procedência na tabela",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "M.parametro4",
+  "secao": "M",
+  "texto": "parâmetro Y: valor, unidade e procedência na tabela",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "M.parametro5",
+  "secao": "M",
+  "texto": "parâmetro D: valor, unidade e procedência na tabela",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "M.parametro6",
+  "secao": "M",
+  "texto": "parâmetro pontos da varredura: valor, unidade e procedência na tabela",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "M.constante.S0",
+  "secao": "M",
+  "texto": "o valor S0 = 20 do programa está na tabela de parâmetros",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "M.constante.mu_max",
+  "secao": "M",
+  "texto": "o valor mu_max = 0.45 do programa está na tabela de parâmetros",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": "não achei o número na tabela: pode estar em outra unidade; se não estiver, faltou"
+ },
+ {
+  "id": "M.constante.Ks",
+  "secao": "M",
+  "texto": "o valor Ks = 0.8 do programa está na tabela de parâmetros",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "M.constante.Y",
+  "secao": "M",
+  "texto": "o valor Y = 0.5 do programa está na tabela de parâmetros",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "M.constante.D",
+  "secao": "M",
+  "texto": "o valor D = 0.3 do programa está na tabela de parâmetros",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": "não achei o número na tabela: pode estar em outra unidade; se não estiver, faltou"
+ },
+ {
+  "id": "M.tecnica.tipo",
+  "secao": "M",
+  "texto": "técnica: diz que tipo de problema matemático é, em palavras comuns",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "M.tecnica.nome",
+  "secao": "M",
+  "texto": "técnica: o nome da técnica vem destacado no texto",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "M.tecnica.porque",
+  "secao": "M",
+  "texto": "técnica: diz por que ela serve para este caso",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "M.tecnica.python",
+  "secao": "M",
+  "texto": "técnica: nomeia a função de Python e a biblioteca",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": "há um <code>; confirme função e biblioteca"
+ },
+ {
+  "id": "C.passo1.purpose",
+  "secao": "C",
+  "texto": "passo 1: tem a parte \"propósito, antes do código\"",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "C.passo1.how",
+  "secao": "C",
+  "texto": "passo 1: tem a parte \"como, depois do código\"",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "C.passo1.so-far",
+  "secao": "C",
+  "texto": "passo 1: tem a parte \"o que o programa já faz\"",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "C.passo2.purpose",
+  "secao": "C",
+  "texto": "passo 2: tem a parte \"propósito, antes do código\"",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "C.passo2.how",
+  "secao": "C",
+  "texto": "passo 2: tem a parte \"como, depois do código\"",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "C.passo2.so-far",
+  "secao": "C",
+  "texto": "passo 2: tem a parte \"o que o programa já faz\"",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "C.formato..2f",
+  "secao": "C",
+  "texto": "passo 2: o formato de impressão .2f é explicado",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "C.passo3.purpose",
+  "secao": "C",
+  "texto": "passo 3: tem a parte \"propósito, antes do código\"",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "C.passo3.how",
+  "secao": "C",
+  "texto": "passo 3: tem a parte \"como, depois do código\"",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "C.passo3.so-far",
+  "secao": "C",
+  "texto": "passo 3: tem a parte \"o que o programa já faz\"",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "C.passo4.purpose",
+  "secao": "C",
+  "texto": "passo 4: tem a parte \"propósito, antes do código\"",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "C.passo4.how",
+  "secao": "C",
+  "texto": "passo 4: tem a parte \"como, depois do código\"",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "C.passo4.so-far",
+  "secao": "C",
+  "texto": "passo 4: tem a parte \"o que o programa já faz\"",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "C.passo5.purpose",
+  "secao": "C",
+  "texto": "passo 5: tem a parte \"propósito, antes do código\"",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "C.passo5.how",
+  "secao": "C",
+  "texto": "passo 5: tem a parte \"como, depois do código\"",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "C.passo5.so-far",
+  "secao": "C",
+  "texto": "passo 5: tem a parte \"o que o programa já faz\"",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "C.passo6.purpose",
+  "secao": "C",
+  "texto": "passo 6: tem a parte \"propósito, antes do código\"",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "C.passo6.how",
+  "secao": "C",
+  "texto": "passo 6: tem a parte \"como, depois do código\"",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "C.passo6.so-far",
+  "secao": "C",
+  "texto": "passo 6: tem a parte \"o que o programa já faz\"",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "C.funcao.print",
+  "secao": "C",
+  "texto": "passo 2: função nativa print(…): explicado o que ela faz e o que recebe",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "C.funcao.np.sqrt",
+  "secao": "C",
+  "texto": "passo 4: função de biblioteca np.sqrt(…): explicado o que ela faz e o que recebe",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "C.funcao.np.linspace",
+  "secao": "C",
+  "texto": "passo 5: função de biblioteca np.linspace(…): explicado o que ela faz",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "C.arg.np.linspace.posição1",
+  "secao": "C",
+  "texto": "passo 5: argumento de np.linspace, posição 1 (0.0): o que é e por que tem esse valor",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "C.arg.np.linspace.posição2",
+  "secao": "C",
+  "texto": "passo 5: argumento de np.linspace, posição 2 (D_wash): o que é e por que tem esse valor",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "C.arg.np.linspace.posição3",
+  "secao": "C",
+  "texto": "passo 5: argumento de np.linspace, posição 3 (2001): o que é e por que tem esse valor",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "C.funcao.np.argmax",
+  "secao": "C",
+  "texto": "passo 5: função de biblioteca np.argmax(…): explicado o que ela faz e o que recebe",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "C.funcao.plt.plot",
+  "secao": "C",
+  "texto": "passo 6: função de biblioteca plt.plot(…): explicado o que ela faz",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "C.arg.plt.plot.posição1",
+  "secao": "C",
+  "texto": "passo 6: argumento de plt.plot, posição 1 (D_grid): o que é e por que tem esse valor",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "C.arg.plt.plot.posição2",
+  "secao": "C",
+  "texto": "passo 6: argumento de plt.plot, posição 2 (P_grid): o que é e por que tem esse valor",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "C.arg.plt.plot.label",
+  "secao": "C",
+  "texto": "passo 6: argumento de plt.plot, label (\"Produtividade D·X\"): o que é e por que tem esse valor",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "C.funcao.plt.axvline",
+  "secao": "C",
+  "texto": "passo 6: função de biblioteca plt.axvline(…): explicado o que ela faz",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "C.arg.plt.axvline.posição1",
+  "secao": "C",
+  "texto": "passo 6: argumento de plt.axvline, posição 1 (D_opt): o que é e por que tem esse valor",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "C.arg.plt.axvline.linestyle",
+  "secao": "C",
+  "texto": "passo 6: argumento de plt.axvline, linestyle (\"--\"): o que é e por que tem esse valor",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "C.arg.plt.axvline.label",
+  "secao": "C",
+  "texto": "passo 6: argumento de plt.axvline, label (\"D ótimo\"): o que é e por que tem esse valor",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "C.funcao.plt.xlabel",
+  "secao": "C",
+  "texto": "passo 6: função de biblioteca plt.xlabel(…): explicado o que ela faz e o que recebe",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "C.funcao.plt.ylabel",
+  "secao": "C",
+  "texto": "passo 6: função de biblioteca plt.ylabel(…): explicado o que ela faz e o que recebe",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "C.funcao.plt.legend",
+  "secao": "C",
+  "texto": "passo 6: função de biblioteca plt.legend(…): explicado o que ela faz",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "C.funcao.plt.show",
+  "secao": "C",
+  "texto": "passo 6: função de biblioteca plt.show(…): explicado o que ela faz",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "C.construcao.def",
+  "secao": "C",
+  "texto": "definição de função com def: explicado o que é e o que faz neste programa",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "C.construcao.return",
+  "secao": "C",
+  "texto": "return: o que a função devolve: explicado o que é e o que faz neste programa",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "C.construcao.fstring",
+  "secao": "C",
+  "texto": "f-string: texto com valores dentro de chaves: explicado o que é e o que faz neste programa",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "C.construcao.indice",
+  "secao": "C",
+  "texto": "índice entre colchetes, como y[0]: explicado o que é e o que faz neste programa",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "C.construcao.desempacotamento",
+  "secao": "C",
+  "texto": "desempacotamento: várias variáveis recebem de uma vez: explicado o que é e o que faz neste programa",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "C.construcao.tupla",
+  "secao": "C",
+  "texto": "tupla: valores entre parênteses, separados por vírgula: explicado o que é e o que faz neste programa",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "C.construcao.argumento_nomeado",
+  "secao": "C",
+  "texto": "argumento passado por nome (nome=valor): explicado o que é e o que faz neste programa",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "C.construcao.import_as",
+  "secao": "C",
+  "texto": "import … as: o apelido da biblioteca: explicado o que é e o que faz neste programa",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "C.verificacao.presente",
+  "secao": "C",
+  "texto": "o programa faz uma verificação do resultado e a lição a explica",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "C.verificacao.independente",
+  "secao": "C",
+  "texto": "a verificação é independente: não reusa a relação que produziu o resultado",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": "marque faltou se não houver verificação"
+ },
+ {
+  "id": "C.figura",
+  "secao": "C",
+  "texto": "o programa termina com uma figura (plt.show())",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "C.roda",
+  "secao": "C",
+  "texto": "os passos colados em ordem rodam e formam o programa completo",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "R.resposta.S",
+  "secao": "R",
+  "texto": "a resposta dá substrato no estado estacionário (esperado: 1.6 g/L)",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "R.resposta.X",
+  "secao": "R",
+  "texto": "a resposta dá células no estado estacionário (esperado: 9.2 g/L)",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "R.resposta.D_lavagem",
+  "secao": "R",
+  "texto": "a resposta dá taxa de diluição de lavagem (esperado: 0.43269 1/h)",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "R.resposta.D_otima",
+  "secao": "R",
+  "texto": "a resposta dá taxa de diluição de máxima produtividade (esperado: 0.36175 1/h)",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "R.resposta.produtividade_maxima",
+  "secao": "R",
+  "texto": "a resposta dá produtividade máxima de células (esperado: 3.0244 g/(L·h))",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "R.figura",
+  "secao": "R",
+  "texto": "há a figura que a pergunta pede",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "R.controle1.observacao",
+  "secao": "R",
+  "texto": "controle S0: tem a sua observação",
+  "estado": "ok",
+  "fonte": "regra",
+  "dica": ""
+ },
+ {
+  "id": "R.controle1.codigo",
+  "secao": "R",
+  "texto": "observação de controle 1 (Aumente S0 para 30 g/L): dá a mesma mudança no código e o que o programa imprime",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "R.leitura1.ancorada",
+  "secao": "R",
+  "texto": "observação 1 (Onde a produtividade é maior?): cita um valor ou trecho da curva deste exercício; não serviria a outro",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "R.leitura2.ancorada",
+  "secao": "R",
+  "texto": "observação 2 (Por que não operar com D = 0,30 1/h?): cita um valor ou trecho da curva deste exercício; não serviria a outro",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ },
+ {
+  "id": "R.leitura3.ancorada",
+  "secao": "R",
+  "texto": "observação 3 (O que acontece perto da lavagem?): cita um valor ou trecho da curva deste exercício; não serviria a outro",
+  "estado": null,
+  "fonte": "juiz",
+  "dica": ""
+ }
+]

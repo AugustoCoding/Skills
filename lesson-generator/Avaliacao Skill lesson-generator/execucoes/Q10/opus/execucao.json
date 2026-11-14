@@ -1,0 +1,31 @@
+{
+ "questao": "Q10",
+ "modelo": "opus",
+ "skill_commit": "b650790",
+ "skill_alterada": false,
+ "tempo_s": 153.5,
+ "fonte_do_tempo": "registro da sessão",
+ "inicio": "2026-11-11T04:29:29.945Z",
+ "modelos_no_registro": [
+  "claude-opus-5-5"
+ ],
+ "esforco": [
+  "medium"
+ ],
+ "turnos_do_usuario": 1,
+ "chamadas_ao_modelo": 6,
+ "ferramentas_usadas": 9,
+ "tokens_saida": 16047,
+ "tokens_entrada": 12,
+ "tokens_cache_escrita": 44964,
+ "tokens_cache_leitura": 146959,
+ "entregou": true,
+ "codigo_juiz": "3e954d",
+ "arquivo_original": "ajuste-de-arrhenius.html",
+ "tamanho_kb": 130,
+ "idioma": "pt-BR",
+ "idioma_esperado": "pt-BR",
+ "palavras": 2429,
+ "check_erros": [],
+ "check_avisos": []
+}

@@ -1,0 +1,9 @@
+alfa = 3.80 mm2/s, Bi = 0.53
+primeiro autovalor = 0.6713
+Fo em 120 s = 1.14
+t = 120 s: centro 342.8 °C, superfície 281.4 °C
+t = 10 s: centro 498.6 °C, superfície 429.0 °C
+centro chega a 150 °C em t = 387.6 s
+superfície nesse instante: 130.5 °C
+verificação, t = 120 s: centro 342.8 °C, superfície 281.4 °C
+verificação, t = 387.6 s: centro 150.0 °C

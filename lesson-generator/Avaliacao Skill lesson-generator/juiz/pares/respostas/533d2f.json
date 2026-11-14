@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "A lição 1 apresenta no modelo a solução em série, a equação dos autovalores, a fórmula de Cn e o significado de Bi e Fo, e o código depois só aplica essas fórmulas. A lição 2 usa ζ·tan ζ = Bi e o coeficiente 4 sin ζ/(2ζ + sin 2ζ) direto no código, sem dizer de onde saem, e o passo de álgebra do balanço vem com uma expressão truncada. Na verificação, a lição 1 explica o fator 2 do nó central e o balanço da meia célula junto à face; a lição 2 não explica nenhum dos dois e diz ao mesmo tempo que os valores diferem e que coincidem. A lição 1 também lê melhor os resultados, com o atraso do centro em 10 s, a superfície quando o centro chega a 150 °C e o papel de Bi."
+}

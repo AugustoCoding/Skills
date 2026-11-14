@@ -1,0 +1,33 @@
+{
+ "questao": "Q09",
+ "modelo": "opus",
+ "skill_commit": "b650790",
+ "skill_alterada": false,
+ "tempo_s": 276.6,
+ "fonte_do_tempo": "registro da sessão",
+ "inicio": "2026-11-11T04:00:07.910Z",
+ "modelos_no_registro": [
+  "claude-opus-5-5"
+ ],
+ "esforco": [
+  "medium"
+ ],
+ "turnos_do_usuario": 1,
+ "chamadas_ao_modelo": 12,
+ "ferramentas_usadas": 15,
+ "tokens_saida": 25255,
+ "tokens_entrada": 24,
+ "tokens_cache_escrita": 57710,
+ "tokens_cache_leitura": 432684,
+ "entregou": true,
+ "codigo_juiz": "e4cd72",
+ "arquivo_original": "jacketed-batch-reactor-with-exothermic-reaction.html",
+ "tamanho_kb": 142,
+ "idioma": "en",
+ "idioma_esperado": "en",
+ "palavras": 3755,
+ "check_erros": [],
+ "check_avisos": [
+  "The technique has 113 words: the norm is four or five sentences, up to about 100."
+ ]
+}

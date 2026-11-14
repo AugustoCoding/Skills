@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "A lição 1 deduz no modelo a fórmula do refluxo mínimo (a reta de retificação girando até tocar o equilíbrio em x = zF) e explica a forma invertida do equilíbrio; a lição 2 usa a fórmula de Rmin no código sem nunca justificá-la e descreve o equilíbrio de forma imprecisa ('mais rico por um fator α'). A lição 1 também confere Rmin por Underwood e a contagem de degraus por Fenske, enquanto a lição 2 imprime Fenske sem compará-lo com nada. Na leitura dos resultados, a lição 1 interpreta este exercício (fresta de 0,7143 contra 0,6698, degraus curtos perto da alimentação, último degrau além de xB), e a lição 2 se limita a repetir onde a escada troca de linha e onde para."
+}

@@ -1,0 +1,31 @@
+{
+ "questao": "Q06",
+ "modelo": "opus",
+ "skill_commit": "b650790",
+ "skill_alterada": false,
+ "tempo_s": 217.3,
+ "fonte_do_tempo": "registro da sessão",
+ "inicio": "2026-11-11T03:08:43.227Z",
+ "modelos_no_registro": [
+  "claude-opus-5-5"
+ ],
+ "esforco": [
+  "medium"
+ ],
+ "turnos_do_usuario": 1,
+ "chamadas_ao_modelo": 13,
+ "ferramentas_usadas": 17,
+ "tokens_saida": 22762,
+ "tokens_entrada": 26,
+ "tokens_cache_escrita": 52434,
+ "tokens_cache_leitura": 500380,
+ "entregou": true,
+ "codigo_juiz": "b41e33",
+ "arquivo_original": "espessura-economica-de-isolamento.html",
+ "tamanho_kb": 139,
+ "idioma": "pt-BR",
+ "idioma_esperado": "pt-BR",
+ "palavras": 3480,
+ "check_erros": [],
+ "check_avisos": []
+}

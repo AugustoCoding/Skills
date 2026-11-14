@@ -1,0 +1,4 @@
+{
+ "melhor": "2",
+ "por_que": "As duas estão corretas e dão os mesmos números (7,35 cm/s, Re 36,7, 20,46 cm/s, 0,183 mm). A lição 2 escreve o resíduo direto em newtons, termo a termo como no balanço, e explica o sinal dele fisicamente (positivo: a esfera ainda aceleraria). Ela também declara a hipótese de esfera isolada em água infinita e explica por que a curva de Schiller–Naumann cresce menos que d², pela correção de inércia que aumenta com Re. A lição 1 exige dividir o balanço por ½ρfAp, um passo menos intuitivo para iniciante, e justifica a curvatura com um vago 'o arrasto cresce junto com a velocidade', o que também vale para Stokes; o seu residuo_d e a verificação são bem explicados, mas não compensam."
+}

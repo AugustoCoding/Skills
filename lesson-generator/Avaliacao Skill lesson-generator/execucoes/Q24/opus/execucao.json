@@ -1,0 +1,31 @@
+{
+ "questao": "Q24",
+ "modelo": "opus",
+ "skill_commit": "b650790",
+ "skill_alterada": false,
+ "tempo_s": 219.4,
+ "fonte_do_tempo": "registro da sessão",
+ "inicio": "2026-11-12T06:49:35.955Z",
+ "modelos_no_registro": [
+  "claude-opus-5-5"
+ ],
+ "esforco": [
+  "medium"
+ ],
+ "turnos_do_usuario": 1,
+ "chamadas_ao_modelo": 9,
+ "ferramentas_usadas": 8,
+ "tokens_saida": 24702,
+ "tokens_entrada": 18,
+ "tokens_cache_escrita": 52286,
+ "tokens_cache_leitura": 281394,
+ "entregou": true,
+ "codigo_juiz": "e6a8c6",
+ "arquivo_original": "adiabatic-flame-temperature-of-methane.html",
+ "tamanho_kb": 143,
+ "idioma": "en",
+ "idioma_esperado": "en",
+ "palavras": 3766,
+ "check_erros": [],
+ "check_avisos": []
+}

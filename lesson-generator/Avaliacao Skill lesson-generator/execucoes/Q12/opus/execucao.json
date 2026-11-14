@@ -1,0 +1,31 @@
+{
+ "questao": "Q12",
+ "modelo": "opus",
+ "skill_commit": "b650790",
+ "skill_alterada": false,
+ "tempo_s": 206.4,
+ "fonte_do_tempo": "registro da sessão",
+ "inicio": "2026-11-11T13:25:49.445Z",
+ "modelos_no_registro": [
+  "claude-opus-5-5"
+ ],
+ "esforco": [
+  "medium"
+ ],
+ "turnos_do_usuario": 1,
+ "chamadas_ao_modelo": 8,
+ "ferramentas_usadas": 7,
+ "tokens_saida": 19946,
+ "tokens_entrada": 16,
+ "tokens_cache_escrita": 46148,
+ "tokens_cache_leitura": 237501,
+ "entregou": true,
+ "codigo_juiz": "e49376",
+ "arquivo_original": "tempo-de-secagem-em-bandeja.html",
+ "tamanho_kb": 131,
+ "idioma": "pt-BR",
+ "idioma_esperado": "pt-BR",
+ "palavras": 2558,
+ "check_erros": [],
+ "check_avisos": []
+}

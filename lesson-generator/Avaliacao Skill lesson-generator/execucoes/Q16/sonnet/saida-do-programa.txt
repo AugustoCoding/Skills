@@ -1,0 +1,7 @@
+P = 0.02513 m ; Ac = 5.027e-05 m²
+Com radiação: T_ponta = 516.6 K ; q = 18.32 W
+m = 6.12 1/m ; mL = 0.61
+Sem radiação: T_ponta = 551.4 K ; q = 10.08 W
+  conferência com solve_bvp: 551.4 K ; 10.08 W
+Convecção: 9.18 W ; radiação: 9.14 W
+Soma = 18.32 W (base: 18.32 W)

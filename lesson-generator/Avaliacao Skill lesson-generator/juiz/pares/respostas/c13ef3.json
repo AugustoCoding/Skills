@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "A lição 2 erra os sinais ao justificar o intervalo do brentq: com f(t) = Wsat(t) − W, o resultado é negativo a 0 °C e positivo a 32 °C, e ela afirma o contrário. Já a lição 1 acerta os sinais do resíduo nas duas pontas. A lição 1 também explica os termos da entalpia (calor sensível, 2501 kJ/kg de vaporização, 1,86 do vapor), que a lição 2 não comenta, e trata o caso T2 acima do orvalho com min, ligado à hipótese de saída saturada. Por fim, o gráfico da lição 1 traça o caminho real do ar (W constante até o orvalho e depois a saturação), enquanto a lição 2 desenha só uma reta horizontal."
+}

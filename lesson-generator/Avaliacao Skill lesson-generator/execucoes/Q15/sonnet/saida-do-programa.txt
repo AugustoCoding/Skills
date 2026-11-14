@@ -1,0 +1,9 @@
+Psat(32 °C) = 4.743 kPa
+pv = 2.608 kPa
+W = 0.01643 kg/kg
+Td = 21.84 °C
+Psat(100 °C) = 101.34 kPa
+Td (raiz) = 21.84 °C
+h = 74.27 kJ/kg
+W2 = 0.01060 kg/kg
+Condensa = 5.84 g/kg

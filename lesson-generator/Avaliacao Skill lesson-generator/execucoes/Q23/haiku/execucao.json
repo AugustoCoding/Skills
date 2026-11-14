@@ -1,0 +1,31 @@
+{
+ "questao": "Q23",
+ "modelo": "haiku",
+ "skill_commit": "b650790",
+ "skill_alterada": false,
+ "tempo_s": 228.4,
+ "fonte_do_tempo": "registro da sessão",
+ "inicio": "2026-11-12T06:45:43.030Z",
+ "modelos_no_registro": [
+  "claude-haiku-5-5"
+ ],
+ "esforco": [
+  "medium"
+ ],
+ "turnos_do_usuario": 1,
+ "chamadas_ao_modelo": 12,
+ "ferramentas_usadas": 17,
+ "tokens_saida": 54682,
+ "tokens_entrada": 24,
+ "tokens_cache_escrita": 90782,
+ "tokens_cache_leitura": 679948,
+ "entregou": true,
+ "codigo_juiz": "569cb0",
+ "arquivo_original": "estado-estacionario-de-um-quimiostato.html",
+ "tamanho_kb": 141,
+ "idioma": "pt-BR",
+ "idioma_esperado": "pt-BR",
+ "palavras": 2900,
+ "check_erros": [],
+ "check_avisos": []
+}

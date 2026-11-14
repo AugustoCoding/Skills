@@ -1,0 +1,10 @@
+Ácido residual:            556.5 kg
+Ácido nítrico concentrado: 330.6 kg
+Ácido sulfúrico conc.:     612.9 kg
+Água que entra: 180.0 kg
+Água exigida:   180.0 kg
+HNO3 final (%)  residual  nítrico  sulfúrico (kg)
+            24     943.5    169.4     387.1
+            28     556.5    330.6     612.9
+            32     169.4    491.9     838.7
+Sem ácido residual, HNO3 máximo: 33.75 %

@@ -1,0 +1,31 @@
+{
+ "questao": "Q06",
+ "modelo": "sonnet",
+ "skill_commit": "b650790",
+ "skill_alterada": false,
+ "tempo_s": 187.7,
+ "fonte_do_tempo": "registro da sessão",
+ "inicio": "2026-11-11T03:17:59.297Z",
+ "modelos_no_registro": [
+  "claude-sonnet-5-5"
+ ],
+ "esforco": [
+  "medium"
+ ],
+ "turnos_do_usuario": 1,
+ "chamadas_ao_modelo": 8,
+ "ferramentas_usadas": 9,
+ "tokens_saida": 25435,
+ "tokens_entrada": 16,
+ "tokens_cache_escrita": 54561,
+ "tokens_cache_leitura": 275727,
+ "entregou": true,
+ "codigo_juiz": "29c5b0",
+ "arquivo_original": "isolamento-otimo-de-tubo-de-vapor.html",
+ "tamanho_kb": 138,
+ "idioma": "pt-BR",
+ "idioma_esperado": "pt-BR",
+ "palavras": 3220,
+ "check_erros": [],
+ "check_avisos": []
+}

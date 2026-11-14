@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "As duas chegam às mesmas respostas corretas (341,3 K a 13,7 min, 99,2 %, cerca de 18 min), mas a lição 1 explica melhor o raciocínio: ela mostra que o pico é o instante em que dT/dt = 0 e o captura com um evento (explicando direction = -1), e explica args, a vírgula da tupla (UAV,), dense_output e as tolerâncias. A verificação da lição 1 é independente: no caso adiabático, compara o T integrado com a reta T0 + 40·X, que não depende do integrador. A da lição 2 só reintegra k ao longo do mesmo T(t) que o integrador produziu e, por isso, quase não testa nada. A lição 1 também interpreta os resultados com números deste exercício (40 000 W/m³ removidos no início, 13,1 % de A restante no pico), enquanto a lição 2 dá a lei de Arrhenius sem explicar a sensibilidade de k e chama de 'em joules' um balanço escrito em watts."
+}

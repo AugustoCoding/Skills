@@ -1,0 +1,31 @@
+{
+ "questao": "Q02",
+ "modelo": "haiku",
+ "skill_commit": "b650790",
+ "skill_alterada": false,
+ "tempo_s": 274.7,
+ "fonte_do_tempo": "registro da sessão",
+ "inicio": "2026-11-11T01:23:32.657Z",
+ "modelos_no_registro": [
+  "claude-haiku-5-5"
+ ],
+ "esforco": [
+  "medium"
+ ],
+ "turnos_do_usuario": 1,
+ "chamadas_ao_modelo": 13,
+ "ferramentas_usadas": 17,
+ "tokens_saida": 61340,
+ "tokens_entrada": 26,
+ "tokens_cache_escrita": 94425,
+ "tokens_cache_leitura": 889627,
+ "entregou": true,
+ "codigo_juiz": "8f3b0c",
+ "arquivo_original": "co2-compressibility-with-peng-robinson.html",
+ "tamanho_kb": 134,
+ "idioma": "en",
+ "idioma_esperado": "en",
+ "palavras": 2863,
+ "check_erros": [],
+ "check_avisos": []
+}

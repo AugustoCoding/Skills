@@ -1,0 +1,31 @@
+{
+ "questao": "Q12",
+ "modelo": "sonnet",
+ "skill_commit": "b650790",
+ "skill_alterada": false,
+ "tempo_s": 186.3,
+ "fonte_do_tempo": "registro da sessão",
+ "inicio": "2026-11-11T13:33:22.617Z",
+ "modelos_no_registro": [
+  "claude-sonnet-5-5"
+ ],
+ "esforco": [
+  "medium"
+ ],
+ "turnos_do_usuario": 1,
+ "chamadas_ao_modelo": 9,
+ "ferramentas_usadas": 9,
+ "tokens_saida": 26419,
+ "tokens_entrada": 18,
+ "tokens_cache_escrita": 53813,
+ "tokens_cache_leitura": 334580,
+ "entregou": true,
+ "codigo_juiz": "c8ee4d",
+ "arquivo_original": "secagem-em-bandeja.html",
+ "tamanho_kb": 127,
+ "idioma": "pt-BR",
+ "idioma_esperado": "pt-BR",
+ "palavras": 2067,
+ "check_erros": [],
+ "check_avisos": []
+}

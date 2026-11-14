@@ -1,0 +1,4 @@
+{
+ "melhor": "2",
+ "por_que": "As duas estão corretas e chegam aos mesmos números (2066.4 K, 1486.4 K, 97.2 %). A lição 2 deduz no modelo a fórmula explícita do excesso para uma temperatura dada, separando os termos com e sem ε, enquanto a lição 1 só a monta no código, com o truque pouco transparente de n_zero e n_one; a lição 2 também explica os argumentos de brentq um a um, inclusive por que não se escrevem os parênteses. No resultado, a lição 2 lê a curva deste exercício (2311 K sem excesso, 1140 K a 200 %, queda de 12 K por ponto percentual no início contra 3,5 K no fim), e a lição 1 fica na queda entre 20 % e 100 %, depois de gastar a atenção do aluno com cinco balanços de espécie quase idênticos."
+}

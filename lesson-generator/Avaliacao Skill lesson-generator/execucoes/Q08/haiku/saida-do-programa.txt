@@ -1,0 +1,21 @@
+y* em x = zF: 0.7143
+Rmin = 1.10
+R = 1.65, D = 0.50 mol, B = 0.50 mol
+Retificação: y = 0.6226 x + 0.3585
+Esgotamento: y = 1.3774 x - 0.0189
+Cruzamento em x = zF: y = 0.6698
+estágio 1: x = 0.8837
+estágio 2: x = 0.7993
+estágio 3: x = 0.7042
+estágio 4: x = 0.6109
+estágio 5: x = 0.5309
+estágio 6: x = 0.4699
+estágio 7: x = 0.4035
+estágio 8: x = 0.3168
+estágio 9: x = 0.2228
+estágio 10: x = 0.1392
+estágio 11: x = 0.0772
+estágio 12: x = 0.0369
+Estágios teóricos: 12, estágio de alimentação: 6
+Fenske (refluxo total): 6.43
+Balanço: F*zF = 0.5000, D*xD+B*xB = 0.5000

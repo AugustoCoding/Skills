@@ -1,0 +1,4 @@
+{
+ "melhor": "2",
+ "por_que": "As duas estão corretas e chegam a Rmín = 1,10, R = 1,65, N = 12 e alimentação no 6. A lição 2 explica melhor o modelo: mostra a reta girando em torno de (xD, xD) até tocar o equilíbrio sobre a linha q, de onde sai a fórmula de Rmín, e diz por que a reta de esgotamento tem inclinação maior que 1. A leitura do resultado também é mais deste exercício: aponta onde os degraus encurtam (de 5 para 6 contra de 8 para 9), mostra que o 11º estágio ainda tem x = 0,0772, e por isso a contagem inteira passa de xB, e separa 11 pratos do refervedor. A tabela marca a alimentação e o refervedor, e a lição confere a contagem de degraus no refluxo total com Fenske. A lição 1 é correta e enxuta, mas interpreta menos; contra a 2 pesa só a fórmula de theta de Underwood, que aparece sem dedução."
+}

@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "As duas chegam às mesmas respostas corretas, mas a lição 1 mostra no modelo as fórmulas de mínimos quadrados e de R², explica a unidade da inclinação (K) e o que cada argumento de polyfit faz, incluindo a ordem dos coeficientes devolvidos. A lição 1 também confere Ea por um caminho independente, com os dois pontos extremos, e lê a figura com números deste exercício: maior resíduo de 0,0202, um fator de 2,95 entre 70 e 85 °C e o risco de extrapolar a 100 °C. A lição 2 é clara no código, mas não explica de onde vem R², e a leitura do resultado fica genérica: só diz 'mais de vinte vezes' e que a previsão 'vale enquanto a lei continuar válida'."
+}

@@ -1,0 +1,33 @@
+{
+ "questao": "Q03",
+ "modelo": "opus",
+ "skill_commit": "b650790",
+ "skill_alterada": false,
+ "tempo_s": 285.1,
+ "fonte_do_tempo": "registro da sessão",
+ "inicio": "2026-11-11T01:28:17.527Z",
+ "modelos_no_registro": [
+  "claude-opus-5-5"
+ ],
+ "esforco": [
+  "medium"
+ ],
+ "turnos_do_usuario": 1,
+ "chamadas_ao_modelo": 10,
+ "ferramentas_usadas": 11,
+ "tokens_saida": 31609,
+ "tokens_entrada": 20,
+ "tokens_cache_escrita": 63076,
+ "tokens_cache_leitura": 386599,
+ "entregou": true,
+ "codigo_juiz": "2d9711",
+ "arquivo_original": "reforma-a-vapor-do-metano.html",
+ "tamanho_kb": 140,
+ "idioma": "pt-BR",
+ "idioma_esperado": "pt-BR",
+ "palavras": 3669,
+ "check_erros": [],
+ "check_avisos": [
+  "Step \"Resolução do sistema\": the print format(s) 4s are not explained in the text of the step (what each one prints)."
+ ]
+}

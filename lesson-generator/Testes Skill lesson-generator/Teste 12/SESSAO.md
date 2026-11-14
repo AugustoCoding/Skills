@@ -15,15 +15,15 @@
 
 | Campo | Valor |
 |---|---|
-| Commit da skill | `440c1f7` — Enunciado no comeco da licao, editor em dois blocos e sem caixas opcionais |
+| Commit da skill | `f54cd8e` — Enunciado no comeco da licao, editor em dois blocos e sem caixas opcionais |
 | Branch | `skill-geral` |
 | Alterações locais não commitadas | não |
 | Como a skill foi carregada | *junction* `~/.claude/skills/lesson-generator` → `lesson-generator/Skill lesson-generator/` |
 
 ### O que mudou desde o Teste 11
 
-- `547a34d`: nome da técnica com até quatro palavras (aviso no `conferir.py`); o "como" pode ser uma lista (`ul.como`), e um passo pesado pode virar dois.
-- `440c1f7`: a abertura começa pelo enunciado (`div.enunciado`, exigido pelo `conferir.py`); saem as caixas "o erro que parece certo" e "como saber que está certo" (recusadas pelo `conferir.py`); o editor em dois blocos.
+- `d3a2d77`: nome da técnica com até quatro palavras (aviso no `conferir.py`); o "como" pode ser uma lista (`ul.como`), e um passo pesado pode virar dois.
+- `f54cd8e`: a abertura começa pelo enunciado (`div.enunciado`, exigido pelo `conferir.py`); saem as caixas "o erro que parece certo" e "como saber que está certo" (recusadas pelo `conferir.py`); o editor em dois blocos.
 
 ## 3. Ambiente
 
@@ -104,7 +104,7 @@ Nenhum achado.
 
 ## 10. Execução paralela: Sonnet 5.5
 
-A mesma skill (`440c1f7`), o mesmo prompt e o mesmo protocolo, com um modelo menos capaz, para ver o quanto a skill serve a ele.
+A mesma skill (`f54cd8e`), o mesmo prompt e o mesmo protocolo, com um modelo menos capaz, para ver o quanto a skill serve a ele.
 
 | Campo | Valor |
 |---|---|
@@ -154,7 +154,7 @@ Sessão: "Temperatura ótima reator CSTR" (`claude-sonnet-5-5`, esforço médio,
 
 ## 11. Execução paralela: Haiku 5.5
 
-A mesma skill (`440c1f7`), o mesmo prompt e o mesmo protocolo, com o menor modelo da família.
+A mesma skill (`f54cd8e`), o mesmo prompt e o mesmo protocolo, com o menor modelo da família.
 
 | Campo | Valor |
 |---|---|
@@ -204,4 +204,4 @@ Sessão: "Temperatura ótima reator CSTR" (`claude-haiku-5-5`, esforço médio, 
 
 | Commit | O que corrigiu |
 |---|---|
-| `91fe9cd` | Das execuções paralelas: a resposta responde a todas as perguntas, com o programa imprimindo cada número (aviso no `conferir.py` se ela remeter a outra parte); sem pasta indicada, nenhuma pasta ao `nova_licao.py`; resposta ao aluno em duas linhas no máximo |
+| `97e95dd` | Das execuções paralelas: a resposta responde a todas as perguntas, com o programa imprimindo cada número (aviso no `conferir.py` se ela remeter a outra parte); sem pasta indicada, nenhuma pasta ao `nova_licao.py`; resposta ao aluno em duas linhas no máximo |

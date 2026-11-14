@@ -1,0 +1,4 @@
+{
+ "melhor": "2",
+ "por_que": "As duas estão corretas e chegam a 56,5 kg, 7,49 bar e 50,3 kg. A lição 2 explica melhor de onde vem o modelo: deduz v = v0(1 + εX)/y a partir de v = FT·RT/P, mostra a separação em frações parciais que leva à fórmula sem perda de carga (a lição 1 só diz 'basta integrar') e mostra que X e y dependem só da razão α/(k/v0), conferindo isso com números consistentes (26,4 kg = 52,9/2). A lição 1 lê melhor a figura, porque compara as curvas de conversão com e sem perda de carga e mostra a conversão de 0,773 com 50,3 kg. Mas essa vantagem na leitura do resultado pesa menos que a dedução mais completa do modelo e a verificação independente da pressão por y² = 1 − α∫(1 + εX)dW, que a lição 2 tem."
+}

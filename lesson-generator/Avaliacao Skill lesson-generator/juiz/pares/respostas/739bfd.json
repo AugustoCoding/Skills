@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "As duas chegam às mesmas respostas corretas (62,08 °C em 5,84 min, 20,8 %, 59,62 °C), mas a lição 1 deriva a EDO de segunda ordem direto em T, mostra de onde vem a inclinação inicial e acha o máximo por np.argmax numa grade, um caminho que o aluno entende e que vale para raízes reais ou complexas. A lição 2 depende de uma fórmula de tangente com arctan2 e % np.pi que mal é justificada para um iniciante, e só funciona no caso subamortecido. Além disso, ela diz que o gráfico 'integra as equações', quando o código plota a fórmula, e explica o caso Kc = 2 por uma 'razão entre ação integral e proporcional' que não depende de Kc. A leitura dos resultados da lição 1 também é mais deste exercício: a partida a 4 °C/min, o envelope de 4 min e o cancelamento com τI = 10 min, que leva a uma resposta de primeira ordem com constante de 2,5 min."
+}

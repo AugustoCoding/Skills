@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "A lição 2 deriva a equação de Michaelis–Menten pelo balanço do complexo, o que é um ganho, mas escreve 'mM · L = µmol', o que é falso (dá mmol), e assim ensina errado a conversão de unidades que leva a Vmax. A lição 1 mostra de onde vem a reta de Lineweaver–Burk e por que ela pesa mais os pontos de S baixo, e confirma isso com o gráfico nos eixos inversos, a tabela ponto a ponto e o teste de baixar v a 0,5 mM para 1,50, que faz os parâmetros de LB saltarem para 13,72 e 3,94. Ela também explica pcov e os erros-padrão, e confere curve_fit com uma varredura de Km que o aluno consegue seguir. Os sliders da lição 2 mostram a sensibilidade do SSE, mas explicam menos por que os dois métodos discordam."
+}

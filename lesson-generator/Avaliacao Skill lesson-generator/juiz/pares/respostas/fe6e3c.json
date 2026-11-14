@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "A lição 2 dá aos coeficientes c1 e c2 a unidade m^1,5/min, no modelo, na tabela e nos comentários do código, o que é falso: para q = c·√h em m³/min com h em m, a unidade é m^2,5/min, como a lição 1 escreve corretamente. Fora isso, as duas derivam os balanços com hipóteses justificadas, explicam bem solve_ivp, args, events e dense_output e chegam aos mesmos números corretos. A lição 2 tem uma interpretação mais rica (por que o tanque 2 começa parado, o papel da diferença h1 − h2, a proteção max contra raiz negativa), mas isso não compensa um erro de engenharia repetido três vezes, que ensinaria errado uma análise dimensional."
+}

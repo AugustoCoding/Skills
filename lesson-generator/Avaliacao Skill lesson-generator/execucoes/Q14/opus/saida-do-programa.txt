@@ -1,0 +1,10 @@
+Velocidade terminal: 7.35 cm/s
+Reynolds da partícula: 36.7
+Coeficiente de arrasto: 1.82
+Velocidade pela lei de Stokes: 20.46 cm/s
+Stokes / Schiller–Naumann: 2.78
+Diâmetro para 2,0 cm/s: 0.183 mm
+Reynolds nesse diâmetro: 3.64
+Stokes nesse diâmetro: 2.73 cm/s
+Verificação, d = 0,010 mm: Re = 8.2e-04
+  razão v / v_Stokes = 0.9989 (esperado: perto de 1)

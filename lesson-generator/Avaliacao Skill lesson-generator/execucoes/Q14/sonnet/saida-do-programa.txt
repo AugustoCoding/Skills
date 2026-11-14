@@ -1,0 +1,9 @@
+Dados: d = 0.50 mm, rho_p = 2500 kg/m3,
+rho = 998 kg/m3, mu = 1.0e-03 Pa.s, g = 9.81 m/s2
+v_terminal (Schiller-Naumann) = 7.35 cm/s
+Re da particula               = 36.7
+v de Stokes                   = 20.46 cm/s
+Stokes / Schiller-Naumann     = 2.78
+d para 2.0 cm/s = 0.183 mm
+  Re = 3.64; Stokes daria 2.73 cm/s
+Verificacao: v_SN/v_Stokes a 0.02 mm = 0.995

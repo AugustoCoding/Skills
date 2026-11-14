@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "A lição 1 deriva a equação do calor de forma limpa, explica por que k constante permite a série, por que o intervalo (nπ, nπ+π/2) isola cada raiz e por que 20 termos bastam, e detalha args=(Bi,), xtol e o porquê do BDF (sistema rígido). A lição 2 tem uma passagem algébrica truncada ((∂T_x+Δx − ∂T_x)/Δx), inverte o sentido físico ao dizer que onde o perfil é côncavo o ponto esquenta, diz que brentq para quando o valor da função fica pequeno e explica o BDF de forma vaga. Na leitura do resultado, a lição 1 liga a diferença de 61,4 °C ao Bi = 0,533 e mostra a superfície a 130,5 °C quando o centro chega a 150 °C, enquanto a lição 2 fica em observações genéricas, como dizer que as curvas tendem a 60 °C."
+}

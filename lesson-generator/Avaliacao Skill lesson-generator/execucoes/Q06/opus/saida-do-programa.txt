@@ -1,0 +1,11 @@
+Tubo nu: perda = 48.69 kW
+Tubo nu: custo da perda = 58434 R$/ano
+Raio crítico k/h = 0.50 cm (r1 = 5.0 cm)
+Espessura ótima = 9.43 cm
+Perda de calor com e ótima = 4.45 kW
+Custo da perda = 5339 R$/ano
+Custo do isolante = 2072 R$/ano
+Custo anual total mínimo = 7411 R$/ano
+Verificação (derivada nula): e = 9.43 cm
+Custo total com e = 5 cm: 8711 R$/ano
+Custo total com e = 15 cm: 8382 R$/ano

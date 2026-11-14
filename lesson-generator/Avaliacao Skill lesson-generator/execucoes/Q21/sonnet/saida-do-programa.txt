@@ -1,0 +1,9 @@
+NLS: Vmax = 11.93 µmol/min, Km = 2.94 mM
+Rate at S = 5.0 mM: 7.51 µmol/min
+LB:  Vmax = 12.47 µmol/min, Km = 3.23 mM
+LB rate at S = 5.0 mM: 7.57 µmol/min
+SSE (NLS) = 0.095 (µmol/min)^2
+SSE (LB)  = 0.386 (µmol/min)^2
+LB residual at S = 32 mM: -0.475 µmol/min
+Slope of the SSE vanishes: True
+SSE (trial) = 0.095 (µmol/min)^2

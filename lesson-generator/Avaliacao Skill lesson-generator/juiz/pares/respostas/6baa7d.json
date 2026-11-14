@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "As duas chegam aos mesmos números corretos (516,6 K, 18,32 W, 551,4 K, 10,08 W) sem erros relevantes. A lição 1 explica melhor a técnica e o código: diz por que não dá para integrar da base à ponta sem a inclinação, mostra explicitamente como a equação de segunda ordem vira duas de primeira, e explica o lambda, o chute inicial e o significado de tol em solve_bvp. A lição 2 tem a boa justificativa da hipótese unidimensional pelo número de Biot e explica bem args=(eps,) e a troca de sinal exigida pelo brentq, mas justifica o método do tiro só com a falta de solução fechada. Na leitura do resultado, a lição 1 compara radiação e convecção na base (5511 contra 4500 W/m²) para explicar por que a radiação quase dobra o calor e liga a inclinação maior na base à lei de Fourier, o que ensina mais que a leitura da lição 2."
+}

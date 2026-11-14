@@ -1,0 +1,22 @@
+Destilado D = 0.500 kmol/h, fundo B = 0.500 kmol/h
+L = 0.825, V = 1.325, L' = 1.825 kmol/h
+y em equilíbrio com zF = 0.7143
+Razão de refluxo mínima Rmin = 1.10
+Razão de refluxo de operação R = 1.65
+estágio       y        x
+     1   0.9500   0.8837
+     2   0.9087   0.7993
+     3   0.8562   0.7042
+     4   0.7970   0.6109
+     5   0.7389   0.5309
+     6   0.6891   0.4699
+     7   0.6284   0.4035
+     8   0.5368   0.3168
+     9   0.4174   0.2228
+    10   0.2880   0.1392
+    11   0.1729   0.0772
+    12   0.0874   0.0369
+Estágios teóricos N = 12 (refervedor incluso)
+Estágio de alimentação = 6
+Fenske: Nmin = 6.4 (N = 12)
+y_ret(zF) = 0.6698, y_esg(zF) = 0.6698

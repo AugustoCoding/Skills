@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "As duas chegam aos mesmos números corretos, e a lição 2 tem o mérito de deduzir Z = HOG·NOG do balanço numa fatia, que a lição 1 apenas enuncia. Mas a lição 1 explica melhor o código para quem nunca programou: detalha cada argumento de quad (a função passada sem parênteses, os limites, args=(LG,) e a vírgula obrigatória da tupla), o [:-1] do linspace e por que Y_op recebe LG, enquanto a lição 2 resume a lambda numa frase. Na leitura dos resultados, a lição 1 situa o toque sempre 'no fundo' da coluna e justifica por que uma curva côncava para cima não toca no meio; a lição 2 fala em 'ponta de cima' para o fundo da coluna logo depois de chamar o topo de parte mais difícil, o que confunde topo do diagrama com topo da coluna."
+}

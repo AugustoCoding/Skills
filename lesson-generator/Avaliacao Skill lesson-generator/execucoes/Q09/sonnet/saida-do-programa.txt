@@ -1,0 +1,5 @@
+Maximum temperature: 341.3 K
+Time of the maximum: 13.7 min
+Conversion at 30 min: 99.2 %
+Time to 95 % conversion: 18.0 min
+Check, conversion at 30 min: 99.2 %

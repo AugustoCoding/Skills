@@ -1,0 +1,6 @@
+Estado inicial: h1 = 1.5625 m, h2 = 1.0000 m
+Novo estado: h1 = 3.5156 m, h2 = 2.2500 m
+Diferença h1 - h2: 0.5625 m -> 1.2656 m
+Após 10 min: h1 = 2.4166 m, h2 = 1.4541 m
+h2 chega a 2.0 m em t = 33.33 min
+Integração até 1000 min: h1 = 3.5156 m, h2 = 2.2500 m

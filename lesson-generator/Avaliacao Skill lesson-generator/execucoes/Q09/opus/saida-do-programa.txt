@@ -1,0 +1,9 @@
+Maximum temperature: 341.3 K
+Time of the maximum: 13.7 min
+Conversion after 30 min: 99.2 %
+Time to 95 % conversion: 18.0 min
+Conversion at the peak: 86.9 %
+Adiabatic rise: 40.0 K
+Check, no jacket, at 10 min: X = 88.4 %
+  integrated T = 355.36 K
+  T0 + dT_ad*X = 355.36 K

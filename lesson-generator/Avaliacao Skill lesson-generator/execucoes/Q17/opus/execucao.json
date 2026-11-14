@@ -1,0 +1,31 @@
+{
+ "questao": "Q17",
+ "modelo": "opus",
+ "skill_commit": "b650790",
+ "skill_alterada": false,
+ "tempo_s": 212.8,
+ "fonte_do_tempo": "registro da sessão",
+ "inicio": "2026-11-12T01:50:21.603Z",
+ "modelos_no_registro": [
+  "claude-opus-5-5"
+ ],
+ "esforco": [
+  "medium"
+ ],
+ "turnos_do_usuario": 1,
+ "chamadas_ao_modelo": 7,
+ "ferramentas_usadas": 12,
+ "tokens_saida": 24813,
+ "tokens_entrada": 14,
+ "tokens_cache_escrita": 54051,
+ "tokens_cache_leitura": 227468,
+ "entregou": true,
+ "codigo_juiz": "cdd793",
+ "arquivo_original": "absorcao-em-pratos-pela-equacao-de-kremser.html",
+ "tamanho_kb": 138,
+ "idioma": "pt-BR",
+ "idioma_esperado": "pt-BR",
+ "palavras": 3211,
+ "check_erros": [],
+ "check_avisos": []
+}

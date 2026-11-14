@@ -1,0 +1,8 @@
+Fator de absorção A = 1.500
+(A - R)/(1 - R) = 11.00
+Estágios teóricos N = 4.914
+Estágios a instalar = 5
+Recuperação com 5 estágios = 95.19 %
+L/G mínimo = 1.14
+Verificação prato a prato: 95.19 %
+500 pratos com A = 0.95: 95.00 %

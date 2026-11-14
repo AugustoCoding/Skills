@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "As duas estão corretas nos números (A = 1,5; N = 4,91; 5 estágios; 95,19 %; 1,14) e nas variações de L/G. A lição 2 tem uma derivação mais intuitiva (soma em progressão geométrica), mas deixa sem explicação plt.subplots, np.ones_like e o próprio papel do scipy, e a leitura do resultado só repete as respostas. A lição 1 explica cada função e argumento (np.ceil vs int, tupla em np.zeros, montagem linha a linha da matriz com as condições de contorno, np.linalg.solve), justifica hipóteses e o arredondamento para cima, e interpreta a figura com dados deste exercício: 92,42 % com 4 pratos, ganhos decrescentes por prato e o achatamento da curva abaixo de L/G mínima."
+}

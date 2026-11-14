@@ -1,0 +1,8 @@
+P = 0.02513 m, A = 5.03e-05 m², Bi = 3.0e-04
+Inclinação na base: -1822.3 K/m
+Temperatura da ponta: 516.6 K
+Calor dissipado: 18.32 W
+Sem radiação, forma fechada: 10.08 W, 551.4 K
+Sem radiação, numérico: 10.08 W, 551.4 K
+Convecção 9.18 W + radiação 9.14 W = 18.32 W
+Erro do balanço: 5.2e-07 W

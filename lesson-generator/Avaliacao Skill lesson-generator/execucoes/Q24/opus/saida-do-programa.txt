@@ -1,0 +1,8 @@
+Flame temperature, 20 % excess air:  2066.4 K
+Flame temperature, 100 % excess air: 1486.4 K
+Excess air for 1500 K: 97.2 %
+Check e =  20.0 %: heat released 802.6 kJ, heat absorbed 802.6 kJ
+Check e = 100.0 %: heat released 802.6 kJ, heat absorbed 802.6 kJ
+Check e =  97.2 %: heat released 802.6 kJ, heat absorbed 802.6 kJ
+Stoichiometric air (0 %): 2311.2 K
+200 % excess air: 1140.3 K

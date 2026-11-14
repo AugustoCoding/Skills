@@ -1,0 +1,7 @@
+P = 0.02513 m   A = 5.0265e-05 m²
+Na base: convecção 4500 W/m², radiação 5511 W/m²
+Convergiu? True e True
+Com radiação: T_ponta = 516.6 K, q = 18.32 W
+Sem radiação: T_ponta = 551.4 K, q = 10.08 W
+Superfície: 18.32 W (com) e 10.08 W (sem)
+Analítico sem radiação: T_ponta = 551.4 K, q = 10.08 W

@@ -1,0 +1,10 @@
+a = 0.3820 Pa m6/mol2, b = 26.67 cm3/mol
+A = 0.4317, B = 0.0802
+Z = 0.5559
+v = 184.9 cm3/mol
+rho = 238.0 kg/m3
+v ideal = 332.6 cm3/mol
+P recomputed = 80.00 bar
+Z at 0.1 bar = 0.9996
+Z minimum = 0.344 at 122.5 bar
+Z at 200 bar = 0.422

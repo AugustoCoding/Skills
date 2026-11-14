@@ -1,0 +1,4 @@
+{
+ "melhor": "2",
+ "por_que": "A lição 2 deduz a expressão de K1 das pressões parciais (pi = yi·P, daí o expoente 2), define o grau de avanço com exemplo e explica cada argumento do fsolve (chute, args=(P,) com a vírgula, xtol), além de justificar os resíduos multiplicados pelo denominador. A lição 1 reduz o problema a uma busca em ξ1 resolvendo a equação de K2 por Bhaskara, mas não mostra de onde saem os coeficientes a, b e c, de modo que o aluno não conseguiria refazer esse passo, e chama a soma dos coeficientes de 'produto'. Na leitura dos resultados, a lição 2 explica por que o avanço da reação 2 cai mesmo sem a pressão aparecer em K2 (acoplamento pelo CO) e mostra que mais vapor converte mais metano, mas dilui o H2, enquanto a lição 1 é mais genérica."
+}

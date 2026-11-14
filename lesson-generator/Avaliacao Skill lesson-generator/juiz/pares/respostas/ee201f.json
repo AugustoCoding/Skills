@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "A lição 2 afirma que a simulação com tempo invertido a partir de 360 K chega a 369,70 K e conclui que o reator se afasta do estado de maior temperatura, o que é falso: ali a reta do calor removido (73900 J/(min·K)) é mais inclinada que o calor gerado (cerca de 53000), logo o estado é estável e o repulsor é o de 350 K. A lição 2 também diz que, com Tc = 305 K, a reta do calor removido sobe, quando na verdade ela desce. A lição 1 deduz os mesmos balanços com clareza, explica cada argumento do brentq e interpreta corretamente a estabilidade, a ignição e o efeito de Tc. A lição 2 traz extras úteis (a reta de 73900 J/(min·K), o caso de UA), mas eles não compensam erros que ensinam errado justamente a física central do exercício."
+}

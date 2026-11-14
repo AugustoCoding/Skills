@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "As duas chegam aos mesmos números corretos (62,08 °C em 5,84 min, 20,8 %, 59,62 °C) e deduzem a equação de segunda ordem. Ainda assim, a lição 1 explica melhor de onde vêm as condições iniciais e por que o PI zera o erro, além de declarar a hipótese de linearidade e dizer quando ela deixaria de valer. No código, a lição 1 explica cada argumento do solve_ivp (a função passada sem parênteses, o intervalo, o estado inicial, args) e também arctan2 e % np.pi, enquanto a lição 2 omite parte disso e explica o formato {erro:.1e} uma etapa antes de ele aparecer. A lição 1 tem um deslize: diz que o gráfico integra as equações, mas o código desenha a fórmula. Mesmo assim, ela ensina o raciocínio e o código com mais clareza."
+}

@@ -1,0 +1,10 @@
+X_out = 0.0327 mol/mol
+X_eq = 0.0403 mol/mol
+(L/G)_min = 1.786
+N_OG = 4.997
+Z = 2.998 m
+N_OG numérico = 4.997
+diferença = 1.8e-15
+Y no fundo = 0.080
+Y* no fundo = 0.062
+força motriz: topo = 0.008, fundo = 0.018

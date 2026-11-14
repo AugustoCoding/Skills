@@ -1,0 +1,6 @@
+Temperatura de bolha: 83.5 °C
+Fração molar de n-hexano no 1º vapor: 0.622
+Temperatura de orvalho: 89.6 °C
+Fração molar de n-hexano na 1ª gota: 0.217
+Hexano puro, fórmula: 68.7 °C, solver: 68.7 °C
+Heptano puro, fórmula: 98.4 °C, solver: 98.4 °C

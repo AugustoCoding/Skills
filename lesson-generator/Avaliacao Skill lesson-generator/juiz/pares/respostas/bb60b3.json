@@ -1,0 +1,4 @@
+{
+ "melhor": "2",
+ "por_que": "A lição 1 diz que dimensionar o tanque pela lei dos gases ideais armazenaria 'só um pouco mais da metade da massa' esperada, o que está invertido: o gás real é mais denso (238 contra 132 kg/m³), então o tanque guardaria quase o dobro, e não a metade. Ela também afirma sem ressalva que acima de Tc só uma raiz da cúbica é real. A lição 1 tem uma leitura mais rica da figura (mínimo de Z em 122 bar, recuperação do gás ideal a 1 bar), mas a lição 2, com resultados idênticos e sem afirmações falsas, explica bem cada passo do código: κ e α impressos e conferidos com a tabela, np.isreal, a lambda e os argumentos do brentq. Por isso ensina com mais segurança, apesar de interpretar a figura de forma mais enxuta."
+}

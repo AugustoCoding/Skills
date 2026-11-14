@@ -1,0 +1,13 @@
+X de 0.40 a 0.35: 0.667 h
+X de 0.35 a 0.30: 0.667 h
+X de 0.30 a 0.25: 0.667 h
+X de 0.25 a 0.20: 0.750 h
+X de 0.20 a 0.15: 0.972 h
+X de 0.15 a 0.10: 1.465 h
+X de 0.10 a 0.05: 2.909 h
+Taxa constante:   2.000 h
+Taxa decrescente: 6.096 h
+Tempo total:      8.096 h
+Constante, fórmula exata: 2.000 h
+Total com trapezoid():    8.096 h
+Decrescente com Simpson:  5.832 h

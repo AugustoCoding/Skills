@@ -1,0 +1,10 @@
+X1 (líquido de saída) = 0.0327
+X1* (equilíbrio com Y1) = 0.0403
+(L/G)mín = 1.786
+L/G de operação = 1.23 vezes o mínimo
+N_OG = 4.997
+Altura de recheio Z = 3.00 m
+N_OG por quad = 4.997 (erro estimado 8e-10)
+Força motriz no topo  = 0.0080
+Força motriz no fundo = 0.0181
+Menor folga com (L/G)mín antes do fundo = 0.0001

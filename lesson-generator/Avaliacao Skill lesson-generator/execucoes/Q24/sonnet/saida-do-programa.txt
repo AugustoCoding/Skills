@@ -1,0 +1,6 @@
+Excess   0 %: T = 2311.2 K
+Excess  20 %: T = 2066.4 K
+Excess 100 %: T = 1486.4 K
+Excess 200 %: T = 1140.3 K
+Excess air for 1500 K: 97.2 %
+Check, heat absorbed at 1500 K: 802.6 kJ

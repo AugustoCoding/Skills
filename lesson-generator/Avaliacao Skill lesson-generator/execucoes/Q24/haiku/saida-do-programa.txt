@@ -1,0 +1,5 @@
+Check: 21463.6 = 21463.6 J/mol
+Adiabatic flame temperature at 20%: 2066.4 K
+Adiabatic flame temperature at 100%: 1486.4 K
+Excess of air for 1500 K: 97.2%
+Check: adiabatic flame temperature there: 1500.0 K

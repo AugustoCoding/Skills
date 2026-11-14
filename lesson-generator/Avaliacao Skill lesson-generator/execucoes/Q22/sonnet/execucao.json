@@ -1,0 +1,33 @@
+{
+ "questao": "Q22",
+ "modelo": "sonnet",
+ "skill_commit": "b650790",
+ "skill_alterada": false,
+ "tempo_s": 215.2,
+ "fonte_do_tempo": "registro da sessão",
+ "inicio": "2026-11-12T06:28:40.601Z",
+ "modelos_no_registro": [
+  "claude-sonnet-5-5"
+ ],
+ "esforco": [
+  "medium"
+ ],
+ "turnos_do_usuario": 1,
+ "chamadas_ao_modelo": 10,
+ "ferramentas_usadas": 10,
+ "tokens_saida": 33827,
+ "tokens_entrada": 20,
+ "tokens_cache_escrita": 61485,
+ "tokens_cache_leitura": 373388,
+ "entregou": true,
+ "codigo_juiz": "37ff8a",
+ "arquivo_original": "dois-tanques-em-serie.html",
+ "tamanho_kb": 139,
+ "idioma": "pt-BR",
+ "idioma_esperado": "pt-BR",
+ "palavras": 3305,
+ "check_erros": [],
+ "check_avisos": [
+  "The technique has 123 words: the norm is four or five sentences, up to about 100."
+ ]
+}

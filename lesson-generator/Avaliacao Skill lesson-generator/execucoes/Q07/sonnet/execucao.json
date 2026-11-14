@@ -1,0 +1,31 @@
+{
+ "questao": "Q07",
+ "modelo": "sonnet",
+ "skill_commit": "b650790",
+ "skill_alterada": false,
+ "tempo_s": 278.0,
+ "fonte_do_tempo": "registro da sessão",
+ "inicio": "2026-11-11T03:26:42.047Z",
+ "modelos_no_registro": [
+  "claude-sonnet-5-5"
+ ],
+ "esforco": [
+  "medium"
+ ],
+ "turnos_do_usuario": 1,
+ "chamadas_ao_modelo": 13,
+ "ferramentas_usadas": 13,
+ "tokens_saida": 44308,
+ "tokens_entrada": 26,
+ "tokens_cache_escrita": 75733,
+ "tokens_cache_leitura": 577732,
+ "entregou": true,
+ "codigo_juiz": "25595d",
+ "arquivo_original": "absorcao-em-coluna-de-recheio.html",
+ "tamanho_kb": 141,
+ "idioma": "pt-BR",
+ "idioma_esperado": "pt-BR",
+ "palavras": 3394,
+ "check_erros": [],
+ "check_avisos": []
+}

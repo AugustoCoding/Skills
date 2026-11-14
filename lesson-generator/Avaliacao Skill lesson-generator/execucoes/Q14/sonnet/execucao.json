@@ -1,0 +1,33 @@
+{
+ "questao": "Q14",
+ "modelo": "sonnet",
+ "skill_commit": "b650790",
+ "skill_alterada": false,
+ "tempo_s": 202.7,
+ "fonte_do_tempo": "registro da sessão",
+ "inicio": "2026-11-12T01:09:27.299Z",
+ "modelos_no_registro": [
+  "claude-sonnet-5-5"
+ ],
+ "esforco": [
+  "medium"
+ ],
+ "turnos_do_usuario": 1,
+ "chamadas_ao_modelo": 9,
+ "ferramentas_usadas": 8,
+ "tokens_saida": 27843,
+ "tokens_entrada": 18,
+ "tokens_cache_escrita": 54890,
+ "tokens_cache_leitura": 316329,
+ "entregou": true,
+ "codigo_juiz": "61b6cd",
+ "arquivo_original": "velocidade-terminal-de-esferas-de-vidro.html",
+ "tamanho_kb": 136,
+ "idioma": "pt-BR",
+ "idioma_esperado": "pt-BR",
+ "palavras": 3052,
+ "check_erros": [],
+ "check_avisos": [
+  "The technique has 115 words: the norm is four or five sentences, up to about 100."
+ ]
+}

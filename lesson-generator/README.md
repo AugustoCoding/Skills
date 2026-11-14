@@ -33,9 +33,10 @@ lesson-generator/
   Skill lesson-generator/          the skill: only what the language model uses
   Modelo Skill lesson-generator/   the reference lesson, where the structure is revised
   Testes Skill lesson-generator/   the test runs, with the record of each one (in Portuguese)
+  Avaliacao Skill lesson-generator/  the evaluation of the frozen skill across models (in Portuguese)
 ```
 
-The skill folder holds only what enters the language model's context. This README, the reference lesson and the tests stay outside it because they serve development, not generation.
+The skill folder holds only what enters the language model's context. This README, the reference lesson, the tests and the evaluation stay outside it because they serve development, not generation.
 
 ### The skill (`Skill lesson-generator/`)
 
@@ -80,3 +81,7 @@ The lesson is not edited after delivery and the skill keeps no state between ses
 Changes to the structure of the lesson are made on the reference lesson (`Modelo Skill lesson-generator/`), whose README describes the workflow. Each relevant version of the skill is validated by a recorded run in `Testes Skill lesson-generator/`, with the exercise, the planned traps, the answer key, the evaluation and the resulting fixes.
 
 The Portuguese version of the skill, as it was before the translation, is kept in the tag [`versao-pt`](https://github.com/AugustoCoding/Skills/tree/versao-pt).
+
+## Evaluation across models
+
+With the skill frozen, it was run on 24 new exercises by Claude Opus 5.5, Sonnet 5.5 and Haiku 5.5 (72 runs), each lesson scored item by item and compared in pairs. All 72 lessons got every answer of the key right; the models differ in how much the lesson explains and how long it takes. Opus 5.5 delivers the best lesson, Sonnet 5.5 is the best value, and Haiku 5.5 is not recommended. The method, the data and the limits are in [`Avaliacao Skill lesson-generator/`](Avaliacao%20Skill%20lesson-generator/), with the result in [`resultados/CONCLUSAO.md`](Avaliacao%20Skill%20lesson-generator/resultados/CONCLUSAO.md).

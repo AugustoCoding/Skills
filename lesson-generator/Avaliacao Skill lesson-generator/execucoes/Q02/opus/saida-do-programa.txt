@@ -1,0 +1,11 @@
+a = 0.3820 Pa m6/mol2   b = 26.67 cm3/mol
+A = 0.4317   B = 0.0802
+Roots of the cubic: [0.5559+0.j     0.1819+0.1291j 0.1819-0.1291j]
+Z = 0.5559
+V = 184.9 cm3/mol
+rho = 238.0 kg/m3
+V ideal gas = 332.6 cm3/mol
+rho ideal gas = 132.3 kg/m3
+Check, P(V) solved directly: V = 184.9 cm3/mol
+Z at 1 bar = 0.9956
+Minimum Z = 0.3437 at 122 bar

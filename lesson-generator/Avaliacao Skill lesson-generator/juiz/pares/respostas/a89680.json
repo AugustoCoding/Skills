@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "A lição 2 afirma que dimensionar o tanque pela lei dos gases ideais armazenaria só pouco mais da metade da massa esperada, o que inverte o sentido: a densidade real (238.0 kg/m³) é maior que a ideal (132.3 kg/m³), então o tanque guardaria mais massa. Isso ensina errado justamente na leitura de engenharia do resultado. Fora isso, a lição 2 tem pontos melhores: imprime as três raízes e explica com cuidado os argumentos de brentq na verificação por um segundo caminho. A lição 1 não tem erro, verifica o resultado substituindo v na forma em pressão (80.00 bar) e com Z ≈ 1 a 0.1 bar, explica cada função e argumento (inclusive por que linspace com 80 pontos inclui 80 bar) e interpreta o mínimo de Z e o caso de 400 K com números deste exercício."
+}

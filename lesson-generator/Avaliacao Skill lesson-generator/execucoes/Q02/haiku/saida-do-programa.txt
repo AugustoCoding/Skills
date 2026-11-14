@@ -1,0 +1,9 @@
+kappa = 0.7066
+alpha = 0.9639
+a = 0.3820 Pa m6/mol2
+b = 26.67 cm3/mol
+Z = 0.556
+Molar volume = 184.9 cm3/mol
+Density = 238.0 kg/m3
+Ideal gas molar volume = 332.6 cm3/mol
+Check, molar volume = 184.9 cm3/mol

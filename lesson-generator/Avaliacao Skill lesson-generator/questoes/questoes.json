@@ -1,0 +1,313 @@
+[
+ {
+  "id": "Q01", "bloco": "A", "idioma": "pt-BR",
+  "disciplina": "Balanços de massa",
+  "tipo": "sistema de equações lineares",
+  "tecnica": "numpy.linalg.solve",
+  "enunciado": "Um ácido misto residual de nitração contém, em massa, 22% de HNO3, 56% de H2SO4 e 22% de água. Deseja-se obter 1500 kg de um ácido misto com 28% de HNO3, 60% de H2SO4 e 12% de água, misturando o ácido residual com ácido nítrico concentrado (90% de HNO3 e 10% de água) e ácido sulfúrico concentrado (96% de H2SO4 e 4% de água). Calcule a massa, em kg, de cada uma das três correntes: ácido residual, ácido nítrico concentrado e ácido sulfúrico concentrado.",
+  "perguntas": [
+   {"chave": "m_residual", "pede": "massa de ácido residual", "unidade": "kg", "tol": 0.01},
+   {"chave": "m_nitrico", "pede": "massa de ácido nítrico concentrado", "unidade": "kg", "tol": 0.01},
+   {"chave": "m_sulfurico", "pede": "massa de ácido sulfúrico concentrado", "unidade": "kg", "tol": 0.01}
+  ]
+ },
+ {
+  "id": "Q02", "bloco": "A", "idioma": "en",
+  "disciplina": "Termodinâmica",
+  "tipo": "raiz de uma equação não linear (cúbica)",
+  "tecnica": "numpy.roots ou brentq",
+  "enunciado": "Carbon dioxide is stored at 320 K and 80 bar. Using the Peng–Robinson equation of state (Tc = 304.13 K, Pc = 73.77 bar, acentric factor ω = 0.224, molar mass 44.01 g/mol, R = 8.314 J/(mol·K)), calculate the compressibility factor, the molar volume in cm³/mol and the density in kg/m³. What molar volume, in cm³/mol, would the ideal gas law give at the same conditions?",
+  "perguntas": [
+   {"chave": "Z", "pede": "compressibility factor", "unidade": "-", "tol": 0.01},
+   {"chave": "v", "pede": "molar volume (Peng–Robinson)", "unidade": "cm³/mol", "tol": 0.01},
+   {"chave": "rho", "pede": "density", "unidade": "kg/m³", "tol": 0.01},
+   {"chave": "v_ideal", "pede": "ideal-gas molar volume", "unidade": "cm³/mol", "tol": 0.01}
+  ]
+ },
+ {
+  "id": "Q03", "bloco": "A", "idioma": "pt-BR",
+  "disciplina": "Termodinâmica (equilíbrio químico)",
+  "tipo": "sistema de equações não lineares",
+  "tecnica": "scipy.optimize.fsolve",
+  "enunciado": "Na reforma a vapor do metano ocorrem duas reações em fase gasosa: CH4 + H2O ⇌ CO + 3 H2, com K1 = 26,0, e CO + H2O ⇌ CO2 + H2, com K2 = 1,40. As constantes de equilíbrio valem a 1000 K, para pressões parciais em bar (gás ideal, estado padrão de 1 bar). O reator é alimentado com 1 mol de CH4 e 3 mol de H2O e opera a 1000 K e 5 bar. Calcule, no equilíbrio, o grau de avanço de cada reação (em mol), a conversão do metano (em %) e a fração molar de H2 na mistura.",
+  "perguntas": [
+   {"chave": "xi1", "pede": "grau de avanço da reforma", "unidade": "mol", "tol": 0.01},
+   {"chave": "xi2", "pede": "grau de avanço do deslocamento gás-água", "unidade": "mol", "tol": 0.01},
+   {"chave": "conversao_CH4", "pede": "conversão do metano", "unidade": "%", "tol": 0.01},
+   {"chave": "y_H2", "pede": "fração molar de H2 no equilíbrio", "unidade": "-", "tol": 0.01}
+  ]
+ },
+ {
+  "id": "Q04", "bloco": "A", "idioma": "pt-BR",
+  "disciplina": "Mecânica dos fluidos",
+  "tipo": "uma EDO de valor inicial, com evento",
+  "tecnica": "scipy.integrate.solve_ivp com events",
+  "enunciado": "Um tanque cilíndrico vertical de 1,2 m de diâmetro recebe 1,5 L/s de água e descarrega por um orifício de 2,5 cm de diâmetro no fundo, com coeficiente de descarga 0,62 (g = 9,81 m/s²). No instante inicial, o nível é de 0,50 m. Calcule o nível de estado estacionário (m), o nível após 10 min (m) e o tempo, em minutos, para o nível chegar a 1,00 m.",
+  "perguntas": [
+   {"chave": "h_estacionario", "pede": "nível de estado estacionário", "unidade": "m", "tol": 0.01},
+   {"chave": "h_10min", "pede": "nível após 10 min", "unidade": "m", "tol": 0.01},
+   {"chave": "t_1m", "pede": "tempo para o nível chegar a 1,00 m", "unidade": "min", "tol": 0.01}
+  ]
+ },
+ {
+  "id": "Q05", "bloco": "A", "idioma": "pt-BR",
+  "disciplina": "Transferência de calor",
+  "tipo": "EDP parabólica (condução transiente)",
+  "tecnica": "método das linhas com solve_ivp, ou a série analítica",
+  "enunciado": "Uma placa de aço inoxidável de 4,0 cm de espessura (k = 15 W/(m·K), ρ = 7900 kg/m³, cp = 500 J/(kg·K)), inicialmente a 500 °C em toda a espessura, é mergulhada num banho de óleo a 60 °C, com coeficiente de convecção de 400 W/(m²·K) nas duas faces. Considere condução unidimensional na espessura. Calcule a temperatura no centro e na superfície da placa após 120 s (°C) e o tempo, em segundos, para o centro chegar a 150 °C.",
+  "perguntas": [
+   {"chave": "T_centro_120s", "pede": "temperatura no centro após 120 s", "unidade": "°C", "tol": 0.01},
+   {"chave": "T_superficie_120s", "pede": "temperatura na superfície após 120 s", "unidade": "°C", "tol": 0.01},
+   {"chave": "t_centro_150C", "pede": "tempo para o centro chegar a 150 °C", "unidade": "s", "tol": 0.02}
+  ]
+ },
+ {
+  "id": "Q06", "bloco": "A", "idioma": "pt-BR",
+  "disciplina": "Transferência de calor (projeto econômico)",
+  "tipo": "otimização de uma variável",
+  "tecnica": "scipy.optimize.minimize_scalar",
+  "enunciado": "Um tubo de vapor de 100 m de comprimento e 10 cm de diâmetro externo tem a superfície a 180 °C e atravessa um ambiente a 25 °C, com coeficiente de convecção externo de 10 W/(m²·K), suposto o mesmo com ou sem isolamento. O tubo será coberto com um isolante de condutividade térmica 0,05 W/(m·K). O calor perdido custa R$ 0,15 por kWh, e o tubo opera 8000 h por ano. O isolante instalado custa R$ 1800 por m³, e 20% desse investimento é contado como custo anual. Despreze a radiação e a resistência da parede do tubo. Calcule a espessura de isolante (cm) que minimiza o custo anual total, a perda de calor com essa espessura (kW), o custo anual total mínimo (R$/ano) e o custo anual da perda de calor do tubo sem isolamento (R$/ano).",
+  "perguntas": [
+   {"chave": "e_otima", "pede": "espessura ótima de isolante", "unidade": "cm", "tol": 0.02},
+   {"chave": "q_otimo", "pede": "perda de calor com a espessura ótima", "unidade": "kW", "tol": 0.01},
+   {"chave": "custo_minimo", "pede": "custo anual total mínimo", "unidade": "R$/ano", "tol": 0.01},
+   {"chave": "custo_sem_isolamento", "pede": "custo anual da perda de calor sem isolamento", "unidade": "R$/ano", "tol": 0.01}
+  ]
+ },
+ {
+  "id": "Q07", "bloco": "A", "idioma": "pt-BR",
+  "disciplina": "Transferência de massa (absorção)",
+  "tipo": "integral definida de uma função",
+  "tecnica": "scipy.integrate.quad",
+  "enunciado": "Uma coluna de recheio absorve um soluto de uma corrente gasosa com um solvente puro, em contracorrente. Em razões molares (mol de soluto por mol de inerte), o gás entra com Y = 0,080 e deve sair com Y = 0,008. A razão entre as vazões molares de solvente e de gás inerte é L/G = 2,2, e o equilíbrio é Y* = 1,5 X + 12 X². A altura de uma unidade de transferência global do gás é H_OG = 0,60 m. Calcule a razão molar do soluto no líquido de saída, a razão L/G mínima, o número de unidades de transferência N_OG = ∫ dY/(Y − Y*) e a altura de recheio (m).",
+  "perguntas": [
+   {"chave": "X_saida", "pede": "razão molar do soluto no líquido de saída", "unidade": "-", "tol": 0.01},
+   {"chave": "LG_minima", "pede": "razão L/G mínima", "unidade": "-", "tol": 0.01},
+   {"chave": "NOG", "pede": "número de unidades de transferência", "unidade": "-", "tol": 0.01},
+   {"chave": "altura", "pede": "altura de recheio", "unidade": "m", "tol": 0.01}
+  ]
+ },
+ {
+  "id": "Q08", "bloco": "A", "idioma": "pt-BR",
+  "disciplina": "Operações unitárias (destilação)",
+  "tipo": "cálculo estágio a estágio (laço)",
+  "tecnica": "laço while alternando equilíbrio e linha de operação",
+  "enunciado": "Uma mistura equimolar de benzeno e tolueno, alimentada como líquido saturado, é destilada numa coluna com condensador total para dar um destilado com 95% molar de benzeno e um produto de fundo com 5% molar de benzeno. A volatilidade relativa é constante e igual a 2,5, e a razão de refluxo é 1,5 vez a mínima. Pelo método de McCabe–Thiele, calcule a razão de refluxo mínima, a razão de refluxo de operação, o número de estágios teóricos e o estágio de alimentação. Trace os degraus a partir do topo (x = x_D), passando para a linha de esgotamento a partir do primeiro degrau cujo líquido tenha x ≤ z_F (esse é o estágio de alimentação), e conte os degraus inteiros até o primeiro com x ≤ x_B (o refervedor está incluído na contagem).",
+  "perguntas": [
+   {"chave": "R_min", "pede": "razão de refluxo mínima", "unidade": "-", "tol": 0.01},
+   {"chave": "R", "pede": "razão de refluxo de operação", "unidade": "-", "tol": 0.01},
+   {"chave": "N_estagios", "pede": "número de estágios teóricos, com o refervedor", "unidade": "-", "tol": 0},
+   {"chave": "estagio_alimentacao", "pede": "estágio de alimentação, contado do topo", "unidade": "-", "tol": 0}
+  ]
+ },
+ {
+  "id": "Q09", "bloco": "A", "idioma": "en",
+  "disciplina": "Reatores (batelada não isotérmica)",
+  "tipo": "sistema de EDOs de valor inicial, com evento",
+  "tecnica": "scipy.integrate.solve_ivp",
+  "enunciado": "An exothermic liquid-phase reaction A → B, first order in A, is carried out in a jacketed batch reactor. The rate constant is k = 6.0×10⁶ exp(−E/(RT)) s⁻¹, with E = 60 kJ/mol and R = 8.314 J/(mol·K). The initial concentration of A is 2000 mol/m³, the heat of reaction is −80 kJ/mol, and the volumetric heat capacity of the mixture is ρ·cp = 4.0×10⁶ J/(m³·K). The jacket stays at 300 K and removes heat with UA/V = 2000 W/(m³·K). The reactor starts at 320 K. Calculate the maximum temperature (K) and the time at which it occurs (min), the conversion after 30 min (%) and the time to reach 95% conversion (min).",
+  "perguntas": [
+   {"chave": "T_pico", "pede": "maximum temperature", "unidade": "K", "tol": 0.002},
+   {"chave": "t_pico", "pede": "time of the maximum temperature", "unidade": "min", "tol": 0.02},
+   {"chave": "X_30min", "pede": "conversion after 30 min", "unidade": "%", "tol": 0.005},
+   {"chave": "t_95", "pede": "time to reach 95% conversion", "unidade": "min", "tol": 0.01}
+  ]
+ },
+ {
+  "id": "Q10", "bloco": "A", "idioma": "pt-BR",
+  "disciplina": "Cinética química",
+  "tipo": "regressão linear",
+  "tecnica": "numpy.polyfit ou scipy.stats.linregress",
+  "enunciado": "A constante de velocidade de uma reação de primeira ordem foi medida em cinco temperaturas: 30 °C, 0,0082 min⁻¹; 40 °C, 0,0205 min⁻¹; 50 °C, 0,0512 min⁻¹; 60 °C, 0,1130 min⁻¹; 70 °C, 0,2510 min⁻¹. Ajuste a equação de Arrhenius por regressão linear de ln k contra 1/T (T em kelvin, R = 8,314 J/(mol·K)). Calcule a energia de ativação (kJ/mol), ln A (com A em min⁻¹), o coeficiente de determinação R² do ajuste e a constante de velocidade prevista a 85 °C (min⁻¹).",
+  "perguntas": [
+   {"chave": "Ea", "pede": "energia de ativação", "unidade": "kJ/mol", "tol": 0.01},
+   {"chave": "lnA", "pede": "ln A", "unidade": "-", "tol": 0.01},
+   {"chave": "R2", "pede": "coeficiente de determinação", "unidade": "-", "tol": 0.0005},
+   {"chave": "k_85C", "pede": "constante de velocidade a 85 °C", "unidade": "1/min", "tol": 0.01}
+  ]
+ },
+ {
+  "id": "Q11", "bloco": "A", "idioma": "pt-BR",
+  "disciplina": "Controle de processos",
+  "tipo": "sistema de EDOs de valor inicial (malha fechada)",
+  "tecnica": "scipy.integrate.solve_ivp, com a integral do erro como estado",
+  "enunciado": "Um tanque aquecido se comporta como um processo de primeira ordem: τ dT/dt = −(T − T0) + Kp·u, com τ = 10 min, Kp = 0,8 °C/% e T0 = 50 °C, em que u é a variação da saída do controlador, em %. Um controlador PI, u = Kc [e + (1/τI) ∫e dt], com e = Tsp − T, Kc = 5 %/°C e τI = 2 min, mantém o tanque a 50 °C. No instante zero, o setpoint Tsp passa de 50 °C para 60 °C. Calcule a temperatura máxima atingida (°C), o instante em que ela ocorre (min), o sobressinal (em % do degrau) e a temperatura 3 min após o degrau (°C).",
+  "perguntas": [
+   {"chave": "T_max", "pede": "temperatura máxima", "unidade": "°C", "tol": 0.002},
+   {"chave": "t_pico", "pede": "instante da temperatura máxima", "unidade": "min", "tol": 0.02},
+   {"chave": "sobressinal", "pede": "sobressinal", "unidade": "% do degrau", "tol": 0.02},
+   {"chave": "T_3min", "pede": "temperatura 3 min após o degrau", "unidade": "°C", "tol": 0.002}
+  ]
+ },
+ {
+  "id": "Q12", "bloco": "A", "idioma": "pt-BR",
+  "disciplina": "Operações unitárias (secagem)",
+  "tipo": "integração numérica de dados tabelados",
+  "tecnica": "regra dos trapézios (numpy)",
+  "enunciado": "Num ensaio de secagem de um sólido em bandeja, a taxa de secagem R, em kg de água/(m²·h), foi medida em função da umidade X, em kg de água por kg de sólido seco. Para X = 0,40; 0,35; 0,30; 0,25; 0,20; 0,15; 0,10 e 0,05, as taxas foram R = 1,50; 1,50; 1,50; 1,50; 1,20; 0,90; 0,55 e 0,25. A carga é de 20 kg de sólido seco por m² de superfície de secagem, e o tempo de secagem é t = (m_s/A) ∫ dX/R. Usando a regra dos trapézios sobre os pontos da tabela, calcule o tempo no período de taxa constante (de X = 0,40 a 0,25), o tempo no período de taxa decrescente (de X = 0,25 a 0,05) e o tempo total, em horas.",
+  "perguntas": [
+   {"chave": "t_constante", "pede": "tempo no período de taxa constante", "unidade": "h", "tol": 0.01},
+   {"chave": "t_decrescente", "pede": "tempo no período de taxa decrescente", "unidade": "h", "tol": 0.01},
+   {"chave": "t_total", "pede": "tempo total de secagem", "unidade": "h", "tol": 0.01}
+  ]
+ },
+ {
+  "id": "Q13", "bloco": "B", "idioma": "pt-BR",
+  "disciplina": "Termodinâmica (equilíbrio líquido-vapor)",
+  "tipo": "raiz de uma equação não linear",
+  "tecnica": "scipy.optimize.brentq",
+  "enunciado": "Uma mistura líquida com 40% molar de n-hexano e 60% de n-heptano está a 760 mmHg. Considere a lei de Raoult e a equação de Antoine, log10 Psat = A − B/(T + C), com Psat em mmHg e T em °C: para o n-hexano, A = 6,87776, B = 1171,530 e C = 224,366; para o n-heptano, A = 6,90240, B = 1268,115 e C = 216,900. Calcule a temperatura de bolha (°C) e a fração molar de n-hexano no primeiro vapor formado. Para um vapor com a mesma composição global (40% de n-hexano), calcule a temperatura de orvalho (°C) e a fração molar de n-hexano na primeira gota de líquido.",
+  "perguntas": [
+   {"chave": "T_bolha", "pede": "temperatura de bolha", "unidade": "°C", "tol": 0.003},
+   {"chave": "y_hexano", "pede": "fração de n-hexano no primeiro vapor", "unidade": "-", "tol": 0.01},
+   {"chave": "T_orvalho", "pede": "temperatura de orvalho", "unidade": "°C", "tol": 0.003},
+   {"chave": "x_hexano_orvalho", "pede": "fração de n-hexano na primeira gota", "unidade": "-", "tol": 0.01}
+  ]
+ },
+ {
+  "id": "Q14", "bloco": "B", "idioma": "pt-BR",
+  "disciplina": "Mecânica dos fluidos (sistemas particulados)",
+  "tipo": "raiz de uma equação não linear, com correlação",
+  "tecnica": "scipy.optimize.brentq",
+  "enunciado": "Esferas de vidro de 0,50 mm de diâmetro (ρ = 2500 kg/m³) sedimentam em água (ρ = 998 kg/m³, μ = 1,0·10⁻³ Pa·s; g = 9,81 m/s²). O coeficiente de arrasto segue a correlação de Schiller–Naumann, C_D = (24/Re)(1 + 0,15 Re^0,687). Calcule a velocidade terminal (cm/s), o número de Reynolds da partícula nessa velocidade e a velocidade que a lei de Stokes daria (cm/s). Que diâmetro de esfera (mm) tem velocidade terminal de 2,0 cm/s?",
+  "perguntas": [
+   {"chave": "v_terminal", "pede": "velocidade terminal", "unidade": "cm/s", "tol": 0.01},
+   {"chave": "Re", "pede": "número de Reynolds da partícula", "unidade": "-", "tol": 0.01},
+   {"chave": "v_Stokes", "pede": "velocidade pela lei de Stokes", "unidade": "cm/s", "tol": 0.01},
+   {"chave": "d_2cm_s", "pede": "diâmetro com velocidade terminal de 2,0 cm/s", "unidade": "mm", "tol": 0.01}
+  ]
+ },
+ {
+  "id": "Q15", "bloco": "B", "idioma": "pt-BR",
+  "disciplina": "Termodinâmica (psicrometria)",
+  "tipo": "cálculo direto (forma fechada)",
+  "tecnica": "operações do numpy; a inversão de Antoine é analítica",
+  "enunciado": "Ar úmido está a 32 °C, com umidade relativa de 55% e pressão total de 101,325 kPa. A pressão de vapor da água é dada por log10 Psat = 8,07131 − 1730,63/(233,426 + T), com Psat em mmHg e T em °C (760 mmHg = 101,325 kPa). Calcule a umidade absoluta (kg de água por kg de ar seco), a temperatura de orvalho (°C) e a entalpia do ar, h = 1,006 T + W (2501 + 1,86 T), em kJ por kg de ar seco. Se esse ar for resfriado até 15 °C e sair saturado, quanta água condensa, em gramas por kg de ar seco?",
+  "perguntas": [
+   {"chave": "W", "pede": "umidade absoluta", "unidade": "kg/kg de ar seco", "tol": 0.01},
+   {"chave": "T_orvalho", "pede": "temperatura de orvalho", "unidade": "°C", "tol": 0.005},
+   {"chave": "entalpia", "pede": "entalpia do ar", "unidade": "kJ/kg de ar seco", "tol": 0.01},
+   {"chave": "condensado", "pede": "água condensada", "unidade": "g/kg de ar seco", "tol": 0.01}
+  ]
+ },
+ {
+  "id": "Q16", "bloco": "B", "idioma": "pt-BR",
+  "disciplina": "Transferência de calor (superfícies estendidas)",
+  "tipo": "problema de valor de contorno não linear",
+  "tecnica": "scipy.integrate.solve_bvp",
+  "enunciado": "Uma aleta em forma de pino, de alumínio (k = 200 W/(m·K)), com 8 mm de diâmetro e 10 cm de comprimento, tem a base a 600 K e troca calor com o ar e com a vizinhança, ambos a 300 K, por convecção (h = 15 W/(m²·K)) e por radiação (emissividade 0,8; σ = 5,67·10⁻⁸ W/(m²·K⁴)). A ponta é adiabática e a condução é unidimensional. Calcule a temperatura da ponta (K) e a taxa de calor dissipada pela aleta (W). Sem a radiação, quais seriam a taxa de calor (W) e a temperatura da ponta (K)?",
+  "perguntas": [
+   {"chave": "T_ponta", "pede": "temperatura da ponta", "unidade": "K", "tol": 0.003},
+   {"chave": "q", "pede": "taxa de calor dissipada", "unidade": "W", "tol": 0.01},
+   {"chave": "q_so_conveccao", "pede": "taxa de calor sem radiação", "unidade": "W", "tol": 0.01},
+   {"chave": "T_ponta_so_conveccao", "pede": "temperatura da ponta sem radiação", "unidade": "K", "tol": 0.003}
+  ]
+ },
+ {
+  "id": "Q17", "bloco": "B", "idioma": "pt-BR",
+  "disciplina": "Transferência de massa (absorção em estágios)",
+  "tipo": "cálculo direto (forma fechada)",
+  "tecnica": "equação de Kremser com numpy",
+  "enunciado": "Uma coluna de pratos absorve um soluto diluído de um gás com um solvente puro, em contracorrente. O equilíbrio é y = 1,2 x e a razão molar entre líquido e gás é L/G = 1,8, ambos constantes. Deseja-se recuperar 95% do soluto. Pela equação de Kremser, calcule o fator de absorção, o número de estágios teóricos (com decimais), o número inteiro de estágios a instalar e a recuperação obtida com esse número inteiro (%). Qual é a razão L/G mínima para essa recuperação?",
+  "perguntas": [
+   {"chave": "A", "pede": "fator de absorção", "unidade": "-", "tol": 0.01},
+   {"chave": "N_teorico", "pede": "número de estágios teóricos, com decimais", "unidade": "-", "tol": 0.01},
+   {"chave": "N_inteiro", "pede": "número inteiro de estágios", "unidade": "-", "tol": 0},
+   {"chave": "recuperacao", "pede": "recuperação com o número inteiro de estágios", "unidade": "%", "tol": 0.002},
+   {"chave": "LG_minima", "pede": "razão L/G mínima", "unidade": "-", "tol": 0.01}
+  ]
+ },
+ {
+  "id": "Q18", "bloco": "B", "idioma": "pt-BR",
+  "disciplina": "Operações unitárias (evaporação)",
+  "tipo": "sistema de equações não lineares",
+  "tecnica": "scipy.optimize.fsolve",
+  "enunciado": "Um evaporador de duplo efeito com alimentação direta concentra 10 000 kg/h de uma solução de 10% para 40% em massa de sólidos. A alimentação entra a 60 °C no primeiro efeito, que é aquecido com vapor saturado a 120 °C; o segundo efeito opera a 50 °C. Os coeficientes globais de troca são 2,5 kW/(m²·K) no primeiro efeito e 1,5 kW/(m²·K) no segundo, e os dois efeitos têm a mesma área. Despreze a elevação do ponto de ebulição. Adote calor específico de 4,0 kJ/(kg·K) para todas as correntes líquidas e calor latente de vaporização λ = 2501 − 2,4 T kJ/kg (T em °C), que vale também para o vapor de aquecimento; os condensados saem saturados. Calcule a temperatura do primeiro efeito (°C), a área de cada efeito (m²), o consumo de vapor de aquecimento (kg/h), a água evaporada no primeiro efeito (kg/h) e a economia (kg de água evaporada por kg de vapor de aquecimento).",
+  "perguntas": [
+   {"chave": "T1", "pede": "temperatura do primeiro efeito", "unidade": "°C", "tol": 0.005},
+   {"chave": "area", "pede": "área de cada efeito", "unidade": "m²", "tol": 0.01},
+   {"chave": "vapor_aquecimento", "pede": "consumo de vapor de aquecimento", "unidade": "kg/h", "tol": 0.01},
+   {"chave": "V1", "pede": "água evaporada no primeiro efeito", "unidade": "kg/h", "tol": 0.01},
+   {"chave": "economia", "pede": "economia", "unidade": "kg/kg", "tol": 0.01}
+  ]
+ },
+ {
+  "id": "Q19", "bloco": "B", "idioma": "pt-BR",
+  "disciplina": "Reatores (CSTR não isotérmico)",
+  "tipo": "raízes múltiplas de uma equação não linear",
+  "tecnica": "varredura de sinal com brentq em cada intervalo",
+  "enunciado": "Num CSTR com camisa ocorre a reação exotérmica de primeira ordem A → B, com k = 7,2·10¹⁰ exp(−8750/T) min⁻¹ (T em K). Dados: vazão de 100 L/min, volume de 100 L, concentração de A na alimentação de 1,0 mol/L, alimentação a 350 K, camisa a 300 K, calor de reação de −5,0·10⁴ J/mol, massa específica de 1000 g/L, calor específico de 0,239 J/(g·K) e UA = 5,0·10⁴ J/(min·K). O reator tem três estados estacionários. Calcule a temperatura de cada um (K) e a conversão de A nos estados de menor e de maior temperatura (%).",
+  "perguntas": [
+   {"chave": "T_baixo", "pede": "temperatura do estado estacionário inferior", "unidade": "K", "tol": 0.002},
+   {"chave": "T_medio", "pede": "temperatura do estado estacionário intermediário", "unidade": "K", "tol": 0.002},
+   {"chave": "T_alto", "pede": "temperatura do estado estacionário superior", "unidade": "K", "tol": 0.002},
+   {"chave": "X_baixo", "pede": "conversão no estado inferior", "unidade": "%", "tol": 0.02},
+   {"chave": "X_alto", "pede": "conversão no estado superior", "unidade": "%", "tol": 0.01}
+  ]
+ },
+ {
+  "id": "Q20", "bloco": "B", "idioma": "pt-BR",
+  "disciplina": "Reatores (leito fixo com perda de carga)",
+  "tipo": "sistema de EDOs de valor inicial, com evento",
+  "tecnica": "scipy.integrate.solve_ivp com events",
+  "enunciado": "A reação em fase gasosa A → 2 B, de primeira ordem (−r'A = k C_A, com k = 1,0·10⁻³ m³/(kg de catalisador·s)), ocorre num reator de leito fixo isotérmico a 500 K. A alimentação é A puro, a 10 bar, com 5,0 mol/s (gás ideal, R = 8,314 J/(mol·K)). A perda de carga segue dy/dW = −α (1 + εX)/(2y), com y = P/P0, ε a variação relativa do número de mols na conversão completa e α = 0,005 kg⁻¹. Calcule a massa de catalisador para 80% de conversão (kg), a pressão na saída do leito (bar) e a massa de catalisador que seria necessária sem perda de carga (kg).",
+  "perguntas": [
+   {"chave": "W_80", "pede": "massa de catalisador para 80% de conversão", "unidade": "kg", "tol": 0.01},
+   {"chave": "P_saida", "pede": "pressão na saída do leito", "unidade": "bar", "tol": 0.01},
+   {"chave": "W_sem_perda", "pede": "massa de catalisador sem perda de carga", "unidade": "kg", "tol": 0.01}
+  ]
+ },
+ {
+  "id": "Q21", "bloco": "B", "idioma": "en",
+  "disciplina": "Engenharia bioquímica (cinética enzimática)",
+  "tipo": "regressão não linear",
+  "tecnica": "scipy.optimize.curve_fit",
+  "enunciado": "The initial rate of an enzymatic reaction was measured at seven substrate concentrations: S = 0.5, 1.0, 2.0, 4.0, 8.0, 16.0 and 32.0 mM gave v = 1.65, 3.10, 4.70, 7.05, 8.60, 10.20 and 10.85 µmol/min. Fit the Michaelis–Menten equation, v = Vmax·S/(Km + S), by nonlinear least squares on v, and calculate Vmax (µmol/min), Km (mM) and the rate predicted at S = 5.0 mM (µmol/min). For comparison, calculate Vmax and Km from the Lineweaver–Burk linearization (unweighted linear regression of 1/v against 1/S).",
+  "perguntas": [
+   {"chave": "Vmax", "pede": "Vmax, nonlinear fit", "unidade": "µmol/min", "tol": 0.01},
+   {"chave": "Km", "pede": "Km, nonlinear fit", "unidade": "mM", "tol": 0.01},
+   {"chave": "v_5mM", "pede": "predicted rate at 5.0 mM", "unidade": "µmol/min", "tol": 0.01},
+   {"chave": "Vmax_LB", "pede": "Vmax, Lineweaver–Burk", "unidade": "µmol/min", "tol": 0.01},
+   {"chave": "Km_LB", "pede": "Km, Lineweaver–Burk", "unidade": "mM", "tol": 0.01}
+  ]
+ },
+ {
+  "id": "Q22", "bloco": "B", "idioma": "pt-BR",
+  "disciplina": "Controle de processos (dinâmica de processos)",
+  "tipo": "sistema de EDOs não lineares de valor inicial",
+  "tecnica": "scipy.integrate.solve_ivp com events",
+  "enunciado": "Dois tanques cilíndricos estão ligados em série por uma válvula: o tanque 1 (área de 2,0 m²) recebe a alimentação e escoa para o tanque 2 (área de 1,5 m²) com vazão q1 = 0,8 √(h1 − h2); o tanque 2 descarrega com vazão q2 = 0,6 √h2 (vazões em m³/min, níveis em m). O sistema está em estado estacionário com alimentação de 0,6 m³/min quando, no instante zero, a alimentação passa para 0,9 m³/min. Calcule os novos níveis de estado estacionário dos dois tanques (m), o nível do tanque 2 após 10 min (m) e o tempo para o nível do tanque 2 chegar a 2,0 m (min).",
+  "perguntas": [
+   {"chave": "h1_final", "pede": "novo nível estacionário do tanque 1", "unidade": "m", "tol": 0.01},
+   {"chave": "h2_final", "pede": "novo nível estacionário do tanque 2", "unidade": "m", "tol": 0.01},
+   {"chave": "h2_10min", "pede": "nível do tanque 2 após 10 min", "unidade": "m", "tol": 0.01},
+   {"chave": "t_h2_2m", "pede": "tempo para o tanque 2 chegar a 2,0 m", "unidade": "min", "tol": 0.01}
+  ]
+ },
+ {
+  "id": "Q23", "bloco": "B", "idioma": "pt-BR",
+  "disciplina": "Engenharia bioquímica (biorreatores)",
+  "tipo": "cálculo direto e otimização com forma fechada",
+  "tecnica": "fórmula fechada; minimize_scalar como verificação",
+  "enunciado": "Um quimiostato é alimentado com substrato a 20 g/L. O crescimento segue Monod, com μmax = 0,45 h⁻¹ e Ks = 0,8 g/L, e o rendimento de células em substrato é 0,5 g/g; a alimentação é estéril e não há morte celular. Para uma taxa de diluição de 0,30 h⁻¹, calcule as concentrações de substrato e de células no estado estacionário (g/L). Calcule também a taxa de diluição de lavagem (h⁻¹), a taxa de diluição que maximiza a produtividade de células D·X (h⁻¹) e essa produtividade máxima (g/(L·h)).",
+  "perguntas": [
+   {"chave": "S", "pede": "substrato no estado estacionário", "unidade": "g/L", "tol": 0.01},
+   {"chave": "X", "pede": "células no estado estacionário", "unidade": "g/L", "tol": 0.01},
+   {"chave": "D_lavagem", "pede": "taxa de diluição de lavagem", "unidade": "1/h", "tol": 0.01},
+   {"chave": "D_otima", "pede": "taxa de diluição de máxima produtividade", "unidade": "1/h", "tol": 0.01},
+   {"chave": "produtividade_maxima", "pede": "produtividade máxima de células", "unidade": "g/(L·h)", "tol": 0.01}
+  ]
+ },
+ {
+  "id": "Q24", "bloco": "B", "idioma": "en",
+  "disciplina": "Balanços de energia (combustão)",
+  "tipo": "raiz de uma equação não linear (balanço de entalpia)",
+  "tecnica": "scipy.optimize.brentq",
+  "enunciado": "Methane is burned completely with 20% excess dry air (21% O2 and 79% N2, molar) in an adiabatic combustor; fuel and air enter at 298.15 K. The heat of combustion at 298.15 K, with water as vapor, is −802.6 kJ per mol of CH4. The ideal-gas heat capacities follow Cp/R = A + B·T + D/T² (T in K, R = 8.314 J/(mol·K)): for CO2, A = 5.457, B = 1.045×10⁻³ and D = −1.157×10⁵; for H2O, A = 3.470, B = 1.450×10⁻³ and D = 0.121×10⁵; for N2, A = 3.280, B = 0.593×10⁻³ and D = 0.040×10⁵; for O2, A = 3.639, B = 0.506×10⁻³ and D = −0.227×10⁵. Calculate the adiabatic flame temperature (K). What would it be with 100% excess air (K)? What percentage of excess air gives a flame temperature of 1500 K?",
+  "perguntas": [
+   {"chave": "T_20", "pede": "adiabatic flame temperature, 20% excess air", "unidade": "K", "tol": 0.003},
+   {"chave": "T_100", "pede": "adiabatic flame temperature, 100% excess air", "unidade": "K", "tol": 0.003},
+   {"chave": "excesso_1500K", "pede": "excess air for 1500 K", "unidade": "%", "tol": 0.01}
+  ]
+ }
+]

@@ -1,0 +1,3647 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mistura de ácidos de nitração: calculando as correntes com um sistema linear</title>
+<style>
+
+:root {
+  --bg: #dcd6c7;
+  --fg: #23211c;
+  --muted: #4f4b42;
+  --rule: #c5bdaa;
+  --accent: #8a3324;
+  --code-bg: #d1cab9;
+  --backdrop: #c4bca8;
+  --sheet-border: #b9b09b;
+  --sheet-shadow: rgba(60, 55, 30, 0.08);
+
+  --series-1: #2f5fa8;   
+  --series-2: #b23a68;   
+  --series-3: #0f7c8a;   
+  --series-4: #6b6250;   
+
+  --param: var(--fg);
+
+  --warn: #b08410;
+
+  --sec-model: #6b4f0e;
+  --sec-code: #6c3573;
+  --sec-result: #265c35;
+  
+  --fill-model: #c99a2e;
+  --ink-model: var(--fg);
+
+  --hl-kw: #af00db;
+  --hl-def: #0000ff;
+  --hl-str: #a31515;
+  --hl-com: #008000;
+  --hl-num: #098658;
+  --hl-fn: #795e26;
+  --hl-builtin: #267f99;
+  --hl-op: #4a4a44;
+
+  --ok: #2e6b3f;
+  --err: #b3261e;
+
+  color-scheme: light;
+
+  --radius: 10px;
+  --radius-s: 6px;
+
+  --serif: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Times New Roman", serif;
+  --mono: "SF Mono", "Cascadia Mono", Consolas, "Liberation Mono", Menlo, monospace;
+
+  --t-h1: 2.1rem;       
+  --t-h2: 1.35rem;      
+  --t-h3: 1.05rem;      
+  --t-text: 1rem;       
+  --t-small: 0.9rem;    
+  --t-code: 0.85rem;    
+  --t-label: 0.85rem;   
+  --label-spacing: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #16161a;
+    --fg: #e6e4dd;
+    --muted: #9a978d;
+    --rule: #34343c;
+    --accent: #e08b6f;
+    --code-bg: #1f1f26;
+    --backdrop: #0e0e11;
+    --sheet-border: #26262d;
+    --sheet-shadow: rgba(0, 0, 0, 0.45);
+
+    --series-1: #7aa7f2;
+    --series-2: #f093b4;
+    --series-3: #5fc8d4;
+    --series-4: #cfc6b0;
+    --warn: #f2d478;
+    --sec-model: #d1b878;
+    --sec-code: #c3a6c8;
+    --sec-result: #94bd9f;
+    --fill-model: var(--sec-model);
+    --ink-model: var(--bg);
+    --hl-kw: #c586c0;
+    --hl-def: #569cd6;
+    --hl-str: #ce9178;
+    --hl-com: #6a9955;
+    --hl-num: #b5cea8;
+    --hl-fn: #dcdcaa;
+    --hl-builtin: #4ec9b0;
+    --hl-op: #d4d4d4;
+
+    --ok: #7fc394;
+    --err: #ff7b72;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #16161a;
+  --fg: #e6e4dd;
+  --muted: #9a978d;
+  --rule: #34343c;
+  --accent: #e08b6f;
+  --code-bg: #1f1f26;
+  --backdrop: #0e0e11;
+  --sheet-border: #26262d;
+  --sheet-shadow: rgba(0, 0, 0, 0.45);
+
+  --series-1: #7aa7f2;
+  --series-2: #f093b4;
+  --series-3: #5fc8d4;
+  --series-4: #cfc6b0;
+  --warn: #f2d478;
+  --sec-model: #d1b878;
+  --sec-code: #c3a6c8;
+  --sec-result: #94bd9f;
+  --fill-model: var(--sec-model);
+  --ink-model: var(--bg);
+  --hl-kw: #c586c0;
+  --hl-def: #569cd6;
+  --hl-str: #ce9178;
+  --hl-com: #6a9955;
+  --hl-num: #b5cea8;
+  --hl-fn: #dcdcaa;
+  --hl-builtin: #4ec9b0;
+  --hl-op: #d4d4d4;
+
+  --ok: #7fc394;
+  --err: #ff7b72;
+}
+
+* { -webkit-tap-highlight-color: transparent; }
+
+html { font-size: 17px; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--serif);
+  line-height: 1.55;
+  margin: 0 auto;
+  padding: 3.5rem 1.8rem 6rem;
+  max-width: 46rem;
+  text-rendering: optimizeLegibility;
+}
+
+header.lesson { margin-bottom: 3rem; }
+
+header.lesson .tag {
+  font-family: var(--serif);
+  font-size: var(--t-label);
+  font-weight: 600;
+  letter-spacing: var(--label-spacing);
+  color: var(--muted);
+}
+
+h1 {
+  font-size: var(--t-h1);
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0.4rem 0 0.8rem;
+}
+
+h2 {
+  font-size: var(--t-h2);
+  font-weight: 600;
+  margin: 3rem 0 0.8rem;
+}
+
+body > h2:nth-of-type(1) { color: var(--sec-model); }
+body > h2:nth-of-type(2) { color: var(--sec-code); }
+body > h2:nth-of-type(3) { color: var(--sec-result); }
+
+h3 {
+  font-size: var(--t-h3);
+  font-weight: 600;
+  margin: 2rem 0 0.6rem;
+}
+
+p { margin: 0 0 1.1rem; }
+
+sub, sup { line-height: 0; }
+
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
+
+.sidenote {
+  float: right;
+  clear: right;
+  width: 14rem;
+  margin: 0.3rem -16rem 1rem 0;
+  font-size: var(--t-small);
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+@media (max-width: 82rem) {
+  .sidenote {
+    float: none;
+    width: auto;
+    margin: 1rem 0;
+    padding-left: 1rem;
+    border-left: 1px solid var(--rule);
+  }
+}
+
+.equation {
+  margin: 1.6rem 0;
+  padding: 1rem 1.2rem;
+  background: var(--code-bg);
+  border-radius: var(--radius);
+  font-family: var(--serif);
+  font-size: 0.92rem;
+  overflow-x: auto;
+  
+  white-space: pre-wrap;
+  line-height: 1.7;
+}
+
+.equation:has(math),
+.eq-block .equation {
+  white-space: normal;
+  line-height: 1.4;
+}
+
+.symbols {
+  list-style: none;
+  padding: 0;
+  margin: -0.6rem 0 1.6rem;
+  font-size: var(--t-small);
+  color: var(--muted);
+}
+.symbols li { margin: 0.45rem 0; }
+
+.symbols code {
+  font-family: var(--serif);
+  font-style: italic;
+  background: none;
+  color: var(--fg);
+  font-weight: 700;
+  font-size: 1.1em;
+}
+
+.term {
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--rule);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.unit {
+  font-family: var(--serif);
+  font-size: 0.85em;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+span.var-1, span.var-2, span.var-3, span.var-4, span.param { font-size: 1.1em; font-style: italic; }
+.var-1 { color: var(--series-1); }
+.var-2 { color: var(--series-2); }
+.var-3 { color: var(--series-3); }
+.var-4 { color: var(--series-4); }
+.param { color: var(--param); }
+
+code.var-1, code.var-2, code.var-3, code.var-4, code.param {
+  font-family: var(--serif);
+  font-size: 1.1em;
+  font-style: italic;
+  font-weight: 700;
+  background: none;
+  padding: 0;
+}
+.symbols code.var-1, td code.var-1 { color: var(--series-1); }
+.symbols code.var-2, td code.var-2 { color: var(--series-2); }
+.symbols code.var-3, td code.var-3 { color: var(--series-3); }
+.symbols code.var-4, td code.var-4 { color: var(--series-4); }
+.symbols code.param, td code.param { color: var(--param); }
+
+.illustrative {
+  font-size: var(--t-small);
+  color: var(--muted);
+}
+.illustrative::before { content: "⚠"; font-style: normal; display: inline-block; margin-right: 0.35em; vertical-align: -0.05em; }
+
+h3.balance {
+  font-size: var(--t-h3);
+  margin: 2.4rem 0 0.4rem;
+  color: var(--sec-model);
+}
+
+ol.derivation   { --line-color: var(--sec-model); --line-fill: var(--fill-model); --line-ink: var(--ink-model); }
+ol.observations { --line-color: var(--sec-result); }
+
+ol.derivation,
+ol.observations {
+  list-style: none;
+  counter-reset: item;
+  padding: 0;
+  margin: 1rem 0 2rem;
+  position: relative;
+}
+
+ol.derivation::before,
+ol.observations::before {
+  content: "";
+  position: absolute;
+  left: 0.85rem;
+  top: 0.9rem;
+  bottom: 0.9rem;
+  width: 2px;
+  background: var(--rule);
+}
+
+ol.derivation::after,
+ol.observations::after {
+  content: "";
+  position: absolute;
+  left: calc(0.85rem + 1px - 0.4rem);
+  bottom: 0.9rem;
+  width: 0.8rem;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--rule);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+ol.derivation:has(> li:last-child.collapsed)::before,
+ol.observations:has(> li:last-child.collapsed)::before { bottom: calc(var(--band-gap) + var(--band-h) / 2); }
+ol.derivation:has(> li:last-child:not(.collapsed))::after,
+ol.observations:has(> li:last-child:not(.collapsed))::after { opacity: 1; }
+ol.derivation > li,
+ol.observations > li {
+  counter-increment: item;
+  position: relative;
+  padding-left: 2.6rem;
+  margin: 0 0 1rem;
+}
+ol.derivation > li::before,
+ol.observations > li::before {
+  content: counter(item);
+  position: absolute;
+  left: 0;
+  top: 0.75rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  border-radius: 50%;
+  font-family: var(--serif);
+  font-size: var(--t-label);
+  font-weight: 600;
+  color: var(--fg);
+  background: var(--dot-bg);
+  z-index: 1;
+}
+ol.observations > li::before { top: 0; }
+ol.observations > li > h3 { margin: 0.1rem 0 0.4rem; font-size: var(--t-h3); }
+ol.observations .item-inner > p { margin: 0 0 0.4rem; }
+
+ol.derivation .equation { margin: 0 0 0.4rem; }
+ol.derivation .symbols { margin: 0.6rem 0 0.4rem; }
+ol.derivation p.why { font-size: var(--t-text); margin: 0 0 0.3rem; color: var(--fg); }
+
+ol.derivation > li.final .equation {
+  background: color-mix(in srgb, var(--line-color) 12%, var(--code-bg));
+}
+
+ol.derivation > li.final .item-inner > p:not(.why) { margin: 0.9rem 0 0.3rem; }
+
+.kind {
+  font-size: var(--t-label);
+  font-weight: 600;
+  letter-spacing: var(--label-spacing);
+  color: var(--sec-model);
+  margin-right: 0.55rem;
+}
+.kind + .kind::before { content: "· "; margin-left: -0.3rem; }
+.kind, .source { display: inline-block; }
+.kind::first-letter, .source::first-letter { text-transform: uppercase; }
+
+.kind-assumption { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+
+mrow.brace-under,
+mrow.brace-over {
+  --brace-color: #8a877f;
+  
+  padding-left: 0.4em;
+  padding-right: 0.4em;
+}
+
+mrow.brace-under {
+  padding-bottom: 9px;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='8'%3E%3Cpath d='M0.6 0 Q0.6 4 6 4' fill='none' stroke='%238a877f' stroke-width='1.1'/%3E%3C/svg%3E") left bottom / 6px 8px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='8'%3E%3Cpath d='M5.4 0 Q5.4 4 0 4' fill='none' stroke='%238a877f' stroke-width='1.1'/%3E%3C/svg%3E") right bottom / 6px 8px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 4 Q6 4 6 8 Q6 4 12 4' fill='none' stroke='%238a877f' stroke-width='1.1'/%3E%3C/svg%3E") center bottom / 12px 8px no-repeat,
+    linear-gradient(var(--brace-color), var(--brace-color)) left 6px bottom 3.45px / calc(50% - 12px) 1.1px no-repeat,
+    linear-gradient(var(--brace-color), var(--brace-color)) right 6px bottom 3.45px / calc(50% - 12px) 1.1px no-repeat;
+}
+
+mrow.brace-over {
+  padding-top: 9px;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='8'%3E%3Cpath d='M0.6 8 Q0.6 4 6 4' fill='none' stroke='%238a877f' stroke-width='1.1'/%3E%3C/svg%3E") left top / 6px 8px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='8'%3E%3Cpath d='M5.4 8 Q5.4 4 0 4' fill='none' stroke='%238a877f' stroke-width='1.1'/%3E%3C/svg%3E") right top / 6px 8px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 4 Q6 4 6 0 Q6 4 12 4' fill='none' stroke='%238a877f' stroke-width='1.1'/%3E%3C/svg%3E") center top / 12px 8px no-repeat,
+    linear-gradient(var(--brace-color), var(--brace-color)) left 6px top 3.45px / calc(50% - 12px) 1.1px no-repeat,
+    linear-gradient(var(--brace-color), var(--brace-color)) right 6px top 3.45px / calc(50% - 12px) 1.1px no-repeat;
+}
+
+mtext.brace {
+  font-family: var(--serif);
+  font-size: 0.66em;
+  font-style: normal;
+  color: var(--muted);
+  padding: 0 0.2em;
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  background: var(--code-bg);
+  padding: 0.1em 0.3em;
+  border-radius: var(--radius-s);
+}
+
+pre {
+  background: var(--code-bg);
+  
+  padding: 1.15em 1.4em;
+  border-radius: var(--radius);
+  overflow-x: auto;
+  font-size: var(--t-code);
+  line-height: 1.5;
+}
+pre code { background: none; padding: 0; }
+
+.hl-kw  { color: var(--hl-kw); }
+.hl-def { color: var(--hl-def); }
+.hl-str { color: var(--hl-str); }
+.hl-com { color: var(--hl-com); font-style: italic; }
+.hl-num { color: var(--hl-num); }
+.hl-fn  { color: var(--hl-fn); }
+.hl-bi  { color: var(--hl-builtin); }
+.hl-op  { color: var(--hl-op); }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.6rem 0;
+  font-size: var(--t-small);
+}
+th, td { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--rule); }
+th {
+  font-weight: 600;
+  background: color-mix(in srgb, var(--sec-model) 14%, transparent);
+  border-bottom: 2px solid var(--sec-model);
+}
+thead th:first-child { border-top-left-radius: var(--radius-s); }
+thead th:last-child  { border-top-right-radius: var(--radius-s); }
+tbody tr:nth-child(even) { background: color-mix(in srgb, var(--code-bg) 75%, transparent); }
+td code { font-family: var(--serif); font-style: italic; font-size: 1.1em; background: none; padding: 0; }
+
+.source {
+  font-size: var(--t-label);
+  font-weight: 600;
+  letter-spacing: var(--label-spacing);
+  color: var(--sec-model);
+  margin-right: 0.5rem;
+}
+
+.source-choice { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+table:has(.source) { table-layout: fixed; }
+table:has(.source) th:nth-child(1) { width: 24%; }
+table:has(.source) th:nth-child(2) { width: 15%; }
+table:has(.source) th:nth-child(3) { width: 17%; }
+table:has(.source) td { vertical-align: baseline; }
+
+table:has(.source) th,
+table:has(.source) td { text-align: center; }
+td:has(> .source) { color: var(--muted); line-height: 1.4; }
+td > .source { display: block; margin: 0.1rem 0 0.15rem; }
+
+.ask {
+  border-top: 1px solid var(--rule);
+  padding: 1rem 0 0;
+  margin: 2.5rem 0 0;
+  font-size: var(--t-small);
+  color: var(--muted);
+}
+.ask strong { color: var(--fg); }
+
+math { font-size: 1.25em; }
+
+math[display="block"] {
+  margin: 0.5rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.equation math[display="block"] { margin: 0; }
+
+.eq-block { margin: 2rem 0; }
+
+.eq-block .equation { margin-bottom: 0.5rem; }
+
+.eq-block .symbols::before {
+  content: "where";
+  display: block;
+  font-style: italic;
+  color: var(--muted);
+  margin-bottom: 0.35rem;
+}
+
+.eq-block > p {
+  margin: 0.7rem 0 0;
+  font-size: var(--t-text);
+}
+
+section.code { margin: 2.5rem 0; counter-reset: step; }
+
+.step {
+  --line-color: var(--sec-code);
+  position: relative;
+  counter-increment: step;
+  padding: 0 0 0 2.8rem;
+  margin: 0 0 1.6rem;
+}
+.step::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: -0.05rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  border-radius: 50%;
+  font-family: var(--serif);
+  font-size: var(--t-label);
+  font-weight: 600;
+  color: var(--fg);
+  background: var(--dot-bg);
+  z-index: 1;
+}
+
+.step::after {
+  content: "";
+  position: absolute;
+  left: 0.85rem;
+  top: 1.7rem;
+  bottom: -1.6rem;
+  width: 2px;
+  background: var(--rule);
+}
+.step.no-thread::after { display: none; }
+
+.step h3 {
+  margin: 0.1rem 0 0.6rem;
+  font-size: var(--t-h3);
+  font-weight: 600;
+}
+
+.item-body {
+  display: grid;
+  grid-template-rows: 1fr;
+  opacity: 1;
+  transition: grid-template-rows 0.38s ease, opacity 0.3s ease;
+}
+.item-inner { min-height: 0; overflow: hidden; }
+
+.collapsed > .item-body { grid-template-rows: 0fr; opacity: 0; }
+
+.collapsed { cursor: pointer; }
+.collapsed:focus-visible { outline: none; }
+.collapsed:focus-visible > h3,
+.collapsed:focus-visible > .item-head { text-decoration: underline; }
+
+.step > h3,
+ol.observations > li > h3 { cursor: pointer; transition: color 0.2s ease; }
+.collapsed > h3 { color: var(--muted); }
+.collapsed:hover > h3 { color: var(--fg); }
+
+.item-head { display: flex; gap: 0.4rem; align-items: center; font-weight: 600; font-size: var(--t-h3); cursor: pointer; transition: color 0.2s ease; }
+.collapsed > .item-head { color: var(--muted); }
+.collapsed:hover > .item-head { color: var(--fg); }
+.item-head .kind { margin-right: 0; }
+
+:root { --dot-bg: color-mix(in srgb, var(--muted) 20%, var(--bg)); }
+[data-read]::before { color: var(--line-ink, var(--bg)) !important; background: var(--line-fill, var(--line-color)) !important; }
+.calling::before {
+  color: var(--line-color) !important;
+  background: var(--bg) !important;
+  box-shadow: inset 0 0 0 2px var(--line-fill, var(--line-color));
+}
+.calling:hover::before,
+.calling:focus-visible::before { color: var(--bg) !important; background: var(--line-color) !important; }
+
+.step::before,
+ol.derivation > li::before,
+ol.observations > li::before { cursor: pointer; transition: top 0.3s ease; }
+
+.step.collapsed,
+ol.observations > li.collapsed { margin-bottom: 1.2rem; }
+
+ol.derivation > li.collapsed::before { top: 0; }
+ol.derivation > li.collapsed { min-height: 1.75rem; margin-bottom: 0.8rem; }
+ol.derivation > li > .item-head { min-height: 1.75rem; }
+
+ol.derivation > li:not(.collapsed) > .item-head { margin: 0 0 0.6rem; }
+ol.derivation > li::before { top: 0; }
+ol.derivation .why > .kind { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .item-body { transition: none; }
+}
+
+.step .item-inner > p { margin: 0.7rem 0 0; font-size: var(--t-text); }
+
+.step .item-inner > ul.how { margin: 0.5rem 0 0; padding-left: 1.3rem; }
+.step .item-inner > ul.how > li { margin: 0.35rem 0; }
+.step .item-inner > ul.how > li::marker { color: var(--sec-code); }
+
+.step .item-inner > p.purpose { margin: 0 0 0.9rem; }
+.step .item-inner > p.so-far {
+  margin: 0.9rem 0 0;
+  color: var(--muted);
+}
+.so-far::before {
+  content: "So far";
+  margin-right: 0.5rem;
+  font-size: var(--t-label);
+  letter-spacing: var(--label-spacing);
+  font-weight: 600;
+  color: var(--sec-code);
+}
+
+div.answer {
+  margin: 1.2rem 0 2rem;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--sec-result) 12%, var(--code-bg));
+}
+div.answer::before {
+  content: "Answer";
+  display: block;
+  margin-bottom: 0.45rem;
+  font-family: var(--serif);
+  font-size: var(--t-label);
+  font-weight: 600;
+  letter-spacing: var(--label-spacing);
+  color: var(--sec-result);
+}
+div.answer > :last-child { margin-bottom: 0; }
+
+pre.has-copy { position: relative; padding-top: 2.6rem; }
+
+pre > button.copy, pre > button.to-editor { width: 1.75rem; height: 1.75rem; padding: 0; justify-content: center; font-size: 0.85rem; }
+
+.copy {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  font-family: var(--serif);
+  font-size: var(--t-label);
+  letter-spacing: var(--label-spacing);
+  padding: 0.2rem 0.5rem;
+  color: var(--muted);
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-s);
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+pre.has-copy:hover .copy { opacity: 1; }
+.copy:hover { color: var(--fg); border-color: var(--accent); }
+.copy.copied { color: var(--ok); border-color: var(--ok); opacity: 1; }
+
+.to-editor {
+  position: absolute;
+  top: 0.4rem;
+  right: calc(0.4rem + 1.75rem + 0.3rem);
+  font-family: var(--serif);
+  font-size: var(--t-label);
+  letter-spacing: var(--label-spacing);
+  padding: 0.2rem 0.5rem;
+  color: var(--sec-code);
+  background: var(--bg);
+  border: 1px solid color-mix(in srgb, var(--sec-code) 50%, var(--rule));
+  border-radius: var(--radius-s);
+  cursor: pointer;
+  opacity: 0.8;
+}
+pre.has-copy:hover .to-editor { opacity: 1; }
+.to-editor:hover { color: var(--bg); background: var(--sec-code); }
+.to-editor.sent { color: var(--ok); border-color: var(--ok); background: var(--bg); opacity: 1; }
+
+.theme {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 10;
+  font-family: var(--serif);
+  font-size: var(--t-label);
+  font-weight: 600;
+  letter-spacing: var(--label-spacing);
+  padding: 0.35rem 0.7rem;
+  background: var(--bg);
+  color: var(--muted);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  cursor: pointer;
+  opacity: 0.65;
+}
+
+.theme:hover { opacity: 1; color: var(--fg); }
+
+@media (max-width: 40rem) {
+  .theme { top: 0.5rem; left: 0.5rem; }
+}
+
+.ic {
+  display: inline-block;
+  position: relative;
+  flex: none;
+  width: 0.8em;
+  height: 0.8em;
+}
+.ic-play {
+  width: 0.62em;
+  height: 0.72em;
+  background: currentColor;
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+.ic-x::before,
+.ic-x::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.9em;
+  height: 2px;
+  margin: -1px 0 0 -0.45em;
+  border-radius: 1px;
+  background: currentColor;
+}
+.ic-x::before { transform: rotate(45deg); }
+.ic-x::after  { transform: rotate(-45deg); }
+.ic-arrow { width: 0.95em; }
+.ic-arrow::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 1px;
+  top: 50%;
+  height: 2px;
+  margin-top: -1px;
+  border-radius: 1px;
+  background: currentColor;
+}
+.ic-arrow::after {
+  content: "";
+  position: absolute;
+  right: 1px;
+  top: 50%;
+  width: 0.38em;
+  height: 0.38em;
+  border-top: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.ic-trash {
+  width: 1.05em;
+  height: 1.05em;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 6.5h17'/%3E%3Cpath d='M9 6.5V4.8A1.8 1.8 0 0 1 10.8 3h2.4A1.8 1.8 0 0 1 15 4.8v1.7'/%3E%3Cpath d='M18.5 6.5l-.9 12.6A2 2 0 0 1 15.6 21H8.4a2 2 0 0 1-2-1.9L5.5 6.5'/%3E%3Cpath d='M10 10.5v6M14 10.5v6'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 6.5h17'/%3E%3Cpath d='M9 6.5V4.8A1.8 1.8 0 0 1 10.8 3h2.4A1.8 1.8 0 0 1 15 4.8v1.7'/%3E%3Cpath d='M18.5 6.5l-.9 12.6A2 2 0 0 1 15.6 21H8.4a2 2 0 0 1-2-1.9L5.5 6.5'/%3E%3Cpath d='M10 10.5v6M14 10.5v6'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.ic-copy, .ic-send { width: 1.05em; height: 1.05em; background: currentColor; }
+.ic-copy { -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='8.5' y='8.5' width='12' height='12' rx='2.2'/%3E%3Cpath d='M15.5 8.5V5.7A2.2 2.2 0 0 0 13.3 3.5H5.7A2.2 2.2 0 0 0 3.5 5.7v7.6a2.2 2.2 0 0 0 2.2 2.2h2.8'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='8.5' y='8.5' width='12' height='12' rx='2.2'/%3E%3Cpath d='M15.5 8.5V5.7A2.2 2.2 0 0 0 13.3 3.5H5.7A2.2 2.2 0 0 0 3.5 5.7v7.6a2.2 2.2 0 0 0 2.2 2.2h2.8'/%3E%3C/svg%3E") center / contain no-repeat; }
+.ic-send { -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 12h13'/%3E%3Cpath d='M11.5 6l6 6-6 6'/%3E%3Cpath d='M20.5 4.5v15'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 12h13'/%3E%3Cpath d='M11.5 6l6 6-6 6'/%3E%3Cpath d='M20.5 4.5v15'/%3E%3C/svg%3E") center / contain no-repeat; }
+.ic-check::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  width: 0.3em;
+  height: 0.58em;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.ic-theme {
+  width: 0.85em;
+  height: 0.85em;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  background: linear-gradient(90deg, currentColor 50%, transparent 50%);
+}
+
+.editor-top button,
+.editor-clear-output,
+.to-editor,
+.copy,
+.theme {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  line-height: 1;
+}
+
+button {
+  font-family: var(--serif);
+  font-size: var(--t-small);
+  padding: 0.4rem 0.9rem;
+  background: var(--bg);
+  color: var(--fg);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+button:hover { border-color: var(--muted); }
+button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.frame {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 1.2rem;
+  margin: 2rem 0;
+}
+
+canvas { width: 100%; height: auto; display: block; touch-action: pan-y; }
+
+.controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 0.6rem 1.2rem;
+  margin-top: 1rem;
+  font-size: var(--t-small);
+}
+.control label { display: flex; justify-content: space-between; gap: 0.5rem; }
+.control .value { color: var(--muted); font-variant-numeric: tabular-nums; }
+.control input[type="range"] { width: 100%; accent-color: var(--sec-result); }
+
+.legend {
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  font-size: var(--t-small);
+  margin-top: 0.6rem;
+}
+.legend span { display: inline-flex; align-items: center; gap: 0.5em; }
+
+.legend span::before {
+  content: "";
+  flex: none;
+  width: 1.7em;
+  height: 2px;
+  background: currentColor;
+}
+.legend .l-2::before { background: repeating-linear-gradient(90deg, currentColor 0 7px, transparent 7px 11px); }
+.legend .l-3::before { background: repeating-linear-gradient(90deg, currentColor 0 2px, transparent 2px 5px); }
+.legend .l-4::before { background: repeating-linear-gradient(90deg, currentColor 0 9px, transparent 9px 12px, currentColor 12px 14px, transparent 14px 17px); }
+.legend span.l-points::before { width: 0.6em; height: 0.6em; border-radius: 50%; background: currentColor; }
+.legend small { color: var(--muted); font-size: 0.9em; }
+.legend .l-1 { color: var(--series-1); }
+.legend .l-2 { color: var(--series-2); }
+.legend .l-3 { color: var(--series-3); }
+.legend .l-4 { color: var(--series-4); }
+
+.readout { font-size: var(--t-small); color: var(--muted); margin: 0.6rem 0 0; }
+.readout:empty { display: none; }
+
+.technique {
+  margin: 2.2rem 0 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--sec-model) 12%, var(--code-bg));
+}
+.technique::before {
+  content: "Technique";
+  display: block;
+  margin-bottom: 0.3rem;
+  font-family: var(--serif);
+  font-size: var(--t-label);
+  font-weight: 600;
+  letter-spacing: var(--label-spacing);
+  color: var(--sec-model);
+}
+.technique .technique-name {
+  font-size: var(--t-h3);
+  font-weight: 600;
+  color: var(--sec-model);
+  margin: 0 0 0.5rem;
+}
+.technique > :last-child { margin-bottom: 0; }
+
+.problem {
+  margin: 0 0 1.6rem;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius);
+  background: var(--code-bg);
+}
+.problem::before {
+  content: "Problem";
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: var(--t-label);
+  font-weight: 600;
+  letter-spacing: var(--label-spacing);
+  color: var(--muted);
+}
+.problem > p { margin: 0 0 0.6rem; }
+.problem > ul { margin: 0; padding-left: 1.3rem; }
+.problem > ul > li { margin: 0.25rem 0; }
+.problem > :last-child { margin-bottom: 0; }
+
+.in-your-code {
+  background: var(--code-bg);
+  border-radius: var(--radius);
+  padding: 0.9rem 1.1rem;
+  margin: 1.2rem 0;
+  font-size: var(--t-text);
+}
+.in-your-code::before {
+  content: "In your code";
+  display: block;
+  font-family: var(--serif);
+  font-size: var(--t-label);
+  font-weight: 600;
+  letter-spacing: var(--label-spacing);
+  margin-bottom: 0.35rem;
+  color: var(--sec-result);
+}
+.in-your-code > :last-child { margin-bottom: 0; }
+
+li .in-your-code { display: block; margin: 0.4rem 0 0; padding: 0.4rem 0.8rem; font-size: var(--t-small); }
+li .in-your-code::before { display: inline; margin-right: 0.5rem; }
+
+:where(:root:lang(pt)) .eq-block .symbols::before { content: "onde"; }
+:where(:root:lang(pt)) .so-far::before { content: "Até aqui"; }
+:where(:root:lang(pt)) div.answer::before { content: "Resposta"; }
+:where(:root:lang(pt)) .technique::before { content: "Técnica"; }
+:where(:root:lang(pt)) .problem::before { content: "Exercício"; }
+:where(:root:lang(pt)) .in-your-code::before { content: "No seu código"; }
+
+.tab-panel { --sec-color: var(--muted); }
+[data-sec="model"]  { --sec-color: var(--sec-model); --sec-fill: var(--fill-model); --sec-ink: var(--ink-model); }
+[data-sec="code"]   { --sec-color: var(--sec-code); }
+[data-sec="result"] { --sec-color: var(--sec-result); }
+.tab-panel > h2.part-title { color: var(--sec-color); margin-top: 1.8rem; }
+
+.tabs {
+  position: sticky;
+  top: calc(14px - 3.4rem);
+  z-index: 5;
+  margin: 0 0 1.4rem;
+  padding: 0.7rem 0 0.6rem;
+  background: var(--bg);
+  border-bottom: 1px solid var(--rule);
+}
+.tabs-list { display: flex; }
+.tab {
+  --dot: 2.1rem;
+  
+  --ring-out: 4px;
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0 0.2rem 0.2rem;
+  background: none;
+  border: 0;
+  color: var(--muted);
+  font-family: var(--serif);
+  cursor: pointer;
+}
+
+.tab + .tab::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--ring-out) + var(--dot) / 2 - 2px);
+  right: calc(50% + var(--dot) / 2);
+  left: calc(-50% + var(--dot) / 2);
+  height: 4px;
+  border-radius: 2px;
+  background:
+    linear-gradient(to right, var(--trail-rail), var(--trail-fill)) left / var(--reach, 0%) 100% no-repeat,
+    var(--trail-rail);
+  transition: background-size 0.3s ease-in;
+}
+:root {
+  --trail-fill: color-mix(in srgb, var(--fg) 15%, var(--bg));
+  --trail-rail: color-mix(in srgb, var(--fg) 6%, var(--bg));
+}
+.tab-dot {
+  
+  flex: none;
+  aspect-ratio: 1;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--dot);
+  height: var(--dot);
+  margin: var(--ring-out) 0 calc(var(--ring-out) - 0.1rem);
+  box-sizing: border-box;
+  border-radius: 50%;
+  
+  background: var(--trail-rail);
+  font-size: var(--t-small);
+  font-weight: 700;
+  color: var(--muted);
+  transition: background 0.15s ease, box-shadow 0.2s ease;
+}
+
+@property --wrap { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+.tab.reached .tab-dot { background: var(--bg); color: var(--fg); }
+.tab-dot::after {
+  content: "";
+  position: absolute;
+  inset: calc(-1 * var(--ring-out));
+  border-radius: 50%;
+  pointer-events: none;
+  
+  background: conic-gradient(from 270deg,
+    var(--trail-fill) 0 var(--wrap),
+    transparent var(--wrap) calc(360deg - var(--wrap)),
+    var(--trail-fill) calc(360deg - var(--wrap)));
+  
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - var(--ring-out)), #000 calc(100% - var(--ring-out) + 0.5px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - var(--ring-out)), #000 calc(100% - var(--ring-out) + 0.5px));
+  --wrap: 0deg;
+  transition: --wrap 0.25s ease;
+}
+.tab.reached .tab-dot::after { --wrap: 180deg; transition: --wrap 0.35s ease 0.3s; }
+@media (prefers-reduced-motion: reduce) {
+  .tab-dot::after, .tab.reached .tab-dot::after, .tab + .tab::before { transition: none; }
+}
+.tab-check { display: none; }
+.tab-name { font-size: var(--t-small); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+
+.tab.complete .tab-dot { background: var(--sec-fill, var(--sec-color)); color: var(--sec-ink, var(--bg)); }
+.tab.complete .tab-number { display: none; }
+.tab.complete .tab-check { display: inline-block; }
+
+.tab.active .tab-dot {
+  background: var(--sec-fill, var(--sec-color));
+  color: var(--sec-ink, var(--bg));
+}
+.tab.active .tab-name { color: var(--fg); }
+.tab:not(.active):hover .tab-dot { color: var(--fg); }
+.tab:not(.active):hover .tab-name { color: var(--fg); }
+.tab:focus-visible { outline: none; }
+.tab:focus-visible .tab-dot { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.tab[data-sec="problem"] { --sec-color: var(--fg); }
+
+.continue {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  width: 100%;
+  margin: 2.4rem 0 0;
+  padding: 0.8rem 1.1rem;
+  background: var(--card-bg);
+  border: 2px solid var(--card-edge);
+  border-radius: var(--radius);
+  color: var(--fg);
+  font-family: var(--serif);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.continue[data-sec="code"]   { --sec-color: var(--sec-code); }
+.continue[data-sec="result"] { --sec-color: var(--sec-result); }
+.continue:hover { border-color: var(--sec-color); background: color-mix(in srgb, var(--fg) 6%, var(--bg)); }
+.continue-dot {
+  flex: none;
+  aspect-ratio: 1;
+  width: 2.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--sec-fill, var(--sec-color));
+  color: var(--sec-ink, var(--bg));
+  font-size: var(--t-small);
+  font-weight: 700;
+}
+.continue-text { flex: 1; display: flex; flex-direction: column; line-height: 1.25; }
+.continue-label { font-size: var(--t-small); color: var(--muted); }
+.continue-name { font-size: var(--t-h3); font-weight: 600; }
+.continue .ic-arrow { color: var(--muted); font-size: 1.1rem; transition: color 0.15s ease, translate 0.15s ease; }
+.continue:hover .ic-arrow { color: var(--sec-color); translate: 0.15rem 0; }
+
+.toc-group:not(.current) .toc-group-items { display: none; }
+.toc-group:not(.current) { margin-bottom: 0.5rem; }
+
+:root {
+  --sheet-w: 42rem;        
+  --sheet-pad: 3rem;       
+  --toc-w: 13.5rem;
+  --toc-gap: 1.6rem;
+}
+
+html { background: var(--backdrop); height: 100%; overflow: hidden; }
+
+* { scrollbar-width: thin; scrollbar-color: transparent transparent; }
+*:hover { scrollbar-color: color-mix(in srgb, var(--muted) 55%, transparent) transparent; }
+
+body:has(.editor-panel:hover, .toc:hover, .editor-open:hover) { scrollbar-color: transparent transparent; }
+
+body {
+  position: relative;
+  box-sizing: border-box;
+  height: calc(100vh - 2 * var(--editor-gap));
+  overflow-y: auto;
+  max-width: calc(var(--sheet-w) + 2 * var(--sheet-pad));
+  margin: var(--editor-gap) auto;
+  padding: calc(3.4rem - 14px) var(--sheet-pad) calc(4.5rem - 14px);
+  
+  border-top: 14px solid transparent;
+  border-bottom: 14px solid transparent;
+  line-height: 1.65;
+  border-radius: 16px;
+  box-shadow: 0 0 0 1px var(--sheet-border), 0 1px 3px var(--sheet-shadow);
+}
+
+body:not(.with-editor) { max-width: min(calc(var(--sheet-w) + 2 * var(--sheet-pad)), calc(100vw - 2 * 2.8rem)); }
+
+body.with-editor { max-width: none; margin-left: var(--editor-gap); }
+
+@media (min-width: 1240px) {
+  body:not(.with-editor).with-toc {
+    margin-left: calc((100vw - var(--sheet-w) - 2 * var(--sheet-pad) - var(--toc-w) - var(--toc-gap)) / 2
+                      + var(--toc-w) + var(--toc-gap));
+  }
+}
+
+.toc {
+  position: fixed;
+  top: 5rem;
+  left: calc((100vw - var(--sheet-w) - 2 * var(--sheet-pad) - var(--toc-w) - var(--toc-gap)) / 2);
+  width: var(--toc-w);
+  max-height: calc(100vh - 7rem);
+  overflow-y: auto;
+  display: none;
+  font-size: var(--t-small);
+  line-height: 1.35;
+}
+@media (min-width: 1240px) {
+  body:not(.with-editor) .toc { display: block; }
+}
+
+.toc-section {
+  --sec-color: var(--muted);
+  display: block;
+  margin: 0 0 0.25rem;
+  padding: 0.35rem 0.6rem;
+  border-left: 3px solid color-mix(in srgb, var(--sec-color) 35%, transparent);
+  border-radius: 0 var(--radius-s) var(--radius-s) 0;
+  color: var(--sec-color);
+  font-size: var(--t-text);
+  cursor: pointer;
+}
+.toc-section.s-model  { --sec-color: var(--sec-model); }
+.toc-section.s-code   { --sec-color: var(--sec-code); }
+.toc-section.s-result { --sec-color: var(--sec-result); }
+.toc-group { margin: 0 0 1.1rem; }
+
+.toc-item {
+  display: flex;
+  align-items: flex-start;
+  line-height: 1.35;
+  gap: 0.5rem;
+  padding: 0.22rem 0.6rem 0.22rem 0.9rem;
+  border-radius: var(--radius-s);
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.toc-item > span:first-child { flex: 1; min-width: 0; overflow-wrap: anywhere; hyphens: auto; }
+.toc-section:hover,
+.toc-item:hover { background: color-mix(in srgb, var(--fg) 6%, transparent); }
+.toc-section.active { border-left-color: var(--sec-color); background: color-mix(in srgb, var(--sec-color) 12%, transparent); }
+.toc-item.active { color: var(--fg); }
+
+.toc-dots { display: inline-flex; gap: 3px; flex: none; margin-top: calc(0.675em - 0.19rem); }
+.toc-dots i {
+  width: 0.38rem;
+  height: 0.38rem;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--sec-color) 70%, transparent);
+}
+.toc-dots i.read { background: var(--sec-color); box-shadow: none; }
+
+.theme { position: absolute; top: 1rem; right: 1.2rem; left: auto; z-index: 12; }
+@media (min-width: 1240px) {
+  body.with-toc:not(.with-editor) .theme {
+    position: fixed;
+    right: auto;
+    top: 1.6rem;
+    left: calc((100vw - var(--sheet-w) - 2 * var(--sheet-pad) - var(--toc-w) - var(--toc-gap)) / 2 + 0.6rem);
+  }
+}
+
+:root { --band-h: 2.3rem; --band-gap: 0.55rem; }
+
+.collapsed > .item-head,
+.step.collapsed > h3,
+ol.observations > li.collapsed > h3,
+ol.model-line > li.collapsed > h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: var(--band-h);
+  margin: 0;
+  padding: 0.25rem 2.2rem 0.25rem 0.85rem;
+  position: relative;
+  box-sizing: border-box;
+  
+  background: var(--card-bg);
+  border: 2px solid var(--card-edge);
+  border-bottom-width: 4px;
+  border-radius: var(--radius);
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.08s ease;
+}
+:root {
+  --card-bg: color-mix(in srgb, var(--fg) 3%, var(--bg));
+  --card-edge: color-mix(in srgb, var(--fg) 13%, var(--bg));
+}
+
+.step.collapsed > h3,
+ol.observations > li.collapsed > h3,
+ol.model-line > li.collapsed > h3 { display: block; padding-top: 0.45rem; padding-bottom: 0.45rem; line-height: 1.4; }
+.collapsed:hover > .item-head,
+.step.collapsed:hover > h3,
+ol.observations > li.collapsed:hover > h3,
+ol.model-line > li.collapsed:hover > h3 {
+  border-color: color-mix(in srgb, var(--fg) 24%, var(--bg));
+  background: color-mix(in srgb, var(--fg) 6%, var(--bg));
+}
+
+.collapsed > .item-head::after,
+.step.collapsed > h3::after,
+ol.observations > li.collapsed > h3::after,
+ol.model-line > li.collapsed > h3::after {
+  content: "";
+  position: absolute;
+  right: 0.95rem;
+  top: 50%;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-right: 2px solid var(--muted);
+  border-bottom: 2px solid var(--muted);
+  transform: translateY(-60%) rotate(-45deg);
+}
+
+.step.collapsed::before,
+ol.derivation > li.collapsed::before,
+ol.observations > li.collapsed::before { top: calc((var(--band-h) - 1.75rem) / 2); }
+.step.collapsed,
+ol.derivation > li.collapsed,
+ol.observations > li.collapsed { margin-bottom: var(--band-gap); min-height: var(--band-h); }
+
+.step.collapsed::after { top: calc(var(--band-h) / 2); bottom: calc(-1 * var(--band-gap) - var(--band-h) / 2); }
+.step.collapsed.no-thread::after { display: none; }
+
+@media (max-width: 760px) {
+  .tabs { top: 0; }
+  .tab { --dot: 1.75rem; padding: 0; }
+  .tab-name { font-size: 0.78rem; }
+  html { height: auto; overflow: visible; }
+  body, body:not(.with-editor) { height: auto; overflow: visible; margin: 0 auto; padding: 3.2rem 1.1rem 4rem; border-radius: 0; box-shadow: none; }
+}
+
+ol.model-line > li.group,
+ol.model-line > li.loose { counter-increment: none; cursor: default; }
+ol.model-line > li.group { display: none; }
+ol.model-line > li.loose::before { display: none; }
+ol.model-line > li.extra > h3 { font-size: var(--t-h3); }
+ol.model-line > li.extra:not(.collapsed) > h3 { margin: 0.1rem 0 0.5rem; }
+ol.model-line > li.extra:not(.collapsed)::before { top: 0; }
+ol.model-line > li.extra .item-inner > table,
+ol.model-line > li.extra .item-inner > .technique,
+ol.model-line > li.extra .item-inner > .eq-block { margin: 0.3rem 0 0.5rem; }
+
+ol.model-line .technique .technique-name { display: none; }
+ol.model-line .technique::before { content: none; }
+
+:root { --editor-w: min(50vw, 52rem); --editor-gap: 0.8rem; }
+
+body { transition: margin 0.3s ease; }
+body.with-editor { margin-right: calc(var(--editor-w) + 2 * var(--editor-gap)); }
+
+body.with-editor { padding-left: clamp(1.1rem, 3vw, var(--sheet-pad)); padding-right: clamp(1.1rem, 3vw, var(--sheet-pad)); }
+
+.editor-open {
+  
+  position: fixed;
+  top: 50%;
+  right: 0.6rem;
+  z-index: 15;
+  display: inline-flex;
+  align-items: center;
+  height: 2rem;
+  padding: 0 0.25rem 0 0.25rem;
+  transform: translateY(-50%);
+  font-family: var(--serif);
+  font-size: var(--t-label);
+  letter-spacing: var(--label-spacing);
+  white-space: nowrap;
+  color: var(--bg);
+  background: var(--sec-code);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: padding 0.22s ease;
+}
+
+.editor-open-text {
+  display: inline-block;
+  line-height: 1;
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-width 0.25s ease, opacity 0.15s ease, margin 0.25s ease;
+}
+.editor-open-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.editor-open-arrow::before {
+  content: "";
+  width: 0.42rem;
+  height: 0.42rem;
+  border-left: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  
+  transform: scaleX(1) translateX(0.08rem) rotate(45deg);
+  transition: transform 0.22s ease;
+}
+.editor-open:hover,
+.editor-open:focus-visible { padding: 0 0.3rem 0 0.95rem; outline: none; }
+.editor-open:hover .editor-open-text,
+.editor-open:focus-visible .editor-open-text { max-width: 12rem; opacity: 1; margin-right: 0.3rem; }
+.editor-open:hover .editor-open-arrow::before,
+.editor-open:focus-visible .editor-open-arrow::before { transform: scaleX(-1) translateX(0.08rem) rotate(45deg); }   
+body.with-editor .editor-open { display: none; }
+
+.editor-panel {
+  
+  position: fixed;
+  top: var(--editor-gap);
+  right: var(--editor-gap);
+  bottom: var(--editor-gap);
+  width: var(--editor-w);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  
+  background: transparent;
+  filter: drop-shadow(0 0 1px var(--sheet-border)) drop-shadow(0 1px 2px var(--sheet-shadow));
+  transform: translateX(calc(100% + 2 * var(--editor-gap)));
+  transition: transform 0.3s ease;
+}
+body.with-editor .editor-panel { transform: none; }
+
+.editor-top {
+  background: var(--code-bg);
+  border-radius: 16px 16px 0 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid var(--rule);
+}
+.editor-title {
+  font-family: var(--serif);
+  font-size: var(--t-label);
+  font-weight: 600;
+  letter-spacing: var(--label-spacing);
+  color: var(--sec-code);
+  margin-right: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.editor-top button { font-family: var(--serif); font-size: var(--t-label); padding: 0.3rem 0.8rem; }
+
+button.editor-icon {
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+
+.editor-run {
+  color: var(--bg);
+  background: var(--sec-result);
+  border: none;
+}
+.editor-run:hover:not(:disabled) { background: color-mix(in srgb, var(--sec-result) 88%, var(--fg)); }
+.editor-run:disabled { opacity: 0.5; cursor: wait; }
+.editor-clear:hover { color: var(--warn); background: color-mix(in srgb, var(--warn) 22%, var(--bg)); border-color: color-mix(in srgb, var(--warn) 45%, var(--bg)); }
+
+.editor-close:hover { color: var(--err); background: color-mix(in srgb, var(--err) 22%, var(--bg)); border-color: color-mix(in srgb, var(--err) 45%, var(--bg)); }
+
+.editor-code { flex: 1 1 55%; display: flex; min-height: 0; background: var(--code-bg); border-radius: 0 0 16px 16px; overflow: hidden; }
+.editor-lines,
+.editor-highlight,
+.editor-text {
+  font-family: var(--mono);
+  font-size: var(--t-code);
+  line-height: 1.55;
+  tab-size: 4;
+}
+.editor-lines {
+  flex: none;
+  padding: 0.9rem 0.6rem 0.9rem 0.9rem;
+  color: var(--muted);
+  opacity: 0.6;
+  text-align: right;
+  white-space: pre;
+  overflow: hidden;
+  user-select: none;
+}
+.editor-field { position: relative; flex: 1; min-width: 0; }
+.editor-highlight,
+.editor-text {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0.9rem 1rem 0.9rem 0.4rem;
+  border: 0;
+  border-radius: 0;
+  white-space: pre;
+  overflow: auto;
+}
+.editor-highlight { background: none; overflow: hidden; pointer-events: none; }
+.editor-highlight code { font: inherit; background: none; padding: 0; }
+.editor-text {
+  color: transparent;
+  caret-color: var(--fg);
+  background: transparent;
+  resize: none;
+  outline: none;
+}
+.editor-text::placeholder { color: var(--muted); opacity: 0.8; white-space: pre-wrap; }
+
+.editor-code.received { animation: received 0.7s ease-out; }
+@keyframes received {
+  from { background: color-mix(in srgb, var(--sec-code) 22%, transparent); }
+  to   { background: transparent; }
+}
+.editor-text::selection { background: color-mix(in srgb, var(--sec-code) 30%, transparent); }
+
+.editor-divider-v {
+  
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(-1 * var(--editor-gap));
+  width: var(--editor-gap);
+  z-index: 2;
+  cursor: col-resize;
+  touch-action: none;
+}
+
+.editor-divider-v::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 2.2rem;
+  margin: -1.1rem 0 0 -2px;
+  border-radius: 999px;
+  background: var(--muted);
+  opacity: 0.35;
+  transition: opacity 0.15s ease, background 0.15s ease;
+}
+.editor-divider-v:hover::after,
+.editor-divider-v:focus-visible::after,
+.editor-divider-v.dragging::after { opacity: 1; background: color-mix(in srgb, var(--muted) 55%, transparent); }
+.editor-divider-v:focus-visible { outline: none; }
+
+body.resizing,
+body.resizing .editor-panel { transition: none; }
+body.resizing { user-select: none; }
+
+.editor-divider {
+  
+  flex: none;
+  height: max(12px, var(--editor-gap));
+  cursor: row-resize;
+  touch-action: none;
+  position: relative;
+}
+.editor-divider::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2.2rem;
+  height: 4px;
+  margin: -2.5px 0 0 -1.1rem;
+  border-radius: 999px;
+  background: var(--muted);
+  opacity: 0.35;
+  transition: opacity 0.15s ease, background 0.15s ease;
+}
+.editor-divider:focus-visible { outline: none; }
+.editor-divider:hover::after,
+.editor-divider:focus-visible::after,
+.editor-divider.dragging::after { opacity: 1; background: color-mix(in srgb, var(--muted) 55%, transparent); }
+
+.editor-output {
+  flex: 1 1 45%;
+  
+  min-height: 90px;
+  display: flex;
+  flex-direction: column;
+  background: var(--code-bg);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.editor-output-top {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  padding: 0.5rem 0.9rem;
+  font-family: var(--serif);
+  font-size: var(--t-label);
+  letter-spacing: var(--label-spacing);
+  border-bottom: 1px solid var(--rule);
+}
+.editor-output-top > span:first-child { font-weight: 600; color: var(--sec-result); }
+.editor-status { color: var(--muted); }
+.editor-clear-output {
+  margin-left: auto;
+  flex: none;
+  font-family: var(--serif);
+  font-size: var(--t-label);
+  letter-spacing: var(--label-spacing);
+  padding: 0.2rem 0.65rem;
+}
+.editor-clear-output:hover { color: var(--warn); background: color-mix(in srgb, var(--warn) 22%, var(--bg)); border-color: color-mix(in srgb, var(--warn) 45%, var(--bg)); }
+.editor-result { flex: 1; overflow: auto; padding: 0.6rem 0.9rem; }
+.editor-result pre {
+  margin: 0 0 0.6rem;
+  padding: 0;
+  background: none;
+  font-size: var(--t-code);
+  white-space: pre-wrap;
+}
+.out-error { color: var(--err); }
+.out-empty { color: var(--muted); }
+.out-figure { display: block; max-width: 100%; max-height: calc(100% - 1rem); width: auto; height: auto; object-fit: contain; margin: 0.4rem auto 0.8rem; border-radius: var(--radius-s); background: #fff; }
+
+@media (max-width: 760px) {
+  :root { --editor-w: 100vw !important; --editor-gap: 0px; }
+  .editor-panel { border-radius: 0; }
+  .editor-divider-v { display: none; }
+  body.with-editor { margin-right: 0; }
+}
+
+@media print {
+  .toc { display: none !important; }
+  html { background: #fff; }
+  html { height: auto; overflow: visible; }
+  body { box-shadow: none !important; margin: 0 auto !important; height: auto !important; overflow: visible !important; }
+  :root {
+    --bg: #fff; --fg: #000; --muted: #444;
+    --rule: #bbb; --code-bg: #f3f3f3; --accent: #000;
+  }
+  html { font-size: 11pt; }
+  body { max-width: none; padding: 0; }
+  .sidenote { float: none; width: auto; margin: 0.8rem 0; padding-left: 0.8rem; border-left: 1px solid var(--rule); }
+  button, .controls { display: none; }
+  .frame, .step, pre, table, figure, ol.derivation > li, ol.observations > li { break-inside: avoid; }
+  .theme, .copy, .to-editor, .editor-open, .editor-panel { display: none; }
+  body.with-editor { margin: 0; }
+  
+  .item-body { grid-template-rows: 1fr !important; opacity: 1 !important; }
+  .tab-panel[hidden] { display: block !important; }
+  .tabs, .continue { display: none !important; }
+  .item-head { display: none !important; }
+  ol.derivation .why > .kind { display: inline !important; }
+  mrow.brace-under, mrow.brace-over { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  h1, h2, h3 { break-after: avoid; }
+  a::after { content: " (" attr(href) ")"; font-size: 0.75em; color: var(--muted); word-break: break-all; }
+  a[href^="#"]::after { content: ""; }
+}
+
+</style>
+</head>
+<body>
+
+<header class="lesson">
+  <span class="tag">Balanço de massa · Sistema de equações lineares</span>
+  <h1>Mistura de ácidos de nitração</h1>
+</header>
+
+<div class="problem">
+  <p>Um ácido misto residual de nitração contém, em massa, 22% de HNO<sub>3</sub>, 56% de H<sub>2</sub>SO<sub>4</sub> e 22% de água. Deseja-se obter uma massa <span class="param">M</span> = 1500 kg de um ácido misto com 28% de HNO<sub>3</sub>, 60% de H<sub>2</sub>SO<sub>4</sub> e 12% de água. Para isso, mistura-se o ácido residual com duas correntes concentradas: ácido nítrico (90% de HNO<sub>3</sub> e 10% de água) e ácido sulfúrico (96% de H<sub>2</sub>SO<sub>4</sub> e 4% de água).</p>
+  <ul>
+    <li>Qual a massa <span class="var-1">m<sub>R</sub></span>, em kg, de ácido residual?</li>
+    <li>Qual a massa <span class="var-2">m<sub>N</sub></span>, em kg, de ácido nítrico concentrado?</li>
+    <li>Qual a massa <span class="var-3">m<sub>S</sub></span>, em kg, de ácido sulfúrico concentrado?</li>
+  </ul>
+</div>
+
+<p>Três correntes entram num misturador e uma única mistura sai com a composição desejada. Como não se sabe quanto usar de cada corrente de entrada, há três incógnitas, e os balanços de massa fornecem três equações. Ao final, você terá um programa em Python que resolve a mistura e mostra como as massas mudam quando a especificação do produto muda.</p>
+
+<h2>Modelo</h2>
+
+<h3 class="balance balance-mass">Balanço global de massa, em kg</h3>
+
+<ol class="derivation">
+  <li>
+    <div class="equation">
+      <math display="block"><mtext>acumulação de massa</mtext><mo>=</mo><mtext>entra</mtext><mo>−</mo><mtext>sai</mtext></math>
+    </div>
+    <p class="why"><span class="kind kind-principle">princípio</span>Massa não é criada nem destruída. O volume de controle é o misturador, com três correntes entrando e uma saindo.</p>
+  </li>
+  <li>
+    <div class="equation">
+      <math display="block"><mtext>acumulação de massa</mtext><mo>=</mo><mn>0</mn></math>
+    </div>
+    <p class="why"><span class="kind kind-assumption">hipótese</span>Calculamos as massas de um lote: tudo o que entra é misturado e retirado, sem sobrar nada no equipamento. Se o misturador retivesse massa, a mistura final teria menos que <span class="param">M</span> e o balanço teria um termo de acúmulo.</p>
+  </li>
+  <li class="final">
+    <div class="equation">
+      <math display="block">
+        <munder><mrow class="brace-under"><msub class="var-1"><mi>m</mi><mi>R</mi></msub></mrow><mtext class="brace">ácido residual</mtext></munder>
+        <mo>+</mo>
+        <munder><mrow class="brace-under"><msub class="var-2"><mi>m</mi><mi>N</mi></msub></mrow><mtext class="brace">nítrico concentrado</mtext></munder>
+        <mo>+</mo>
+        <munder><mrow class="brace-under"><msub class="var-3"><mi>m</mi><mi>S</mi></msub></mrow><mtext class="brace">sulfúrico concentrado</mtext></munder>
+        <mo>=</mo>
+        <munder><mrow class="brace-under"><mi class="param">M</mi></mrow><mtext class="brace">mistura final</mtext></munder>
+      </math>
+    </div>
+    <ul class="symbols">
+      <li><code class="var-1">m<sub>R</sub></code> — massa de ácido residual que entra no misturador, kg</li>
+      <li><code class="var-2">m<sub>N</sub></code> — massa de ácido nítrico concentrado que entra no misturador, kg</li>
+      <li><code class="var-3">m<sub>S</sub></code> — massa de ácido sulfúrico concentrado que entra no misturador, kg</li>
+      <li><code class="param">M</code> — massa da mistura final desejada, kg</li>
+    </ul>
+    <p class="why"><span class="kind kind-translation">tradução</span>Cada palavra do princípio vira uma massa; o acúmulo é zero.</p>
+    <p>A soma das três massas que entram é a massa que sai. Essa equação sozinha não basta: há infinitas combinações de três massas que somam <span class="param">M</span>. A composição da mistura é o que escolhe a combinação certa.</p>
+  </li>
+</ol>
+
+<h3 class="balance balance-mass">Balanço de massa de HNO<sub>3</sub>, em kg</h3>
+
+<ol class="derivation">
+  <li>
+    <div class="equation">
+      <math display="block"><mtext>acumulação de HNO₃</mtext><mo>=</mo><mtext>entra</mtext><mo>−</mo><mtext>sai</mtext><mo>+</mo><mtext>geração</mtext></math>
+    </div>
+    <p class="why"><span class="kind kind-principle">princípio</span>O mesmo volume de controle, agora contando só o HNO<sub>3</sub>. Como estamos falando de um componente, e não da massa total, pode haver um termo de geração (reação química).</p>
+  </li>
+  <li>
+    <div class="equation">
+      <math display="block"><mtext>acumulação</mtext><mo>=</mo><mn>0</mn><mo>,</mo><mspace width="1em"/><mtext>geração</mtext><mo>=</mo><mn>0</mn></math>
+    </div>
+    <p class="why"><span class="kind kind-assumption">hipótese</span>Nada se acumula no misturador, como no balanço global, e nenhum ácido reage: tratamos HNO<sub>3</sub> e H<sub>2</sub>SO<sub>4</sub> como espécies que só se misturam. Se houvesse reação, parte do HNO<sub>3</sub> seria consumida ou formada e apareceria um termo de geração.</p>
+  </li>
+  <li>
+    <div class="equation">
+      <math display="block">
+        <mn>0</mn><mo>=</mo>
+        <munder><mrow class="brace-under"><msub class="param"><mi>x</mi><mi>R</mi></msub><mo>⋅</mo><msub class="var-1"><mi>m</mi><mi>R</mi></msub></mrow><mtext class="brace">HNO₃ do residual</mtext></munder>
+        <mo>+</mo>
+        <munder><mrow class="brace-under"><msub class="param"><mi>x</mi><mi>N</mi></msub><mo>⋅</mo><msub class="var-2"><mi>m</mi><mi>N</mi></msub></mrow><mtext class="brace">HNO₃ do nítrico</mtext></munder>
+        <mo>+</mo>
+        <munder><mrow class="brace-under"><mn>0</mn><mo>⋅</mo><msub class="var-3"><mi>m</mi><mi>S</mi></msub></mrow><mtext class="brace">HNO₃ do sulfúrico</mtext></munder>
+        <mo>−</mo>
+        <munder><mrow class="brace-under"><msub class="param"><mi>x</mi><mi>P</mi></msub><mo>⋅</mo><mi class="param">M</mi></mrow><mtext class="brace">HNO₃ na mistura</mtext></munder>
+      </math>
+    </div>
+    <ul class="symbols">
+      <li><code class="param">x<sub>R</sub></code> — fração mássica de HNO<sub>3</sub> no ácido residual, adimensional</li>
+      <li><code class="param">x<sub>N</sub></code> — fração mássica de HNO<sub>3</sub> no ácido nítrico concentrado, adimensional</li>
+      <li><code class="param">x<sub>P</sub></code> — fração mássica de HNO<sub>3</sub> na mistura final (o produto), adimensional</li>
+    </ul>
+    <p class="why"><span class="kind kind-translation">tradução</span>A massa de HNO<sub>3</sub> numa corrente é a fração mássica de HNO<sub>3</sub> vezes a massa da corrente. O ácido sulfúrico concentrado só tem H<sub>2</sub>SO<sub>4</sub> e água, então sua fração de HNO<sub>3</sub> é zero.</p>
+  </li>
+  <li class="final">
+    <div class="equation">
+      <math display="block">
+        <munder><mrow class="brace-under"><msub class="param"><mi>x</mi><mi>R</mi></msub><mo>⋅</mo><msub class="var-1"><mi>m</mi><mi>R</mi></msub><mo>+</mo><msub class="param"><mi>x</mi><mi>N</mi></msub><mo>⋅</mo><msub class="var-2"><mi>m</mi><mi>N</mi></msub></mrow><mtext class="brace">HNO₃ que entra</mtext></munder>
+        <mo>=</mo>
+        <munder><mrow class="brace-under"><msub class="param"><mi>x</mi><mi>P</mi></msub><mo>⋅</mo><mi class="param">M</mi></mrow><mtext class="brace">HNO₃ que sai</mtext></munder>
+      </math>
+    </div>
+    <p class="why"><span class="kind kind-algebra">álgebra</span>Termo nulo eliminado e entradas separadas da saída.</p>
+    <p>O HNO<sub>3</sub> da mistura vem só do ácido residual e do nítrico concentrado. Isso liga <span class="var-1">m<sub>R</sub></span> a <span class="var-2">m<sub>N</sub></span>: quanto mais residual se usa, menos nítrico é necessário.</p>
+  </li>
+</ol>
+
+<h3 class="balance balance-mass">Balanço de massa de H<sub>2</sub>SO<sub>4</sub>, em kg</h3>
+
+<ol class="derivation">
+  <li>
+    <div class="equation">
+      <math display="block"><mtext>acumulação de H₂SO₄</mtext><mo>=</mo><mtext>entra</mtext><mo>−</mo><mtext>sai</mtext><mo>+</mo><mtext>geração</mtext></math>
+    </div>
+    <p class="why"><span class="kind kind-principle">princípio</span>É o mesmo princípio do HNO<sub>3</sub>, agora para o H<sub>2</sub>SO<sub>4</sub>, com as mesmas hipóteses: acúmulo e geração nulos.</p>
+  </li>
+  <li>
+    <div class="equation">
+      <math display="block">
+        <mn>0</mn><mo>=</mo>
+        <munder><mrow class="brace-under"><msub class="param"><mi>y</mi><mi>R</mi></msub><mo>⋅</mo><msub class="var-1"><mi>m</mi><mi>R</mi></msub></mrow><mtext class="brace">H₂SO₄ do residual</mtext></munder>
+        <mo>+</mo>
+        <munder><mrow class="brace-under"><mn>0</mn><mo>⋅</mo><msub class="var-2"><mi>m</mi><mi>N</mi></msub></mrow><mtext class="brace">H₂SO₄ do nítrico</mtext></munder>
+        <mo>+</mo>
+        <munder><mrow class="brace-under"><msub class="param"><mi>y</mi><mi>S</mi></msub><mo>⋅</mo><msub class="var-3"><mi>m</mi><mi>S</mi></msub></mrow><mtext class="brace">H₂SO₄ do sulfúrico</mtext></munder>
+        <mo>−</mo>
+        <munder><mrow class="brace-under"><msub class="param"><mi>y</mi><mi>P</mi></msub><mo>⋅</mo><mi class="param">M</mi></mrow><mtext class="brace">H₂SO₄ na mistura</mtext></munder>
+      </math>
+    </div>
+    <ul class="symbols">
+      <li><code class="param">y<sub>R</sub></code> — fração mássica de H<sub>2</sub>SO<sub>4</sub> no ácido residual, adimensional</li>
+      <li><code class="param">y<sub>S</sub></code> — fração mássica de H<sub>2</sub>SO<sub>4</sub> no ácido sulfúrico concentrado, adimensional</li>
+      <li><code class="param">y<sub>P</sub></code> — fração mássica de H<sub>2</sub>SO<sub>4</sub> na mistura final, adimensional</li>
+    </ul>
+    <p class="why"><span class="kind kind-translation">tradução</span>Fração mássica vezes massa, corrente por corrente. Agora é o ácido nítrico concentrado que não tem H<sub>2</sub>SO<sub>4</sub>.</p>
+  </li>
+  <li class="final">
+    <div class="equation">
+      <math display="block">
+        <munder><mrow class="brace-under"><msub class="param"><mi>y</mi><mi>R</mi></msub><mo>⋅</mo><msub class="var-1"><mi>m</mi><mi>R</mi></msub><mo>+</mo><msub class="param"><mi>y</mi><mi>S</mi></msub><mo>⋅</mo><msub class="var-3"><mi>m</mi><mi>S</mi></msub></mrow><mtext class="brace">H₂SO₄ que entra</mtext></munder>
+        <mo>=</mo>
+        <munder><mrow class="brace-under"><msub class="param"><mi>y</mi><mi>P</mi></msub><mo>⋅</mo><mi class="param">M</mi></mrow><mtext class="brace">H₂SO₄ que sai</mtext></munder>
+      </math>
+    </div>
+    <p class="why"><span class="kind kind-algebra">álgebra</span>Termo nulo eliminado, como no HNO<sub>3</sub>.</p>
+    <p>Agora o H<sub>2</sub>SO<sub>4</sub> liga <span class="var-1">m<sub>R</sub></span> a <span class="var-3">m<sub>S</sub></span>. Temos três equações lineares nas três incógnitas. Não escrevemos o balanço da água: ele é uma combinação dos três anteriores, e por isso não traz informação nova. Vamos usá-lo depois como verificação.</p>
+  </li>
+</ol>
+
+<table>
+<thead><tr><th>Parâmetro</th><th class="num">Valor</th><th>Unidade</th><th>Fonte</th></tr></thead>
+<tbody>
+<tr><td><code class="param">M</code></td><td class="num">1500</td><td class="unit">kg</td><td><span class="source source-given">dado</span></td></tr>
+<tr><td><code class="param">x<sub>R</sub></code></td><td class="num">0,22</td><td class="unit">–</td><td><span class="source source-given">dado</span>22% de HNO<sub>3</sub> no residual</td></tr>
+<tr><td><code class="param">y<sub>R</sub></code></td><td class="num">0,56</td><td class="unit">–</td><td><span class="source source-given">dado</span>56% de H<sub>2</sub>SO<sub>4</sub> no residual</td></tr>
+<tr><td><code class="param">x<sub>N</sub></code></td><td class="num">0,90</td><td class="unit">–</td><td><span class="source source-given">dado</span>90% de HNO<sub>3</sub></td></tr>
+<tr><td><code class="param">y<sub>S</sub></code></td><td class="num">0,96</td><td class="unit">–</td><td><span class="source source-given">dado</span>96% de H<sub>2</sub>SO<sub>4</sub></td></tr>
+<tr><td><code class="param">x<sub>P</sub></code></td><td class="num">0,28</td><td class="unit">–</td><td><span class="source source-given">dado</span>28% de HNO<sub>3</sub> no produto</td></tr>
+<tr><td><code class="param">y<sub>P</sub></code></td><td class="num">0,60</td><td class="unit">–</td><td><span class="source source-given">dado</span>60% de H<sub>2</sub>SO<sub>4</sub> no produto</td></tr>
+<tr><td>Faixa do gráfico e linhas da tabela do programa</td><td class="num">20 a 36; 24, 28, 32</td><td class="unit">% de HNO<sub>3</sub></td><td><span class="source source-choice">escolha</span>faixa que contém o caso pedido e mostra o limite de viabilidade</td></tr>
+</tbody>
+</table>
+
+<div class="technique">
+  <p class="technique-name">Sistema linear</p>
+  <p>Temos três equações em que as incógnitas aparecem só multiplicadas por números e somadas: um sistema de equações lineares. Para resolver esse tipo de problema, usaremos a <span class="term">resolução direta de sistema linear</span>, que elimina as incógnitas uma a uma, como você faria à mão, e devolve a resposta exata (a menos de erros de arredondamento do computador), sem tentativas nem iterações. Ela serve aqui porque o número de equações é igual ao de incógnitas e não há nenhum termo não linear. Em Python, a função que faz isso é <code>numpy.linalg.solve</code>, da biblioteca NumPy. Veja a próxima seção para aprender a usá-la.</p>
+</div>
+
+<h2>Código</h2>
+
+<section class="code">
+
+  <div class="step">
+    <h3>Dados do problema</h3>
+    <p class="purpose">Guardar em variáveis todos os números do enunciado, cada um com seu nome, para que o resto do programa leia como as equações.</p>
+<pre><code>import numpy as np               # vetores e álgebra linear
+import matplotlib.pyplot as plt  # gráficos
+
+# Mistura final desejada
+M = 1500.0           # massa da mistura final, kg
+xP, yP = 0.28, 0.60  # frações de HNO3 e H2SO4 (-)
+
+# Composição das correntes de entrada (fração mássica, -)
+xR, yR = 0.22, 0.56  # residual: HNO3 e H2SO4
+xN = 0.90            # nítrico concentrado: HNO3
+yS = 0.96            # sulfúrico concentrado: H2SO4</code></pre>
+    <p class="how"><code>import numpy as np</code> carrega a biblioteca NumPy e a apelida de <code>np</code>; o mesmo vale para <code>matplotlib.pyplot</code>, apelidado de <code>plt</code>. Tudo o que vem depois de <code>#</code> é comentário e o Python ignora. Um número com ponto decimal, como <code>1500.0</code>, é um número real; o ponto é sempre o separador decimal no código. A linha <code>xP, yP = 0.28, 0.60</code> cria duas variáveis de uma vez: o primeiro valor vai para o primeiro nome e o segundo para o segundo.</p>
+    <p class="so-far">O programa agora conhece as composições e a massa final desejada. Ainda não calcula nada.</p>
+  </div>
+
+  <div class="step">
+    <h3>Equações escritas como matriz</h3>
+    <p class="purpose">Transformar os três balanços numa função que recebe a especificação do produto e devolve as três massas.</p>
+<pre><code>def misturar(xP, yP, M):
+    """Massas (kg): residual, nítrico e sulfúrico."""
+    A = np.array([[1.0, 1.0, 1.0],  # balanço global
+                  [xR,  xN,  0.0],  # balanço de HNO3
+                  [yR,  0.0, yS]])  # balanço de H2SO4
+    b = np.array([M, xP * M, yP * M])  # lado direito, kg
+    return np.linalg.solve(A, b)</code></pre>
+    <p class="how">Um <code>def</code> define uma função: um bloco de código com nome, que roda quando é chamado. Aqui ela recebe três valores (<code>xP</code>, <code>yP</code> e <code>M</code>) e devolve, com <code>return</code>, o resultado de <code>np.linalg.solve</code>. Os nomes dentro dos parênteses valem só dentro da função e podem ter o mesmo nome das variáveis do passo anterior; assim poderemos chamar a função com outros valores. O texto entre <code>"""</code> é uma descrição da função. <code>np.array</code> transforma listas em um vetor ou matriz do NumPy; uma lista de listas, como <code>[[1.0, 1.0, 1.0], [...], [...]]</code>, vira uma matriz, com uma lista por linha. As linhas de <code>A</code> são os coeficientes dos balanços, na ordem das incógnitas (<span class="var-1">m<sub>R</sub></span>, <span class="var-2">m<sub>N</sub></span>, <span class="var-3">m<sub>S</sub></span>): a segunda linha é <code>xR·mR + xN·mN + 0·mS = xP·M</code>. O vetor <code>b</code> guarda o lado direito de cada equação.</p>
+    <ul class="how">
+      <li><code>A</code> — a matriz 3×3 dos coeficientes, uma linha por equação e uma coluna por incógnita.</li>
+      <li><code>b</code> — o vetor com os três lados direitos, na mesma ordem das linhas de <code>A</code>.</li>
+    </ul>
+    <p class="so-far">O programa sabe montar e resolver o sistema para qualquer especificação do produto. A função devolve um vetor <code>[mR, mN, mS]</code>, nessa ordem, a ordem das colunas de <code>A</code>.</p>
+  </div>
+
+  <div class="step">
+    <h3>Chamando a função e lendo as massas</h3>
+    <p class="purpose">Resolver o caso pedido e mostrar as três massas.</p>
+<pre><code>mR, mN, mS = misturar(xP, yP, M)
+print(f"Ácido residual:            {mR:.1f} kg")
+print(f"Ácido nítrico concentrado: {mN:.1f} kg")
+print(f"Ácido sulfúrico conc.:     {mS:.1f} kg")</code></pre>
+    <p class="how">A função devolve um vetor com três números, e <code>mR, mN, mS = ...</code> distribui cada um para um nome (a mesma ideia de <code>xP, yP = 0.28, 0.60</code>). <code>print</code> escreve na tela. O <code>f</code> antes das aspas faz do texto uma f-string: o que está entre chaves é substituído pelo valor da variável. O <code>:.1f</code> dentro das chaves pede um número real com uma casa decimal. Uma casa basta: <code>np.linalg.solve</code> não é iterativo e dá a solução exata a menos de erros de arredondamento da ordem de 10<sup>−13</sup>, muito menores que 0,1 kg. Então o número de casas é só uma questão de leitura.</p>
+    <p class="so-far">O programa resolve o problema e imprime as massas das três correntes.</p>
+  </div>
+
+  <div class="step">
+    <h3>Verificação com o balanço da água</h3>
+    <p class="purpose">Confirmar o resultado com uma conta que não foi usada para obtê-lo: o balanço da água, que não entrou no sistema.</p>
+<pre><code>agua_entra = (1 - xR - yR) * mR + (1 - xN) * mN + (1 - yS) * mS
+agua_pedida = (1 - xP - yP) * M
+print(f"Água que entra: {agua_entra:.1f} kg")
+print(f"Água exigida:   {agua_pedida:.1f} kg")</code></pre>
+    <p class="how">A água de cada corrente é o que sobra depois de descontar as frações de HNO<sub>3</sub> e H<sub>2</sub>SO<sub>4</sub>: <code>1 - xR - yR</code> no residual, <code>1 - xN</code> no nítrico e <code>1 - yS</code> no sulfúrico. Multiplicando pela massa de cada corrente e somando, obtemos a água que entra. A água exigida é a fração de água do produto vezes <code>M</code>. O <code>*</code> é a multiplicação.</p>
+    <p class="so-far">Se as duas quantidades de água coincidirem, as massas satisfazem também a composição de água do produto, e não só os três balanços usados.</p>
+  </div>
+
+  <div class="step">
+    <h3>Variando a especificação do produto</h3>
+    <p class="purpose">Reaproveitar a função para ver como as massas mudam quando se pede mais ou menos HNO<sub>3</sub> no produto, e achar o limite em que o ácido residual deixa de ser usado.</p>
+<pre><code>print("HNO3 final (%)  residual  nítrico  sulfúrico (kg)")
+for w in (24, 28, 32):
+    m = misturar(w / 100, yP, M)
+    print(f"{w:14d}  {m[0]:8.1f} {m[1]:8.1f} {m[2]:9.1f}")
+
+w_max = 100 * xN * (1 - yP / yS)  # %
+print(f"Sem ácido residual, HNO3 máximo: {w_max:.2f} %")</code></pre>
+    <p class="how">O <code>for w in (24, 28, 32):</code> repete o bloco indentado uma vez para cada valor da lista, com <code>w</code> valendo 24, depois 28 e depois 32. A função é chamada com <code>w / 100</code>, que converte % em fração. Dentro do <code>for</code>, <code>m</code> é o vetor devolvido, e <code>m[0]</code>, <code>m[1]</code> e <code>m[2]</code> são seus elementos; o índice começa em zero. Nos formatos, depois dos dois pontos, <code>14d</code> escreve um inteiro em 14 colunas e <code>8.1f</code> um real em 8 colunas com uma casa decimal. A última conta é uma segunda verificação, independente do sistema: sem residual, só entram nítrico e sulfúrico, e então <code>xP/xN + yP/yS = 1</code> (cada fração de ácido do produto, dividida pela do ácido concentrado, dá a fração da massa que vem dele). Isolando <code>xP</code>, sai a fórmula de <code>w_max</code>. Acima dela, o sistema daria <code>mR</code> negativo, o que não tem sentido físico.</p>
+    <p class="so-far">O programa imprime uma tabela de três casos e o limite de viabilidade.</p>
+  </div>
+
+  <div class="step">
+    <h3>Gráfico das massas contra o teor de HNO<sub>3</sub></h3>
+    <p class="purpose">Ver numa figura o que a tabela mostrou em três pontos.</p>
+<pre><code>w = np.linspace(20, 36, 81)  # HNO3 no produto, %
+massas = np.array([misturar(wi / 100, yP, M) for wi in w])
+
+plt.plot(w, massas[:, 0], label="Ácido residual")
+plt.plot(w, massas[:, 1], label="Ácido nítrico concentrado")
+plt.plot(w, massas[:, 2], label="Ácido sulfúrico concentrado")
+plt.axhline(0, color="gray", linewidth=0.8)
+plt.xlabel("HNO3 na mistura final (%)")
+plt.ylabel("Massa da corrente (kg)")
+plt.legend()
+plt.show()</code></pre>
+    <p class="how"><code>np.linspace(20, 36, 81)</code> cria 81 números igualmente espaçados de 20 a 36 (o primeiro é 20, o último é 36 e o espaço é de 0,2). A expressão entre colchetes, <code>[... for wi in w]</code>, chama a função uma vez para cada valor de <code>w</code> e junta os resultados numa lista; <code>np.array</code> a transforma numa matriz de 81 linhas (um valor de <code>w</code> cada) e 3 colunas (as correntes). O recorte <code>massas[:, 0]</code> pega todas as linhas (<code>:</code>) da coluna 0, isto é, a massa de residual em cada <code>w</code>. <code>plt.plot(x, y, label=...)</code> desenha a curva de <code>y</code> contra <code>x</code>, com o nome que vai à legenda. <code>plt.axhline(0, ...)</code> traça uma linha horizontal em zero, para ver quando uma massa passa a ser negativa; <code>color</code> é a cor e <code>linewidth</code> a espessura. <code>plt.xlabel</code> e <code>plt.ylabel</code> rotulam os eixos, <code>plt.legend()</code> mostra a legenda e <code>plt.show()</code> abre a figura.</p>
+    <p class="so-far">O programa resolve o caso pedido, o verifica, mostra a tabela e desenha as três massas contra o teor de HNO<sub>3</sub>.</p>
+  </div>
+
+  <div class="step">
+    <h3>Programa completo</h3>
+<pre><code>import numpy as np               # vetores e álgebra linear
+import matplotlib.pyplot as plt  # gráficos
+
+# Mistura final desejada
+M = 1500.0           # massa da mistura final, kg
+xP, yP = 0.28, 0.60  # frações de HNO3 e H2SO4 (-)
+
+# Composição das correntes de entrada (fração mássica, -)
+xR, yR = 0.22, 0.56  # residual: HNO3 e H2SO4
+xN = 0.90            # nítrico concentrado: HNO3
+yS = 0.96            # sulfúrico concentrado: H2SO4
+
+def misturar(xP, yP, M):
+    """Massas (kg): residual, nítrico e sulfúrico."""
+    A = np.array([[1.0, 1.0, 1.0],  # balanço global
+                  [xR,  xN,  0.0],  # balanço de HNO3
+                  [yR,  0.0, yS]])  # balanço de H2SO4
+    b = np.array([M, xP * M, yP * M])  # lado direito, kg
+    return np.linalg.solve(A, b)
+
+mR, mN, mS = misturar(xP, yP, M)
+print(f"Ácido residual:            {mR:.1f} kg")
+print(f"Ácido nítrico concentrado: {mN:.1f} kg")
+print(f"Ácido sulfúrico conc.:     {mS:.1f} kg")
+
+agua_entra = (1 - xR - yR) * mR + (1 - xN) * mN + (1 - yS) * mS
+agua_pedida = (1 - xP - yP) * M
+print(f"Água que entra: {agua_entra:.1f} kg")
+print(f"Água exigida:   {agua_pedida:.1f} kg")
+
+print("HNO3 final (%)  residual  nítrico  sulfúrico (kg)")
+for w in (24, 28, 32):
+    m = misturar(w / 100, yP, M)
+    print(f"{w:14d}  {m[0]:8.1f} {m[1]:8.1f} {m[2]:9.1f}")
+
+w_max = 100 * xN * (1 - yP / yS)  # %
+print(f"Sem ácido residual, HNO3 máximo: {w_max:.2f} %")
+
+w = np.linspace(20, 36, 81)  # HNO3 no produto, %
+massas = np.array([misturar(wi / 100, yP, M) for wi in w])
+
+plt.plot(w, massas[:, 0], label="Ácido residual")
+plt.plot(w, massas[:, 1], label="Ácido nítrico concentrado")
+plt.plot(w, massas[:, 2], label="Ácido sulfúrico concentrado")
+plt.axhline(0, color="gray", linewidth=0.8)
+plt.xlabel("HNO3 na mistura final (%)")
+plt.ylabel("Massa da corrente (kg)")
+plt.legend()
+plt.show()</code></pre>
+    <p>Os passos juntos, em ordem, prontos para rodar.</p>
+  </div>
+
+</section>
+
+<h2>Resultado</h2>
+
+<div class="answer">
+  <p>Para obter 1500 kg do ácido misto pedido, são necessários <span class="var-1">556,5 kg de ácido residual</span>, <span class="var-2">330,6 kg de ácido nítrico concentrado</span> e <span class="var-3">612,9 kg de ácido sulfúrico concentrado</span>. A água que entra, 180,0 kg, é igual à exigida pelo produto.</p>
+</div>
+
+<p>A figura mostra as três massas para teores de HNO<sub>3</sub> do produto de 20% a 36%. O caso pedido é o de 28%.</p>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  Plot.register("mistura", {
+    xLabel: "HNO3 na mistura final (%)",
+    yLabel: "Massa da corrente (kg)",
+    series: ["Ácido residual", "Ácido nítrico concentrado", "Ácido sulfúrico concentrado"],
+    defaults: { wS: 60, M: 1500 },
+    ranges:   { wS: [55, 65, 1], M: [500, 3000, 100] },
+    units:    { wS: "%", M: "kg" },
+    labels:   { wS: "H2SO4 final", M: "Massa final" },
+    compute: function (p) {
+      var w = Plot.linspace(20, 36, 81);
+      var fN = p.wS / 100, den = 1 - 0.22 / 0.90 - 0.56 / 0.96;
+      var R = w.map(function (x) {
+        return (p.M - p.M * (x / 100) / 0.90 - p.M * fN / 0.96) / den;
+      });
+      var N = w.map(function (x, i) { return (p.M * x / 100 - 0.22 * R[i]) / 0.90; });
+      var S = w.map(function (x, i) { return (p.M * fN - 0.56 * R[i]) / 0.96; });
+      return { x: w, y: [R, N, S] };
+    },
+    readout: function (s, p) {
+      return "HNO3 máximo sem ácido residual: " + Plot.fmt(90 * (1 - p.wS / 96), 2) + " %";
+    }
+  });
+});
+</script>
+<div class="plot" data-plot="mistura" data-controls="wS, M"></div>
+
+<ol class="observations">
+  <li>
+    <h3>Onde está a receita pedida?</h3>
+    <p>Em 28% de HNO<sub>3</sub> no eixo horizontal. Ali as curvas dão 556,5 kg de <span class="var-1">ácido residual</span>, 330,6 kg de <span class="var-2">ácido nítrico concentrado</span> e 612,9 kg de <span class="var-3">ácido sulfúrico concentrado</span>, os valores impressos pelo programa.</p>
+  </li>
+  <li>
+    <h3>O que acontece com as correntes quando se pede mais HNO<sub>3</sub>?</h3>
+    <p>O <span class="var-1">ácido residual</span> cai e as duas correntes concentradas crescem. Entre 24% e 32%, o residual vai de 943,5 kg a 169,4 kg, o <span class="var-2">ácido nítrico concentrado</span> de 169,4 kg a 491,9 kg e o <span class="var-3">ácido sulfúrico concentrado</span> de 387,1 kg a 838,7 kg. O residual tem só 22% de HNO<sub>3</sub>, menos que o produto, então cada quilo dele dilui o HNO<sub>3</sub>; ao tirá-lo, o nítrico concentrado assume o trabalho e o sulfúrico concentrado repõe o H<sub>2</sub>SO<sub>4</sub> que o residual fornecia.</p>
+  </li>
+  <li>
+    <h3>Até que teor de HNO<sub>3</sub> a mistura é possível?</h3>
+    <p>A curva do <span class="var-1">ácido residual</span> chega a zero em 33,75% e depois fica negativa, o que não tem sentido físico: não se pode usar uma massa negativa de ácido. Nesse ponto só restam o nítrico e o sulfúrico concentrados, e acima dele a especificação não pode ser atendida com essas três correntes.</p>
+  </li>
+  <li>
+    <h3>Eleve o H<sub>2</sub>SO<sub>4</sub> do produto a 62%</h3>
+    <p>Leve o controle "H2SO4 final" a 62%. O <span class="var-1">ácido residual</span> em 28% cai e o <span class="var-3">ácido sulfúrico concentrado</span> sobe: o residual tem 56% de H<sub>2</sub>SO<sub>4</sub>, abaixo da meta, então um produto mais forte em H<sub>2</sub>SO<sub>4</sub> exige mais sulfúrico concentrado e deixa menos espaço para o residual.</p>
+    <p class="in-your-code">No programa, troque a linha <code>xP, yP = 0.28, 0.60</code> por <code>xP, yP = 0.28, 0.62</code>. O programa imprime 375,0 kg de ácido residual, 375,0 kg de ácido nítrico concentrado e 750,0 kg de ácido sulfúrico concentrado.</p>
+  </li>
+  <li>
+    <h3>Dobre a massa final para 3000 kg</h3>
+    <p>Leve o controle "Massa final" a 3000 kg. As três curvas dobram de altura, mas o teor em que o <span class="var-1">ácido residual</span> chega a zero não muda: os balanços são lineares e proporcionais a <span class="param">M</span>, então a receita é a mesma em proporção.</p>
+    <p class="in-your-code">No programa, troque <code>M = 1500.0</code> por <code>M = 3000.0</code>. O programa imprime 1112,9 kg de ácido residual, 661,3 kg de ácido nítrico concentrado e 1225,8 kg de ácido sulfúrico concentrado.</p>
+  </li>
+</ol>
+
+<div class="ask">
+  <strong>Ficou alguma dúvida?</strong> Pergunte no chat.
+</div>
+
+<script>
+
+(function () {
+  "use strict";
+
+  var PT = /^pt/i.test(document.documentElement.lang);
+  var NAME = PT ? { light: "Claro", dark: "Escuro" } : { light: "Light", dark: "Dark" };
+  var SWITCH = PT ? "Mudar para o tema " : "Switch to the theme: ";
+
+  var KEY = "lesson-theme";
+  var root = document.documentElement;
+
+  function stored() {
+    try {
+      var v = localStorage.getItem(KEY);
+      return v === "light" || v === "dark" ? v : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function store(v) {
+    try {
+      localStorage.setItem(KEY, v);
+    } catch (e) {
+    }
+  }
+
+  function fromSystem() {
+    return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  }
+
+  function current() {
+    return root.getAttribute("data-theme") || fromSystem();
+  }
+
+  function apply(theme) {
+    root.setAttribute("data-theme", theme);
+  }
+
+  function build() {
+    var btn = document.createElement("button");
+    btn.className = "theme";
+    btn.type = "button";
+
+    function label() {
+      var target = current() === "dark" ? "light" : "dark";
+      btn.textContent = "";
+      var ic = document.createElement("span");
+      ic.className = "ic ic-theme";
+      btn.append(ic, document.createTextNode(NAME[target]));
+      btn.setAttribute("aria-label", SWITCH + NAME[target]);
+    }
+
+    btn.addEventListener("click", function () {
+      var target = current() === "dark" ? "light" : "dark";
+      apply(target);
+      store(target);
+      label();
+      document.dispatchEvent(new CustomEvent("theme-changed"));
+    });
+
+    label();
+    document.body.appendChild(btn);
+  }
+
+  var saved = stored();
+  if (saved) apply(saved);
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", build);
+  } else {
+    build();
+  }
+
+  window.Theme = { current: current, apply: apply };
+})();
+
+</script>
+<script>
+
+(function () {
+  "use strict";
+
+  var PT = /^pt/i.test(document.documentElement.lang);
+  var TXT = PT ? {
+    copy: "Copiar o código",
+    and: " e ",
+    ofBalance: " do ",
+    complementary: "Equação complementar",
+    parameters: "Parâmetros",
+    technique: "Técnica",
+    toc: "Sumário da lição",
+    steps: "Passos",
+    answer: "Resposta",
+    figure: "Figura",
+    observations: "Observações",
+    problem: "Exercício",
+    parts: "As partes da lição",
+    next: "Próximo"
+  } : {
+    copy: "Copy the code",
+    and: " and ",
+    ofBalance: " of the ",
+    complementary: "Complementary equation",
+    parameters: "Parameters",
+    technique: "Technique",
+    toc: "Lesson contents",
+    steps: "Steps",
+    answer: "Answer",
+    figure: "Figure",
+    observations: "Observations",
+    problem: "Problem",
+    parts: "The parts of the lesson",
+    next: "Next"
+  };
+
+  function balanceName(title) {
+    var t = title.trim().replace(/,.*$/, "").replace(/\s*\([^)]*\)$/, "");
+    return PT ? t.replace(/ do componente /, " de ")
+              : t.replace(/ (of|for) component /, " of ");
+  }
+
+  function tocName(title) {
+    var t = balanceName(title);
+    t = PT ? t.replace(/^Balanço (global )?de /i, "") : t.replace(/^(.+?) balance (of|for) /i, "$1 of ");
+    return t.charAt(0).toUpperCase() + t.slice(1);
+  }
+
+  function copy(text, button) {
+    function ok() {
+      var ic = button.querySelector(".ic");
+      if (ic) ic.className = "ic ic-check";
+      button.classList.add("copied");
+      setTimeout(function () {
+        if (ic) ic.className = "ic ic-copy";
+        button.classList.remove("copied");
+      }, 1400);
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(ok, function () { legacy(text, ok); });
+    } else {
+      legacy(text, ok);
+    }
+  }
+
+  function legacy(text, ok) {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand("copy");
+      ok();
+    } catch (e) {
+      console.warn("[lesson] could not copy:", e);
+    }
+    ta.remove();
+  }
+
+  var KEYWORDS = /^(if|elif|else|for|while|return|import|from|as|in|not|and|or|is|with|try|except|finally|raise|break|continue|pass|lambda|yield|global|nonlocal|del|assert|async|await)$/;
+  var DEFINE = /^(def|class|None|True|False)$/;
+  var BUILTINS = /^(print|range|len|abs|min|max|sum|float|int|str|bool|list|dict|tuple|set|zip|enumerate|round|sorted|reversed|map|filter|open|isinstance|type|any|all)$/;
+  var TOKEN = /(#[^\n]*)|((?:[rRbBfFuU]{1,2})?(?:"""[\s\S]*?"""|'''[\s\S]*?'''|"(?:\.|[^"\\n])*"|'(?:\.|[^'\\n])*'))|(\b\d+\.?\d*(?:[eE][+-]?\d+)?\b|\.\d+(?:[eE][+-]?\d+)?\b)|([A-Za-z_\u00C0-\u024F]\w*)|(\*\*=?|\/\/=?|[-+*\/%=<>!@&|^~]=?)/g;
+
+  function esc(t) {
+    return t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  function highlightText(txt) {
+    var out = "", end = 0, previous = "", m;
+    TOKEN.lastIndex = 0;
+    while ((m = TOKEN.exec(txt))) {
+      out += esc(txt.slice(end, m.index));
+      end = TOKEN.lastIndex;
+      var t = m[0], cls = "";
+      if (m[1]) cls = "hl-com";
+      else if (m[2]) cls = "hl-str";
+      else if (m[3]) cls = "hl-num";
+      else if (m[4]) {
+        if (previous === "def" || previous === "class") cls = "hl-fn";
+        else if (DEFINE.test(t)) cls = "hl-def";
+        else if (KEYWORDS.test(t)) cls = "hl-kw";
+        else if (/^\s*\(/.test(txt.slice(end))) cls = BUILTINS.test(t) ? "hl-bi" : "hl-fn";
+        previous = t;
+      } else if (m[5]) cls = "hl-op";
+      out += cls ? '<span class="' + cls + '">' + esc(t) + "</span>" : esc(t);
+    }
+    return out + esc(txt.slice(end));
+  }
+
+  function highlight(code) {
+    if (code.dataset.highlighted || code.classList.contains("no-highlight")) return;
+    code.dataset.highlighted = "1";
+    code.innerHTML = highlightText(code.textContent);
+  }
+
+  function copyButton(pre) {
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "copy";
+    btn.title = TXT.copy;
+    btn.setAttribute("aria-label", TXT.copy);
+    var ic = document.createElement("span");
+    ic.className = "ic ic-copy";
+    btn.appendChild(ic);
+    btn.addEventListener("click", function () {
+      copy(pre.querySelector("code") ? pre.querySelector("code").textContent : pre.textContent, btn);
+    });
+    pre.appendChild(btn);
+  }
+
+  function collapsibleBody(nodes, prefix) {
+    var body = document.createElement("div");
+    body.className = prefix + "-body";
+    var inner = document.createElement("div");
+    inner.className = prefix + "-inner";
+    nodes.forEach(function (n) { inner.appendChild(n); });
+    body.appendChild(inner);
+    return body;
+  }
+
+  function buildItem(item) {
+    var head = item.querySelector(":scope > h3");
+    if (!head) {
+      var kinds = Array.prototype.map.call(item.querySelectorAll(".why .kind"), function (t) {
+        return t.textContent.trim().replace(/[.:;,]+$/, "").toLowerCase();
+      });
+      if (kinds.length) {
+        var name = kinds.length > 1 ? kinds.slice(0, -1).join(", ") + TXT.and + kinds[kinds.length - 1] : kinds[0];
+        head = document.createElement("div");
+        head.className = "item-head";
+        if (item.dataset.balance) name += TXT.ofBalance + item.dataset.balance;
+        head.textContent = name.charAt(0).toUpperCase() + name.slice(1);
+      }
+    }
+    var rest = Array.prototype.filter.call(item.childNodes, function (n) { return n !== head; });
+    var body = collapsibleBody(rest, "item");
+    item.textContent = "";
+    if (head) item.appendChild(head);
+    item.appendChild(body);
+  }
+
+  function timeline(items, onEnd) {
+    if (!items.length) { if (onEnd) onEnd(); return; }
+
+    function update() {
+      var next = null;
+      items.forEach(function (p) {
+        if (!next && !p.dataset.read) next = p;
+        p.classList.remove("calling");
+      });
+      if (next) next.classList.add("calling");
+      else if (onEnd) { onEnd(); onEnd = null; }
+      items.forEach(function (p, i) { p.classList.toggle("no-thread", !items[i + 1]); });
+    }
+
+    function toggle(p) {
+      var collapse = !p.classList.contains("collapsed");
+      p.classList.toggle("collapsed", collapse);
+      if (collapse) {
+        p.setAttribute("tabindex", "0");
+        p.setAttribute("role", "button");
+        p.setAttribute("aria-expanded", "false");
+        return;
+      }
+      p.removeAttribute("tabindex");
+      p.removeAttribute("role");
+      p.removeAttribute("aria-expanded");
+      if (!p.dataset.read) {
+        p.dataset.read = "1";
+        document.dispatchEvent(new CustomEvent("lesson-changed"));
+        update();
+      }
+      setTimeout(function () { p.scrollIntoView({ behavior: "smooth", block: "nearest" }); }, 380);
+    }
+
+    function onHandle(p, ev) {
+      var r = p.getBoundingClientRect();
+      var gutter = parseFloat(getComputedStyle(p).paddingLeft) || 0;
+      if (ev.clientX - r.left < gutter) return true;
+      var head = ev.target.closest && ev.target.closest("h3, .item-head");
+      return !!head && head.parentElement === p;
+    }
+
+    items.forEach(function (p) {
+      buildItem(p);
+      p.classList.add("collapsed");
+      p.setAttribute("tabindex", "0");
+      p.setAttribute("role", "button");
+      p.setAttribute("aria-expanded", "false");
+      p.addEventListener("click", function (ev) {
+        if (p.classList.contains("collapsed") || onHandle(p, ev)) toggle(p);
+      });
+      p.addEventListener("keydown", function (ev) {
+        if ((ev.key === "Enter" || ev.key === " ") && p.classList.contains("collapsed")) {
+          ev.preventDefault();
+          toggle(p);
+        }
+      });
+    });
+    update();
+  }
+
+  var SECTIONS = ["model", "code", "result"];
+
+  function stepName(title) {
+    var t = title.trim().replace(/^(the|o|a|os|as)\s+/i, "");
+    return t.charAt(0).toUpperCase() + t.slice(1);
+  }
+
+  function buildTabs() {
+    var titles = Array.prototype.slice.call(document.querySelectorAll("body > h2"));
+    if (!titles.length || document.querySelector("nav.tabs")) return;
+
+    function ends(n) {
+      return n.nodeType === 1 && (n.tagName === "H2" || n.classList.contains("ask") ||
+        (n.tagName === "SCRIPT" && n.src));
+    }
+
+    var header = document.querySelector("body > header");
+    var first = header ? header.nextSibling : document.body.firstChild;
+    var parts = [], nodes = [], n = first;
+    while (n && n !== titles[0]) { nodes.push(n); n = n.nextSibling; }
+    parts.push({ label: TXT.problem, sec: "problem", nodes: nodes, h2: null });
+    var end = null;
+    titles.forEach(function (h2, i) {
+      var own = [], m = h2.nextSibling;
+      while (m && !ends(m)) { own.push(m); m = m.nextSibling; }
+      end = m;
+      parts.push({ label: stepName(h2.textContent), sec: SECTIONS[i] || "result", nodes: own, h2: h2 });
+    });
+
+    var nav = document.createElement("nav");
+    nav.className = "tabs";
+    var list = document.createElement("div");
+    list.className = "tabs-list";
+    list.setAttribute("role", "tablist");
+    list.setAttribute("aria-label", TXT.parts);
+    nav.appendChild(list);
+    document.body.insertBefore(nav, first);
+
+    var tabs = [], panels = [], items = [], visited = [], current = 0;
+
+    parts.forEach(function (part, i) {
+      var panel = document.createElement("div");
+      panel.className = "tab-panel";
+      panel.id = "part-" + i;
+      panel.dataset.sec = part.sec;
+      panel.setAttribute("role", "tabpanel");
+      panel._show = function () { show(i); };
+      panel._label = part.label;
+      if (part.h2) {
+        part.h2.classList.add("part-title");
+        if (!part.h2.children.length) part.h2.textContent = part.label;
+        var body = document.createElement("div");
+        body.className = "part-body";
+        part.nodes.forEach(function (x) { body.appendChild(x); });
+        panel.append(part.h2, body);
+        part.h2._open = function () { show(i); };
+      } else {
+        part.nodes.forEach(function (x) { panel.appendChild(x); });
+      }
+      if (i < parts.length - 1) {
+        var next = document.createElement("button");
+        next.type = "button";
+        next.className = "continue";
+        next.dataset.sec = parts[i + 1].sec;
+        var circle = document.createElement("span");
+        circle.className = "continue-dot";
+        circle.textContent = String(i + 2);
+        var words = document.createElement("span");
+        words.className = "continue-text";
+        var small = document.createElement("span");
+        small.className = "continue-label";
+        small.textContent = TXT.next;
+        var big = document.createElement("span");
+        big.className = "continue-name";
+        big.textContent = parts[i + 1].label;
+        words.append(small, big);
+        var arrow = document.createElement("span");
+        arrow.className = "ic ic-arrow";
+        next.append(circle, words, arrow);
+        next.addEventListener("click", function () { show(i + 1, true); });
+        panel.appendChild(next);
+      }
+      document.body.insertBefore(panel, end);
+      panels.push(panel);
+      items.push(Array.prototype.slice.call(panel.querySelectorAll(
+        ".step, ol.derivation > li:not(.group):not(.loose), ol.observations > li")));
+
+      var tab = document.createElement("button");
+      tab.type = "button";
+      tab.className = "tab";
+      tab.dataset.sec = part.sec;
+      tab.setAttribute("role", "tab");
+      tab.setAttribute("aria-controls", panel.id);
+      var dot = document.createElement("span");
+      dot.className = "tab-dot";
+      var number = document.createElement("span");
+      number.className = "tab-number";
+      number.textContent = String(i + 1);
+      var check = document.createElement("span");
+      check.className = "ic ic-check tab-check";
+      dot.append(number, check);
+      var name = document.createElement("span");
+      name.className = "tab-name";
+      name.textContent = part.label;
+      tab.append(dot, name);
+      tab.addEventListener("click", function () { show(i, true); });
+      tab.addEventListener("keydown", function (ev) {
+        var k = ev.key === "ArrowRight" ? 1 : ev.key === "ArrowLeft" ? -1 : 0;
+        if (!k) return;
+        ev.preventDefault();
+        var j = (i + k + parts.length) % parts.length;
+        show(j, true);
+        tabs[j].focus();
+      });
+      list.appendChild(tab);
+      tabs.push(tab);
+    });
+
+    function update() {
+      items.forEach(function (its, j) {
+        var read = its.filter(function (x) { return x.dataset.read; }).length;
+        var movedOn = visited.slice(j + 1).some(Boolean);
+        var complete = its.length ? read === its.length : movedOn;
+        tabs[j].classList.toggle("complete", complete);
+        var share = j < current ? 1 : its.length ? read / its.length : 0;
+        if (tabs[j + 1]) {
+          tabs[j + 1].style.setProperty("--reach", (100 * share).toFixed(0) + "%");
+          tabs[j + 1].classList.toggle("reached", share === 1);
+        }
+      });
+      tabs[0].classList.add("reached");
+    }
+
+    function show(k, scroll) {
+      current = k;
+      visited[k] = true;
+      panels.forEach(function (p, j) {
+        p.hidden = j !== k;
+        tabs[j].classList.toggle("active", j === k);
+        tabs[j].setAttribute("aria-selected", String(j === k));
+        tabs[j].tabIndex = j === k ? 0 : -1;
+      });
+      update();
+      if (scroll) {
+        var gap = panels[k].getBoundingClientRect().top - nav.getBoundingClientRect().bottom - 12;
+        if (gap < 0) {
+          var inside = document.body.scrollHeight > document.body.clientHeight;
+          (inside ? document.body : window).scrollBy({ top: gap });
+        }
+      }
+      window.dispatchEvent(new Event("resize"));
+      document.dispatchEvent(new CustomEvent("lesson-changed"));
+    }
+
+    document.addEventListener("lesson-changed", update);
+    show(0);
+  }
+
+  function unifyModel() {
+    var h2 = document.querySelector("body > h2");
+    if (!h2 || h2.dataset.unified) return null;
+    var nodes = [], n = h2.nextElementSibling;
+    while (n && n.tagName !== "H2" && !n.classList.contains("ask") && !(n.tagName === "SCRIPT" && n.src)) {
+      nodes.push(n);
+      n = n.nextElementSibling;
+    }
+    if (!nodes.some(function (e) { return e.matches("ol.derivation"); })) return null;
+    h2.dataset.unified = "1";
+
+    var line = document.createElement("ol"), balance = "";
+    line.className = "derivation model-line";
+    nodes[0].parentNode.insertBefore(line, nodes[0]);
+
+    function extra(title, el) {
+      var li = document.createElement("li");
+      li.className = "extra";
+      var h3 = document.createElement("h3");
+      h3.textContent = title;
+      li.appendChild(h3);
+      li.appendChild(el);
+      line.appendChild(li);
+    }
+
+    nodes.forEach(function (el) {
+      if (el.matches("h3.balance")) {
+        var g = document.createElement("li");
+        g.className = "group";
+        g.appendChild(el);
+        line.appendChild(g);
+        balance = balanceName(el.textContent);
+        balance = balance.charAt(0).toLowerCase() + balance.slice(1);
+      } else if (el.matches("ol.derivation")) {
+        Array.prototype.slice.call(el.children).forEach(function (li, i) {
+          if (i === 0 && balance) li.dataset.balance = balance;
+          line.appendChild(li);
+        });
+        balance = "";
+        el.remove();
+      } else if (el.matches(".eq-block")) {
+        extra(el.dataset.title || TXT.complementary, el);
+      } else if (el.matches("table")) {
+        extra(TXT.parameters, el);
+      } else if (el.matches(".technique")) {
+        var name = el.querySelector(".technique-name");
+        extra(TXT.technique + (name ? ": " + name.textContent.trim() : ""), el);
+      } else {
+        var li = document.createElement("li");
+        li.className = "loose";
+        li.appendChild(el);
+        line.appendChild(li);
+      }
+    });
+    return line;
+  }
+
+  function buildToc() {
+    var panels = Array.prototype.slice.call(document.querySelectorAll(".tab-panel"));
+    if (!panels.length || document.querySelector("nav.toc")) return;
+    var nav = document.createElement("nav");
+    nav.className = "toc";
+    nav.setAttribute("aria-label", TXT.toc);
+    var groups = [], items = [];
+
+    function goTo(panel, target) {
+      var opening = panel.hidden;
+      if (opening) panel._show();
+      setTimeout(function () {
+        var trail = document.querySelector("nav.tabs");
+        var below = (trail ? trail.offsetHeight : 0) + 12;
+        var inside = document.body.scrollHeight > document.body.clientHeight;
+        var scroller = inside ? document.body : document.scrollingElement;
+        var y = target.getBoundingClientRect().top - (inside ? scroller.getBoundingClientRect().top : 0)
+          + (inside ? scroller.scrollTop : window.scrollY) - below;
+        scroller.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+      }, opening ? 120 : 0);
+    }
+
+    function dots(list) {
+      var s = document.createElement("span");
+      s.className = "toc-dots";
+      list.forEach(function (it) {
+        var i = document.createElement("i");
+        s.appendChild(i);
+        it._dot = i;
+      });
+      return s;
+    }
+
+    function entry(panel, text, target, list) {
+      var a = document.createElement("div");
+      a.className = "toc-item";
+      var t = document.createElement("span");
+      t.textContent = text;
+      a.appendChild(t);
+      if (list && list.length) a.appendChild(dots(list));
+      a.addEventListener("click", function () { goTo(panel, target); });
+      items.push({ el: target, link: a });
+      return a;
+    }
+
+    panels.forEach(function (panel) {
+      var group = document.createElement("div");
+      group.className = "toc-group";
+      group._panel = panel;
+      groups.push(group);
+      var sec = document.createElement("div");
+      sec.className = "toc-section s-" + panel.dataset.sec;
+      sec.textContent = panel._label;
+      sec.addEventListener("click", function () { goTo(panel, panel); });
+      group._link = sec;
+      group.appendChild(sec);
+      var list = document.createElement("div");
+      list.className = "toc-group-items";
+      if (panel.dataset.sec !== "problem") list.style.setProperty("--sec-color", "var(--sec-" + panel.dataset.sec + ")");
+
+      panel.querySelectorAll("ol.model-line > li.group, ol.model-line > li.extra, section.code, div.answer, .plot, ol.observations").forEach(function (el) {
+        if (el.matches("li.group")) {
+          var steps = [], s = el.nextElementSibling;
+          while (s && !s.classList.contains("group") && !s.classList.contains("extra")) {
+            if (!s.classList.contains("loose")) steps.push(s);
+            s = s.nextElementSibling;
+          }
+          list.appendChild(entry(panel, tocName(el.textContent), el, steps));
+        } else if (el.matches("li.extra")) {
+          list.appendChild(entry(panel, el.querySelector("h3").textContent.replace(/: .*$/, ""), el));
+        } else if (el.matches("section.code")) {
+          list.appendChild(entry(panel, TXT.steps, el, Array.prototype.slice.call(el.querySelectorAll(".step"))));
+        } else if (el.matches("div.answer")) {
+          list.appendChild(entry(panel, TXT.answer, el));
+        } else if (el.matches(".plot")) {
+          list.appendChild(entry(panel, TXT.figure, el));
+        } else {
+          list.appendChild(entry(panel, TXT.observations, el, Array.prototype.slice.call(el.children)));
+        }
+      });
+      if (list.children.length) group.appendChild(list);
+      nav.appendChild(group);
+    });
+
+    function update() {
+      groups.forEach(function (g) {
+        var open = !g._panel.hidden;
+        g.classList.toggle("current", open);
+        g._link.classList.toggle("active", open);
+      });
+      document.querySelectorAll("[data-read]").forEach(function (el) {
+        if (el._dot) el._dot.classList.add("read");
+      });
+      var line = window.innerHeight / 3, active = null;
+      items.forEach(function (a) {
+        if (a.el.offsetParent && a.el.getBoundingClientRect().top < line) active = a;
+      });
+      items.forEach(function (a) { a.link.classList.toggle("active", a === active); });
+    }
+
+    document.body.appendChild(nav);
+    document.body.classList.add("with-toc");
+    var pending = false;
+    function scrolled() {
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(function () { pending = false; update(); });
+    }
+    document.body.addEventListener("scroll", scrolled, { passive: true });
+    window.addEventListener("scroll", scrolled, { passive: true });
+    document.addEventListener("lesson-changed", update);
+    update();
+  }
+
+  var SMALLEST_SCALE = 0.5;
+
+  function fit(box, target) {
+    if (!box.clientWidth) return;               // hidden: redone when it appears
+    target.style.fontSize = "";
+    var excess = box.scrollWidth - box.clientWidth;
+    if (excess <= 1) return;
+    var base = parseFloat(getComputedStyle(target).fontSize);
+    var scale = Math.max(SMALLEST_SCALE, (box.clientWidth - 2) / box.scrollWidth);
+    target.style.fontSize = (base * scale).toFixed(2) + "px";
+    for (var i = 0; i < 6 && box.scrollWidth > box.clientWidth + 1 && scale > SMALLEST_SCALE; i++) {
+      scale = Math.max(SMALLEST_SCALE, scale * (box.clientWidth - 2) / box.scrollWidth - 0.01);
+      target.style.fontSize = (base * scale).toFixed(2) + "px";
+    }
+  }
+
+  function fitWidth() {
+    var pairs = [];
+    document.querySelectorAll(".equation math").forEach(function (m) { pairs.push([m, m]); });
+    document.querySelectorAll("section.code pre").forEach(function (pre) { pairs.push([pre, pre]); });
+    function redo() { pairs.forEach(function (p) { fit(p[0], p[1]); }); }
+    redo();
+    if (window.ResizeObserver) {
+      var pending = false;
+      var ro = new ResizeObserver(function () {
+        if (pending) return;
+        pending = true;
+        requestAnimationFrame(function () { pending = false; redo(); });
+      });
+      pairs.forEach(function (p) { ro.observe(p[0]); });
+    } else {
+      window.addEventListener("resize", redo);
+    }
+  }
+
+  function buildCode(sec) {
+    Array.prototype.forEach.call(sec.querySelectorAll("pre"), function (pre) {
+      pre.classList.add("has-copy");
+      copyButton(pre);
+    });
+    timeline(Array.prototype.slice.call(sec.querySelectorAll(".step")));
+  }
+
+  function init() {
+    document.querySelectorAll("pre > code").forEach(highlight);
+    document.querySelectorAll("section.code").forEach(buildCode);
+    unifyModel();
+    document.querySelectorAll("ol.derivation, ol.observations").forEach(function (ol) {
+      timeline(Array.prototype.filter.call(ol.children, function (li) {
+        return !li.classList.contains("group") && !li.classList.contains("loose");
+      }));
+    });
+    buildTabs();
+    buildToc();
+    fitWidth();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+
+  window.Lesson = { init: init, highlightText: highlightText };
+})();
+
+</script>
+<script>
+
+(function () {
+  "use strict";
+
+  var PT = /^pt/i.test(document.documentElement.lang);
+  var TXT = PT
+    ? { versus: " contra ", right: "(eixo à direita)", in: " em " }
+    : { versus: " versus ", right: "(right axis)", in: " in " };
+
+  var DEFS = {};
+  var REDRAWS = [];
+
+  function register(name, def) {
+    DEFS[name] = def;
+    if (document.body) init();
+  }
+
+  function linspace(a, b, n) {
+    var v = [];
+    for (var i = 0; i < n; i++) v.push(n === 1 ? a : a + ((b - a) * i) / (n - 1));
+    return v;
+  }
+
+  function rk4(f, t, y, h, p) {
+    var k1 = f(t, y, p);
+    var k2 = f(t + h / 2, y.map(function (v, i) { return v + (h / 2) * k1[i]; }), p);
+    var k3 = f(t + h / 2, y.map(function (v, i) { return v + (h / 2) * k2[i]; }), p);
+    var k4 = f(t + h, y.map(function (v, i) { return v + h * k3[i]; }), p);
+    return y.map(function (v, i) { return v + (h / 6) * (k1[i] + 2 * k2[i] + 2 * k3[i] + k4[i]); });
+  }
+
+  function integrate(deriv, y0, t0, tf, p, n) {
+    n = n || 2000;
+    var h = (tf - t0) / n;
+    var y = y0.slice();
+    var out = { t: [t0], y: y.map(function (v) { return [v]; }) };
+    for (var k = 1; k <= n; k++) {
+      y = rk4(deriv, t0 + (k - 1) * h, y, h, p);
+      out.t.push(t0 + k * h);
+      y.forEach(function (v, i) { out.y[i].push(v); });
+    }
+    return out;
+  }
+
+  function root(f, a, b) {
+    var fa = f(a), fb = f(b);
+    if (!(isFinite(fa) && isFinite(fb)) || fa * fb > 0) return NaN;
+    for (var i = 0; i < 200; i++) {
+      var m = (a + b) / 2, fm = f(m);
+      if (fm === 0 || (b - a) / 2 < 1e-12 * Math.max(1, Math.abs(m))) return m;
+      if (fa * fm < 0) { b = m; } else { a = m; fa = fm; }
+    }
+    return (a + b) / 2;
+  }
+
+  function fmt(v, decimals) {
+    if (!isFinite(v)) return "—";
+    var s = v.toFixed(decimals == null ? 2 : decimals);
+    return PT ? s.replace(".", ",") : s;
+  }
+
+  function niceStep(span) {
+    var raw = span / 5;
+    var mag = Math.pow(10, Math.floor(Math.log10(raw)));
+    var r = raw / mag;
+    return (r < 1.5 ? 1 : r < 3 ? 2 : r < 7 ? 5 : 10) * mag;
+  }
+
+  function decimalsOf(step) {
+    return Math.max(0, -Math.floor(Math.log10(step) + 1e-9));
+  }
+
+  function scaleY(min, max, fixed) {
+    if (fixed) return { min: fixed[0], max: fixed[1], step: niceStep(fixed[1] - fixed[0]) };
+    if (!(isFinite(min) && isFinite(max))) { min = 0; max = 1; }
+    if (min >= 0 && min < 0.3 * max) min = 0;
+    if (max === min) max = min + (Math.abs(min) || 1);
+    var step = niceStep(max - min);
+    return { min: Math.floor(min / step + 1e-9) * step, max: Math.ceil(max / step - 1e-9) * step, step: step };
+  }
+
+  function scaleX(min, max, fixed) {
+    if (fixed) { min = fixed[0]; max = fixed[1]; }
+    if (!(isFinite(min) && isFinite(max))) { min = 0; max = 1; }
+    if (max === min) max = min + 1;
+    return { min: min, max: max, step: niceStep(max - min) };
+  }
+
+  function normalize(raw, n) {
+    if (Array.isArray(raw)) return raw;
+    return (raw.y || []).slice(0, n).map(function (y) { return { x: raw.x, y: y }; });
+  }
+
+  function seriesSpec(s) {
+    return typeof s === "string" ? { name: s, axis: 1, type: "line" }
+      : { name: s.name, axis: s.axis || 1, type: s.type || "line" };
+  }
+
+  function color(name) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || "#888";
+  }
+
+  var DASHES = [[], [7, 4], [2, 3], [9, 3, 2, 3]];
+
+  function draw(state) {
+    var canvas = state.canvas, def = state.def, series = state.series, specs = state.specs;
+    var parent = canvas.parentElement;
+    var w = canvas.clientWidth || (parent && parent.clientWidth) || 600;
+    var h = state.height;
+    var dpr = window.devicePixelRatio || 1;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.height = h + "px";
+
+    var ctx = canvas.getContext("2d");
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+
+    var hasY2 = specs.some(function (s) { return s.axis === 2; });
+    var m = { left: 60, right: hasY2 ? 60 : 14, top: 12, bottom: 46 };
+    var lw = w - m.left - m.right, lh = h - m.top - m.bottom;
+
+    var xs = { min: Infinity, max: -Infinity };
+    var ys = [null, { min: Infinity, max: -Infinity }, { min: Infinity, max: -Infinity }];
+    series.forEach(function (s, i) {
+      var e = ys[specs[i].axis];
+      s.x.forEach(function (x, k) {
+        var y = s.y[k];
+        if (!isFinite(x) || !isFinite(y)) return;
+        if (x < xs.min) xs.min = x; if (x > xs.max) xs.max = x;
+        if (y < e.min) e.min = y; if (y > e.max) e.max = y;
+      });
+    });
+
+    var lim = def.limits || {};
+    var ex = scaleX(xs.min, xs.max, lim.x);
+    var ey = [null, scaleY(ys[1].min, ys[1].max, lim.y), hasY2 ? scaleY(ys[2].min, ys[2].max, lim.y2) : null];
+    state.scales = { x: ex, y: ey, m: m, lw: lw, lh: lh };
+
+    function px(x) { return m.left + ((x - ex.min) / (ex.max - ex.min)) * lw; }
+    function py(y, e) { var s = ey[e]; return m.top + lh - ((y - s.min) / (s.max - s.min)) * lh; }
+    state.px = px; state.py = py;
+
+    var colRule = color("--rule"), colMuted = color("--muted"), colFg = color("--fg");
+    ctx.lineWidth = 1;
+    ctx.font = "13px " + color("--serif");
+
+    var cy = decimalsOf(ey[1].step), v;
+    for (v = ey[1].min; v <= ey[1].max + ey[1].step / 2; v += ey[1].step) {
+      var yp = py(v, 1);
+      ctx.strokeStyle = colRule;
+      ctx.globalAlpha = Math.abs(v - ey[1].min) < 1e-12 ? 1 : 0.35;
+      ctx.beginPath(); ctx.moveTo(m.left - 4, yp); ctx.lineTo(m.left + lw, yp); ctx.stroke();
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = colMuted; ctx.textAlign = "right"; ctx.textBaseline = "middle";
+      ctx.fillText(fmt(v, cy), m.left - 7, yp);
+    }
+    if (hasY2) {
+      var c2 = decimalsOf(ey[2].step);
+      for (v = ey[2].min; v <= ey[2].max + ey[2].step / 2; v += ey[2].step) {
+        var y2p = py(v, 2);
+        ctx.strokeStyle = colRule;
+        ctx.beginPath(); ctx.moveTo(m.left + lw, y2p); ctx.lineTo(m.left + lw + 4, y2p); ctx.stroke();
+        ctx.fillStyle = colMuted; ctx.textAlign = "left"; ctx.textBaseline = "middle";
+        ctx.fillText(fmt(v, c2), m.left + lw + 7, y2p);
+      }
+    }
+    var cx = decimalsOf(ex.step);
+    for (v = Math.ceil(ex.min / ex.step - 1e-9) * ex.step; v <= ex.max + 1e-9 * Math.abs(ex.max || 1); v += ex.step) {
+      var xp = px(v);
+      ctx.strokeStyle = colRule;
+      ctx.beginPath(); ctx.moveTo(xp, m.top + lh); ctx.lineTo(xp, m.top + lh + 4); ctx.stroke();
+      ctx.fillStyle = colMuted; ctx.textAlign = "center"; ctx.textBaseline = "top";
+      ctx.fillText(fmt(v, cx), xp, m.top + lh + 7);
+    }
+
+    ctx.strokeStyle = colRule;
+    ctx.beginPath();
+    ctx.moveTo(m.left, m.top); ctx.lineTo(m.left, m.top + lh); ctx.lineTo(m.left + lw, m.top + lh);
+    if (hasY2) ctx.lineTo(m.left + lw, m.top);
+    ctx.stroke();
+
+    ctx.fillStyle = colFg;
+    ctx.font = "14px " + color("--serif");
+    ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
+    ctx.fillText(def.xLabel || "x", m.left + lw / 2, h - 10);
+    ctx.save(); ctx.translate(14, m.top + lh / 2); ctx.rotate(-Math.PI / 2);
+    ctx.fillText(def.yLabel || "y", 0, 0); ctx.restore();
+    if (hasY2) {
+      ctx.save(); ctx.translate(w - 8, m.top + lh / 2); ctx.rotate(Math.PI / 2);
+      ctx.fillText(def.y2Label || "y₂", 0, 0); ctx.restore();
+    }
+
+    ctx.save();
+    ctx.beginPath(); ctx.rect(m.left - 5, m.top - 5, lw + 10, lh + 10); ctx.clip();
+    series.forEach(function (s, i) {
+      var sp = specs[i], c = color("--series-" + (i + 1)) || colFg;
+      ctx.strokeStyle = c; ctx.fillStyle = c; ctx.lineWidth = 2;
+      if (sp.type === "points") {
+        s.x.forEach(function (x, k) {
+          if (!isFinite(x) || !isFinite(s.y[k])) return;
+          ctx.beginPath(); ctx.arc(px(x), py(s.y[k], sp.axis), 3.5, 0, 2 * Math.PI); ctx.fill();
+        });
+        return;
+      }
+      ctx.setLineDash(DASHES[i] || []);
+      ctx.beginPath();
+      var open = false;
+      s.x.forEach(function (x, k) {
+        var y = s.y[k];
+        if (!isFinite(x) || !isFinite(y)) { open = false; return; }
+        if (!open) { ctx.moveTo(px(x), py(y, sp.axis)); open = true; }
+        else ctx.lineTo(px(x), py(y, sp.axis));
+      });
+      ctx.stroke(); ctx.setLineDash([]);
+    });
+    ctx.restore();
+
+    if (state.cursor != null) drawCursor(ctx, state);
+  }
+
+  function drawCursor(ctx, state) {
+    var e = state.scales, m = e.m;
+    var x = e.x.min + ((state.cursor - m.left) / e.lw) * (e.x.max - e.x.min);
+    if (x < e.x.min || x > e.x.max) return;
+    var lines = [state.def.xLabel.replace(/\s*\(.*\)$/, "") + " = " + fmt(x, decimalsOf(e.x.step) + 1)];
+    state.series.forEach(function (s, i) {
+      var sp = state.specs[i];
+      if (sp.type === "points") return;
+      var y = interpolate(s, x);
+      if (!isFinite(y)) return;
+      lines.push(sp.name + ": " + fmt(y, decimalsOf(e.y[sp.axis].step) + 1));
+      ctx.fillStyle = color("--series-" + (i + 1));
+      ctx.beginPath(); ctx.arc(state.px(x), state.py(y, sp.axis), 4, 0, 2 * Math.PI); ctx.fill();
+    });
+
+    var xp = state.px(x);
+    ctx.strokeStyle = color("--muted"); ctx.setLineDash([3, 3]); ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(xp, m.top); ctx.lineTo(xp, m.top + e.lh); ctx.stroke(); ctx.setLineDash([]);
+
+    ctx.font = "13px " + color("--serif");
+    var width = Math.max.apply(null, lines.map(function (l) { return ctx.measureText(l).width; })) + 16;
+    var height = lines.length * 15 + 10;
+    var bx = xp + 10 + width > m.left + e.lw ? xp - 10 - width : xp + 10;
+    ctx.fillStyle = color("--bg"); ctx.strokeStyle = color("--rule");
+    ctx.fillRect(bx, m.top + 6, width, height); ctx.strokeRect(bx, m.top + 6, width, height);
+    ctx.fillStyle = color("--fg"); ctx.textAlign = "left"; ctx.textBaseline = "top";
+    lines.forEach(function (l, k) { ctx.fillText(l, bx + 8, m.top + 11 + k * 15); });
+  }
+
+  function interpolate(s, x) {
+    for (var k = 1; k < s.x.length; k++) {
+      var a = s.x[k - 1], b = s.x[k];
+      if ((a <= x && x <= b) || (b <= x && x <= a)) {
+        if (a === b) return s.y[k];
+        return s.y[k - 1] + ((x - a) / (b - a)) * (s.y[k] - s.y[k - 1]);
+      }
+    }
+    return NaN;
+  }
+
+  function check(state) {
+    var name = state.name, warned = state.warned;
+    var byAxis = {};
+    state.series.forEach(function (s, i) {
+      var sp = state.specs[i];
+      (byAxis[sp.axis] = byAxis[sp.axis] || []).push(i);
+      var bad = s.y.filter(function (v) { return !isFinite(v); }).length;
+      if (bad && !warned["nan" + i]) {
+        warned["nan" + i] = 1;
+        console.warn("[plot] " + name + ': series "' + sp.name + '" has ' + bad + " non-finite values — the curve will have gaps.");
+      }
+    });
+    Object.keys(byAxis).forEach(function (e) {
+      if (byAxis[e].length < 2) return;
+      var sc = state.scales.y[e], span = sc.max - sc.min;
+      byAxis[e].forEach(function (i) {
+        var ys = state.series[i].y.filter(isFinite);
+        if (!ys.length || state.specs[i].type === "points") return;
+        var amp = Math.max.apply(null, ys) - Math.min.apply(null, ys);
+        if (amp > 0 && amp < 0.08 * span && !warned["flat" + i]) {
+          warned["flat" + i] = 1;
+          console.warn("[plot] " + name + ': series "' + state.specs[i].name + '" varies only ' +
+            Math.round((100 * amp) / span) + "% of the height of axis " + e + " — on the plot it is a flat line. " +
+            "Put it on axis 2 ({ name, axis: 2 }) or in a figure of its own.");
+        }
+      });
+    });
+  }
+
+  function pairs(txt) {
+    var p = {};
+    (txt || "").split(",").forEach(function (pair) {
+      var kv = pair.split("=");
+      if (kv.length === 2) p[kv[0].trim()] = parseFloat(kv[1].trim());
+    });
+    return p;
+  }
+
+  function mount(el, name) {
+    var def = DEFS[name];
+    el.classList.add("frame");
+    var params = Object.assign({}, def.defaults || {}, pairs(el.dataset.params));
+    var specs = (def.series || []).map(seriesSpec);
+    var height = Math.min(420, Math.max(320, parseFloat(el.dataset.height) || 340));
+
+    var canvas = document.createElement("canvas");
+    canvas.setAttribute("role", "img");
+    canvas.setAttribute("aria-label", (def.yLabel || "y") + TXT.versus + (def.xLabel || "x"));
+    el.appendChild(canvas);
+
+    var legend = document.createElement("div");
+    legend.className = "legend";
+    legend.innerHTML = specs.map(function (s, i) {
+      return '<span class="l-' + (i + 1) + (s.type === "points" ? " l-points" : "") + '">' +
+        s.name + (s.axis === 2 ? " <small>" + TXT.right + "</small>" : "") + "</span>";
+    }).join("");
+    el.appendChild(legend);
+
+    var readout = document.createElement("p");
+    readout.className = "readout";
+    el.appendChild(readout);
+
+    var controls = document.createElement("div");
+    controls.className = "controls";
+    el.appendChild(controls);
+
+    var state = { name: name, def: def, canvas: canvas, specs: specs, height: height, cursor: null, warned: {} };
+
+    function recompute() {
+      state.series = normalize(def.compute(params), specs.length);
+      if (state.series.length !== specs.length) {
+        console.error("[plot] " + name + ": compute() returned " + state.series.length +
+          " series, and `series` declares " + specs.length + ".");
+      }
+      state.series = state.series.slice(0, specs.length);
+      draw(state);
+      check(state);
+      readout.textContent = typeof def.readout === "function" ? def.readout(state.series, params) : "";
+    }
+    function redraw() { if (state.series) draw(state); }
+
+    var requested = (el.dataset.controls || "").split(",").map(function (s) { return s.trim(); }).filter(Boolean);
+    if (requested.length > 4) console.warn("[plot] " + name + ": " + requested.length + " controls — the limit is four.");
+    requested.forEach(function (spec) {
+      var q = spec.split(":"), key = q[0].trim();
+      var f = q.length === 4 ? q.slice(1).map(parseFloat) : (def.ranges || {})[key];
+      if (!f) {
+        console.error("[plot] " + name + ': control "' + key + '" has no range — declare it in ranges or as "' + key + ':min:max:step".');
+        return;
+      }
+      if (!(key in params)) {
+        console.error("[plot] " + name + ': control "' + key + '" is not in defaults, and compute() never reads it.');
+        return;
+      }
+      if (params[key] < f[0] || params[key] > f[1]) {
+        console.warn("[plot] " + name + ": " + key + " = " + params[key] + " is outside the range [" + f[0] + ", " + f[1] + "].");
+      }
+      var unit = (def.units || {})[key] || "";
+      var decimals = decimalsOf(f[2]);
+
+      var block = document.createElement("div");
+      block.className = "control";
+      var labelEl = document.createElement("label");
+      var nameSpan = document.createElement("span");
+      var text = (def.labels || {})[key] || key;
+      nameSpan.textContent = text;
+      var value = document.createElement("span");
+      value.className = "value";
+      function show() { value.textContent = fmt(params[key], decimals) + (unit ? " " + unit : ""); }
+      show();
+      labelEl.appendChild(nameSpan); labelEl.appendChild(value);
+
+      var range = document.createElement("input");
+      range.type = "range";
+      range.min = f[0]; range.max = f[1]; range.step = f[2];
+      range.value = params[key];
+      range.setAttribute("aria-label", text + (unit ? TXT.in + unit : ""));
+      range.addEventListener("input", function () {
+        params[key] = parseFloat(range.value);
+        show();
+        recompute();
+      });
+      block.appendChild(labelEl); block.appendChild(range);
+      controls.appendChild(block);
+    });
+
+    canvas.addEventListener("pointermove", function (ev) {
+      state.cursor = ev.clientX - canvas.getBoundingClientRect().left;
+      redraw();
+    });
+    canvas.addEventListener("pointerleave", function () { state.cursor = null; redraw(); });
+
+    recompute();
+    REDRAWS.push(redraw);
+  }
+
+  function init() {
+    document.querySelectorAll(".plot[data-plot]").forEach(function (el) {
+      var name = el.dataset.plot;
+      if (el.dataset.mounted || !DEFS[name]) return;   // idempotent; waits for register
+      el.dataset.mounted = "1";
+      mount(el, name);
+    });
+  }
+
+  function redrawAll() { REDRAWS.forEach(function (f) { f(); }); }
+
+  window.addEventListener("resize", redrawAll);
+  document.addEventListener("theme-changed", redrawAll);
+  if (window.matchMedia) {
+    var mq = window.matchMedia("(prefers-color-scheme: dark)");
+    if (mq.addEventListener) mq.addEventListener("change", redrawAll);
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+  else init();
+
+  window.addEventListener("load", function () {
+    document.querySelectorAll(".plot[data-plot]").forEach(function (el) {
+      if (!el.dataset.mounted) console.error('[plot] no Plot.register("' + el.dataset.plot + '") — the figure is empty.');
+    });
+  });
+
+  window.Plot = {
+    register: register,
+    init: init,
+    integrate: integrate,
+    linspace: linspace,
+    root: root,
+    fmt: fmt
+  };
+})();
+
+</script>
+<script>
+
+(function () {
+  "use strict";
+
+  var PYODIDE = "https://cdn.jsdelivr.net/pyodide/v0.27.2/full/";
+  var KEY = "lesson-editor:" + location.pathname;
+  var INDENT = "    ";
+  var PT = /^pt/i.test(document.documentElement.lang);
+  var TXT = PT ? {
+    empty: "O editor começa vazio.\n\n" +
+      "Em cada bloco de código da lição, o botão  → editor  traz aquele trecho " +
+      "para cá, no fim do programa. Monte o programa passo a passo e aperte " +
+      "Rodar (ou Ctrl+Enter).",
+    open: "Abrir o editor de código",
+    editor: "Editor de código",
+    panel: "Editor de Python",
+    run: "Rodar (Ctrl+Enter)",
+    clear: "Esvaziar o editor",
+    close: "Fechar o editor",
+    code: "Código Python",
+    firstTime: "Na primeira vez que você rodar, o Python é baixado (precisa de internet).",
+    clearOutput: "Apagar a saída, sem mexer no código",
+    output: "Saída",
+    dividerLabel: "Arraste para dividir o espaço entre o código e a saída",
+    dividerHint: "Arraste para dividir o espaço · duplo clique volta ao meio",
+    sideLabel: "Arraste para dividir a largura entre a lição e o editor",
+    sideHint: "Arraste para os lados · duplo clique volta ao padrão",
+    send: "Levar este trecho ao fim do programa no editor",
+    figure: "Figura gerada pelo programa",
+    downloading: "Baixando o Python… (só na primeira vez)",
+    noConnection: "sem conexão",
+    editorEmpty: "O editor está vazio: traga os trechos da lição com  → editor.",
+    libraries: "Carregando as bibliotecas que o programa importa…",
+    running: "Rodando…",
+    done: function (s) { return "Pronto em " + s.toFixed(1).replace(".", ",") + " s"; },
+    nothingPrinted: "(o programa não imprimiu nada)",
+    noPython: "Não consegui baixar o Python. O editor precisa de internet na primeira vez.",
+    error: "O programa parou com um erro"
+  } : {
+    empty: "The editor starts empty.\n\n" +
+      "In each code block of the lesson, the  → editor  button brings that piece " +
+      "here, to the end of the program. Build the program step by step and press " +
+      "Run (or Ctrl+Enter).",
+    open: "Open the code editor",
+    editor: "Code editor",
+    panel: "Python editor",
+    run: "Run (Ctrl+Enter)",
+    clear: "Empty the editor",
+    close: "Close the editor",
+    code: "Python code",
+    firstTime: "The first time you run, Python is downloaded (needs internet).",
+    clearOutput: "Clear the output, keeping the code",
+    output: "Output",
+    dividerLabel: "Drag to split the space between the code and the output",
+    dividerHint: "Drag to split the space · double-click to reset",
+    sideLabel: "Drag to split the width between the lesson and the editor",
+    sideHint: "Drag sideways · double-click to reset",
+    send: "Bring this piece to the end of the program in the editor",
+    figure: "Figure made by the program",
+    downloading: "Downloading Python… (first time only)",
+    noConnection: "no connection",
+    editorEmpty: "The editor is empty: bring the pieces of the lesson with  → editor.",
+    libraries: "Loading the libraries the program imports…",
+    running: "Running…",
+    done: function (s) { return "Done in " + s.toFixed(1) + " s"; },
+    nothingPrinted: "(the program printed nothing)",
+    noPython: "Could not download Python. The editor needs internet the first time.",
+    error: "The program stopped with an error"
+  };
+
+  var py = null;          // the Pyodide instance, once loaded
+  var loading = null;     // the loading promise, so it never loads twice
+
+  function save(txt) { try { localStorage.setItem(KEY, txt); } catch (e) { /* no storage */ } }
+  function saved() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+  function forget() { try { localStorage.removeItem(KEY); } catch (e) { /* idem */ } }
+
+  function highlight(txt) {
+    return window.Lesson && window.Lesson.highlightText
+      ? window.Lesson.highlightText(txt)
+      : txt.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  function el(tag, cls, txt) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (txt != null) e.textContent = txt;
+    return e;
+  }
+
+  function icon(name) { return el("span", "ic ic-" + name); }
+
+  function label(b, parts) {
+    b.textContent = "";
+    parts.forEach(function (p) { b.append(typeof p === "string" ? document.createTextNode(p) : p); });
+  }
+
+  function button(cls, parts, title) {
+    var b = el("button", cls);
+    b.type = "button";
+    if (parts) label(b, [].concat(parts));
+    if (title) b.title = title;
+    return b;
+  }
+
+  function iconButton(cls, name, title) {
+    var b = button(cls + " editor-icon", [icon(name)], title);
+    b.setAttribute("aria-label", title);
+    return b;
+  }
+
+  function build() {
+    var open = button("editor-open", null, TXT.open);
+    open.setAttribute("aria-label", TXT.open);
+    open.append(el("span", "editor-open-text", TXT.editor), el("span", "editor-open-arrow"));
+
+    var panel = el("aside", "editor-panel");
+    panel.setAttribute("aria-label", TXT.panel);
+
+    var top = el("div", "editor-top");
+    var run = iconButton("editor-run", "play", TXT.run);
+    var clear = iconButton("editor-button editor-clear", "trash", TXT.clear);
+    var close = iconButton("editor-button editor-close", "x", TXT.close);
+    top.append(el("span", "editor-title", TXT.editor), run, clear, close);
+
+    var code = el("div", "editor-code");
+    var lines = el("div", "editor-lines");
+    lines.setAttribute("aria-hidden", "true");
+    var field = el("div", "editor-field");
+    var shade = el("pre", "editor-highlight");
+    shade.setAttribute("aria-hidden", "true");
+    var shadeCode = el("code", "no-highlight");
+    shade.appendChild(shadeCode);
+    var text = el("textarea", "editor-text");
+    text.spellcheck = false;
+    text.placeholder = TXT.empty;
+    text.setAttribute("autocapitalize", "off");
+    text.setAttribute("autocomplete", "off");
+    text.setAttribute("aria-label", TXT.code);
+    field.append(shade, text);
+    code.append(lines, field);
+
+    var output = el("div", "editor-output");
+    var outputTop = el("div", "editor-output-top");
+    var status = el("span", "editor-status", TXT.firstTime);
+    var clearOutput = iconButton("editor-clear-output", "trash", TXT.clearOutput);
+    outputTop.append(el("span", "", TXT.output), status, clearOutput);
+    var result = el("div", "editor-result");
+    output.append(outputTop, result);
+
+    var divider = el("div", "editor-divider");
+    divider.setAttribute("role", "separator");
+    divider.setAttribute("aria-orientation", "horizontal");
+    divider.setAttribute("aria-label", TXT.dividerLabel);
+    divider.title = TXT.dividerHint;
+    divider.tabIndex = 0;
+
+    var side = el("div", "editor-divider-v");
+    side.setAttribute("role", "separator");
+    side.setAttribute("aria-orientation", "vertical");
+    side.setAttribute("aria-label", TXT.sideLabel);
+    side.title = TXT.sideHint;
+    side.tabIndex = 0;
+
+    panel.append(side, top, code, divider, output);
+    document.body.append(open, panel);
+
+    var root = document.documentElement;
+    var MIN_EDITOR = 360;   // px: the editor still shows a whole line of code
+    var MIN_LESSON = 420;   // px: the lesson is still a readable column
+
+    function redrawLesson() { window.dispatchEvent(new Event("resize")); }
+
+    function editorWidth(w) {
+      w = Math.max(MIN_EDITOR, Math.min(window.innerWidth - MIN_LESSON, w));
+      root.style.setProperty("--editor-w", w + "px");
+      return w;
+    }
+
+    function defaultWidth() {
+      root.style.removeProperty("--editor-w");
+      try { localStorage.removeItem("lesson-editor-width"); } catch (e) { /* no storage */ }
+      redrawLesson();
+    }
+
+    function saveWidth(w) {
+      try { localStorage.setItem("lesson-editor-width", String(Math.round(w))); } catch (e) { /* idem */ }
+    }
+
+    side.addEventListener("pointerdown", function (ev) {
+      ev.preventDefault();
+      side.setPointerCapture(ev.pointerId);
+      side.classList.add("dragging");
+      document.body.classList.add("resizing");
+      var last = panel.offsetWidth, frame = 0;
+      function move(e) {
+        var gap = parseFloat(getComputedStyle(panel).right) || 0;
+        last = editorWidth(window.innerWidth - gap - e.clientX - gap / 2);
+        if (!frame) frame = requestAnimationFrame(function () { frame = 0; redrawLesson(); });
+      }
+      function release() {
+        side.classList.remove("dragging");
+        document.body.classList.remove("resizing");
+        side.removeEventListener("pointermove", move);
+        side.removeEventListener("pointerup", release);
+        side.removeEventListener("pointercancel", release);
+        saveWidth(last);
+        redrawLesson();
+      }
+      side.addEventListener("pointermove", move);
+      side.addEventListener("pointerup", release);
+      side.addEventListener("pointercancel", release);
+    });
+    side.addEventListener("dblclick", defaultWidth);
+    side.addEventListener("keydown", function (ev) {
+      var step = ev.shiftKey ? 120 : 40;
+      if (ev.key === "ArrowLeft" || ev.key === "ArrowRight") {
+        ev.preventDefault();
+        saveWidth(editorWidth(panel.offsetWidth + (ev.key === "ArrowLeft" ? step : -step)));
+        redrawLesson();
+      }
+    });
+
+    try {
+      var width = parseFloat(localStorage.getItem("lesson-editor-width"));
+      if (width) editorWidth(width);
+    } catch (e) { /* no storage: the default width stays */ }
+
+    var MINIMUM = 90;   // px: neither of the two disappears completely
+    var ratio = null;
+
+    function free() {
+      return panel.clientHeight - top.offsetHeight - divider.offsetHeight;
+    }
+
+    function split(height) {
+      height = Math.max(MINIMUM, Math.min(free() - MINIMUM, height));
+      code.style.flex = "0 1 " + height + "px";
+      output.style.flex = "1 1 0";
+      return height;
+    }
+
+    function middle() {
+      split(panel.clientHeight / 2 - top.offsetHeight - divider.offsetHeight / 2);
+    }
+
+    function defaultSplit() {
+      ratio = null;
+      middle();
+      try { localStorage.removeItem("lesson-editor-split"); } catch (e) { /* no storage */ }
+    }
+
+    function saveSplit(height) {
+      ratio = height / free();
+      try { localStorage.setItem("lesson-editor-split", ratio.toFixed(4)); } catch (e) { /* idem */ }
+    }
+
+    window.addEventListener("resize", function () { if (ratio) split(ratio * free()); else middle(); });
+
+    divider.addEventListener("pointerdown", function (ev) {
+      ev.preventDefault();
+      divider.setPointerCapture(ev.pointerId);
+      divider.classList.add("dragging");
+      var y0 = ev.clientY, h0 = code.offsetHeight, last = h0;
+      function move(e) { last = split(h0 + e.clientY - y0); }
+      function release() {
+        divider.classList.remove("dragging");
+        divider.removeEventListener("pointermove", move);
+        divider.removeEventListener("pointerup", release);
+        divider.removeEventListener("pointercancel", release);
+        saveSplit(last);
+      }
+      divider.addEventListener("pointermove", move);
+      divider.addEventListener("pointerup", release);
+      divider.addEventListener("pointercancel", release);
+    });
+    divider.addEventListener("dblclick", defaultSplit);
+    divider.addEventListener("keydown", function (ev) {
+      var step = ev.shiftKey ? 80 : 24;
+      if (ev.key === "ArrowUp" || ev.key === "ArrowDown") {
+        ev.preventDefault();
+        saveSplit(split(code.offsetHeight + (ev.key === "ArrowDown" ? step : -step)));
+      }
+    });
+
+    try {
+      var savedSplit = parseFloat(localStorage.getItem("lesson-editor-split"));
+      if (savedSplit > 0 && savedSplit < 1) ratio = savedSplit;
+      else if (savedSplit) localStorage.removeItem("lesson-editor-split");
+    } catch (e) { /* no storage: the default split stays */ }
+    if (ratio) split(ratio * free()); else middle();
+
+    function sync() {
+      shade.scrollTop = text.scrollTop;
+      shade.scrollLeft = text.scrollLeft;
+      lines.scrollTop = text.scrollTop;
+    }
+
+    function paint() {
+      shadeCode.innerHTML = highlight(text.value) + "\n";
+      var n = text.value ? text.value.split("\n").length : 1;
+      var nums = "";
+      for (var i = 1; i <= n; i++) nums += i + "\n";
+      lines.textContent = nums;
+      sync();
+    }
+
+    function onEdit() { paint(); save(text.value); }
+
+    function insert(txt) {
+      if (!document.execCommand || !document.execCommand("insertText", false, txt)) {
+        var a = text.selectionStart, b = text.selectionEnd;
+        text.value = text.value.slice(0, a) + txt + text.value.slice(b);
+        text.selectionStart = text.selectionEnd = a + txt.length;
+      }
+      onEdit();
+    }
+
+    text.addEventListener("input", onEdit);
+    text.addEventListener("scroll", sync);
+    text.addEventListener("keydown", function (ev) {
+      if (ev.key === "Enter" && (ev.ctrlKey || ev.metaKey)) {
+        ev.preventDefault();
+        execute();
+      } else if (ev.key === "Tab" && !ev.shiftKey) {
+        ev.preventDefault();
+        insert(INDENT);
+      } else if (ev.key === "Enter") {
+        var before = text.value.slice(0, text.selectionStart);
+        var line = before.slice(before.lastIndexOf("\n") + 1);
+        var indent = line.match(/^[ \t]*/)[0];
+        if (/:[ \t]*(#.*)?$/.test(line)) indent += INDENT;
+        ev.preventDefault();
+        insert("\n" + indent);
+      }
+    });
+
+    text.value = saved() || "";
+    paint();
+
+    function toggle(isOpen) {
+      document.body.classList.toggle("with-editor", isOpen);
+      setTimeout(function () { window.dispatchEvent(new Event("resize")); }, 320);
+    }
+    open.addEventListener("click", function () {
+      toggle(true);
+      setTimeout(function () { text.focus(); }, 320);
+    });
+    close.addEventListener("click", function () { toggle(false); });
+    clear.addEventListener("click", function () {
+      text.value = "";
+      forget();
+      paint();
+      result.textContent = "";
+      text.focus();
+    });
+    run.addEventListener("click", execute);
+    clearOutput.addEventListener("click", function () {
+      result.textContent = "";
+      status.textContent = "";
+    });
+
+    function append(piece) {
+      piece = piece.replace(/\s+$/, "") + "\n";
+      var current = text.value.replace(/\s+$/, "");
+      text.value = current ? current + "\n\n" + piece : piece;
+      onEdit();
+      text.scrollTop = text.scrollHeight;
+      sync();
+      code.classList.remove("received");
+      void code.offsetWidth;          // restarts the flash
+      code.classList.add("received");
+    }
+
+    document.querySelectorAll("section.code pre").forEach(function (pre) {
+      var c = pre.querySelector("code");
+      if (!c) return;
+      var b = iconButton("to-editor", "send", TXT.send);
+      b.addEventListener("click", function (ev) {
+        ev.stopPropagation();           // the click neither opens nor closes the step around it
+        if (!document.body.classList.contains("with-editor")) toggle(true);
+        append(c.textContent);
+        label(b, [icon("check")]);
+        b.classList.add("sent");
+        setTimeout(function () { label(b, [icon("send")]); b.classList.remove("sent"); }, 1600);
+      });
+      pre.classList.add("has-copy");
+      pre.appendChild(b);
+    });
+
+    function write(txt, cls) {
+      var last = result.lastElementChild;
+      if (last && last.tagName === "PRE" && last.className === cls) {
+        last.textContent += txt + "\n";
+      } else {
+        result.appendChild(el("pre", cls, txt + "\n"));
+      }
+    }
+
+    function figure(b64) {
+      var img = el("img", "out-figure");
+      img.alt = TXT.figure;
+      img.src = "data:image/png;base64," + b64;
+      result.appendChild(img);
+    }
+
+    function load() {
+      if (loading) return loading;
+      loading = new Promise(function (ok, fail) {
+        status.textContent = TXT.downloading;
+        var s = document.createElement("script");
+        s.src = PYODIDE + "pyodide.js";
+        s.onload = function () {
+          window.loadPyodide({ indexURL: PYODIDE }).then(function (p) {
+            py = p;
+            py.setStdout({ batched: function (t) { write(t, "out-text"); } });
+            py.setStderr({ batched: function (t) {
+              if (/building the font cache/i.test(t)) return;
+              write(t, "out-error");
+            } });
+            py.globals.set("_lesson_figure", figure);
+            ok(py);
+          }, fail);
+        };
+        s.onerror = function () { fail(new Error(TXT.noConnection)); };
+        document.head.appendChild(s);
+      });
+      loading.catch(function () { loading = null; });
+      return loading;
+    }
+
+    var MPL_SETUP = [
+      "import io, base64",
+      "import matplotlib",
+      "matplotlib.use('Agg')",
+      "import matplotlib.pyplot as plt",
+      "def _lesson_show(*a, **k):",
+      "    for n in plt.get_fignums():",
+      "        b = io.BytesIO()",
+      "        plt.figure(n).savefig(b, format='png', dpi=110, bbox_inches='tight')",
+      "        _lesson_figure(base64.b64encode(b.getvalue()).decode())",
+      "    plt.close('all')",
+      "plt.show = _lesson_show"
+    ].join("\n");
+
+    var busy = false;
+
+    function execute() {
+      if (busy) return;
+      var source = text.value;
+      if (!source.trim()) {
+        status.textContent = TXT.editorEmpty;
+        return;
+      }
+      busy = true;
+      run.disabled = true;
+      result.textContent = "";
+      var t0;
+
+      load().then(function () {
+        status.textContent = TXT.libraries;
+        return py.loadPackagesFromImports(source);
+      }).then(function () {
+        if (py.loadedPackages.matplotlib) py.runPython(MPL_SETUP);
+        status.textContent = TXT.running;
+        t0 = performance.now();
+        var ns = py.globals.get("dict")();
+        return py.runPythonAsync(source, { globals: ns }).finally(function () { ns.destroy(); });
+      }).then(function () {
+        if (py.loadedPackages.matplotlib) py.runPython("_lesson_show()");
+        var s = (performance.now() - t0) / 1000;
+        status.textContent = TXT.done(s);
+        if (!result.childElementCount) write(TXT.nothingPrinted, "out-empty");
+      }).catch(function (err) {
+        if (!py) {
+          status.textContent = TXT.noPython;
+          return;
+        }
+        var msg = String((err && err.message) || err);
+        var cut = msg.indexOf('File "<exec>"');
+        write(cut >= 0 ? "Traceback (most recent call last):\n  " + msg.slice(cut) : msg, "out-error");
+        status.textContent = TXT.error;
+      }).finally(function () {
+        busy = false;
+        run.disabled = false;
+      });
+    }
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", build);
+  else build();
+})();
+
+</script>
+</body>
+</html>

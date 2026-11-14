@@ -9,20 +9,20 @@
 | Teste | 13 |
 | Data | 2026-10-11 |
 | Quem rodou | Augusto, à mão; avaliação pela sessão de desenvolvimento |
-| Foco | O mesmo exercício no Opus, no Sonnet e no Haiku 5.5: as três correções de `91fe9cd` pegaram nos três (resposta completa, pasta padrão, resposta curta no chat)? Num problema de conta direta, sem método numérico obrigatório, o quadro da técnica se adapta? Como os três se comparam? |
+| Foco | O mesmo exercício no Opus, no Sonnet e no Haiku 5.5: as três correções de `97e95dd` pegaram nos três (resposta completa, pasta padrão, resposta curta no chat)? Num problema de conta direta, sem método numérico obrigatório, o quadro da técnica se adapta? Como os três se comparam? |
 
 ## 2. Versão da skill
 
 | Campo | Valor |
 |---|---|
-| Commit da skill | `91fe9cd` — Resposta completa, pasta padrao e resposta curta ao aluno |
+| Commit da skill | `97e95dd` — Resposta completa, pasta padrao e resposta curta ao aluno |
 | Branch | `skill-geral` |
 | Alterações locais não commitadas | não |
 | Como a skill foi carregada | *junction* `~/.claude/skills/lesson-generator` → `lesson-generator/Skill lesson-generator/` |
 
 ### O que mudou desde o Teste 12
 
-- `91fe9cd`: a resposta responde com número a todas as perguntas, e o programa imprime cada um (aviso no `conferir.py` se a resposta remeter a outra parte); sem pasta indicada, nenhuma pasta ao `nova_licao.py`; resposta ao aluno em duas linhas no máximo.
+- `97e95dd`: a resposta responde com número a todas as perguntas, e o programa imprime cada um (aviso no `conferir.py` se a resposta remeter a outra parte); sem pasta indicada, nenhuma pasta ao `nova_licao.py`; resposta ao aluno em duas linhas no máximo.
 
 ## 3. Ambiente
 
@@ -96,7 +96,7 @@ Copiadas para [com-skill-opus/](./com-skill-opus/), [com-skill-sonnet/](./com-sk
 
 ## 8. Veredito
 
-**Aprovado nos três.** As correções de `91fe9cd` que dependem da forma pegaram em todos: a resposta responde às três perguntas, com o programa imprimindo cada número, e a lição sai na pasta padrão. Os números são exatos nos três, e o editor roda o programa e mostra a figura nos três.
+**Aprovado nos três.** As correções de `97e95dd` que dependem da forma pegaram em todos: a resposta responde às três perguntas, com o programa imprimindo cada número, e a lição sai na pasta padrão. Os números são exatos nos três, e o editor roda o programa e mostra a figura nos três.
 
 O que ainda não pega nos modelos menores é o que depende só de julgamento: a resposta curta no chat (Sonnet e Haiku) e a conferência no navegador (Haiku). O Haiku foi o mais rápido (3 min 13 s) e o Sonnet o mais lento (6 min 05 s); o Opus é o único que cumpriu o fluxo inteiro, mas escolheu o caminho numérico onde havia fórmula.
 

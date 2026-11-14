@@ -15,15 +15,15 @@
 
 | Campo | Valor |
 |---|---|
-| Commit da skill | `b266a1e` — Explicar o mecanismo das funcoes entregues a bibliotecas e exigir figura no programa |
+| Commit da skill | `e40221d` — Explicar o mecanismo das funcoes entregues a bibliotecas e exigir figura no programa |
 | Branch | `skill-geral` |
 | Alterações locais não commitadas | não |
 | Como a skill foi carregada | *junction* `~/.claude/skills/lesson-generator` → `lesson-generator/Skill lesson-generator/` |
 
 ### O que mudou desde o Teste 9
 
-- `574dec5`: vírgula decimal no texto; `conferir.py` avisa ponto decimal e número de observação não impresso; "constante física" como procedência.
-- `b266a1e`: explicar quem chama uma função entregue a uma biblioteca, com que valores, e construções de iniciante (`y[0]`, `args=(…,)`, tupla); o programa termina com uma figura do matplotlib, e o `conferir.py` exige `plt.show()`.
+- `19022c7`: vírgula decimal no texto; `conferir.py` avisa ponto decimal e número de observação não impresso; "constante física" como procedência.
+- `e40221d`: explicar quem chama uma função entregue a uma biblioteca, com que valores, e construções de iniciante (`y[0]`, `args=(…,)`, tupla); o programa termina com uma figura do matplotlib, e o `conferir.py` exige `plt.show()`.
 
 ## 3. Ambiente
 
@@ -71,7 +71,7 @@ Copiada para [com-skill/](./com-skill/).
 - [x] Skill invocada pelo comando; não entrevistou; destino padrão `./licoes`; rascunho apagado; sem commit
 - [x] Resposta ao aluno em duas linhas, com os números certos e vírgula decimal
 
-**As duas mudanças de `b266a1e`**
+**As duas mudanças de `e40221d`**
 
 - [x] **Mecanismo explicado**: o passo do ajuste diz que o `curve_fit` chama `CA_modelo(t_med, n, k)` a cada tentativa, com o vetor inteiro de tempos no primeiro argumento e o par em teste nos outros, por que `t` vem primeiro, o que ele faz com o que a função devolve (diferenças, quadrados, soma) e quando para. Também explica a função passada sem parênteses, `p0` na ordem dos parâmetros, `(k,)` e a vírgula, `CA_med[0]` e o índice que começa em zero, `**`, e por que `CA_n_fixo` existe.
 - [x] **Figura no programa**: o último passo desenha medidas e modelo com `plt.show()`. No editor, os seis passos rodaram no Pyodide em 6,9 s e a figura apareceu na saída.
@@ -107,4 +107,4 @@ Nenhum achado na lição.
 
 | Commit | O que corrigiu |
 |---|---|
-| `ca6a63a` | Achado 1: o `conferir.py` aceita os dados do programa e contas à vista (refazendo a conta); `SKILL.md` 5 explicita a regra |
+| `f20c2e4` | Achado 1: o `conferir.py` aceita os dados do programa e contas à vista (refazendo a conta); `SKILL.md` 5 explicita a regra |

@@ -1,0 +1,4 @@
+Taxa constante:   2.00 h
+Taxa decrescente: 6.10 h
+Total:            8.10 h
+Verificação, taxa decrescente: 5.74 h

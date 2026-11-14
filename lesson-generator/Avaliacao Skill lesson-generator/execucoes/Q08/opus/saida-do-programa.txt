@@ -1,0 +1,25 @@
+Ponto de contato: x = 0.500, y* = 0.7143
+Razão de refluxo mínima:      R_min = 1.100
+Razão de refluxo de operação: R     = 1.650
+D = 50.0  B = 50.0  L = 82.50  V = 132.50 kmol/h
+L' = 182.50  V' = 132.50 kmol/h
+As retas se cruzam em x = 0.500, y = 0.6698
+ n     x       y
+ 1  0.8837  0.9500
+ 2  0.7993  0.9087
+ 3  0.7042  0.8562
+ 4  0.6109  0.7970
+ 5  0.5309  0.7389
+ 6  0.4699  0.6891  <- alimentação
+ 7  0.4035  0.6284
+ 8  0.3168  0.5368
+ 9  0.2228  0.4174
+10  0.1392  0.2880
+11  0.0772  0.1729
+12  0.0369  0.0874  <- refervedor
+Estágios teóricos (com refervedor): N = 12
+Estágio de alimentação, a partir do topo: 6
+Pratos teóricos na coluna (sem refervedor): 11
+R_min por Underwood: 1.100
+Fenske: N_min = 6.43, arredondado para cima: 7
+Degraus contados no refluxo total: 7

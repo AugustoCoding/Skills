@@ -1,0 +1,31 @@
+{
+ "questao": "Q13",
+ "modelo": "sonnet",
+ "skill_commit": "b650790",
+ "skill_alterada": false,
+ "tempo_s": 182.6,
+ "fonte_do_tempo": "registro da sessão",
+ "inicio": "2026-11-12T01:03:01.202Z",
+ "modelos_no_registro": [
+  "claude-sonnet-5-5"
+ ],
+ "esforco": [
+  "medium"
+ ],
+ "turnos_do_usuario": 1,
+ "chamadas_ao_modelo": 8,
+ "ferramentas_usadas": 8,
+ "tokens_saida": 26621,
+ "tokens_entrada": 16,
+ "tokens_cache_escrita": 46261,
+ "tokens_cache_leitura": 281172,
+ "entregou": true,
+ "codigo_juiz": "08f1e0",
+ "arquivo_original": "temperaturas-de-bolha-e-de-orvalho.html",
+ "tamanho_kb": 136,
+ "idioma": "pt-BR",
+ "idioma_esperado": "pt-BR",
+ "palavras": 3072,
+ "check_erros": [],
+ "check_avisos": []
+}

@@ -1,0 +1,4 @@
+{
+ "melhor": "2",
+ "por_que": "A lição 2 explica de onde sai W = 0,622·pv/(P − pv) (razão de mols igual à razão de pressões parciais para gás ideal, vezes a razão das massas molares) e acerta a consequência da hipótese de saída saturada (menos vapor na saída, mais condensado); a lição 1 só cita a razão 0,622 e diz que, sem saturação, a saída teria mais vapor do que a saturação permite, o que confunde o aluno. No código, a lição 2 explica argumentos de função, desempacotamento, a conversão mmHg/kPa e acrescenta a conferência psat(100) ≈ 101,3 kPa, embora inverta o sinal de f nos extremos do brentq; a lição 1 diz que brentq recebe 'quatro coisas' ao listar três e solta frases sem sentido como 'como p_sat é uma função, ela aparece duas vezes'. A figura da lição 1, com o caminho do resfriamento via np.minimum, é melhor, mas não compensa a vantagem da 2 no raciocínio do modelo."
+}

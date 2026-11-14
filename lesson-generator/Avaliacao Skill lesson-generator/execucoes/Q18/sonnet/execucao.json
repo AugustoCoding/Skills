@@ -1,0 +1,33 @@
+{
+ "questao": "Q18",
+ "modelo": "sonnet",
+ "skill_commit": "b650790",
+ "skill_alterada": false,
+ "tempo_s": 254.4,
+ "fonte_do_tempo": "registro da sessão",
+ "inicio": "2026-11-12T02:08:16.374Z",
+ "modelos_no_registro": [
+  "claude-sonnet-5-5"
+ ],
+ "esforco": [
+  "medium"
+ ],
+ "turnos_do_usuario": 1,
+ "chamadas_ao_modelo": 14,
+ "ferramentas_usadas": 14,
+ "tokens_saida": 36454,
+ "tokens_entrada": 28,
+ "tokens_cache_escrita": 67553,
+ "tokens_cache_leitura": 638599,
+ "entregou": true,
+ "codigo_juiz": "b6bb7e",
+ "arquivo_original": "evaporador-de-duplo-efeito.html",
+ "tamanho_kb": 148,
+ "idioma": "pt-BR",
+ "idioma_esperado": "pt-BR",
+ "palavras": 4137,
+ "check_erros": [],
+ "check_avisos": [
+  "The technique has 111 words: the norm is four or five sentences, up to about 100."
+ ]
+}

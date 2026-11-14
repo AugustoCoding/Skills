@@ -1,0 +1,4 @@
+{
+ "melhor": "2",
+ "por_que": "As duas chegam aos mesmos números corretos (342,8 °C, 281,4 °C, 387,6 s), e a lição 1 deduz melhor a condição de contorno na face e confere também o tempo de 150 °C, mas rotula como 'em joules' um balanço que é de taxa. A lição 2 explica o código com mais cuidado para quem nunca programou: por que a função vai ao brentq sem parênteses, o que são args=(Bi,) e a vírgula da tupla, o xtol, por que solve_ivp exige a ordem (t, T) e por que method=\"BDF\" serve a um sistema rígido. Na leitura do resultado, a lição 2 traduz Bi = 0,53 como razão entre as resistências, mostra por que a série precisa de poucos termos com Fo = 1,139 e ζ₁, C₁, e propõe o experimento da espessura explicando por que o tempo não cai a um quarto."
+}

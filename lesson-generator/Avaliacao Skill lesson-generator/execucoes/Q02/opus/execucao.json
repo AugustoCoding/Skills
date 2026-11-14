@@ -1,0 +1,31 @@
+{
+ "questao": "Q02",
+ "modelo": "opus",
+ "skill_commit": "b650790",
+ "skill_alterada": false,
+ "tempo_s": 198.5,
+ "fonte_do_tempo": "registro da sessão",
+ "inicio": "2026-11-11T01:20:00.911Z",
+ "modelos_no_registro": [
+  "claude-opus-5-5"
+ ],
+ "esforco": [
+  "medium"
+ ],
+ "turnos_do_usuario": 1,
+ "chamadas_ao_modelo": 7,
+ "ferramentas_usadas": 10,
+ "tokens_saida": 21468,
+ "tokens_entrada": 14,
+ "tokens_cache_escrita": 49175,
+ "tokens_cache_leitura": 202238,
+ "entregou": true,
+ "codigo_juiz": "a423dd",
+ "arquivo_original": "peng-robinson-compressibility-of-co2.html",
+ "tamanho_kb": 137,
+ "idioma": "en",
+ "idioma_esperado": "en",
+ "palavras": 3071,
+ "check_erros": [],
+ "check_avisos": []
+}

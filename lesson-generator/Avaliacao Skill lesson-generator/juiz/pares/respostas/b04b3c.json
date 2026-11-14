@@ -1,0 +1,4 @@
+{
+ "melhor": "2",
+ "por_que": "As duas chegam aos mesmos números corretos e sem erros relevantes; a diferença está no raciocínio do modelo. A lição 2 deduz os balanços de energia a partir das entalpias, com a referência no líquido a T1 explicada, e justifica as hipóteses (condensado saturado, cp constante, efeito da elevação do ponto de ebulição), enquanto a lição 1 escreve os balanços já prontos e rotula F·cp·(T1−T2) de modo confuso como 'calor sensível da alimentação'. A lição 2 também lê o resultado com algo próprio deste exercício (ΔT2 = 41,4 K contra ΔT1 = 28,6 K, por causa de U2 < U1) e tem código mais enxuto. A lição 1 tem a seu favor a verificação independente com fsolve e duas variações de parâmetro, mas isso não compensa a dedução mais pobre."
+}

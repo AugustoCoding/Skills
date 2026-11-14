@@ -8,7 +8,7 @@
 
 ## Por que este exercício
 
-- **Confirmar as correções do Teste 14** (`01a700b`, `a9da9d4`, `fcf428b`, `ae7e1c7`): curva chamada pelo nome da legenda, nunca pela cor; a saída do editor; a fonte menor.
+- **Confirmar as correções do Teste 14** (`fac11f6`, `6d2b2a0`, `bb4c717`, `09381cf`): curva chamada pelo nome da legenda, nunca pela cor; a saída do editor; a fonte menor.
 - **Em português**, o idioma em que apareceu o erro das cores.
 - **Fórmula fechada**: com volatilidade relativa constante, a equação de Rayleigh tem integral analítica. Testa a regra nova: a fórmula é a técnica, e a integração numérica é a conferência. A segunda pergunta não se isola: a fórmula entra numa busca de raiz.
 - **Separação**, com balanço de massa sem reação e em batelada: a dedução de Rayleigh parte de um balanço diferencial.

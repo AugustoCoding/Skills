@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "A lição 2 afirma que uma perturbação de 0,01 K leva o estado de 369,7 K a 324,5 K e conclui que ele é instável, o que é falso: o instável é o intermediário, de 350 K, e o de alta temperatura é estável. A lição 1 explica corretamente por que o estado de 350 K não se sustenta e a ignição, e ainda confere esse estado com uma conta de cabeça (k ≈ 1, G = R = 2,5·10⁶ J/min). Além disso, a lição 1 explica melhor a forma em S da geração, o passo da varredura e cada argumento do brentq, enquanto a leitura da figura na lição 2 se limita a repetir os cruzamentos."
+}

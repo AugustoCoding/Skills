@@ -1,0 +1,4 @@
+{
+ "melhor": "2",
+ "por_que": "As duas chegam aos mesmos números corretos, mas a lição 2 explica por que o código fica com a maior raiz real: a cúbica pode ter três raízes reais (líquido, raiz sem sentido físico e vapor) e, para um gás, vale a maior. A lição 1 diz apenas que 'só a raiz real tem sentido físico' e depois usa real.max() sem justificar a escolha. A verificação da lição 2 (substituir v de volta na equação da pressão e conferir Z≈1 a 0,1 bar) é mais simples de seguir do que o brentq com lambda da lição 1. A leitura da figura na lição 2 também é própria deste exercício: mínimo de Z em 122,5 bar, a repulsão vencendo depois dele e a proximidade do ponto crítico explicando o Z baixo, enquanto a lição 1 só repete os valores e diz que a curva cai."
+}

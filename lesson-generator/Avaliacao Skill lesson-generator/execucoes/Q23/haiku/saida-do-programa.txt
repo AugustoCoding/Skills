@@ -1,0 +1,10 @@
+Para D = 0.30 1/h:
+  substrato S = 1.60 g/L
+  células X = 9.20 g/L
+  produtividade D*X = 2.760 g/(L*h)
+Diluição de lavagem: 0.4327 1/h
+Diluição ótima: 0.3617 1/h
+  S = 3.28 g/L, X = 8.36 g/L
+  produtividade máxima: 3.024 g/(L*h)
+Varredura: máximo em D = 0.362 1/h
+  produtividade máxima: 3.024 g/(L*h)

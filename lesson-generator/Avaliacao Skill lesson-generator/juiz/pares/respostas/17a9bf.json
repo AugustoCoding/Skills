@@ -1,0 +1,4 @@
+{
+ "melhor": "1",
+ "por_que": "As duas estão corretas e os números conferem (inclusive os das variações de SF). A lição 1 explica melhor o raciocínio: diz o que mudaria sem cada hipótese (com morte, μ = D + kd), por que S não depende de SF e por que a lavagem é abrupta, e ainda trata a lavagem dentro da função. A lição 2 deduz Dopt passo a passo, coisa que a lição 1 apenas resume, mas a leitura dos resultados é genérica e às vezes confusa ('a alimentação tem S = S0'). Já a lição 1 interpreta este caso: aponta a margem de 0,0710 h⁻¹ até a lavagem e a troca entre produtividade e concentração em 0,30 h⁻¹, e explica cada argumento de solve_ivp e minimize_scalar nas duas verificações."
+}

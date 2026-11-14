@@ -10,9 +10,10 @@ Each skill lives in its own folder at the root of the repository, with its subfo
 <Skill name>/
   Skill <Skill name>/          # the skill's definition (what is loaded into the model's context)
   Testes Skill <Skill name>/   # validation of the skill: one recorded run per test
+  Avaliacao Skill <Skill name>/  # evaluation of the finished skill across models
 ```
 
-The separation between the skill folder and the test folder is deliberate: the `Skill .../` folder is what gets loaded into the model's context, so it must hold nothing beyond what the skill needs to work. The tests stay outside, so they do not contaminate that context.
+The separation between the skill folder and the test folder is deliberate: the `Skill .../` folder is what gets loaded into the model's context, so it must hold nothing beyond what the skill needs to work. The tests stay outside, so they do not contaminate that context. The same holds for the evaluation folder.
 
 ## Available skills
 
@@ -24,3 +25,12 @@ Turns a chemical engineering exercise into an HTML lesson that teaches the stude
 - [`lesson-generator/Skill lesson-generator/`](lesson-generator/Skill%20lesson-generator/) — the skill: `SKILL.md`, the templates and the components.
 - [`lesson-generator/Modelo Skill lesson-generator/`](lesson-generator/Modelo%20Skill%20lesson-generator/) — a complete example lesson, where the structure is revised live before it goes to the skill.
 - [`lesson-generator/Testes Skill lesson-generator/`](lesson-generator/Testes%20Skill%20lesson-generator/) — the skill's tests: one folder per run, with its reproducibility record and the model's output (in Portuguese).
+- [`lesson-generator/Avaliacao Skill lesson-generator/`](lesson-generator/Avaliacao%20Skill%20lesson-generator/) — the final evaluation: the frozen skill run on 24 new exercises by three Claude models (72 runs), with the metric, the scripts, every delivered lesson and the [conclusion](lesson-generator/Avaliacao%20Skill%20lesson-generator/resultados/CONCLUSAO.md) (in Portuguese).
+
+## Status
+
+The research this repository was built for is finished: the skill is frozen at the version that was evaluated, and the repository is kept as its record. The Portuguese version of the skill, from before the translation to English, is at the tag [`versao-pt`](https://github.com/AugustoCoding/Skills/tree/versao-pt).
+
+## License
+
+[MIT](LICENSE). It covers the skill, the scripts and the test and evaluation records in this repository.

@@ -1,0 +1,9 @@
+Área do tanque: 1.131 m2
+Área do orifício: 4.909 cm2
+k = 1.348 e-3 m^2.5/s
+Saída no início: 0.953 L/s
+Nível de estado estacionário: 1.238 m
+Tempo para chegar a 1.00 m: 31.66 min
+Nível após 10 min: 0.731 m
+Conferência, nível após 10 min: 0.731 m
+Conferência, tempo para 1.00 m: 31.66 min
