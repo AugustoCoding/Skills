@@ -24,6 +24,8 @@ This folder stays outside `skill/` on purpose: it does not go into the model's c
 
 ## Seeing it live
 
+The published version is at <https://augustocoding.github.io/Skills/lesson-generator/model/model-lesson.html>, served by GitHub Pages from the `main` branch (the empty `.nojekyll` at the root makes Pages serve the files as they are). To see local changes:
+
 Over `file://` the browser does not load the `assets/`, so a server at the root of the repository is needed:
 
 ```

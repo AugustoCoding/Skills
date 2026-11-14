@@ -8,16 +8,16 @@ The lesson is written in the language of the problem statement. The skill's inst
 
 <table>
 <tr>
-<td><img src="model/screenshots/problem.png" alt="The lesson's opening: the problem statement"></td>
-<td><img src="model/screenshots/model.png" alt="The model section: the balances derived step by step"></td>
+<td><a href="https://augustocoding.github.io/Skills/lesson-generator/model/model-lesson.html"><img src="model/screenshots/problem.png" alt="The lesson's opening: the problem statement"></a></td>
+<td><a href="https://augustocoding.github.io/Skills/lesson-generator/model/model-lesson.html"><img src="model/screenshots/model.png" alt="The model section: the balances derived step by step"></a></td>
 </tr>
 <tr>
-<td><img src="model/screenshots/code.png" alt="The code section: the program built in steps"></td>
-<td><img src="model/screenshots/result.png" alt="The result section: the answer and the interactive figure"></td>
+<td><a href="https://augustocoding.github.io/Skills/lesson-generator/model/model-lesson.html"><img src="model/screenshots/code.png" alt="The code section: the program built in steps"></a></td>
+<td><a href="https://augustocoding.github.io/Skills/lesson-generator/model/model-lesson.html"><img src="model/screenshots/result.png" alt="The result section: the answer and the interactive figure"></a></td>
 </tr>
 </table>
 
-The [example lesson](model/model-lesson.html) in its four parts: the problem, the model, the code and the result.
+**[Open the example lesson](https://augustocoding.github.io/Skills/lesson-generator/model/model-lesson.html)** and use it in the browser. Above, its four parts: the problem, the model, the code and the result.
 
 ## Design principles
 

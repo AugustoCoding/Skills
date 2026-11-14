@@ -43,16 +43,16 @@ The lesson derives the model, builds the program step by step with a check, and 
 
 <table>
 <tr>
-<td><img src="lesson-generator/model/screenshots/problem.png" alt="The lesson's opening: the problem statement"></td>
-<td><img src="lesson-generator/model/screenshots/model.png" alt="The model section: the balances derived step by step"></td>
+<td><a href="https://augustocoding.github.io/Skills/lesson-generator/model/model-lesson.html"><img src="lesson-generator/model/screenshots/problem.png" alt="The lesson's opening: the problem statement"></a></td>
+<td><a href="https://augustocoding.github.io/Skills/lesson-generator/model/model-lesson.html"><img src="lesson-generator/model/screenshots/model.png" alt="The model section: the balances derived step by step"></a></td>
 </tr>
 <tr>
-<td><img src="lesson-generator/model/screenshots/code.png" alt="The code section: the program built in steps"></td>
-<td><img src="lesson-generator/model/screenshots/result.png" alt="The result section: the answer and the interactive figure"></td>
+<td><a href="https://augustocoding.github.io/Skills/lesson-generator/model/model-lesson.html"><img src="lesson-generator/model/screenshots/code.png" alt="The code section: the program built in steps"></a></td>
+<td><a href="https://augustocoding.github.io/Skills/lesson-generator/model/model-lesson.html"><img src="lesson-generator/model/screenshots/result.png" alt="The result section: the answer and the interactive figure"></a></td>
 </tr>
 </table>
 
-The [example lesson](lesson-generator/model/model-lesson.html) in its four parts: the problem, the model, the code and the result.
+**[Open the example lesson](https://augustocoding.github.io/Skills/lesson-generator/model/model-lesson.html)** and use it in the browser. Above, its four parts: the problem, the model, the code and the result.
 
 - [`lesson-generator/README.md`](lesson-generator/README.md): the idea, the structure of the lesson and the role of each file.
 - [`lesson-generator/skill/`](lesson-generator/skill/): the skill's source.
