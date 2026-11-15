@@ -178,7 +178,41 @@
     pre.appendChild(btn);
   }
 
-  /* THE COLLAPSIBLE BODY — what an item (or a section) hides when it collapses
+  /* TO THE TOP — scrolls until the top of el sits just under the trail, which
+     floats stuck to the top of the sheet. The sheet scrolls inside itself
+     (lesson.css); on a phone, the window does. The place where the trail
+     sticks comes from its own CSS, so the measure holds wherever it is now. */
+  function scrollToTop(el) {
+    var trail = document.querySelector("nav.tabs");
+    var inside = document.body.scrollHeight > document.body.clientHeight;
+    var scroller = inside ? document.body : document.scrollingElement;
+    var under = 0;
+    if (trail) {
+      var stuck = parseFloat(getComputedStyle(trail).top) || 0;
+      if (inside) stuck += scroller.clientTop + (parseFloat(getComputedStyle(scroller).paddingTop) || 0);
+      // The capsule, not its bar: the bar goes on below it, with the fade.
+      var capsule = trail.querySelector(".tabs-list") || trail;
+      under = stuck + (capsule === trail ? trail.offsetHeight : capsule.offsetTop + capsule.offsetHeight) + 12;
+    }
+    var y = el.getBoundingClientRect().top - (inside ? scroller.getBoundingClientRect().top : 0) - under;
+    // Near the end of a part there is not page enough below to bring the item
+    // to the top: an empty block at the end of the sheet gives exactly the
+    // room that is missing, and gives it back when it is no longer needed.
+    var room = document.querySelector("body > .scroll-room");
+    if (!room) {
+      room = document.createElement("div");
+      room.className = "scroll-room";
+      room.setAttribute("aria-hidden", "true");
+      var ask = document.querySelector("body > .ask");
+      if (ask) ask.after(room); else document.body.appendChild(room);
+    }
+    var left = scroller.scrollHeight - scroller.clientHeight - scroller.scrollTop;
+    room.style.height = Math.max(0, Math.ceil(room.offsetHeight + y - left)) + "px";
+    var smooth = !(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    if (Math.abs(y) > 1) scroller.scrollBy({ top: y, behavior: smooth ? "smooth" : "auto" });
+  }
+
+  /* THE COLLAPSIBLE BODY —what an item (or a section) hides when it collapses
      goes inside two wrappers: .x-body, a one-row grid that goes from 0fr to
      1fr, and .x-inner, which clips the overflow. This lets the height slide,
      instead of the content vanishing and appearing at once. */
@@ -258,8 +292,12 @@
         document.dispatchEvent(new CustomEvent("lesson-changed"));
         update();
       }
-      // Once the height has finished sliding, the open item scrolls into view.
-      setTimeout(function () { p.scrollIntoView({ behavior: "smooth", block: "nearest" }); }, 380);
+      // The open item goes up to the top of the sheet, its title just under
+      // the trail: the student reads it from its start, with the most room
+      // below. It starts at once and is repeated when the height has finished
+      // sliding, because only then is there page enough below to get there.
+      scrollToTop(p);
+      setTimeout(function () { scrollToTop(p); }, 400);
     }
 
     // Only the dot (the gutter on the left) and the head collapse: clicking the
@@ -463,7 +501,7 @@
         // to just under the bar. (The bar sticks, so its own offset is where
         // it is stuck; the distance is measured on screen.) The sheet scrolls
         // inside itself (lesson.css); on a phone, the window.
-        var gap = panels[k].getBoundingClientRect().top - nav.getBoundingClientRect().bottom - 12;
+        var gap = panels[k].getBoundingClientRect().top - list.getBoundingClientRect().bottom - 12;
         if (gap < 0) {
           var inside = document.body.scrollHeight > document.body.clientHeight;
           (inside ? document.body : window).scrollBy({ top: gap });
@@ -562,17 +600,8 @@
     function goTo(panel, target) {
       var opening = panel.hidden;
       if (opening) panel._show();
-      setTimeout(function () {
-        // Just under the trail, which sticks to the top. The sheet scrolls
-        // inside itself (lesson.css); on a phone, the whole page.
-        var trail = document.querySelector("nav.tabs");
-        var below = (trail ? trail.offsetHeight : 0) + 12;
-        var inside = document.body.scrollHeight > document.body.clientHeight;
-        var scroller = inside ? document.body : document.scrollingElement;
-        var y = target.getBoundingClientRect().top - (inside ? scroller.getBoundingClientRect().top : 0)
-          + (inside ? scroller.scrollTop : window.scrollY) - below;
-        scroller.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
-      }, opening ? 120 : 0);
+      // Just under the trail, which sticks to the top.
+      setTimeout(function () { scrollToTop(target); }, opening ? 120 : 0);
     }
 
     function dots(list) {
