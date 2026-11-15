@@ -2,9 +2,11 @@
 
 Skills for LLMs, each in its own folder with its development record. There is one so far: **lesson-generator**.
 
-| Skill | What it does | Download |
-|---|---|---|
-| [lesson-generator](lesson-generator/) | Turns a chemical engineering exercise into an interactive HTML lesson that teaches the student to program the solution in Python | [lesson-generator.zip](https://github.com/AugustoCoding/Skills/releases/latest/download/lesson-generator.zip) |
+<p align="center"><a href="https://augustocoding.github.io/Skills/lesson-generator/model/model-lesson.html"><kbd><br>&nbsp;&nbsp;&nbsp;▶&nbsp;&nbsp;Open the example lesson&nbsp;&nbsp;&nbsp;<br><br></kbd></a></p>
+
+| Skill | What it does | Example | Download |
+|---|---|---|---|
+| [lesson-generator](lesson-generator/) | Turns a chemical engineering exercise into an interactive HTML lesson that teaches the student to program the solution in Python | [Open the example lesson](https://augustocoding.github.io/Skills/lesson-generator/model/model-lesson.html) | [lesson-generator.zip](https://github.com/AugustoCoding/Skills/releases/latest/download/lesson-generator.zip) |
 
 ## Installing a skill
 
@@ -52,7 +54,7 @@ The lesson derives the model, builds the program step by step with a check, and 
 </tr>
 </table>
 
-**[Open the example lesson](https://augustocoding.github.io/Skills/lesson-generator/model/model-lesson.html)** and use it in the browser. Above, its four parts: the problem, the model, the code and the result.
+The four parts of the example lesson: the problem, the model, the code and the result. Click any of them to open the lesson and use it in the browser.
 
 - [`lesson-generator/README.md`](lesson-generator/README.md): the idea, the structure of the lesson and the role of each file.
 - [`lesson-generator/skill/`](lesson-generator/skill/): the skill's source.

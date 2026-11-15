@@ -2,6 +2,8 @@
 
 A skill for AI assistants (Claude Code, claude.ai, ChatGPT/Codex) that turns a chemical engineering exercise into an **interactive HTML lesson**, which teaches the student to program the solution in Python.
 
+<p align="center"><a href="https://augustocoding.github.io/Skills/lesson-generator/model/model-lesson.html"><kbd><br>&nbsp;&nbsp;&nbsp;▶&nbsp;&nbsp;Open the example lesson&nbsp;&nbsp;&nbsp;<br><br></kbd></a></p>
+
 The lesson does not just hand over the answer, nor is it a theory class: it derives the model, builds the program step by step, checks the result and lets the student explore it in an interactive figure and in a built-in Python editor.
 
 The lesson is written in the language of the problem statement. The skill's instructions are in English; the fixed interface texts of the lesson exist in English and Portuguese.
@@ -17,7 +19,7 @@ The lesson is written in the language of the problem statement. The skill's inst
 </tr>
 </table>
 
-**[Open the example lesson](https://augustocoding.github.io/Skills/lesson-generator/model/model-lesson.html)** and use it in the browser. Above, its four parts: the problem, the model, the code and the result.
+The four parts of the example lesson: the problem, the model, the code and the result. Click any of them to open the lesson and use it in the browser.
 
 ## Design principles
 
