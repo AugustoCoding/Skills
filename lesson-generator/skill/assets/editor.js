@@ -18,6 +18,8 @@
  *
  * Shortcuts: Ctrl+Enter runs · Tab indents · Enter keeps the indentation.
  * What the student built is kept in the browser, per lesson; "Empty" clears it.
+ * A showcase page marks <html data-editor="fresh">: there the editor keeps
+ * nothing, and opens empty on every visit.
  */
 
 (function () {
@@ -94,8 +96,13 @@
   var py = null;          // the Pyodide instance, once loaded
   var loading = null;     // the loading promise, so it never loads twice
 
-  function save(txt) { try { localStorage.setItem(KEY, txt); } catch (e) { /* no storage */ } }
-  function saved() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+  var FRESH = document.documentElement.getAttribute("data-editor") === "fresh";
+  function save(txt) { if (FRESH) return; try { localStorage.setItem(KEY, txt); } catch (e) { /* no storage */ } }
+  function saved() {
+    // Fresh: what an earlier version of the page may have kept goes away too.
+    if (FRESH) { forget(); return null; }
+    try { return localStorage.getItem(KEY); } catch (e) { return null; }
+  }
   function forget() { try { localStorage.removeItem(KEY); } catch (e) { /* idem */ } }
 
   function highlight(txt) {
