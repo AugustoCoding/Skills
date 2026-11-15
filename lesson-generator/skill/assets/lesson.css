@@ -4,15 +4,15 @@
    side notes, sparse horizontal rules, color used sparingly. */
 
 :root {
-  --bg: #dcd6c7;
-  --fg: #23211c;
-  --muted: #4f4b42;
-  --rule: #c5bdaa;
+  --bg: #f4f4f7;
+  --fg: #1d1d1f;
+  --muted: #55555c;
+  --rule: #d3d3da;
   --accent: #8a3324;
-  --code-bg: #d1cab9;
-  --backdrop: #c4bca8;
-  --sheet-border: #b9b09b;
-  --sheet-shadow: rgba(60, 55, 30, 0.08);
+  --code-bg: rgb(255 255 255 / 0.56);
+  --backdrop: #e6e9f1;
+  --sheet-border: rgb(255 255 255 / 0.7);
+  --sheet-shadow: rgb(30 35 60 / 0.16);
 
   /* EACH COLOR HAS ONE ROLE.
        · The SECTION colors (yellow, purple, green) belong to the structure:
@@ -66,8 +66,8 @@
   color-scheme: light;
 
   /* A single radius for every block: square boxes make the page stiff. */
-  --radius: 10px;
-  --radius-s: 6px;
+  --radius: 16px;
+  --radius-s: 9px;
 
   --serif: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Times New Roman", serif;
   --mono: "SF Mono", "Cascadia Mono", Consolas, "Liberation Mono", Menlo, monospace;
@@ -100,15 +100,15 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --bg: #16161a;
-    --fg: #e6e4dd;
-    --muted: #9a978d;
-    --rule: #34343c;
+    --bg: #1c1c22;
+    --fg: #f2f2f4;
+    --muted: #a4a4ae;
+    --rule: #3a3a44;
     --accent: #e08b6f;
-    --code-bg: #1f1f26;
-    --backdrop: #0e0e11;
-    --sheet-border: #26262d;
-    --sheet-shadow: rgba(0, 0, 0, 0.45);
+    --code-bg: rgb(255 255 255 / 0.07);
+    --backdrop: #0a0a10;
+    --sheet-border: rgb(255 255 255 / 0.16);
+    --sheet-shadow: rgb(0 0 0 / 0.55);
 
     --series-1: #7aa7f2;
     --series-2: #f093b4;
@@ -136,15 +136,15 @@
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #16161a;
-  --fg: #e6e4dd;
-  --muted: #9a978d;
-  --rule: #34343c;
+  --bg: #1c1c22;
+  --fg: #f2f2f4;
+  --muted: #a4a4ae;
+  --rule: #3a3a44;
   --accent: #e08b6f;
-  --code-bg: #1f1f26;
-  --backdrop: #0e0e11;
-  --sheet-border: #26262d;
-  --sheet-shadow: rgba(0, 0, 0, 0.45);
+  --code-bg: rgb(255 255 255 / 0.07);
+  --backdrop: #0a0a10;
+  --sheet-border: rgb(255 255 255 / 0.16);
+  --sheet-shadow: rgb(0 0 0 / 0.55);
 
   --series-1: #7aa7f2;
   --series-2: #f093b4;
@@ -1196,51 +1196,54 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
   position: sticky;
   top: calc(14px - 3.4rem);
   z-index: 5;
-  margin: 0 0 1.4rem;
-  padding: 0.7rem 0 0.6rem;
-  background: var(--bg);
-  border-bottom: 1px solid var(--rule);
+  margin: 0 0 0.5rem;
+  padding: 0.3rem 0 1.1rem;
+  /* The bar itself lets the mouse through: only the capsule is a control. */
+  pointer-events: none;
 }
-.tabs-list { display: flex; }
+.tabs-list {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0.28rem 0.4rem;
+  border-radius: 999px;
+  pointer-events: auto;
+}
 .tab {
-  --dot: 2.1rem;
-  /* The ring around a reached circle: the line itself, split in two to go
-     round the number — the same 4 px, flush with the circle. */
+  --dot: 1.6rem;
+  /* The ring around a circle: the line itself, split in two to go round the
+     number — the same 4 px, flush with the circle. */
   --ring-out: 4px;
   position: relative;
-  flex: 1 1 0;
+  flex: none;
   min-width: 0;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 0.2rem;
-  padding: 0 0.2rem 0.2rem;
+  padding: 0;
   background: none;
   border: 0;
+  border-radius: 999px;
   color: var(--muted);
   font-family: var(--serif);
   cursor: pointer;
 }
 /* The line from the previous step to this one: a neutral rail, filled with
-   the previous step's progress (--reach, set by lesson.js). The fill fades in
-   from the rail's tone to the darker neutral, so the tip, where the student
-   is, is always the most intense. The color stays in the circles. */
+   the previous step's progress (--reach, set by lesson.js). Line and ring are
+   translucent glass, so they never overlap: the line ends where the ring of
+   each circle begins. */
 .tab + .tab::before {
   content: "";
-  position: absolute;
-  top: calc(var(--ring-out) + var(--dot) / 2 - 2px);
-  right: calc(50% + var(--dot) / 2);
-  left: calc(-50% + var(--dot) / 2);
+  flex: none;
+  width: 1.7rem;
   height: 4px;
-  border-radius: 2px;
+  margin: 0 -0.5px;
   background:
-    linear-gradient(to right, var(--trail-rail), var(--trail-fill)) left / var(--reach, 0%) 100% no-repeat,
+    linear-gradient(var(--trail-fill), var(--trail-fill)) left / var(--reach, 0%) 100% no-repeat,
     var(--trail-rail);
   transition: background-size 0.3s ease-in;
-}
-:root {
-  --trail-fill: color-mix(in srgb, var(--fg) 15%, var(--bg));
-  --trail-rail: color-mix(in srgb, var(--fg) 6%, var(--bg));
 }
 .tab-dot {
   /* Always a circle: never shrunk by the flex layout, always 1:1. Above the
@@ -1254,12 +1257,12 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
   justify-content: center;
   width: var(--dot);
   height: var(--dot);
-  margin: var(--ring-out) 0 calc(var(--ring-out) - 0.1rem);
+  margin: var(--ring-out);
   box-sizing: border-box;
   border-radius: 50%;
   /* Not reached yet: a disc in the rail's tone, where the light line ends. */
   background: var(--trail-rail);
-  font-size: var(--t-small);
+  font-size: var(--t-label);
   font-weight: 700;
   color: var(--muted);
   transition: background 0.15s ease, box-shadow 0.2s ease;
@@ -1269,7 +1272,7 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
    the circle's left and closes round it — one half over the top, the other
    under the bottom, meeting on the right. Going back, the ring opens first. */
 @property --wrap { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
-.tab.reached .tab-dot { background: var(--bg); color: var(--fg); }
+.tab.reached .tab-dot { color: var(--fg); }
 .tab-dot::after {
   content: "";
   position: absolute;
@@ -1279,7 +1282,7 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
   /* From the left point (270deg), --wrap degrees each way. */
   background: conic-gradient(from 270deg,
     var(--trail-fill) 0 var(--wrap),
-    transparent var(--wrap) calc(360deg - var(--wrap)),
+    var(--trail-rail) var(--wrap) calc(360deg - var(--wrap)),
     var(--trail-fill) calc(360deg - var(--wrap)));
   /* Only a ring as thick as the line. */
   -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - var(--ring-out)), #000 calc(100% - var(--ring-out) + 0.5px));
@@ -1292,7 +1295,26 @@ li .in-your-code::before { display: inline; margin-right: 0.5rem; }
   .tab-dot::after, .tab.reached .tab-dot::after, .tab + .tab::before { transition: none; }
 }
 .tab-check { display: none; }
-.tab-name { font-size: var(--t-small); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+/* THE TRAIL IS COLLAPSED: only the open step shows its name, beside its
+   circle. The other names open when the mouse enters the capsule, or when the
+   keyboard reaches a step. */
+.tab-name {
+  font-size: var(--t-small);
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 0;
+  opacity: 0;
+  padding: 0;
+  transition: max-width 0.32s ease, opacity 0.2s ease, padding 0.32s ease;
+}
+.tab.active .tab-name,
+.tabs-list:has(.tab:focus-visible) .tab-name { max-width: 10rem; opacity: 1; padding: 0 0.7rem 0 0.4rem; }
+@media (hover: hover) {
+  .tabs-list:hover .tab-name { max-width: 10rem; opacity: 1; padding: 0 0.7rem 0 0.4rem; }
+}
+@media (prefers-reduced-motion: reduce) { .tab-name { transition: none; } }
 
 /* Finished: the circle filled in the part's color, with a check. */
 .tab.complete .tab-dot { background: var(--sec-fill, var(--sec-color)); color: var(--sec-ink, var(--bg)); }
@@ -1556,9 +1578,11 @@ ol.observations > li.collapsed { margin-bottom: var(--band-gap); min-height: var
 .step.collapsed.no-thread::after { display: none; }
 
 @media (max-width: 760px) {
-  .tabs { top: 0; }
-  .tab { --dot: 1.75rem; padding: 0; }
-  .tab-name { font-size: 0.78rem; }
+  .tabs { top: 0.5rem; }
+  /* Narrow: shorter lines, and the open step's name yields before the capsule overflows. */
+  .tab + .tab::before { width: 0.9rem; }
+  .tab.active { flex: 0 1 auto; }
+  .tab-name { text-overflow: ellipsis; }
   html { height: auto; overflow: visible; }
   body, body:not(.with-editor) { height: auto; overflow: visible; margin: 0 auto; padding: 3.2rem 1.1rem 4rem; border-radius: 0; box-shadow: none; }
 }
@@ -1669,7 +1693,6 @@ body.with-editor .editor-open { display: none; }
   /* Two blocks (the code and the output) with a gap between them, where the
      handle sits. The shadow follows each block (drop-shadow), not the whole box. */
   background: transparent;
-  filter: drop-shadow(0 0 1px var(--sheet-border)) drop-shadow(0 1px 2px var(--sheet-shadow));
   transform: translateX(calc(100% + 2 * var(--editor-gap)));
   transition: transform 0.3s ease;
 }
@@ -1890,6 +1913,216 @@ body.resizing { user-select: none; }
   body.with-editor { margin-right: 0; }
 }
 
+/* ---------- liquid glass ---------- */
+/* The material of the whole interface. A soft, neutral WALLPAPER sits behind
+   everything; the sheet, the editor and the table of contents are panes of
+   translucent glass over it; and what floats over the text (the trail, the
+   buttons) is clearer glass that blurs what scrolls underneath. Every pane has
+   the same three marks: a translucent fill, a bright rim that is strongest at
+   the top (the light comes from above) and a soft shadow that lifts it.
+
+   From Apple's Human Interface Guidelines (Materials; Color): glass has no
+   color of its own, so the wallpaper is neutral and color stays in the
+   content; a larger pane is more opaque than a small bar; and Reduce
+   transparency or Increase contrast turn the glass solid.
+
+   The colors are written once, with light-dark(): color-scheme, set with the
+   theme, picks the side. */
+
+:root {
+  /* A pane over the wallpaper: the sheet, the editor, the table of contents. */
+  --pane: light-dark(rgb(248 248 251 / 0.62), rgb(30 30 38 / 0.6));
+  /* Clear glass, floating over the text. */
+  --glass: light-dark(rgb(255 255 255 / 0.5), rgb(70 70 84 / 0.42));
+  --glass-hover: light-dark(rgb(255 255 255 / 0.78), rgb(96 96 112 / 0.55));
+  /* A tile on the sheet: glass on glass, no blur of its own. */
+  --tile: light-dark(rgb(255 255 255 / 0.5), rgb(255 255 255 / 0.06));
+  --tile-hover: light-dark(rgb(255 255 255 / 0.82), rgb(255 255 255 / 0.11));
+  --chip: light-dark(rgb(118 118 128 / 0.14), rgb(140 140 155 / 0.24));
+  --rim: light-dark(rgb(255 255 255 / 0.75), rgb(255 255 255 / 0.14));
+  --shine: light-dark(rgb(255 255 255 / 0.95), rgb(255 255 255 / 0.3));
+  --shade: light-dark(rgb(20 25 50 / 0.07), rgb(0 0 0 / 0.35));
+  --lift: light-dark(rgb(30 35 70 / 0.2), rgb(0 0 0 / 0.6));
+  --blur: blur(18px) saturate(180%);
+
+  /* The edge of a pane of glass: shine on top, shade below, and the lift. */
+  --edge: inset 0 1px 0 var(--shine), inset 0 -1px 0 var(--shade);
+  --float: 0 10px 28px -10px var(--lift), 0 1px 3px var(--shade);
+
+  /* The circles of the timelines are beads of glass, like the trail's. They
+     are OPAQUE: the thread that joins them runs behind each one, and through
+     a translucent circle it would show. */
+  --dot-bg: var(--bead);
+  --bead-edge: inset 0 1px 0 var(--shine), inset 0 -1px 1px var(--shade), 0 0 0 0.5px light-dark(rgb(20 25 50 / 0.16), rgb(255 255 255 / 0.16)), 0 1px 3px light-dark(rgb(20 25 50 / 0.16), rgb(0 0 0 / 0.4));
+  --card-bg: var(--tile);
+  --card-edge: var(--rim);
+
+  /* The trail, inside its capsule: the circles are beads lit from above,
+     joined by a tube of clear glass that also goes round each one. The
+     progress is colored glass filling the tube, in the color of the step it
+     runs toward (set on each step, below). */
+  --trail-rail: light-dark(rgb(110 115 135 / 0.17), rgb(255 255 255 / 0.15));
+  --bead: light-dark(#ffffff, #3b3b46);
+  --bead-lit: light-dark(#ffffff, #4b4b58);
+
+  --wall-a: light-dark(#f3f5f9, #1a1c24);
+  --wall-b: light-dark(#d5dbe7, #06070a);
+  --wall-c: light-dark(#ffffff, #2b2e3a);
+}
+
+/* The wallpaper: neutral, with two large, soft stains of light, fixed behind
+   everything. It gives the glass something to bend, without a color of its own. */
+html::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(60vmax 50vmax at 12% 8%, var(--wall-c), transparent 70%),
+    radial-gradient(55vmax 55vmax at 92% 96%, var(--wall-c), transparent 70%),
+    linear-gradient(135deg, var(--wall-a), var(--wall-b));
+}
+
+/* THE SHEET. No backdrop-filter here: it would make the sheet the reference
+   of everything fixed inside the body (the editor, the table of contents),
+   and the wallpaper is already soft. A sheen falls from the top edge. */
+body {
+  background:
+    linear-gradient(var(--rim), transparent 7rem) border-box,
+    var(--pane) border-box;
+  border-radius: 28px;
+  box-shadow: 0 0 0 1px var(--sheet-border), 0 30px 70px -30px var(--sheet-shadow), 0 2px 8px var(--shade);
+}
+
+/* THE TRAIL: a capsule of clear glass, floating over the text. */
+.tabs-list {
+  background: var(--glass);
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+  border: 1px solid var(--rim);
+  box-shadow: var(--edge), var(--float);
+}
+.tab { --trail-fill: color-mix(in srgb, var(--sec-fill, var(--sec-color)) 62%, transparent); }
+.tab + .tab::before { box-shadow: inset 0 1px 1px light-dark(rgb(20 25 50 / 0.1), rgb(0 0 0 / 0.35)); }
+.tab-dot { background: var(--bead); box-shadow: var(--bead-edge); }
+/* :where keeps this below the read and the calling states, which set their own. */
+:where(.step, ol.derivation > li, ol.observations > li)::before { box-shadow: var(--bead-edge); }
+.calling::before { box-shadow: inset 0 0 0 2px var(--line-fill, var(--line-color)), 0 1px 3px var(--shade); }
+.tab.reached .tab-dot { background: var(--bead-lit); }
+/* A filled circle is a drop of colored glass: lit from above. */
+.tab.active .tab-dot,
+.tab.complete .tab-dot,
+.continue-dot,
+[data-read]::before { box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.4), inset 0 -1px 1px rgb(0 0 0 / 0.14), 0 1px 3px var(--shade); }
+.tab.active .tab-dot,
+.tab.complete .tab-dot { background: var(--sec-fill, var(--sec-color)); }
+
+/* The tiles of the sheet: equations, code, the boxes, the figure. */
+.equation,
+.tab-panel pre,
+.problem,
+div.answer,
+.technique,
+.in-your-code,
+.frame { border: 1px solid var(--rim); box-shadow: var(--edge), 0 1px 2px var(--shade); }
+.frame { background: var(--tile); }
+li .in-your-code { border-radius: var(--radius-s); }
+code { background: var(--chip); }
+
+/* The collapsed items and "Next": cards of glass, which rise under the mouse. */
+.collapsed > .item-head,
+.step.collapsed > h3,
+ol.observations > li.collapsed > h3,
+ol.model-line > li.collapsed > h3,
+.continue {
+  border-width: 1px;
+  box-shadow: var(--edge), 0 1px 2px var(--shade);
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+.collapsed:hover > .item-head,
+.step.collapsed:hover > h3,
+ol.observations > li.collapsed:hover > h3,
+ol.model-line > li.collapsed:hover > h3,
+.continue:hover {
+  background: var(--tile-hover);
+  border-color: var(--rim);
+  box-shadow: var(--edge), 0 8px 20px -10px var(--lift), 0 1px 2px var(--shade);
+  transform: translateY(-1px);
+}
+.collapsed:active > .item-head,
+.step.collapsed:active > h3,
+ol.observations > li.collapsed:active > h3,
+ol.model-line > li.collapsed:active > h3,
+.continue:active { transform: scale(0.992); }
+.continue { border-radius: 22px; padding: 0.75rem 1.1rem 0.75rem 0.8rem; }
+
+/* Buttons: capsules of clear glass. */
+button { border-color: var(--rim); background: var(--glass); box-shadow: var(--edge), 0 1px 2px var(--shade); }
+button:hover { border-color: var(--rim); background: var(--glass-hover); }
+.theme,
+.copy,
+.to-editor {
+  background: var(--glass);
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+  border-color: var(--rim);
+}
+.theme { border-radius: 999px; opacity: 1; padding: 0.4rem 0.85rem; box-shadow: var(--edge), var(--float); }
+.copy, .to-editor { border-radius: 999px; opacity: 0.75; }
+.copy:hover { border-color: var(--rim); background: var(--glass-hover); }
+.to-editor.sent { background: var(--glass-hover); }
+.tab, .tab:hover { background: none; box-shadow: none; }
+.editor-open { box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.4), var(--float); }
+/* A tinted button keeps its color under the mouse: the glass hover is for the clear ones. */
+.editor-open:hover, .editor-open:focus-visible { background: var(--sec-code); }
+.editor-run { box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.4), 0 1px 3px var(--shade); }
+.editor-run:hover:not(:disabled) { background: color-mix(in srgb, var(--sec-result) 88%, var(--fg)); }
+
+/* The table of contents: a pane of its own, beside the sheet. */
+.toc {
+  box-sizing: border-box;
+  padding: 0.7rem 0.55rem 0.2rem;
+  background: var(--pane);
+  border: 1px solid var(--sheet-border);
+  border-radius: 22px;
+  box-shadow: var(--edge), 0 20px 50px -28px var(--sheet-shadow);
+}
+.toc-section { border-left: 0; border-radius: 12px; padding: 0.4rem 0.7rem; font-weight: 600; }
+.toc-item { border-radius: 10px; }
+.toc-section.active { background: var(--tile-hover); box-shadow: var(--edge), 0 1px 2px var(--shade); }
+.toc-section:hover, .toc-item:hover { background: var(--tile); }
+
+/* The editor: two panes, the code and the output. */
+.editor-top, .editor-code, .editor-output {
+  background: var(--pane);
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+}
+.editor-top { border-radius: 22px 22px 0 0; box-shadow: inset 0 1px 0 var(--shine), 0 0 0 1px var(--sheet-border); }
+.editor-code { border-radius: 0 0 22px 22px; box-shadow: 0 0 0 1px var(--sheet-border), 0 20px 50px -28px var(--sheet-shadow); }
+.editor-output { border-radius: 22px; box-shadow: var(--edge), 0 0 0 1px var(--sheet-border), 0 20px 50px -28px var(--sheet-shadow); }
+.editor-result pre { border: 0; box-shadow: none; }
+
+/* Reduce transparency, Increase contrast: the glass turns solid. */
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  :root {
+    --pane: var(--bg);
+    --glass: var(--bg);
+    --glass-hover: color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --tile: color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --tile-hover: color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --rim: var(--rule);
+    --blur: none;
+    --trail-rail: color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --bead: color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --bead-lit: var(--bg);
+  }
+}
+
+@media (max-width: 760px) {
+  body, body:not(.with-editor) { border-radius: 0; box-shadow: none; }
+}
+
 /* ---------- printing ---------- */
 /* The student may want to study on paper. Controls vanish, color turns black. */
 
@@ -1897,7 +2130,9 @@ body.resizing { user-select: none; }
   .toc { display: none !important; }
   html { background: #fff; }
   html { height: auto; overflow: visible; }
-  body { box-shadow: none !important; margin: 0 auto !important; height: auto !important; overflow: visible !important; }
+  html::before { display: none; }
+  body { box-shadow: none !important; background: #fff !important; margin: 0 auto !important; height: auto !important; overflow: visible !important; }
+  * { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
   :root {
     --bg: #fff; --fg: #000; --muted: #444;
     --rule: #bbb; --code-bg: #f3f3f3; --accent: #000;
@@ -1907,7 +2142,7 @@ body.resizing { user-select: none; }
   .sidenote { float: none; width: auto; margin: 0.8rem 0; padding-left: 0.8rem; border-left: 1px solid var(--rule); }
   button, .controls { display: none; }
   .frame, .step, pre, table, figure, ol.derivation > li, ol.observations > li { break-inside: avoid; }
-  .theme, .copy, .to-editor, .editor-open, .editor-panel { display: none; }
+  .theme, .copy, .to-editor, .editor-open, .editor-panel, .scroll-room { display: none; }
   body.with-editor { margin: 0; }
   /* On paper there is no clicking: everything the screen hides in stages shows. */
   .item-body { grid-template-rows: 1fr !important; opacity: 1 !important; }
