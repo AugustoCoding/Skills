@@ -1,3 +1,15 @@
 # Saídas geradas por scripts: o zip de publicação e caches do Python.
 dist/
 __pycache__/
+
+# Claude Code e Codex: settings.local.json guarda o texto dos comandos
+# aprovados com "don't ask again", senhas e chaves inclusive. Da pasta
+# .claude/ só o launch.json (servidor da lição modelo) é versionado.
+.claude/*
+!.claude/launch.json
+CLAUDE.local.md
+.codex/
+
+# Variáveis de ambiente e credenciais locais.
+.env
+.env.*
